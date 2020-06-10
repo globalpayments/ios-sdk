@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'GlobalPayments-iOS-SDK_Example' do
+  pod 'GlobalPayments-iOS-SDK', :path => '../'
+
+  target 'GlobalPayments-iOS-SDK_Tests' do
+    inherit! :search_paths
+
+    pod 'GlobalPayments-iOS-SDK', :path => '../'
+  end
+end

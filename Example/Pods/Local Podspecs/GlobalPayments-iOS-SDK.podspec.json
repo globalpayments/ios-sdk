@@ -1,0 +1,22 @@
+{
+  "name": "GlobalPayments-iOS-SDK",
+  "version": "0.1.0",
+  "summary": "A short description of GlobalPayments-iOS-SDK.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/globalpayments/GlobalPayments-iOS-SDK",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Global Payments": "api.integrations@globalpay.com"
+  },
+  "source": {
+    "git": "https://github.com/globalpayments/GlobalPayments-iOS-SDK.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "GlobalPayments-iOS-SDK/Classes/**/*"
+}

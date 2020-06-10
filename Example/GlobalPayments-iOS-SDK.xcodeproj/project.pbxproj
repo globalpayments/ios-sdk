@@ -14,6 +14,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0485724AF367600FC32EC /* CardUtilsTests.swift */; };
 		B3C3C7004F930D956F772A64 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +33,7 @@
 		25E89B4C4C3BC69C6EA4BF0A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		37187487A0802F473CB34DD9 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3D967F781B7EDA086B664CC6 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		58FEA9F194AA0CFA78C12075 /* GlobalPayments-iOS-SDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "GlobalPayments-iOS-SDK.podspec"; path = "../GlobalPayments-iOS-SDK.podspec"; sourceTree = "<group>"; };
+		58FEA9F194AA0CFA78C12075 /* GlobalPayments-iOS-SDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "GlobalPayments-iOS-SDK.podspec"; path = "../GlobalPayments-iOS-SDK.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* GlobalPayments-iOS-SDK_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GlobalPayments-iOS-SDK_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +46,7 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82B0485724AF367600FC32EC /* CardUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUtilsTests.swift; sourceTree = "<group>"; };
 		866C760D426DC19D7E0BA8F6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		A3321008DB1409EE8F482E4A /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,6 +128,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				82B0485624AF366700FC32EC /* UtilsTests */,
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -148,6 +151,14 @@
 				866C760D426DC19D7E0BA8F6 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		82B0485624AF366700FC32EC /* UtilsTests */ = {
+			isa = PBXGroup;
+			children = (
+				82B0485724AF367600FC32EC /* CardUtilsTests.swift */,
+			);
+			path = UtilsTests;
 			sourceTree = "<group>";
 		};
 		D96F282A842265BC4AB41241 /* Frameworks */ = {
@@ -359,6 +370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

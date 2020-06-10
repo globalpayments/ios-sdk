@@ -1,10 +1,5 @@
 # GlobalPayments-iOS-SDK
 
-[![CI Status](https://img.shields.io/travis/Alexandr Pavlov/GlobalPayments-iOS-SDK.svg?style=flat)](https://travis-ci.org/Alexandr Pavlov/GlobalPayments-iOS-SDK)
-[![Version](https://img.shields.io/cocoapods/v/GlobalPayments-iOS-SDK.svg?style=flat)](https://cocoapods.org/pods/GlobalPayments-iOS-SDK)
-[![License](https://img.shields.io/cocoapods/l/GlobalPayments-iOS-SDK.svg?style=flat)](https://cocoapods.org/pods/GlobalPayments-iOS-SDK)
-[![Platform](https://img.shields.io/cocoapods/p/GlobalPayments-iOS-SDK.svg?style=flat)](https://cocoapods.org/pods/GlobalPayments-iOS-SDK)
-
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.

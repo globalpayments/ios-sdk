@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  GlobalPayments-iOS-SDK: ef4cc856f6820c814504e281115f128be7e35636
+  GlobalPayments-iOS-SDK: e0bbb84552300c834c735f9bb455ceafaf91ab5d
 
 PODFILE CHECKSUM: 6d385aeb8659cbe86f7d837f50d3febbc208b85d
 

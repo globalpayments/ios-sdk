@@ -1,5 +1,5 @@
 import Foundation
 
-@objc public protocol PaymentMethod {
+public protocol PaymentMethod {
     var paymentMethodType: PaymentMethodType { get set }
 }

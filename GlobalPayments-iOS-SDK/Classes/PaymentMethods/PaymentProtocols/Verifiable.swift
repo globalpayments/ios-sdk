@@ -1,5 +1,5 @@
 import Foundation
 
-@objc public protocol Verifiable {
+public protocol Verifiable {
     func verify() -> AuthorizationBuilder
 }

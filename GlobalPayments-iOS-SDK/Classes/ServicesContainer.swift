@@ -1,6 +1,12 @@
 import Foundation
 
-@objcMembers public class ServicesContainer: NSObject {
+/// Maintains references to the currently configured gateway/device objects
+/// The public `ServicesContainer.configure` method is the only call
+/// required of the integrator to configure the SDK's various gateway/device
+/// interactions. The configured gateway/device objects are handled
+/// internally by exposed APIs throughout the SDK.
+
+public class ServicesContainer: NSObject {
 
     public static let shared = ServicesContainer()
 
@@ -142,3 +148,20 @@ import Foundation
         return provider
     }
 }
+
+//public class ServicesContainer {
+//    private var configurations = [String: ConfiguredServices]()
+//
+//    public static let shared = ServicesContainer()
+//
+//    public static func configure(config: ServiceConfig) {
+//        config.validate()
+//    }
+//
+//    public static func configureService<T: Configuration>(config: T) {
+//        if !config.validated {
+//            config.validate()
+//        }
+//        let cs = shared.get
+//    }
+//}

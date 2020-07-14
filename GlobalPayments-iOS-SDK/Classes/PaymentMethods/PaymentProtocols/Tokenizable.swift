@@ -1,7 +1,7 @@
 import Foundation
 
-@objc public protocol Tokenizable {
+public protocol Tokenizable {
     var token: String? { get set }
 
-    func tokenize() -> String?
+    func tokenize(completion: ((String?) -> Void)?)
 }

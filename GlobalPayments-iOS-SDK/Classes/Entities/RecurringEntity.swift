@@ -1,78 +1,77 @@
 import Foundation
 
 /// Base interface for recurring resource types.
-@objc public protocol Recurring {
-    /// Creates a resource
-    func create() -> Any?
-    /// Delete a record from the gateway.
-    func delete() -> Any?
-    /// Searches for a specific record by `id`.
-    /// - Parameter id: The ID of the record to find
-    /// - Returns: If the record cannot be found, `null` is returned.
-    func find(id: String) -> Any?
-    /// Lists all records of type `TResult`.
-    func findAll() -> [Any]?
-    /// The current record should be updated.
-    /// Any modified properties will be persisted with the gateway.
-    func saveChanges() -> Any?
+public protocol Recurring: class {
+    /// All resource should be supplied a merchant-/application-defined ID.
+    var id: String? { get set }
+    /// All resources should be supplied a gateway-defined ID.
+    var key: String? { get set }
 }
 
-@objcMembers public class RecurringEntity: NSObject, Recurring {
-
+/// Base implementation for recurring resource types.
+public class RecurringEntity<TResult: Recurring>: Recurring  {
     /// All resource should be supplied a merchant-/application-defined ID.
-    var id: String?
+    public var id: String?
     /// All resources should be supplied a gateway-defined ID.
-    var key: String?
+    public var key: String?
 
-    public func create() -> Any? {
-        return RecurringService.create(entity: self)
+    /// Creates a resource
+    /// - Parameter completion: TResult
+    public func create(completion: ((TResult?) -> Void)?) {
+        RecurringService.create(entity: self) { recurring in
+            completion?(recurring as? TResult)
+        }
     }
 
-    public func delete() -> Any? {
-        return RecurringService.delete(entity: self)
+    /// Delete a record from the gateway.
+    public func delete() {
+        RecurringService.delete(entity: self, completion: nil)
     }
 
-    public func find(id: String) -> Any? {
-        let client = ServicesContainer.shared.getRecurringClient()
-        if let supportsRetrieval = client?.supportsRetrieval,
-            supportsRetrieval == true {
+    public static func find(id: String, completion: ((TResult?) -> Void)?) throws {
+        let client = ServicesContainer.shared.getRecurringClient()!
+        if client.supportsRetrieval {
             let identifier = getIdentifierName()
-            let entity = RecurringService.search(entity: self)
-                .addSearchCriteria(key: identifier, value: id)
-                .execute() as? RecurringEntity
-            if entity != nil, entity?.id == id {
-                return RecurringService.get(entity: entity!)
+            let service: RecurringBuilder<NSArray> = RecurringService.search()
+            service.addSearchCriteria(key: identifier, value: id)
+                .execute { results in
+                    if let entity = results?.firstObject as? TResult,
+                        entity.id == id {
+                        RecurringService.get(entity: entity) { recurring in
+                            completion?(recurring)
+                        }
+                    }
             }
-            return nil
         }
-        return nil
+        throw UnsupportedTransactionException.generic(
+            message: "Transaction type not supported for this payment method."
+        )
     }
 
-    public func findAll() -> [Any]? {
-        let client = ServicesContainer.shared.getRecurringClient()
-        guard let supportsRetrieval = client?.supportsRetrieval,
-            supportsRetrieval == false else {
-            return nil
+    /// Lists all records of type `TResult`.
+    /// - Parameter completion: [TResult]
+    /// - Throws: Thrown when gateway does not support retrieving recurring records.
+    public static func findAll(completion: (([TResult]?) -> Void)?) throws {
+        let client = ServicesContainer.shared.getRecurringClient()!
+        if client.supportsRetrieval {
+            let service: RecurringBuilder<NSArray> = RecurringService.search()
+            service.execute { results in
+                completion?(results as? [TResult])
+            }
         }
-        let response = RecurringService
-            .search(entity: self)
-            .execute()
-
-        return [response]
+        throw UnsupportedTransactionException.generic(
+            message: "Transaction type not supported for this payment method."
+        )
     }
-
-    public func saveChanges() -> Any? {
-        return RecurringService.edit(entity: self)
-    }
-
-    private func getIdentifierName() -> String {
-        if self is Customer {
+    
+    private static func getIdentifierName() -> String {
+        if TResult.self is Customer.Type {
             return "customerIdentifier"
         }
-        if self is RecurringPaymentMethod {
+        if TResult.self is RecurringPaymentMethod.Type {
             return "paymentMethodIdentifier"
         }
-        if self is Schedule {
+        if TResult.self is Schedule.Type {
             return "scheduleIdentifier"
         }
         return .empty

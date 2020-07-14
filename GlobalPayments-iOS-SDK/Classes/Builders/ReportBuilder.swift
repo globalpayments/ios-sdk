@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class ReportBuilder: BaseBuilder {
+public class ReportBuilder<TResult: AnyObject>: BaseBuilder<TResult> {
     var reportType: ReportType
     var timeZoneConversion: TimeZoneConversion?
 
@@ -8,9 +8,9 @@ import Foundation
         self.reportType = reportType
     }
 
-    public override func execute() -> Any? {
-        super.execute()
-
-        return nil
+    public override func execute(completion: ((TResult?) -> Void)?) {
+        super.execute(completion: completion)
+        let client = ServicesContainer.shared.getReportingService()
+        client?.processReport(builder: self, completion: completion)
     }
 }

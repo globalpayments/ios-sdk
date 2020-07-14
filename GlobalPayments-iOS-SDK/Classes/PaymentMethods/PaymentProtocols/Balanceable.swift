@@ -1,5 +1,5 @@
 import Foundation
 
-@objc public protocol Balanceable {
+public protocol Balanceable {
     func balanceInquiry(inquiry: InquiryType) -> AuthorizationBuilder
 }

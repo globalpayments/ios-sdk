@@ -1,24 +1,32 @@
 import Foundation
 
-@objcMembers public class RecurringService: NSObject {
+public class RecurringService {
 
-    public static func create(entity: RecurringEntity) -> Any? {
-        return RecurringBuilder(type: .create, entity: entity).execute()
+    public static func create<T: Recurring>(entity: T?,
+                                            completion: ((T?) -> Void)?) {
+        let response = RecurringBuilder<T>(type: .create, entity: entity)
+        response.execute(completion: completion)
     }
 
-    public static func delete(entity: RecurringEntity) -> Any? {
-        return RecurringBuilder(type: .delete, entity: entity).execute()
+    public static func delete<T: Recurring>(entity: T?,
+                                            completion: ((T?) -> Void)?) {
+        let response = RecurringBuilder<T>(type: .delete, entity: entity)
+        response.execute(completion: completion)
     }
 
-    public static func edit(entity: RecurringEntity) -> Any? {
-        return RecurringBuilder(type: .edit, entity: entity).execute()
+    public static func edit<T: Recurring>(entity: T?,
+                                          completion: ((T?) -> Void)?) {
+        let response = RecurringBuilder<T>(type: .delete, entity: entity)
+        response.execute(completion: completion)
     }
 
-    public static func get(entity: RecurringEntity) -> Any? {
-        return RecurringBuilder(type: .fetch, entity: entity).execute()
+    public static func get<T: Recurring>(entity: T?,
+                                         completion: ((T?) -> Void)?) {
+        RecurringBuilder<T>(type: .fetch, entity: entity)
+            .execute(completion: completion)
     }
 
-    public static func search(entity: RecurringEntity) -> RecurringBuilder {
-        return RecurringBuilder(type: .search, entity: entity)
+    public static func search<T>() -> RecurringBuilder<T> {
+        return RecurringBuilder<T>(type: .search)
     }
 }

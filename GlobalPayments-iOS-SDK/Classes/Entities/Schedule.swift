@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class Schedule: RecurringEntity {
+public class Schedule: RecurringEntity {
 
     /// The schedule's amount
     public var amount: Decimal?

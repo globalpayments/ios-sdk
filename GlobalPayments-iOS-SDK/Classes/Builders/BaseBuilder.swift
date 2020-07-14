@@ -1,18 +1,18 @@
 import Foundation
 
-@objcMembers public class BaseBuilder: NSObject {
+public class BaseBuilder<TResult>: NSObject {
 
     let validations: Validations
 
-    public init(validations: Validations = Validations()) {
-        self.validations = validations
+    public override init() {
+        self.validations = Validations()
         super.init()
         setupValidations()
     }
 
-    @discardableResult public func execute() -> Any? {
+    public func execute(completion: ((TResult?) -> Void)?){
         try! validations.validate(builder: self)
-        return nil
+        completion?(nil)
     }
 
     public func setupValidations() { }

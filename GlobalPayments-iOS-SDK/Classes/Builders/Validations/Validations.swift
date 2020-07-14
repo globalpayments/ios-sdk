@@ -2,7 +2,7 @@ import Foundation
 
 private typealias ValidationRules = [RuleType: [ValidationTarget]]
 
-@objcMembers public class Validations: NSObject {
+public class Validations: NSObject {
 
     private var rules: ValidationRules
 
@@ -112,7 +112,7 @@ extension Validations {
     }
 }
 
-@objc public class RuleType: NSObject {
+public class RuleType: NSObject {
     let transactionType: TransactionType?
     let paymentMethodType: PaymentMethodType?
 
@@ -131,5 +131,23 @@ extension Validations {
             return paymentMethodType == type
         }
         return false
+    }
+}
+
+protocol Test {
+    associatedtype ElementType
+    func type() -> ElementType
+}
+
+extension TransactionType: Test {
+
+    func type() -> TransactionType {
+        return self
+    }
+}
+
+extension PaymentMethodType: Test {
+    func type() -> PaymentMethodType {
+        return self
     }
 }

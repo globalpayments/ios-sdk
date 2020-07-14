@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public protocol CardData {
+public protocol CardData {
     var cardPresent: Bool { get set }
     var cardType: String? { get set }
     var cvn: String? { get set }

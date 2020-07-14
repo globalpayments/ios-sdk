@@ -1,13 +1,13 @@
 import Foundation
 
-@objcMembers public class RecurringBuilder: TransactionBuilder {
+public class RecurringBuilder<TResult: AnyObject>: TransactionBuilder<TResult> {
 
     var key: String?
     var orderId: String?
-    var entity: RecurringEntity?
+    var entity: Recurring?
     var searchCriteria: [String: String]?
 
-    public init(type: TransactionType, entity: RecurringEntity? = nil) {
+    init(type: TransactionType, entity: Recurring? = nil) {
         super.init(transactionType: type)
         self.searchCriteria = [String: String]()
         if entity != nil {
@@ -21,21 +21,20 @@ import Foundation
         return self
     }
 
-    public override func execute() -> Any? {
-        super.execute()
-        let client = ServicesContainer.shared.recurring
-        return client?.processRecurring(builder: self)
+    /// Executes the builder against the gateway.
+    public override func execute(completion: ((TResult?) -> Void)?) {
+        super.execute(completion: completion)
+        let client = ServicesContainer.shared.getRecurringClient()
+        client?.processRecurring(builder: self, completion: completion)
     }
 
     public override func setupValidations() {
         self.validations
             .of(transactionType: [.edit, .delete, .fetch])
-            .check(propertyName: "key")?
-            .isNotNil()
+            .check(propertyName: "key")?.isNotNil()
 
         self.validations
             .of(transactionType: [.search])
-            .check(propertyName: "searchCriteria")?
-            .isNotNil()
+            .check(propertyName: "searchCriteria")?.isNotNil()
     }
 }

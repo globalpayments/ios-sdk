@@ -1,5 +1,5 @@
 import Foundation
 
-@objc public protocol Secure3d {
+public protocol Secure3d {
     var threeDSecure: ThreeDSecure? { get set }
 }

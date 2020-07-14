@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class Secure3dBuilder: BaseBuilder {
+public class Secure3dBuilder: BaseBuilder<ThreeDSecure> {
     var accountAgeIndicator: AgeIndicator?
     var accountChangeDate: Date?
     var accountCreateDate: Date?
@@ -485,11 +485,13 @@ import Foundation
             customerAuthenticationMethod != nil
     }
 
-    public override func execute() -> Any? {
-        return execute(version: .any)
+    public override func execute(completion: ((ThreeDSecure?) -> Void)?) {
+        execute(version: .any, completion: completion)
     }
 
-    public func execute(version: Secure3dVersion) -> Any? {
+    public func execute(version: Secure3dVersion,
+                        completion: ((ThreeDSecure?) -> Void)?) {
+
         var version: Secure3dVersion = version
         try! validations.validate(builder: self)
 
@@ -517,40 +519,41 @@ import Foundation
             }
 
             /// process the request, capture any exceptions which might have been thrown
-            let response: Transaction? = provider?.processSecure3d(self)
-            if response == nil && canDowngrade {
-                return execute(version: .one)
-            }
-
-            if let response = response,
-                let transactionType = transactionType {
-
-                switch transactionType {
-                case .verifyEnrolled:
-                    if let threeDSecure = response.threeDSecure,
-                        let version = provider?.getVersion() {
-                        rvalue = threeDSecure
-                        if ["True", "Y"].contains(rvalue?.enrolled) {
-                            rvalue?.amount = amount
-                            rvalue?.currency = currency
-                            rvalue?.orderId = response.orderId
-                            rvalue?.version = version
-                        } else if canDowngrade {
-                            return execute(version: .one)
-                        }
-                    } else if canDowngrade {
-                        return execute(version: .one)
-                    }
-                case .initiateAuthentication,
-                     .verifySignature:
-                    rvalue?.merge(secureEcom: response.threeDSecure)
-                default:
-                    break
+            provider?.processSecure3d(self, completion: { response in
+                if response == nil && canDowngrade {
+                    return execute(version: .one, completion: completion)
                 }
-            }
+
+                if let response = response,
+                    let transactionType = transactionType {
+
+                    switch transactionType {
+                    case .verifyEnrolled:
+                        if let threeDSecure = response.threeDSecure,
+                            let version = provider?.getVersion() {
+                            rvalue = threeDSecure
+                            if ["True", "Y"].contains(rvalue?.enrolled) {
+                                rvalue?.amount = amount
+                                rvalue?.currency = currency
+                                rvalue?.orderId = response.orderId
+                                rvalue?.version = version
+                            } else if canDowngrade {
+                                return execute(version: .one, completion: completion)
+                            }
+                        } else if canDowngrade {
+                            return execute(version: .one, completion: completion)
+                        }
+                    case .initiateAuthentication,
+                         .verifySignature:
+                        rvalue?.merge(secureEcom: response.threeDSecure)
+                    default:
+                        break
+                    }
+                }
+            })
         }
 
-        return rvalue
+        completion?(rvalue)
     }
 
     public override func setupValidations() {

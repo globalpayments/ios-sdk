@@ -1,5 +1,5 @@
 import Foundation
 
-@objc public protocol PrePayable {
+public protocol PrePayable {
     func addValue(amount: Decimal) -> AuthorizationBuilder
 }

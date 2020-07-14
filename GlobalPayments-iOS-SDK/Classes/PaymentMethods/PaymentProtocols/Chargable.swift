@@ -1,5 +1,5 @@
 import Foundation
 
-@objc public protocol Chargeable {
+public protocol Chargeable {
     func charge(amount: Decimal) -> AuthorizationBuilder
 }

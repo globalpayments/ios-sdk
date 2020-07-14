@@ -1,5 +1,5 @@
 import Foundation
 
-@objc public protocol Refundable {
+public protocol Refundable {
     func refund(amount: Decimal) -> AuthorizationBuilder
 }

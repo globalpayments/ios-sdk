@@ -1,7 +1,7 @@
 import Foundation
 
 /// Used to create charges, verifies, etc. for the supported payment method types.
-@objcMembers public class AuthorizationBuilder: TransactionBuilder {
+public class AuthorizationBuilder: TransactionBuilder<Transaction> {
     var accountType: AccountType?
     var alias: String?
     var aliasAction: AliasAction?
@@ -505,15 +505,16 @@ import Foundation
 
     /// Executes the authorization builder against the gateway.
     /// - Returns: Transaction
-    public override func execute() -> Any? {
-        super.execute()
+    public override func execute(completion: ((Transaction?) -> Void)?) {
+        super.execute(completion: completion)
         let client = ServicesContainer.shared.getClient()
-        return client?.processAuthorization(self)
+        client?.processAuthorization(self, completion: completion)
     }
 
     public func serialize() throws -> String? {
         transactionModifier = .hostedRequest
-        _ = execute()
+        super.execute(completion: nil)
+
         let client = ServicesContainer.shared.getClient()
         if let client = client, client.supportsHostedPayments {
             return client.serializeRequest(self)

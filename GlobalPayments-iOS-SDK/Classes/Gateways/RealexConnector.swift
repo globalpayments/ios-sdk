@@ -1,22 +1,24 @@
 import Foundation
 
-@objcMembers public class RealexConnector: PaymentGateway {
+public class RealexConnector: PaymentGateway {
 
-    public var supportsHostedPayments: Bool = true
+    var supportsHostedPayments: Bool = true
 
-    public func processAuthorization(_ builder: AuthorizationBuilder) -> Transaction? {
-        return nil
-    }
-
-    public func manageTransaction(_ builder: ManagementBuilder) -> Transaction? {
-        return nil
-    }
-
-    public func processReport(_ builder: ReportBuilder) {
+    func processAuthorization(_ builder: AuthorizationBuilder,
+                              completion: ((Transaction?) -> Void)?) {
 
     }
 
-    public func serializeRequest(_ builder: AuthorizationBuilder) -> String? {
+    func manageTransaction(_ builder: ManagementBuilder,
+                           completion: ((Transaction?) -> Void)?) {
+
+    }
+
+    func serializeRequest(_ builder: AuthorizationBuilder) -> String? {
         return nil
+    }
+
+    func processReport<T>(_ builder: ReportBuilder<T>) throws where T : AnyObject {
+
     }
 }

@@ -1,7 +1,8 @@
 import Foundation
 
-@objc public protocol IRecurringService {
+public protocol IRecurringService {
     var supportsRetrieval: Bool { get }
-
-    func processRecurring(builder: RecurringBuilder) -> Any?
+    var supportsUpdatePaymentDetails: Bool { get }
+    func processRecurring<T: AnyObject>(builder: RecurringBuilder<T>,
+                                        completion: ((T) -> Void)?)
 }

@@ -2,7 +2,7 @@ import Foundation
 
 public typealias ResultCallback = ((BaseBuilder) -> Bool)
 
-@objcMembers public class ValidationClause {
+public class ValidationClause {
     /// All Validations
     public let parent: Validations
     /// Target of this validation clause

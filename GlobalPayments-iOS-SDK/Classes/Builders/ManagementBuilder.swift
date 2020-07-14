@@ -1,7 +1,7 @@
 import Foundation
 
 /// Used to follow up transactions for the supported payment method types.
-@objcMembers public class ManagementBuilder: TransactionBuilder {
+public class ManagementBuilder: TransactionBuilder<Transaction> {
     /// Request amount
     var amount: Decimal?
     /// Request authorization amount
@@ -120,19 +120,21 @@ import Foundation
         return self
     }
 
-    public override func execute() -> Any? {
-        _  = super.execute()
-        return ServicesContainer.shared
-            .getClient()?
-            .manageTransaction(self)
-    }
-
     /// Lodging data information for Portico implementation
     /// - Parameter lodgingData: The lodging data
     /// - Returns: ManagementBuilder
     public func withLodgingData(_ lodgingData: LodgingData) -> ManagementBuilder {
         self.lodgingData = lodgingData
         return self
+    }
+
+    public override func execute(completion: ((Transaction?) -> Void)?) {
+        super.execute(completion: completion)
+        ServicesContainer.shared
+            .getClient()?
+            .manageTransaction(self, completion: { transaction in
+                completion?(transaction)
+            })
     }
 
     public override func setupValidations() {

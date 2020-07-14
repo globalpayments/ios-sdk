@@ -1,5 +1,5 @@
 import Foundation
 
-@objc public protocol PinProtected {
+public protocol PinProtected {
     var pinBlock: String? { get set }
 }

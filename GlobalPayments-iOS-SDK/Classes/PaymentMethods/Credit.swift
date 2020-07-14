@@ -79,11 +79,12 @@ import Foundation
         return AuthorizationBuilder(transactionType: .verify, paymentMethod: self)
     }
 
-    public func tokenize() -> String? {
-        let transaction = AuthorizationBuilder(transactionType: .verify, paymentMethod: self)
+    public func tokenize(completion: ((String?) -> Void)?) {
+        AuthorizationBuilder(transactionType: .verify, paymentMethod: self)
             .withRequestMultiUseToken(true)
-            .execute() as? Transaction
-        return transaction?.token
+            .execute { transaction in
+                completion?(transaction?.token)
+        }
     }
 
     /// Updates the token expiry date with the values proced to the card object

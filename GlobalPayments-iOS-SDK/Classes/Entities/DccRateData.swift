@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class DccRateData: NSObject {
+public class DccRateData: NSObject {
     public var cardHolderAmount: Decimal?
     public var cardHolderCurrency: String?
     public var cardHolderRate: String?

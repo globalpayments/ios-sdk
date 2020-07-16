@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class AutoSubstantiation: NSObject {
+public class AutoSubstantiation: NSObject {
     private var amounts: [String: Decimal]
 
     public var clinicSubTotal: Decimal {

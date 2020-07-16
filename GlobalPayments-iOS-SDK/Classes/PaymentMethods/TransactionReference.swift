@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class TransactionReference: NSObject, PaymentMethod {
+public class TransactionReference: NSObject, PaymentMethod {
     public var paymentMethodType: PaymentMethodType
     public var authCode: String?
     public var batchNumber: String?

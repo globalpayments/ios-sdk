@@ -1,6 +1,6 @@
 import Foundation
 
-public typealias ResultCallback = ((BaseBuilder) -> Bool)
+public typealias ResultCallback = ((NSObject) -> Bool)
 
 public class ValidationClause {
     /// All Validations
@@ -127,5 +127,14 @@ public class ValidationClause {
         )
 
         return precondition ? target : parent.of(ruleType: target.type)?.with(modifier: target.modifier)
+    }
+}
+
+extension NSObject {
+    public func value(for property: String) -> Any? {
+        guard responds(to: Selector(property)) else {
+            return nil
+        }
+        return value(forKey: property)
     }
 }

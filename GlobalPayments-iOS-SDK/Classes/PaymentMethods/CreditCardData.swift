@@ -1,7 +1,7 @@
 import Foundation
 
 /// Use credit tokens or manual entry data as a payment method.
-@objcMembers public class CreditCardData: Credit, CardData {
+public class CreditCardData: Credit, CardData {
     /// Use credit tokens or manual entry data as a payment method.
     public var cardPresent: Bool = false
     /// The card's card verification number (CVN).
@@ -38,36 +38,41 @@ import Foundation
         return .empty
     }
 
-    public func verifyEnrolled(amount: Decimal, currency: String, orderId: String? = nil) -> Bool {
-        let transaction = AuthorizationBuilder(transactionType: .verifyEnrolled, paymentMethod: self)
+    public func verifyEnrolled(amount: Decimal,
+                               currency: String,
+                               orderId: String? = nil,
+                               completion: ((Bool) -> Void)?) {
+        AuthorizationBuilder(transactionType: .verifyEnrolled, paymentMethod: self)
             .withAmount(amount)
             .withCurrency(currency)
             .withOrderId(orderId)
-            .execute()
-
-        guard let result = transaction as? Transaction,
-            let threeDSecure = result.threeDSecure else {
-            return false
+            .execute { [weak self] transaction in
+                guard let result = transaction,
+                    let threeDSecure = result.threeDSecure else {
+                    completion?(false)
+                    return
+                }
+                threeDSecure.amount = amount
+                threeDSecure.currency = currency
+                threeDSecure.orderId = orderId
+                if ["N", "U"].contains(threeDSecure.enrolled) {
+                    threeDSecure.xid = nil
+                    if threeDSecure.enrolled == "N" {
+                        threeDSecure.eci = self?.cardType == "MC" ? 1 : 6
+                    } else if threeDSecure.enrolled == "U" {
+                        threeDSecure.eci = self?.cardType == "MC" ? 0 : 7
+                    }
+                    completion?(threeDSecure.enrolled == "Y")
+                }
+                completion?(false)
         }
-        threeDSecure.amount = amount
-        threeDSecure.currency = currency
-        threeDSecure.orderId = orderId
-        if ["N", "U"].contains(threeDSecure.enrolled) {
-            threeDSecure.xid = nil
-            if threeDSecure.enrolled == "N" {
-                threeDSecure.eci = cardType == "MC" ? 1 : 6
-            } else if threeDSecure.enrolled == "U" {
-                threeDSecure.eci = cardType == "MC" ? 0 : 7
-            }
-            return threeDSecure.enrolled == "Y"
-        }
-        return false
     }
 
     public func verifySignature(authorizationResponse: String,
                                 amount: Decimal? = nil,
                                 currency: String,
-                                orderId: String) -> Bool {
+                                orderId: String,
+                                completion: ((Bool) -> Void)?) {
         if threeDSecure == nil {
             threeDSecure = ThreeDSecure()
         }
@@ -75,36 +80,39 @@ import Foundation
         threeDSecure?.currency = currency
         threeDSecure?.orderId = orderId
 
-        return verifySignature(authorizationResponse: authorizationResponse)
+        return verifySignature(authorizationResponse: authorizationResponse,
+                               completion: completion)
     }
 
     public func verifySignature(authorizationResponse: String,
-                                merchantData: MerchantDataCollection? = nil) -> Bool {
+                                merchantData: MerchantDataCollection? = nil,
+                                completion: ((Bool) -> Void)?) {
         if threeDSecure == nil {
             threeDSecure = ThreeDSecure()
         }
         if merchantData != nil {
             threeDSecure?.merchantData = merchantData
         }
-        let transaction = ManagementBuilder(transactionType: .verifySignature)
+        ManagementBuilder(transactionType: .verifySignature)
             .withAmount(threeDSecure?.amount)
             .withCurrency(threeDSecure?.currency)
             .withPayerAuthenticationResponse(authorizationResponse)
             .withPaymentMethod(TransactionReference(orderId: threeDSecure?.orderId))
-            .execute() as? Transaction
+            .execute { [weak self] transaction in
 
-        threeDSecure?.status = transaction?.threeDSecure?.status
-        threeDSecure?.cavv = transaction?.threeDSecure?.cavv
-        threeDSecure?.algorithm = transaction?.threeDSecure?.algorithm
-        threeDSecure?.xid = transaction?.threeDSecure?.xid
+                self?.threeDSecure?.status = transaction?.threeDSecure?.status
+                self?.threeDSecure?.cavv = transaction?.threeDSecure?.cavv
+                self?.threeDSecure?.algorithm = transaction?.threeDSecure?.algorithm
+                self?.threeDSecure?.xid = transaction?.threeDSecure?.xid
 
-        if ["A", "Y"].contains(threeDSecure?.status)
-            && transaction?.responseCode == "00" {
-            threeDSecure?.eci = transaction?.threeDSecure?.eci
-            return true
-        } else {
-            threeDSecure?.eci = cardType == "MC" ? 0 : 7
-            return false
+                if ["A", "Y"].contains(self?.threeDSecure?.status)
+                    && transaction?.responseCode == "00" {
+                    self?.threeDSecure?.eci = transaction?.threeDSecure?.eci
+                    completion?(true)
+                } else {
+                    self?.threeDSecure?.eci = self?.cardType == "MC" ? 0 : 7
+                    completion?(false)
+                }
         }
     }
 }

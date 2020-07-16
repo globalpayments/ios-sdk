@@ -9,7 +9,7 @@ import Foundation
 }
 
 /// Ecommerce specific data to pass during authorization/settlement.
-@objcMembers public class EcommerceInfo: NSObject {
+public class EcommerceInfo: NSObject {
     /// Identifies eCommerce vs mail order / telephone order (MOTO) transactions.
     /// Default value is `EcommerceChannel.ecom`.
     public var channel: EcommerceChannel

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Data collection to supplement a hosted payment page.
-@objcMembers public class HostedPaymentData {
+public class HostedPaymentData {
     /// Indicates to the issuer that the shipping and billing addresses are expected to be the same.
     /// Used as a fraud prevention mechanism.
     public var addressesMatch: Bool?

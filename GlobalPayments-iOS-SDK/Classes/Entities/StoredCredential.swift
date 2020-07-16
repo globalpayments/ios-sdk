@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class StoredCredential: NSObject {
+public class StoredCredential: NSObject {
     public var type: StoredCredentialType
     public var initiator: StoredCredentialInitiator
     public var sequence: StoredCredentialSequence

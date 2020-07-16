@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class ValidationTarget: NSObject {
+public class ValidationTarget: NSObject {
     /// All Validations
     public let parent: Validations
     /// Validation type

@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class DebitMac: NSObject {
+public class DebitMac: NSObject {
     public var transactionCode: String?
     public var transmissionNumber: String?
     public var bankResponseCode: String?

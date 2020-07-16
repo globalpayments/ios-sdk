@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class CardUtils: NSObject {
+public class CardUtils {
 
     public static let cardTypes: [String: NSRegularExpression] = [
         "Amex": NSRegularExpression("^3[47]"),

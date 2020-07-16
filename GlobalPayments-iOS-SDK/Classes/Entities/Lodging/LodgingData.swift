@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class LodgingData: NSObject {
+public class LodgingData: NSObject {
     public var checkInDate: Date?
     public var checkOutDate: Date?
     public var extraCharges: [ExtraChargeType: Decimal]

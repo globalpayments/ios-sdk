@@ -16,11 +16,4 @@ public class BaseBuilder<TResult>: NSObject {
     }
 
     public func setupValidations() { }
-
-    public func value(for property: String) -> Any? {
-        guard responds(to: Selector(property)) else {
-            return nil
-        }
-        return value(forKey: property)
-    }
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class BatchSummary: NSObject {
+public class BatchSummary: NSObject {
     public var id: Int?
     public var closeTransactionId: String?
     public var closeCount: Int?

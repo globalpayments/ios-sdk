@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class RecurringPaymentMethod: RecurringEntity, PaymentMethod, Chargeable, Authable, Verifiable, Refundable, Secure3d {
+public class RecurringPaymentMethod: RecurringEntity<RecurringPaymentMethod>, PaymentMethod, Chargeable, Authable, Verifiable, Refundable, Secure3d {
 
     public var paymentMethodType: PaymentMethodType = .recurring
     public var threeDSecure: ThreeDSecure?

@@ -2,7 +2,7 @@ import Foundation
 
 /// Details how encrypted track data was encrypted by the device
 /// in order for the gateway to decrypt the data.
-@objcMembers public class EncryptionData: NSObject {
+public class EncryptionData: NSObject {
     /// The encryption version
     public var version: String
     /// The track number that is encrypted and supplied in the request.

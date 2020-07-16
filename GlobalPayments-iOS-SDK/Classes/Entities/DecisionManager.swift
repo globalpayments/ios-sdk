@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class DecisionManager: NSObject {
+public class DecisionManager: NSObject {
     public var billToHostName: String?
     public var billToHttpBrowserCookiesAccepted: Bool?
     public var billToHttpBrowserEmail: String?

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Base interface for recurring resource types.
-public protocol Recurring: class {
+@objc public protocol Recurring {
     /// All resource should be supplied a merchant-/application-defined ID.
     var id: String? { get set }
     /// All resources should be supplied a gateway-defined ID.
@@ -9,7 +9,7 @@ public protocol Recurring: class {
 }
 
 /// Base implementation for recurring resource types.
-public class RecurringEntity<TResult: Recurring>: Recurring  {
+public class RecurringEntity<TResult>: NSObject, Recurring {
     /// All resource should be supplied a merchant-/application-defined ID.
     public var id: String?
     /// All resources should be supplied a gateway-defined ID.
@@ -32,14 +32,16 @@ public class RecurringEntity<TResult: Recurring>: Recurring  {
         let client = ServicesContainer.shared.getRecurringClient()!
         if client.supportsRetrieval {
             let identifier = getIdentifierName()
-            let service: RecurringBuilder<NSArray> = RecurringService.search()
+
+            let service: RecurringBuilder<[Recurring]> = RecurringService.search()
             service.addSearchCriteria(key: identifier, value: id)
                 .execute { results in
-                    if let entity = results?.firstObject as? TResult,
-                        entity.id == id {
+                    if let entity = results?.first, entity.id == id {
                         RecurringService.get(entity: entity) { recurring in
-                            completion?(recurring)
+                            completion?(recurring as? TResult)
                         }
+                    } else {
+                        completion?(nil)
                     }
             }
         }

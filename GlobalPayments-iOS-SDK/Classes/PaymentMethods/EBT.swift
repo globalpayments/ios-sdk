@@ -1,7 +1,7 @@
 import Foundation
 
 /// Use EBT as a payment method.
-@objcMembers public class EBT: NSObject, PaymentMethod, Balanceable, Chargeable, Refundable, PinProtected {
+public class EBT: NSObject, PaymentMethod, Balanceable, Chargeable, Refundable, PinProtected {
 
     public var pinBlock: String?
     /// Set to `PaymentMethodType.ebt` for internal methods.

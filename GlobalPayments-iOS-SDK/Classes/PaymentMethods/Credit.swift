@@ -1,7 +1,7 @@
 import Foundation
 
 /// Use credit as a payment method.
-@objcMembers public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeable, Authable, Refundable, Reversable, Verifiable, PrePaid, Balanceable, Secure3d {
+public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeable, Authable, Refundable, Reversable, Verifiable, PrePaid, Balanceable, Secure3d {
     /// Set to `PaymentMethodType.credit` for internal methods.
     public var paymentMethodType: PaymentMethodType = .credit
     /// The card's encryption data; where applicable.
@@ -90,26 +90,28 @@ import Foundation
     /// Updates the token expiry date with the values proced to the card object
     /// - Throws: BuilderException
     /// - Returns: boolean value indicating success/failure
-    public func updateTokenExpiry() throws -> Bool {
+    public func updateTokenExpiry(completion: ((Bool) -> Void)?) throws {
         if token.isNilOrEmpty {
             throw BuilderException.generic(message: "Token cannot be null")
         }
-        let transaction = ManagementBuilder(transactionType: .tokenUpdate)
+        ManagementBuilder(transactionType: .tokenUpdate)
             .withPaymentMethod(self)
-            .execute()
-        return transaction != nil
+            .execute { transaction in
+                completion?(transaction != nil)
+        }
     }
 
     /// Deletes the token associated with the current card object
     /// - Throws: BuilderException
     /// - Returns: boolean value indicating success/failure
-    public func deleteToken() throws -> Bool {
+    public func deleteToken(completion: ((Bool) -> Void)?) throws {
         if token.isNilOrEmpty {
             throw BuilderException.generic(message: "Token cannot be null")
         }
-        let transaction = ManagementBuilder(transactionType: .tokenDelete)
+        ManagementBuilder(transactionType: .tokenDelete)
             .withPaymentMethod(self)
-            .execute()
-        return transaction != nil
+            .execute { transaction in
+                completion?(transaction != nil)
+        }
     }
 }

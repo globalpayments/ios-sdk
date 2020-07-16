@@ -1,7 +1,7 @@
 import Foundation
 
 /// Use gift/loyaly/stored value account as a payment method.
-@objcMembers public class GiftCard: NSObject, PaymentMethod, PrePaid, Balanceable, Reversable, Chargeable {
+public class GiftCard: NSObject, PaymentMethod, PrePaid, Balanceable, Reversable, Chargeable {
 
     /// Set to `PaymentMethodType.gift` for internal methods.
     public var paymentMethodType: PaymentMethodType = .gift
@@ -125,19 +125,18 @@ import Foundation
     /// Creates a gift card with an alias.
     /// - Parameter phoneNumber: The phone number to be used as the alias
     /// - Returns: GiftCard
-    public static func create(with phoneNumber: String) -> GiftCard? {
+    public static func create(with phoneNumber: String,
+                              completion: ((GiftCard?) -> Void)?) {
+
         let card = GiftCard()
-        var response = AuthorizationBuilder(transactionType: .alias, paymentMethod: card)
+        AuthorizationBuilder(transactionType: .alias, paymentMethod: card)
             .withAlias(action: .create, value: phoneNumber)
-            .execute()
-
-        // TODO: There
-        // if success return a card
-        //        if (response.ResponseCode == "00") {
-        //            return response.GiftCard;
-        //        }
-        //        else throw new GatewayException("Failed to create gift card.", response.ResponseCode, response.ResponseMessage);
-
-        return nil
+            .execute { transaction in
+                if transaction?.responseCode == "00" {
+                    completion?(transaction?.giftCard)
+                } else {
+                    completion?(nil)
+                }
+        }
     }
 }

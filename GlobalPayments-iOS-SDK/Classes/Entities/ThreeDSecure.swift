@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class ThreeDSecure: NSObject {
+public class ThreeDSecure: NSObject {
     public var acsTransactionId: String?
     public var acsEndVersion: String?
     public var acsStartVersion: String?

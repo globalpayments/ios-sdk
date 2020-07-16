@@ -1,7 +1,7 @@
 import Foundation
 
 /// Transaction response.
-@objcMembers public class Transaction: NSObject {
+public class Transaction: NSObject {
 
     /// The authorized amount.
     public var authorizedAmount: Decimal?

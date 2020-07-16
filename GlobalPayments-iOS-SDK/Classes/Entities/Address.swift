@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents a billing or shipping address for the consumer.
-@objcMembers public class Address: NSObject {
+public class Address: NSObject {
     /// Address type. Default is billing
     public var type: AddressType = .billing
     /// Consumer's street address 1.

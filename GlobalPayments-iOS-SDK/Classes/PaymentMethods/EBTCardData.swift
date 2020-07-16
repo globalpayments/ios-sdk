@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class EBTCardData: EBT, CardData {
+public class EBTCardData: EBT, CardData {
     public var approvalCode: String?
     public var cardPresent: Bool = false
     public var cardType: String?
@@ -17,8 +17,6 @@ import Foundation
         let year: String = expYear > .zero ? .empty : .empty
         return month + year
     }
-
-    public required override init() { super.init() }
 }
 
 //public string ShortExpiry {

@@ -1,7 +1,7 @@
 import Foundation
 
 /// A customer resource. Mostly used in recurring scenarios.
-@objcMembers public class Customer: RecurringEntity {
+public class Customer: RecurringEntity<Customer> {
     /// Customer's title
     var title: String?
     /// Customer's first name

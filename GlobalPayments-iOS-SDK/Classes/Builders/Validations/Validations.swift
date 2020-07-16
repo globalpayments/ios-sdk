@@ -41,7 +41,7 @@ public class Validations: NSObject {
         return target
     }
 
-    public func validate(builder: BaseBuilder) throws {
+    public func validate<T>(builder: BaseBuilder<T>) throws {
         for key in rules.keys {
 
             var value: Any?
@@ -53,13 +53,13 @@ public class Validations: NSObject {
             }
             if value == nil, builder is TransactionBuilder {
                 if key.transactionType != nil,
-                    let transactionBuilder = builder as? TransactionBuilder {
-                    value = Validations.getTransactionType(in: transactionBuilder)
+                    let transactionBuilder = builder as? TransactionBuilder<T> {
+                    value = Validations.getTransactionType(in: transactionBuilder.paymentMethod)
                     if value == nil { continue }
                 }
                 if key.paymentMethodType != nil,
-                    let transactionBuilder = builder as? TransactionBuilder {
-                    value = Validations.getPaymentMethodType(in: transactionBuilder)
+                    let transactionBuilder = builder as? TransactionBuilder<T> {
+                    value = Validations.getPaymentMethodType(in: transactionBuilder.paymentMethod)
                     if value == nil { continue }
                 }
             }
@@ -99,15 +99,15 @@ public class Validations: NSObject {
 
 extension Validations {
 
-    private static func getTransactionType(in baseBuilder: BaseBuilder) -> TransactionType? {
-        return baseBuilder.value(for: "transactionType") as? TransactionType
+    private static func getTransactionType<T: NSObject>(in object: T?) -> TransactionType? {
+        return object?.value(for: "transactionType") as? TransactionType
     }
 
-    private static func getPaymentMethodType(in baseBuilder: BaseBuilder) -> PaymentMethodType? {
-        return baseBuilder.value(for: "paymentMethodType") as? PaymentMethodType
+    private static func getPaymentMethodType<T: NSObject>(in object: T?) -> PaymentMethodType? {
+        return object?.value(for: "paymentMethodType") as? PaymentMethodType
     }
 
-    private static func getTransactionModifier(in baseBuilder: BaseBuilder) -> TransactionModifier? {
+    private static func getTransactionModifier<T>(in baseBuilder: BaseBuilder<T>) -> TransactionModifier? {
         return baseBuilder.value(for: "transactionModifier") as? TransactionModifier
     }
 }
@@ -131,23 +131,5 @@ public class RuleType: NSObject {
             return paymentMethodType == type
         }
         return false
-    }
-}
-
-protocol Test {
-    associatedtype ElementType
-    func type() -> ElementType
-}
-
-extension TransactionType: Test {
-
-    func type() -> TransactionType {
-        return self
-    }
-}
-
-extension PaymentMethodType: Test {
-    func type() -> PaymentMethodType {
-        return self
     }
 }

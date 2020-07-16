@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class MerchantKVP: NSObject {
+public class MerchantKVP: NSObject {
     var key: String
     var value: String
     var isVisible: Bool

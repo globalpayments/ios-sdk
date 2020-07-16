@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class MerchantDataCollection: NSObject {
+public class MerchantDataCollection: NSObject {
 
     private var collection: [MerchantKVP]
 

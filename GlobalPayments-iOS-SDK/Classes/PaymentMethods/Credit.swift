@@ -15,6 +15,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     public var cardType: String? = "Unknown"
     /// A MobileType value representing the Google/Apple.
     public var mobileType: String?
+    public var fleetCard: Bool?
 
     public required override init() { }
 

@@ -17,6 +17,35 @@ public class CardUtils {
         "HeartlandGift": NSRegularExpression("^(?:502244|627720|708355)")
     ]
 
+    private static let fleetBinMap: [String: [String: String]] = [
+        "Visa": [
+            "448460": "448611",
+            "448613": "448615",
+            "448617": "448674",
+            "448676": "448686",
+            "448688": "448699",
+            "461400": "461421",
+            "461423": "461499",
+            "480700": "480899"
+        ],
+        "MC": [
+            "553231": "553380",
+            "556083": "556099",
+            "556100": "556599",
+            "556700": "556999"
+        ],
+        "Wex": [
+            "690046": "690046",
+            "707138": "707138"
+        ],
+        "Voyager": [
+            "708885": "708889"
+        ]
+    ]
+
+    private static let trackOnePattern = NSRegularExpression("%?[B0]?([\\d]+)\\^[^\\^]+\\^([\\d]{4})([^?]+)\\??")
+    private static let trackTwoPattern = NSRegularExpression(";?([\\d]+)[=|w](\\d{4})([^?]+)\\??")
+
     public static func mapCardType(cardNumber: String?) -> String {
         var rValue = "Unknown"
         guard var cardNumber = cardNumber else {
@@ -34,5 +63,60 @@ public class CardUtils {
         }
 
         return rValue
+    }
+
+    public static func parseTrackData<T: TrackData>(paymentMethod: T) -> T {
+        var paymentMethod = paymentMethod
+        let trackData = paymentMethod.value ?? .empty
+        if trackTwoPattern.matches(trackData),
+            let groups = trackTwoPattern.groups(trackData) {
+
+            let pan = groups[safe: 1] ?? .empty
+            let expiry = groups[safe: 2] ?? .empty
+            var discretionary = groups[safe: 3] ?? .empty
+
+            if !discretionary.isEmpty {
+                if (pan + expiry + discretionary).count == 37
+                    && discretionary.lowercased().last == "f" {
+                    discretionary = String(discretionary.dropLast())
+                }
+            }
+            paymentMethod.trackNumber = .trackOne
+            paymentMethod.pan = pan
+            paymentMethod.expiry = expiry
+            paymentMethod.discretionaryData = discretionary
+            paymentMethod.trackData = "\(pan)=\(expiry)\(discretionary)"
+
+        } else {
+            if trackOnePattern.matches(trackData),
+                let groups = trackOnePattern.groups(trackData) {
+                paymentMethod.trackNumber = .trackTwo
+                paymentMethod.pan = groups[safe: 1]
+                paymentMethod.expiry = groups[safe: 2]
+                paymentMethod.discretionaryData = groups[safe: 3]
+                paymentMethod.trackData = String(trackData.dropFirst())
+            }
+        }
+        return paymentMethod
+    }
+
+    public static func isFleet(cardType: String?, pan: String?) -> Bool {
+        if !pan.isNilOrEmpty {
+            guard let cardType = cardType else { return false }
+            let compareValue = Int(cardType.prefix(4)) ?? .zero
+            let baseCardType = cardType.trim("Fleet")
+            if fleetBinMap.keys.contains(baseCardType) {
+                guard let binRanges = fleetBinMap[baseCardType] else { return false }
+                for key in binRanges.keys {
+                    guard let lowerRange = Int(key),
+                        let value = binRanges[key],
+                        let upperRange = Int(value) else { return false }
+                    if compareValue >= lowerRange && compareValue <= upperRange {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
     }
 }

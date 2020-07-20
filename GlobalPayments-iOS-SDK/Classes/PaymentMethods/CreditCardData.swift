@@ -31,11 +31,10 @@ public class CreditCardData: Credit, CardData {
     /// Indicates if a card reader was used when accepting the card data.
     /// Default value is `false`.
     public var readerPresent: Bool = false
-    //    var month = (ExpMonth.HasValue) ? ExpMonth.ToString().PadLeft(2, '0') : string.Empty;
-    //    var year = (ExpYear.HasValue) ? ExpYear.ToString().PadLeft(4, '0').Substring(2, 2) : string.Empty;
-    //    return month + year;
     public var shortExpiry: String {
-        return .empty
+        let month: String = expMonth > .zero ? "\(expMonth)".leftPadding(toLength: 2, withPad: "0") : .empty
+        let year: String = expYear > .zero ? "\(expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : .empty
+        return month + year
     }
 
     public func verifyEnrolled(amount: Decimal,

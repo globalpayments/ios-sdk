@@ -12,17 +12,8 @@ public class EBTCardData: EBT, CardData {
     public var readerPresent: Bool = false
     public var serialNumber: String?
     public var shortExpiry: String {
-        // TODO: There
-        let month: String = expMonth > .zero ? .empty : .empty
-        let year: String = expYear > .zero ? .empty : .empty
+        let month: String = expMonth > .zero ? "\(expMonth)".leftPadding(toLength: 2, withPad: "0") : .empty
+        let year: String = expYear > .zero ? "\(expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : .empty
         return month + year
     }
 }
-
-//public string ShortExpiry {
-//    get {
-//        var month = (ExpMonth.HasValue) ? ExpMonth.ToString().PadLeft(2, '0') : string.Empty;
-//        var year = (ExpYear.HasValue) ? ExpYear.ToString().PadLeft(4, '0').Substring(2, 2) : string.Empty;
-//        return month + year;
-//    }
-//}

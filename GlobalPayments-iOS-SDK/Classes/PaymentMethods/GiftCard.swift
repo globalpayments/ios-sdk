@@ -64,7 +64,7 @@ public class GiftCard: NSObject, PaymentMethod, PrePaid, Balanceable, Reversable
     /// Adds value to to an activated gift card.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func addValue(amount: Decimal) -> AuthorizationBuilder {
+    public func addValue(amount: Decimal? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .addValue, paymentMethod: self)
             .withAmount(amount)
     }
@@ -79,7 +79,7 @@ public class GiftCard: NSObject, PaymentMethod, PrePaid, Balanceable, Reversable
     /// Reverses a previous charge against an activated gift card.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func reverse(amount: Decimal) -> AuthorizationBuilder {
+    public func reverse(amount: Decimal? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .reversal, paymentMethod: self)
             .withAmount(amount)
     }
@@ -87,7 +87,7 @@ public class GiftCard: NSObject, PaymentMethod, PrePaid, Balanceable, Reversable
     /// Creates a charge (sale) transaction against an activated gift card.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func charge(amount: Decimal) -> AuthorizationBuilder {
+    public func charge(amount: Decimal? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .sale, paymentMethod: self)
             .withAmount(amount)
     }

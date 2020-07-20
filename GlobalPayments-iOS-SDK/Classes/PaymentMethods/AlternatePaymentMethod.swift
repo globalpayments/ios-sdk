@@ -18,7 +18,7 @@ public class AlternatePaymentMethod: NSObject, PaymentMethod, Chargeable {
     /// Creates a charge (sale) against the payment method.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func charge(amount: Decimal) -> AuthorizationBuilder {
+    public func charge(amount: Decimal? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .sale, paymentMethod: self)
             .withAmount(amount)
     }

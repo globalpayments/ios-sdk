@@ -14,7 +14,7 @@ public class Cash: NSObject, PaymentMethod, Chargeable, Refundable {
     ///
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func charge(amount: Decimal) -> AuthorizationBuilder {
+    public func charge(amount: Decimal? = nil) -> AuthorizationBuilder {
         print("Aborts when the configured gateway does not support cash transactions.")
         abort()
     }
@@ -27,7 +27,7 @@ public class Cash: NSObject, PaymentMethod, Chargeable, Refundable {
     ///
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func refund(amount: Decimal) -> AuthorizationBuilder {
+    public func refund(amount: Decimal? = nil) -> AuthorizationBuilder {
         print("Aborts when the configured gateway does not support cash transactions.")
         abort()
     }

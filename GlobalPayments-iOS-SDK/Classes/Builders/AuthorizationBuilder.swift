@@ -506,7 +506,7 @@ public class AuthorizationBuilder: TransactionBuilder<Transaction> {
     /// Executes the authorization builder against the gateway.
     /// - Returns: Transaction
     public override func execute(completion: ((Transaction?) -> Void)?) {
-        super.execute(completion: completion)
+        super.execute(completion: nil)
         let client = ServicesContainer.shared.getClient()
         client?.processAuthorization(self, completion: completion)
     }

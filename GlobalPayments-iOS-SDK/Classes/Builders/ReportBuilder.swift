@@ -9,7 +9,7 @@ public class ReportBuilder<TResult: AnyObject>: BaseBuilder<TResult> {
     }
 
     public override func execute(completion: ((TResult?) -> Void)?) {
-        super.execute(completion: completion)
+        super.execute(completion: nil)
         let client = ServicesContainer.shared.getReportingService()
         client?.processReport(builder: self, completion: completion)
     }

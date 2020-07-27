@@ -65,8 +65,7 @@ public class CardUtils {
         return rValue
     }
 
-    public static func parseTrackData<T: TrackData>(paymentMethod: T) -> T {
-        var paymentMethod = paymentMethod
+    @discardableResult public static func parseTrackData<T: TrackData>(paymentMethod: T) -> T {
         let trackData = paymentMethod.value ?? .empty
         if trackTwoPattern.matches(trackData),
             let groups = trackTwoPattern.groups(trackData) {

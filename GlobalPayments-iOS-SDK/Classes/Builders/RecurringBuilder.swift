@@ -23,7 +23,7 @@ public class RecurringBuilder<TResult>: TransactionBuilder<TResult> {
 
     /// Executes the builder against the gateway.
     public override func execute(completion: ((TResult?) -> Void)?) {
-        super.execute(completion: completion)
+        super.execute(completion: nil)
         let client = ServicesContainer.shared.getRecurringClient()
         client?.processRecurring(builder: self, completion: completion)
     }

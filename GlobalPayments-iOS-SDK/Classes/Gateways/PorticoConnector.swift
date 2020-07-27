@@ -18,7 +18,7 @@ public class PorticoConnector: PaymentGateway {
         return nil
     }
 
-    func processReport<T>(_ builder: ReportBuilder<T>) throws where T : AnyObject {
+    func processReport<T>(_ builder: ReportBuilder<T>) throws {
         
     }
 }

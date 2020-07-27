@@ -129,7 +129,7 @@ public class ManagementBuilder: TransactionBuilder<Transaction> {
     }
 
     public override func execute(completion: ((Transaction?) -> Void)?) {
-        super.execute(completion: completion)
+        super.execute(completion: nil)
         ServicesContainer.shared
             .getClient()?
             .manageTransaction(self, completion: { transaction in

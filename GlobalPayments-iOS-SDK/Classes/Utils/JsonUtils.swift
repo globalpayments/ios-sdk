@@ -43,7 +43,7 @@ public class JsonDoc {
         return self
     }
 
-    public func set(for key: String, value: String, force: Bool = false) -> JsonDoc {
+    @discardableResult public func set(for key: String, value: String?, force: Bool = false) -> JsonDoc {
         dict[key] = encoder != nil ? encoder?.encode(value: value) : value
         return self
     }

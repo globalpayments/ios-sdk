@@ -9,8 +9,6 @@ public class Configuration {
     public var serviceUrl: String = .empty
     var validated: Bool = false
 
-    init(services: ConfiguredServices) { }
-
     func configureContainer(services: ConfiguredServices) { }
 
     func validate() {

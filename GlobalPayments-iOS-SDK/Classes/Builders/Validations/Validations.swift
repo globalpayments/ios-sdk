@@ -30,6 +30,11 @@ public class Validations: NSObject {
         return addRule(ruleType)
     }
 
+    public func of(reportType: ReportType) -> ValidationTarget {
+        let ruleType = RuleType(reportType: reportType)
+        return addRule(ruleType)
+    }
+
     private func addRule(_ rule: RuleType) -> ValidationTarget {
         if !rules.keys.contains(rule) {
             rules[rule] = [ValidationTarget]()
@@ -50,6 +55,9 @@ public class Validations: NSObject {
             }
             if key.paymentMethodType != nil {
                 value = Validations.getPaymentMethodType(in: builder)
+            }
+            if key.reportType != nil {
+                value = Validations.getReportType(in: builder)
             }
             if value == nil, builder is TransactionBuilder {
                 if key.transactionType != nil,
@@ -107,6 +115,10 @@ extension Validations {
         return object?.value(for: "paymentMethodType") as? PaymentMethodType
     }
 
+    private static func getReportType<T: NSObject>(in object: T?) -> ReportType? {
+        return object?.value(for: "reportType") as? ReportType
+    }
+
     private static func getTransactionModifier<T>(in baseBuilder: BaseBuilder<T>) -> TransactionModifier? {
         return baseBuilder.value(for: "transactionModifier") as? TransactionModifier
     }
@@ -115,12 +127,15 @@ extension Validations {
 public class RuleType: NSObject {
     let transactionType: TransactionType?
     let paymentMethodType: PaymentMethodType?
+    let reportType: ReportType?
 
     init(transactionType: TransactionType? = nil,
-         paymentMethodType: PaymentMethodType? = nil) {
+         paymentMethodType: PaymentMethodType? = nil,
+         reportType: ReportType? = nil) {
 
         self.transactionType = transactionType
         self.paymentMethodType = paymentMethodType
+        self.reportType = reportType
     }
 
     func contains(value: Any?) -> Bool {
@@ -129,6 +144,9 @@ public class RuleType: NSObject {
         }
         if let type = value as? PaymentMethodType {
             return paymentMethodType == type
+        }
+        if let type = value as? ReportType {
+            return reportType == type
         }
         return false
     }

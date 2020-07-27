@@ -137,4 +137,9 @@ extension NSObject {
         }
         return value(forKey: property)
     }
+
+    public func setValue(_ value: Any?, for property: String) {
+        guard responds(to: Selector(property)) else { return }
+        setValue(value, forKey: property)
+    }
 }

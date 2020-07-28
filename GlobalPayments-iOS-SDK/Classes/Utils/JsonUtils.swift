@@ -117,7 +117,7 @@ public class JsonDoc {
 
     public static func parseSingleValue(_ json: String,
                                         _ name: String,
-                                        _ encoder: RequestEncoder?) -> Any? {
+                                        _ encoder: RequestEncoder? = nil) -> Any? {
         let doc = parse(json, encoder: encoder)
 
         return doc?.get(valueFor: name)

@@ -89,61 +89,30 @@ public class TransactionSummary {
     public var schemeReferenceData: String?
     /// The transaction type.
     public var serviceName: String?
+    /// The settled from the authorization.
+    public var settlementAmount: Decimal?
+    /// The originally requested shipping amount.
+    public var shippingAmount: Decimal?
+    public var siteTrace: String?
+    /// The transaction status.
+    public var status: String?
+    public var surchargeAmount: Decimal?
+    public var taxAmount: Decimal?
+    public var taxType: String?
+    public var terminalId: String?
+    public var tokenPanLastFour: String?
+    /// The date/time of the original transaction.
+    public var transactionDate: Date?
+    public var transactionLocalDate: Date?
+    public var transactionDescriptor: String?
+    public var transactionStatus: String?
+    /// The gateway transaction ID of the transaction.
+    public var transactionId: String?
+    public var uniqueDeviceId: String?
+    public var username: String?
+    public var transactionType: String?
+    public var cardEntryMethod: String?
+    public var amountDue: Decimal?
+    public var hostTimeout: Bool?
+    public var country: String?
 }
-
-//    /// <summary>
-//    /// The settled from the authorization.
-//    /// </summary>
-//    public decimal? SettlementAmount { get; set; }
-//
-//    /// <summary>
-//    /// The originally requested shipping amount.
-//    /// </summary>
-//    public decimal? ShippingAmount { get; set; }
-//
-//    public string SiteTrace { get; set; }
-//
-//    /// <summary>
-//    /// The transaction status.
-//    /// </summary>
-//    public string Status { get; set; }
-//
-//    public decimal? SurchargeAmount { get; set; }
-//
-//    public decimal? TaxAmount { get; set; }
-//
-//    public string TaxType { get; set; }
-//
-//    public string TerminalId { get; set; }
-//
-//    public string TokenPanLastFour { get; set; }
-//
-//    /// <summary>
-//    /// The date/time of the original transaction.
-//    /// </summary>
-//    public DateTime? TransactionDate { get; set; }
-//
-//    public DateTime? TransactionLocalDate { get; set; }
-//
-//    public string TransactionDescriptor { get; set; }
-//
-//    public string TransactionStatus { get; set; }
-//
-//    /// <summary>
-//    /// The gateway transaction ID of the transaction.
-//    /// </summary>
-//    public string TransactionId { get; set; }
-//
-//    public string UniqueDeviceId { get; set; }
-//
-//    public string Username { get; set; }
-//
-//    public string TransactionType { get; set; }
-//
-//    public string CardEntryMethod { get; set; }
-//
-//    public decimal? AmountDue { get; set; }
-//
-//    public bool HostTimeout { get; set; }
-//
-//    public string Country { get; set; }

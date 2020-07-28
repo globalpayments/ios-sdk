@@ -1,6 +1,6 @@
 import Foundation
 
 protocol ReportingService {
-    func processReport<T: AnyObject>(builder: ReportBuilder<T>,
+    func processReport<T>(builder: ReportBuilder<T>,
                                      completion: ((T?) -> Void)?)
 }

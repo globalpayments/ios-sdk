@@ -24,7 +24,7 @@ public struct ReportType: OptionSet {
     /// Indicates a TransactionDetail report.
     public static let transactionDetail = ReportType(rawValue: 1 << 7)
     /// Indicates a deposit report
-    public static let findDepoits       = ReportType(rawValue: 1 << 8)
+    public static let findDeposits      = ReportType(rawValue: 1 << 8)
     /// Indicates a dispute report
     public static let findDisputes      = ReportType(rawValue: 1 << 9)
 }

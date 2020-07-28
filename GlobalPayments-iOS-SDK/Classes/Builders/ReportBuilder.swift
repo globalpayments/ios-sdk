@@ -1,6 +1,6 @@
 import Foundation
 
-public class ReportBuilder<TResult: AnyObject>: BaseBuilder<TResult> {
+public class ReportBuilder<TResult>: BaseBuilder<TResult> {
     var reportType: ReportType
     var timeZoneConversion: TimeZoneConversion?
 

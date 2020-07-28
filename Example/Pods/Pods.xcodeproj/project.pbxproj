@@ -90,6 +90,8 @@
 		8255F8AA24CF2CC900CA0628 /* TransactionSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8255F8A924CF2CC900CA0628 /* TransactionSummary.swift */; };
 		8255F8AC24CF2D6400CA0628 /* AltPaymentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8255F8AB24CF2D6400CA0628 /* AltPaymentData.swift */; };
 		8255F8AE24CF2F1B00CA0628 /* CheckData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8255F8AD24CF2F1B00CA0628 /* CheckData.swift */; };
+		8255F8B024D0783900CA0628 /* DepositSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8255F8AF24D0783900CA0628 /* DepositSummary.swift */; };
+		8255F8B224D07C0300CA0628 /* DisputeSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8255F8B124D07C0300CA0628 /* DisputeSummary.swift */; };
 		82A81E5524C5ADEC00AD397A /* EBTTrackData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A81E5424C5ADEC00AD397A /* EBTTrackData.swift */; };
 		82A81E5724C5B41600AD397A /* eCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A81E5624C5B41600AD397A /* eCheck.swift */; };
 		82A81E5924C5B63600AD397A /* CheckType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A81E5824C5B63600AD397A /* CheckType.swift */; };
@@ -293,6 +295,8 @@
 		8255F8A924CF2CC900CA0628 /* TransactionSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSummary.swift; sourceTree = "<group>"; };
 		8255F8AB24CF2D6400CA0628 /* AltPaymentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltPaymentData.swift; sourceTree = "<group>"; };
 		8255F8AD24CF2F1B00CA0628 /* CheckData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckData.swift; sourceTree = "<group>"; };
+		8255F8AF24D0783900CA0628 /* DepositSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositSummary.swift; sourceTree = "<group>"; };
+		8255F8B124D07C0300CA0628 /* DisputeSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeSummary.swift; sourceTree = "<group>"; };
 		82A81E5424C5ADEC00AD397A /* EBTTrackData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EBTTrackData.swift; sourceTree = "<group>"; };
 		82A81E5624C5B41600AD397A /* eCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eCheck.swift; sourceTree = "<group>"; };
 		82A81E5824C5B63600AD397A /* CheckType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckType.swift; sourceTree = "<group>"; };
@@ -710,6 +714,8 @@
 				8255F8AB24CF2D6400CA0628 /* AltPaymentData.swift */,
 				8255F8A924CF2CC900CA0628 /* TransactionSummary.swift */,
 				8255F8AD24CF2F1B00CA0628 /* CheckData.swift */,
+				8255F8AF24D0783900CA0628 /* DepositSummary.swift */,
+				8255F8B124D07C0300CA0628 /* DisputeSummary.swift */,
 				0854B549BE30417A5C6FE2C8A6AC9C61 /* Enums */,
 				96CCBECA17777F9D287284CC01F5EC65 /* Exceptions */,
 				04CC23075FBBE9FFF525F2FB3430879C /* Lodging */,
@@ -1080,6 +1086,7 @@
 				D9230508E896CFEA4517E7AE76ECE8ED /* PorticoConnector.swift in Sources */,
 				82D5CE2A24C83F4B00EB2EF4 /* JsonUtils.swift in Sources */,
 				C6C9CA39CCB57ED2DAA72F975BB526A2 /* PreOrderIndicator.swift in Sources */,
+				8255F8B024D0783900CA0628 /* DepositSummary.swift in Sources */,
 				886EA7B09E28AE8540C530B10A35747F /* PrePaid.swift in Sources */,
 				2C1B106F4DFCB2773961ED2684124DFD /* PrePayable.swift in Sources */,
 				6B611224E44C3444D0855B769F44D561 /* PrestigiousPropertyLimit.swift in Sources */,
@@ -1104,6 +1111,7 @@
 				8217972F24CF091700495291 /* SortDirection.swift in Sources */,
 				2DA6BB0A0E4A774BCBF88AC8DC4D898E /* ReversalReasonCode.swift in Sources */,
 				178CE1EC5373AFF373E105929B6C232F /* Risk.swift in Sources */,
+				8255F8B224D07C0300CA0628 /* DisputeSummary.swift in Sources */,
 				6B091370AC9EA73F6DDCFE7615B38A5C /* Schedule.swift in Sources */,
 				02EBA6E6F4FD9833CC0BA03373A6EA9A /* ScheduleFrequency.swift in Sources */,
 				355A2FA0B760586DC095A9CDE93869F3 /* SdkInterface.swift in Sources */,

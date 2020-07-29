@@ -32,8 +32,8 @@ public class ServicesContainer {
         return nil
     }
 
-    public func configure(config: ServiceConfig) throws {
-        config.validate()
+    public func configure(config: ServicesConfig) throws {
+        try config.validate()
         gateway = nil
 //        if !config.merchantId.isNilOrEmpty {
 //            if config.serviceUrl.isNilOrEmpty {

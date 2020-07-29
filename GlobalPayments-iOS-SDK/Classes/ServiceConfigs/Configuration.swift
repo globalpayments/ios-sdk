@@ -6,12 +6,12 @@ public class Configuration {
     var environment: Environment = .test
     public var requestLogger: RequestLogger?
     /// Gateway service URL
-    public var serviceUrl: String = .empty
+    public var serviceUrl: String?
     var validated: Bool = false
 
     func configureContainer(services: ConfiguredServices) { }
 
-    func validate() {
+    func validate() throws {
         validated = true
     }
 }

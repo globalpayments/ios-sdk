@@ -16,5 +16,4 @@ protocol PaymentGateway {
     func manageTransaction(_ builder: ManagementBuilder,
                            completion: ((Transaction?) -> Void)?)
     func serializeRequest(_ builder: AuthorizationBuilder) -> String?
-    func processReport<T>(_ builder: ReportBuilder<T>) throws
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Configuration for connecting to a payment gateway
-public class ServiceConfig {
+public class ServicesConfig {
     /// Connection details for your processing gateway
     public var gatewayConfig: GatewayConfig?
 
@@ -11,7 +11,7 @@ public class ServiceConfig {
         }
     }
 
-    func validate() {
-        gatewayConfig?.validate()
+    func validate() throws {
+        try gatewayConfig?.validate()
     }
 }

@@ -1,8 +1,13 @@
 import Foundation
+import CommonCrypto
 
 extension String {
 
     static let empty = ""
+
+    var sha512: String {
+        return HMAC.hash(self, algorithm: .SHA512)
+    }
 
     func base64Encoded() -> String? {
         return data(using: .utf8)?.base64EncodedString()
@@ -34,5 +39,62 @@ extension String {
         } else {
             return String(self.suffix(toLength))
         }
+    }
+}
+
+private struct HMAC {
+
+    static func hash(_ input: String, algorithm: HMACAlgorithm) -> String {
+        guard let stringData = input.data(using: .utf8, allowLossyConversion: false) else {
+            return .empty
+        }
+
+        return hexStringFromData(digest(stringData as NSData, algorithm: algorithm))
+    }
+
+    private static func digest(_ input: NSData, algorithm: HMACAlgorithm) -> NSData {
+        let digestLength = algorithm.digestLength()
+        var hash = [UInt8](repeating: 0, count: digestLength)
+
+        switch algorithm {
+        case .MD5: CC_MD5(input.bytes, UInt32(input.length), &hash)
+        case .SHA1: CC_SHA1(input.bytes, UInt32(input.length), &hash)
+        case .SHA224: CC_SHA224(input.bytes, UInt32(input.length), &hash)
+        case .SHA256: CC_SHA256(input.bytes, UInt32(input.length), &hash)
+        case .SHA384: CC_SHA384(input.bytes, UInt32(input.length), &hash)
+        case .SHA512: CC_SHA512(input.bytes, UInt32(input.length), &hash)
+        }
+
+        return NSData(bytes: hash, length: digestLength)
+    }
+
+    private static func hexStringFromData(_ input: NSData) -> String {
+
+        var bytes = [UInt8](repeating: 0, count: input.length)
+        input.getBytes(&bytes, length: input.length)
+        var hexString = ""
+        for byte in bytes {
+            hexString += String(format:"%02x", UInt8(byte))
+        }
+        return hexString
+    }
+}
+
+private enum HMACAlgorithm {
+
+    case MD5, SHA1, SHA224, SHA256, SHA384, SHA512
+
+    func digestLength() -> Int {
+
+        var result: CInt = 0
+        switch self {
+        case .MD5: result = CC_MD5_DIGEST_LENGTH
+        case .SHA1: result = CC_SHA1_DIGEST_LENGTH
+        case .SHA224: result = CC_SHA224_DIGEST_LENGTH
+        case .SHA256: result = CC_SHA256_DIGEST_LENGTH
+        case .SHA384: result = CC_SHA384_DIGEST_LENGTH
+        case .SHA512: result = CC_SHA512_DIGEST_LENGTH
+        }
+        return Int(result)
     }
 }

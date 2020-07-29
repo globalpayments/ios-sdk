@@ -19,33 +19,24 @@ public class GatewayConfig: Configuration {
     }
 
     override func configureContainer(services: ConfiguredServices) {
-//        let reportingService = DataSer
+        let reportingService = DataServicesConnector()
+        reportingService.clientId = dataClientId
+        reportingService.clientSecret = dataClientSecret
+        reportingService.userId = dataClientUserId
+        reportingService.serviceUrl = dataClientSeviceUrl ?? "https://globalpay-test.apigee.net/apis/reporting/"
+        services.reportingService = reportingService
+    }
+
+    override func validate() throws {
+        try super.validate()
+
+        if !dataClientId.isNilOrEmpty || !dataClientSecret.isNilOrEmpty {
+            if dataClientId.isNilOrEmpty || dataClientSecret.isNilOrEmpty {
+                throw ConfigurationException.generic(message: "Both \"DataClientID\" and \"DataClientSecret\" are required for data client services.")
+            }
+            if dataClientUserId.isNilOrEmpty {
+                throw ConfigurationException.generic(message: "DataClientUserId required for data client services.")
+            }
+        }
     }
 }
-
-//
-//    internal override void ConfigureContainer(ConfiguredServices services) {
-//        var reportingService = new DataServicesConnector {
-//            ClientId = DataClientId,
-//            ClientSecret = DataClientSecret,
-//            UserId = DataClientUserId,
-//            ServiceUrl = DataClientSeviceUrl ?? "https://globalpay-test.apigee.net/apis/reporting/",
-//            Timeout = Timeout
-//        };
-//        services.ReportingService = reportingService;
-//    }
-//
-//    internal override void Validate() {
-//        base.Validate();
-//
-//        // data client
-//        if (!string.IsNullOrEmpty(DataClientId) || !string.IsNullOrEmpty(DataClientSecret)) {
-//            if (string.IsNullOrEmpty(DataClientId) || string.IsNullOrEmpty(DataClientSecret)) {
-//                throw new ConfigurationException("Both \"DataClientID\" and \"DataClientSecret\" are required for data client services.");
-//            }
-//            if (string.IsNullOrEmpty(DataClientUserId)) {
-//                throw new ConfigurationException("DataClientUserId required for data client services.");
-//            }
-//        }
-//    }
-//}

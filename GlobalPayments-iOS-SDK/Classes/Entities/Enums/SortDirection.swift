@@ -1,6 +1,6 @@
 import Foundation
 
-public enum SortDirection {
-    case ascending
-    case descending
+public enum SortDirection: String {
+    case ascending = "ASC"
+    case descending = "DESC"
 }

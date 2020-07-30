@@ -1,7 +1,11 @@
 import Foundation
 
+/// Indicates the tax type.
 public enum TaxType: String {
-    case notUsed = "NOTUSED"
-    case salesTax = "SALESTAX"
-    case taxExempt = "TAXEXEMPT"
+    /// Indicates tax was not used.
+    case notUsed
+    /// Indicates sales tax was applied.
+    case salesTax
+    /// Indicates tax exemption.
+    case taxExempt
 }

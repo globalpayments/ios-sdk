@@ -6,7 +6,7 @@ public class AuthorizationBuilder: TransactionBuilder<Transaction> {
     var alias: String?
     var aliasAction: AliasAction?
     var allowDuplicates: Bool?
-    var allowPartialAuth: Bool?
+    var allowPartialAuth: Bool = false
     var amount: Decimal?
     var amountEstimated: Bool?
     var authAmount: Decimal?
@@ -28,6 +28,8 @@ public class AuthorizationBuilder: TransactionBuilder<Transaction> {
     var decisionManager: DecisionManager?
     var dynamicDescriptor: String?
     var ecommerceInfo: EcommerceInfo?
+    var emvFallbackCondition: EmvFallbackCondition?
+    var emvLastChipRead: EmvLastChipRead?
     var emvChipCondition: EmvChipCondition?
     var fraudFilterMode: FraudFilterMode = .none
     var gratuity: Decimal?
@@ -53,6 +55,13 @@ public class AuthorizationBuilder: TransactionBuilder<Transaction> {
     var supplementaryData: [String: [String]]?
     var tagData: String?
     var timestamp: String?
+    var surchargeAmount: Decimal?
+
+    var hasEmvFallbackData: Bool {
+        return emvFallbackCondition != nil ||
+            emvLastChipRead != nil ||
+            !paymentApplicationVersion.isNilOrEmpty
+    }
 
     /// Set the request amount
     /// - Parameter amount: Request amount

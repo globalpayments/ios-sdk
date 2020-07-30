@@ -6,6 +6,7 @@ import Foundation
     case additional
     case offline
     case levelII
+    case levelIII
     case fraudDecline
     case chipDecline
     case cashBack

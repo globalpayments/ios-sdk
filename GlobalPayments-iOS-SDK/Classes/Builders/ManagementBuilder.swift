@@ -18,6 +18,7 @@ public class ManagementBuilder: TransactionBuilder<Transaction> {
         }
         return paymentMethod.clientTransactionId
     }
+    var commercialData: CommercialData?
     /// Request currency
     var currency: String?
     var customerId: String?
@@ -26,17 +27,31 @@ public class ManagementBuilder: TransactionBuilder<Transaction> {
     var gratuity: Decimal?
     /// Request purchase order number
     var poNumber: String?
-    var reasonCode: String?
     /// Request tax amount
     var taxAmount: Decimal?
     var taxType: TaxType?
     /// Previous request's transaction reference
     var alternativePaymentType: String?
+    var orderId: String? {
+        guard let paymentMethod = paymentMethod as? TransactionReference else {
+            return nil
+        }
+        return paymentMethod.orderId
+    }
     var payerAuthenticationResponse: String?
+    var reasonCode: ReasonCode?
+    var supplementaryData: [String: [String]]?
     var multiCapturePaymentCount: Int?
     var multiCaptureSequence: Int?
     var invoiceNumber: String?
     var lodgingData: LodgingData?
+    var transactionId: String? {
+        guard let paymentMethod = paymentMethod as? TransactionReference else {
+            return nil
+        }
+        return paymentMethod.transactionId
+    }
+    var voidReason: VoidReason?
 
     /// Sets the current transaction's amount.
     /// - Parameter amount: The amount
@@ -61,6 +76,16 @@ public class ManagementBuilder: TransactionBuilder<Transaction> {
         self.multiCapture = true
         self.multiCaptureSequence = sequence
         self.multiCapturePaymentCount = paymentCount
+        return self
+    }
+
+    public func withCommercialData(_ commercialData: CommercialData) -> ManagementBuilder {
+        self.commercialData = commercialData
+        if commercialData.commercialIndicator == .level_II {
+            transactionModifier = .levelII
+        } else {
+            transactionModifier = .levelIII
+        }
         return self
     }
 
@@ -115,7 +140,23 @@ public class ManagementBuilder: TransactionBuilder<Transaction> {
         return self
     }
 
-    func withModifier(_ modifier: TransactionModifier) -> ManagementBuilder {
+    /// Sets the reason code for the transaction.
+    /// - Parameter reasonCode: The reason code
+    /// - Returns: ManagementBuilder
+    public func withReasonCode(_ reasonCode: ReasonCode?) -> ManagementBuilder {
+        self.reasonCode = reasonCode
+        return self
+    }
+
+    public func withSupplementaryData(type: String, values: [String]) -> ManagementBuilder {
+        if supplementaryData == nil {
+            supplementaryData = [String: [String]]()
+        }
+        supplementaryData?[type] = values
+        return self
+    }
+
+    public func withModifier(_ modifier: TransactionModifier) -> ManagementBuilder {
         self.transactionModifier = modifier
         return self
     }
@@ -125,6 +166,11 @@ public class ManagementBuilder: TransactionBuilder<Transaction> {
     /// - Returns: ManagementBuilder
     public func withLodgingData(_ lodgingData: LodgingData) -> ManagementBuilder {
         self.lodgingData = lodgingData
+        return self
+    }
+
+    public func withVoidReason(_ voidReason: VoidReason?) -> ManagementBuilder {
+        self.voidReason = voidReason
         return self
     }
 

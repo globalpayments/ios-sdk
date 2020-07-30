@@ -1,13 +1,22 @@
 import Foundation
 
 /// Indicates CVN presence at time of payment
-@objc public enum CvnPresenceIndicator: Int {
+public enum CvnPresenceIndicator: String, Mappable {
     /// Indicates CVN was present
-    case present
+    case present = "PRESENT"
     /// Indicates CVN was present but illegible
-    case illegible
+    case illegible = "ILLEGIBLE"
     /// Indicates CVN was not present
-    case notOnCard
+    case notOnCard = "NOT_PRESENT"
     /// Indicates CVN was not requested
     case notRequested
+
+    public func mapped(for target: Target) -> String? {
+        switch target {
+        case .gpApi:
+            return self.rawValue
+        default:
+            return nil
+        }
+    }
 }

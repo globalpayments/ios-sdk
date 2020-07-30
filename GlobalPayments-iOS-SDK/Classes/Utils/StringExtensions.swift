@@ -27,6 +27,8 @@ extension String {
     }
 
     func substring(with range: Range<Int>) -> String {
+        guard self.count >= range.lowerBound,
+            self.count >= range.upperBound else { return .empty }
         let startIndex = index(from: range.lowerBound)
         let endIndex = index(from: range.upperBound)
         return String(self[startIndex..<endIndex])

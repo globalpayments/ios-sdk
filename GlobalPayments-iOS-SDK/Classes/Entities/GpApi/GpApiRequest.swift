@@ -1,11 +1,11 @@
 import Foundation
 
 class GpApiRequest {
-    var endpoint: String?
+    var endpoint: String
     var requestBody: String?
     var resultsField: String?
 
-    init(endpoint: String? = nil,
+    init(endpoint: String,
          requestBody: String? = nil,
          resultsField: String? = nil) {
 

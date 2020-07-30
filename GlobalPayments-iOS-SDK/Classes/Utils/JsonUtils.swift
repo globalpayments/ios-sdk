@@ -48,6 +48,11 @@ public class JsonDoc {
         return self
     }
 
+    @discardableResult public func set(for key: String, doc: JsonDoc?) -> JsonDoc {
+        dict[key] = doc
+        return self
+    }
+
     public func subElement(for key: String) -> JsonDoc {
         let subRequest = JsonDoc()
         dict[key] = subRequest

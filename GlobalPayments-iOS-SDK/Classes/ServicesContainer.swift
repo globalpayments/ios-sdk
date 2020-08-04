@@ -9,160 +9,79 @@ public class ServicesContainer {
 
     public static let shared = ServicesContainer()
 
-    private var secure3dProviders: [Secure3dVersion: Secure3dProvider]
-    var gateway: PaymentGateway?
-    var recurring: IRecurringService?
-    var reportingService: ReportingService?
+    private var configurations = [String: ConfiguredServices]()
 
-    public init() {
-        self.secure3dProviders = [Secure3dVersion: Secure3dProvider]()
-    }
-
-    public func secure3dProvider(_ version: Secure3dVersion) -> Secure3dProvider? {
-        if secure3dProviders.keys.contains(version) {
-            return secure3dProviders[version]
-        } else if version == .any {
-            var provider = secure3dProviders[.two]
-            if provider == nil {
-                provider = secure3dProviders[.one]
-            }
-            return provider
-        }
-
-        return nil
-    }
-
-    public func configure(config: ServicesConfig) throws {
+    /// Configure the SDK's various gateway/device interactions
+    public static func configure(config: ServicesConfig,
+                                 configName: String = "default") throws {
         try config.validate()
-        gateway = nil
-//        if !config.merchantId.isNilOrEmpty {
-//            if config.serviceUrl.isNilOrEmpty {
-//                if config.environment == .test {
-//                    config.serviceUrl = ServiceEndpoints.globalEcomTest.rawValue
-//                } else {
-//                    config.serviceUrl = ServiceEndpoints.globalEcomProduction.rawValue
-//                }
-//            }
-        
-//            $gateway = new RealexConnector();
-//            $gateway->accountId = $config->accountId;
-//            $gateway->channel = $config->channel;
-//            $gateway->merchantId = $config->merchantId;
-//            $gateway->rebatePassword = $config->rebatePassword;
-//            $gateway->refundPassword = $config->refundPassword;
-//            $gateway->sharedSecret = $config->sharedSecret;
-//            $gateway->timeout = $config->timeout;
-//            $gateway->serviceUrl = $config->serviceUrl;
-//            $gateway->hostedPaymentConfig = $config->hostedPaymentConfig;
-//            $gateway->curlOptions = $config->curlOptions;
-//            static::$instance = new static($gateway, $gateway);
-//            // set default
-//            if ($config->secure3dVersion == null) {
-//                $config->secure3dVersion = Secure3dVersion::ONE;
-//            }
-//
-//            // secure 3d v1
-//            if ($config->secure3dVersion === Secure3dVersion::ONE || $config->secure3dVersion === Secure3dVersion::ANY) {
-//                static::$instance->setSecure3dProvider(Secure3dVersion::ONE, $gateway);
-//            }
-//
-//            // secure 3d v2
-//            if ($config->secure3dVersion === Secure3dVersion::TWO || $config->secure3dVersion === Secure3dVersion::ANY) {
-//                $secure3d2 = new Gp3DSProvider();
-//                $secure3d2->setMerchantId($config->merchantId);
-//                $secure3d2->setAccountId($config->accountId);
-//                $secure3d2->setSharedSecret($config->sharedSecret);
-//                $secure3d2->serviceUrl = $config->environment == Environment::TEST ? ServiceEndpoints::THREE_DS_AUTH_TEST : ServiceEndpoints::THREE_DS_AUTH_PRODUCTION;
-//                $secure3d2->setMerchantContactUrl($config->merchantContactUrl);
-//                $secure3d2->setMethodNotificationUrl($config->methodNotificationUrl);
-//                $secure3d2->setChallengeNotificationUrl($config->challengeNotificationUrl);
-//                $secure3d2->timeout = $config->timeout;
-//
-//                static::$instance->setSecure3dProvider(Secure3dVersion::TWO, $secure3d2);
-//            }
-
-
-//        } else {
-//            if config.serviceUrl.isNilOrEmpty && !config.secretApiKey.isNilOrEmpty {
-//                let env = config.secretApiKey?.components(separatedBy: "_")[safe: 1]
-//                if let env = env, env == "prod" {
-//                    config.serviceUrl = ServiceEndpoints.porticoProduction.rawValue
-//                } else {
-//                    config.serviceUrl = ServiceEndpoints.porticoTest.rawValue
-//                }
-//            }
-
-//            $gateway = new PorticoConnector();
-//            $gateway->siteId = $config->siteId;
-//            $gateway->licenseId = $config->licenseId;
-//            $gateway->deviceId = $config->deviceId;
-//            $gateway->username = $config->username;
-//            $gateway->password = $config->password;
-//            $gateway->secretApiKey = $config->secretApiKey;
-//            $gateway->developerId = $config->developerId;
-//            $gateway->versionNumber = $config->versionNumber;
-//            $gateway->timeout = $config->timeout;
-//            $gateway->serviceUrl = $config->serviceUrl . '/Hps.Exchange.PosGateway/PosGatewayService.asmx';
-//            $gateway->curlOptions = $config->curlOptions;
-//
-//            $payplanEndPoint = (strpos(strtolower($config->serviceUrl), 'cert.') > 0) ?
-//                                '/Portico.PayPlan.v2/':
-//                                '/PayPlan.v2/';
-//
-//            $recurring = new PayPlanConnector();
-//            $recurring->siteId = $config->siteId;
-//            $recurring->licenseId = $config->licenseId;
-//            $recurring->deviceId = $config->deviceId;
-//            $recurring->username = $config->username;
-//            $recurring->password = $config->password;
-//            $recurring->secretApiKey = $config->secretApiKey;
-//            $recurring->developerId = $config->developerId;
-//            $recurring->versionNumber = $config->versionNumber;
-//            $recurring->timeout = $config->timeout;
-//            $recurring->serviceUrl = $config->serviceUrl . $payplanEndPoint;
-//            $recurring->curlOptions = $config->curlOptions;
-//
-//            static::$instance = new static($gateway, $recurring);
-//        }
+        try configureService(config: config.gatewayConfig, configName: configName)
     }
 
-    /// Gets the configured gateway connector
-    /// - Returns: PaymentGateway?
-    func getClient() -> PaymentGateway? {
-        return gateway
+    public static func configureService<T: Configuration>(config: T?,
+                                                          configName: String = "default") throws {
+        if let config = config {
+            if !config.validated {
+                try config.validate()
+            }
+
+            let configuredService = shared.configuration(for: configName)
+            config.configureContainer(services: configuredService)
+
+            shared.addConfiguration(configName: configName, config: configuredService)
+        }
+    }
+    
+    private func configuration(for configName: String) -> ConfiguredServices {
+        guard let configuredService = configurations[configName] else {
+            return ConfiguredServices()
+        }
+        return configuredService
     }
 
-    /// Gets the configured recurring gateway connector
-    /// - Returns: IRecurringService?
-    func getRecurringClient() -> IRecurringService? {
-        return recurring
+    private func addConfiguration(configName: String, config: ConfiguredServices) {
+        configurations[configName] = config
     }
 
-    func getReportingService() -> ReportingService? {
-        return reportingService
-    }
-
-    public func getSecure3d(version: Secure3dVersion) throws -> Secure3dProvider {
-        guard let provider = secure3dProviders[version] else {
-            throw ConfigurationException.generic(message: "Secure 3d is not configured for version \(version)")
+    func secure3DProvider(configName: String,
+                          version: Secure3dVersion) throws -> Secure3dProvider {
+        guard let configuredService = configurations[configName] else {
+            throw ConfigurationException.generic(
+                message: "Secure 3d is not configured on the connector."
+            )
+        }
+        guard let provider = configuredService.secure3DProvider(for: version) else {
+            throw ConfigurationException.generic(
+                message: "Secure 3d is not configured for version \(version)"
+            )
         }
         return provider
     }
-}
 
-//public class ServicesContainer {
-//    private var configurations = [String: ConfiguredServices]()
-//
-//    public static let shared = ServicesContainer()
-//
-//    public static func configure(config: ServiceConfig) {
-//        config.validate()
-//    }
-//
-//    public static func configureService<T: Configuration>(config: T) {
-//        if !config.validated {
-//            config.validate()
-//        }
-//        let cs = shared.get
-//    }
-//}
+    func reportingClient(configName: String) throws -> ReportingService {
+        guard let reportingService = configurations[configName]?.reportingService else {
+            throw ApiException.generic(
+                message: "The specified configuration has not been configured for reporting."
+            )
+        }
+        return reportingService
+    }
+
+    func client(configName: String) throws -> PaymentGateway {
+        guard let gatewayConnector = configurations[configName]?.gatewayConnector else {
+            throw ApiException.generic(
+                message: "The specified configuration has not been configured for gateway processing."
+            )
+        }
+        return gatewayConnector
+    }
+
+    func recurringClient(configName: String) throws -> IRecurringService {
+        guard let recurringConnector = configurations[configName]?.recurringConnector else {
+            throw ApiException.generic(
+                message: "The specified configuration has not been configured for recurring processing."
+            )
+        }
+        return recurringConnector
+    }
+}

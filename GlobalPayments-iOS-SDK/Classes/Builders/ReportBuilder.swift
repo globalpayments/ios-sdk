@@ -8,9 +8,10 @@ public class ReportBuilder<TResult>: BaseBuilder<TResult> {
         self.reportType = reportType
     }
 
-    public override func execute(completion: ((TResult?) -> Void)?) {
-        super.execute(completion: nil)
-        let client = ServicesContainer.shared.getReportingService()
+    public override func execute(configName: String = "default",
+                                 completion: ((TResult?) -> Void)?) {
+        super.execute(configName: configName, completion: nil)
+        let client = try? ServicesContainer.shared.reportingClient(configName: configName)
         client?.processReport(builder: self, completion: completion)
     }
 }

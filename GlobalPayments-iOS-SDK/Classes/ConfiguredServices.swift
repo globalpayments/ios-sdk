@@ -2,14 +2,14 @@ public class ConfiguredServices {
 
     private var secure3dProviders: [Secure3dVersion: Secure3dProvider]
     var gatewayConnector: PaymentGateway?
-    var recurringConnector: RecurringService?
     var reportingService: ReportingService?
+    var recurringConnector: IRecurringService?
 
     public init() {
         self.secure3dProviders = [Secure3dVersion: Secure3dProvider]()
     }
 
-    func getSecure3DProvider(version: Secure3dVersion) -> Secure3dProvider? {
+    func secure3DProvider(for version: Secure3dVersion) -> Secure3dProvider? {
         if secure3dProviders.keys.contains(version) {
             return secure3dProviders[version]
         } else if version == .any {

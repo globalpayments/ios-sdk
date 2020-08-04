@@ -2,9 +2,9 @@ import Foundation
 
 public class GpApiConfig: GatewayConfig {
     /// GP API app id
-    public var appId: String?
+    public let appId: String
     /// GP API app key
-    public var appKey: String?
+    public let appKey: String
     /// A unique random value included while creating the secret
     public var nonce: String = "transactionsapi"
     /// The time left in seconds before the token expires
@@ -16,7 +16,9 @@ public class GpApiConfig: GatewayConfig {
     /// Language
     public var language: Language = .english
 
-    public init() {
+    public init(appId: String, appKey: String) {
+        self.appId = appId
+        self.appKey = appKey
         super.init(gatewayProvider: .gpAPI)
     }
 
@@ -29,34 +31,18 @@ public class GpApiConfig: GatewayConfig {
             }
         }
 
-//        let gateway = GpApiConfig
+        let gateway = GpApiConnector()
+        gateway.appId = appId
+        gateway.appKey = appKey
+        gateway.nonce = nonce
+        gateway.secondsToExpire = secondsToExpire
+        gateway.intervalToExpire = intervalToExpire
+        gateway.channel = channel
+        gateway.language = language
+        gateway.serviceUrl = serviceUrl
+        gateway.timeout = timeout
+
+        services.gatewayConnector = gateway
+        services.reportingService = gateway
     }
 }
-
-//
-//
-//    internal override void ConfigureContainer(ConfiguredServices services) {
-//        var gateway = new GpApiConnector {
-//            AppId = AppId,
-//            AppKey = AppKey,
-//            Nonce = Nonce,
-//            SecondsToExpire = SecondsToExpire,
-//            IntervalToExpire = IntervalToExpire,
-//            Channel = Channel,
-//            Language = Language,
-//            ServiceUrl = ServiceUrl,
-//            Timeout = Timeout
-//        };
-//
-//        services.GatewayConnector = gateway;
-//
-//        services.ReportingService = gateway;
-//    }
-//
-//    internal override void Validate() {
-//        base.Validate();
-//
-//        if (AppId == null || AppKey == null)
-//            throw new ConfigurationException("AppId and AppKey cannot be null.");
-//    }
-//}

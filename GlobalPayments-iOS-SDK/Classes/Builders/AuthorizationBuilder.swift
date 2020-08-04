@@ -514,18 +514,19 @@ public class AuthorizationBuilder: TransactionBuilder<Transaction> {
 
     /// Executes the authorization builder against the gateway.
     /// - Returns: Transaction
-    public override func execute(completion: ((Transaction?) -> Void)?) {
-        super.execute(completion: nil)
-        let client = ServicesContainer.shared.getClient()
+    public override func execute(configName: String = "default",
+                                 completion: ((Transaction?) -> Void)?) {
+        super.execute(configName: configName, completion: completion)
+        let client = try? ServicesContainer.shared.client(configName: configName)
         client?.processAuthorization(self, completion: completion)
     }
 
-    public func serialize() throws -> String? {
+    public func serialize(configName: String = "default") throws -> String? {
         transactionModifier = .hostedRequest
         super.execute(completion: nil)
 
-        let client = ServicesContainer.shared.getClient()
-        if let client = client, client.supportsHostedPayments {
+        let client = try ServicesContainer.shared.client(configName: configName)
+        if client.supportsHostedPayments {
             return client.serializeRequest(self)
         }
         throw UnsupportedTransactionException.generic(message: "You current gateway does not support hosted payments.")

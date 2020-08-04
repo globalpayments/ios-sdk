@@ -174,10 +174,12 @@ public class ManagementBuilder: TransactionBuilder<Transaction> {
         return self
     }
 
-    public override func execute(completion: ((Transaction?) -> Void)?) {
-        super.execute(completion: nil)
-        ServicesContainer.shared
-            .getClient()?
+    public override func execute(configName: String = "default",
+                                 completion: ((Transaction?) -> Void)?) {
+
+        super.execute(configName: configName, completion: nil)
+        try? ServicesContainer.shared
+            .client(configName: configName)
             .manageTransaction(self, completion: { transaction in
                 completion?(transaction)
             })

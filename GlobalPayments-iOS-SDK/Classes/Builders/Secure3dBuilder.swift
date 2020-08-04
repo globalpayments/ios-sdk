@@ -485,11 +485,13 @@ public class Secure3dBuilder: BaseBuilder<ThreeDSecure> {
             customerAuthenticationMethod != nil
     }
 
-    public override func execute(completion: ((ThreeDSecure?) -> Void)?) {
-        execute(version: .any, completion: completion)
+    public override func execute(configName: String = "default",
+                                 completion: ((ThreeDSecure?) -> Void)?) {
+        execute(version: .any, configName: configName, completion: completion)
     }
 
     public func execute(version: Secure3dVersion,
+                        configName: String = "default",
                         completion: ((ThreeDSecure?) -> Void)?) {
 
         var version: Secure3dVersion = version
@@ -508,12 +510,18 @@ public class Secure3dBuilder: BaseBuilder<ThreeDSecure> {
         }
 
         // get the provider
-        let provider = try? ServicesContainer.shared.getSecure3d(version: version)
+        let provider = try? ServicesContainer.shared.secure3DProvider(
+            configName: configName,
+            version: version
+        )
         if provider != nil {
             var canDowngrade = false
             if provider?.getVersion() == .two && version == .any {
                 do {
-                    _ = try ServicesContainer.shared.getSecure3d(version: .one)
+                    _ = try ServicesContainer.shared.secure3DProvider(
+                        configName: configName,
+                        version: .one
+                    )
                     canDowngrade = true
                 } catch { /* NOT CONFIGURED */ }
             }

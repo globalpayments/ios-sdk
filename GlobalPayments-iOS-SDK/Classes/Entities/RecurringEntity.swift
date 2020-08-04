@@ -28,8 +28,10 @@ public class RecurringEntity<TResult>: NSObject, Recurring {
         RecurringService.delete(entity: self, completion: nil)
     }
 
-    public static func find(id: String, completion: ((TResult?) -> Void)?) throws {
-        let client = ServicesContainer.shared.getRecurringClient()!
+    public static func find(id: String,
+                            configName: String = "default",
+                            completion: ((TResult?) -> Void)?) throws {
+        let client = try ServicesContainer.shared.recurringClient(configName: configName)
         if client.supportsRetrieval {
             let identifier = getIdentifierName()
 
@@ -53,8 +55,9 @@ public class RecurringEntity<TResult>: NSObject, Recurring {
     /// Lists all records of type `TResult`.
     /// - Parameter completion: [TResult]
     /// - Throws: Thrown when gateway does not support retrieving recurring records.
-    public static func findAll(completion: (([TResult]?) -> Void)?) throws {
-        let client = ServicesContainer.shared.getRecurringClient()!
+    public static func findAll(configName: String = "default",
+                               completion: (([TResult]?) -> Void)?) throws {
+        let client = try ServicesContainer.shared.recurringClient(configName: configName)
         if client.supportsRetrieval {
             let service: RecurringBuilder<NSArray> = RecurringService.search()
             service.execute { results in

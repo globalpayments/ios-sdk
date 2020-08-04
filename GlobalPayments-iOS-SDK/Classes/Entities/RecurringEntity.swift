@@ -17,9 +17,13 @@ public class RecurringEntity<TResult>: NSObject, Recurring {
 
     /// Creates a resource
     /// - Parameter completion: TResult
-    public func create(completion: ((TResult?) -> Void)?) {
-        RecurringService.create(entity: self) { recurring in
-            completion?(recurring as? TResult)
+    public func create(completion: ((TResult?, Error?) -> Void)?) {
+        RecurringService.create(entity: self) { recurring, error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            completion?((recurring as? TResult), nil)
         }
     }
 
@@ -30,20 +34,24 @@ public class RecurringEntity<TResult>: NSObject, Recurring {
 
     public static func find(id: String,
                             configName: String = "default",
-                            completion: ((TResult?) -> Void)?) throws {
+                            completion: ((TResult?, Error?) -> Void)?) throws {
         let client = try ServicesContainer.shared.recurringClient(configName: configName)
         if client.supportsRetrieval {
             let identifier = getIdentifierName()
 
             let service: RecurringBuilder<[Recurring]> = RecurringService.search()
             service.addSearchCriteria(key: identifier, value: id)
-                .execute { results in
+                .execute { results, error in
                     if let entity = results?.first, entity.id == id {
-                        RecurringService.get(entity: entity) { recurring in
-                            completion?(recurring as? TResult)
+                        RecurringService.get(entity: entity) { recurring, error in
+                            if let error = error {
+                                completion?(nil, error)
+                                return
+                            }
+                            completion?((recurring as? TResult), nil)
                         }
                     } else {
-                        completion?(nil)
+                        completion?(nil, error)
                     }
             }
         }
@@ -56,12 +64,16 @@ public class RecurringEntity<TResult>: NSObject, Recurring {
     /// - Parameter completion: [TResult]
     /// - Throws: Thrown when gateway does not support retrieving recurring records.
     public static func findAll(configName: String = "default",
-                               completion: (([TResult]?) -> Void)?) throws {
+                               completion: (([TResult]?, Error?) -> Void)?) throws {
         let client = try ServicesContainer.shared.recurringClient(configName: configName)
         if client.supportsRetrieval {
             let service: RecurringBuilder<NSArray> = RecurringService.search()
-            service.execute { results in
-                completion?(results as? [TResult])
+            service.execute { results, error in
+                if let error = error {
+                    completion?(nil, error)
+                    return
+                }
+                completion?((results as? [TResult]), nil)
             }
         }
         throw UnsupportedTransactionException.generic(

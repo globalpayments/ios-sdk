@@ -132,7 +132,7 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
     }
 
     func processAuthorization(_ builder: AuthorizationBuilder,
-                              completion: ((Transaction?) -> Void)?) {
+                              completion: ((Transaction?, Error?) -> Void)?) {
 
         let paymentMethod = JsonDoc()
         paymentMethod.set(for: "entry_mode", value: entryMode(for: builder))
@@ -144,15 +144,21 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
                 .set(for: "expiry_year", value: cardData.expYear > .zero ? "\(cardData.expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : .empty)
                 //                .set(for: "track", value: "")
                 .set(for: "tag", value: builder.tagData)
-                .set(for: "chip_condition", value: builder.emvLastChipRead?.mapped(for: .gpApi))
                 .set(for: "cvv", value: cardData.cvn)
-                .set(for: "cvv_indicator", value: cardData.cvnPresenceIndicator.mapped(for: .gpApi))
                 .set(for: "avs_address", value: builder.billingAddress?.streetAddress1)
                 .set(for: "avs_postal_code", value: builder.billingAddress?.postalCode)
                 .set(for: "funding", value: builder.paymentMethod?.paymentMethodType == .debit ? "DEBIT" : "CREDIT")
                 .set(for: "authcode", value: builder.offlineAuthCode)
             //                .set(for: "brand_reference", value: "")
 
+            if builder.emvLastChipRead != nil {
+                card.set(for: "chip_condition", value: builder.emvLastChipRead?.mapped(for: .gpApi)) // [PREV_SUCCESS, PREV_FAILED]
+            }
+            if cardData.cvnPresenceIndicator == .present ||
+                cardData.cvnPresenceIndicator == .illegible ||
+                cardData.cvnPresenceIndicator == .notOnCard {
+                card.set(for: "cvv_indicator", value: cardData.cvnPresenceIndicator.mapped(for: .gpApi)) // [ILLEGIBLE, NOT_PRESENT, PRESENT]
+            }
             paymentMethod.set(for: "card", doc: card)
         } else if let track = builder.paymentMethod as? TrackData {
             let card = JsonDoc()
@@ -239,16 +245,16 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
 
         doTransaction(method: .post,
                       endpoint: "/ucp/transactions",
-                      data: data.toString()) { [weak self] (response, error) in
+                      data: data.toString()) { [weak self] response, error in
                         guard let response = response else {
-                            completion?(nil)
+                            completion?(nil, error)
                             return
                         }
                         if let transaction = self?.mapResponse(response) {
-                            completion?(transaction)
+                            completion?(transaction, nil)
                             return
                         }
-                        completion?(nil)
+                        completion?(nil, error)
                         return
         }
     }
@@ -324,7 +330,7 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
     }
 
     func processReport<T>(builder: ReportBuilder<T>,
-                          completion: ((T?) -> Void)?) {
+                          completion: ((T?, Error?) -> Void)?) {
         var reportUrl = "/ucp/transactions"
         var queryStringParams = [String: String]()
 
@@ -362,15 +368,19 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
             method: .get,
             endpoint: reportUrl,
             queryStringParams: queryStringParams) { [weak self] response, error in
+                if let error = error {
+                    completion?(nil, error)
+                    return
+                }
                 guard let response = response else {
-                    completion?(error as? T)
+                    completion?(nil, error)
                     return
                 }
 
                 completion?(self?.mapReportResponse(
                     response,
                     reportType: builder.reportType
-                    )
+                    ), nil
                 )
         }
     }

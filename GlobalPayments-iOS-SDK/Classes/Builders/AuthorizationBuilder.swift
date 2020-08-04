@@ -481,7 +481,7 @@ public class AuthorizationBuilder: TransactionBuilder<Transaction> {
     /// Lodging data information for Portico
     /// - Parameter lodgingData: The lodging data
     /// - Returns: AuthorizationBuilder
-    func withLodgingData(_ lodgingData: LodgingData) -> AuthorizationBuilder {
+    public func withLodgingData(_ lodgingData: LodgingData) -> AuthorizationBuilder {
         self.lodgingData = lodgingData
         return self
     }
@@ -491,34 +491,46 @@ public class AuthorizationBuilder: TransactionBuilder<Transaction> {
         return self
     }
 
-    func withAlias(action: AliasAction, value: String) -> AuthorizationBuilder {
+    public func withAlias(action: AliasAction, value: String) -> AuthorizationBuilder {
         self.alias = value
         self.aliasAction = action
         return self
     }
 
-    func withBalanceInquiryType(_ balanceInquiryType: InquiryType) -> AuthorizationBuilder {
+    public func withBalanceInquiryType(_ balanceInquiryType: InquiryType) -> AuthorizationBuilder {
         self.balanceInquiryType = balanceInquiryType
         return self
     }
 
-    func withReplacementCard(_ replacementCard: GiftCard) -> AuthorizationBuilder {
+    public func withReplacementCard(_ replacementCard: GiftCard) -> AuthorizationBuilder {
         self.replacementCard = replacementCard
         return self
     }
 
-    func withModifier(_ transactionModifier: TransactionModifier) -> AuthorizationBuilder {
+    public func withModifier(_ transactionModifier: TransactionModifier) -> AuthorizationBuilder {
         self.transactionModifier = transactionModifier
+        return self
+    }
+
+    /// Sets the surcharge amount; where applicable.
+    /// - Parameter surchargeAmount: The surcharge amount
+    /// - Returns: AuthorizationBuilder
+    public func withSurchargeAmount(_ surchargeAmount: Decimal?) -> AuthorizationBuilder {
+        self.surchargeAmount = surchargeAmount
         return self
     }
 
     /// Executes the authorization builder against the gateway.
     /// - Returns: Transaction
     public override func execute(configName: String = "default",
-                                 completion: ((Transaction?) -> Void)?) {
-        super.execute(configName: configName, completion: completion)
-        let client = try? ServicesContainer.shared.client(configName: configName)
-        client?.processAuthorization(self, completion: completion)
+                                 completion: ((Transaction?, Error?) -> Void)?) {
+        super.execute(configName: configName, completion: nil)
+        do {
+            let client = try ServicesContainer.shared.client(configName: configName)
+            client.processAuthorization(self, completion: completion)
+        } catch {
+            completion?(nil, error)
+        }
     }
 
     public func serialize(configName: String = "default") throws -> String? {

@@ -175,14 +175,18 @@ public class ManagementBuilder: TransactionBuilder<Transaction> {
     }
 
     public override func execute(configName: String = "default",
-                                 completion: ((Transaction?) -> Void)?) {
+                                 completion: ((Transaction?, Error?) -> Void)?) {
 
         super.execute(configName: configName, completion: nil)
-        try? ServicesContainer.shared
-            .client(configName: configName)
-            .manageTransaction(self, completion: { transaction in
-                completion?(transaction)
-            })
+        do {
+            try ServicesContainer.shared
+                .client(configName: configName)
+                .manageTransaction(self, completion: { transaction in
+                    completion?(transaction, nil)
+                })
+        } catch {
+            completion?(nil, error)
+        }
     }
 
     public override func setupValidations() {

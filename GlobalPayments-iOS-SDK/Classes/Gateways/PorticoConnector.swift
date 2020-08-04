@@ -5,7 +5,7 @@ public class PorticoConnector: PaymentGateway {
     var supportsHostedPayments: Bool = false
 
     func processAuthorization(_ builder: AuthorizationBuilder,
-                              completion: ((Transaction?) -> Void)?) {
+                              completion: ((Transaction?, Error?) -> Void)?) {
 
     }
 

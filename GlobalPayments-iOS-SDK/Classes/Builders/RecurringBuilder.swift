@@ -23,10 +23,16 @@ public class RecurringBuilder<TResult>: TransactionBuilder<TResult> {
 
     /// Executes the builder against the gateway.
     public override func execute(configName: String = "default",
-                                 completion: ((TResult?) -> Void)?) {
+                                 completion: ((TResult?, Error?) -> Void)?) {
         super.execute(configName: configName, completion: nil)
-        let client = try? ServicesContainer.shared.recurringClient(configName: configName)
-        client?.processRecurring(builder: self, completion: completion)
+        do {
+            let client = try ServicesContainer.shared.recurringClient(configName: configName)
+            client.processRecurring(builder: self, completion: { result in
+                completion?(result, nil)
+            })
+        } catch {
+            completion?(nil, error)
+        }
     }
 
     public override func setupValidations() {

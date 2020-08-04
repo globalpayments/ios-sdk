@@ -147,7 +147,7 @@ public class SearchCriteriaBuilder<TResult>: NSObject {
         return self
     }
 
-    public func execute(completion: ((TResult?) -> Void)?) {
+    public func execute(completion: ((TResult?, Error?) -> Void)?) {
         reportBuilder.execute(completion: completion)
     }
 }

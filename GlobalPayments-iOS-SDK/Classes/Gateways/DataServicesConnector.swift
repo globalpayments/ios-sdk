@@ -26,7 +26,7 @@ class DataServicesConnector: RestGateway, ReportingService {
     // MARK: - ReportingService
 
     func processReport<T>(builder: ReportBuilder<T>,
-                          completion: ((T?) -> Void)?) {
+                          completion: ((T?, Error?) -> Void)?) {
         let request = JsonDoc()
         let requestId = "10004"
         let reportType = mapReportType(builder.reportType)
@@ -54,11 +54,15 @@ class DataServicesConnector: RestGateway, ReportingService {
 
         doTransaction(method: .post,
                       endpoint: reportType + "/",
-                      data: request.toString()) { [weak self] (response, error) in
+                      data: request.toString()) { [weak self] response, error in
+                        if let error = error {
+                            completion?(nil, error)
+                            return
+                        }
                         completion?(self?.mapResponse(
                             response: response,
                             reportType: builder.reportType
-                            )
+                            ), nil
                         )
         }
     }

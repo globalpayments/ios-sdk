@@ -126,16 +126,16 @@ public class GiftCard: NSObject, PaymentMethod, PrePaid, Balanceable, Reversable
     /// - Parameter phoneNumber: The phone number to be used as the alias
     /// - Returns: GiftCard
     public static func create(with phoneNumber: String,
-                              completion: ((GiftCard?) -> Void)?) {
+                              completion: ((GiftCard?, Error?) -> Void)?) {
 
         let card = GiftCard()
         AuthorizationBuilder(transactionType: .alias, paymentMethod: card)
             .withAlias(action: .create, value: phoneNumber)
-            .execute { transaction in
+            .execute { transaction, error in
                 if transaction?.responseCode == "00" {
-                    completion?(transaction?.giftCard)
+                    completion?(transaction?.giftCard, nil)
                 } else {
-                    completion?(nil)
+                    completion?(nil, error)
                 }
         }
     }

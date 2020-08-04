@@ -5,7 +5,7 @@ public class RealexConnector: PaymentGateway {
     var supportsHostedPayments: Bool = true
 
     func processAuthorization(_ builder: AuthorizationBuilder,
-                              completion: ((Transaction?) -> Void)?) {
+                              completion: ((Transaction?, Error?) -> Void)?) {
 
     }
 

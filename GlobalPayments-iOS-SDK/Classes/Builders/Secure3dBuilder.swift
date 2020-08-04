@@ -486,16 +486,20 @@ public class Secure3dBuilder: BaseBuilder<ThreeDSecure> {
     }
 
     public override func execute(configName: String = "default",
-                                 completion: ((ThreeDSecure?) -> Void)?) {
+                                 completion: ((ThreeDSecure?, Error?) -> Void)?) {
         execute(version: .any, configName: configName, completion: completion)
     }
 
     public func execute(version: Secure3dVersion,
                         configName: String = "default",
-                        completion: ((ThreeDSecure?) -> Void)?) {
+                        completion: ((ThreeDSecure?, Error?) -> Void)?) {
 
         var version: Secure3dVersion = version
-        try! validations.validate(builder: self)
+        do {
+            try validations.validate(builder: self)
+        } catch {
+            completion?(nil, error)
+        }
 
         // setup return object
         var rvalue = threeDSecure
@@ -561,7 +565,7 @@ public class Secure3dBuilder: BaseBuilder<ThreeDSecure> {
             })
         }
 
-        completion?(rvalue)
+        completion?(rvalue, nil)
     }
 
     public override func setupValidations() {

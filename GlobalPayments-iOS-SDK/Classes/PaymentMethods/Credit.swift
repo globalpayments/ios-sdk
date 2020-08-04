@@ -80,39 +80,47 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
         return AuthorizationBuilder(transactionType: .verify, paymentMethod: self)
     }
 
-    public func tokenize(completion: ((String?) -> Void)?) {
+    public func tokenize(completion: ((String?, Error?) -> Void)?) {
         AuthorizationBuilder(transactionType: .verify, paymentMethod: self)
             .withRequestMultiUseToken(true)
-            .execute { transaction in
-                completion?(transaction?.token)
+            .execute { transaction, error in
+                completion?(transaction?.token, error)
         }
     }
 
     /// Updates the token expiry date with the values proced to the card object
     /// - Throws: BuilderException
     /// - Returns: boolean value indicating success/failure
-    public func updateTokenExpiry(completion: ((Bool) -> Void)?) throws {
+    public func updateTokenExpiry(completion: ((Bool?, Error?) -> Void)?) throws {
         if token.isNilOrEmpty {
             throw BuilderException.generic(message: "Token cannot be null")
         }
         ManagementBuilder(transactionType: .tokenUpdate)
             .withPaymentMethod(self)
-            .execute { transaction in
-                completion?(transaction != nil)
+            .execute { transaction, error in
+                if let error = error {
+                    completion?(nil, error)
+                    return
+                }
+                completion?(transaction != nil, nil)
         }
     }
 
     /// Deletes the token associated with the current card object
     /// - Throws: BuilderException
     /// - Returns: boolean value indicating success/failure
-    public func deleteToken(completion: ((Bool) -> Void)?) throws {
+    public func deleteToken(completion: ((Bool?, Error?) -> Void)?) throws {
         if token.isNilOrEmpty {
             throw BuilderException.generic(message: "Token cannot be null")
         }
         ManagementBuilder(transactionType: .tokenDelete)
             .withPaymentMethod(self)
-            .execute { transaction in
-                completion?(transaction != nil)
+            .execute { transaction, error in
+                if let error = error {
+                    completion?(nil, error)
+                    return
+                }
+                completion?(transaction != nil, nil)
         }
     }
 }

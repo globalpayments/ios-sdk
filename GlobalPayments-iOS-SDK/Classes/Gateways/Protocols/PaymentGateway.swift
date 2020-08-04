@@ -8,7 +8,7 @@ protocol PaymentGateway {
     ///   - builder:  The transaction's builder
     ///   - completion: Transaction
     func processAuthorization(_ builder: AuthorizationBuilder,
-                              completion: ((Transaction?) -> Void)?)
+                              completion: ((Transaction?, Error?) -> Void)?)
     /// Serializes and executes follow up transactions
     /// - Parameters:
     ///   - builder: The transaction's builder

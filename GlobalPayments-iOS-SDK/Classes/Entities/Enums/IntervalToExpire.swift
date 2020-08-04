@@ -1,6 +1,6 @@
 import Foundation
 
-public enum IntervalToExpire: String {
+public enum IntervalToExpire: String, Mappable {
     case week = "WEEK"
     case day = "DAY"
     case twelveHours = "12_HOURS"
@@ -10,4 +10,13 @@ public enum IntervalToExpire: String {
     case thirtyMinutes = "30_MINUTES"
     case tenMinutes = "10_MINUTES"
     case fiveMinutes = "5_MINUTES"
+
+    public func mapped(for target: Target) -> String? {
+        switch target {
+        case .gpApi:
+            return self.rawValue
+        default:
+            return nil
+        }
+    }
 }

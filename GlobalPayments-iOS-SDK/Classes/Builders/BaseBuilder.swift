@@ -10,9 +10,13 @@ public class BaseBuilder<TResult>: NSObject {
         setupValidations()
     }
 
-    public func execute(configName: String = "default", completion: ((TResult?) -> Void)?) {
-        try! validations.validate(builder: self)
-        completion?(nil)
+    public func execute(configName: String = "default",
+                        completion: ((TResult?, Error?) -> Void)?) {
+        do {
+            try validations.validate(builder: self)
+        } catch {
+            completion?(nil, error)
+        }
     }
 
     public func setupValidations() { }

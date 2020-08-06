@@ -1,19 +1,26 @@
 import Foundation
 
-extension Decimal {
+extension NSDecimalNumber {
 
-    static func sum(_ lhs: Decimal?, _ rhs: Decimal?) -> Decimal {
-        return (lhs ?? .zero) + (rhs ?? .zero)
+    static func sum(_ lhs: NSDecimalNumber?, _ rhs: NSDecimalNumber?) -> NSDecimalNumber {
+        return (lhs ?? .zero).adding((rhs ?? .zero))
     }
 
     func toNumericCurrencyString() -> String {
-        var input: Decimal = self * 100
-        var output: Decimal = 0
-        NSDecimalRound(&output, &input, 0, .plain)
+        let input: NSDecimalNumber = self.multiplying(by: 100)
+        let behavior = NSDecimalNumberHandler(
+            roundingMode: .plain,
+            scale: 0,
+            raiseOnExactness: false,
+            raiseOnOverflow: false,
+            raiseOnUnderflow: false,
+            raiseOnDivideByZero: false
+        )
+        let output = input.rounding(accordingToBehavior: behavior)
         return String(describing: output)
     }
 
-    var amount: Decimal {
-        return self / 100
+    var amount: NSDecimalNumber {
+        return self.dividing(by: 100)
     }
 }

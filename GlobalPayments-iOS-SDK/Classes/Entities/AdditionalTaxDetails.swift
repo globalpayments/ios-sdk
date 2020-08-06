@@ -1,8 +1,8 @@
 import Foundation
 
 public class AdditionalTaxDetails {
-    public var taxAmount: Decimal?
+    public var taxAmount: NSDecimalNumber?
     public var taxCategory: TaxCategory?
-    public var taxRate: Decimal?
+    public var taxRate: NSDecimalNumber?
     public var taxType: String?
 }

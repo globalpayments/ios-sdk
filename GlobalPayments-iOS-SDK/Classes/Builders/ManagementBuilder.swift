@@ -3,9 +3,9 @@ import Foundation
 /// Used to follow up transactions for the supported payment method types.
 @objcMembers public class ManagementBuilder: TransactionBuilder<Transaction> {
     /// Request amount
-    var amount: Decimal?
+    var amount: NSDecimalNumber?
     /// Request authorization amount
-    var authAmount: Decimal?
+    var authAmount: NSDecimalNumber?
     var authorizationCode: String? {
         guard let paymentMethod = paymentMethod as? TransactionReference else {
             return nil
@@ -24,11 +24,11 @@ import Foundation
     var customerId: String?
     var managementBuilderDescription: String?
     /// Request gratuity
-    var gratuity: Decimal?
+    var gratuity: NSDecimalNumber?
     /// Request purchase order number
     var poNumber: String?
     /// Request tax amount
-    var taxAmount: Decimal?
+    var taxAmount: NSDecimalNumber?
     var taxType: TaxType?
     /// Previous request's transaction reference
     var alternativePaymentType: String?
@@ -56,7 +56,7 @@ import Foundation
     /// Sets the current transaction's amount.
     /// - Parameter amount: The amount
     /// - Returns: ManagementBuilder
-    public func withAmount(_ amount: Decimal?) -> ManagementBuilder {
+    public func withAmount(_ amount: NSDecimalNumber?) -> ManagementBuilder {
         self.amount = amount
         return self
     }
@@ -64,7 +64,7 @@ import Foundation
     /// Sets the current transaction's authorized amount; where applicable.
     /// - Parameter authAmount: The authorized amount
     /// - Returns: ManagementBuilder
-    public func withAuthAmount(_ authAmount: Decimal?) -> ManagementBuilder {
+    public func withAuthAmount(_ authAmount: NSDecimalNumber?) -> ManagementBuilder {
         self.authAmount = authAmount
         return self
     }
@@ -117,7 +117,7 @@ import Foundation
     /// Sets the gratuity amount; where applicable.
     /// - Parameter gratuity: This value is information only and does not affect the authorization amount.
     /// - Returns: ManagementBuilder
-    public func withGratuity(_ gratuity: Decimal?) -> ManagementBuilder {
+    public func withGratuity(_ gratuity: NSDecimalNumber?) -> ManagementBuilder {
         self.gratuity = gratuity
         return self
     }

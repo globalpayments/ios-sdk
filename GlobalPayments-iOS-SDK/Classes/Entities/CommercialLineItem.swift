@@ -6,14 +6,14 @@ public class CommercialLineItem {
     public var creditDebitIndicator: CreditDebitIndicator?
     public var description: String?
     public var discountDetails: DiscountDetails?
-    public var extendedAmount: Decimal?
+    public var extendedAmount: NSDecimalNumber?
     public var name: String?
     public var netGrossIndicator: NetGrossIndicator?
     public var productCode: String?
-    public var quantity: Decimal?
-    public var unitCost: Decimal?
+    public var quantity: NSDecimalNumber?
+    public var unitCost: NSDecimalNumber?
     public var unitOfMeasure: String?
     public var upc: String?
-    public var taxAmount: Decimal?
-    public var totalAmount: Decimal?
+    public var taxAmount: NSDecimalNumber?
+    public var totalAmount: NSDecimalNumber?
 }

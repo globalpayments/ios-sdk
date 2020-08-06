@@ -7,15 +7,15 @@ import Foundation
     var aliasAction: AliasAction?
     var allowDuplicates: Bool?
     var allowPartialAuth: Bool = false
-    var amount: Decimal?
+    var amount: NSDecimalNumber?
     var amountEstimated: Bool?
-    var authAmount: Decimal?
+    var authAmount: NSDecimalNumber?
     var autoSubstantiation: AutoSubstantiation?
     var balanceInquiryType: InquiryType?
     var billingAddress: Address?
-    var cashBackAmount: Decimal?
+    var cashBackAmount: NSDecimalNumber?
     var clientTransactionId: String?
-    var convenienceAmount: Decimal?
+    var convenienceAmount: NSDecimalNumber?
     var commercialRequest: Bool?
     var currency: String?
     var customerId: String?
@@ -32,8 +32,8 @@ import Foundation
     var emvLastChipRead: EmvLastChipRead?
     var emvChipCondition: EmvChipCondition?
     var fraudFilterMode: FraudFilterMode = .none
-    var gratuity: Decimal?
-    var shippingAmt: Decimal?
+    var gratuity: NSDecimalNumber?
+    var shippingAmt: NSDecimalNumber?
     var hostedPaymentData: HostedPaymentData?
     var invoiceNumber: String?
     var lodgingData: LodgingData?
@@ -55,7 +55,7 @@ import Foundation
     var supplementaryData: [String: [String]]?
     var tagData: String?
     var timestamp: String?
-    var surchargeAmount: Decimal?
+    var surchargeAmount: NSDecimalNumber?
 
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
@@ -66,7 +66,7 @@ import Foundation
     /// Set the request amount
     /// - Parameter amount: Request amount
     /// - Returns: AuthorizationBuilder
-    public func withAmount(_ amount: Decimal?) -> AuthorizationBuilder {
+    public func withAmount(_ amount: NSDecimalNumber?) -> AuthorizationBuilder {
         self.amount = amount
         return self
     }
@@ -131,7 +131,7 @@ import Foundation
     /// This is a specialized field. In most cases, `Authorization.withAmount` should be used.
     /// - Parameter authAmount: The authorization amount
     /// - Returns: AuthorizationBuilder
-    public func withAuthAmount(_ authAmount: Decimal?) -> AuthorizationBuilder {
+    public func withAuthAmount(_ authAmount: NSDecimalNumber?) -> AuthorizationBuilder {
         self.authAmount = authAmount
         return self
     }
@@ -155,7 +155,7 @@ import Foundation
     /// This is a specialized field for debit or EBT transactions.
     /// - Parameter cashBack: The desired cash back amount
     /// - Returns: AuthorizationBuilder
-    public func withCashBack(_ cashBack: Decimal?) -> AuthorizationBuilder {
+    public func withCashBack(_ cashBack: NSDecimalNumber?) -> AuthorizationBuilder {
         self.cashBackAmount = cashBack
         return self
     }
@@ -273,7 +273,7 @@ import Foundation
     /// This value is information only and does not affect the authorization amount.
     /// - Parameter gratuity: This value is information only and does not affect the authorization amount.
     /// - Returns: AuthorizationBuilder
-    public func withGratuity(_ gratuity: Decimal?) -> AuthorizationBuilder {
+    public func withGratuity(_ gratuity: NSDecimalNumber?) -> AuthorizationBuilder {
         self.gratuity = gratuity
         return self
     }
@@ -281,7 +281,7 @@ import Foundation
     /// Sets the Convenience amount; where applicable.
     /// - Parameter convenienceAmount: The Convenience amount
     /// - Returns: AuthorizationBuilder
-    public func withConvenienceAmount(_ convenienceAmount: Decimal?) -> AuthorizationBuilder {
+    public func withConvenienceAmount(_ convenienceAmount: NSDecimalNumber?) -> AuthorizationBuilder {
         self.convenienceAmount = convenienceAmount
         return self
     }
@@ -289,7 +289,7 @@ import Foundation
     /// Sets the Shipping amount; where applicable.
     /// - Parameter shippingAmt: The Shipping amount
     /// - Returns: AuthorizationBuilder
-    public func withShippingAmt(_ shippingAmt: Decimal?) -> AuthorizationBuilder {
+    public func withShippingAmt(_ shippingAmt: NSDecimalNumber?) -> AuthorizationBuilder {
         self.shippingAmt = shippingAmt
         return self
     }
@@ -515,7 +515,7 @@ import Foundation
     /// Sets the surcharge amount; where applicable.
     /// - Parameter surchargeAmount: The surcharge amount
     /// - Returns: AuthorizationBuilder
-    public func withSurchargeAmount(_ surchargeAmount: Decimal?) -> AuthorizationBuilder {
+    public func withSurchargeAmount(_ surchargeAmount: NSDecimalNumber?) -> AuthorizationBuilder {
         self.surchargeAmount = surchargeAmount
         return self
     }

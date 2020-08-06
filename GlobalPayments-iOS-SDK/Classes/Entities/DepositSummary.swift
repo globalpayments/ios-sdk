@@ -8,7 +8,7 @@ public class DepositSummary {
     public var merchantCategory: String?
     public var depositDate: Date?
     public var reference: String?
-    public var amount: Decimal?
+    public var amount: NSDecimalNumber?
     public var currency: String?
     public var type: String?
     public var routingNumber: String?
@@ -16,20 +16,20 @@ public class DepositSummary {
     public var mode: String?
     public var summaryModel: String?
     public var salesTotalCount: Int?
-    public var salesTotalAmount: Decimal?
+    public var salesTotalAmount: NSDecimalNumber?
     public var salesTotalCurrency: String?
     public var refundsTotalCount: Int?
-    public var refundsTotalAmount: Decimal?
+    public var refundsTotalAmount: NSDecimalNumber?
     public var refundsTotalCurrency: String?
     public var chargebackTotalCount: Int?
-    public var chargebackTotalAmount: Decimal?
+    public var chargebackTotalAmount: NSDecimalNumber?
     public var chargebackTotalCurrency: String?
     public var representmentTotalCount: Int?
-    public var representmentTotalAmount: Decimal?
+    public var representmentTotalAmount: NSDecimalNumber?
     public var representmentTotalCurrency: String?
-    public var feesTotalAmount: Decimal?
+    public var feesTotalAmount: NSDecimalNumber?
     public var feesTotalCurrency: String?
     public var adjustmentTotalCount: Int?
-    public var adjustmentTotalAmount: Decimal?
+    public var adjustmentTotalAmount: NSDecimalNumber?
     public var adjustmentTotalCurrency: String?
 }

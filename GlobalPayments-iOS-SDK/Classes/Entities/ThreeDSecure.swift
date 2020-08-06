@@ -6,7 +6,7 @@ public class ThreeDSecure: NSObject {
     public var acsStartVersion: String?
     public var algorithm: Int?
     /// The algorithm used.
-    public var amount: Decimal? {
+    public var amount: NSDecimalNumber? {
         didSet {
             try? merchantData?.put(key: "_amount", value: amount?.description, isVisible: false)
         }

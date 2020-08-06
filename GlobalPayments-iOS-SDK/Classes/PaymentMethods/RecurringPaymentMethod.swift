@@ -42,7 +42,7 @@ public class RecurringPaymentMethod: RecurringEntity<RecurringPaymentMethod>, Pa
     /// Creates an authorization against the payment method.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func authorize(amount: Decimal = .zero,
+    public func authorize(amount: NSDecimalNumber = .zero,
                           isEstimated: Bool = false) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .auth, paymentMethod: self)
             .withAmount(amount)
@@ -53,7 +53,7 @@ public class RecurringPaymentMethod: RecurringEntity<RecurringPaymentMethod>, Pa
     /// Creates a charge (sale) against the payment method.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func charge(amount: Decimal? = nil) -> AuthorizationBuilder {
+    public func charge(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .sale, paymentMethod: self)
             .withAmount(amount)
             .withOneTimePayment(true)
@@ -62,7 +62,7 @@ public class RecurringPaymentMethod: RecurringEntity<RecurringPaymentMethod>, Pa
     /// Refunds the payment method.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func refund(amount: Decimal? = nil) -> AuthorizationBuilder {
+    public func refund(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .refund, paymentMethod: self)
             .withAmount(amount)
     }

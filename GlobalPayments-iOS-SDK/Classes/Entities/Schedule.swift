@@ -2,7 +2,7 @@ import Foundation
 
 public class Schedule: RecurringEntity<Schedule> {
     /// The schedule's amount
-    public var amount: Decimal?
+    public var amount: NSDecimalNumber?
     /// The date/time the schedule was cancelled.
     public var cancellationDate: Date?
     /// The schedule's currency.
@@ -44,7 +44,7 @@ public class Schedule: RecurringEntity<Schedule> {
     /// The schedule's status.
     public var status: String?
     /// The schedule's tax amount.
-    public var taxAmount: Decimal?
+    public var taxAmount: NSDecimalNumber?
 
     public required init(customerKey: String? = nil, paymentKey: String? = nil) {
         self.customerKey = customerKey
@@ -52,14 +52,14 @@ public class Schedule: RecurringEntity<Schedule> {
     }
 
     /// The total amount for the schedule (`amount` and `taxAmount`).
-    public func getTotalAmount() -> Decimal? {
+    public func getTotalAmount() -> NSDecimalNumber? {
         return .sum(amount, taxAmount)
     }
 
     /// Sets the schedule's amount.
     /// - Parameter amount: The amount
     /// - Returns: Schedule
-    public func withAmount(_ amount: Decimal?) -> Schedule {
+    public func withAmount(_ amount: NSDecimalNumber?) -> Schedule {
         self.amount = amount
         return self
     }
@@ -203,7 +203,7 @@ public class Schedule: RecurringEntity<Schedule> {
     /// Sets the schedule's tax amount.
     /// - Parameter taxAmount: The tax amount
     /// - Returns: Schedule
-    public func withTaxAmount(_ taxAmount: Decimal?) -> Schedule {
+    public func withTaxAmount(_ taxAmount: NSDecimalNumber?) -> Schedule {
         self.taxAmount = taxAmount
         return self
     }

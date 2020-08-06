@@ -4,7 +4,7 @@ import Foundation
 public class Transaction: NSObject {
 
     /// The authorized amount.
-    public var authorizedAmount: Decimal?
+    public var authorizedAmount: NSDecimalNumber?
     public var autoSettleFlag: String?
     /// The authorization code provided by the issuer.
     public var authorizationCode: String? {
@@ -22,13 +22,13 @@ public class Transaction: NSObject {
         }
     }
     /// The available balance of the payment method.
-    public var availableBalance: Decimal?
+    public var availableBalance: NSDecimalNumber?
     /// The address verification service (AVS) response code.
     public var avsResponseCode: String?
     /// The address verification service (AVS) response message.
     public var avsResponseMessage: String?
     /// The balance on the account after the transaction.
-    public var balanceAmount: Decimal?
+    public var balanceAmount: NSDecimalNumber?
     /// Summary of the batch.
     public var batchSummary: BatchSummary?
     /// The type of card used in the transaction.
@@ -101,7 +101,7 @@ public class Transaction: NSObject {
         }
     }
     /// The remaining points on the account after the transaction.
-    public var pointsBalanceAmount: Decimal?
+    public var pointsBalanceAmount: NSDecimalNumber?
     /// The recurring profile data code.
     public var recurringDataCode: String?
     /// The reference number provided by the issuer.
@@ -177,7 +177,7 @@ public class Transaction: NSObject {
     /// Creates an additional authorization against the original transaction.
     /// - Parameter amount: The additional amount to authorize
     /// - Returns: ManagementBuilder
-    public func additionalAuth(amount: Decimal? = nil) -> ManagementBuilder {
+    public func additionalAuth(amount: NSDecimalNumber? = nil) -> ManagementBuilder {
         guard let transactionReference = transactionReference else {
             fatalError("transactionReference cannot be nil!")
         }
@@ -189,7 +189,7 @@ public class Transaction: NSObject {
     /// Captures the original transaction.
     /// - Parameter amount: The amount to capture
     /// - Returns: ManagementBuilder
-    public func capture(amount: Decimal? = nil) -> ManagementBuilder {
+    public func capture(amount: NSDecimalNumber? = nil) -> ManagementBuilder {
         var builder = ManagementBuilder(transactionType: .capture)
             .withPaymentMethod(transactionReference!)
             .withAmount(amount)
@@ -225,7 +225,7 @@ public class Transaction: NSObject {
     /// Refunds/returns the original transaction.
     /// - Parameter amount: The amount to refund/return
     /// - Returns: ManagementBuilder
-    public func refund(amount: Decimal? = nil) -> ManagementBuilder {
+    public func refund(amount: NSDecimalNumber? = nil) -> ManagementBuilder {
         guard let transactionReference = transactionReference else {
             fatalError("transactionReference cannot be nil!")
         }
@@ -247,7 +247,7 @@ public class Transaction: NSObject {
     /// Reverses the original transaction.
     /// - Parameter amount: The original authorization amount
     /// - Returns: ManagementBuilder
-    public func reverse(amount: Decimal? = nil) -> ManagementBuilder {
+    public func reverse(amount: NSDecimalNumber? = nil) -> ManagementBuilder {
         guard let transactionReference = transactionReference else {
             fatalError("transactionReference cannot be nil!")
         }
@@ -256,7 +256,7 @@ public class Transaction: NSObject {
             .withAmount(amount)
     }
 
-    public func increment(amount: Decimal? = nil) -> ManagementBuilder {
+    public func increment(amount: NSDecimalNumber? = nil) -> ManagementBuilder {
         guard let transactionReference = transactionReference else {
             fatalError("transactionReference cannot be nil!")
         }

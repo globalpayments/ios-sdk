@@ -23,7 +23,7 @@ public class eCheck: NSObject, PaymentMethod, Chargeable {
     public var ssnLast4: String?
     public var token: String?
 
-    public func charge(amount: Decimal? = nil) -> AuthorizationBuilder {
+    public func charge(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .sale, paymentMethod: self)
             .withAmount(amount)
     }

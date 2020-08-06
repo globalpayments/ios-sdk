@@ -9,22 +9,22 @@ public class Debit: NSObject, PaymentMethod, PrePaid, Refundable, Reversable, Ch
     public var encryptionData: EncryptionData?
     public var pinBlock: String?
 
-    public func addValue(amount: Decimal? = nil) -> AuthorizationBuilder {
+    public func addValue(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .addValue, paymentMethod: self)
             .withAmount(amount)
     }
 
-    public func charge(amount: Decimal? = nil) -> AuthorizationBuilder {
+    public func charge(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .sale, paymentMethod: self)
             .withAmount(amount)
     }
 
-    public func refund(amount: Decimal? = nil) -> AuthorizationBuilder {
+    public func refund(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .refund, paymentMethod: self)
             .withAmount(amount)
     }
 
-    public func reverse(amount: Decimal? = nil) -> AuthorizationBuilder {
+    public func reverse(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .reversal, paymentMethod: self)
             .withAmount(amount)
     }

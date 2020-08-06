@@ -37,7 +37,7 @@ public class CreditCardData: Credit, CardData {
         return month + year
     }
 
-    public func verifyEnrolled(amount: Decimal,
+    public func verifyEnrolled(amount: NSDecimalNumber,
                                currency: String,
                                orderId: String? = nil,
                                completion: ((Bool) -> Void)?) {
@@ -68,7 +68,7 @@ public class CreditCardData: Credit, CardData {
     }
 
     public func verifySignature(authorizationResponse: String,
-                                amount: Decimal? = nil,
+                                amount: NSDecimalNumber? = nil,
                                 currency: String,
                                 orderId: String,
                                 completion: ((Bool) -> Void)?) {

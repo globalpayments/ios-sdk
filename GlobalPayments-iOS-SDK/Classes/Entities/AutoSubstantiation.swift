@@ -1,65 +1,65 @@
 import Foundation
 
 public class AutoSubstantiation: NSObject {
-    private var amounts: [String: Decimal]
+    private var amounts: [String: NSDecimalNumber]
 
-    public var clinicSubTotal: Decimal {
+    public var clinicSubTotal: NSDecimalNumber {
         get {
             return amounts["SUBTOTAL_CLINIC_OR_OTHER_AMT"] ?? .zero
         }
         set {
             amounts["SUBTOTAL_CLINIC_OR_OTHER_AMT"] = newValue
-            amounts["TOTAL_HEALTHCARE_AMT"] = totalHealthcareAmount + newValue
+            amounts["TOTAL_HEALTHCARE_AMT"] = totalHealthcareAmount.adding(newValue)
         }
     }
 
-    public var copaySubTotal: Decimal {
+    public var copaySubTotal: NSDecimalNumber {
         get {
             return amounts["SUBTOTAL_COPAY_AMT"] ?? .zero
         }
         set {
             amounts["SUBTOTAL_COPAY_AMT"] = newValue
-            amounts["TOTAL_HEALTHCARE_AMT"] = totalHealthcareAmount + newValue
+            amounts["TOTAL_HEALTHCARE_AMT"] = totalHealthcareAmount.adding(newValue)
         }
     }
 
-    public var dentalSubTotal: Decimal {
+    public var dentalSubTotal: NSDecimalNumber {
         get {
             return amounts["SUBTOTAL_DENTAL_AMT"] ?? .zero
         }
         set {
             amounts["SUBTOTAL_DENTAL_AMT"] = newValue
-            amounts["TOTAL_HEALTHCARE_AMT"] = totalHealthcareAmount + newValue
+            amounts["TOTAL_HEALTHCARE_AMT"] = totalHealthcareAmount.adding(newValue)
         }
     }
 
     public var merchantVerificationValue: String = .empty
 
-    public var prescriptionSubTotal: Decimal {
+    public var prescriptionSubTotal: NSDecimalNumber {
         get {
             return amounts["SUBTOTAL_PRESCRIPTION_AMT"] ?? .zero
         }
         set {
             amounts["SUBTOTAL_PRESCRIPTION_AMT"] = newValue
-            amounts["TOTAL_HEALTHCARE_AMT"] = totalHealthcareAmount + newValue
+            amounts["TOTAL_HEALTHCARE_AMT"] = totalHealthcareAmount.adding(newValue)
         }
     }
 
     public var realTimeSubstantiation: Bool = false
 
-    public var totalHealthcareAmount: Decimal {
+    public var totalHealthcareAmount: NSDecimalNumber {
         get {
             return amounts["TOTAL_HEALTHCARE_AMT"] ?? .zero
         }
     }
 
-    public var visionSubTotal: Decimal {
+    public var visionSubTotal: NSDecimalNumber {
         get {
             return amounts["SUBTOTAL_VISION__OPTICAL_AMT"] ?? .zero
         }
         set {
             amounts["SUBTOTAL_VISION__OPTICAL_AMT"] = newValue
-            amounts["TOTAL_HEALTHCARE_AMT"] = totalHealthcareAmount + newValue
+            amounts["TOTAL_HEALTHCARE_AMT"] = totalHealthcareAmount.adding(newValue)
         }
     }
 

@@ -1,5 +1,5 @@
 import Foundation
 
 public protocol Reversable {
-    func reverse(amount: Decimal?) -> AuthorizationBuilder
+    func reverse(amount: NSDecimalNumber?) -> AuthorizationBuilder
 }

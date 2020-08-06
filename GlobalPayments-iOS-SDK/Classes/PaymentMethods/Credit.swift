@@ -23,7 +23,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// - Parameters:
     ///   - amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func authorize(amount: Decimal = .zero,
+    public func authorize(amount: NSDecimalNumber = .zero,
                           isEstimated: Bool = false) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .auth, paymentMethod: self)
             .withAmount(amount)
@@ -35,7 +35,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// Creates a charge (sale) against the payment method.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func charge(amount: Decimal? = nil) -> AuthorizationBuilder {
+    public func charge(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .sale, paymentMethod: self)
             .withAmount(amount)
             .withCurrency(threeDSecure?.currency)
@@ -45,7 +45,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// Adds value to to a payment method.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func addValue(amount: Decimal? = nil) -> AuthorizationBuilder {
+    public func addValue(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .addValue, paymentMethod: self)
             .withAmount(amount)
     }
@@ -61,7 +61,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// Refunds the payment method.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func refund(amount: Decimal? = nil) -> AuthorizationBuilder {
+    public func refund(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .refund, paymentMethod: self)
             .withAmount(amount)
     }
@@ -69,7 +69,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// Reverses a previous transaction against the payment method.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func reverse(amount: Decimal?) -> AuthorizationBuilder {
+    public func reverse(amount: NSDecimalNumber?) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .reversal, paymentMethod: self)
             .withAmount(amount)
     }

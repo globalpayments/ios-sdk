@@ -6,7 +6,7 @@ import Foundation
     var accountCreateDate: Date?
     var accountChangeIndicator: AgeIndicator?
     var addressMatchIndicator: Bool?
-    var amount: Decimal?
+    var amount: NSDecimalNumber?
     var applicationId: String?
     var authenticationSource: AuthenticationSource = .browser
     var authenticationRequestType: AuthenticationRequestType = .paymentTransaction
@@ -20,10 +20,10 @@ import Foundation
     var deliveryEmail: String?
     var deliveryTimeFrame: DeliveryTimeFrame?
     var encodedData: String?
-    //    internal JsonDoc EphemeralPublicKey { get; set; }
+    var ephemeralPublicKey: JsonDoc?
     var giftCardCount: Int?
     var giftCardCurrency: String?
-    var giftCardAmount: Decimal?
+    var giftCardAmount: NSDecimalNumber?
     var homeCountryCode: String?
     var homeNumber: String?
     var maxNumberOfInstallments: Int?
@@ -127,7 +127,7 @@ import Foundation
         return self
     }
 
-    public func withAmount(_ amount: Decimal?) -> Secure3dBuilder {
+    public func withAmount(_ amount: NSDecimalNumber?) -> Secure3dBuilder {
         self.amount = amount
         return self
     }
@@ -207,7 +207,7 @@ import Foundation
         return self
     }
 
-    public func withGiftCardAmount(_ giftCardAmount: Decimal?) -> Secure3dBuilder {
+    public func withGiftCardAmount(_ giftCardAmount: NSDecimalNumber?) -> Secure3dBuilder {
         self.giftCardAmount = giftCardAmount
         return self
     }

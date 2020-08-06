@@ -1,7 +1,7 @@
 import Foundation
 
 public class DccRateData: NSObject {
-    public var cardHolderAmount: Decimal?
+    public var cardHolderAmount: NSDecimalNumber?
     public var cardHolderCurrency: String?
     public var cardHolderRate: String?
     public var commissionPercentage: String?
@@ -9,7 +9,7 @@ public class DccRateData: NSObject {
     public var dccRateType: DccRateType?
     public var exchangeRateSourceName: String?
     public var exchangeRateSourceTimestamp: Date?
-    public var merchantAmount: Decimal?
+    public var merchantAmount: NSDecimalNumber?
     public var merchantCurrency: String?
     public var marginRatePercentage: String?
 }

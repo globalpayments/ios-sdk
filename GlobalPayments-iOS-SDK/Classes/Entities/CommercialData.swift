@@ -6,18 +6,18 @@ public class CommercialData {
     public var customerVATNumber: String?
     public var customerReferenceId: String?
     public var description: String?
-    public var discountAmount: Decimal?
-    public var dutyAmount: Decimal?
+    public var discountAmount: NSDecimalNumber?
+    public var dutyAmount: NSDecimalNumber?
     public var destinationPostalCode: String?
     public var destinationCountryCode: String?
-    public var freightAmount: Decimal?
+    public var freightAmount: NSDecimalNumber?
     public var lineItems: [CommercialLineItem]
     public var orderDate: Date?
     public var originPostalCode: String?
     public var poNumber: String?
     public var supplierReferenceNumber: String?
     public var summaryCommodityCode: String?
-    public var taxAmount: Decimal?
+    public var taxAmount: NSDecimalNumber?
     public var taxType: TaxType
     public var vatInvoiceNumber: String?
 

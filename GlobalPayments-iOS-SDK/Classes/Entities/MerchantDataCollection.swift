@@ -64,9 +64,9 @@ public class MerchantDataCollection: NSObject {
         )
     }
 
-    func getDecimal(key: String) -> Decimal? {
+    func getDecimal(key: String) -> NSDecimalNumber? {
         for merchant in collection where merchant.key == key {
-            return Decimal(string: merchant.value)
+            return NSDecimalNumber(string: merchant.value)
         }
         return nil
     }

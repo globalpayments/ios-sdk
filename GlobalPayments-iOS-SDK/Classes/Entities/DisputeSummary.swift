@@ -10,7 +10,7 @@ public class DisputeSummary {
     public var depositReference: String?
     public var depositType: String?
     public var type: String?
-    public var caseAmount: Decimal?
+    public var caseAmount: NSDecimalNumber?
     public var caseCurrency: String?
     public var caseStatus: String?
     public var caseDescription: String?
@@ -18,7 +18,7 @@ public class DisputeSummary {
     public var transactionLocalTime: Date?
     public var transactionTime: Date?
     public var transactionType: String?
-    public var transactionAmount: Decimal?
+    public var transactionAmount: NSDecimalNumber?
     public var transactionCurrency: String?
     public var caseNumber: String?
     public var caseTime: Date?
@@ -35,9 +35,9 @@ public class DisputeSummary {
     public var reason: String?
     public var issuerComment: String?
     public var issuerCaseNumber: String?
-    public var disputeAmount: Decimal?
+    public var disputeAmount: NSDecimalNumber?
     public var disputeCurrency: String?
-    public var disputeCustomerAmount: Decimal?
+    public var disputeCustomerAmount: NSDecimalNumber?
     public var disputeCustomerCurrency: String?
     public var respondByDate: Date?
     public var caseOriginalReference: String?

@@ -3,21 +3,21 @@ import Foundation
 /// Transaction-level report data
 public class TransactionSummary {
     public var accountDataSource: String?
-    public var adjustmentAmount: Decimal?
+    public var adjustmentAmount: NSDecimalNumber?
     public var adjustmentCurrency: String?
     public var adjustmentReason: String?
     public var altPaymentData: AltPaymentData?
     /// The originally requested authorization amount.
-    public var amount: Decimal?
+    public var amount: NSDecimalNumber?
     public var aquirerReferenceNumber: String?
     /// The authorized amount.
-    public var authorizedAmount: Decimal?
+    public var authorizedAmount: NSDecimalNumber?
     /// The authorization code provided by the issuer.
     public var authCode: String?
     public var batchCloseDate: Date?
     public var batchSequenceNumber: String?
     public var billingAddress: Address?
-    public var captureAmount: Decimal?
+    public var captureAmount: NSDecimalNumber?
     public var cardHolderFirstName: String?
     public var cardHolderLastName: String?
     public var cardSwiped: String?
@@ -30,13 +30,13 @@ public class TransactionSummary {
     public var clientTransactionId: String?
     public var companyName: String?
     /// The originally requested convenience amount.
-    public var convenienceAmount: Decimal?
+    public var convenienceAmount: NSDecimalNumber?
     public var currency: String?
     public var customerFirstName: String?
     public var customerId: String?
     public var customerLastName: String?
     public var debtRepaymentIndicator: Bool?
-    public var depositAmount: Decimal?
+    public var depositAmount: NSDecimalNumber?
     public var depositCurrency: String?
     public var depositDate: Date?
     public var depositReference: String?
@@ -48,8 +48,8 @@ public class TransactionSummary {
     public var entryMode: String?
     public var fraudRuleInfo: String?
     public var fullyCaptured: Bool?
-    public var cashBackAmount: Decimal?
-    public var gratuityAmount: Decimal?
+    public var cashBackAmount: NSDecimalNumber?
+    public var gratuityAmount: NSDecimalNumber?
     public var hasEcomPaymentData: Bool?
     public var hasEmvTags: Bool?
     public var invoiceNumber: String?
@@ -90,14 +90,14 @@ public class TransactionSummary {
     /// The transaction type.
     public var serviceName: String?
     /// The settled from the authorization.
-    public var settlementAmount: Decimal?
+    public var settlementAmount: NSDecimalNumber?
     /// The originally requested shipping amount.
-    public var shippingAmount: Decimal?
+    public var shippingAmount: NSDecimalNumber?
     public var siteTrace: String?
     /// The transaction status.
     public var status: String?
-    public var surchargeAmount: Decimal?
-    public var taxAmount: Decimal?
+    public var surchargeAmount: NSDecimalNumber?
+    public var taxAmount: NSDecimalNumber?
     public var taxType: String?
     public var terminalId: String?
     public var tokenPanLastFour: String?
@@ -112,7 +112,7 @@ public class TransactionSummary {
     public var username: String?
     public var transactionType: String?
     public var cardEntryMethod: String?
-    public var amountDue: Decimal?
+    public var amountDue: NSDecimalNumber?
     public var hostTimeout: Bool?
     public var country: String?
 }

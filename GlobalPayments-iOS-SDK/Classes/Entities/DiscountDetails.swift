@@ -2,7 +2,7 @@ import Foundation
 
 public class DiscountDetails {
     public var discountName: String?
-    public var discountAmount: Decimal?
-    public var discountPercentage: Decimal?
+    public var discountAmount: NSDecimalNumber?
+    public var discountPercentage: NSDecimalNumber?
     public var discountType: String?
 }

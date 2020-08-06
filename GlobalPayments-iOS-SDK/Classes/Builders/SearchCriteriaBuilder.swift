@@ -72,7 +72,7 @@ public enum DataServiceCriteria: String {
     var accountName: String?
     var accountNumberLastFour: String?
     var altPaymentStatus: String?
-    var amount: Decimal?
+    var amount: NSDecimalNumber?
     var aquirerReferenceNumber: String?
     var authCode: String?
     var bankAccountNumber: String?
@@ -119,7 +119,7 @@ public enum DataServiceCriteria: String {
     var paymentTypes: [PaymentMethodType]?
     var referenceNumber: String?
     var transactionType: [TransactionType]?
-    var settlementAmount: Decimal?
+    var settlementAmount: NSDecimalNumber?
     var scheduleId: String?
     var siteTrace: String?
     var startBatchDate: Date?

@@ -42,7 +42,7 @@ class Gateway {
         }
 
         let task = session.dataTask(with: request,
-                                    completionHandler: { [weak self] (data, urlResponse, error) in
+                                    completionHandler: { [weak self] data, urlResponse, error in
                                         guard let data = data,
                                             let responseString = String(data: data, encoding: String.Encoding.utf8) else {
                                                 completion(nil, NetworkError.noData)
@@ -52,6 +52,10 @@ class Gateway {
                                         guard let urlResponse = urlResponse as? HTTPURLResponse else {
                                             completion(nil, NetworkError.noResponse)
                                             return
+                                        }
+                                        if let enconding = urlResponse.allHeaderFields["Content-Encoding"] as? String,
+                                            enconding == "gzip" {
+                                            print("do magic")
                                         }
                                         let gatewayResponse = GatewayResponse(
                                             rawResponse: responseString,

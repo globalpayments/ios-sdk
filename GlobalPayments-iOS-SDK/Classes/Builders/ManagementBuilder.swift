@@ -1,7 +1,7 @@
 import Foundation
 
 /// Used to follow up transactions for the supported payment method types.
-public class ManagementBuilder: TransactionBuilder<Transaction> {
+@objcMembers public class ManagementBuilder: TransactionBuilder<Transaction> {
     /// Request amount
     var amount: Decimal?
     /// Request authorization amount

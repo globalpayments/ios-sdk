@@ -1,6 +1,6 @@
 import Foundation
 
-public class TransactionReportBuilder<TResult>: ReportBuilder<TResult> {
+@objcMembers public class TransactionReportBuilder<TResult>: ReportBuilder<TResult> {
 
     lazy var searchCriteriaBuilder: SearchCriteriaBuilder<TResult> = {
         return SearchCriteriaBuilder<TResult>(reportBuilder: self)

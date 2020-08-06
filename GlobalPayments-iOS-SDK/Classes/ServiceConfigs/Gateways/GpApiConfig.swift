@@ -6,19 +6,31 @@ public class GpApiConfig: GatewayConfig {
     /// GP API app key
     public let appKey: String
     /// A unique random value included while creating the secret
-    public var nonce: String = "transactionsapi"
+    public var nonce: String
     /// The time left in seconds before the token expires
     public var secondsToExpire: Int?
     /// The time interval set for when the token will expire
     public var intervalToExpire: IntervalToExpire?
     /// Channel
-    public var channel: Channel = .cardNotPresent
+    public var channel: Channel
     /// Language
-    public var language: Language = .english
+    public var language: Language
 
-    public init(appId: String, appKey: String) {
+    public init(appId: String,
+                appKey: String,
+                nonce: String = "transactionsapi",
+                secondsToExpire: Int? = nil,
+                intervalToExpire: IntervalToExpire? = nil,
+                channel: Channel = .cardNotPresent,
+                language: Language = .english) {
+
         self.appId = appId
         self.appKey = appKey
+        self.nonce = nonce
+        self.secondsToExpire = secondsToExpire
+        self.intervalToExpire = intervalToExpire
+        self.channel = channel
+        self.language = language
         super.init(gatewayProvider: .gpAPI)
     }
 

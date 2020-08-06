@@ -19,18 +19,18 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
         headers["Accept-Encoding"] = "gzip";
     }
 
-    func signIn(completion: @escaping ((Bool) -> Void)) {
+    func signIn(completion: @escaping ((Bool, Error?) -> Void)) {
         let request = SessionInfo.signIn(appId: appId, appKey: appKey, nonce: nonce, secondsToExpire: secondsToExpire, intervalToExpire: intervalToExpire)
 
         sendAccessTokenRequest(request) { [weak self] response, error in
             guard let response = response,
                 let token = response.token else {
-                    completion(false)
+                    completion(false, error)
                     return
             }
             self?.sessionToken = token
             self?.headers["Authorization"] = "Bearer \(token)"
-            completion(true)
+            completion(true, nil)
         }
     }
 
@@ -57,7 +57,11 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
                                 queryStringParams: [String : String]? = nil,
                                 completion: @escaping (String?, Error?) -> Void) {
         guard let sessionToken = sessionToken, !sessionToken.isEmpty else {
-            signIn { _ in
+            signIn { success, error in
+                guard success else {
+                    completion(nil, error)
+                    return
+                }
                 super.doTransaction(method: method,
                                     endpoint: endpoint,
                                     data: data,
@@ -84,11 +88,11 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
             if let parsed = JsonDoc.parse(response.rawResponse),
                 parsed.has(key: "error_code") {
 
-                let errorCode: String? = parsed.getValue(key: "error_code")
-                let detailedErrorCode: String? = parsed.getValue(key: "detailed_error_code")
-                let detailedErrorDescription: String? = parsed.getValue(key: "detailed_error_description")
+                let errorCode: String = parsed.getValue(key: "error_code") ?? .empty
+                let detailedErrorCode: String = parsed.getValue(key: "detailed_error_code") ?? .empty
+                let detailedErrorDescription: String = parsed.getValue(key: "detailed_error_description") ?? .empty
                 completion(nil, GatewayException.generic(
-                    responseCode: Int(errorCode ?? .empty) ?? .zero,
+                    responseCode: Int(errorCode) ?? .zero,
                     responseMessage: "\(String(describing: detailedErrorCode)) - \(String(describing: detailedErrorDescription))"
                     )
                 )

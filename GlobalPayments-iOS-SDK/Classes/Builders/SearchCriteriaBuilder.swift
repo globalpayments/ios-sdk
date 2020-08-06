@@ -66,7 +66,7 @@ public enum DataServiceCriteria: String {
     case timezone
 }
 
-public class SearchCriteriaBuilder<TResult>: NSObject {
+@objcMembers public class SearchCriteriaBuilder<TResult>: NSObject {
     private let reportBuilder: TransactionReportBuilder<TResult>
 
     var accountName: String?

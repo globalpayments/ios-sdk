@@ -1,6 +1,6 @@
 import Foundation
 
-public class TransactionBuilder<TResult>: BaseBuilder<TResult> {
+@objcMembers public class TransactionBuilder<TResult>: BaseBuilder<TResult> {
     public var transactionType: TransactionType
     public var transactionModifier: TransactionModifier?
     public var paymentMethod: PaymentMethod?

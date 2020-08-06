@@ -24,8 +24,10 @@ class SessionInfo {
             .set(for: "nonce", value: nonce)
             .set(for: "grant_type", value: "client_credentials")
             .set(for: "secret", value: generateSecret(nonce, appKey))
-            .set(for: "seconds_to_expire", value: String(secondsToExpire ?? .zero))
             .set(for: "interval_to_expire", value: intervalToExpire?.rawValue)
+        if let secondsToExpire = secondsToExpire {
+            request.set(for: "seconds_to_expire", value: String(secondsToExpire))
+        }
 
         return GpApiRequest(
             endpoint: "/ucp/accesstoken",

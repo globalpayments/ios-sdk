@@ -1,6 +1,6 @@
 import Foundation
 
-public class RecurringBuilder<TResult>: TransactionBuilder<TResult> {
+@objcMembers public class RecurringBuilder<TResult>: TransactionBuilder<TResult> {
 
     var key: String?
     var orderId: String?

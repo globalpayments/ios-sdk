@@ -12,6 +12,16 @@ public class Address: NSObject {
     public var streetAddress3: String?
     /// Consumer's city.
     public var city: String?
+    /// Consumer's state.
+    /// Alias of `Address.province`.
+    public var state: String? {
+        get {
+            return province
+        }
+        set {
+            province = newValue
+        }
+    }
     /// Consumer's name.
     public var name: String?
     /// Consumer's province.

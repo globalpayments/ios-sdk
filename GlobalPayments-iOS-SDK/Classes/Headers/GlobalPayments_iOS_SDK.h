@@ -4,4 +4,8 @@
 #ifndef GlobalPayments_iOS_SDK_h
 #define GlobalPayments_iOS_SDK_h
 
+#import "PaymentMethodType.h"
+#import "ReportType.h"
+#import "TransactionType.h"
+
 #endif /* GlobalPayments_iOS_SDK_h */

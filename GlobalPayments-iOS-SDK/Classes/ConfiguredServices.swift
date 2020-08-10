@@ -2,7 +2,7 @@ public class ConfiguredServices {
 
     private var secure3dProviders: [Secure3dVersion: Secure3dProvider]
     var gatewayConnector: PaymentGateway?
-    var reportingService: ReportingService?
+    var reportingService: IReportingService?
     var recurringConnector: IRecurringService?
 
     public init() {

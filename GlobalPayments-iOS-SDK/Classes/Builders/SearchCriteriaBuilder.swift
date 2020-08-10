@@ -141,6 +141,12 @@ public enum DataServiceCriteria: String {
         return self
     }
 
+    public func and(criteria: SearchCriteria,
+                    transactionStatus: TransactionStatus) -> SearchCriteriaBuilder<TResult> {
+        self.transactionStatus = transactionStatus
+        return self
+    }
+
     public func and<T>(criteria: DataServiceCriteria,
                        value: T) -> SearchCriteriaBuilder<TResult> {
         setValue(value, for: criteria.rawValue)

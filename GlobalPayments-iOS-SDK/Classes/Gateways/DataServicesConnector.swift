@@ -1,6 +1,6 @@
 import Foundation
 
-class DataServicesConnector: RestGateway, ReportingService {
+class DataServicesConnector: RestGateway, IReportingService {
 
     var clientId: String? {
         didSet(newValue) {
@@ -23,7 +23,7 @@ class DataServicesConnector: RestGateway, ReportingService {
         timeout = 30
     }
 
-    // MARK: - ReportingService
+    // MARK: - IReportingService
 
     func processReport<T>(builder: ReportBuilder<T>,
                           completion: ((T?, Error?) -> Void)?) {

@@ -1,6 +1,6 @@
 import Foundation
 
-class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
+class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
     var appId: String = .empty
     var appKey: String = .empty
     var nonce: String = .empty
@@ -341,7 +341,7 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
         if let builder = builder as? TransactionReportBuilder<T> {
             if builder.reportType == .transactionDetail,
                 let transactionId = builder.transactionId {
-                reportUrl += "\(transactionId)"
+                reportUrl += "/\(transactionId)"
             } else if builder.reportType == .findTransactions {
                 queryStringParams["PAGE"] = String(builder.page ?? .zero)
                 queryStringParams["PAGE_SIZE"] = String(builder.pageSize ?? .zero)
@@ -393,9 +393,9 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
         var result: T?
         let json = JsonDoc.parse(rawResponse)
 
-        if reportType == .transactionDetail && result is TransactionSummary {
+        if reportType == .transactionDetail && result is TransactionSummary? {
             result = mapTransactionSummary(json) as? T
-        } else if reportType == .findTransactions && result is [TransactionSummary] {
+        } else if reportType == .findTransactions && result is [TransactionSummary]? {
             if let transactions: [JsonDoc] = json?.getValue(key: "transactions") {
                 let mapped = transactions.map { mapTransactionSummary($0) }
                 result = mapped as? T
@@ -412,11 +412,12 @@ class GpApiConnector: RestGateway, PaymentGateway, ReportingService {
         let summary = TransactionSummary()
         //TODO: Map all transaction properties
         summary.transactionId = doc?.getValue(key: "id")
-        summary.transactionDate = doc?.getValue(key: "time_created")
+        let timeCreated: String? = doc?.getValue(key: "time_created")
+        summary.transactionDate = timeCreated?.format()
         summary.transactionStatus = doc?.getValue(key: "status")
         summary.transactionType = doc?.getValue(key: "type")
         summary.channel = doc?.getValue(key: "channel")
-        summary.amount = doc?.getValue(key: "amount")
+        summary.amount = NSDecimalNumber(string: doc?.getValue(key: "amount"))
         summary.currency = doc?.getValue(key: "currency")
         summary.referenceNumber = doc?.getValue(key: "reference")
         summary.clientTransactionId = doc?.getValue(key: "reference")

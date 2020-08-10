@@ -14,6 +14,8 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		824451BC24E150410080D06B /* GpApiReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824451BB24E150410080D06B /* GpApiReportingTests.swift */; };
+		824451C124E1801D0080D06B /* GpApiDebitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824451C024E1801D0080D06B /* GpApiDebitTests.swift */; };
 		8267BC9824DAB5F100AF64D2 /* GpApiCreditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */; };
 		82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0485724AF367600FC32EC /* CardUtilsTests.swift */; };
 		B3C3C7004F930D956F772A64 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
@@ -47,6 +49,8 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		824451BB24E150410080D06B /* GpApiReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingTests.swift; sourceTree = "<group>"; };
+		824451C024E1801D0080D06B /* GpApiDebitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDebitTests.swift; sourceTree = "<group>"; };
 		8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreditTests.swift; sourceTree = "<group>"; };
 		82B0485724AF367600FC32EC /* CardUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUtilsTests.swift; sourceTree = "<group>"; };
 		866C760D426DC19D7E0BA8F6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -160,6 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */,
+				824451BB24E150410080D06B /* GpApiReportingTests.swift */,
+				824451C024E1801D0080D06B /* GpApiDebitTests.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -380,8 +386,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				824451C124E1801D0080D06B /* GpApiDebitTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */,
+				824451BC24E150410080D06B /* GpApiReportingTests.swift in Sources */,
 				8267BC9824DAB5F100AF64D2 /* GpApiCreditTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

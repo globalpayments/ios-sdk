@@ -53,10 +53,6 @@ class Gateway {
                                             completion(nil, NetworkError.noResponse)
                                             return
                                         }
-                                        if let enconding = urlResponse.allHeaderFields["Content-Encoding"] as? String,
-                                            enconding == "gzip" {
-                                            print("do magic")
-                                        }
                                         let gatewayResponse = GatewayResponse(
                                             rawResponse: responseString,
                                             requestUrl: urlResponse.url?.absoluteString,

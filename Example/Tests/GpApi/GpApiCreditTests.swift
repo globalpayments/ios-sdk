@@ -4,7 +4,7 @@ import GlobalPayments_iOS_SDK
 class GpApiCreditTests: XCTestCase {
     var card: CreditCardData!
 
-    override func setUp() {
+    override func setUpWithError() throws {
         super.setUp()
 
         card = CreditCardData()
@@ -19,7 +19,7 @@ class GpApiCreditTests: XCTestCase {
             channel: .cardNotPresent
         )
 
-        try! ServicesContainer.configureService(config: config)
+        try ServicesContainer.configureService(config: config)
     }
 
     override func tearDown() {
@@ -47,7 +47,7 @@ class GpApiCreditTests: XCTestCase {
         }
 
         // THEN
-        wait(for: [cardExecuteExpectation], timeout: 1000000.0)
+        wait(for: [cardExecuteExpectation], timeout: 10.0)
         XCTAssertNotNil(transactionResponse)
         XCTAssertNil(transactionErrorResponse)
         XCTAssertEqual(transactionResponse?.responseCode, "SUCCESS")

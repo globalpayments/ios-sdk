@@ -58,7 +58,7 @@ public class ServicesContainer {
         return provider
     }
 
-    func reportingClient(configName: String) throws -> ReportingService {
+    func reportingClient(configName: String) throws -> IReportingService {
         guard let reportingService = configurations[configName]?.reportingService else {
             throw ApiException.generic(
                 message: "The specified configuration has not been configured for reporting."

@@ -7,7 +7,7 @@ public class DebitTrackData: Debit, TrackData {
     public var trackNumber: TrackNumber?
     public var trackData: String? {
         didSet(newValue) {
-            value = newValue
+            if newValue != nil { value = newValue }
         }
     }
     public var discretionaryData: String?

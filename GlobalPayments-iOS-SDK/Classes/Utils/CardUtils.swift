@@ -80,7 +80,7 @@ public class CardUtils {
                     discretionary = String(discretionary.dropLast())
                 }
             }
-            paymentMethod.trackNumber = .trackOne
+            paymentMethod.trackNumber = .trackTwo
             paymentMethod.pan = pan
             paymentMethod.expiry = expiry
             paymentMethod.discretionaryData = discretionary

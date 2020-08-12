@@ -21,7 +21,7 @@ public class CountryUtils {
         }
     }
 
-    public func getCountryByCode(_ countryCode: String?) -> String? {
+    public func countryByCode(_ countryCode: String?) -> String? {
         guard let countryCode = countryCode else { return nil }
         // These should be ISO so just check if it's there and return
         if countryMapByCode.keys.contains(countryCode) {
@@ -32,7 +32,7 @@ public class CountryUtils {
         }
     }
 
-    public func getCountryCodeByCountry(_ country: String?) -> String? {
+    public func countryCodeByCountry(_ country: String?) -> String? {
         guard let country = country else { return nil }
 
         // These can be tricky... first check for direct match
@@ -67,6 +67,19 @@ public class CountryUtils {
                 }
             }
         }
+    }
+
+    public func isCountry(_ address: Address, _ countryCode: String?) -> Bool {
+        if address.countryCode != nil {
+            return address.countryCode == countryCode
+        } else if address.country != nil {
+            let code = countryCodeByCountry(address.country)
+            if code != nil {
+                return code == countryCode
+            }
+            return false
+        }
+        return false
     }
 
     // MARK: - Fuzzy Match Algorithm
@@ -105,19 +118,30 @@ public class CountryUtils {
         let queryLowerCase = query.lowercased()
 
         var score = 0
-        var previousMatchingCharacterIndex = -1
+        var index = 0
+        var previousMatchingCharacterIndex = Int.min
 
         for queryChar in queryLowerCase {
+
             var termCharacterMatchFound = false
 
             for (termIndex, termChar) in termLowerCase.enumerated() {
+
                 if termCharacterMatchFound { break }
+                if termIndex < index { continue }
+                if queryChar == termChar {
+                    score += 1
 
-                if queryChar == termChar { score += 1 }
-                if previousMatchingCharacterIndex + 1 == termIndex { score += 2 }
+                    if previousMatchingCharacterIndex + 1 == termIndex {
+                        score += 2
+                    }
 
-                previousMatchingCharacterIndex = termIndex
-                termCharacterMatchFound = true
+                    index = termIndex
+                    previousMatchingCharacterIndex = termIndex
+                    termCharacterMatchFound = true
+                }
+
+                index += 1
             }
         }
 

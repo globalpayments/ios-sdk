@@ -32,7 +32,7 @@ public class Address: NSObject {
     public var country: String? {
         didSet {
             if countryCode == nil {
-                countryCode = CountryUtils.shared.getCountryCodeByCountry(country)
+                countryCode = CountryUtils.shared.countryCodeByCountry(country)
             }
         }
     }
@@ -40,8 +40,12 @@ public class Address: NSObject {
     public var countryCode: String? {
         didSet {
             if country == nil {
-                country = CountryUtils.shared.getCountryByCode(countryCode)
+                country = CountryUtils.shared.countryByCode(countryCode)
             }
         }
+    }
+
+    public func isCountry(_ code: String?) -> Bool {
+        return CountryUtils.shared.isCountry(self, code)
     }
 }

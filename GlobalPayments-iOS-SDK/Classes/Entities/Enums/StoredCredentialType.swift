@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum StoredCredentialType: Int {
+public enum StoredCredentialType {
     case oneOff
     case installment
     case recurring

@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum ReorderIndicator: Int {
+public enum ReorderIndicator {
     case firstTimeOrder
     case reorder
 }

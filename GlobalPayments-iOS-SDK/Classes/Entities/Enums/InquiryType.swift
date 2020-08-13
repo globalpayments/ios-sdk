@@ -1,7 +1,7 @@
 import Foundation
 
 /// Indicates an inquiry type.
-@objc public enum InquiryType: Int {
+public enum InquiryType {
     /// Indicates a foodstamp inquiry.
     case foodstamp
     /// Indicates a cash inquiry.

@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum MessageCategory: Int {
+public enum MessageCategory {
     case paymentAuthentication
     case nonPaymentAuthentication
 }

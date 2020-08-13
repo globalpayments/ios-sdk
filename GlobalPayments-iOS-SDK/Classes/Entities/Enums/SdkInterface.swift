@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum SdkInterface: Int {
+public enum SdkInterface {
     case native
     case browser
     case both

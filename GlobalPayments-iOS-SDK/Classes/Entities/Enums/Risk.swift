@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum Risk: Int {
+public enum Risk {
     case high
     case low
 }

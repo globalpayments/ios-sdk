@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum DeliveryTimeFrame: Int {
+public enum DeliveryTimeFrame {
     case electronicDelivery
     case sameDate
     case overnight

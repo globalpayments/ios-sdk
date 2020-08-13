@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum ShippingMethod: Int {
+public enum ShippingMethod {
     case billingAddress
     case anotherVerifiedAddress
     case unverifiedAddress

@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum OrderTransactionType: Int {
+public enum OrderTransactionType {
     case goodsServicePurchase
     case checkAcceptance
     case accountFunding

@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum PreOrderIndicator: Int {
+public enum PreOrderIndicator {
     case merchandiseAvailable
     case futureAvailablity
 }

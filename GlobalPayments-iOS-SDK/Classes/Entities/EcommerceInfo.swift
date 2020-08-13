@@ -1,7 +1,7 @@
 import Foundation
 
 /// Identifies eCommerce vs mail order / telephone order (MOTO) transactions.
-@objc public enum EcommerceChannel: Int {
+public enum EcommerceChannel {
     /// Identifies eCommerce transactions.
     case ecom
     /// Identifies mail order / telephone order (MOTO) transactions.

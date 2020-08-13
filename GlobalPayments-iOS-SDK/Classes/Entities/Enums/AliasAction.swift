@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum AliasAction: Int {
+public enum AliasAction {
     case create
     case add
     case delete

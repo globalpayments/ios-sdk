@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum TrackNumber: Int {
+public enum TrackNumber {
     case unknown
     case trackOne
     case trackTwo

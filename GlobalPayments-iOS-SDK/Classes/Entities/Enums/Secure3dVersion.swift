@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum Secure3dVersion: Int {
+public enum Secure3dVersion: Int {
     case none
     case one
     case two

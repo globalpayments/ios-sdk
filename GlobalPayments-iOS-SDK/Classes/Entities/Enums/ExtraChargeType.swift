@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum ExtraChargeType: Int {
+public enum ExtraChargeType {
     case giftShop
     case laundry
     case miniBar

@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum SdkUiType: Int {
+public enum SdkUiType {
     case text
     case singleSelect
     case multiSelect

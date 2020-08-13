@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum StoredCredentialInitiator: Int {
+public enum StoredCredentialInitiator {
     case cardHolder
     case merchant
     case scheduled

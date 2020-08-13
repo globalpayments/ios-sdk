@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum DccProcessor: Int {
+public enum DccProcessor {
     case fexco
     case euroconex
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Indicates when in the month a recurring schedule should run.
-@objc public enum PaymentSchedule: Int {
+public enum PaymentSchedule {
     /// Indicates a specified date.
     case dynamic
     /// Indicates the first of the month.

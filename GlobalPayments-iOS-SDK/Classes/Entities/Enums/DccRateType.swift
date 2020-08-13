@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum DccRateType: Int {
+public enum DccRateType {
     case sale
     case refund
 }

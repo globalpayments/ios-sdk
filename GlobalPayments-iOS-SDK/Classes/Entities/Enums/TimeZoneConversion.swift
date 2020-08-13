@@ -1,7 +1,7 @@
 import Foundation
 
 /// Indicates how timezones should be handled.
-@objc public enum TimeZoneConversion: Int {
+public enum TimeZoneConversion {
     /// Indicates time is in coordinated universal time (UTC).
     case utc
     /// Indicates the merchant is responsible for timezone conversions.

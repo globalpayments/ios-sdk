@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum MethodUrlCompletion: Int {
+public enum MethodUrlCompletion {
     case yes
     case no
     case unavailable

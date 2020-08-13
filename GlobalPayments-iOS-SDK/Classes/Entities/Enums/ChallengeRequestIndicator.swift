@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum ChallengeRequestIndicator: Int {
+public enum ChallengeRequestIndicator {
     case noPreference
     case noChallengeRequested
     case challengePrefered

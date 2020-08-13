@@ -2,7 +2,7 @@ import Foundation
 
 /// Indicates when an email receipt should be sent for the transaction.
 /// Currently only used in recurring schedules.
-@objc public enum EmailReceipt: Int {
+public enum EmailReceipt {
     /// Indicates an email receipt should never be sent.
     case never
     /// Indicates an email receipt should always be sent.

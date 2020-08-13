@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum StoredCredentialSequence: Int {
+public enum StoredCredentialSequence {
     case first
     case subsequent
 }

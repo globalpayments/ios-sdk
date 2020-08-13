@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum TransactionModifier: Int {
+public enum TransactionModifier {
     case none
     case incremental
     case additional

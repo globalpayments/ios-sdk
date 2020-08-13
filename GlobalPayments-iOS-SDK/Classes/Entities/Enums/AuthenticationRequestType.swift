@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum AuthenticationRequestType: Int {
+public enum AuthenticationRequestType {
     case paymentTransaction
     case recurringTransaction
     case installmentTransaction

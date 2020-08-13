@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum PrestigiousPropertyLimit: Int {
+public enum PrestigiousPropertyLimit {
     case limit500
     case limit1000
     case limit1500

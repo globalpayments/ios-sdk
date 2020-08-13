@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum CustomerAuthenticationMethod: Int {
+public enum CustomerAuthenticationMethod {
     case notAuthenticated
     case merchantSystemAuthentication
     case federatedIdAuthentication

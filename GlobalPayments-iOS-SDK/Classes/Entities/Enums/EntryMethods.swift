@@ -1,7 +1,7 @@
 import Foundation
 
 /// Indicates how the payment method data was obtained.
-@objc public enum EntryMethod: Int {
+public enum EntryMethod {
     ///Indicates manual entry.
     case manual
     ///Indicates swipe entry.

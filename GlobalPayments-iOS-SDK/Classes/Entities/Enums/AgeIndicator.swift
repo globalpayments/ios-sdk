@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum AgeIndicator: Int {
+public enum AgeIndicator {
     case noAccount
     case noChange
     case thisTransaction

@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum ReversalReasonCode: Int {
+public enum ReversalReasonCode {
     case customerCancelattion
     case terminalError
     case timeout

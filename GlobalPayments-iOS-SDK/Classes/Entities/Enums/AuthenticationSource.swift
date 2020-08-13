@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum AuthenticationSource: Int {
+public enum AuthenticationSource {
     case browser
     case storedRecurring
     case mobileSDK

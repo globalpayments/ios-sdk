@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum AdvancedDepositType: Int {
+public enum AdvancedDepositType {
     case assuredReservation
     case cardDeposit
     case purchase

@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public enum PriorAuthenticationMethod: Int {
+public enum PriorAuthenticationMethod {
     case frictionlessAuthentication
     case challengeOccured
     case avsVerified

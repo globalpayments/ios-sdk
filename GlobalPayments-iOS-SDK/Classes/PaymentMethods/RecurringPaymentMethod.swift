@@ -42,7 +42,7 @@ public class RecurringPaymentMethod: RecurringEntity<RecurringPaymentMethod>, Pa
     /// Creates an authorization against the payment method.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func authorize(amount: NSDecimalNumber = .zero,
+    public func authorize(amount: NSDecimalNumber? = nil,
                           isEstimated: Bool = false) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .auth, paymentMethod: self)
             .withAmount(amount)

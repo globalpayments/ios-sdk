@@ -177,15 +177,20 @@ import Foundation
     public override func execute(configName: String = "default",
                                  completion: ((Transaction?, Error?) -> Void)?) {
 
-        super.execute(configName: configName, completion: nil)
-        do {
-            try ServicesContainer.shared
-                .client(configName: configName)
-                .manageTransaction(self, completion: { transaction in
-                    completion?(transaction, nil)
-                })
-        } catch {
-            completion?(nil, error)
+        super.execute(configName: configName) { _, error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            do {
+                try ServicesContainer.shared
+                    .client(configName: configName)
+                    .manageTransaction(self, completion: { transaction in
+                        completion?(transaction, nil)
+                    })
+            } catch {
+                completion?(nil, error)
+            }
         }
     }
 
@@ -212,6 +217,19 @@ import Foundation
             .check(propertyName: "paymentMethod")?.isInstanceOf(type: CreditCardData.self)
 
         validations.of(transactionType: [.capture, .edit, .hold, .release, .tokenUpdate, .tokenDelete, .verifySignature, .refund])
-            .check(propertyName: "voidReason")?.isNotNil()
+            .check(propertyName: "voidReason")?.isNil()
+    }
+}
+
+extension ManagementBuilder: CustomReflectable {
+
+    public var customMirror: Mirror {
+        return Mirror(self, children: [
+            "authorizationCode": authorizationCode as Any,
+            "clientTransactionId": transactionId as Any,
+            "orderId": orderId as Any,
+            "transactionId": transactionId as Any
+            ]
+        )
     }
 }

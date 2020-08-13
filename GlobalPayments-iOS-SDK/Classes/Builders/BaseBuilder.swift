@@ -14,6 +14,7 @@ import Foundation
                         completion: ((TResult?, Error?) -> Void)?) {
         do {
             try validations.validate(builder: self)
+            completion?(nil, nil)
         } catch {
             completion?(nil, error)
         }

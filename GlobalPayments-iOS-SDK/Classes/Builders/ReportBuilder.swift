@@ -10,12 +10,18 @@ import Foundation
 
     public override func execute(configName: String = "default",
                                  completion: ((TResult?, Error?) -> Void)?) {
-        super.execute(configName: configName, completion: nil)
-        do {
-            let client = try ServicesContainer.shared.reportingClient(configName: configName)
-            client.processReport(builder: self, completion: completion)
-        } catch {
-            completion?(nil, error)
+        
+        super.execute(configName: configName) { _, error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            do {
+                let client = try ServicesContainer.shared.reportingClient(configName: configName)
+                client.processReport(builder: self, completion: completion)
+            } catch {
+                completion?(nil, error)
+            }
         }
     }
 }

@@ -23,10 +23,10 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// - Parameters:
     ///   - amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
-    public func authorize(amount: NSDecimalNumber = .zero,
+    public func authorize(amount: NSDecimalNumber? = nil,
                           isEstimated: Bool = false) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .auth, paymentMethod: self)
-            .withAmount(amount)
+            .withAmount(amount ?? threeDSecure?.amount)
             .withCurrency(threeDSecure?.currency)
             .withOrderId(threeDSecure?.orderId)
             .withAmountEstimated(isEstimated)

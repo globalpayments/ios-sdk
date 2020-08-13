@@ -6,6 +6,8 @@ class GpApiEbtTests: XCTestCase {
     var card: EBTCardData!
 
     override func setUpWithError() throws {
+        try super.setUpWithError()
+
         try ServicesContainer.configureService(config: GpApiConfig(
             appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
             appKey: "QDsW1ETQKHX6Y4TA",
@@ -22,6 +24,8 @@ class GpApiEbtTests: XCTestCase {
     }
 
     override func tearDown() {
+        super.tearDown()
+
         card = nil
     }
 

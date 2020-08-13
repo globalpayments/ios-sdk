@@ -1,34 +1,34 @@
 import Foundation
 
-public typealias ResultCallback = ((NSObject) -> Bool)
+typealias ResultCallback = ((NSObject) -> Bool)
 
-public class ValidationClause {
+class ValidationClause {
     /// All Validations
     public let parent: Validations
     /// Target of this validation clause
     public let target: ValidationTarget
-    /// Validation clause is a precondition
-    public let precondition: Bool
-    /// Failed validation message
-    public var message: String?
     /// Property to check
     public let propertyName: String
     /// Callback to test a given property
     public var callback: ResultCallback?
+    /// Failed validation message
+    public var message: String?
+    /// Validation clause is a precondition
+    public let precondition: Bool
 
     public init(parent: Validations,
                 target: ValidationTarget,
-                precondition: Bool = false,
-                message: String? = nil,
                 propertyName: String,
-                callback: ResultCallback? = nil) {
+                callback: ResultCallback? = nil,
+                message: String? = nil,
+                precondition: Bool = false) {
 
         self.parent = parent
         self.target = target
-        self.precondition = precondition
-        self.message = message
         self.propertyName = propertyName
         self.callback = callback
+        self.message = message
+        self.precondition = precondition
     }
 
     /// Validates the target property is not null
@@ -131,15 +131,40 @@ public class ValidationClause {
 }
 
 extension NSObject {
+
     public func value(for property: String) -> Any? {
-        guard responds(to: Selector(property)) else {
-            return nil
-        }
-        return value(forKey: property)
+        let mirror = Mirror(reflecting: self)
+        let child = mirror.allChildren.filter { $0.label == property }.first
+        return Optional.isNil(child?.value) ? nil : child?.value
     }
 
     public func setValue(_ value: Any?, for property: String) {
         guard responds(to: Selector(property)) else { return }
         setValue(value, forKey: property)
+    }
+}
+
+private extension Mirror {
+
+    var allChildren: [Mirror.Child] {
+        var allChildren = [Mirror.Child]()
+        var mirror: Mirror! = self
+        repeat {
+            allChildren.append(contentsOf: mirror.children)
+            mirror = mirror.superclassMirror
+        } while mirror != nil
+        return allChildren
+    }
+}
+
+private extension Optional {
+
+    static func isNil(_ object: Wrapped) -> Bool {
+        switch object as Any {
+        case Optional<Any>.none:
+            return true
+        default:
+            return false
+        }
     }
 }

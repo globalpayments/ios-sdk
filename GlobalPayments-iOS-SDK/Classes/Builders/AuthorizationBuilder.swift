@@ -335,7 +335,7 @@ import Foundation
     /// The merchant is required to supply this value as obtained when calling the issuing bank for the authorization.
     /// - Parameter offlineAuthCode: The offline authorization code
     /// - Returns: AuthorizationBuilder
-    public func withOfflineAuthCode(_ offlineAuthCode: String) -> AuthorizationBuilder {
+    public func withOfflineAuthCode(_ offlineAuthCode: String?) -> AuthorizationBuilder {
         self.offlineAuthCode = offlineAuthCode
         self.transactionModifier = .offline
         return self
@@ -367,7 +367,7 @@ import Foundation
     /// Sets the transaction's payment method.
     /// - Parameter paymentMethod: The payment method
     /// - Returns: AuthorizationBuilder
-    public func withPaymentMethod(_ paymentMethod: PaymentMethod) -> AuthorizationBuilder {
+    public func withPaymentMethod(_ paymentMethod: PaymentMethod?) -> AuthorizationBuilder {
         self.paymentMethod = paymentMethod
         if let paymentMethod = paymentMethod as? EBTCardData,
             paymentMethod.serialNumber != nil {
@@ -502,7 +502,7 @@ import Foundation
         return self
     }
 
-    public func withReplacementCard(_ replacementCard: GiftCard) -> AuthorizationBuilder {
+    public func withReplacementCard(_ replacementCard: GiftCard?) -> AuthorizationBuilder {
         self.replacementCard = replacementCard
         return self
     }
@@ -524,12 +524,18 @@ import Foundation
     /// - Returns: Transaction
     public override func execute(configName: String = "default",
                                  completion: ((Transaction?, Error?) -> Void)?) {
-        super.execute(configName: configName, completion: nil)
-        do {
-            let client = try ServicesContainer.shared.client(configName: configName)
-            client.processAuthorization(self, completion: completion)
-        } catch {
-            completion?(nil, error)
+
+        super.execute(configName: configName) { _, error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            do {
+                let client = try ServicesContainer.shared.client(configName: configName)
+                client.processAuthorization(self, completion: completion)
+            } catch {
+                completion?(nil, error)
+            }
         }
     }
 
@@ -584,10 +590,6 @@ import Foundation
         validations.of(transactionType: .replace)
             .check(propertyName: "replacementCard")?.isNotNil()
 
-        validations.of(transactionType: [.auth, .sale])
-            .with(modifier: .encryptedMobile)
-            .check(propertyName: "paymentMethod")?.isNotNil()
-
         validations.of(paymentMethodType: .ach)
             .check(propertyName: "billingAddress")?.isNotNil()
 
@@ -595,13 +597,9 @@ import Foundation
             .when(propertyName: "reversalReasonCode")?.isNotNil()?
             .check(propertyName: "transactionType")?.isEqualTo(expected: TransactionType.reversal)
 
-        validations.of(paymentMethodType: [.debit, .credit])
-            .when(propertyName: "emvChipCondition")?.isNotNil()?
-            .check(propertyName: "tagData")?.isNil()
-
-        validations.of(paymentMethodType: [.debit, .credit])
-            .when(propertyName: "tagData")?.isNotNil()?
-            .check(propertyName: "emvChipCondition")?.isNil()
+        validations.of(transactionType: [.auth, .sale])
+            .with(modifier: .encryptedMobile)
+            .check(propertyName: "paymentMethod")?.isNotNil()
 
         validations.of(paymentMethodType: .recurring)
             .check(propertyName: "shippingAmt")?.isNil()

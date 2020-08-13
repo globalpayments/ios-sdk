@@ -2,13 +2,9 @@ import Foundation
 
 private typealias ValidationRules = [RuleType: [ValidationTarget]]
 
-public class Validations: NSObject {
+class Validations {
 
-    private var rules: ValidationRules
-
-    public required override init() {
-        self.rules = ValidationRules()
-    }
+    private var rules = ValidationRules()
 
     public func of(ruleType: RuleType) -> ValidationTarget? {
         if let transactionType = ruleType.transactionType {
@@ -17,21 +13,33 @@ public class Validations: NSObject {
         if let paymentMethodType = ruleType.paymentMethodType {
             return of(paymentMethodType: paymentMethodType)
         }
+        if let reportType = ruleType.reportType {
+            return of(reportType: reportType)
+        }
         return nil
     }
 
-    public func of(transactionType: TransactionType) -> ValidationTarget {
-        let ruleType = RuleType(transactionType: transactionType)
+    func of(transactionType: TransactionType) -> ValidationTarget {
+        let ruleType = RuleType(
+            value: transactionType.rawValue,
+            transactionType: transactionType
+        )
         return addRule(ruleType)
     }
 
-    public func of(paymentMethodType: PaymentMethodType) -> ValidationTarget {
-        let ruleType = RuleType(paymentMethodType: paymentMethodType)
+    func of(paymentMethodType: PaymentMethodType) -> ValidationTarget {
+        let ruleType = RuleType(
+            value: paymentMethodType.rawValue,
+            paymentMethodType: paymentMethodType
+        )
         return addRule(ruleType)
     }
 
-    public func of(reportType: ReportType) -> ValidationTarget {
-        let ruleType = RuleType(reportType: reportType)
+    func of(reportType: ReportType) -> ValidationTarget {
+        let ruleType = RuleType(
+            value: reportType.rawValue,
+            reportType: reportType
+        )
         return addRule(ruleType)
     }
 
@@ -46,28 +54,15 @@ public class Validations: NSObject {
         return target
     }
 
-    public func validate<T>(builder: BaseBuilder<T>) throws {
-        for key in rules.keys {
+    func validate<T>(builder: BaseBuilder<T>) throws {
 
-            var value: Any?
-            if key.transactionType != nil {
-                value = Validations.getTransactionType(in: builder)
-            }
-            if key.paymentMethodType != nil {
-                value = Validations.getPaymentMethodType(in: builder)
-            }
-            if key.reportType != nil {
-                value = Validations.getReportType(in: builder)
-            }
-            if value == nil, builder is TransactionBuilder {
-                if key.transactionType != nil,
-                    let transactionBuilder = builder as? TransactionBuilder<T> {
-                    value = Validations.getTransactionType(in: transactionBuilder.paymentMethod)
-                    if value == nil { continue }
-                }
-                if key.paymentMethodType != nil,
-                    let transactionBuilder = builder as? TransactionBuilder<T> {
-                    value = Validations.getPaymentMethodType(in: transactionBuilder.paymentMethod)
+        for key in rules.keys {
+            var value: Any? = Validations.propertyValue(in: builder, for: key.name)
+
+            if value == nil && builder is TransactionBuilder<T> {
+                if let transactionBuilder = builder as? TransactionBuilder<T>,
+                    let paymentMethod = transactionBuilder.paymentMethod {
+                    value = Validations.propertyValue(in: paymentMethod, for: key.name)
                     if value == nil { continue }
                 }
             }
@@ -80,7 +75,7 @@ public class Validations: NSObject {
 
                 // Modifier
                 if validation.modifier != nil {
-                    let modifier = Validations.getTransactionModifier(in: builder)
+                    let modifier = Validations.transactionModifier(in: builder)
                     if validation.modifier != modifier {
                         continue
                     }
@@ -107,47 +102,64 @@ public class Validations: NSObject {
 
 extension Validations {
 
-    private static func getTransactionType<T: NSObject>(in object: T?) -> TransactionType? {
-        return object?.value(for: "transactionType") as? TransactionType
+    private static func propertyValue<T: NSObject>(in object: T?, for key: String) -> Any? {
+        return object?.value(for: key)
     }
 
-    private static func getPaymentMethodType<T: NSObject>(in object: T?) -> PaymentMethodType? {
-        return object?.value(for: "paymentMethodType") as? PaymentMethodType
-    }
-
-    private static func getReportType<T: NSObject>(in object: T?) -> ReportType? {
-        return object?.value(for: "reportType") as? ReportType
-    }
-
-    private static func getTransactionModifier<T>(in baseBuilder: BaseBuilder<T>) -> TransactionModifier? {
+    private static func transactionModifier<T>(in baseBuilder: BaseBuilder<T>) -> TransactionModifier? {
         return baseBuilder.value(for: "transactionModifier") as? TransactionModifier
     }
 }
 
-public class RuleType: NSObject {
+struct RuleType: Hashable {
+    let value: Int
     let transactionType: TransactionType?
     let paymentMethodType: PaymentMethodType?
     let reportType: ReportType?
 
-    init(transactionType: TransactionType? = nil,
+    init(value: Int,
+         transactionType: TransactionType? = nil,
          paymentMethodType: PaymentMethodType? = nil,
          reportType: ReportType? = nil) {
 
+        self.value = value
         self.transactionType = transactionType
         self.paymentMethodType = paymentMethodType
         self.reportType = reportType
     }
 
+    static func == (lhs: RuleType, rhs: RuleType) -> Bool {
+        return lhs.value == rhs.value
+    }
+
     func contains(value: Any?) -> Bool {
-        if let type = value as? TransactionType {
-            return transactionType == type
+
+        if let transactionType = transactionType,
+            let selectedOption = value as? TransactionType {
+            return transactionType.contains(selectedOption)
         }
-        if let type = value as? PaymentMethodType {
-            return paymentMethodType == type
+
+        if let paymentMethodType = paymentMethodType,
+            let selectedOption = value as? PaymentMethodType {
+            return paymentMethodType.contains(selectedOption)
         }
-        if let type = value as? ReportType {
-            return reportType == type
+
+        if let reportType = reportType,
+            let selectedOption = value as? ReportType {
+            return reportType.contains(selectedOption)
         }
+
         return false
     }
+
+    var name: String {
+        if transactionType   != nil { return "transactionType" }
+        if paymentMethodType != nil { return "paymentMethodType" }
+        if reportType        != nil { return "reportType" }
+        return .empty
+    }
 }
+
+extension TransactionType: Hashable {}
+extension PaymentMethodType: Hashable {}
+extension ReportType: Hashable {}

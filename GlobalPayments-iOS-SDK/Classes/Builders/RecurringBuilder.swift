@@ -24,14 +24,20 @@ import Foundation
     /// Executes the builder against the gateway.
     public override func execute(configName: String = "default",
                                  completion: ((TResult?, Error?) -> Void)?) {
-        super.execute(configName: configName, completion: nil)
-        do {
-            let client = try ServicesContainer.shared.recurringClient(configName: configName)
-            client.processRecurring(builder: self, completion: { result in
-                completion?(result, nil)
-            })
-        } catch {
-            completion?(nil, error)
+
+        super.execute(configName: configName) { _, error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            do {
+                let client = try ServicesContainer.shared.recurringClient(configName: configName)
+                client.processRecurring(builder: self, completion: { result in
+                    completion?(result, nil)
+                })
+            } catch {
+                completion?(nil, error)
+            }
         }
     }
 

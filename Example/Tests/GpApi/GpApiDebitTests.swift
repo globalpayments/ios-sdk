@@ -4,6 +4,8 @@ import GlobalPayments_iOS_SDK
 class GpApiDebitTests: XCTestCase {
 
     override func setUpWithError() throws {
+        try super.setUpWithError()
+
         try ServicesContainer.configureService(config: GpApiConfig(
             appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
             appKey: "QDsW1ETQKHX6Y4TA",

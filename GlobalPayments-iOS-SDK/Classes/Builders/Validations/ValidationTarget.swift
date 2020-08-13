@@ -1,18 +1,18 @@
 import Foundation
 
-public class ValidationTarget: NSObject {
+class ValidationTarget {
     /// All Validations
-    public let parent: Validations
+    let parent: Validations
+    /// Specified validations to test against the property's value
+    var precondition: ValidationClause?
+    /// Specified validations to test against the property's value
+    var clause: ValidationClause?
     /// Validation type
-    public let type: RuleType
+    let type: RuleType
     /// Validation modifier
-    public var modifier: TransactionModifier?
+    var modifier: TransactionModifier?
     /// Property to validate
-    public var property: String?
-    /// Specified validations to test against the property's value
-    public var clause: ValidationClause?
-    /// Specified validations to test against the property's value
-    public var precondition: ValidationClause?
+    var property: String?
 
     public init(parent: Validations,
                 type: RuleType,
@@ -45,8 +45,8 @@ public class ValidationTarget: NSObject {
         precondition = ValidationClause(
             parent: parent,
             target: self,
-            precondition: true,
-            propertyName: propertyName
+            propertyName: propertyName,
+            precondition: true
         )
         return precondition
     }

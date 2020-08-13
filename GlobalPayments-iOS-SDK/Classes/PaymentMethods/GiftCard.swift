@@ -109,7 +109,7 @@ public class GiftCard: NSObject, PaymentMethod, PrePaid, Balanceable, Reversable
     /// transferring the balance from the old card to the new card in the process.
     /// - Parameter newCard: The replacement gift card
     /// - Returns: AuthorizationBuilder
-    public func replaceWith(newCard: GiftCard) -> AuthorizationBuilder {
+    public func replaceWith(newCard: GiftCard?) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .replace, paymentMethod: self)
             .withReplacementCard(newCard)
     }

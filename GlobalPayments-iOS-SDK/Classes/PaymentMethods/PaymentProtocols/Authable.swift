@@ -1,5 +1,5 @@
 import Foundation
 
 public protocol Authable {
-    func authorize(amount: NSDecimalNumber, isEstimated: Bool) -> AuthorizationBuilder
+    func authorize(amount: NSDecimalNumber?, isEstimated: Bool) -> AuthorizationBuilder
 }

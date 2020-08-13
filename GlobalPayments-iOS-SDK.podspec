@@ -31,7 +31,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '8.0'
 
   s.source_files 		= 'GlobalPayments-iOS-SDK/Classes/**/*'
-  s.public_header_files = 'GlobalPayments-iOS-SDK/Classes/**/*.h'
+  #s.public_header_files = 'GlobalPayments-iOS-SDK/Classes/**/*.h'
   
   # s.resource_bundles = {
   #   'GlobalPayments-iOS-SDK' => ['GlobalPayments-iOS-SDK/Assets/*.png']

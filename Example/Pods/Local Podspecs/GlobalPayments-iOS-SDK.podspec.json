@@ -18,6 +18,5 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "GlobalPayments-iOS-SDK/Classes/**/*",
-  "public_header_files": "GlobalPayments-iOS-SDK/Classes/**/*.h"
+  "source_files": "GlobalPayments-iOS-SDK/Classes/**/*"
 }

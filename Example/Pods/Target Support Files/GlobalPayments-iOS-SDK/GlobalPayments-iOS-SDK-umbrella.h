@@ -10,10 +10,6 @@
 #endif
 #endif
 
-#import "PaymentMethodType.h"
-#import "ReportType.h"
-#import "TransactionType.h"
-#import "GlobalPayments_iOS_SDK.h"
 
 FOUNDATION_EXPORT double GlobalPayments_iOS_SDKVersionNumber;
 FOUNDATION_EXPORT const unsigned char GlobalPayments_iOS_SDKVersionString[];

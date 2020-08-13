@@ -159,7 +159,3 @@ struct RuleType: Hashable {
         return .empty
     }
 }
-
-extension TransactionType: Hashable {}
-extension PaymentMethodType: Hashable {}
-extension ReportType: Hashable {}

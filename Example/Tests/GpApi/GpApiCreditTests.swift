@@ -224,4 +224,103 @@ class GpApiCreditTests: XCTestCase {
         XCTAssertEqual(reverseResponse?.responseCode, "SUCCESS")
         XCTAssertEqual(statusResponse, TransactionStatus.reversed)
     }
+
+    func test_credit_authorization_for_multi_capture() {
+        // GIVEN
+        let transactionExpectation = expectation(description: "Transaction")
+        var transactionResponse: Transaction?
+        var transactionError: Error?
+        var statusResponse: TransactionStatus?
+
+        // WHEN
+        card.authorize(amount: 14)
+            .withCurrency("USD")
+            .withMultiCapture(true)
+            .withAllowDuplicates(true)
+            .execute { transaction, error in
+                transactionResponse = transaction
+                transactionError = error
+                statusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                transactionExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [transactionExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionResponse)
+        XCTAssertNil(transactionError)
+        XCTAssertEqual(transactionResponse?.responseCode, "SUCCESS")
+        XCTAssertEqual(statusResponse, TransactionStatus.preauthorized)
+
+        // GIVEN
+        let capture1Expectation = expectation(description: "Capture 1")
+        var capture1Response: Transaction?
+        var capture1Error: Error?
+        var capture1StatusResponse: TransactionStatus?
+
+        // WHEN
+        transactionResponse?
+            .capture(amount: 3)
+            .execute(completion: { capture, error in
+                capture1Response = capture
+                capture1Error = error
+                capture1StatusResponse = TransactionStatus(rawValue: capture!.responseMessage!)
+                capture1Expectation.fulfill()
+            }
+        )
+
+        // THEN
+        wait(for: [capture1Expectation], timeout: 10.0)
+        XCTAssertNotNil(capture1Response)
+        XCTAssertNil(capture1Error)
+        XCTAssertEqual(capture1Response?.responseCode, "SUCCESS")
+        XCTAssertEqual(capture1StatusResponse, TransactionStatus.captured)
+
+        // GIVEN
+        let capture2Expectation = expectation(description: "Capture 2")
+        var capture2Response: Transaction?
+        var capture2Error: Error?
+        var capture2StatusResponse: TransactionStatus?
+
+        // WHEN
+        transactionResponse?
+            .capture(amount: 5)
+            .execute(completion: { capture, error in
+                capture2Response = capture
+                capture2Error = error
+                capture2StatusResponse = TransactionStatus(rawValue: capture!.responseMessage!)
+                capture2Expectation.fulfill()
+            }
+        )
+
+        // THEN
+        wait(for: [capture2Expectation], timeout: 10.0)
+        XCTAssertNotNil(capture2Response)
+        XCTAssertNil(capture2Error)
+        XCTAssertEqual(capture2Response?.responseCode, "SUCCESS")
+        XCTAssertEqual(capture2StatusResponse, TransactionStatus.captured)
+
+        // GIVEN
+        let capture3Expectation = expectation(description: "Capture 3")
+        var capture3Response: Transaction?
+        var capture3Error: Error?
+        var capture3StatusResponse: TransactionStatus?
+
+        // WHEN
+        transactionResponse?
+            .capture(amount: 7)
+            .execute(completion: { capture, error in
+                capture3Response = capture
+                capture3Error = error
+                capture3StatusResponse = TransactionStatus(rawValue: capture!.responseMessage!)
+                capture3Expectation.fulfill()
+            }
+        )
+
+        // THEN
+        wait(for: [capture3Expectation], timeout: 10.0)
+        XCTAssertNotNil(capture3Response)
+        XCTAssertNil(capture3Error)
+        XCTAssertEqual(capture3Response?.responseCode, "SUCCESS")
+        XCTAssertEqual(capture3StatusResponse, TransactionStatus.captured)
+    }
 }

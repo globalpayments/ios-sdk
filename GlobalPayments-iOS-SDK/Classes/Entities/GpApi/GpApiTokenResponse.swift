@@ -8,8 +8,21 @@ class GpApiTokenResponse {
     var timeCreated: Date?
     var secondsToExpire: Int?
     var email: String?
-    //var statusCode: Int?
-    //var responseMessage: String?
+    var merchantId: String?
+    var merchantName: String?
+    var accounts = [GpApiAccount]()
+    var dataAccountName: String? {
+        return accountName(with: "DAA_")
+    }
+    var disputeManagementAccountName: String? {
+        return accountName(with: "DIA_")
+    }
+    var tokenizationAccountName: String? {
+        return accountName(with: "TKA_")
+    }
+    var transactionProcessingAccountName: String? {
+        return accountName(with: "TRA_")
+    }
 
     init(_ jsonString: String) {
         let doc = JsonDoc.parse(jsonString)
@@ -21,10 +34,26 @@ class GpApiTokenResponse {
         type = doc?.getValue(key: "type")
         appId = doc?.getValue(key: "app_id")
         appName = doc?.getValue(key: "app_name")
-        timeCreated = doc?.getValue(key: "time_created")
+        timeCreated = doc?.getValue(key: "time_created") //??
         secondsToExpire = doc?.getValue(key: "seconds_to_expire")
         email = doc?.getValue(key: "email")
-        //statusCode = doc?.getValue(key: "status_code")
-        //responseMessage = doc?.getValue(key: "response_message")
+        if let doc = doc, doc.has(key: "scope") {
+            let scope = doc.get(valueFor: "scope")
+            merchantId = scope?.getValue(key: "merchant_id")
+            merchantName = scope?.getValue(key: "merchant_name")
+            if let scope = scope, scope.has(key: "accounts"),
+                let accounts = scope.getEnumerator(key: "accounts") {
+                self.accounts = accounts.map {
+                    GpApiAccount(
+                        id: $0.getValue(key: "id"),
+                        name: $0.getValue(key: "name")
+                    )
+                }
+            }
+        }
+    }
+
+    private func accountName(with prefix: String) -> String? {
+        return accounts.first(where: { ($0.id ?? .empty).hasPrefix(prefix) })?.name
     }
 }

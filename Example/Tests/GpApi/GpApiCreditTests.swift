@@ -42,7 +42,9 @@ class GpApiCreditTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionErrorResponse = error
-                transactionStatusResponse = TransactionStatus(rawValue: transactionResponse!.responseMessage!)
+                if let responseMessage = transactionResponse?.responseMessage {
+                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 cardExecuteExpectation.fulfill()
         }
 
@@ -66,7 +68,9 @@ class GpApiCreditTests: XCTestCase {
             .execute(completion: { capture, error in
                 captureResponse = capture
                 captureErrorResponse = error
-                captureStatusResponse = TransactionStatus(rawValue: captureResponse!.responseMessage!)
+                if let responseMessage = captureResponse?.responseMessage {
+                    captureStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 transactionExecuteExpectation.fulfill()
             })
 
@@ -97,7 +101,9 @@ class GpApiCreditTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionErrorResponse = error
-                transactionStatusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = transactionResponse?.responseMessage {
+                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 executeExpectation.fulfill()
         }
 
@@ -123,7 +129,9 @@ class GpApiCreditTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionErrorResponse = error
-                transactionStatusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = transactionResponse?.responseMessage {
+                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 executeExpectation.fulfill()
         }
 
@@ -168,7 +176,9 @@ class GpApiCreditTests: XCTestCase {
             .execute(completion: { transaction, error in
                 cardResponse = transaction
                 cardErrorResponse = error
-                statusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = cardResponse?.responseMessage {
+                    statusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 cardExecuteExpectation.fulfill()
             })
 
@@ -213,7 +223,9 @@ class GpApiCreditTests: XCTestCase {
             .execute { transaction, error in
                 reverseResponse = transaction
                 reverseError = error
-                statusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = reverseResponse?.responseMessage {
+                    statusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 reverseExpectation.fulfill()
         }
 
@@ -240,7 +252,9 @@ class GpApiCreditTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionError = error
-                statusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = transactionResponse?.responseMessage {
+                    statusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 transactionExpectation.fulfill()
         }
 
@@ -263,7 +277,9 @@ class GpApiCreditTests: XCTestCase {
             .execute(completion: { capture, error in
                 capture1Response = capture
                 capture1Error = error
-                capture1StatusResponse = TransactionStatus(rawValue: capture!.responseMessage!)
+                if let responseMessage = capture?.responseMessage {
+                    capture1StatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 capture1Expectation.fulfill()
             }
         )
@@ -287,7 +303,9 @@ class GpApiCreditTests: XCTestCase {
             .execute(completion: { capture, error in
                 capture2Response = capture
                 capture2Error = error
-                capture2StatusResponse = TransactionStatus(rawValue: capture!.responseMessage!)
+                if let responseMessage = capture?.responseMessage {
+                    capture2StatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 capture2Expectation.fulfill()
             }
         )
@@ -311,7 +329,9 @@ class GpApiCreditTests: XCTestCase {
             .execute(completion: { capture, error in
                 capture3Response = capture
                 capture3Error = error
-                capture3StatusResponse = TransactionStatus(rawValue: capture!.responseMessage!)
+                if let responseMessage = capture?.responseMessage {
+                    capture3StatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 capture3Expectation.fulfill()
             }
         )

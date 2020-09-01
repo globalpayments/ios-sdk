@@ -32,7 +32,9 @@ class GpApiDebitTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionError = error
-                transactionStatusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = transaction?.responseMessage {
+                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 trackChargeExpectation.fulfill()
         }
 
@@ -62,7 +64,9 @@ class GpApiDebitTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionError = error
-                transactionStatusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = transaction?.responseMessage {
+                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 debitRefundExpectation.fulfill()
         }
 
@@ -93,7 +97,9 @@ class GpApiDebitTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionError = error
-                transactionStatusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = transaction?.responseMessage {
+                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 debitSaleExpectation.fulfill()
         }
 
@@ -125,7 +131,9 @@ class GpApiDebitTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionError = error
-                transactionStatusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = transaction?.responseMessage {
+                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 debitSaleExpectation.fulfill()
         }
 
@@ -157,7 +165,9 @@ class GpApiDebitTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionError = error
-                transactionStatusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = transaction?.responseMessage {
+                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 debitSaleExpectation.fulfill()
         }
 

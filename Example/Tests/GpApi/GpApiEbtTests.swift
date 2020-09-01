@@ -83,7 +83,9 @@ class GpApiEbtTests: XCTestCase {
             .execute { transaction, error in
                 transactionResult = transaction
                 transactionError = error
-                transactionStatusResponse = TransactionStatus(rawValue: transaction!.responseMessage!)
+                if let responseMessage = transaction?.responseMessage {
+                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
                 ebtRefundExpectation.fulfill()
         }
 

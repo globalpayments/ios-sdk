@@ -48,6 +48,7 @@ class Gateway {
                                                 completion(nil, NetworkError.noData)
                                                 return
                                         }
+                                        
                                         self?.requestLogger?.responseReceived(response: responseString)
                                         guard let urlResponse = urlResponse as? HTTPURLResponse else {
                                             completion(nil, NetworkError.noResponse)

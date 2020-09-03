@@ -81,7 +81,7 @@ class DataServicesConnector: RestGateway, IReportingService {
             if errorCode != "1205" {
                 return GatewayException.generic(
                     responseCode: Int(errorCode ?? .empty) ?? .zero,
-                    responseMessage: "\(errorMessage ?? .empty) \(errorType ?? .empty)") as? T
+                    responseMessage: "\(String(describing: errorMessage)) \(String(describing: errorType))") as? T
             }
         }
 

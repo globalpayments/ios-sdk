@@ -80,47 +80,86 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
         return AuthorizationBuilder(transactionType: .verify, paymentMethod: self)
     }
 
-    public func tokenize(completion: ((String?, Error?) -> Void)?) {
-        AuthorizationBuilder(transactionType: .verify, paymentMethod: self)
+    public func tokenize(configName: String = "default",
+                         completion: ((String?, Error?) -> Void)?) {
+
+        tokenize(validateCard: true, configName: configName, completion: completion)
+    }
+
+    public func tokenize(validateCard: Bool,
+                         configName: String = "default",
+                         completion: ((String?, Error?) -> Void)?) {
+
+        let type: TransactionType = validateCard ? .verify : .tokenize
+        AuthorizationBuilder(transactionType: type, paymentMethod: self)
             .withRequestMultiUseToken(true)
-            .execute { transaction, error in
+            .execute(configName: configName, completion: { transaction, error in
                 completion?(transaction?.token, error)
+            })
+    }
+
+    /// Detokenizes payment method
+    public func detokenize(
+        configName: String = "default",
+        completion: ((String?, Error?) -> Void)?) {
+
+        if token.isNilOrEmpty {
+            completion?(nil, BuilderException.generic(message: "Token cannot be null"))
+            return
         }
+
+        ManagementBuilder(transactionType: .detokenize)
+            .withPaymentMethod(self)
+            .execute(configName: configName, completion: { transaction, error in
+                if let error = error {
+                    completion?(nil, error)
+                    return
+                }
+                completion?(transaction?.cardNumber, nil)
+            })
     }
 
     /// Updates the token expiry date with the values proced to the card object
     /// - Throws: BuilderException
     /// - Returns: boolean value indicating success/failure
-    public func updateTokenExpiry(completion: ((Bool?, Error?) -> Void)?) throws {
+    public func updateTokenExpiry(
+        configName: String = "default",
+        completion: ((Bool, Error?) -> Void)?) {
+
         if token.isNilOrEmpty {
-            throw BuilderException.generic(message: "Token cannot be null")
+            completion?(false, BuilderException.generic(message: "Token cannot be null"))
+            return
         }
         ManagementBuilder(transactionType: .tokenUpdate)
             .withPaymentMethod(self)
-            .execute { transaction, error in
+            .execute(configName: configName, completion: { transaction, error in
                 if let error = error {
-                    completion?(nil, error)
+                    completion?(false, error)
                     return
                 }
                 completion?(transaction != nil, nil)
-        }
+            })
     }
 
     /// Deletes the token associated with the current card object
     /// - Throws: BuilderException
     /// - Returns: boolean value indicating success/failure
-    public func deleteToken(completion: ((Bool?, Error?) -> Void)?) throws {
+    public func deleteToken(
+        configName: String = "default",
+        completion: ((Bool, Error?) -> Void)?) {
+
         if token.isNilOrEmpty {
-            throw BuilderException.generic(message: "Token cannot be null")
+            completion?(false, BuilderException.generic(message: "Token cannot be null"))
+            return
         }
         ManagementBuilder(transactionType: .tokenDelete)
             .withPaymentMethod(self)
-            .execute { transaction, error in
+            .execute(configName: configName, completion: { transaction, error in
                 if let error = error {
-                    completion?(nil, error)
+                    completion?(false, error)
                     return
                 }
                 completion?(transaction != nil, nil)
-        }
+            })
     }
 }

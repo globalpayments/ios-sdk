@@ -76,4 +76,9 @@ public struct TransactionType: OptionSet, Hashable {
     public static let increment              = TransactionType(rawValue: 1 << 33)
     /// Indicates a token only transaction
     public static let tokenize               = TransactionType(rawValue: 1 << 34)
+    public static let cashOut                = TransactionType(rawValue: 1 << 35)
+    public static let payment                = TransactionType(rawValue: 1 << 36)
+    public static let cashAdvance            = TransactionType(rawValue: 1 << 37)
+    /// Indicates a detokenization transaction
+    public static let detokenize             = TransactionType(rawValue: 1 << 38)
 }

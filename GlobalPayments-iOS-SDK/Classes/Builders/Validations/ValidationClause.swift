@@ -62,7 +62,7 @@ class ValidationClause {
     ///   - class: AnyClass
     ///   - message: Validation message to override the default
     /// - Returns: ValidationTarget
-    @discardableResult public func isInstanceOf<T>(type: T, message: String? = nil) -> ValidationTarget? {
+    @discardableResult public func isInstanceOf<T>(type: T.Type, message: String? = nil) -> ValidationTarget? {
         callback = { builder in
             let value = builder.value(for: self.propertyName)
             return value is T

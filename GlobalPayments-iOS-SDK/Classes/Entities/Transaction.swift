@@ -35,8 +35,12 @@ public class Transaction: NSObject {
     public var cardType: String?
     /// The last four digits of the card number used in the transaction.
     public var cardLast4: String?
-    /// The  card number used in the transaction.
+    /// The card number used in the transaction.
     public var cardNumber: String?
+    /// The card expiry month used in the transaction
+    public var cardExpMonth: Int?
+    /// The card expiry year used in the transaction
+    public var cardExpYear: Int?
     /// The consumer authentication (3DSecure) verification value response code.
     public var cavvResponseCode: String?
     /// The client transaction ID supplied in the request.

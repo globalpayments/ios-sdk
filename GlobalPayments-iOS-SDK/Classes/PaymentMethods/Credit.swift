@@ -98,27 +98,6 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
             })
     }
 
-    /// Detokenizes payment method
-    public func detokenize(
-        configName: String = "default",
-        completion: ((String?, Error?) -> Void)?) {
-
-        if token.isNilOrEmpty {
-            completion?(nil, BuilderException.generic(message: "Token cannot be null"))
-            return
-        }
-
-        ManagementBuilder(transactionType: .detokenize)
-            .withPaymentMethod(self)
-            .execute(configName: configName, completion: { transaction, error in
-                if let error = error {
-                    completion?(nil, error)
-                    return
-                }
-                completion?(transaction?.cardNumber, nil)
-            })
-    }
-
     /// Updates the token expiry date with the values proced to the card object
     /// - Throws: BuilderException
     /// - Returns: boolean value indicating success/failure

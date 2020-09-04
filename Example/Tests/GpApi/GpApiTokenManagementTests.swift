@@ -81,23 +81,24 @@ class GpApiTokenManagementTests: XCTestCase {
     func test_detokenize_payment_method() {
         // GIVEN
         let detokenizeExpectation = expectation(description: "Detokenize Expectation")
-        var responseResult: String?
+        var responseCard: CreditCardData?
         var responseError: Error?
         let tokenizedCard = CreditCardData()
         tokenizedCard.token = token
 
         // WHEN
         tokenizedCard.detokenize { response, error in
-            responseResult = response
+            responseCard = response
             responseError = error
             detokenizeExpectation.fulfill()
         }
 
         // THEN
         wait(for: [detokenizeExpectation], timeout: 10.0)
-        XCTAssertNotNil(responseResult)
+        XCTAssertNotNil(responseCard)
         XCTAssertNil(responseError)
-        XCTAssertEqual(card?.number, responseResult)
+        XCTAssertEqual(card?.number, responseCard?.number)
+        XCTAssertEqual(card?.shortExpiry, responseCard?.shortExpiry)
     }
 
     func test_update_tokenized_payment_method() {

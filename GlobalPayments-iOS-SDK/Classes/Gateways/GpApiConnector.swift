@@ -460,14 +460,17 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
         transaction.batchSummary = batchSummary
         transaction.responseCode = json?.get(valueFor: "action")?.getValue(key: "result_code")
         transaction.token = json?.getValue(key: "id")
-        transaction.cardNumber = json?.get(valueFor: "card")?.getValue(key: "number")
-        transaction.cardType = json?.get(valueFor: "card")?.getValue(key: "brand")
 
-        if let card: JsonDoc = json?.get(valueFor: "card"),
-            let month = Int(card.getValue(key: "expiry_month") ?? .empty),
-            let year = Int(card.getValue(key: "expiry_year") ?? .empty) {
-            transaction.cardExpMonth = Int(month)
-            transaction.cardExpYear = Int(year)
+        if let paymentMethod: JsonDoc = json?.get(valueFor: "payment_method"),
+            let card: JsonDoc = paymentMethod.get(valueFor: "card") {
+            transaction.cardLast4 = card.getValue(key: "masked_number_last4")
+        }
+
+        if let card: JsonDoc = json?.get(valueFor: "card") {
+            transaction.cardExpMonth = Int(card.getValue(key: "expiry_month") ?? .empty)
+            transaction.cardExpYear = Int(card.getValue(key: "expiry_year") ?? .empty)
+            transaction.cardNumber = card.getValue(key: "number")
+            transaction.cardType = card.getValue(key: "brand")
         }
 
         return transaction

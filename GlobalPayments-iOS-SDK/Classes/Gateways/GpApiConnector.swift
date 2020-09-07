@@ -3,7 +3,6 @@ import Foundation
 class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
     var appId: String = .empty
     var appKey: String = .empty
-    var nonce: String = .empty
     var secondsToExpire: Int?
     var intervalToExpire: IntervalToExpire?
     var channel: Channel?
@@ -24,7 +23,7 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
     }
 
     func signIn(completion: @escaping ((Bool, Error?) -> Void)) {
-        let request = SessionInfo.signIn(appId: appId, appKey: appKey, nonce: nonce, secondsToExpire: secondsToExpire, intervalToExpire: intervalToExpire)
+        let request = SessionInfo.signIn(appId: appId, appKey: appKey, secondsToExpire: secondsToExpire, intervalToExpire: intervalToExpire)
 
         sendAccessTokenRequest(request) { [weak self] response, error in
             guard let response = response,

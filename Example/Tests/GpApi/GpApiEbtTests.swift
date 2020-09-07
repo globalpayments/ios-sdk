@@ -32,14 +32,14 @@ class GpApiEbtTests: XCTestCase {
     func test_ebt_balance_inquiry() {
         // GIVEN
         let balanceInquiryExpectation = expectation(description: "EBT Balance Inquiry expectation")
-        var transactionResult: Transaction?
-        var transactionError: Error?
+        //var transactionResult: Transaction?
+        //var transactionError: Error?
 
         // WHEN
         card.balanceInquiry()
             .execute { transaction, error in
-                transactionResult = transaction
-                transactionError = error
+                //transactionResult = transaction
+                //transactionError = error
                 balanceInquiryExpectation.fulfill()
         }
 

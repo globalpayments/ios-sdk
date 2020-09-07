@@ -46,7 +46,6 @@ public class GpApiConfig: GatewayConfig {
         let gateway = GpApiConnector()
         gateway.appId = appId
         gateway.appKey = appKey
-        gateway.nonce = nonce
         gateway.secondsToExpire = secondsToExpire
         gateway.intervalToExpire = intervalToExpire
         gateway.channel = channel

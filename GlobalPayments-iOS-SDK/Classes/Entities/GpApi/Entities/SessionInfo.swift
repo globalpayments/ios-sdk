@@ -15,10 +15,9 @@ class SessionInfo {
 
     static func signIn(appId: String,
                        appKey: String,
-                       nonce: String,
                        secondsToExpire: Int? = nil,
                        intervalToExpire: IntervalToExpire? = nil) -> GpApiRequest {
-
+        let nonce = String(Date().timeIntervalSince1970)
         let request = JsonDoc()
             .set(for: "app_id", value: appId)
             .set(for: "nonce", value: nonce)

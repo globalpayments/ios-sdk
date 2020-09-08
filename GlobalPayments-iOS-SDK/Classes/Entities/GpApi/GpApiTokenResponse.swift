@@ -34,7 +34,9 @@ class GpApiTokenResponse {
         type = doc?.getValue(key: "type")
         appId = doc?.getValue(key: "app_id")
         appName = doc?.getValue(key: "app_name")
-        timeCreated = doc?.getValue(key: "time_created") //??
+        if let createdTime: String = doc?.getValue(key: "time_created") {
+            timeCreated = createdTime.format()
+        }
         secondsToExpire = doc?.getValue(key: "seconds_to_expire")
         email = doc?.getValue(key: "email")
         if let doc = doc, doc.has(key: "scope") {

@@ -7,7 +7,9 @@ class TransactionsInfo: GpApiEntity {
 
     override func fromJson(_ doc: JsonDoc) {
         id = doc.getValue(key: "id")
-        timeCreated = doc.getValue(key: "time_created")
+        if let createdTime: String = doc.getValue(key: "time_created") {
+            timeCreated = createdTime.format()
+        }
         status = doc.getValue(key: "status")
     }
 

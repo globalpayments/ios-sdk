@@ -23,9 +23,7 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
     }
 
     func signIn(completion: @escaping ((Bool, Error?) -> Void)) {
-        let request = SessionInfo.signIn(appId: appId, appKey: appKey, secondsToExpire: secondsToExpire, intervalToExpire: intervalToExpire)
-
-        sendAccessTokenRequest(request) { [weak self] response, error in
+        sendAccessTokenRequest() { [weak self] response, error in
             guard let response = response,
                 let token = response.token else {
                     completion(false, error)
@@ -41,8 +39,11 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
         }
     }
 
-    private func sendAccessTokenRequest(_ request: GpApiRequest,
-                                        _ completion: @escaping ((GpApiTokenResponse?, Error?) -> Void)) {
+    private func sendAccessTokenRequest(_ completion: @escaping ((GpApiTokenResponse?, Error?) -> Void)) {
+        headers.removeValue(forKey: "Authorization")
+        sessionToken = nil
+
+        let request = SessionInfo.signIn(appId: appId, appKey: appKey, secondsToExpire: secondsToExpire, intervalToExpire: intervalToExpire)
 
         super.doTransaction(method: .post,
                             endpoint: request.endpoint,

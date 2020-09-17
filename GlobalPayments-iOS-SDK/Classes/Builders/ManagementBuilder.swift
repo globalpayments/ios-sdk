@@ -185,8 +185,8 @@ import Foundation
             do {
                 try ServicesContainer.shared
                     .client(configName: configName)
-                    .manageTransaction(self, completion: { transaction in
-                        completion?(transaction, nil)
+                    .manageTransaction(self, completion: { transaction, error in
+                        completion?(transaction, error)
                     })
             } catch {
                 completion?(nil, error)

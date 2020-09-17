@@ -10,7 +10,7 @@ public class PorticoConnector: PaymentGateway {
     }
 
     func manageTransaction(_ builder: ManagementBuilder,
-                           completion: ((Transaction?) -> Void)?) {
+                           completion: ((Transaction?, Error?) -> Void)?) {
         
     }
 

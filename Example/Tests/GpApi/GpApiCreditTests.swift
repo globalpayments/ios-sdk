@@ -148,6 +148,7 @@ class GpApiCreditTests: XCTestCase {
         let transactionExecuteExpectation = expectation(description: "Credit Refund")
         var transactionResponse: Transaction?
         var transactionErrorResponse: Error?
+        var transactionStatus: TransactionStatus?
 
         // WHEN
         card.charge(amount: 10.95)
@@ -156,6 +157,9 @@ class GpApiCreditTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionErrorResponse = error
+                if let responseMessage = transaction?.responseMessage {
+                    transactionStatus = TransactionStatus(rawValue: responseMessage)
+                }
                 transactionExecuteExpectation.fulfill()
         }
 
@@ -163,6 +167,8 @@ class GpApiCreditTests: XCTestCase {
         wait(for: [transactionExecuteExpectation], timeout: 10.0)
         XCTAssertNotNil(transactionResponse)
         XCTAssertNil(transactionErrorResponse)
+        XCTAssertEqual(transactionResponse?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionStatus, TransactionStatus.captured)
 
         // GIVEN
         let cardExecuteExpectation = expectation(description: "Credit Refund")
@@ -195,6 +201,7 @@ class GpApiCreditTests: XCTestCase {
         let transactionExpectation = expectation(description: "Transaction")
         var transactionResponse: Transaction?
         var transactionError: Error?
+        var transactionStatus: TransactionStatus?
 
         // WHEN
         card.charge(amount: 12.99)
@@ -203,6 +210,9 @@ class GpApiCreditTests: XCTestCase {
             .execute { transaction, error in
                 transactionResponse = transaction
                 transactionError = error
+                if let responseMessage = transaction?.responseMessage {
+                    transactionStatus = TransactionStatus(rawValue: responseMessage)
+                }
                 transactionExpectation.fulfill()
         }
 
@@ -210,6 +220,8 @@ class GpApiCreditTests: XCTestCase {
         wait(for: [transactionExpectation], timeout: 10.0)
         XCTAssertNotNil(transactionResponse)
         XCTAssertNil(transactionError)
+        XCTAssertEqual(transactionResponse?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionStatus, TransactionStatus.captured)
 
         // GIVEN
         let reverseExpectation = expectation(description: "Response")
@@ -235,6 +247,55 @@ class GpApiCreditTests: XCTestCase {
         XCTAssertNil(reverseError)
         XCTAssertEqual(reverseResponse?.responseCode, "SUCCESS")
         XCTAssertEqual(statusResponse, TransactionStatus.reversed)
+    }
+
+    func test_credit_partial_reverse_transaction() {
+        // GIVEN
+        let transactionExpectation = expectation(description: "Transaction")
+        var transactionResponse: Transaction?
+        var transactionError: Error?
+        var transactionStatus: TransactionStatus?
+
+        // WHEN
+        card.charge(amount: 3.99)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .execute { transaction, error in
+            transactionResponse = transaction
+            transactionError = error
+            if let responseMessage = transaction?.responseMessage {
+                transactionStatus = TransactionStatus(rawValue: responseMessage)
+            }
+            transactionExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [transactionExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionResponse)
+        XCTAssertNil(transactionError)
+        XCTAssertEqual(transactionResponse?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionStatus, TransactionStatus.captured)
+
+        // GIVEN
+        let errorExpectation = expectation(description: "Error Expectation")
+        var failedTransaction: Transaction?
+        var failedError: GatewayException?
+
+        // WHEN
+        transactionResponse?
+            .reverse(amount: 1.29)
+            .execute { transaction, error in
+                failedTransaction = transaction
+                if let error = error as? GatewayException {
+                    failedError = error
+                }
+                errorExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [errorExpectation], timeout: 10.0)
+        XCTAssertNil(failedTransaction)
+        XCTAssertNotNil(failedError)
     }
 
     func test_credit_authorization_for_multi_capture() {

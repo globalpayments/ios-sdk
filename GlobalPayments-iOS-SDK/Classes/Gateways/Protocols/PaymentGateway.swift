@@ -14,6 +14,6 @@ protocol PaymentGateway {
     ///   - builder: The transaction's builder
     ///   - completion: Transaction
     func manageTransaction(_ builder: ManagementBuilder,
-                           completion: ((Transaction?) -> Void)?)
+                           completion: ((Transaction?, Error?) -> Void)?)
     func serializeRequest(_ builder: AuthorizationBuilder) -> String?
 }

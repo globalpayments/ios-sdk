@@ -344,7 +344,7 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
     }
 
     func manageTransaction(_ builder: ManagementBuilder,
-                           completion: ((Transaction?) -> Void)?) {
+                           completion: ((Transaction?, Error?) -> Void)?) {
 
         if builder.transactionType == .capture {
             let data = JsonDoc()
@@ -354,13 +354,13 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
                 method: .post,
                 endpoint: "/ucp/transactions/\(builder.transactionId ?? .empty)/capture",
                 data: data.toString()
-            ) { [weak self] response, _ in
+            ) { [weak self] response, error in
                 guard let response = response else {
-                    completion?(nil)
+                    completion?(nil, error)
                     return
                 }
                 let transaction = self?.mapResponse(response)
-                completion?(transaction)
+                completion?(transaction, nil)
             }
         } else if builder.transactionType == .refund {
             let data = JsonDoc()
@@ -369,13 +369,13 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
                 method: .post,
                 endpoint: "/ucp/transactions/\(builder.transactionId ?? .empty)/refund",
                 data: data.toString()
-            ) { [weak self] response, _ in
+            ) { [weak self] response, error in
                 guard let response = response else {
-                    completion?(nil)
+                    completion?(nil, error)
                     return
                 }
                 let transaction = self?.mapResponse(response)
-                completion?(transaction)
+                completion?(transaction, nil)
             }
         } else if builder.transactionType == .reversal {
             let data = JsonDoc()
@@ -384,13 +384,13 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
                 method: .post,
                 endpoint: "/ucp/transactions/\(builder.transactionId ?? .empty)/reversal",
                 data: data.toString()
-            ) { [weak self] response, _ in
+            ) { [weak self] response, error in
                 guard let response = response else {
-                    completion?(nil)
+                    completion?(nil, error)
                     return
                 }
                 let transaction = self?.mapResponse(response)
-                completion?(transaction)
+                completion?(transaction, nil)
             }
         } else if let creditCardData = builder.paymentMethod as? CreditCardData, builder.transactionType == .tokenUpdate {
 
@@ -407,11 +407,11 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
                 data: payload.toString()
             ) { [weak self] response, error in
                 guard let response = response else {
-                    completion?(nil)
+                    completion?(nil, error)
                     return
                 }
                 let transaction = self?.mapResponse(response)
-                completion?(transaction)
+                completion?(transaction, nil)
             }
         } else if let tokenizable = builder.paymentMethod as? Tokenizable,
             builder.transactionType == .tokenDelete {
@@ -419,13 +419,13 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
             doTransaction(
                 method: .post,
                 endpoint: "/ucp/payment-methods/\(tokenizable.token ?? .empty)/delete"
-            ) { [weak self] response, _ in
+            ) { [weak self] response, error in
                 guard let response = response else {
-                    completion?(nil)
+                    completion?(nil, error)
                     return
                 }
                 let transaction = self?.mapResponse(response)
-                completion?(transaction)
+                completion?(transaction, nil)
             }
         } else if let detokenizable = builder.paymentMethod as? Tokenizable,
             builder.transactionType == .detokenize {
@@ -433,13 +433,13 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
             doTransaction(
                 method: .post,
                 endpoint: "/ucp/payment-methods/\(detokenizable.token ?? .empty)/detokenize"
-            ) { [weak self] response, _ in
+            ) { [weak self] response, error in
                 guard let response = response else {
-                    completion?(nil)
+                    completion?(nil, error)
                     return
                 }
                 let transaction = self?.mapResponse(response)
-                completion?(transaction)
+                completion?(transaction, nil)
             }
         }
     }

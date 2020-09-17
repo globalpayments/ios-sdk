@@ -58,6 +58,6 @@ class GpApiReportingTests: XCTestCase {
         wait(for: [reportingExecuteExpectation], timeout: 10.0)
         XCTAssertNotNil(transactionsSummaryResponse)
         XCTAssertNil(transactionsSummaryError)
-        XCTAssert(!transactionsSummaryResponse!.isEmpty)
+        XCTAssertEqual(transactionsSummaryResponse!.isEmpty, false)
     }
 }

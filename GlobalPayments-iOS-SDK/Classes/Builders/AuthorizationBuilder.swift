@@ -547,7 +547,9 @@ import Foundation
         if client.supportsHostedPayments {
             return client.serializeRequest(self)
         }
-        throw UnsupportedTransactionException.generic(message: "You current gateway does not support hosted payments.")
+        throw UnsupportedTransactionException(
+            message: "You current gateway does not support hosted payments."
+        )
     }
 
     public override func setupValidations() {

@@ -34,9 +34,9 @@ class RestGateway: Gateway {
         if response.statusCode != 200 && response.statusCode != 204 {
             let parsed = JsonDoc.parse(response.rawResponse)
             let error = parsed?.get(valueFor: "error") ?? parsed
-            completion(nil, GatewayException.generic(
-                responseCode: response.statusCode,
-                responseMessage: error?.getValue(key: "message")
+            let message: String? = error?.getValue(key: "message")
+            completion(nil, GatewayException(
+                message: "Status Code: \(response.statusCode) - \(message ?? .empty)"
                 )
             )
             return

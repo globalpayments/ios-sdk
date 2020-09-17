@@ -32,10 +32,14 @@ public class GatewayConfig: Configuration {
 
         if !dataClientId.isNilOrEmpty || !dataClientSecret.isNilOrEmpty {
             if dataClientId.isNilOrEmpty || dataClientSecret.isNilOrEmpty {
-                throw ConfigurationException.generic(message: "Both \"DataClientID\" and \"DataClientSecret\" are required for data client services.")
+                throw ConfigurationException(
+                    message: "Both \"DataClientID\" and \"DataClientSecret\" are required for data client services."
+                )
             }
             if dataClientUserId.isNilOrEmpty {
-                throw ConfigurationException.generic(message: "DataClientUserId required for data client services.")
+                throw ConfigurationException(
+                    message: "DataClientUserId required for data client services."
+                )
             }
         }
     }

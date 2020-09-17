@@ -38,18 +38,18 @@ public class MerchantDataCollection: NSObject {
 
     public func put(key: String?, value: String?, isVisible: Bool = true) throws {
         guard let key = key else {
-            throw ApiException.generic(
+            throw ApiException(
                 message: String(format: "Key can't be nil")
             )
         }
         guard let value = value else {
-            throw ApiException.generic(
+            throw ApiException(
                 message: String(format: "Value can't be nil")
             )
         }
         if let _ = collection.first(where: { $0.key == key }) {
             if isVisible {
-                throw ApiException.generic(
+                throw ApiException(
                     message: String(format: "Key %@ already exists in the collection.", key)
                 )
             } else {

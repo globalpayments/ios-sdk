@@ -17,9 +17,8 @@ class XmlGateway: Gateway {
                             return
                         }
                         if response.statusCode != 200 {
-                            completion(nil, GatewayException.generic(
-                                responseCode: response.statusCode,
-                                responseMessage: "Unexpected http status code"
+                            completion(nil, GatewayException(
+                                message: "Unexpected http status code [\(response.statusCode)]"
                                 )
                             )
                             return

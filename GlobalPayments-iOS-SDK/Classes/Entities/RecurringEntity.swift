@@ -55,7 +55,7 @@ public class RecurringEntity<TResult>: NSObject, Recurring {
                     }
             }
         }
-        throw UnsupportedTransactionException.generic(
+        throw UnsupportedTransactionException(
             message: "Transaction type not supported for this payment method."
         )
     }
@@ -76,7 +76,7 @@ public class RecurringEntity<TResult>: NSObject, Recurring {
                 completion?((results as? [TResult]), nil)
             }
         }
-        throw UnsupportedTransactionException.generic(
+        throw UnsupportedTransactionException(
             message: "Transaction type not supported for this payment method."
         )
     }

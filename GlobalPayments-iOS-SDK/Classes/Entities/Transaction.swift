@@ -201,8 +201,8 @@ public class Transaction: NSObject {
             .withAmount(amount)
         if multiCapture {
             builder = builder.withMultiCapture(
-                sequence: multiCaptureSequence!,
-                paymentCount: multiCapturePaymentCount!
+                sequence: multiCaptureSequence,
+                paymentCount: multiCapturePaymentCount
             )
         }
         return builder

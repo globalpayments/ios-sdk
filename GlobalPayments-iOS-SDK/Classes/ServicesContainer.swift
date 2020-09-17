@@ -46,12 +46,12 @@ public class ServicesContainer {
     func secure3DProvider(configName: String,
                           version: Secure3dVersion) throws -> Secure3dProvider {
         guard let configuredService = configurations[configName] else {
-            throw ConfigurationException.generic(
+            throw ConfigurationException(
                 message: "Secure 3d is not configured on the connector."
             )
         }
         guard let provider = configuredService.secure3DProvider(for: version) else {
-            throw ConfigurationException.generic(
+            throw ConfigurationException(
                 message: "Secure 3d is not configured for version \(version)"
             )
         }
@@ -60,7 +60,7 @@ public class ServicesContainer {
 
     func reportingClient(configName: String) throws -> IReportingService {
         guard let reportingService = configurations[configName]?.reportingService else {
-            throw ApiException.generic(
+            throw ApiException(
                 message: "The specified configuration has not been configured for reporting."
             )
         }
@@ -69,7 +69,7 @@ public class ServicesContainer {
 
     func client(configName: String) throws -> PaymentGateway {
         guard let gatewayConnector = configurations[configName]?.gatewayConnector else {
-            throw ApiException.generic(
+            throw ApiException(
                 message: "The specified configuration has not been configured for gateway processing."
             )
         }
@@ -78,7 +78,7 @@ public class ServicesContainer {
 
     func recurringClient(configName: String) throws -> IRecurringService {
         guard let recurringConnector = configurations[configName]?.recurringConnector else {
-            throw ApiException.generic(
+            throw ApiException(
                 message: "The specified configuration has not been configured for recurring processing."
             )
         }

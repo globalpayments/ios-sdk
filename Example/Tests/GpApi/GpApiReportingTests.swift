@@ -58,6 +58,31 @@ class GpApiReportingTests: XCTestCase {
         wait(for: [reportingExecuteExpectation], timeout: 10.0)
         XCTAssertNotNil(transactionsSummaryResponse)
         XCTAssertNil(transactionsSummaryError)
-        XCTAssertEqual(transactionsSummaryResponse!.isEmpty, false)
+        if let response = transactionsSummaryResponse {
+            XCTAssertEqual(response.isEmpty, false)
+        } else {
+            XCTFail("transactionsSummaryResponse cannot be nil")
+        }
+    }
+
+    func test_report_find_transactions_no_criteria() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "FindTransactionsExpectation")
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService
+            .findTransactions()
+            .execute { list, error in
+                transactionSummaryList = list
+                transactionError = error
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertNil(transactionError)
     }
 }

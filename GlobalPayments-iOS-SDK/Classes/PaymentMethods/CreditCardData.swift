@@ -121,7 +121,7 @@ public class CreditCardData: Credit, CardData {
         completion: ((CreditCardData?, Error?) -> Void)?) {
 
         if token.isNilOrEmpty {
-            completion?(nil, BuilderException.generic(message: "Token cannot be null"))
+            completion?(nil, BuilderException(message: "Token cannot be null"))
             return
         }
 

@@ -79,9 +79,11 @@ class DataServicesConnector: RestGateway, IReportingService {
             let errorMessage: String? = error?.getValue(key: "errorMessage")
             // If it's 1205, then it's no data... which is not an error
             if errorCode != "1205" {
-                return GatewayException.generic(
-                    responseCode: Int(errorCode ?? .empty) ?? .zero,
-                    responseMessage: "\(String(describing: errorMessage)) \(String(describing: errorType))") as? T
+                return GatewayException(
+                    message: errorMessage,
+                    responseCode: errorCode,
+                    responseMessage: errorType
+                ) as? T
             }
         }
 
@@ -133,9 +135,8 @@ class DataServicesConnector: RestGateway, IReportingService {
         }
         if response.statusCode != 200 {
             let message = JsonDoc.parseSingleValue(response.rawResponse, "moreInformation") as? JsonDoc
-            completion(nil, GatewayException.generic(
-                responseCode: response.statusCode,
-                responseMessage: message?.toString() ?? .empty
+            completion(nil, GatewayException(
+                message: "Status Code: \(response.statusCode) - \(message?.toString() ?? .empty)"
                 )
             )
             return

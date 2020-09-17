@@ -115,6 +115,48 @@ class GpApiCreditTests: XCTestCase {
         XCTAssertEqual(transactionStatusResponse, TransactionStatus.captured)
     }
 
+    func test_credit_capture() {
+        // GIVEN
+        let authorizeExpectation = expectation(description: "Authorize Expectation")
+        var authorizeTransaction: Transaction?
+        var authorizeError: Error?
+
+        // WHEN
+        card.authorize(amount: 14)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .execute { transaction, error in
+                authorizeTransaction = transaction
+                authorizeError = error
+                authorizeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [authorizeExpectation], timeout: 10.0)
+        XCTAssertNotNil(authorizeTransaction)
+        XCTAssertNil(authorizeError)
+
+        // GIVEN
+        let captureExpectation = expectation(description: "Capture Expectation")
+        var captureTransaction: Transaction?
+        var captureError: Error?
+
+        // WHEN
+        authorizeTransaction?
+            .capture(amount: 16)
+            .withGratuity(2)
+            .execute(completion: { transaction, error in
+                captureTransaction = transaction
+                captureError = error
+                captureExpectation.fulfill()
+            })
+
+        // THEN
+        wait(for: [captureExpectation], timeout: 10.0)
+        XCTAssertNotNil(captureTransaction)
+        XCTAssertNil(captureError)
+    }
+
     func test_credit_refund() {
         // GIVEN
         let executeExpectation = expectation(description: "Credit Refund")
@@ -296,6 +338,9 @@ class GpApiCreditTests: XCTestCase {
         wait(for: [errorExpectation], timeout: 10.0)
         XCTAssertNil(failedTransaction)
         XCTAssertNotNil(failedError)
+        XCTAssertEqual(failedError?.responseCode, "INVALID_REQUEST_DATA")
+        XCTAssertEqual(failedError?.responseMessage, "40006")
+        XCTAssertEqual(failedError?.message, "Status Code: 400 - partial reversal not supported")
     }
 
     func test_credit_authorization_for_multi_capture() {

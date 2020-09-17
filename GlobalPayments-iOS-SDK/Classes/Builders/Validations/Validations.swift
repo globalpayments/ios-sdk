@@ -90,7 +90,7 @@ class Validations {
 
                 if let result = validation.clause?.callback?(builder) {
                     if !result {
-                        throw BuilderException.generic(
+                        throw BuilderException(
                             message: validation.clause?.message
                         )
                     }

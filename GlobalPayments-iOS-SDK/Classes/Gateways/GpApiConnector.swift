@@ -7,17 +7,17 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
     var intervalToExpire: IntervalToExpire?
     var channel: Channel?
     var language: Language?
-    var sessionToken: String?
+    var supportsHostedPayments: Bool = false
+    var accessToken: String?
     var dataAccountName: String?
     var disputeManagementAccountName: String?
     var tokenizationAccountName: String?
     var transactionProcessingAccountName: String?
-    var supportsHostedPayments: Bool = false
 
     override init() {
         super.init()
         // Set required api version header
-        headers["X-GP-Version"] = "2020-04-10"; //"2020-01-20";
+        headers["X-GP-Version"] = "2020-04-10";
         headers["Accept"] = "application/json";
         headers["Accept-Encoding"] = "gzip";
     }
@@ -33,7 +33,7 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
             self?.disputeManagementAccountName = response.disputeManagementAccountName
             self?.tokenizationAccountName = response.tokenizationAccountName
             self?.transactionProcessingAccountName = response.transactionProcessingAccountName
-            self?.sessionToken = token
+            self?.accessToken = token
             self?.headers["Authorization"] = "Bearer \(token)"
             completion(true, nil)
         }
@@ -41,7 +41,7 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
 
     private func sendAccessTokenRequest(_ completion: @escaping ((GpApiTokenResponse?, Error?) -> Void)) {
         headers.removeValue(forKey: "Authorization")
-        sessionToken = nil
+        accessToken = nil
 
         let request = SessionInfo.signIn(appId: appId, appKey: appKey, secondsToExpire: secondsToExpire, intervalToExpire: intervalToExpire)
 
@@ -64,7 +64,7 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
                                 data: String? = nil,
                                 queryStringParams: [String : String]? = nil,
                                 completion: @escaping (String?, Error?) -> Void) {
-        guard let sessionToken = sessionToken, !sessionToken.isEmpty else {
+        guard let accessToken = accessToken, !accessToken.isEmpty else {
             signIn { success, error in
                 guard success else {
                     completion(nil, error)
@@ -99,15 +99,17 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
                 let errorCode: String = parsed.getValue(key: "error_code") ?? .empty
                 let detailedErrorCode: String = parsed.getValue(key: "detailed_error_code") ?? .empty
                 let detailedErrorDescription: String = parsed.getValue(key: "detailed_error_description") ?? .empty
-                completion(nil, GatewayException.generic(
-                    responseCode: Int(errorCode) ?? .zero,
-                    responseMessage: "\(String(describing: detailedErrorCode)) - \(String(describing: detailedErrorDescription))"
-                    )
+
+                let exception = GatewayException(
+                    message: "Status Code: \(response.statusCode) - \(String(describing: detailedErrorDescription))",
+                    responseCode: errorCode,
+                    responseMessage: detailedErrorCode
                 )
+                completion(nil, exception)
                 return
             }
-            completion(nil, GatewayException.generic(
-                responseCode: response.statusCode,
+            completion(nil, GatewayException(
+                responseCode: "Status Code: \(response.statusCode)",
                 responseMessage: response.rawResponse
                 )
             )
@@ -172,9 +174,15 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
                 if builder.transactionType == .verify {
                     if let requestMultiUseToken = builder.requestMultiUseToken,
                         requestMultiUseToken == true {
-
+                        guard let tokenizationAccountName = self?.tokenizationAccountName else {
+                            completion?(nil, GatewayException(
+                                message: "tokenizationAccountName is not set"
+                                )
+                            )
+                            return
+                        }
                         let tokenizationData = JsonDoc()
-                            .set(for: "account_name", value: self?.tokenizationAccountName)
+                            .set(for: "account_name", value: tokenizationAccountName)
                             .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
                             .set(for: "name", value: "")
                             .set(for: "card", doc: card)
@@ -293,8 +301,16 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
                 }
             }
 
+            guard let transactionProcessingAccountName = self?.transactionProcessingAccountName else {
+                completion?(nil, GatewayException(
+                    message: "transactionProcessingAccountName is not set"
+                    )
+                )
+                return
+            }
+
             let data = JsonDoc()
-                .set(for: "account_name", value: self?.transactionProcessingAccountName)
+                .set(for: "account_name", value: transactionProcessingAccountName)
                 .set(for: "type", value: builder.transactionType == .refund ? "REFUND" : "SALE")
                 .set(for: "channel", value: self?.channel?.mapped(for: .gpApi))
                 .set(for: "capture_mode", value: self?.captureMode(for: builder))
@@ -334,7 +350,7 @@ class GpApiConnector: RestGateway, PaymentGateway, IReportingService {
     }
 
     private func verifyAuthentication(_ completion: @escaping (Error?) -> Void) {
-        if sessionToken.isNilOrEmpty {
+        if accessToken.isNilOrEmpty {
             signIn { _, error in
                 completion(error)
             }

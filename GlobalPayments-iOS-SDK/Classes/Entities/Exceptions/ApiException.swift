@@ -1,5 +1,11 @@
 import Foundation
 
-public enum ApiException: Error {
-    case generic(message: String)
+/// A general error occurred.
+public struct ApiException: Error {
+    /// The exception message
+    public let message: String?
+
+    public init(message: String? = nil) {
+        self.message = message
+    }
 }

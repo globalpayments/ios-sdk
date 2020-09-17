@@ -72,7 +72,7 @@ import Foundation
     /// Sets the Multicapture value as true/false.
     /// - Parameters:
     /// - Returns: ManagementBuilder
-    public func withMultiCapture(sequence: Int = 1, paymentCount: Int = 1) -> ManagementBuilder {
+    public func withMultiCapture(sequence: Int? = 1, paymentCount: Int? = 1) -> ManagementBuilder {
         self.multiCapture = true
         self.multiCaptureSequence = sequence
         self.multiCapturePaymentCount = paymentCount

@@ -15,6 +15,8 @@ public class GpApiConfig: GatewayConfig {
     public var channel: Channel
     /// Language
     public var language: Language
+    /// Access token information
+    public var accessTokenInfo: AccessTokenInfo?
 
     public init(appId: String,
                 appKey: String,
@@ -22,7 +24,8 @@ public class GpApiConfig: GatewayConfig {
                 secondsToExpire: Int? = nil,
                 intervalToExpire: IntervalToExpire? = nil,
                 channel: Channel = .cardNotPresent,
-                language: Language = .english) {
+                language: Language = .english,
+                accessTokenInfo: AccessTokenInfo? = nil) {
 
         self.appId = appId
         self.appKey = appKey
@@ -31,6 +34,7 @@ public class GpApiConfig: GatewayConfig {
         self.intervalToExpire = intervalToExpire
         self.channel = channel
         self.language = language
+        self.accessTokenInfo = accessTokenInfo
         super.init(gatewayProvider: .gpAPI)
     }
 
@@ -52,8 +56,23 @@ public class GpApiConfig: GatewayConfig {
         gateway.language = language
         gateway.serviceUrl = serviceUrl
         gateway.timeout = timeout
+        gateway.accessToken = accessTokenInfo?.accessToken
+        gateway.dataAccountName = accessTokenInfo?.dataAccountName
+        gateway.disputeManagementAccountName = accessTokenInfo?.disputeManagementAccountName
+        gateway.tokenizationAccountName = accessTokenInfo?.tokenizationAccountName
+        gateway.transactionProcessingAccountName = accessTokenInfo?.transactionProcessingAccountName
 
         services.gatewayConnector = gateway
         services.reportingService = gateway
+    }
+
+    override func validate() throws {
+        try super.validate()
+
+        if accessTokenInfo == nil && (appId.isEmpty || appKey.isEmpty) {
+            throw ConfigurationException(
+                message: "accessTokenInfo or appId and appKey cannot be nil or empty"
+            )
+        }
     }
 }

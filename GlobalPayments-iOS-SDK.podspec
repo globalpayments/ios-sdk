@@ -23,12 +23,12 @@ TODO: Add long description of the pod here.
 
   s.homepage         = 'https://github.com/globalpayemts/GlobalPayments-iOS-SDK'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.license          = { :type => 'GNU', :file => 'LICENSE.md' }
   s.author           = { 'Global Paymets' => 'api.integrations@globalpay.com' }
   s.source           = { :git => 'https://github.com/globalpayemts/GlobalPayments-iOS-SDK.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files 		= 'GlobalPayments-iOS-SDK/Classes/**/*'
   #s.public_header_files = 'GlobalPayments-iOS-SDK/Classes/**/*.h'

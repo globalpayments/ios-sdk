@@ -141,4 +141,33 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
                 completion?(transaction != nil, nil)
             })
     }
+
+    /// Detokenizes payment method
+    public func detokenize(
+        configName: String = "default",
+        completion: ((CreditCardData?, Error?) -> Void)?) {
+
+        if token.isNilOrEmpty {
+            completion?(nil, BuilderException(message: "Token cannot be null"))
+            return
+        }
+
+        ManagementBuilder(transactionType: .detokenize)
+            .withPaymentMethod(self)
+            .execute(configName: configName, completion: { transaction, error in
+                if let error = error {
+                    completion?(nil, error)
+                    return
+                }
+                if let card = self.copy() as? CreditCardData {
+                    card.number = transaction?.cardNumber
+                    card.cardType = transaction?.cardType
+                    card.expMonth = transaction?.cardExpMonth ?? .zero
+                    card.expYear = transaction?.cardExpYear ?? .zero
+                    completion?(card, nil)
+                } else {
+                    completion?(nil, nil)
+                }
+            })
+    }
 }

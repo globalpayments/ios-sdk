@@ -14,4 +14,7 @@ import Foundation
     func deleteToken(
         configName: String,
         completion: ((Bool, Error?) -> Void)?)
+    func detokenize(
+        configName: String,
+        completion: ((CreditCardData?, Error?) -> Void)?)
 }

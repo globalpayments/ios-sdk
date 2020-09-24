@@ -1,6 +1,6 @@
 import Foundation
 
-class SessionInfo {
+class GpApiSessionInfo {
 
     /// A unique string created using the nonce and app-key.
     /// This value is used to further authenticate the request.

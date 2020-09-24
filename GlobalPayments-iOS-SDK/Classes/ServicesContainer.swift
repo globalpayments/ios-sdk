@@ -33,10 +33,7 @@ public class ServicesContainer {
     }
     
     private func configuration(for configName: String) -> ConfiguredServices {
-        guard let configuredService = configurations[configName] else {
-            return ConfiguredServices()
-        }
-        return configuredService
+        return configurations[configName] ?? ConfiguredServices()
     }
 
     private func addConfiguration(configName: String, config: ConfiguredServices) {

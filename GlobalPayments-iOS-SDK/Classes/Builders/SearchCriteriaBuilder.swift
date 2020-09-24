@@ -41,11 +41,14 @@ public enum SearchCriteria: String {
     case siteTrace
     case startDate
     case transactionStatus
+    case disputeStage
+    case disputeStatus
     case uniqueDeviceId
     case username
 }
 
 public enum DataServiceCriteria: String {
+    case adjustmentFunding
     case amount
     case bankAccountNumber
     case caseId
@@ -53,15 +56,19 @@ public enum DataServiceCriteria: String {
     case cardNumberLastFour
     case caseNumber
     case depositReference
+    case endAdjustmentDate
     case endBatchDate
     case endDepositDate
+    case endStageDate
     case hierarchy
     case localTransactionEndTime
     case localTransactionStartTime
     case merchantId
     case orderId
+    case startAdjustmentDate
     case startBatchDate
     case startDepositDate
+    case startStageDate
     case systemHierarchy
     case timezone
 }
@@ -71,6 +78,7 @@ public enum DataServiceCriteria: String {
 
     var accountName: String?
     var accountNumberLastFour: String?
+    var adjustmentFunding: AdjustmentFunding?
     var altPaymentStatus: String?
     var amount: NSDecimalNumber?
     var aquirerReferenceNumber: String?
@@ -99,9 +107,13 @@ public enum DataServiceCriteria: String {
     var customerId: String?
     var depositReference: String?
     var displayName: String?
+    var disputeStage: DisputeStage?
+    var disputeStatus: DisputeStatus?
+    var endAdjustmentDate: Date?
     var endBatchDate: Date?
     var endDate: Date?
     var endDepositDate: Date?
+    var endStageDate: Date?
     var fullyCaptured: Bool?
     var giftCurrency: String?
     var giftMaskedAlias: String?
@@ -122,9 +134,11 @@ public enum DataServiceCriteria: String {
     var settlementAmount: NSDecimalNumber?
     var scheduleId: String?
     var siteTrace: String?
+    var startAdjustmentDate: Date?
     var startBatchDate: Date?
     var startDate: Date?
     var startDepositDate: Date?
+    var startStageDate: Date?
     var systemHierarchy: String?
     var transactionStatus: TransactionStatus?
     var uniqueDeviceId: String?

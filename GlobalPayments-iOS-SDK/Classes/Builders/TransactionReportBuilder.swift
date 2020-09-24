@@ -12,8 +12,12 @@ import Foundation
     var transactionId: String?
     var page: Int?
     var pageSize: Int?
-    var orderProperty: TransactionSortProperty?
-    var orderDirection: SortDirection?
+    var transactionOrderBy: TransactionSortProperty?
+    var transactionOrder: SortDirection?
+    var depositOrderBy: DepositSortProperty?
+    var depositOrder: SortDirection?
+    var disputeOrderBy: DisputeSortProperty?
+    var disputeOrder: SortDirection?
 
     /// Sets the device ID as criteria for the report.
     /// - Parameter deviceId: The device ID
@@ -55,15 +59,39 @@ import Foundation
         return self
     }
 
-    /// Set the gateway order by criteria for the report.
+    /// Set the gateway transaction order by criteria for the report.
     /// - Parameters:
-    ///   - orderProperty: Order by property
-    ///   - orderDirection: Order by direction
+    ///   - transactionSortProperty: Order by transaction sort property
+    ///   - direction: Order by direction
     /// - Returns: TransactionReportBuilder<TResult>
-    public func orderBy(_ orderProperty: TransactionSortProperty,
-                        _ orderDirection: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
-        self.orderProperty = orderProperty
-        self.orderDirection = orderDirection
+    public func orderBy(transactionSortProperty: TransactionSortProperty,
+                        _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
+        self.transactionOrderBy = transactionSortProperty
+        self.transactionOrder = direction
+        return self
+    }
+
+    /// Set the gateway deposit order by criteria for the report.
+    /// - Parameters:
+    ///   - depositOrderBy: Ordered by deposit property
+    ///   - direction: Order by direction
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func orderBy(depositOrderBy: DepositSortProperty,
+                        _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
+        self.depositOrderBy = depositOrderBy
+        self.depositOrder = direction
+        return self
+    }
+
+    /// Set the gateway dispute order by criteria for the report.
+    /// - Parameters:
+    ///   - disputeOrderBy: Order by dispute property
+    ///   - direction: Order by direction
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func orderBy(disputeOrderBy: DisputeSortProperty,
+                        _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
+        self.disputeOrderBy = disputeOrderBy
+        self.disputeOrder = direction
         return self
     }
 

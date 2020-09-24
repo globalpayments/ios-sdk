@@ -45,7 +45,7 @@ class GpApiReportingTests: XCTestCase {
 
         // WHEN
         ReportingService.findTransactions()
-            .orderBy(.timeCreated, .descending)
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
             .where(.startDate, thirtyDaysBefore)
             //.and(criteria: .transactionStatus, transactionStatus: .captured)
             .execute { transactionsSummary, error in

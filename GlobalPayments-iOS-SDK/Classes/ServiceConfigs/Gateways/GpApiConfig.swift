@@ -56,7 +56,7 @@ public class GpApiConfig: GatewayConfig {
         gateway.language = language
         gateway.serviceUrl = serviceUrl
         gateway.timeout = timeout
-        gateway.accessToken = accessTokenInfo?.accessToken
+        gateway.accessToken = accessTokenInfo?.token
         gateway.dataAccountName = accessTokenInfo?.dataAccountName
         gateway.disputeManagementAccountName = accessTokenInfo?.disputeManagementAccountName
         gateway.tokenizationAccountName = accessTokenInfo?.tokenizationAccountName

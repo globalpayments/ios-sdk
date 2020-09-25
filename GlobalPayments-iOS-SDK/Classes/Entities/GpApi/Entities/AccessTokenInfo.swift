@@ -1,7 +1,7 @@
 import Foundation
 
 public class AccessTokenInfo {
-    public var accessToken: String?
+    public var token: String?
     public var dataAccountName: String?
     public var disputeManagementAccountName: String?
     public var tokenizationAccountName: String?

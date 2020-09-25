@@ -117,6 +117,7 @@
 		8207F865251C96C3004F0122 /* DisputeSortProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8207F864251C96C3004F0122 /* DisputeSortProperty.swift */; };
 		8207F86A251C97C4004F0122 /* DisputeStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8207F869251C97C4004F0122 /* DisputeStage.swift */; };
 		8207F86F251C98CB004F0122 /* DisputeStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8207F86E251C98CB004F0122 /* DisputeStatus.swift */; };
+		8207F87F251E12AA004F0122 /* GpApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8207F87E251E12AA004F0122 /* GpApiService.swift */; };
 		82CF3C8DA4454BC44DC272451AAFDC0E /* GpApiConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6E3FE213A36D61A8F5ACF5B259E5CE /* GpApiConnector.swift */; };
 		82E3652386415B22A2B9E01EC2C4493B /* TransactionsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F00AB91DB26C6E9C589A241014A351 /* TransactionsInfo.swift */; };
 		8300038FCE48E71A1D2BB5C36F9D31B2 /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0A034C5CF4FD1313D82D338D94A3F /* PaymentMethod.swift */; };
@@ -348,6 +349,7 @@
 		8207F864251C96C3004F0122 /* DisputeSortProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeSortProperty.swift; sourceTree = "<group>"; };
 		8207F869251C97C4004F0122 /* DisputeStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeStage.swift; sourceTree = "<group>"; };
 		8207F86E251C98CB004F0122 /* DisputeStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeStatus.swift; sourceTree = "<group>"; };
+		8207F87E251E12AA004F0122 /* GpApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiService.swift; sourceTree = "<group>"; };
 		8A8946B8CBCA7B34A355C2ED0A20F520 /* GlobalPayments-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "GlobalPayments-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		8CC7C2EE072B50EDE0F886361445077E /* eCheck.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = eCheck.swift; sourceTree = "<group>"; };
 		8D423F62697F4BE4124BCA8553E022BE /* Language.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
@@ -626,6 +628,7 @@
 			children = (
 				1647B766318D245069CED9BC78EF490B /* ReportingService.swift */,
 				F69B2E96A4D8375C13FC7FB6D6FAEED9 /* RecurringService.swift */,
+				8207F87E251E12AA004F0122 /* GpApiService.swift */,
 			);
 			name = Services;
 			path = "GlobalPayments-iOS-SDK/Classes/Services";
@@ -1189,6 +1192,7 @@
 				E4BE5A18F286B5A3B827B0B92A2D2034 /* GiftCard.swift in Sources */,
 				7AA4AA9AD07AA2042712AA9B8C1720C9 /* GlobalPayments-iOS-SDK-dummy.m in Sources */,
 				998D5B43CA456940808B20A895BEE771 /* GpApiAccount.swift in Sources */,
+				8207F87F251E12AA004F0122 /* GpApiService.swift in Sources */,
 				51E08BCAB4F489A01C08CF3B6DC6C194 /* GpApiConfig.swift in Sources */,
 				8207F86F251C98CB004F0122 /* DisputeStatus.swift in Sources */,
 				82CF3C8DA4454BC44DC272451AAFDC0E /* GpApiConnector.swift in Sources */,

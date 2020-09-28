@@ -15,6 +15,7 @@ public class GpApiService {
         connector.appKey = appKey
         connector.secondsToExpire = secondsToExpire
         connector.intervalToExpire = intervalToExpire
+        connector.timeout = 10000
         switch environment {
         case .production:
             connector.serviceUrl = ServiceEndpoints.gpApiProduction.rawValue

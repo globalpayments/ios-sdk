@@ -13,6 +13,7 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */; };
 		824451BC24E150410080D06B /* GpApiReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824451BB24E150410080D06B /* GpApiReportingTests.swift */; };
 		824451C124E1801D0080D06B /* GpApiDebitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824451C024E1801D0080D06B /* GpApiDebitTests.swift */; };
 		824A16EC24E3EA230060944B /* BuilderValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824A16EB24E3EA230060944B /* BuilderValidationTests.swift */; };
@@ -51,6 +52,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiAuthenticationTests.swift; sourceTree = "<group>"; };
 		824451BB24E150410080D06B /* GpApiReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingTests.swift; sourceTree = "<group>"; };
 		824451C024E1801D0080D06B /* GpApiDebitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDebitTests.swift; sourceTree = "<group>"; };
 		824A16EB24E3EA230060944B /* BuilderValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderValidationTests.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				824451BB24E150410080D06B /* GpApiReportingTests.swift */,
 				8252038B24E2A72000784248 /* GpApiEbtTests.swift */,
 				82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */,
+				8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				8252038C24E2A72000784248 /* GpApiEbtTests.swift in Sources */,
 				82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */,
 				824451BC24E150410080D06B /* GpApiReportingTests.swift in Sources */,
+				8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */,
 				82613EBC24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift in Sources */,
 				8252038E24E2C15600784248 /* CountryUtilsTests.swift in Sources */,
 				824A16EC24E3EA230060944B /* BuilderValidationTests.swift in Sources */,

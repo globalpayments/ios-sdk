@@ -15,12 +15,12 @@ class RestGateway: Gateway {
         sendRequest(endpoint: endpoint,
                     method: method,
                     data: data,
-                    queryStringParams: queryStringParams) { [weak self] gatewayResponse, error in
-                        self?.handleResponse(
-                            response: gatewayResponse,
-                            error: error,
-                            completion: completion
-                        )
+                    queryStringParams: queryStringParams) { gatewayResponse, error in
+            self.handleResponse(
+                response: gatewayResponse,
+                error: error,
+                completion: completion
+            )
         }
     }
 

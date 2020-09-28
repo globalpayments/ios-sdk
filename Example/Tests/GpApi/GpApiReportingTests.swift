@@ -3,14 +3,14 @@ import GlobalPayments_iOS_SDK
 
 class GpApiReportingTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        try super.setUpWithError()
+    override class func setUp() {
+        super.setUp()
 
-        try ServicesContainer.configureService(config: GpApiConfig(
+        try? ServicesContainer.configureService(config: GpApiConfig (
             appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
-            appKey: "QDsW1ETQKHX6Y4TA"
-            )
-        )
+            appKey: "QDsW1ETQKHX6Y4TA",
+            channel: .cardNotPresent
+        ))
     }
 
     func test_report_transaction_detail() {

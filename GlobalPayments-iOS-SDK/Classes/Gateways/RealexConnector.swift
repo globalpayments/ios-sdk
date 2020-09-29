@@ -1,6 +1,6 @@
 import Foundation
 
-public class RealexConnector: PaymentGateway {
+public class RealexConnector: PaymentGateway, IReportingService {
 
     var supportsHostedPayments: Bool = true
 
@@ -18,7 +18,7 @@ public class RealexConnector: PaymentGateway {
         return nil
     }
 
-    func processReport<T>(_ builder: ReportBuilder<T>) throws {
-
+    func processReport<T>(builder: ReportBuilder<T>, completion: ((T?, Error?) -> Void)?) {
+        
     }
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-public class PorticoConnector: PaymentGateway {
+public class PorticoConnector: PaymentGateway, IReportingService {
 
     var supportsHostedPayments: Bool = false
 
@@ -18,7 +18,7 @@ public class PorticoConnector: PaymentGateway {
         return nil
     }
 
-    func processReport<T>(_ builder: ReportBuilder<T>) throws {
+    func processReport<T>(builder: ReportBuilder<T>, completion: ((T?, Error?) -> Void)?) {
         
     }
 }

@@ -118,6 +118,11 @@
 		8207F86A251C97C4004F0122 /* DisputeStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8207F869251C97C4004F0122 /* DisputeStage.swift */; };
 		8207F86F251C98CB004F0122 /* DisputeStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8207F86E251C98CB004F0122 /* DisputeStatus.swift */; };
 		8207F87F251E12AA004F0122 /* GpApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8207F87E251E12AA004F0122 /* GpApiService.swift */; };
+		8218B20925220E2B009DC67A /* GpApiConnector+ProcessAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B20825220E2B009DC67A /* GpApiConnector+ProcessAuthorization.swift */; };
+		8218B21125221053009DC67A /* GpApiConnector+ManageTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B21025221053009DC67A /* GpApiConnector+ManageTransaction.swift */; };
+		8218B2162522110C009DC67A /* GpApiConnector+SerializeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B2152522110C009DC67A /* GpApiConnector+SerializeRequest.swift */; };
+		8218B21B25221362009DC67A /* GpApiConnector+ProcessReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B21A25221362009DC67A /* GpApiConnector+ProcessReport.swift */; };
+		8218B2202522188F009DC67A /* GpApiConnector+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B21F2522188F009DC67A /* GpApiConnector+Constants.swift */; };
 		82CF3C8DA4454BC44DC272451AAFDC0E /* GpApiConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6E3FE213A36D61A8F5ACF5B259E5CE /* GpApiConnector.swift */; };
 		82E3652386415B22A2B9E01EC2C4493B /* TransactionsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F00AB91DB26C6E9C589A241014A351 /* TransactionsInfo.swift */; };
 		8300038FCE48E71A1D2BB5C36F9D31B2 /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0A034C5CF4FD1313D82D338D94A3F /* PaymentMethod.swift */; };
@@ -350,6 +355,11 @@
 		8207F869251C97C4004F0122 /* DisputeStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeStage.swift; sourceTree = "<group>"; };
 		8207F86E251C98CB004F0122 /* DisputeStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeStatus.swift; sourceTree = "<group>"; };
 		8207F87E251E12AA004F0122 /* GpApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiService.swift; sourceTree = "<group>"; };
+		8218B20825220E2B009DC67A /* GpApiConnector+ProcessAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GpApiConnector+ProcessAuthorization.swift"; sourceTree = "<group>"; };
+		8218B21025221053009DC67A /* GpApiConnector+ManageTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GpApiConnector+ManageTransaction.swift"; sourceTree = "<group>"; };
+		8218B2152522110C009DC67A /* GpApiConnector+SerializeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GpApiConnector+SerializeRequest.swift"; sourceTree = "<group>"; };
+		8218B21A25221362009DC67A /* GpApiConnector+ProcessReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GpApiConnector+ProcessReport.swift"; sourceTree = "<group>"; };
+		8218B21F2522188F009DC67A /* GpApiConnector+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GpApiConnector+Constants.swift"; sourceTree = "<group>"; };
 		8A8946B8CBCA7B34A355C2ED0A20F520 /* GlobalPayments-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "GlobalPayments-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		8CC7C2EE072B50EDE0F886361445077E /* eCheck.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = eCheck.swift; sourceTree = "<group>"; };
 		8D423F62697F4BE4124BCA8553E022BE /* Language.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
@@ -652,6 +662,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		8218B20725220DF5009DC67A /* GlobalPayments */ = {
+			isa = PBXGroup;
+			children = (
+				EF6E3FE213A36D61A8F5ACF5B259E5CE /* GpApiConnector.swift */,
+				8218B20825220E2B009DC67A /* GpApiConnector+ProcessAuthorization.swift */,
+				8218B21025221053009DC67A /* GpApiConnector+ManageTransaction.swift */,
+				8218B2152522110C009DC67A /* GpApiConnector+SerializeRequest.swift */,
+				8218B21A25221362009DC67A /* GpApiConnector+ProcessReport.swift */,
+				8218B21F2522188F009DC67A /* GpApiConnector+Constants.swift */,
+			);
+			path = GlobalPayments;
+			sourceTree = "<group>";
+		};
 		882F8B055DB1F99367F8F5E21D9F750D /* Enums */ = {
 			isa = PBXGroup;
 			children = (
@@ -811,8 +834,8 @@
 		AF1D8E81C901D39F605AB5CBF8341325 /* Gateways */ = {
 			isa = PBXGroup;
 			children = (
+				8218B20725220DF5009DC67A /* GlobalPayments */,
 				604EAD0A53BB828C0853F4CEE63257E3 /* DataServicesConnector.swift */,
-				EF6E3FE213A36D61A8F5ACF5B259E5CE /* GpApiConnector.swift */,
 				C0EB44B173615C5B3E2E06DC0C2594A2 /* PorticoConnector.swift */,
 				C22D29D7365F675604A2D4212D9F44CD /* RealexConnector.swift */,
 				191747DB52BD58B6AF6FAEB0BA0E07DF /* RestGateway.swift */,
@@ -1110,6 +1133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CAECCCBC029515D306B5DB4DE2A874C /* AccessTokenInfo.swift in Sources */,
+				8218B2202522188F009DC67A /* GpApiConnector+Constants.swift in Sources */,
 				09E5AB873E314888B4A4B2143B7FAB5A /* AccountType.swift in Sources */,
 				D049A820B3CB97E320249BD562E0B7C4 /* AdditionalTaxDetails.swift in Sources */,
 				432B98E2659FE5C3704BB1F65C1F3A0D /* Address.swift in Sources */,
@@ -1180,6 +1204,7 @@
 				E6762298AD19F77DDE3EDAA45AB4C021 /* EmvFallbackCondition.swift in Sources */,
 				0C53F353761F54DE6A692B66ED8C313E /* EmvLastChipRead.swift in Sources */,
 				C3161081A4E7A5E4D27238FE89BCF78A /* Encryptable.swift in Sources */,
+				8218B2162522110C009DC67A /* GpApiConnector+SerializeRequest.swift in Sources */,
 				5E07FA83ADB61DCDF845AC6DA1DAC98D /* EncryptionData.swift in Sources */,
 				675537BD33F806F9182AD52931604147 /* EntryMethods.swift in Sources */,
 				BFFF9C15E105AEB6824E41319479F029 /* Environment.swift in Sources */,
@@ -1225,8 +1250,10 @@
 				118D9F887F5F7D0EA9119A78376A05B7 /* PaymentGateway.swift in Sources */,
 				8300038FCE48E71A1D2BB5C36F9D31B2 /* PaymentMethod.swift in Sources */,
 				F4100EAB1E78698B0D57AE2C5AF4C5A7 /* PaymentMethodType.swift in Sources */,
+				8218B20925220E2B009DC67A /* GpApiConnector+ProcessAuthorization.swift in Sources */,
 				D579D0F7C101A16882EA1CB4C96B90F2 /* PaymentSchedule.swift in Sources */,
 				DF9A932F94FB0852083451B53BB06F0A /* PinProtected.swift in Sources */,
+				8218B21125221053009DC67A /* GpApiConnector+ManageTransaction.swift in Sources */,
 				3D2297DAA34F312753EAD2311BB2DFBF /* PorticoConnector.swift in Sources */,
 				E73B83F38D46AE0C46E46B9BC55DB040 /* PreOrderIndicator.swift in Sources */,
 				1473B220C85C63DEF686DDDDAD443BB0 /* PrePaid.swift in Sources */,
@@ -1267,6 +1294,7 @@
 				08FFB929578D90996C2AE5D26392D7E5 /* ShippingMethod.swift in Sources */,
 				B927CBBCE25A2399F8AC6DE3D9951802 /* SortDirection.swift in Sources */,
 				5FCC453C2D074964BCF2C95F443D9FC8 /* StoredCredential.swift in Sources */,
+				8218B21B25221362009DC67A /* GpApiConnector+ProcessReport.swift in Sources */,
 				8FF213B3497DCCBE6C378BD4BE4EEF46 /* StoredCredentialInitiator.swift in Sources */,
 				8207F85B251C954D004F0122 /* AdjustmentFunding.swift in Sources */,
 				0979785A79600E38F7697C6C86E29124 /* StoredCredentialSequence.swift in Sources */,

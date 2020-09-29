@@ -48,6 +48,10 @@ extension GpApiConnector {
             return "/ucp/transactions"
         }
 
+        static func transactionsWith(transactionId: String) -> String {
+            return "/ucp/transactions/\(transactionId)"
+        }
+
         static func transactionsCapture(transactionId: String) -> String {
             return "/ucp/transactions/\(transactionId)/capture"
         }
@@ -61,10 +65,6 @@ extension GpApiConnector {
         }
 
         // MARK: - Others
-
-        static func transactionId(_ transactionId: String) -> String {
-            return "/\(transactionId)"
-        }
 
         static func deposits() -> String {
             return "/ucp/settlement/deposits"

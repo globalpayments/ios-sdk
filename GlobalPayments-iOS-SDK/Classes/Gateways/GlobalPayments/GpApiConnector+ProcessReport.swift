@@ -18,7 +18,7 @@ extension GpApiConnector: IReportingService {
 
                 if builder.reportType == .transactionDetail,
                    let transactionId = builder.transactionId {
-                    reportUrl += Endpoints.transactionId(transactionId)
+                    reportUrl = Endpoints.transactionsWith(transactionId: transactionId)
                 }
                 else if builder.reportType == .findTransactions {
                     reportUrl = Endpoints.transactions()

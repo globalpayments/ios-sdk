@@ -1,6 +1,6 @@
 import Foundation
 
-public class PorticoConnector: PaymentGateway, IReportingService {
+public class PorticoConnector: PaymentGateway, ReportingServiceType {
 
     var supportsHostedPayments: Bool = false
 

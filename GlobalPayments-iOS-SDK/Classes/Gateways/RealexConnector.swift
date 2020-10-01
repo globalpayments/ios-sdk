@@ -1,6 +1,6 @@
 import Foundation
 
-public class RealexConnector: PaymentGateway, IReportingService {
+public class RealexConnector: PaymentGateway, ReportingServiceType {
 
     var supportsHostedPayments: Bool = true
 

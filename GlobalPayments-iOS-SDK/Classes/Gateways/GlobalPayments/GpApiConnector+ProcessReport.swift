@@ -1,6 +1,6 @@
 import Foundation
 
-extension GpApiConnector: IReportingService {
+extension GpApiConnector: ReportingServiceType {
 
     func processReport<T>(builder: ReportBuilder<T>,
                           completion: ((T?, Error?) -> Void)?) {

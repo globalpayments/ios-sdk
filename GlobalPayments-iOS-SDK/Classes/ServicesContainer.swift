@@ -55,7 +55,7 @@ public class ServicesContainer {
         return provider
     }
 
-    func reportingClient(configName: String) throws -> IReportingService {
+    func reportingClient(configName: String) throws -> ReportingServiceType {
         guard let reportingService = configurations[configName]?.reportingService else {
             throw ApiException(
                 message: "The specified configuration has not been configured for reporting."
@@ -73,7 +73,7 @@ public class ServicesContainer {
         return gatewayConnector
     }
 
-    func recurringClient(configName: String) throws -> IRecurringService {
+    func recurringClient(configName: String) throws -> RecurringServiceType {
         guard let recurringConnector = configurations[configName]?.recurringConnector else {
             throw ApiException(
                 message: "The specified configuration has not been configured for recurring processing."

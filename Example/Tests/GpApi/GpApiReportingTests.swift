@@ -100,9 +100,7 @@ class GpApiReportingTests: XCTestCase {
 //        Assert.IsNotNull(summary);
 //        Assert.IsNotNull(summary is List<DisputeSummary>);
 //    }
-    
-    // DEPOSITS
-    
+
     func test_report_find_deposits_with_criteria() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
@@ -125,5 +123,52 @@ class GpApiReportingTests: XCTestCase {
         wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(depositError)
         XCTAssertNotNil(depositSummaryList)
+    }
+
+    func test_report_find_deposit_with_id() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Deposit With id")
+        let depositId = "DEP_2342423423"
+        var depositSummary: DepositSummary?
+        var depositError: Error?
+
+        // WHEN
+        ReportingService
+            .depositDetail(depositId: depositId)
+            .execute { summary, error in
+                depositSummary = summary
+                depositError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(depositError)
+        XCTAssertNotNil(depositSummary)
+    }
+
+    func test_report_find_deposit_with_invalid_id() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Deposit With id")
+        let depositId = "INVALID_ID"
+        var depositSummary: DepositSummary?
+        var depositError: GatewayException?
+
+        // WHEN
+        ReportingService
+            .depositDetail(depositId: depositId)
+            .execute { summary, error in
+                depositSummary = summary
+                if let gatewayException = error as? GatewayException {
+                    depositError = gatewayException
+                }
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(depositSummary)
+        XCTAssertNotNil(depositError)
+        XCTAssertEqual(depositError?.responseCode, "RESOURCE_NOT_FOUND")
     }
 }

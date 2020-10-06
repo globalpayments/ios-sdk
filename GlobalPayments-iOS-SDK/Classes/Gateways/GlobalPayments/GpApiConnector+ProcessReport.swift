@@ -63,6 +63,9 @@ extension GpApiConnector: ReportingServiceType {
                     queryStringParams["order_by"] = builder.depositOrderBy?.mapped(for: .gpApi)
                     queryStringParams["order"] = builder.depositOrder?.mapped(for: .gpApi)
                     queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
+                } else if builder.reportType == .findDeposit,
+                          let depositId = builder.depositId {
+                    reportUrl = Endpoints.deposit(id: depositId)
                 }
                 else if builder.reportType == .findDisputes {
                     reportUrl = Endpoints.disputes()
@@ -119,7 +122,7 @@ extension GpApiConnector: ReportingServiceType {
                 let mapped = transactions.map { mapTransactionSummary($0) }
                 result = mapped
             }
-        } else if reportType == .findDeposits && DepositSummary() is T {
+        } else if reportType == .findDeposit && DepositSummary() is T {
             result = mapDepositSummary(json)
         } else if reportType == .findDeposits && [DepositSummary]() is T {
             if let deposits: [JsonDoc] = json?.getValue(key: "deposits") {

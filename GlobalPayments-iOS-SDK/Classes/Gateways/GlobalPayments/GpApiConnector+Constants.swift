@@ -64,11 +64,17 @@ extension GpApiConnector {
             return "/ucp/transactions/\(transactionId)/reversal"
         }
 
-        // MARK: - Others
+        // MARK: - Deposits
 
         static func deposits() -> String {
             return "/ucp/settlement/deposits"
         }
+
+        static func deposit(id: String) -> String {
+            return "/ucp/settlement/deposits/\(id)"
+        }
+
+        // MARK: - Disputes
 
         static func disputes() -> String {
             return "/ucp/disputes"

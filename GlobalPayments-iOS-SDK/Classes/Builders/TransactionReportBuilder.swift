@@ -14,6 +14,7 @@ import Foundation
     var pageSize: Int?
     var transactionOrderBy: TransactionSortProperty?
     var transactionOrder: SortDirection?
+    var depositId: String?
     var depositOrderBy: DepositSortProperty?
     var depositOrder: SortDirection?
     var disputeOrderBy: DisputeSortProperty?
@@ -45,6 +46,14 @@ import Foundation
     /// - Returns: TransactionReportBuilder<TResult>
     public func withTransactionId(_ transactionId: String?) -> TransactionReportBuilder<TResult> {
         self.transactionId = transactionId
+        return self
+    }
+
+    /// Sets the gateway deposit ID as criteria for the report.
+    /// - Parameter depositId: The gateway deposit ID
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDepositId(_ depositId: String?) -> TransactionReportBuilder<TResult> {
+        self.depositId = depositId
         return self
     }
 

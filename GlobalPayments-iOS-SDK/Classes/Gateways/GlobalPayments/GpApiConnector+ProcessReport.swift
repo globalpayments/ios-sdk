@@ -60,6 +60,9 @@ extension GpApiConnector: ReportingServiceType {
                     if let pageSize = builder.pageSize {
                         queryStringParams["page_size"] = "\(pageSize)"
                     }
+                    if let status = builder.depositStatus?.mapped(for: .gpApi) {
+                        queryStringParams["status"] = status
+                    }
                     queryStringParams["order_by"] = builder.depositOrderBy?.mapped(for: .gpApi)
                     queryStringParams["order"] = builder.depositOrder?.mapped(for: .gpApi)
                     queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
@@ -85,9 +88,12 @@ extension GpApiConnector: ReportingServiceType {
                     queryStringParams["from_stage_time_created"] = (builder.searchCriteriaBuilder.startStageDate ?? Date()).format("yyyy-MM-dd")
                     queryStringParams["to_stage_time_created"] = (builder.searchCriteriaBuilder.endStageDate ?? Date()).format("yyyy-MM-dd")
                     queryStringParams["adjustment_funding"] = builder.searchCriteriaBuilder.adjustmentFunding?.mapped(for: .gpApi)
-
-                    queryStringParams["from_adjustment_time_created"] = (builder.searchCriteriaBuilder.startAdjustmentDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["to_adjustment_time_created"] = (builder.searchCriteriaBuilder.endAdjustmentDate ?? Date()).format("yyyy-MM-dd")
+                    if let startAdjustmentDate = builder.searchCriteriaBuilder.startAdjustmentDate {
+                        queryStringParams["from_adjustment_time_created"] = startAdjustmentDate.format("yyyy-MM-dd")
+                    }
+                    if let endAdjustmentDate = builder.searchCriteriaBuilder.endAdjustmentDate {
+                        queryStringParams["to_adjustment_time_created"] = endAdjustmentDate.format("yyyy-MM-dd")
+                    }
                     queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
                     queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
                 }

@@ -40,7 +40,7 @@ class ValidationClause {
         callback = { builder in
             return builder.value(for: self.propertyName) != nil
         }
-        self.message = message ?? String(format: "%@ cannot be null for this transaction type.", propertyName)
+        self.message = message ?? "\(propertyName) cannot be nil for this rule"
 
         return precondition ? target : parent.of(ruleType: target.type)?.with(modifier: target.modifier)
     }
@@ -98,10 +98,10 @@ class ValidationClause {
     /// - Returns: ValidationTarget
     @discardableResult public func isEqualTo(expected: Any, message: String? = nil) -> ValidationTarget? {
         callback = { builder in
-            guard let value = builder.value(for: self.propertyName) else {
-                return false
-            }
-            return type(of: value) == type(of: expected)
+            guard let value = builder.value(for: self.propertyName),
+                  value is AnyHashable,
+                  expected is AnyHashable else { return false }
+            return (value as! AnyHashable) == (expected as! AnyHashable)
         }
         self.message = message ?? String(
             format: "%@ was not the expected value %@", propertyName, String(describing: expected)

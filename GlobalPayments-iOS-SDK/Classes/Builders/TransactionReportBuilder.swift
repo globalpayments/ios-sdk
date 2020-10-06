@@ -17,6 +17,7 @@ import Foundation
     var depositId: String?
     var depositOrderBy: DepositSortProperty?
     var depositOrder: SortDirection?
+    var depositStatus: DepositStatus?
     var disputeOrderBy: DisputeSortProperty?
     var disputeOrder: SortDirection?
 
@@ -25,6 +26,14 @@ import Foundation
     /// - Returns: TransactionReportBuilder<TResult>
     public func withDeviceId(_ deviceId: String) -> TransactionReportBuilder<TResult> {
         searchCriteriaBuilder.uniqueDeviceId = deviceId
+        return self
+    }
+
+    /// Sets Acquirer reference number
+    /// - Parameter arn: Arn number
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withArn(_ arn: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.aquirerReferenceNumber = arn
         return self
     }
 
@@ -54,6 +63,14 @@ import Foundation
     /// - Returns: TransactionReportBuilder<TResult>
     public func withDepositId(_ depositId: String?) -> TransactionReportBuilder<TResult> {
         self.depositId = depositId
+        return self
+    }
+
+    /// Sets the deposit status as criteria for the report.
+    /// - Parameter depositStatus: The gateway deposit status
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDepositStatus(_ depositStatus: DepositStatus?) -> TransactionReportBuilder<TResult> {
+        self.depositStatus = depositStatus
         return self
     }
 
@@ -104,6 +121,30 @@ import Foundation
         return self
     }
 
+    /// Set the dispute status for the report.
+    /// - Parameter disputeStatus: The gateway dispute status
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDisputeStatus(_ disputeStatus: DisputeStatus?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.disputeStatus = disputeStatus
+        return self
+    }
+
+    /// Set the dispute stage for the report.
+    /// - Parameter disputeStage: The gateway dispute stage
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDisputeStage(_ disputeStage: DisputeStage?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.disputeStage = disputeStage
+        return self
+    }
+
+    /// Set the adjustment funding for the report.
+    /// - Parameter adjustmentFunding: The gateway adjustment funding
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAdjustmentFunding(_ adjustmentFunding: AdjustmentFunding?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.adjustmentFunding = adjustmentFunding
+        return self
+    }
+
     public func `where`<T>(_ criteria: SearchCriteria, _ value: T) -> SearchCriteriaBuilder<TResult> {
         return searchCriteriaBuilder.and(criteria: criteria, value: value)
     }
@@ -118,5 +159,9 @@ import Foundation
 
         validations.of(reportType: .activity)
             .check(propertyName: "transactionId")?.isNil()
+
+        validations.of(transactionType: .refund)
+            .when(propertyName: "amount")?.isNotNil()?
+            .check(propertyName: "currency")?.isNotNil()
     }
 }

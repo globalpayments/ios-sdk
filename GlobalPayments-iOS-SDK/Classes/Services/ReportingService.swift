@@ -27,7 +27,7 @@ public class ReportingService {
 
     // MARK: - Disputes
 
-    public func findDisputes() -> TransactionReportBuilder<[DisputeSummary]> {
+    public static func findDisputes() -> TransactionReportBuilder<[DisputeSummary]> {
         return TransactionReportBuilder<[DisputeSummary]>(reportType: .findDisputes)
     }
 

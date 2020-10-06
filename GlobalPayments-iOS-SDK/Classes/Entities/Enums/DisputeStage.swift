@@ -8,7 +8,7 @@ public enum DisputeStage: String, Mappable {
     case preArbitration = "PRE_ARBITRATION"
     case arbitration = "ARBITRATION"
     case preCompliance = "PRE_COMPLIANCE"
-    case compliance = "Compliance"
+    case compliance = "COMPLIANCE"
     case goodFaith = "GOODFAITH"
 
     public func mapped(for target: Target) -> String? {

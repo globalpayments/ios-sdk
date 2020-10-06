@@ -106,7 +106,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
         completion: ((Bool, Error?) -> Void)?) {
 
         if token.isNilOrEmpty {
-            completion?(false, BuilderException(message: "Token cannot be null"))
+            completion?(false, BuilderException(message: "Token cannot be nil"))
             return
         }
         ManagementBuilder(transactionType: .tokenUpdate)
@@ -128,7 +128,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
         completion: ((Bool, Error?) -> Void)?) {
 
         if token.isNilOrEmpty {
-            completion?(false, BuilderException(message: "Token cannot be null"))
+            completion?(false, BuilderException(message: "Token cannot be nil"))
             return
         }
         ManagementBuilder(transactionType: .tokenDelete)
@@ -148,7 +148,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
         completion: ((CreditCardData?, Error?) -> Void)?) {
 
         if token.isNilOrEmpty {
-            completion?(nil, BuilderException(message: "Token cannot be null"))
+            completion?(nil, BuilderException(message: "Token cannot be nil"))
             return
         }
 

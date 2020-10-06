@@ -85,21 +85,6 @@ class GpApiReportingTests: XCTestCase {
         XCTAssertNotNil(transactionSummaryList)
         XCTAssertNil(transactionError)
     }
-    
-    // DISPUTES
-    
-//    [TestMethod]
-//    public void ReportFindDisputesWithCriteria() {
-//        List<DisputeSummary> summary = ReportingService.FindDisputes()
-//            .OrderBy(DisputeSortProperty.ARN, SortDirection.Descending)
-//            .WithPaging(1, 10)
-//            .Where(DataServiceCriteria.StartStageDate, new DateTime(2019, 1, 1))
-//            //.And(SearchCriteria.EndDate, DateTime.UtcNow)
-//            //.And(SearchCriteria.DisputeStatus, DisputeStatus.UnderReview)
-//            .Execute();
-//        Assert.IsNotNull(summary);
-//        Assert.IsNotNull(summary is List<DisputeSummary>);
-//    }
 
     func test_report_find_deposits_with_criteria() {
         // GIVEN
@@ -111,6 +96,7 @@ class GpApiReportingTests: XCTestCase {
         // WHEN
         ReportingService.findDeposits()
             .orderBy(depositOrderBy: .timeCreated, .descending)
+            .withDepositStatus(.irreg)
             .withPaging(1, 10)
             .where(.startDate, thirtyDaysBefore)
             .execute { list, error in
@@ -142,7 +128,7 @@ class GpApiReportingTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 10.0)
+        wait(for: [summaryExpectation], timeout: 100.0)
         XCTAssertNil(depositError)
         XCTAssertNotNil(depositSummary)
     }
@@ -166,9 +152,38 @@ class GpApiReportingTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 10.0)
+        wait(for: [summaryExpectation], timeout: 100.0)
         XCTAssertNil(depositSummary)
         XCTAssertNotNil(depositError)
         XCTAssertEqual(depositError?.responseCode, "RESOURCE_NOT_FOUND")
+    }
+
+    // DISPUTES
+
+    func test_report_find_disputes_with_criteria() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .brand, .ascending)
+            .withPaging(1, 10)
+            .withDisputeStatus(.closed)
+            .withDisputeStage(.compliance)
+            .withAdjustmentFunding(.debit)
+            .where(.startStageDate, oneYearBefore)
+            .execute { summaryList, error in
+                disputeSummaryList = summaryList
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertNotNil(disputeSummaryList)
     }
 }

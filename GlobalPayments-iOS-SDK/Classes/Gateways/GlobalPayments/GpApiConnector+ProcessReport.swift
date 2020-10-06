@@ -62,7 +62,7 @@ extension GpApiConnector: ReportingServiceType {
                     }
                     queryStringParams["order_by"] = builder.depositOrderBy?.mapped(for: .gpApi)
                     queryStringParams["order"] = builder.depositOrder?.mapped(for: .gpApi)
-                    queryStringParams["from_deposit_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
+                    queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
                 }
                 else if builder.reportType == .findDisputes {
                     reportUrl = Endpoints.disputes()
@@ -103,43 +103,39 @@ extension GpApiConnector: ReportingServiceType {
                     return
                 }
 
-                completion?(self?.mapReportResponse(
-                    response,
-                    reportType: builder.reportType
-                ), nil
-                )
+                completion?(self?.mapReportResponse(response, builder.reportType), nil)
             }
         }
     }
 
-    private func mapReportResponse<T>(_ rawResponse: String, reportType: ReportType) -> T? {
-        var result: T?
+    private func mapReportResponse<T>(_ rawResponse: String, _ reportType: ReportType) -> T? {
+        var result: Any?
         let json = JsonDoc.parse(rawResponse)
 
-        if reportType == .transactionDetail && result is TransactionSummary? {
-            result = mapTransactionSummary(json) as? T
-        } else if reportType == .findTransactions && result is [TransactionSummary]? {
+        if reportType == .transactionDetail && TransactionSummary() is T {
+            result = mapTransactionSummary(json)
+        } else if reportType == .findTransactions && [TransactionSummary]() is T {
             if let transactions: [JsonDoc] = json?.getValue(key: "transactions") {
                 let mapped = transactions.map { mapTransactionSummary($0) }
-                result = mapped as? T
+                result = mapped
             }
-        } else if reportType == .findDeposits && result is DepositSummary? {
-            result = mapDepositSummary(json) as? T
-        } else if reportType == .findDeposits && result is [DepositSummary]? {
+        } else if reportType == .findDeposits && DepositSummary() is T {
+            result = mapDepositSummary(json)
+        } else if reportType == .findDeposits && [DepositSummary]() is T {
             if let deposits: [JsonDoc] = json?.getValue(key: "deposits") {
                 let mapped = deposits.map { mapDepositSummary($0) }
-                result = mapped as? T
+                result = mapped
             }
-        } else if reportType == .findDeposits && result is DisputeSummary? {
-            result = mapDisputeSummary(json) as? T
-        } else if reportType == .findDeposits && result is [DisputeSummary]? {
+        } else if reportType == .findDisputes && DisputeSummary() is T {
+            result = mapDisputeSummary(json)
+        } else if reportType == .findDisputes && [DisputeSummary]() is T {
             if let disputes: [JsonDoc] = json?.getValue(key: "disputes") {
                 let mapped = disputes.map { mapDisputeSummary($0) }
-                result = mapped as? T
+                result = mapped
             }
         }
 
-        return result
+        return result as? T
     }
 
     private func mapTransactionSummary(_ doc: JsonDoc?) -> TransactionSummary {
@@ -179,7 +175,52 @@ extension GpApiConnector: ReportingServiceType {
 
     private func mapDepositSummary(_ doc: JsonDoc?) -> DepositSummary {
         let summary = DepositSummary()
+        summary.id = doc?.getValue(key: "id")
         // TODO: map all available fields
+        let merchant: JsonDoc? = doc?.get(valueFor: "system")
+        summary.merchantHierarchy = merchant?.getValue(key: "hierarchy")
+        summary.merchantName = merchant?.getValue(key: "name")
+        summary.merchantDbaName = merchant?.getValue(key: "dba")
+        summary.merchantNumber = merchant?.getValue(key: "mid")
+        // summary.merchantCategory =
+        let timeCreated: String? = doc?.getValue(key: "time_created")
+        summary.depositDate = timeCreated?.format()
+        // summary.reference =
+        summary.amount = NSDecimalNumber(string: doc?.getValue(key: "amount"))
+        summary.currency = doc?.getValue(key: "currency")
+        summary.type = doc?.getValue(key: "funding_type")
+        // summary.routingNumber =
+        // summary.accountNumber =
+        // summary.mode =
+        // summary.summaryModel =
+
+        let sales: JsonDoc? = doc?.get(valueFor: "sales")
+        summary.salesTotalCount = sales?.getValue(key: "count")
+        summary.salesTotalAmount = sales?.getValue(key: "amount")
+        // summary.salesTotalCurrency =
+
+        let refunds: JsonDoc? = doc?.get(valueFor: "refunds")
+        summary.refundsTotalCount = refunds?.getValue(key: "count")
+        summary.refundsTotalAmount = refunds?.getValue(key: "amount")
+        // summary.refundsTotalCurrency =
+
+        let chargebacks: JsonDoc? = doc?.get(valueFor: "disputes")?.get(valueFor: "chargebacks")
+         summary.chargebackTotalCount = chargebacks?.getValue(key: "count")
+         summary.chargebackTotalAmount = chargebacks?.getValue(key: "amount")
+        // summary.chargebackTotalCurrency =
+
+        // summary.representmentTotalCount =
+        // summary.representmentTotalAmount =
+        // summary.representmentTotalCurrency =
+
+        let fees: JsonDoc? = doc?.get(valueFor: "fees")
+        summary.feesTotalAmount = fees?.getValue(key: "amount")
+        // summary.feesTotalCurrency =
+
+        // summary.adjustmentTotalCount =
+        // summary.adjustmentTotalAmount =
+        // summary.adjustmentTotalCurrency =
+
         return summary
     }
 

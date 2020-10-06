@@ -31,13 +31,13 @@ class Gateway {
         var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: timeout)
 
         request.httpMethod = method.rawValue
-        request.addValue(contentType ?? self.contentType, forHTTPHeaderField: "Content-Type")
         request.addValue(contentType ?? self.contentType, forHTTPHeaderField: "Accept")
         headers.forEach {
             request.setValue($0.value, forHTTPHeaderField: $0.key)
         }
         if method != .get && data != nil {
             request.httpBody = data?.data(using: .utf8)
+            request.addValue(contentType ?? self.contentType, forHTTPHeaderField: "Content-Type")
             requestLogger?.requestSent(request: data!)
         }
 

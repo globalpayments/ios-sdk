@@ -7,8 +7,8 @@ class GpApiReportingTests: XCTestCase {
         super.setUp()
 
         try? ServicesContainer.configureService(config: GpApiConfig (
-            appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
-            appKey: "QDsW1ETQKHX6Y4TA",
+            appId: "GkwdYGzQrEy1SdTz7S10P8uRjFMlEsJg",
+            appKey: "zvXE2DmmoxPbQ6d0",
             channel: .cardNotPresent
         ))
     }
@@ -84,5 +84,46 @@ class GpApiReportingTests: XCTestCase {
         wait(for: [findTransactionsExpectation], timeout: 10.0)
         XCTAssertNotNil(transactionSummaryList)
         XCTAssertNil(transactionError)
+    }
+    
+    // DISPUTES
+    
+//    [TestMethod]
+//    public void ReportFindDisputesWithCriteria() {
+//        List<DisputeSummary> summary = ReportingService.FindDisputes()
+//            .OrderBy(DisputeSortProperty.ARN, SortDirection.Descending)
+//            .WithPaging(1, 10)
+//            .Where(DataServiceCriteria.StartStageDate, new DateTime(2019, 1, 1))
+//            //.And(SearchCriteria.EndDate, DateTime.UtcNow)
+//            //.And(SearchCriteria.DisputeStatus, DisputeStatus.UnderReview)
+//            .Execute();
+//        Assert.IsNotNull(summary);
+//        Assert.IsNotNull(summary is List<DisputeSummary>);
+//    }
+    
+    // DEPOSITS
+    
+    func test_report_find_deposits_with_criteria() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
+        let thirtyDaysBefore = Calendar.current.date(byAdding: .day, value: -30, to: Date())
+        var depositSummaryList: [DepositSummary]?
+        var depositError: Error?
+        
+        // WHEN
+        ReportingService.findDeposits()
+            .orderBy(depositOrderBy: .timeCreated, .descending)
+            .withPaging(1, 10)
+            .where(.startDate, thirtyDaysBefore)
+            .execute { list, error in
+                depositSummaryList = list
+                depositError = error
+                summaryExpectation.fulfill()
+            }
+            
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(depositError)
+        XCTAssertNotNil(depositSummaryList)
     }
 }

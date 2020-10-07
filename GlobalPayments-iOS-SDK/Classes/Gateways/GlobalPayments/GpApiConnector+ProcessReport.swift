@@ -66,8 +66,8 @@ extension GpApiConnector: ReportingServiceType {
                     queryStringParams["order_by"] = builder.depositOrderBy?.mapped(for: .gpApi)
                     queryStringParams["order"] = builder.depositOrder?.mapped(for: .gpApi)
                     queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
-                } else if builder.reportType == .findDeposit,
-                          let depositId = builder.depositId {
+                } else if builder.reportType == .depositDetail,
+                          let depositId = builder.searchCriteriaBuilder.depositReference {
                     reportUrl = Endpoints.deposit(id: depositId)
                 }
                 else if builder.reportType == .findDisputes {
@@ -96,7 +96,10 @@ extension GpApiConnector: ReportingServiceType {
                     }
                     queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
                     queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
-                }
+                } else if builder.reportType == .disputeDetail,
+                         let disputeId = builder.searchCriteriaBuilder.disputeReference {
+                   reportUrl = Endpoints.dispute(id: disputeId)
+               }
             }
 
             self?.doTransaction(
@@ -128,14 +131,14 @@ extension GpApiConnector: ReportingServiceType {
                 let mapped = transactions.map { mapTransactionSummary($0) }
                 result = mapped
             }
-        } else if reportType == .findDeposit && DepositSummary() is T {
+        } else if reportType == .depositDetail && DepositSummary() is T {
             result = mapDepositSummary(json)
         } else if reportType == .findDeposits && [DepositSummary]() is T {
             if let deposits: [JsonDoc] = json?.getValue(key: "deposits") {
                 let mapped = deposits.map { mapDepositSummary($0) }
                 result = mapped
             }
-        } else if reportType == .findDisputes && DisputeSummary() is T {
+        } else if reportType == .disputeDetail && DisputeSummary() is T {
             result = mapDisputeSummary(json)
         } else if reportType == .findDisputes && [DisputeSummary]() is T {
             if let disputes: [JsonDoc] = json?.getValue(key: "disputes") {

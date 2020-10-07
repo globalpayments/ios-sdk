@@ -216,27 +216,6 @@ class BuilderValidationTests: XCTestCase {
         XCTAssertNotNil(transactionError)
     }
 
-    func test_report_transaction_detail_no_transactionId() {
-        // GIVEN
-        let executeExpectation = expectation(description: "Execute Expectation")
-        var transactionSummaryResult: TransactionSummary?
-        var transactionSummaryError: BuilderException?
-
-        // WHEN
-        ReportingService
-            .transactionDetail(transactionId: nil)
-            .execute { transactionSummary, error in
-                transactionSummaryResult = transactionSummary
-                transactionSummaryError = error as? BuilderException
-                executeExpectation.fulfill()
-        }
-
-        // THEN
-        wait(for: [executeExpectation], timeout: 10.0)
-        XCTAssertNil(transactionSummaryResult)
-        XCTAssertNotNil(transactionSummaryError)
-    }
-
     func test_report_activity_with_transactionId() {
         // GIVEN
         let executeExpectation = expectation(description: "Execute Expectation")

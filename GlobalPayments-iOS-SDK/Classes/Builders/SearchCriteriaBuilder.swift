@@ -107,6 +107,7 @@ public enum DataServiceCriteria: String {
     var customerId: String?
     var depositReference: String?
     var displayName: String?
+    var disputeReference: String?
     var disputeStage: DisputeStage?
     var disputeStatus: DisputeStatus?
     var endAdjustmentDate: Date?

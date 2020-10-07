@@ -186,4 +186,26 @@ class GpApiReportingTests: XCTestCase {
         XCTAssertNil(disputeSummaryError)
         XCTAssertNotNil(disputeSummaryList)
     }
+
+    func test_report_find_dispute_by_given_id() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Find Dispute By Given ID")
+        let disputeId = "DIS_SAND_abcd1234"
+        var disputeSummary: DisputeSummary?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService
+            .disputeDetail(disputeId: disputeId)
+            .execute {
+                disputeSummary = $0
+                disputeSummaryError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertNotNil(disputeSummary)
+    }
 }

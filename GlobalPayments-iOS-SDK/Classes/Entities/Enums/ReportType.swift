@@ -26,7 +26,9 @@ public struct ReportType: OptionSet, Hashable {
     /// Indicates a deposits report
     public static let findDeposits      = ReportType(rawValue: 1 << 8)
     /// Indicates a deposit report
-    public static let findDeposit       = ReportType(rawValue: 1 << 9)
-    /// Indicates a dispute report
+    public static let depositDetail     = ReportType(rawValue: 1 << 9)
+    /// Indicates a disputes report
     public static let findDisputes      = ReportType(rawValue: 1 << 10)
+    /// Indicates a dispute report
+    public static let disputeDetail     = ReportType(rawValue: 1 << 11)
 }

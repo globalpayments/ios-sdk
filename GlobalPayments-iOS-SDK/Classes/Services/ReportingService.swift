@@ -35,6 +35,10 @@ public class ReportingService {
             .withDisputeId(disputeId)
     }
 
+    public static func findSettlementDisputes() -> TransactionReportBuilder<[DisputeSummary]> {
+        return TransactionReportBuilder<[DisputeSummary]>(reportType: .findSettlementDisputes)
+    }
+
     // MARK: - Other
 
     public static func activity() -> TransactionReportBuilder<[TransactionSummary]> {

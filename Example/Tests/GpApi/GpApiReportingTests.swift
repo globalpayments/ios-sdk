@@ -208,4 +208,31 @@ class GpApiReportingTests: XCTestCase {
         XCTAssertNil(disputeSummaryError)
         XCTAssertNotNil(disputeSummary)
     }
+
+    func test_report_find_settlement_disputes_with_criteria() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Settlement Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService.findSettlementDisputes()
+            .orderBy(disputeOrderBy: .brand, .ascending)
+            .withPaging(1, 10)
+            .withDisputeStatus(.underReview)
+            .withDisputeStage(.chargeback)
+            .withAdjustmentFunding(.debit)
+            .where(.startStageDate, oneYearBefore)
+            .execute { summaryList, error in
+                disputeSummaryList = summaryList
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertNotNil(disputeSummaryList)
+    }
 }

@@ -80,6 +80,7 @@ public class JsonDoc {
     }
 
     public func get(valueFor key: String) -> JsonDoc? {
+        print(dict)
         if dict.keys.contains(key) {
             if let jsonDoc = dict[key] as? JsonDoc {
                 return jsonDoc

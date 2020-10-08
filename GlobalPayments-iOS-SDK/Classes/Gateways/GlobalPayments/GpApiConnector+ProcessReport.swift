@@ -13,6 +13,7 @@ extension GpApiConnector: ReportingServiceType {
 
             var reportUrl: String = .empty
             var queryStringParams = [String: String]()
+            var method: HTTPMethod = .get
 
             if let builder = builder as? TransactionReportBuilder<T> {
 
@@ -66,14 +67,14 @@ extension GpApiConnector: ReportingServiceType {
                     queryStringParams["order_by"] = builder.depositOrderBy?.mapped(for: .gpApi)
                     queryStringParams["order"] = builder.depositOrder?.mapped(for: .gpApi)
                     queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
-                } else if builder.reportType == .depositDetail,
+                }
+                else if builder.reportType == .depositDetail,
                           let depositId = builder.searchCriteriaBuilder.depositReference {
                     reportUrl = Endpoints.deposit(id: depositId)
                 }
-                else if builder.reportType == .findDisputes ||
-                        builder.reportType == .findSettlementDisputes {
+                else if builder.reportType == .findDisputes {
 
-                    reportUrl = builder.reportType == .findDisputes ? Endpoints.disputes() : Endpoints.settlementDisputes()
+                    reportUrl = Endpoints.disputes()
 
                     if let page = builder.page {
                         queryStringParams["page"] = "\(page)"
@@ -98,14 +99,71 @@ extension GpApiConnector: ReportingServiceType {
                     }
                     queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
                     queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
-                } else if builder.reportType == .disputeDetail,
+                }
+                else if builder.reportType == .findSettlementDisputes {
+                    reportUrl = Endpoints.settlementDisputes()
+
+                    if let page = builder.page {
+                        queryStringParams["page"] = "\(page)"
+                    }
+                    if let pageSize = builder.pageSize {
+                        queryStringParams["page_size"] = "\(pageSize)"
+                    }
+                    queryStringParams["order_by"] = builder.disputeOrderBy?.mapped(for: .gpApi)
+                    queryStringParams["order"] = builder.disputeOrder?.mapped(for: .gpApi)
+                    queryStringParams["arn"] = builder.searchCriteriaBuilder.aquirerReferenceNumber
+                    queryStringParams["brand"] = builder.searchCriteriaBuilder.cardBrand
+                    queryStringParams["STATUS"] = builder.searchCriteriaBuilder.disputeStatus?.mapped(for: .gpApi)
+                    queryStringParams["stage"] = builder.searchCriteriaBuilder.disputeStage?.mapped(for: .gpApi)
+                    queryStringParams["from_stage_time_created"] = (builder.searchCriteriaBuilder.startStageDate ?? Date()).format("yyyy-MM-dd")
+                    queryStringParams["to_stage_time_created"] = (builder.searchCriteriaBuilder.endStageDate ?? Date()).format("yyyy-MM-dd")
+                    queryStringParams["adjustment_funding"] = builder.searchCriteriaBuilder.adjustmentFunding?.mapped(for: .gpApi)
+                    if let startAdjustmentDate = builder.searchCriteriaBuilder.startAdjustmentDate {
+                        queryStringParams["from_adjustment_time_created"] = startAdjustmentDate.format("yyyy-MM-dd")
+                    }
+                    if let endAdjustmentDate = builder.searchCriteriaBuilder.endAdjustmentDate {
+                        queryStringParams["to_adjustment_time_created"] = endAdjustmentDate.format("yyyy-MM-dd")
+                    }
+                    queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
+                    queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
+                    queryStringParams["account_name"] = builder.searchCriteriaBuilder.accountName
+                }
+                else if builder.reportType == .disputeDetail,
                          let disputeId = builder.searchCriteriaBuilder.disputeReference {
                    reportUrl = Endpoints.dispute(id: disputeId)
                }
+                else if builder.reportType == .acceptDispute,
+                        let disputeId = builder.searchCriteriaBuilder.disputeReference {
+                    reportUrl = Endpoints.acceptDispute(id: disputeId)
+                    method = .post
+                }
+                else if builder.reportType == .challangeDispute,
+                        let disputeId = builder.searchCriteriaBuilder.disputeReference,
+                        let documents = builder.disputeDocuments,
+                        let data = try? ["documents": documents].asString() {
+
+                    self?.doTransaction(
+                        method: .post,
+                        endpoint: Endpoints.challengeDispute(id: disputeId),
+                        data: data) { [weak self] response, error in
+                        if let error = error {
+                            completion?(nil, error)
+                            return
+                        }
+                        guard let response = response else {
+                            completion?(nil, error)
+                            return
+                        }
+
+                        completion?(self?.mapReportResponse(response, builder.reportType), nil)
+                        return
+                    }
+                    return
+                }
             }
 
             self?.doTransaction(
-                method: .get,
+                method: method,
                 endpoint: reportUrl,
                 queryStringParams: queryStringParams) { [weak self] response, error in
                 if let error = error {
@@ -147,6 +205,8 @@ extension GpApiConnector: ReportingServiceType {
                 let mapped = disputes.map { mapDisputeSummary($0) }
                 result = mapped
             }
+        } else if reportType == .acceptDispute || reportType == .challangeDispute {
+            result = mapDisputeAction(json)
         }
 
         return result as? T
@@ -257,11 +317,33 @@ extension GpApiConnector: ReportingServiceType {
         summary.reason = doc?.getValue(key: "reason_description")
         let timeToRespondBy: String? = doc?.getValue(key: "time_to_respond_by")
         summary.respondByDate = timeToRespondBy?.format()
+        if let documents: [JsonDoc] = doc?.getValue(key: "documents"), !documents.isEmpty {
+            summary.documents = documents.compactMap {
+                guard let id: String = $0.getValue(key: "id"),
+                      let type = DocumentType(value: $0.getValue(key: "type")) else { return nil }
+                return DisputeDocument(id: id, type: type)
+            }
+        }
+        
         //result
         //last_adjustment_amount
         //last_adjustment_currency
         //last_adjustment_funding
 
         return summary
+    }
+
+    private func mapDisputeAction(_ doc: JsonDoc?) -> DisputeAction {
+        let action = DisputeAction()
+        action.reference = doc?.getValue(key: "id")
+        action.status = DisputeStatus(value: doc?.getValue(key: "status"))
+        action.stage = DisputeStage(value: doc?.getValue(key: "stage"))
+        action.amount = NSDecimalNumber(string: doc?.getValue(key: "amount"))
+        action.currency = doc?.getValue(key: "currency")
+        action.reasonCode = doc?.getValue(key: "reason_code")
+        action.reasonDescription = doc?.getValue(key: "reason_description")
+        action.result = DisputeResult(value: doc?.getValue(key: "result"))
+
+        return action
     }
 }

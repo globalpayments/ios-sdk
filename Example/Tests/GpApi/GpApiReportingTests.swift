@@ -128,7 +128,7 @@ class GpApiReportingTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 100.0)
+        wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(depositError)
         XCTAssertNotNil(depositSummary)
     }
@@ -152,7 +152,7 @@ class GpApiReportingTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 100.0)
+        wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(depositSummary)
         XCTAssertNotNil(depositError)
         XCTAssertEqual(depositError?.responseCode, "RESOURCE_NOT_FOUND")
@@ -190,7 +190,7 @@ class GpApiReportingTests: XCTestCase {
     func test_report_find_dispute_by_given_id() {
         // GIVEN
         let summaryExpectation = expectation(description: "Find Dispute By Given ID")
-        let disputeId = "DIS_SAND_abcd1234"
+        let disputeId = "DIS_SAND_abcd1253"
         var disputeSummary: DisputeSummary?
         var disputeSummaryError: Error?
 
@@ -204,7 +204,7 @@ class GpApiReportingTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 10.0)
+        wait(for: [summaryExpectation], timeout: 100000.0)
         XCTAssertNil(disputeSummaryError)
         XCTAssertNotNil(disputeSummary)
     }
@@ -223,6 +223,7 @@ class GpApiReportingTests: XCTestCase {
             .withDisputeStatus(.underReview)
             .withDisputeStage(.chargeback)
             .withAdjustmentFunding(.debit)
+            .withAccountName("Settlement Reporting")
             .where(.startStageDate, oneYearBefore)
             .execute { summaryList, error in
                 disputeSummaryList = summaryList
@@ -234,5 +235,94 @@ class GpApiReportingTests: XCTestCase {
         wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(disputeSummaryError)
         XCTAssertNotNil(disputeSummaryList)
+    }
+
+    func test_report_accept_dispute_success() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Accept Dispute")
+        let disputeId = "DIS_SAND_abcd1234"
+        var disputeAction: DisputeAction?
+        var disputeActionError: Error?
+
+        // WHEN
+        ReportingService
+            .acceptDispute(id: disputeId)
+            .execute {
+                disputeAction = $0
+                disputeActionError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNotNil(disputeAction)
+        XCTAssertNil(disputeActionError)
+    }
+
+    func test_report_accept_dispute_failure() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Accept Dispute")
+        let disputeId = "UNKNOWN"
+        var disputeAction: DisputeAction?
+        var disputeActionError: GatewayException?
+
+        // WHEN
+        ReportingService
+            .acceptDispute(id: disputeId)
+            .execute { action, error in
+                disputeAction = action
+                if let gatewayError = error as? GatewayException {
+                    disputeActionError = gatewayError
+                }
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeAction)
+        XCTAssertNotNil(disputeActionError)
+        XCTAssertEqual(disputeActionError?.responseCode, "INVALID_DISPUTE_ACTION")
+    }
+
+    func test_report_challange_dispute_success() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Find Dispute By Given ID")
+        let disputeId = "DIS_SAND_abcd1253"
+        var disputeDocuments: [DisputeDocument]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService
+            .disputeDetail(disputeId: disputeId)
+            .execute {
+                disputeDocuments = $0?.documents
+                disputeSummaryError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertNotNil(disputeDocuments)
+
+        // GIVEN
+        let challangeExpectation = expectation(description: "Challange Expectation")
+        var disputeAction: DisputeAction?
+        var disputeActionError: Error?
+
+        // WHEN
+        ReportingService
+            .challangeDispute(id: disputeId, documents: disputeDocuments)
+            .withDisputeDocuments(disputeDocuments)
+            .execute { action, error in
+                disputeAction = action
+                disputeActionError = error
+                challangeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [challangeExpectation], timeout: 10000.0)
+        XCTAssertNotNil(disputeAction)
+        XCTAssertNil(disputeActionError)
     }
 }

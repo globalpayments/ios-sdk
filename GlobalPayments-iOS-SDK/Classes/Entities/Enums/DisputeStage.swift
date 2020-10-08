@@ -11,6 +11,12 @@ public enum DisputeStage: String, Mappable {
     case compliance = "COMPLIANCE"
     case goodFaith = "GOODFAITH"
 
+    init?(value: String?) {
+        guard let value = value,
+              let stage = DisputeStage(rawValue: value) else { return nil }
+        self = stage
+    }
+
     public func mapped(for target: Target) -> String? {
         switch target {
         case .gpApi:

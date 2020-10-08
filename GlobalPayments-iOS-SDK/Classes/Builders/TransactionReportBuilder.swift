@@ -19,6 +19,7 @@ import Foundation
     var depositStatus: DepositStatus?
     var disputeOrderBy: DisputeSortProperty?
     var disputeOrder: SortDirection?
+    var disputeDocuments: [DisputeDocument]?
 
     /// Sets the device ID as criteria for the report.
     /// - Parameter deviceId: The device ID
@@ -54,6 +55,19 @@ import Foundation
     /// - Returns: TransactionReportBuilder<TResult>
     public func withTransactionId(_ transactionId: String?) -> TransactionReportBuilder<TResult> {
         self.transactionId = transactionId
+        return self
+    }
+
+    /// Sets the gateway account name
+    /// - Parameter accountName: The gateway account name
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAccountName(_ accountName: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.accountName = accountName
+        return self
+    }
+
+    public func withDisputeDocuments(_ disputeDocuments: [DisputeDocument]?) -> TransactionReportBuilder<TResult> {
+        self.disputeDocuments = disputeDocuments
         return self
     }
 

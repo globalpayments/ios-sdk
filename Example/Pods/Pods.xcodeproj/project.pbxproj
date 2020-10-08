@@ -124,6 +124,11 @@
 		8218B21B25221362009DC67A /* GpApiConnector+ProcessReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B21A25221362009DC67A /* GpApiConnector+ProcessReport.swift */; };
 		8218B2202522188F009DC67A /* GpApiConnector+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B21F2522188F009DC67A /* GpApiConnector+Constants.swift */; };
 		829EEFFE252C840E00A66C55 /* DepositStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829EEFFD252C840E00A66C55 /* DepositStatus.swift */; };
+		82BE23C1252F155C0028037D /* DisputeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BE23C0252F155C0028037D /* DisputeAction.swift */; };
+		82BE23C6252F16CA0028037D /* DisputeResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BE23C5252F16CA0028037D /* DisputeResult.swift */; };
+		82BE23CB252F3CE40028037D /* DisputeDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BE23CA252F3CE40028037D /* DisputeDocument.swift */; };
+		82BE23D0252F4E030028037D /* DocumentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BE23CF252F4E030028037D /* DocumentType.swift */; };
+		82BE23D5252F59970028037D /* EncodableExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BE23D4252F59970028037D /* EncodableExtensions.swift */; };
 		82CF3C8DA4454BC44DC272451AAFDC0E /* GpApiConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6E3FE213A36D61A8F5ACF5B259E5CE /* GpApiConnector.swift */; };
 		82E3652386415B22A2B9E01EC2C4493B /* TransactionsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F00AB91DB26C6E9C589A241014A351 /* TransactionsInfo.swift */; };
 		8300038FCE48E71A1D2BB5C36F9D31B2 /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0A034C5CF4FD1313D82D338D94A3F /* PaymentMethod.swift */; };
@@ -362,6 +367,11 @@
 		8218B21A25221362009DC67A /* GpApiConnector+ProcessReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GpApiConnector+ProcessReport.swift"; sourceTree = "<group>"; };
 		8218B21F2522188F009DC67A /* GpApiConnector+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GpApiConnector+Constants.swift"; sourceTree = "<group>"; };
 		829EEFFD252C840E00A66C55 /* DepositStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositStatus.swift; sourceTree = "<group>"; };
+		82BE23C0252F155C0028037D /* DisputeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeAction.swift; sourceTree = "<group>"; };
+		82BE23C5252F16CA0028037D /* DisputeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeResult.swift; sourceTree = "<group>"; };
+		82BE23CA252F3CE40028037D /* DisputeDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeDocument.swift; sourceTree = "<group>"; };
+		82BE23CF252F4E030028037D /* DocumentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentType.swift; sourceTree = "<group>"; };
+		82BE23D4252F59970028037D /* EncodableExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodableExtensions.swift; sourceTree = "<group>"; };
 		8A8946B8CBCA7B34A355C2ED0A20F520 /* GlobalPayments-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "GlobalPayments-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		8CC7C2EE072B50EDE0F886361445077E /* eCheck.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = eCheck.swift; sourceTree = "<group>"; };
 		8D423F62697F4BE4124BCA8553E022BE /* Language.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
@@ -555,6 +565,8 @@
 				F5DAD7B2B0DA2F8B1C8AB4320D70BBBA /* DepositSummary.swift */,
 				BD73C4C182B79B4A173FF08288C89C91 /* DiscountDetails.swift */,
 				4A5DC2021D9C20FFB45F3D1571446892 /* DisputeSummary.swift */,
+				82BE23C0252F155C0028037D /* DisputeAction.swift */,
+				82BE23CA252F3CE40028037D /* DisputeDocument.swift */,
 				1AEFE4BF8E28D30E0021B5D3EE109965 /* EcommerceInfo.swift */,
 				F553D3B9D4BE3A71AF012D1F33846428 /* EncryptionData.swift */,
 				D1026A708F926F5F11CBF4DF65E2D9A7 /* HostedPaymentData.swift */,
@@ -621,6 +633,7 @@
 				4D9FF27C67385B39E5DF89D85C7EE703 /* NSRegularExpressionExtensions.swift */,
 				FE664B1A44653F878E1D953797AA0FF9 /* OptionalExtensions.swift */,
 				D26556B3C1D72F626B6A3280FDEF21BC /* StringExtensions.swift */,
+				82BE23D4252F59970028037D /* EncodableExtensions.swift */,
 			);
 			name = Utils;
 			path = "GlobalPayments-iOS-SDK/Classes/Utils";
@@ -750,8 +763,10 @@
 				8207F85F251C9619004F0122 /* DepositSortProperty.swift */,
 				8207F864251C96C3004F0122 /* DisputeSortProperty.swift */,
 				8207F869251C97C4004F0122 /* DisputeStage.swift */,
+				82BE23C5252F16CA0028037D /* DisputeResult.swift */,
 				8207F86E251C98CB004F0122 /* DisputeStatus.swift */,
 				829EEFFD252C840E00A66C55 /* DepositStatus.swift */,
+				82BE23CF252F4E030028037D /* DocumentType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1180,11 +1195,13 @@
 				2432E783530BF9B4D3B04094708FFDC2 /* CreditDebitIndicator.swift in Sources */,
 				4B443AB7DD59D8F0FBF286D21AA87FF1 /* CreditTrackData.swift in Sources */,
 				2762209F8720C85B4756037B4E222DAA /* Customer.swift in Sources */,
+				82BE23C1252F155C0028037D /* DisputeAction.swift in Sources */,
 				E1C66EB98ACF72C372C9722689B42FBE /* CustomerAuthenticationMethod.swift in Sources */,
 				DF801B701CC78E1BA6EF5BCEE2352D9C /* CvnPresenceIndicator.swift in Sources */,
 				927A2EBA361892187B311A85E4E0485A /* DataServicesConnector.swift in Sources */,
 				FF37E7C5F562295F448089E04DC44707 /* DateExtensions.swift in Sources */,
 				31CA8C16795525BE886249FB8D4025FF /* DccProcessor.swift in Sources */,
+				82BE23CB252F3CE40028037D /* DisputeDocument.swift in Sources */,
 				9950556BCCA07DCDB2EEDC0AFE457DA9 /* DccRateData.swift in Sources */,
 				F7582B7BAF80A31FB13AF7ACE8B37329 /* DccRateType.swift in Sources */,
 				D55C4D1FD793529F0DDCA01E86662A38 /* Debit.swift in Sources */,
@@ -1211,6 +1228,7 @@
 				5E07FA83ADB61DCDF845AC6DA1DAC98D /* EncryptionData.swift in Sources */,
 				675537BD33F806F9182AD52931604147 /* EntryMethods.swift in Sources */,
 				BFFF9C15E105AEB6824E41319479F029 /* Environment.swift in Sources */,
+				82BE23C6252F16CA0028037D /* DisputeResult.swift in Sources */,
 				48CC924C8ED4201C3CDD425EA9A003C8 /* ExtraChargeType.swift in Sources */,
 				CB4D0EDFB3998317F48EEA1EAF472BDC /* Gateway.swift in Sources */,
 				6643B5FD063F0609689B8904F861897A /* GatewayConfig.swift in Sources */,
@@ -1274,6 +1292,7 @@
 				8D82E2771C63E3EC82E93C323B41D6EE /* RecurringType.swift in Sources */,
 				F483653F98B141C78456B62B81A1F080 /* Refundable.swift in Sources */,
 				25E985E7DA8523FD05EA6C9A4D97A999 /* ReorderIndicator.swift in Sources */,
+				82BE23D0252F4E030028037D /* DocumentType.swift in Sources */,
 				593D1F7169351D68645B0275E3CE9FC6 /* ReportBuilder.swift in Sources */,
 				C5B16956C8F9F5FD39F6BF9FC13B27D3 /* ReportingService.swift in Sources */,
 				59E8CECA5709383260A62D1130911AED /* ReportType.swift in Sources */,
@@ -1282,6 +1301,7 @@
 				F3DD4EEEB526734F84CD505F94E9AB01 /* Reversable.swift in Sources */,
 				D6CED3296C3A2C836E758F73158AF3F5 /* ReversalReasonCode.swift in Sources */,
 				94F5274F473E5C07A89A85D12FB9BB51 /* Risk.swift in Sources */,
+				82BE23D5252F59970028037D /* EncodableExtensions.swift in Sources */,
 				3AF060B167CBFE298816CB2F7CC97F3D /* Schedule.swift in Sources */,
 				0E81C363087DD5D9BC85C78B97A4B186 /* ScheduleFrequency.swift in Sources */,
 				2C23539EFD926596177BBB206AE06DE2 /* SdkInterface.swift in Sources */,

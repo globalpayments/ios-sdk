@@ -41,4 +41,5 @@ public class DisputeSummary {
     public var disputeCustomerCurrency: String?
     public var respondByDate: Date?
     public var caseOriginalReference: String?
+    public var documents: [DisputeDocument]?
 }

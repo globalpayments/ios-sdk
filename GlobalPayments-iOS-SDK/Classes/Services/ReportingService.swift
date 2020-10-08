@@ -39,6 +39,16 @@ public class ReportingService {
         return TransactionReportBuilder<[DisputeSummary]>(reportType: .findSettlementDisputes)
     }
 
+    public static func acceptDispute(id: String) -> TransactionReportBuilder<DisputeAction> {
+        return TransactionReportBuilder<DisputeAction>(reportType: .acceptDispute)
+            .withDisputeId(id)
+    }
+
+    public static func challangeDispute(id: String, documents: [DisputeDocument]?) -> TransactionReportBuilder<DisputeAction> {
+        return TransactionReportBuilder<DisputeAction>(reportType: .challangeDispute)
+            .withDisputeId(id)
+    }
+
     // MARK: - Other
 
     public static func activity() -> TransactionReportBuilder<[TransactionSummary]> {

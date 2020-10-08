@@ -33,4 +33,8 @@ public struct ReportType: OptionSet, Hashable {
     public static let findSettlementDisputes = ReportType(rawValue: 1 << 11)
     /// Indicates a dispute report
     public static let disputeDetail          = ReportType(rawValue: 1 << 12)
+    /// Indicates a dispute report
+    public static let acceptDispute          = ReportType(rawValue: 1 << 13)
+    /// Indicates a dispute report
+    public static let challangeDispute       = ReportType(rawValue: 1 << 14)
 }

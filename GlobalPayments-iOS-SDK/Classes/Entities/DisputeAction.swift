@@ -17,9 +17,4 @@ public class DisputeAction {
     public var result: DisputeResult?
     /// A list of evidence provided by the Merchant that relate to the Dispute.
     public var documents: [String]?
-//    "documents": [
-//        {
-//            "id": "DOC_MyEvidence_234234AVCDE-0"
-//        }
-//    ]
 }

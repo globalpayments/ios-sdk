@@ -343,6 +343,9 @@ extension GpApiConnector: ReportingServiceType {
         action.reasonCode = doc?.getValue(key: "reason_code")
         action.reasonDescription = doc?.getValue(key: "reason_description")
         action.result = DisputeResult(value: doc?.getValue(key: "result"))
+        if let documents: [JsonDoc?] = doc?.getValue(key: "documents") {
+            action.documents = documents.compactMap { $0?.getValue(key: "id") }
+        }
 
         return action
     }

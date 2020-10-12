@@ -128,7 +128,7 @@ class GpApiReportingTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 10.0)
+        wait(for: [summaryExpectation], timeout: 20.0)
         XCTAssertNil(depositError)
         XCTAssertNotNil(depositSummary)
     }
@@ -152,7 +152,7 @@ class GpApiReportingTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 10.0)
+        wait(for: [summaryExpectation], timeout: 20.0)
         XCTAssertNil(depositSummary)
         XCTAssertNotNil(depositError)
         XCTAssertEqual(depositError?.responseCode, "RESOURCE_NOT_FOUND")
@@ -204,7 +204,7 @@ class GpApiReportingTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 100000.0)
+        wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(disputeSummaryError)
         XCTAssertNotNil(disputeSummary)
     }
@@ -286,34 +286,21 @@ class GpApiReportingTests: XCTestCase {
 
     func test_report_challange_dispute_success() {
         // GIVEN
-        let summaryExpectation = expectation(description: "Find Dispute By Given ID")
-        let disputeId = "DIS_SAND_abcd1253"
-        var disputeDocuments: [DisputeDocument]?
-        var disputeSummaryError: Error?
-
-        // WHEN
-        ReportingService
-            .disputeDetail(disputeId: disputeId)
-            .execute {
-                disputeDocuments = $0?.documents
-                disputeSummaryError = $1
-                summaryExpectation.fulfill()
-            }
-
-        // THEN
-        wait(for: [summaryExpectation], timeout: 10.0)
-        XCTAssertNil(disputeSummaryError)
-        XCTAssertNotNil(disputeDocuments)
-
-        // GIVEN
         let challangeExpectation = expectation(description: "Challange Expectation")
+        let disputeId = "DIS_SAND_abcd1234"
+        let bundle = Bundle(for: type(of: self))
+        let disputeDocuments = [
+            DocumentInfo(
+                type: .proofOfDelivery,
+                b64Content: ResourceLoader.loadFile(name: "gp_logo", extension: .pdf, bundle: bundle)
+            )
+        ]
         var disputeAction: DisputeAction?
         var disputeActionError: Error?
 
         // WHEN
         ReportingService
             .challangeDispute(id: disputeId, documents: disputeDocuments)
-            .withDisputeDocuments(disputeDocuments)
             .execute { action, error in
                 disputeAction = action
                 disputeActionError = error
@@ -321,8 +308,29 @@ class GpApiReportingTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [challangeExpectation], timeout: 10000.0)
+        wait(for: [challangeExpectation], timeout: 20.0)
         XCTAssertNotNil(disputeAction)
         XCTAssertNil(disputeActionError)
+    }
+
+    func test_load_test_resources() {
+        // GIVEN
+        let bundle = Bundle(for: type(of: self))
+
+        //WHEN
+        let pdfData = ResourceLoader.loadFile(
+            name: "gp_logo",
+            extension: .pdf,
+            bundle: bundle
+        )
+        let pngData = ResourceLoader.loadFile(
+            name: "gp_logo",
+            extension: .png,
+            bundle: bundle
+        )
+
+        // THEN
+        XCTAssertNotNil(pdfData)
+        XCTAssertNotNil(pngData)
     }
 }

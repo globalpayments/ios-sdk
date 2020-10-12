@@ -22,6 +22,9 @@
 		82613EBC24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */; };
 		8267BC9824DAB5F100AF64D2 /* GpApiCreditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */; };
 		82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0485724AF367600FC32EC /* CardUtilsTests.swift */; };
+		82FAF8DE2535B16E00B10401 /* gp_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 82FAF8DC2535B16E00B10401 /* gp_logo.png */; };
+		82FAF8DF2535B16E00B10401 /* gp_logo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 82FAF8DD2535B16E00B10401 /* gp_logo.pdf */; };
+		82FAF8E42535B2B500B10401 /* ResouceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FAF8E32535B2B500B10401 /* ResouceLoader.swift */; };
 		B3C3C7004F930D956F772A64 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +64,9 @@
 		82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiTokenManagementTests.swift; sourceTree = "<group>"; };
 		8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreditTests.swift; sourceTree = "<group>"; };
 		82B0485724AF367600FC32EC /* CardUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUtilsTests.swift; sourceTree = "<group>"; };
+		82FAF8DC2535B16E00B10401 /* gp_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gp_logo.png; sourceTree = "<group>"; };
+		82FAF8DD2535B16E00B10401 /* gp_logo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = gp_logo.pdf; sourceTree = "<group>"; };
+		82FAF8E32535B2B500B10401 /* ResouceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResouceLoader.swift; sourceTree = "<group>"; };
 		866C760D426DC19D7E0BA8F6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		A3321008DB1409EE8F482E4A /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,6 +152,7 @@
 				8267BC9624DAB5B700AF64D2 /* GpApi */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 				82B0485624AF366700FC32EC /* UtilsTests */,
+				82FAF8E22535B2A700B10401 /* Utils */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -153,6 +160,7 @@
 		607FACE91AFB9204008FA782 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				82FAF8DB2535B14600B10401 /* Resources */,
 				607FACEA1AFB9204008FA782 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -188,6 +196,23 @@
 				8252038D24E2C15600784248 /* CountryUtilsTests.swift */,
 			);
 			path = UtilsTests;
+			sourceTree = "<group>";
+		};
+		82FAF8DB2535B14600B10401 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				82FAF8DD2535B16E00B10401 /* gp_logo.pdf */,
+				82FAF8DC2535B16E00B10401 /* gp_logo.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		82FAF8E22535B2A700B10401 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				82FAF8E32535B2B500B10401 /* ResouceLoader.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		D96F282A842265BC4AB41241 /* Frameworks */ = {
@@ -296,6 +321,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82FAF8DE2535B16E00B10401 /* gp_logo.png in Resources */,
+				82FAF8DF2535B16E00B10401 /* gp_logo.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +426,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				824451C124E1801D0080D06B /* GpApiDebitTests.swift in Sources */,
+				82FAF8E42535B2B500B10401 /* ResouceLoader.swift in Sources */,
 				8252038C24E2A72000784248 /* GpApiEbtTests.swift in Sources */,
 				82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */,
 				824451BC24E150410080D06B /* GpApiReportingTests.swift in Sources */,

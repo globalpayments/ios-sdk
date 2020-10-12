@@ -44,9 +44,10 @@ public class ReportingService {
             .withDisputeId(id)
     }
 
-    public static func challangeDispute(id: String, documents: [DisputeDocument]?) -> TransactionReportBuilder<DisputeAction> {
+    public static func challangeDispute(id: String, documents: [DocumentInfo]?) -> TransactionReportBuilder<DisputeAction> {
         return TransactionReportBuilder<DisputeAction>(reportType: .challangeDispute)
             .withDisputeId(id)
+            .withDisputeDocuments(documents)
     }
 
     // MARK: - Other

@@ -50,6 +50,12 @@ public class ReportingService {
             .withDisputeDocuments(documents)
     }
 
+    public static func findDisputeDocument(id: String, disputeId: String) -> TransactionReportBuilder<DocumentMetadata> {
+        return TransactionReportBuilder<DocumentMetadata>(reportType: .disputeDocument)
+            .withDisputeId(disputeId)
+            .withDocumentId(id)
+    }
+
     // MARK: - Other
 
     public static func activity() -> TransactionReportBuilder<[TransactionSummary]> {

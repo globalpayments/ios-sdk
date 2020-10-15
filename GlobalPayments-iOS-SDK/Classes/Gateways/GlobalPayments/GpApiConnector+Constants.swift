@@ -95,5 +95,9 @@ extension GpApiConnector {
         static func challengeDispute(id: String) -> String {
             return "/ucp/disputes/\(id)/challenge"
         }
+
+        static func document(id: String, disputeId: String) -> String {
+            return "/ucp/disputes/\(disputeId)/documents/\(id)"
+        }
     }
 }

@@ -223,7 +223,6 @@ class GpApiReportingTests: XCTestCase {
             .withDisputeStatus(.underReview)
             .withDisputeStage(.chargeback)
             .withAdjustmentFunding(.debit)
-            .withAccountName("Settlement Reporting")
             .where(.startStageDate, oneYearBefore)
             .execute { summaryList, error in
                 disputeSummaryList = summaryList
@@ -312,6 +311,58 @@ class GpApiReportingTests: XCTestCase {
         XCTAssertNotNil(disputeAction)
         XCTAssertNil(disputeActionError)
     }
+
+    func test_report_find_dispute_document_success() {
+        // GIVEN
+        let documetExpectation = expectation(description: "Find document expectation")
+        let disputeId = "DIS_SAND_abcd1235"
+        let documentId = "DOC_MyEvidence_234234AVCDE-1"
+        var documentMetadata: DocumentMetadata?
+        var documentError: Error?
+
+        // WHEN
+        ReportingService
+            .findDisputeDocument(id: documentId, disputeId: disputeId)
+            .execute { metadata, error in
+                documentMetadata = metadata
+                documentError = error
+                documetExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [documetExpectation], timeout: 10.0)
+        XCTAssertNil(documentError)
+        XCTAssertNotNil(documentMetadata)
+        XCTAssertEqual(documentMetadata?.id, documentId)
+    }
+
+    func test_report_find_dispute_document_failure() {
+        // GIVEN
+        let documetExpectation = expectation(description: "Find document expectation")
+        let disputeId = "UNKNOWN"
+        let documentId = "UNKNOWN"
+        var documentMetadata: DocumentMetadata?
+        var documentError: GatewayException?
+
+        // WHEN
+        ReportingService
+            .findDisputeDocument(id: documentId, disputeId: disputeId)
+            .execute { metadata, error in
+                documentMetadata = metadata
+                if let gatewayException = error as? GatewayException {
+                    documentError = gatewayException
+                }
+                documetExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [documetExpectation], timeout: 10.0)
+        XCTAssertNil(documentMetadata)
+        XCTAssertNotNil(documentError)
+        XCTAssertEqual(documentError?.responseCode, "INVALID_REQUEST_DATA")
+    }
+
+    // MARK: - Other
 
     func test_load_test_resources() {
         // GIVEN

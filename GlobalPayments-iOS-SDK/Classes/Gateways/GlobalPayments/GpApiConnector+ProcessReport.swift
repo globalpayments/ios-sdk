@@ -126,7 +126,7 @@ extension GpApiConnector: ReportingServiceType {
                     }
                     queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
                     queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
-                    queryStringParams["account_name"] = builder.searchCriteriaBuilder.accountName
+                    queryStringParams["account_name"] = self?.dataAccountName
                 }
                 else if builder.reportType == .disputeDetail,
                          let disputeId = builder.searchCriteriaBuilder.disputeReference {
@@ -159,6 +159,11 @@ extension GpApiConnector: ReportingServiceType {
                         return
                     }
                     return
+                }
+                else if builder.reportType == .disputeDocument,
+                        let disputeId = builder.searchCriteriaBuilder.disputeReference,
+                        let documentId = builder.searchCriteriaBuilder.disputeDocumentReference {
+                    reportUrl = Endpoints.document(id: documentId, disputeId: disputeId)
                 }
             }
 
@@ -207,6 +212,8 @@ extension GpApiConnector: ReportingServiceType {
             }
         } else if reportType == .acceptDispute || reportType == .challangeDispute {
             result = mapDisputeAction(json)
+        } else if reportType == .disputeDocument {
+            result = mapDocumentMetadata(json)
         }
 
         return result as? T
@@ -348,5 +355,15 @@ extension GpApiConnector: ReportingServiceType {
         }
 
         return action
+    }
+
+    private func mapDocumentMetadata(_ doc: JsonDoc?) -> DocumentMetadata? {
+        guard let id: String = doc?.getValue(key: "id"),
+              let b64Content: String = doc?.getValue(key: "b64_content"),
+              let convertedData = Data(base64Encoded: b64Content) else {
+            return nil
+        }
+
+        return DocumentMetadata(id: id, b64Content: convertedData)
     }
 }

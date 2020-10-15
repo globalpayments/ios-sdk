@@ -58,19 +58,19 @@ import Foundation
         return self
     }
 
-    /// Sets the gateway account name
-    /// - Parameter accountName: The gateway account name
-    /// - Returns: TransactionReportBuilder<TResult>
-    public func withAccountName(_ accountName: String?) -> TransactionReportBuilder<TResult> {
-        searchCriteriaBuilder.accountName = accountName
-        return self
-    }
-
     /// Sets the gateway documents
     /// - Parameter disputeDocuments: The gateway documents list
     /// - Returns: TransactionReportBuilder<TResult>
     public func withDisputeDocuments(_ disputeDocuments: [DocumentInfo]?) -> TransactionReportBuilder<TResult> {
         self.disputeDocuments = disputeDocuments
+        return self
+    }
+
+    /// Sets the gateway document ID
+    /// - Parameter documentId: The gateway document ID
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDocumentId(_ documentId: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.disputeDocumentReference = documentId
         return self
     }
 

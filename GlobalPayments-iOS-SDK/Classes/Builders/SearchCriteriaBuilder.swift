@@ -110,6 +110,7 @@ public enum DataServiceCriteria: String {
     var disputeReference: String?
     var disputeStage: DisputeStage?
     var disputeStatus: DisputeStatus?
+    var disputeDocumentReference: String?
     var endAdjustmentDate: Date?
     var endBatchDate: Date?
     var endDate: Date?

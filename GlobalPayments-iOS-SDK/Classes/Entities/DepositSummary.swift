@@ -2,7 +2,7 @@ import Foundation
 
 public class DepositSummary {
     /// A unique identifier to identify the Deposit
-    public var id: String?
+    public var depositId: String?
     /// Identifies the location of a merchant identifier within the merchant's hierarchical structure.
     public var merchantHierarchy: String?
     /// The merchant name that is associated with the merchant
@@ -30,6 +30,7 @@ public class DepositSummary {
     /// The total amount in the currency of the Deposit
     public var salesTotalAmount: NSDecimalNumber?
     public var salesTotalCurrency: String?
+    public var status: String?
     /// The total number of items
     public var refundsTotalCount: Int?
     /// The total amount in the currency of the Deposit

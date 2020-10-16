@@ -179,11 +179,9 @@ class DataServicesConnector: RestGateway, ReportingServiceType {
         summary.orderId = root.getValue(key: "transactionOrderId")
         summary.transactionLocalDate = formatDate(root.getValue(key: "transactionLocalTime"))
         summary.transactionDate = formatDate(root.getValue(key: "transactionTime"))
-        let amount: NSDecimalNumber? = root.getValue(key: "transactionAmount")
-        summary.amount = amount?.amount
+        summary.amount = NSDecimalNumber(string: root.getValue(key: "transactionAmount")).amount
         summary.currency = root.getValue(key: "transactionCurrency")
-        let depositAmount: NSDecimalNumber? = root.getValue(key: "transactionMerchantAmount")
-        summary.depositAmount = depositAmount?.amount
+        summary.depositAmount = NSDecimalNumber(string: root.getValue(key: "transactionMerchantAmount")).amount
         summary.depositCurrency = root.getValue(key: "transactionMerchantCurrency")
         summary.merchantId = root.getValue(key: "transactionMid")
         summary.terminalId = root.getValue(key: "transactionTid")
@@ -195,8 +193,7 @@ class DataServicesConnector: RestGateway, ReportingServiceType {
         summary.maskedCardNumber = root.getValue(key: "transactionCardNo")
         summary.authCode = root.getValue(key: "transactionAuthcode")
         summary.schemeReferenceData = root.getValue(key: "transactionSrd")
-        let adjustmentAmount: NSDecimalNumber? = root.getValue(key: "transactionAdjustAmount")
-        summary.adjustmentAmount = adjustmentAmount?.amount
+        summary.adjustmentAmount = NSDecimalNumber(string: root.getValue(key: "transactionAdjustAmount")).amount
         summary.adjustmentCurrency = root.getValue(key: "transactionAdjustCurrency")
         summary.adjustmentReason = root.getValue(key: "transactionAdjustReason")
         return summary
@@ -211,8 +208,7 @@ class DataServicesConnector: RestGateway, ReportingServiceType {
         summary.merchantCategory = root.getValue(key: "merchantCategory")
         summary.depositDate = formatDate(root.getValue(key: "depositDate"))
         summary.reference = root.getValue(key: "depositReference")
-        let amount: NSDecimalNumber? = root.getValue(key: "depositPaymentAmount")
-        summary.amount = amount?.amount
+        summary.amount = NSDecimalNumber(string: root.getValue(key: "depositPaymentAmount")).amount
         summary.currency = root.getValue(key: "depositPaymentCurrency")
         summary.type = root.getValue(key: "depositType")
         summary.routingNumber = root.getValue(key: "depositRoutingNumber")
@@ -220,27 +216,21 @@ class DataServicesConnector: RestGateway, ReportingServiceType {
         summary.mode = root.getValue(key: "depositMode")
         summary.summaryModel = root.getValue(key: "depositSummaryModel")
         summary.salesTotalCount = root.getValue(key: "salesTotalNo")
-        let salesTotalAmount: NSDecimalNumber? = root.getValue(key: "salesTotalAmount")
-        summary.salesTotalAmount = salesTotalAmount?.amount
+        summary.salesTotalAmount = NSDecimalNumber(string: root.getValue(key: "salesTotalAmount")).amount
         summary.salesTotalCurrency = root.getValue(key: "salesTotalCurrency")
         summary.refundsTotalCount = root.getValue(key: "refundsTotalNo")
-        let refundsTotalAmount: NSDecimalNumber? = root.getValue(key: "refundsTotalAmount")
-        summary.refundsTotalAmount = refundsTotalAmount?.amount
+        summary.refundsTotalAmount = NSDecimalNumber(string: root.getValue(key: "refundsTotalAmount")).amount
         summary.refundsTotalCurrency = root.getValue(key: "refundsTotalCurrency")
         summary.chargebackTotalCount = root.getValue(key: "disputeCbTotalNo")
-        let chargebackTotalAmount: NSDecimalNumber? = root.getValue(key: "disputeCbTotalAmount")
-        summary.chargebackTotalAmount = chargebackTotalAmount?.amount
+        summary.chargebackTotalAmount = NSDecimalNumber(string: root.getValue(key: "disputeCbTotalAmount")).amount
         summary.chargebackTotalCurrency = root.getValue(key: "disputeCbTotalCurrency")
         summary.representmentTotalCount = root.getValue(key: "disputeRepresentmentTotalNo")
-        let representmentTotalAmount: NSDecimalNumber? = root.getValue(key: "disputeRepresentmentTotalAmount")
-        summary.representmentTotalAmount = representmentTotalAmount?.amount
+        summary.representmentTotalAmount = NSDecimalNumber(string: root.getValue(key: "disputeRepresentmentTotalAmount")).amount
         summary.representmentTotalCurrency = root.getValue(key: "disputeRepresentmentTotalCurrency")
-        let feesTotalAmount: NSDecimalNumber? = root.getValue(key: "feesTotalAmount")
-        summary.feesTotalAmount = feesTotalAmount?.amount
+        summary.feesTotalAmount = NSDecimalNumber(string: root.getValue(key: "feesTotalAmount")).amount
         summary.feesTotalCurrency = root.getValue(key: "feesTotalCurrency")
         summary.adjustmentTotalCount = root.getValue(key: "adjustmentTotalNumber")
-        let adjustmentTotalAmount: NSDecimalNumber? = root.getValue(key: "adjustmentTotalAmount")
-        summary.adjustmentTotalAmount = adjustmentTotalAmount?.amount
+        summary.adjustmentTotalAmount = NSDecimalNumber(string: root.getValue(key: "adjustmentTotalAmount")).amount
         summary.adjustmentTotalCurrency = root.getValue(key: "adjustmentTotalCurrency")
         return summary
     }
@@ -256,8 +246,7 @@ class DataServicesConnector: RestGateway, ReportingServiceType {
         summary.depositReference = root.getValue(key: "disputeDepositReference")
         summary.depositType = root.getValue(key: "disputeDepositType")
         summary.type = root.getValue(key: "disputeType")
-        let caseAmount: NSDecimalNumber? = root.getValue(key: "disputeCaseAmount")
-        summary.caseAmount = caseAmount?.amount
+        summary.caseAmount = NSDecimalNumber(string: root.getValue(key: "disputeCaseAmount")).amount
         summary.caseCurrency = root.getValue(key: "disputeCaseCurrency")
         summary.caseStatus = root.getValue(key: "disputeCaseStatus")
         summary.caseDescription = root.getValue(key: "disputeCaseDescription")
@@ -265,8 +254,7 @@ class DataServicesConnector: RestGateway, ReportingServiceType {
         summary.transactionLocalTime = root.getValue(key: "disputeTransactionLocalTime")
         summary.transactionTime = root.getValue(key: "disputeTransactionTime")
         summary.transactionType = root.getValue(key: "disputeTransactionType")
-        let transactionAmount: NSDecimalNumber? = root.getValue(key: "disputeTransactionAmount")
-        summary.transactionAmount = transactionAmount?.amount
+        summary.transactionAmount = NSDecimalNumber(string: root.getValue(key: "disputeTransactionAmount")).amount
         summary.transactionCurrency = root.getValue(key: "disputeTransactionCurrency")
         summary.caseNumber = root.getValue(key: "disputeCaseNo")
         summary.caseTime = formatDate(root.getValue(key: "disputeCaseTime"))
@@ -283,11 +271,9 @@ class DataServicesConnector: RestGateway, ReportingServiceType {
         summary.reason = root.getValue(key: "disputeReason")
         summary.issuerComment = root.getValue(key: "disputeIssuerComment")
         summary.issuerCaseNumber = root.getValue(key: "disputeIssuerCaseNo")
-        let disputeAmount: NSDecimalNumber? = root.getValue(key: "disputeAmount")
-        summary.disputeAmount = disputeAmount?.amount
+        summary.disputeAmount = NSDecimalNumber(string: root.getValue(key: "disputeAmount")).amount
         summary.disputeCurrency = root.getValue(key: "disputeCurrency")
-        let disputeCustomerAmount: NSDecimalNumber? = root.getValue(key: "disputeCustomerAmount")
-        summary.disputeCustomerAmount = disputeCustomerAmount?.amount
+        summary.disputeCustomerAmount = NSDecimalNumber(string: root.getValue(key: "disputeCustomerAmount")).amount
         summary.disputeCustomerCurrency = root.getValue(key: "disputeCustomerCurrency")
         summary.respondByDate = formatDate(root.getValue(key: "disputeRespondByDate"))
         summary.caseOriginalReference = root.getValue(key: "disputeCaseOriginalReference")

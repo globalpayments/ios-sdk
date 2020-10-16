@@ -20,7 +20,10 @@ extension NSDecimalNumber {
         return String(describing: output)
     }
 
-    var amount: NSDecimalNumber {
+    var amount: NSDecimalNumber? {
+        guard self != NSDecimalNumber.notANumber else {
+            return nil
+        }
         return self.dividing(by: 100)
     }
 }

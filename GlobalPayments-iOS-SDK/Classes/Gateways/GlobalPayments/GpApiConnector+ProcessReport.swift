@@ -231,7 +231,7 @@ extension GpApiConnector: ReportingServiceType {
         summary.transactionStatus = doc?.getValue(key: "status")
         summary.transactionType = doc?.getValue(key: "type")
         summary.channel = doc?.getValue(key: "channel")
-        summary.amount = NSDecimalNumber(string: doc?.getValue(key: "amount"))
+        summary.amount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount
         summary.currency = doc?.getValue(key: "currency")
         summary.referenceNumber = doc?.getValue(key: "reference")
         summary.clientTransactionId = doc?.getValue(key: "reference")
@@ -256,51 +256,32 @@ extension GpApiConnector: ReportingServiceType {
 
     private func mapDepositSummary(_ doc: JsonDoc?) -> DepositSummary {
         let summary = DepositSummary()
-        summary.id = doc?.getValue(key: "id")
-        // TODO: map all available fields
-        let merchant: JsonDoc? = doc?.get(valueFor: "system")
-        summary.merchantHierarchy = merchant?.getValue(key: "hierarchy")
-        summary.merchantName = merchant?.getValue(key: "name")
-        summary.merchantDbaName = merchant?.getValue(key: "dba")
-        summary.merchantNumber = merchant?.getValue(key: "mid")
-        // summary.merchantCategory =
+        summary.depositId = doc?.getValue(key: "id")
         let timeCreated: String? = doc?.getValue(key: "time_created")
         summary.depositDate = timeCreated?.format()
-        // summary.reference =
-        summary.amount = NSDecimalNumber(string: doc?.getValue(key: "amount"))
-        summary.currency = doc?.getValue(key: "currency")
+        summary.status = doc?.getValue(key: "status")
         summary.type = doc?.getValue(key: "funding_type")
-        // summary.routingNumber =
-        // summary.accountNumber =
-        // summary.mode =
-        // summary.summaryModel =
+        summary.amount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount
+        summary.currency = doc?.getValue(key: "currency")
 
-        let sales: JsonDoc? = doc?.get(valueFor: "sales")
-        summary.salesTotalCount = sales?.getValue(key: "count")
-        summary.salesTotalAmount = sales?.getValue(key: "amount")
-        // summary.salesTotalCurrency =
+        summary.merchantNumber = doc?.get(valueFor: "system")?.getValue(key: "mid")
+        summary.merchantHierarchy = doc?.get(valueFor: "system")?.getValue(key: "hierarchy")
+        summary.merchantName = doc?.get(valueFor: "system")?.getValue(key: "name")
+        summary.merchantDbaName = doc?.get(valueFor: "system")?.getValue(key: "dba")
 
-        let refunds: JsonDoc? = doc?.get(valueFor: "refunds")
-        summary.refundsTotalCount = refunds?.getValue(key: "count")
-        summary.refundsTotalAmount = refunds?.getValue(key: "amount")
-        // summary.refundsTotalCurrency =
+        summary.salesTotalCount = doc?.get(valueFor: "sales")?.getValue(key: "count")
+        summary.amount = NSDecimalNumber(string: doc?.get(valueFor: "sales")?.getValue(key: "amount")).amount
 
-        let chargebacks: JsonDoc? = doc?.get(valueFor: "disputes")?.get(valueFor: "chargebacks")
-         summary.chargebackTotalCount = chargebacks?.getValue(key: "count")
-         summary.chargebackTotalAmount = chargebacks?.getValue(key: "amount")
-        // summary.chargebackTotalCurrency =
+        summary.refundsTotalCount = doc?.get(valueFor: "refunds")?.getValue(key: "count")
+        summary.refundsTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "refunds")?.getValue(key: "amount")).amount
 
-        // summary.representmentTotalCount =
-        // summary.representmentTotalAmount =
-        // summary.representmentTotalCurrency =
+        summary.chargebackTotalCount = doc?.get(valueFor: "disputes")?.get(valueFor: "chargebacks")?.getValue(key: "count")
+        summary.chargebackTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "disputes")?.get(valueFor: "chargebacks")?.getValue(key: "amount")).amount
 
-        let fees: JsonDoc? = doc?.get(valueFor: "fees")
-        summary.feesTotalAmount = fees?.getValue(key: "amount")
-        // summary.feesTotalCurrency =
+        summary.adjustmentTotalCount = doc?.get(valueFor: "disputes")?.get(valueFor: "reversals")?.getValue(key: "count")
+        summary.adjustmentTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "disputes")?.get(valueFor: "reversals")?.getValue(key: "amount")).amount
 
-        // summary.adjustmentTotalCount =
-        // summary.adjustmentTotalAmount =
-        // summary.adjustmentTotalCurrency =
+        summary.feesTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "fees")?.getValue(key: "amount")).amount
 
         return summary
     }
@@ -313,7 +294,7 @@ extension GpApiConnector: ReportingServiceType {
         summary.caseIdTime = timeCreated?.format()
         summary.caseStatus = doc?.getValue(key: "status")
         //stage
-        summary.caseAmount = NSDecimalNumber(string: doc?.getValue(key: "amount"))
+        summary.caseAmount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount
         summary.caseCurrency = doc?.getValue(key: "currency")
         summary.caseMerchantId = doc?.get(valueFor: "system")?.getValue(key: "mid")
         summary.merchantHierarchy = doc?.get(valueFor: "system")?.getValue(key: "hierarchy")
@@ -345,7 +326,7 @@ extension GpApiConnector: ReportingServiceType {
         action.reference = doc?.getValue(key: "id")
         action.status = DisputeStatus(value: doc?.getValue(key: "status"))
         action.stage = DisputeStage(value: doc?.getValue(key: "stage"))
-        action.amount = NSDecimalNumber(string: doc?.getValue(key: "amount"))
+        action.amount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount
         action.currency = doc?.getValue(key: "currency")
         action.reasonCode = doc?.getValue(key: "reason_code")
         action.reasonDescription = doc?.getValue(key: "reason_description")

@@ -187,6 +187,278 @@ class GpApiReportingTests: XCTestCase {
         XCTAssertNotNil(disputeSummaryList)
     }
 
+    func test_report_find_disputes_order_by_id() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryIds: [String]?
+        var disputeSummaryError: Error?
+        var expectedSortedIds: [String]?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .id, .descending)
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .execute { summaryList, error in
+                disputeSummaryIds = summaryList?.compactMap { $0.caseId }
+                expectedSortedIds = summaryList?.compactMap { $0.caseId }.sorted(by: >)
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertEqual(disputeSummaryIds, expectedSortedIds)
+    }
+
+    func test_report_find_disputes_order_by_brand() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryTypes: [String]?
+        var disputeSummaryError: Error?
+        var expectedSortedTypes: [String]?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .brand, .descending)
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .execute { summaryList, error in
+                disputeSummaryTypes = summaryList?.compactMap { $0.transactionCardType }
+                expectedSortedTypes = summaryList?.compactMap { $0.transactionCardType }.sorted(by: >)
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertEqual(disputeSummaryTypes, expectedSortedTypes)
+    }
+
+    func test_report_find_disputes_order_by_status() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryStatuses: [String]?
+        var disputeSummaryError: Error?
+        var expectedSortedStatuses: [String]?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .status, .descending)
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .execute { summaryList, error in
+                disputeSummaryStatuses = summaryList?.compactMap { $0.caseStatus }
+                expectedSortedStatuses = summaryList?.compactMap { $0.caseStatus }.sorted(by: >)
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertEqual(disputeSummaryStatuses, expectedSortedStatuses)
+    }
+
+    func test_report_find_disputes_order_by_stage() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryStages: [String]?
+        var disputeSummaryError: Error?
+        var expectedSortedStages: [String]?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .stage, .descending)
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .execute { summaryList, error in
+                disputeSummaryStages = summaryList?.compactMap { $0.caseStage?.rawValue }
+                expectedSortedStages = summaryList?.compactMap { $0.caseStage?.rawValue }.sorted(by: >)
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertEqual(disputeSummaryStages, expectedSortedStages)
+    }
+
+    func test_report_find_disputes_order_by_from_stage_time_created() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryDates: [Date]?
+        var disputeSummaryError: Error?
+        var expectedSortedDates: [Date]?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .fromStageTimeCreated, .descending)
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .execute { summaryList, error in
+                disputeSummaryDates = summaryList?.compactMap { $0.caseIdTime }
+                expectedSortedDates = summaryList?.compactMap { $0.caseIdTime }.sorted(by: { $0.compare($1) == .orderedAscending })
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertEqual(disputeSummaryDates, expectedSortedDates)
+    }
+
+    func test_report_find_disputes_order_by_to_stage_time_created() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryDates: [Date]?
+        var disputeSummaryError: Error?
+        var expectedSortedDates: [Date]?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .toStageTimeCreated, .ascending)
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .execute { summaryList, error in
+                disputeSummaryDates = summaryList?.compactMap { $0.caseIdTime }
+                expectedSortedDates = summaryList?.compactMap { $0.caseIdTime }.sorted(by: { $0.compare($1) == .orderedDescending })
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertEqual(disputeSummaryDates, expectedSortedDates)
+    }
+
+    func test_report_find_disputes_order_by_adjustment_funding() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryFundings: [String]?
+        var disputeSummaryError: Error?
+        var expectedSortedFundings: [String]?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .adjustmentFunding, .descending)
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .execute { summaryList, error in
+                disputeSummaryFundings = summaryList?.compactMap { $0.adjustmentFunding?.rawValue }
+                expectedSortedFundings = summaryList?.compactMap { $0.adjustmentFunding?.rawValue }.sorted(by: >)
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertEqual(disputeSummaryFundings, expectedSortedFundings)
+    }
+
+    func test_report_find_disputes_order_by_id_with_brand_visa() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let expectedCardBrand = "VISA"
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .id, .ascending)
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .and(searchCriteria: .cardBrand, value: expectedCardBrand)
+            .execute { summaryList, error in
+                disputeSummaryList = summaryList
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        if let disputeSummaryList = disputeSummaryList {
+            for dispute in disputeSummaryList {
+                XCTAssertEqual(dispute.transactionCardType, expectedCardBrand)
+            }
+        } else {
+            XCTFail("disputeSummaryList cannot be nil")
+        }
+    }
+
+    func test_report_find_disputes_order_by_id_with_status_under_review() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .id, .ascending)
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .and(disputeStatus: .underReview)
+            .execute { summaryList, error in
+                disputeSummaryList = summaryList
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertNotNil(disputeSummaryList)
+    }
+
+    func test_report_find_disputes_order_by_id_with_stage_chargeback() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let expectedStage = DisputeStage.chargeback
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .id, .ascending)
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .and(disputeStage: .chargeback)
+            .execute { summaryList, error in
+                disputeSummaryList = summaryList
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertNil(disputeSummaryError)
+        if let disputeSummaryList = disputeSummaryList {
+            for dispute in disputeSummaryList {
+                XCTAssertEqual(dispute.caseStage, expectedStage)
+            }
+        } else {
+            XCTFail("disputeSummaryList cannot be nil")
+        }
+    }
+
     func test_report_find_dispute_by_given_id() {
         // GIVEN
         let summaryExpectation = expectation(description: "Find Dispute By Given ID")

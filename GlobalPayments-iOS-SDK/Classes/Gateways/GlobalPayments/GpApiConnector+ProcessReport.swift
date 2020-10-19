@@ -293,6 +293,7 @@ extension GpApiConnector: ReportingServiceType {
         let timeCreated: String? = doc?.getValue(key: "time_created")
         summary.caseIdTime = timeCreated?.format()
         summary.caseStatus = doc?.getValue(key: "status")
+        summary.caseStage = DisputeStage(value: doc?.getValue(key: "stage"))
         //stage
         summary.caseAmount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount
         summary.caseCurrency = doc?.getValue(key: "currency")
@@ -312,11 +313,10 @@ extension GpApiConnector: ReportingServiceType {
                 return DisputeDocument(id: id, type: type)
             }
         }
-        
-        //result
-        //last_adjustment_amount
-        //last_adjustment_currency
-        //last_adjustment_funding
+
+        summary.adjustmentFunding = AdjustmentFunding(value: doc?.getValue(key: "last_adjustment_funding"))
+        summary.adjustmentAmount = NSDecimalNumber(string: doc?.getValue(key: "last_adjustment_amount")).amount
+        summary.adjustmentCurrency = doc?.getValue(key: "last_adjustment_currency")
 
         return summary
     }

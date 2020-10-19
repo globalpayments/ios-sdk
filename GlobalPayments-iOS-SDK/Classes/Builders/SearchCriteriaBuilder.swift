@@ -40,15 +40,13 @@ public enum SearchCriteria: String {
     case scheduleId
     case siteTrace
     case startDate
-    case transactionStatus
-    case disputeStage
-    case disputeStatus
+    case disputeReference
+    case disputeDocumentReference
     case uniqueDeviceId
     case username
 }
 
 public enum DataServiceCriteria: String {
-    case adjustmentFunding
     case amount
     case bankAccountNumber
     case caseId
@@ -151,21 +149,33 @@ public enum DataServiceCriteria: String {
         self.reportBuilder = reportBuilder
     }
 
-    public func and<T>(criteria: SearchCriteria,
-                       value: T) -> SearchCriteriaBuilder<TResult> {
-        setValue(value, for: criteria.rawValue)
+    public func and<T>(searchCriteria: SearchCriteria, value: T) -> SearchCriteriaBuilder<TResult> {
+        setValue(value, for: searchCriteria.rawValue)
         return self
     }
 
-    public func and(criteria: SearchCriteria,
-                    transactionStatus: TransactionStatus) -> SearchCriteriaBuilder<TResult> {
+    public func and<T>(dataServiceCriteria: DataServiceCriteria, value: T) -> SearchCriteriaBuilder<TResult> {
+        setValue(value, for: dataServiceCriteria.rawValue)
+        return self
+    }
+
+    public func and(transactionStatus: TransactionStatus) -> SearchCriteriaBuilder<TResult> {
         self.transactionStatus = transactionStatus
         return self
     }
 
-    public func and<T>(criteria: DataServiceCriteria,
-                       value: T) -> SearchCriteriaBuilder<TResult> {
-        setValue(value, for: criteria.rawValue)
+    public func and(adjustmentFunding: AdjustmentFunding) -> SearchCriteriaBuilder<TResult> {
+        self.adjustmentFunding = adjustmentFunding
+        return self
+    }
+
+    public func and(disputeStage: DisputeStage) -> SearchCriteriaBuilder<TResult> {
+        self.disputeStage = disputeStage
+        return self
+    }
+
+    public func and(disputeStatus: DisputeStatus) -> SearchCriteriaBuilder<TResult> {
+        self.disputeStatus = disputeStatus
         return self
     }
 

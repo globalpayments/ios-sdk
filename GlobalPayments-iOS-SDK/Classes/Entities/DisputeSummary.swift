@@ -14,6 +14,7 @@ public class DisputeSummary {
     public var caseCurrency: String?
     public var caseStatus: String?
     public var caseDescription: String?
+    public var caseStage: DisputeStage?
     public var transactionOrderId: String?
     public var transactionLocalTime: Date?
     public var transactionTime: Date?
@@ -42,4 +43,7 @@ public class DisputeSummary {
     public var respondByDate: Date?
     public var caseOriginalReference: String?
     public var documents: [DisputeDocument]?
+    public var adjustmentFunding: AdjustmentFunding?
+    public var adjustmentAmount: NSDecimalNumber?
+    public var adjustmentCurrency: String?
 }

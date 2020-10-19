@@ -169,12 +169,12 @@ import Foundation
         return self
     }
 
-    public func `where`<T>(_ criteria: SearchCriteria, _ value: T) -> SearchCriteriaBuilder<TResult> {
-        return searchCriteriaBuilder.and(criteria: criteria, value: value)
+    public func `where`<T>(_ searchCriteria: SearchCriteria, _ value: T) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(searchCriteria: searchCriteria, value: value)
     }
 
-    public func `where`<T>(_ criteria: DataServiceCriteria, _ value: T) -> SearchCriteriaBuilder<TResult> {
-        return searchCriteriaBuilder.and(criteria: criteria, value: value)
+    public func `where`<T>(_ dataServiceCriteria: DataServiceCriteria, _ value: T) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(dataServiceCriteria: dataServiceCriteria, value: value)
     }
 
     public override func setupValidations() {

@@ -12,7 +12,7 @@ public class EBTTrackData: EBT, TrackData, Encryptable {
     }
     public var discretionaryData: String?
     public var value: String? {
-        didSet{
+        willSet {
             CardUtils.parseTrackData(paymentMethod: self)
         }
     }

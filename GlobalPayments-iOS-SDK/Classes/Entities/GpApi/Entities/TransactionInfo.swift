@@ -14,6 +14,6 @@ class TransactionInfo: GpApiEntity {
     }
 
     static func getTransactionRequest(id: String) -> GpApiRequest {
-        return GpApiRequest(endpoint: "/ucp/transactions/\(id)")
+        return GpApiRequest(endpoint: "/transactions/\(id)")
     }
 }

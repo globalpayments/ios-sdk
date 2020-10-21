@@ -17,7 +17,7 @@ class TransactionsInfo: GpApiEntity {
                                        pageSize: Int,
                                        fromTimeCreated: Date) -> GpApiRequest {
         return GpApiRequest(
-            endpoint: "/ucp/transactions?page=\(page)&page_size=\(pageSize)&from_time_created=\(fromTimeCreated.format("yyyy-MM-dd"))",
+            endpoint: "/transactions?page=\(page)&page_size=\(pageSize)&from_time_created=\(fromTimeCreated.format("yyyy-MM-dd"))",
             resultsField: "transactions"
         )
     }

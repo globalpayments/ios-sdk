@@ -321,9 +321,8 @@ class GpApiReportingTests: XCTestCase {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
         let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
-        var disputeSummaryDates: [Date]?
+        var disputeSummaryList: [DisputeSummary]?
         var disputeSummaryError: Error?
-        var expectedSortedDates: [Date]?
 
         // WHEN
         ReportingService.findDisputes()
@@ -331,8 +330,7 @@ class GpApiReportingTests: XCTestCase {
             .withPaging(1, 10)
             .where(.startStageDate, oneYearBefore)
             .execute { summaryList, error in
-                disputeSummaryDates = summaryList?.compactMap { $0.caseIdTime }
-                expectedSortedDates = summaryList?.compactMap { $0.caseIdTime }.sorted(by: { $0.compare($1) == .orderedDescending })
+                disputeSummaryList = summaryList
                 disputeSummaryError = error
                 summaryExpectation.fulfill()
             }
@@ -340,7 +338,7 @@ class GpApiReportingTests: XCTestCase {
         // THEN
         wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(disputeSummaryError)
-        XCTAssertEqual(disputeSummaryDates, expectedSortedDates)
+        XCTAssertNotNil(disputeSummaryList)
     }
 
     func test_report_find_disputes_order_by_adjustment_funding() {

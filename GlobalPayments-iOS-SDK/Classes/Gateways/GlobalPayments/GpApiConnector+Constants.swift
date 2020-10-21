@@ -23,81 +23,81 @@ extension GpApiConnector {
         // MARK: - Payment Methods
 
         static func paymentMethods() -> String {
-            return "/ucp/payment-methods"
+            return "/payment-methods"
         }
 
         static func paymentMethodsWith(token: String) -> String {
-            return "/ucp/payment-methods/\(token)"
+            return "/payment-methods/\(token)"
         }
 
         static func paymentMethodsEdit(token: String) -> String {
-            return "/ucp/payment-methods/\(token)/edit"
+            return "/payment-methods/\(token)/edit"
         }
 
         static func paymentMethodsDelete(token: String) -> String {
-            return "/ucp/payment-methods/\(token)/delete"
+            return "/payment-methods/\(token)/delete"
         }
 
         static func paymentMethodsDetokenize(token: String) -> String {
-            return "/ucp/payment-methods/\(token)/detokenize"
+            return "/payment-methods/\(token)/detokenize"
         }
 
         // MARK: - Transactions
 
         static func transactions() -> String {
-            return "/ucp/transactions"
+            return "/transactions"
         }
 
         static func transactionsWith(transactionId: String) -> String {
-            return "/ucp/transactions/\(transactionId)"
+            return "/transactions/\(transactionId)"
         }
 
         static func transactionsCapture(transactionId: String) -> String {
-            return "/ucp/transactions/\(transactionId)/capture"
+            return "/transactions/\(transactionId)/capture"
         }
 
         static func transactionsRefund(transactionId: String) -> String {
-            return "/ucp/transactions/\(transactionId)/refund"
+            return "/transactions/\(transactionId)/refund"
         }
 
         static func transactionsReversal(transactionId: String) -> String {
-            return "/ucp/transactions/\(transactionId)/reversal"
+            return "/transactions/\(transactionId)/reversal"
         }
 
         // MARK: - Deposits
 
         static func deposits() -> String {
-            return "/ucp/settlement/deposits"
+            return "/settlement/deposits"
         }
 
         static func deposit(id: String) -> String {
-            return "/ucp/settlement/deposits/\(id)"
+            return "/settlement/deposits/\(id)"
         }
 
         // MARK: - Disputes
 
         static func disputes() -> String {
-            return "/ucp/disputes"
+            return "/disputes"
         }
 
         static func dispute(id: String) -> String {
-            return "/ucp/disputes/\(id)"
+            return "/disputes/\(id)"
         }
 
         static func settlementDisputes() -> String {
-            return "/ucp/settlement/disputes"
+            return "/settlement/disputes"
         }
 
         static func acceptDispute(id: String) -> String {
-            return "/ucp/disputes/\(id)/acceptance"
+            return "/disputes/\(id)/acceptance"
         }
 
         static func challengeDispute(id: String) -> String {
-            return "/ucp/disputes/\(id)/challenge"
+            return "/disputes/\(id)/challenge"
         }
 
         static func document(id: String, disputeId: String) -> String {
-            return "/ucp/disputes/\(disputeId)/documents/\(id)"
+            return "/disputes/\(disputeId)/documents/\(id)"
         }
     }
 }

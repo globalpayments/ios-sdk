@@ -29,7 +29,7 @@ class GpApiSessionInfo {
         }
 
         return GpApiRequest(
-            endpoint: "/ucp/accesstoken",
+            endpoint: "/accesstoken",
             requestBody: request.toString()
         )
     }

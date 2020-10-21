@@ -8,6 +8,12 @@ public enum DepositStatus: String, Mappable {
     case irreg = "IRREG"
     case released = "RELEASED"
 
+    init?(value: String?) {
+        guard let value = value,
+              let status = DepositStatus(rawValue: value) else { return nil }
+        self = status
+    }
+
     public func mapped(for target: Target) -> String? {
         switch target {
         case .gpApi:

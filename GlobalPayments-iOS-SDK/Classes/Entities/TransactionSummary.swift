@@ -41,6 +41,7 @@ public class TransactionSummary {
     public var depositDate: Date?
     public var depositReference: String?
     public var depositType: String?
+    public var depositStatus: DepositStatus?
     public var description: String?
     /// The device ID where the transaction was ran, where applicable.
     public var deviceId: Int?
@@ -105,7 +106,7 @@ public class TransactionSummary {
     public var transactionDate: Date?
     public var transactionLocalDate: Date?
     public var transactionDescriptor: String?
-    public var transactionStatus: String?
+    public var transactionStatus: TransactionStatus?
     /// The gateway transaction ID of the transaction.
     public var transactionId: String?
     public var uniqueDeviceId: String?

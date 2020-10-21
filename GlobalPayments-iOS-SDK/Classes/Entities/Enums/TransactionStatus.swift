@@ -12,6 +12,12 @@ public enum TransactionStatus: String, Mappable {
     case funded = "FUNDED"
     case rejected = "REJECTED"
 
+    init?(value: String?) {
+        guard let value = value,
+              let status = TransactionStatus(rawValue: value) else { return nil }
+        self = status
+    }
+
     public func mapped(for target: Target) -> String? {
         switch target {
         case .gpApi:

@@ -48,6 +48,10 @@ extension GpApiConnector {
             return "/transactions"
         }
 
+        static func settlementTransactions() -> String {
+            return "/settlement/transactions"
+        }
+
         static func transactionsWith(transactionId: String) -> String {
             return "/transactions/\(transactionId)"
         }

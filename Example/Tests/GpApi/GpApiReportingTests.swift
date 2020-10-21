@@ -13,6 +13,8 @@ class GpApiReportingTests: XCTestCase {
         ))
     }
 
+    // MARK: - Transactions
+
     func test_report_transaction_detail() {
         // GIVEN
         let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
@@ -86,6 +88,31 @@ class GpApiReportingTests: XCTestCase {
         XCTAssertNil(transactionError)
     }
 
+    func test_report_find_settlement_transactions_with_criteria() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "FindTransactionsExpectation")
+        let thirtyDaysBefore = Calendar.current.date(byAdding: .day, value: -30, to: Date())
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService.findSettlementTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .where(.startDate, thirtyDaysBefore)
+            .execute { summaryList, error in
+                transactionSummaryList = summaryList
+                transactionError = error
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertNil(transactionError)
+    }
+
+    // MARK: - Deposits
+
     func test_report_find_deposits_with_criteria() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
@@ -158,7 +185,7 @@ class GpApiReportingTests: XCTestCase {
         XCTAssertEqual(depositError?.responseCode, "RESOURCE_NOT_FOUND")
     }
 
-    // DISPUTES
+    // MARK: - DISPUTES
 
     func test_report_find_disputes_with_criteria() {
         // GIVEN

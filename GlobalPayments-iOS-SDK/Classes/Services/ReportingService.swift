@@ -8,6 +8,10 @@ public class ReportingService {
         return TransactionReportBuilder<[TransactionSummary]>(reportType: .findTransactions)
     }
 
+    public static func findSettlementTransactions() -> TransactionReportBuilder<[TransactionSummary]> {
+        return TransactionReportBuilder<[TransactionSummary]>(reportType: .findSettlementTransactions)
+    }
+
     public static func transactionDetail(transactionId: String) -> TransactionReportBuilder<TransactionSummary> {
         return TransactionReportBuilder<TransactionSummary>(reportType: .transactionDetail)
             .withTransactionId(transactionId)

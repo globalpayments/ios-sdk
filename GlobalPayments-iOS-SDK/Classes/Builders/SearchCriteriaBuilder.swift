@@ -144,6 +144,7 @@ public enum DataServiceCriteria: String {
     var uniqueDeviceId: String?
     var username: String?
     var timezone: String?
+    var depositStatus: DepositStatus?
 
     init(reportBuilder: TransactionReportBuilder<TResult>) {
         self.reportBuilder = reportBuilder
@@ -176,6 +177,11 @@ public enum DataServiceCriteria: String {
 
     public func and(disputeStatus: DisputeStatus) -> SearchCriteriaBuilder<TResult> {
         self.disputeStatus = disputeStatus
+        return self
+    }
+
+    public func and(depositStatus: DepositStatus) -> SearchCriteriaBuilder<TResult> {
+        self.depositStatus = depositStatus
         return self
     }
 

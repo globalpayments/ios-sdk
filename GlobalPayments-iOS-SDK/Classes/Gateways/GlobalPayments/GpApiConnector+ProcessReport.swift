@@ -51,6 +51,36 @@ extension GpApiConnector: ReportingServiceType {
                     queryStringParams["SYSTEM.MID"] = builder.searchCriteriaBuilder.merchantId
                     queryStringParams["SYSTEM.HIERARCHY"] = builder.searchCriteriaBuilder.systemHierarchy
                 }
+                else if builder.reportType == .findSettlementTransactions {
+                    reportUrl = Endpoints.settlementTransactions()
+
+                    if let page = builder.page {
+                        queryStringParams["page"] = "\(page)"
+                    }
+                    if let pageSize = builder.pageSize {
+                        queryStringParams["page_size"] = "\(pageSize)"
+                    }
+                    queryStringParams["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
+                    queryStringParams["order"] = builder.transactionOrder?.mapped(for: .gpApi)
+                    queryStringParams["masked_number_first6last4"] = builder.searchCriteriaBuilder.maskedCardNumber
+                    queryStringParams["deposit_status"] = builder.searchCriteriaBuilder.depositStatus?.mapped(for: .gpApi)
+                    queryStringParams["account_name"] = self?.dataAccountName
+                    queryStringParams["brand"] = builder.searchCriteriaBuilder.brandReference
+                    queryStringParams["arn"] = builder.searchCriteriaBuilder.aquirerReferenceNumber
+                    queryStringParams["brand_reference"] = builder.searchCriteriaBuilder.brandReference
+                    queryStringParams["authcode"] = builder.searchCriteriaBuilder.authCode
+                    queryStringParams["reference"] = builder.searchCriteriaBuilder.referenceNumber
+                    queryStringParams["status"] = builder.searchCriteriaBuilder.transactionStatus?.mapped(for: .gpApi)
+                    queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
+                    queryStringParams["to_time_created"] = (builder.endDate ?? Date()).format("yyyy-MM-dd")
+                    queryStringParams["deposit_id"] = builder.searchCriteriaBuilder.depositReference
+                    queryStringParams["from_deposit_time_created"] = builder.searchCriteriaBuilder.startDepositDate?.format("yyyy-MM-dd")
+                    queryStringParams["to_deposit_time_created"] = builder.searchCriteriaBuilder.endDepositDate?.format("yyyy-MM-dd")
+                    queryStringParams["from_batch_time_created"] = builder.searchCriteriaBuilder.startBatchDate?.format("yyyy-MM-dd")
+                    queryStringParams["to_batch_time_created"] = builder.searchCriteriaBuilder.endBatchDate?.format("yyyy-MM-dd")
+                    queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
+                    queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
+                }
                 else if builder.reportType == .findDeposits {
                     reportUrl = Endpoints.deposits()
 
@@ -196,6 +226,11 @@ extension GpApiConnector: ReportingServiceType {
                 let mapped = transactions.map { mapTransactionSummary($0) }
                 result = mapped
             }
+        } else if reportType == .findSettlementTransactions && [TransactionSummary]() is T {
+            if let transactions: [JsonDoc] = json?.getValue(key: "transactions") {
+                let mapped = transactions.map { mapTransactionSummary($0) }
+                result = mapped
+            }
         } else if reportType == .depositDetail && DepositSummary() is T {
             result = mapDepositSummary(json)
         } else if reportType == .findDeposits && [DepositSummary]() is T {
@@ -228,7 +263,7 @@ extension GpApiConnector: ReportingServiceType {
         summary.transactionId = doc?.getValue(key: "id")
         let timeCreated: String? = doc?.getValue(key: "time_created")
         summary.transactionDate = timeCreated?.format()
-        summary.transactionStatus = doc?.getValue(key: "status")
+        summary.transactionStatus = TransactionStatus(value: doc?.getValue(key: "status"))
         summary.transactionType = doc?.getValue(key: "type")
         summary.channel = doc?.getValue(key: "channel")
         summary.amount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount
@@ -250,6 +285,11 @@ extension GpApiConnector: ReportingServiceType {
         //?? = card?.getValue(key: "brand_reference")
         summary.aquirerReferenceNumber = card?.getValue(key: "arn")
         summary.maskedCardNumber = card?.getValue(key: "masked_number_first6last4")
+
+        summary.depositReference = doc?.getValue(key: "deposit_id")
+        let depositTimeCreated: String? = doc?.getValue(key: "deposit_time_created")
+        summary.depositDate = depositTimeCreated?.format("YYYY-MM-DD")
+        summary.depositStatus = DepositStatus(value: doc?.getValue(key: "deposit_status"))
 
         return summary
     }

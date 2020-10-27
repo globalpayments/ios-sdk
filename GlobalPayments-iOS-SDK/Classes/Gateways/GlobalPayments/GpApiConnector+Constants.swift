@@ -68,6 +68,12 @@ extension GpApiConnector {
             return "/transactions/\(transactionId)/reversal"
         }
 
+        // MARK: - Verifications
+
+        static func verify() -> String {
+            return "/verifications"
+        }
+
         // MARK: - Deposits
 
         static func deposits() -> String {

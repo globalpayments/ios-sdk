@@ -451,4 +451,27 @@ class GpApiCreditTests: XCTestCase {
         XCTAssertEqual(capture3Response?.responseCode, "SUCCESS")
         XCTAssertEqual(capture3StatusResponse, TransactionStatus.captured)
     }
+
+    func test_credit_verify() {
+        // GIVEN
+        let verifyExpectation = expectation(description: "Verify Expectation")
+        var transactionResult: Transaction?
+        var transactionError: Error?
+
+        // WHEN
+        card?.verify()
+            .withCurrency("USD")
+            .execute(completion: { transaction, error in
+                transactionResult = transaction
+                transactionError = error
+                verifyExpectation.fulfill()
+            })
+
+        // THEN
+        wait(for: [verifyExpectation], timeout: 10.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionResult?.responseMessage, "VERIFIED")
+    }
 }

@@ -33,7 +33,7 @@ class GpApiTokenManagementTests: XCTestCase {
             tokenizeExpectation.fulfill()
         })
 
-        wait(for: [tokenizeExpectation], timeout: 10.0)
+        wait(for: [tokenizeExpectation], timeout: 20.0)
     }
 
     override func tearDown() {
@@ -49,7 +49,7 @@ class GpApiTokenManagementTests: XCTestCase {
             tokenizeExpectation.fulfill()
         }
 
-        wait(for: [tokenizeExpectation], timeout: 10.0)
+        wait(for: [tokenizeExpectation], timeout: 20.0)
 
         tokenizedCard.verify()
             .execute { transaction, error in

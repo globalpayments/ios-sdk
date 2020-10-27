@@ -28,6 +28,18 @@ extension GpApiConnector {
                     .set(for: "authcode", value: builder.offlineAuthCode)
                 //                .set(for: "brand_reference", value: "")
 
+                if builder.emvLastChipRead != nil {
+                    card.set(for: "chip_condition", value: builder.emvLastChipRead?.mapped(for: .gpApi))
+                }
+
+                if cardData.cvnPresenceIndicator == .present ||
+                    cardData.cvnPresenceIndicator == .illegible ||
+                    cardData.cvnPresenceIndicator == .notOnCard {
+                    card.set(for: "cvv_indicator", value: cardData.cvnPresenceIndicator.mapped(for: .gpApi))
+                }
+
+                paymentMethod.set(for: "card", doc: card)
+
                 if builder.transactionType == .verify {
                     if let requestMultiUseToken = builder.requestMultiUseToken,
                        requestMultiUseToken == true {
@@ -59,35 +71,52 @@ extension GpApiConnector {
                         return
                     } else {
 
-                        self?.doTransaction(
-                            method: .get,
-                            endpoint: Endpoints.paymentMethodsWith(token: (builder.paymentMethod as? Tokenizable)?.token ?? .empty)) { [weak self] response, error in
-                            guard let tokenizationResponse = response else {
+                        if let paymentMethod = builder.paymentMethod as? Tokenizable,
+                           let token = paymentMethod.token {
+
+                            self?.doTransaction(
+                                method: .get,
+                                endpoint: Endpoints.paymentMethodsWith(token: token)) { [weak self] response, error in
+                                guard let tokenizationResponse = response else {
+                                    completion?(nil, error)
+                                    return
+                                }
+                                if let transaction = self?.mapResponse(tokenizationResponse) {
+                                    completion?(transaction, nil)
+                                    return
+                                }
                                 completion?(nil, error)
                                 return
                             }
-                            if let transaction = self?.mapResponse(tokenizationResponse) {
-                                completion?(transaction, nil)
+                            return
+                        } else {
+                            let verificationData = JsonDoc()
+                                .set(for: "account_name", value: self?.transactionProcessingAccountName)
+                                .set(for: "channel", value: self?.channel?.mapped(for: .gpApi))
+                                .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
+                                .set(for: "currency", value: builder.currency)
+                                .set(for: "country", value: builder.billingAddress?.country ?? "US")
+                                .set(for: "payment_method", doc: paymentMethod)
+
+                            self?.doTransaction(
+                                method: .post,
+                                endpoint: Endpoints.verify(),
+                                data: verificationData.toString()) { [weak self] response, error in
+                                guard let tokenizationResponse = response else {
+                                    completion?(nil, error)
+                                    return
+                                }
+                                if let transaction = self?.mapResponse(tokenizationResponse) {
+                                    completion?(transaction, nil)
+                                    return
+                                }
+                                completion?(nil, error)
                                 return
                             }
-                            completion?(nil, error)
                             return
                         }
-                        return
                     }
                 }
-
-                if builder.emvLastChipRead != nil {
-                    card.set(for: "chip_condition", value: builder.emvLastChipRead?.mapped(for: .gpApi)) // [PREV_SUCCESS, PREV_FAILED]
-                }
-
-                if cardData.cvnPresenceIndicator == .present ||
-                    cardData.cvnPresenceIndicator == .illegible ||
-                    cardData.cvnPresenceIndicator == .notOnCard {
-                    card.set(for: "cvv_indicator", value: cardData.cvnPresenceIndicator.mapped(for: .gpApi)) // [ILLEGIBLE, NOT_PRESENT, PRESENT]
-                }
-
-                paymentMethod.set(for: "card", doc: card)
 
             } else if let track = builder.paymentMethod as? TrackData {
                 let card = JsonDoc()

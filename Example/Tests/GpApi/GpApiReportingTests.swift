@@ -49,8 +49,15 @@ class GpApiReportingTests: XCTestCase {
         ReportingService.findTransactions()
             .orderBy(transactionSortProperty: .timeCreated, .descending)
             .withPaging(1, 30)
+            .withAmount(10)
             .where(.startDate, oneYearBefore)
             .and(transactionStatus: .initiated)
+            .and(searchCriteria: .currency, value: "USD")
+            .and(searchCriteria: .country, value: "MOLDOVA")
+            .and(searchCriteria: .batchId, value: "123")
+            .and(searchCriteria: .paymentMethodName, value: "aaAA")
+            .and(entryMode: .ecom)
+            .and(gpApiTransactionType: .sale)
             .execute { transactionsSummary, error in
                 transactionsSummaryResponse = transactionsSummary
                 transactionsSummaryError = error

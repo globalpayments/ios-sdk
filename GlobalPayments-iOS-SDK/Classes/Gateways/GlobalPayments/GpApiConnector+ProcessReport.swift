@@ -50,6 +50,14 @@ extension GpApiConnector: ReportingServiceType {
                     queryStringParams["to_batch_time_created"] = builder.searchCriteriaBuilder.endBatchDate?.format("yyyy-MM-dd")
                     queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
                     queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
+                    queryStringParams["channel"] = builder.searchCriteriaBuilder.channel?.mapped(for: .gpApi)
+                    queryStringParams["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString()
+                    queryStringParams["currency"] = builder.searchCriteriaBuilder.currency
+                    queryStringParams["country"] = builder.searchCriteriaBuilder.country
+                    queryStringParams["batch_id"] = builder.searchCriteriaBuilder.batchId
+                    queryStringParams["entry_mode"] = builder.searchCriteriaBuilder.entryMode?.mapped(for: .gpApi)
+                    queryStringParams["name"] = builder.searchCriteriaBuilder.paymentMethodName
+                    queryStringParams["type"] = builder.searchCriteriaBuilder.gpApiTransactionType?.mapped(for: .gpApi)
                 }
                 else if builder.reportType == .findSettlementTransactions {
                     reportUrl = Endpoints.settlementTransactions()

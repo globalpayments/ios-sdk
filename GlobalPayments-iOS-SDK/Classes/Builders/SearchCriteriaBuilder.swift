@@ -44,6 +44,9 @@ public enum SearchCriteria: String {
     case disputeDocumentReference
     case uniqueDeviceId
     case username
+    case currency
+    case country
+    case paymentMethodName
 }
 
 public enum DataServiceCriteria: String {
@@ -145,6 +148,12 @@ public enum DataServiceCriteria: String {
     var username: String?
     var timezone: String?
     var depositStatus: DepositStatus?
+    var channel: Channel?
+    var currency: String?
+    var country: String?
+    var entryMode: EntryMode?
+    var paymentMethodName: String?
+    var gpApiTransactionType: GpApiTransactionType?
 
     init(reportBuilder: TransactionReportBuilder<TResult>) {
         self.reportBuilder = reportBuilder
@@ -182,6 +191,21 @@ public enum DataServiceCriteria: String {
 
     public func and(depositStatus: DepositStatus) -> SearchCriteriaBuilder<TResult> {
         self.depositStatus = depositStatus
+        return self
+    }
+
+    public func and(channel: Channel) -> SearchCriteriaBuilder<TResult> {
+        self.channel = channel
+        return self
+    }
+
+    public func and(entryMode: EntryMode) -> SearchCriteriaBuilder<TResult> {
+        self.entryMode = entryMode
+        return self
+    }
+
+    public func and(gpApiTransactionType: GpApiTransactionType) -> SearchCriteriaBuilder<TResult> {
+        self.gpApiTransactionType = gpApiTransactionType
         return self
     }
 

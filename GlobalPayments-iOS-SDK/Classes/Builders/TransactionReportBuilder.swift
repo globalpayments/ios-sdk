@@ -169,6 +169,14 @@ import Foundation
         return self
     }
 
+    /// Set the amount for the report.
+    /// - Parameter amount: The gateway amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.amount = amount
+        return self
+    }
+
     public func `where`<T>(_ searchCriteria: SearchCriteria, _ value: T) -> SearchCriteriaBuilder<TResult> {
         return searchCriteriaBuilder.and(searchCriteria: searchCriteria, value: value)
     }

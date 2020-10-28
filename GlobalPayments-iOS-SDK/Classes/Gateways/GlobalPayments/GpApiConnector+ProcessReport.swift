@@ -25,31 +25,31 @@ extension GpApiConnector: ReportingServiceType {
                     reportUrl = Endpoints.transactions()
 
                     if let page = builder.page {
-                        queryStringParams["PAGE"] = "\(page)"
+                        queryStringParams["page"] = "\(page)"
                     }
                     if let pageSize = builder.pageSize {
-                        queryStringParams["PAGE_SIZE"] = "\(pageSize)"
+                        queryStringParams["page_size"] = "\(pageSize)"
                     }
-                    queryStringParams["ORDER_BY"] = builder.transactionOrderBy?.mapped(for: .gpApi)
-                    queryStringParams["ORDER"] = builder.transactionOrder?.mapped(for: .gpApi)
-                    queryStringParams["ACCOUNT_NAME"] = builder.searchCriteriaBuilder.accountName
-                    queryStringParams["ID"] = builder.transactionId
-                    queryStringParams["BRAND"] = builder.searchCriteriaBuilder.cardBrand
-                    queryStringParams["MASKED_NUMBER_FIRST6LAST4"] = builder.searchCriteriaBuilder.maskedCardNumber
-                    queryStringParams["ARN"] = builder.searchCriteriaBuilder.aquirerReferenceNumber
-                    queryStringParams["BRAND_REFERENCE"] = builder.searchCriteriaBuilder.brandReference
-                    queryStringParams["AUTHCODE"] = builder.searchCriteriaBuilder.authCode
-                    queryStringParams["REFERENCE"] = builder.searchCriteriaBuilder.referenceNumber
-                    queryStringParams["STATUS"] = builder.searchCriteriaBuilder.transactionStatus?.mapped(for: .gpApi)
-                    queryStringParams["FROM_TIME_CREATED"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["TO_TIME_CREATED"] = (builder.endDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["DEPOSIT_ID"] = builder.searchCriteriaBuilder.depositReference
-                    queryStringParams["FROM_DEPOSIT_TIME_CREATED"] = builder.searchCriteriaBuilder.startDepositDate?.format("yyyy-MM-dd")
-                    queryStringParams["TO_DEPOSIT_TIME_CREATED"] = builder.searchCriteriaBuilder.endDepositDate?.format("yyyy-MM-dd")
-                    queryStringParams["FROM_BATCH_TIME_CREATED"] = builder.searchCriteriaBuilder.startBatchDate?.format("yyyy-MM-dd")
-                    queryStringParams["TO_BATCH_TIME_CREATED"] = builder.searchCriteriaBuilder.endBatchDate?.format("yyyy-MM-dd")
-                    queryStringParams["SYSTEM.MID"] = builder.searchCriteriaBuilder.merchantId
-                    queryStringParams["SYSTEM.HIERARCHY"] = builder.searchCriteriaBuilder.systemHierarchy
+                    queryStringParams["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
+                    queryStringParams["order"] = builder.transactionOrder?.mapped(for: .gpApi)
+                    queryStringParams["account_name"] = builder.searchCriteriaBuilder.accountName
+                    queryStringParams["id"] = builder.transactionId
+                    queryStringParams["brand"] = builder.searchCriteriaBuilder.cardBrand
+                    queryStringParams["masked_number_first6last4"] = builder.searchCriteriaBuilder.maskedCardNumber
+                    queryStringParams["arn"] = builder.searchCriteriaBuilder.aquirerReferenceNumber
+                    queryStringParams["brand_reference"] = builder.searchCriteriaBuilder.brandReference
+                    queryStringParams["authcode"] = builder.searchCriteriaBuilder.authCode
+                    queryStringParams["reference"] = builder.searchCriteriaBuilder.referenceNumber
+                    queryStringParams["status"] = builder.searchCriteriaBuilder.transactionStatus?.mapped(for: .gpApi)
+                    queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
+                    queryStringParams["to_time_created"] = (builder.endDate ?? Date()).format("yyyy-MM-dd")
+                    queryStringParams["deposit_id"] = builder.searchCriteriaBuilder.depositReference
+                    queryStringParams["from_deposit_time_created"] = builder.searchCriteriaBuilder.startDepositDate?.format("yyyy-MM-dd")
+                    queryStringParams["to_deposit_time_created"] = builder.searchCriteriaBuilder.endDepositDate?.format("yyyy-MM-dd")
+                    queryStringParams["from_batch_time_created"] = builder.searchCriteriaBuilder.startBatchDate?.format("yyyy-MM-dd")
+                    queryStringParams["to_batch_time_created"] = builder.searchCriteriaBuilder.endBatchDate?.format("yyyy-MM-dd")
+                    queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
+                    queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
                 }
                 else if builder.reportType == .findSettlementTransactions {
                     reportUrl = Endpoints.settlementTransactions()

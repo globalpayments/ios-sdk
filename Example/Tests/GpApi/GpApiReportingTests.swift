@@ -41,15 +41,16 @@ class GpApiReportingTests: XCTestCase {
     func test_report_find_transactions_with_criteria() {
         // GIVEN
         let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
-        let thirtyDaysBefore = Calendar.current.date(byAdding: .day, value: -30, to: Date())
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
         var transactionsSummaryResponse: [TransactionSummary]?
         var transactionsSummaryError: Error?
 
         // WHEN
         ReportingService.findTransactions()
             .orderBy(transactionSortProperty: .timeCreated, .descending)
-            .where(.startDate, thirtyDaysBefore)
-            //.and(criteria: .transactionStatus, transactionStatus: .captured)
+            .withPaging(1, 30)
+            .where(.startDate, oneYearBefore)
+            .and(transactionStatus: .initiated)
             .execute { transactionsSummary, error in
                 transactionsSummaryResponse = transactionsSummary
                 transactionsSummaryError = error

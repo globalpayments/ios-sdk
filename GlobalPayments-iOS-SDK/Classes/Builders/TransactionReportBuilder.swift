@@ -185,6 +185,38 @@ import Foundation
         return searchCriteriaBuilder.and(dataServiceCriteria: dataServiceCriteria, value: value)
     }
 
+    public func `where`(_ transactionStatus: TransactionStatus) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(transactionStatus: transactionStatus)
+    }
+
+    public func `where`(_ adjustmentFunding: AdjustmentFunding) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(adjustmentFunding: adjustmentFunding)
+    }
+
+    public func `where`(_ disputeStage: DisputeStage) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(disputeStage: disputeStage)
+    }
+
+    public func `where`(_ disputeStatus: DisputeStatus) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(disputeStatus: disputeStatus)
+    }
+
+    public func `where`(_ depositStatus: DepositStatus) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(depositStatus: depositStatus)
+    }
+
+    public func `where`(_ channel: Channel) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(channel: channel)
+    }
+
+    public func `where`(_ paymentEntryMode: PaymentEntryMode) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(paymentEntryMode: paymentEntryMode)
+    }
+
+    public func `where`(_ paymentType: PaymentType) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(paymentType: paymentType)
+    }
+
     public override func setupValidations() {
         validations.of(reportType: .transactionDetail)
             .check(propertyName: "transactionId")?.isNotNil()

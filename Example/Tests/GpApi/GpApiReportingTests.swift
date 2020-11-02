@@ -38,26 +38,20 @@ class GpApiReportingTests: XCTestCase {
         XCTAssertEqual(transactionId, transactionSummaryResponse?.transactionId)
     }
 
-    func test_report_find_transactions_with_criteria() {
+    func test_report_find_transactions_by_startDate_and_endDate() {
         // GIVEN
         let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
-        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let startDate = Calendar.current.date(byAdding: .day, value: -30, to: Date())
+        let endDate = Calendar.current.date(byAdding: .day, value: -10, to: Date())
         var transactionsSummaryResponse: [TransactionSummary]?
         var transactionsSummaryError: Error?
 
         // WHEN
         ReportingService.findTransactions()
             .orderBy(transactionSortProperty: .timeCreated, .descending)
-            .withPaging(1, 30)
-            .withAmount(10)
-            .where(.startDate, oneYearBefore)
-            .and(transactionStatus: .initiated)
-            .and(searchCriteria: .currency, value: "USD")
-            .and(searchCriteria: .country, value: "MOLDOVA")
-            .and(searchCriteria: .batchId, value: "123")
-            .and(searchCriteria: .paymentMethodName, value: "aaAA")
-            .and(entryMode: .ecom)
-            .and(gpApiTransactionType: .sale)
+            .withPaging(1, 10)
+            .where(.startDate, startDate)
+            .and(searchCriteria: .endDate, value: endDate)
             .execute { transactionsSummary, error in
                 transactionsSummaryResponse = transactionsSummary
                 transactionsSummaryError = error
@@ -70,6 +64,275 @@ class GpApiReportingTests: XCTestCase {
         XCTAssertNil(transactionsSummaryError)
         if let response = transactionsSummaryResponse {
             XCTAssertEqual(response.isEmpty, false)
+        } else {
+            XCTFail("transactionsSummaryResponse cannot be nil")
+        }
+    }
+
+    func test_report_find_transactions_by_Id() {
+        // GIVEN
+        let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
+        let startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let transactionId = "TRN_ccNw4SOBX0dFtE93O46jLgIoiazbsj"
+        var transactionsSummaryResponse: [TransactionSummary]?
+        var transactionsSummaryError: Error?
+
+        // WHEN
+        ReportingService.findTransactions()
+            .withTransactionId(transactionId)
+            .where(.startDate, startDate)
+            .execute { transactionsSummary, error in
+                transactionsSummaryResponse = transactionsSummary
+                transactionsSummaryError = error
+                reportingExecuteExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [reportingExecuteExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionsSummaryResponse)
+        XCTAssertNil(transactionsSummaryError)
+        XCTAssertEqual(transactionsSummaryResponse?.count, 1)
+        if let responseList = transactionsSummaryResponse {
+            for transaction in responseList {
+                XCTAssertEqual(transaction.transactionId, transactionId)
+            }
+        } else {
+            XCTFail("transactionsSummaryResponse cannot be nil")
+        }
+    }
+
+    func test_report_find_transactions_by_batchId() {
+        // GIVEN
+        let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
+        let startDate = Calendar.current.date(byAdding: .day, value: -30, to: Date())
+        let batchId = "BAT_845591"
+        var transactionsSummaryResponse: [TransactionSummary]?
+        var transactionsSummaryError: Error?
+
+        // WHEN
+        ReportingService.findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 10)
+            .where(.batchId, batchId)
+            .and(searchCriteria: .startDate, value: startDate)
+            .execute { transactionsSummary, error in
+                transactionsSummaryResponse = transactionsSummary
+                transactionsSummaryError = error
+                reportingExecuteExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [reportingExecuteExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionsSummaryResponse)
+        XCTAssertNil(transactionsSummaryError)
+        if let responseList = transactionsSummaryResponse {
+            XCTAssertFalse(responseList.isEmpty)
+            for transaction in responseList {
+                XCTAssertEqual(transaction.batchSequenceNumber, batchId)
+            }
+        } else {
+            XCTFail("transactionsSummaryResponse cannot be nil")
+        }
+    }
+
+    func test_report_find_transactions_by_type() {
+        // GIVEN
+        let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
+        let paymentType = PaymentType.sale
+        var transactionsSummaryResponse: [TransactionSummary]?
+        var transactionsSummaryError: Error?
+
+        // WHEN
+        ReportingService.findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 10)
+            .where(paymentType)
+            .execute { transactionsSummary, error in
+                transactionsSummaryResponse = transactionsSummary
+                transactionsSummaryError = error
+                reportingExecuteExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [reportingExecuteExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionsSummaryResponse)
+        XCTAssertNil(transactionsSummaryError)
+        if let responseList = transactionsSummaryResponse {
+            XCTAssertFalse(responseList.isEmpty)
+            for transaction in responseList {
+                XCTAssertEqual(transaction.transactionType, paymentType.mapped(for: .gpApi))
+            }
+        } else {
+            XCTFail("transactionsSummaryResponse cannot be nil")
+        }
+    }
+
+    func test_report_find_transactions_by_amount_and_currency_and_country() {
+        // GIVEN
+        let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
+        let expectedAmount: NSDecimalNumber = 0.45
+        let expectedCurrency = "USD"
+        let expectedCountry = "US"
+        let startDate = Calendar.current.date(byAdding: .day, value: -30, to: Date())
+        var transactionsSummaryResponse: [TransactionSummary]?
+        var transactionsSummaryError: Error?
+
+        // WHEN
+        ReportingService.findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 50)
+            .where(.startDate, startDate)
+            .and(dataServiceCriteria: .amount, value: expectedAmount)
+            .and(dataServiceCriteria: .currency, value: expectedCurrency)
+            .and(dataServiceCriteria: .country, value: expectedCountry)
+            .execute { transactionsSummary, error in
+                transactionsSummaryResponse = transactionsSummary
+                transactionsSummaryError = error
+                reportingExecuteExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [reportingExecuteExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionsSummaryResponse)
+        XCTAssertNil(transactionsSummaryError)
+        if let responseList = transactionsSummaryResponse {
+            XCTAssertFalse(responseList.isEmpty)
+            for transaction in responseList {
+                XCTAssertEqual(transaction.amount, expectedAmount)
+                XCTAssertEqual(transaction.currency, expectedCurrency)
+                XCTAssertEqual(transaction.country, expectedCountry)
+            }
+        } else {
+            XCTFail("transactionsSummaryResponse cannot be nil")
+        }
+    }
+
+    func test_report_find_transactions_by_channel() {
+        // GIVEN
+        let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
+        let expectedChannel: Channel = .cardNotPresent
+        var transactionsSummaryResponse: [TransactionSummary]?
+        var transactionsSummaryError: Error?
+
+        // WHEN
+        ReportingService.findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 10)
+            .where(expectedChannel)
+            .execute { transactionsSummary, error in
+                transactionsSummaryResponse = transactionsSummary
+                transactionsSummaryError = error
+                reportingExecuteExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [reportingExecuteExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionsSummaryResponse)
+        XCTAssertNil(transactionsSummaryError)
+        if let responseList = transactionsSummaryResponse {
+            XCTAssertFalse(responseList.isEmpty)
+            for transaction in responseList {
+                XCTAssertEqual(transaction.channel, expectedChannel.mapped(for: .gpApi))
+            }
+        } else {
+            XCTFail("transactionsSummaryResponse cannot be nil")
+        }
+    }
+
+    func test_report_find_transactions_by_status() {
+        // GIVEN
+        let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
+        let expectedStatus: TransactionStatus = .captured
+        var transactionsSummaryResponse: [TransactionSummary]?
+        var transactionsSummaryError: Error?
+
+        // WHEN
+        ReportingService.findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 10)
+            .where(expectedStatus)
+            .execute { transactionsSummary, error in
+                transactionsSummaryResponse = transactionsSummary
+                transactionsSummaryError = error
+                reportingExecuteExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [reportingExecuteExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionsSummaryResponse)
+        XCTAssertNil(transactionsSummaryError)
+        if let responseList = transactionsSummaryResponse {
+            XCTAssertFalse(responseList.isEmpty)
+            for transaction in responseList {
+                XCTAssertEqual(transaction.transactionStatus, expectedStatus)
+            }
+        } else {
+            XCTFail("transactionsSummaryResponse cannot be nil")
+        }
+    }
+
+    func test_report_find_transactions_by_cardBrand_and_authCode() {
+        // GIVEN
+        let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
+        let expectedCardBrand = "VISA"
+        let expectedAuthCode = "12345"
+        var transactionsSummaryResponse: [TransactionSummary]?
+        var transactionsSummaryError: Error?
+
+        // WHEN
+        ReportingService.findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 10)
+            .where(.cardBrand, expectedCardBrand)
+            .and(searchCriteria: .authCode, value: expectedAuthCode)
+            .execute { transactionsSummary, error in
+                transactionsSummaryResponse = transactionsSummary
+                transactionsSummaryError = error
+                reportingExecuteExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [reportingExecuteExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionsSummaryResponse)
+        XCTAssertNil(transactionsSummaryError)
+        if let responseList = transactionsSummaryResponse {
+            XCTAssertFalse(responseList.isEmpty)
+            for transaction in responseList {
+                XCTAssertEqual(transaction.cardType, expectedCardBrand)
+                XCTAssertEqual(transaction.authCode, expectedAuthCode)
+            }
+        } else {
+            XCTFail("transactionsSummaryResponse cannot be nil")
+        }
+    }
+
+    func test_report_find_transactions_by_entryMode() {
+        // GIVEN
+        let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
+        let expectedPaymentEntryMode: PaymentEntryMode = .ecom
+        var transactionsSummaryResponse: [TransactionSummary]?
+        var transactionsSummaryError: Error?
+
+        // WHEN
+        ReportingService.findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 10)
+            .where(expectedPaymentEntryMode)
+            .execute { transactionsSummary, error in
+                transactionsSummaryResponse = transactionsSummary
+                transactionsSummaryError = error
+                reportingExecuteExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [reportingExecuteExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionsSummaryResponse)
+        XCTAssertNil(transactionsSummaryError)
+        if let responseList = transactionsSummaryResponse {
+            XCTAssertFalse(responseList.isEmpty)
+            for transaction in responseList {
+                XCTAssertEqual(transaction.entryMode, expectedPaymentEntryMode.mapped(for: .gpApi))
+            }
         } else {
             XCTFail("transactionsSummaryResponse cannot be nil")
         }
@@ -94,6 +357,76 @@ class GpApiReportingTests: XCTestCase {
         wait(for: [findTransactionsExpectation], timeout: 10.0)
         XCTAssertNotNil(transactionSummaryList)
         XCTAssertNil(transactionError)
+    }
+
+    func test_report_find_transactions_by_reference() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "FindTransactionsExpectation")
+        let expectedReferenceNumber = "e1f2f968-e9cc-45b2-b41f-61cad13754aa"
+        let startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService
+            .findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 10)
+            .where(.referenceNumber, expectedReferenceNumber)
+            .and(searchCriteria: .startDate, value: startDate)
+            .execute { list, error in
+                transactionSummaryList = list
+                transactionError = error
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertNil(transactionError)
+        if let responseList = transactionSummaryList {
+            XCTAssertFalse(responseList.isEmpty)
+            for transaction in responseList {
+                XCTAssertEqual(transaction.referenceNumber, expectedReferenceNumber)
+            }
+        } else {
+            XCTFail("transactionSummaryList cannot be nil")
+        }
+    }
+
+    func test_report_find_transactions_by_brandReference() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "FindTransactionsExpectation")
+        let expectedBrandReference = "D5v2Nv8h91Me3DTh"
+        let startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService
+            .findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 10)
+            .where(.brandReference, expectedBrandReference)
+            .and(searchCriteria: .startDate, value: startDate)
+            .execute { list, error in
+                transactionSummaryList = list
+                transactionError = error
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertNil(transactionError)
+        if let responseList = transactionSummaryList {
+            XCTAssertFalse(responseList.isEmpty)
+            for transaction in responseList {
+                XCTAssertEqual(transaction.brandReference, expectedBrandReference)
+            }
+        } else {
+            XCTFail("transactionSummaryList cannot be nil")
+        }
     }
 
     func test_report_find_settlement_transactions_with_criteria() {
@@ -121,19 +454,18 @@ class GpApiReportingTests: XCTestCase {
 
     // MARK: - Deposits
 
-    func test_report_find_deposits_with_criteria() {
+    func test_report_find_deposits_by_startDate() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
-        let thirtyDaysBefore = Calendar.current.date(byAdding: .day, value: -30, to: Date())
+        let startDate = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
         var depositSummaryList: [DepositSummary]?
         var depositError: Error?
         
         // WHEN
         ReportingService.findDeposits()
             .orderBy(depositOrderBy: .timeCreated, .descending)
-            .withDepositStatus(.irreg)
             .withPaging(1, 10)
-            .where(.startDate, thirtyDaysBefore)
+            .where(.startDate, startDate)
             .execute { list, error in
                 depositSummaryList = list
                 depositError = error
@@ -144,6 +476,18 @@ class GpApiReportingTests: XCTestCase {
         wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(depositError)
         XCTAssertNotNil(depositSummaryList)
+        if let responseList = depositSummaryList {
+            XCTAssertFalse(responseList.isEmpty)
+            for deposit in responseList {
+                guard let depositDate = deposit.depositDate else {
+                    XCTFail("depositDate cannot be nil")
+                    return
+                }
+                XCTAssertTrue(depositDate >= startDate)
+            }
+        } else {
+            XCTFail("transactionSummaryList cannot be nil")
+        }
     }
 
     func test_report_find_deposit_with_id() {

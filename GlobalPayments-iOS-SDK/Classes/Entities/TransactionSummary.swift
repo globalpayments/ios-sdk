@@ -17,6 +17,7 @@ public class TransactionSummary {
     public var batchCloseDate: Date?
     public var batchSequenceNumber: String?
     public var billingAddress: Address?
+    public var brandReference: String?
     public var captureAmount: NSDecimalNumber?
     public var cardHolderFirstName: String?
     public var cardHolderLastName: String?

@@ -32,7 +32,6 @@ public enum SearchCriteria: String {
     case invoiceNumber
     case issuerResult
     case issuerTransactionId
-    case maskedCardNumber
     case oneTime
     case paymentMethodKey
     case referenceNumber
@@ -44,9 +43,9 @@ public enum SearchCriteria: String {
     case disputeDocumentReference
     case uniqueDeviceId
     case username
-    case currency
-    case country
-    case paymentMethodName
+    case name
+    case tokenFirstSix
+    case tokenLastFour
 }
 
 public enum DataServiceCriteria: String {
@@ -58,7 +57,6 @@ public enum DataServiceCriteria: String {
     case caseNumber
     case depositReference
     case endAdjustmentDate
-    case endBatchDate
     case endDepositDate
     case endStageDate
     case hierarchy
@@ -67,11 +65,12 @@ public enum DataServiceCriteria: String {
     case merchantId
     case orderId
     case startAdjustmentDate
-    case startBatchDate
     case startDepositDate
     case startStageDate
     case systemHierarchy
     case timezone
+    case country
+    case currency
 }
 
 @objcMembers public class SearchCriteriaBuilder<TResult>: NSObject {
@@ -126,7 +125,6 @@ public enum DataServiceCriteria: String {
     var issuerTransactionId: String?
     var localTransactionEndTime: Date?
     var localTransactionStartTime: Date?
-    var maskedCardNumber: String?
     var merchantId: String?
     var oneTime: Bool?
     var orderId: String?
@@ -151,9 +149,11 @@ public enum DataServiceCriteria: String {
     var channel: Channel?
     var currency: String?
     var country: String?
-    var entryMode: EntryMode?
-    var paymentMethodName: String?
-    var gpApiTransactionType: GpApiTransactionType?
+    var paymentEntryMode: PaymentEntryMode?
+    var name: String?
+    var paymentType: PaymentType?
+    var tokenFirstSix: String?
+    var tokenLastFour: String?
 
     init(reportBuilder: TransactionReportBuilder<TResult>) {
         self.reportBuilder = reportBuilder
@@ -199,13 +199,13 @@ public enum DataServiceCriteria: String {
         return self
     }
 
-    public func and(entryMode: EntryMode) -> SearchCriteriaBuilder<TResult> {
-        self.entryMode = entryMode
+    public func and(paymentEntryMode: PaymentEntryMode) -> SearchCriteriaBuilder<TResult> {
+        self.paymentEntryMode = paymentEntryMode
         return self
     }
 
-    public func and(gpApiTransactionType: GpApiTransactionType) -> SearchCriteriaBuilder<TResult> {
-        self.gpApiTransactionType = gpApiTransactionType
+    public func and(paymentType: PaymentType) -> SearchCriteriaBuilder<TResult> {
+        self.paymentType = paymentType
         return self
     }
 

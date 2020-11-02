@@ -32,32 +32,29 @@ extension GpApiConnector: ReportingServiceType {
                     }
                     queryStringParams["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
                     queryStringParams["order"] = builder.transactionOrder?.mapped(for: .gpApi)
-                    queryStringParams["account_name"] = builder.searchCriteriaBuilder.accountName
                     queryStringParams["id"] = builder.transactionId
+                    queryStringParams["type"] = builder.searchCriteriaBuilder.paymentType?.mapped(for: .gpApi)
+                    queryStringParams["channel"] = builder.searchCriteriaBuilder.channel?.mapped(for: .gpApi)
+                    queryStringParams["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString()
+                    queryStringParams["currency"] = builder.searchCriteriaBuilder.currency
+                    queryStringParams["number_first6"] = builder.searchCriteriaBuilder.cardNumberFirstSix
+                    queryStringParams["number_last4"] = builder.searchCriteriaBuilder.cardNumberLastFour
+                    queryStringParams["token_first6"] = builder.searchCriteriaBuilder.tokenFirstSix
+                    queryStringParams["token_last4"] = builder.searchCriteriaBuilder.tokenLastFour
+                    queryStringParams["account_name"] = builder.searchCriteriaBuilder.accountName
                     queryStringParams["brand"] = builder.searchCriteriaBuilder.cardBrand
-                    queryStringParams["masked_number_first6last4"] = builder.searchCriteriaBuilder.maskedCardNumber
-                    queryStringParams["arn"] = builder.searchCriteriaBuilder.aquirerReferenceNumber
                     queryStringParams["brand_reference"] = builder.searchCriteriaBuilder.brandReference
                     queryStringParams["authcode"] = builder.searchCriteriaBuilder.authCode
                     queryStringParams["reference"] = builder.searchCriteriaBuilder.referenceNumber
                     queryStringParams["status"] = builder.searchCriteriaBuilder.transactionStatus?.mapped(for: .gpApi)
                     queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["to_time_created"] = (builder.endDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["deposit_id"] = builder.searchCriteriaBuilder.depositReference
-                    queryStringParams["from_deposit_time_created"] = builder.searchCriteriaBuilder.startDepositDate?.format("yyyy-MM-dd")
-                    queryStringParams["to_deposit_time_created"] = builder.searchCriteriaBuilder.endDepositDate?.format("yyyy-MM-dd")
-                    queryStringParams["from_batch_time_created"] = builder.searchCriteriaBuilder.startBatchDate?.format("yyyy-MM-dd")
-                    queryStringParams["to_batch_time_created"] = builder.searchCriteriaBuilder.endBatchDate?.format("yyyy-MM-dd")
-                    queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
-                    queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
-                    queryStringParams["channel"] = builder.searchCriteriaBuilder.channel?.mapped(for: .gpApi)
-                    queryStringParams["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString()
-                    queryStringParams["currency"] = builder.searchCriteriaBuilder.currency
+                    if let endDate = builder.endDate {
+                        queryStringParams["to_time_created"] = endDate.format("yyyy-MM-dd")
+                    }
                     queryStringParams["country"] = builder.searchCriteriaBuilder.country
                     queryStringParams["batch_id"] = builder.searchCriteriaBuilder.batchId
-                    queryStringParams["entry_mode"] = builder.searchCriteriaBuilder.entryMode?.mapped(for: .gpApi)
-                    queryStringParams["name"] = builder.searchCriteriaBuilder.paymentMethodName
-                    queryStringParams["type"] = builder.searchCriteriaBuilder.gpApiTransactionType?.mapped(for: .gpApi)
+                    queryStringParams["entry_mode"] = builder.searchCriteriaBuilder.paymentEntryMode?.mapped(for: .gpApi)
+                    queryStringParams["name"] = builder.searchCriteriaBuilder.name
                 }
                 else if builder.reportType == .findSettlementTransactions {
                     reportUrl = Endpoints.settlementTransactions()
@@ -70,7 +67,8 @@ extension GpApiConnector: ReportingServiceType {
                     }
                     queryStringParams["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
                     queryStringParams["order"] = builder.transactionOrder?.mapped(for: .gpApi)
-                    queryStringParams["masked_number_first6last4"] = builder.searchCriteriaBuilder.maskedCardNumber
+                    queryStringParams["number_first6"] = builder.searchCriteriaBuilder.cardNumberFirstSix
+                    queryStringParams["number_last4"] = builder.searchCriteriaBuilder.cardNumberLastFour
                     queryStringParams["deposit_status"] = builder.searchCriteriaBuilder.depositStatus?.mapped(for: .gpApi)
                     queryStringParams["account_name"] = self?.dataAccountName
                     queryStringParams["brand"] = builder.searchCriteriaBuilder.brandReference
@@ -290,7 +288,7 @@ extension GpApiConnector: ReportingServiceType {
 
         summary.cardType = card?.getValue(key: "brand")
         summary.authCode = card?.getValue(key: "authcode")
-        //?? = card?.getValue(key: "brand_reference")
+        summary.brandReference = card?.getValue(key: "brand_reference")
         summary.aquirerReferenceNumber = card?.getValue(key: "arn")
         summary.maskedCardNumber = card?.getValue(key: "masked_number_first6last4")
 
@@ -306,7 +304,7 @@ extension GpApiConnector: ReportingServiceType {
         let summary = DepositSummary()
         summary.depositId = doc?.getValue(key: "id")
         let timeCreated: String? = doc?.getValue(key: "time_created")
-        summary.depositDate = timeCreated?.format()
+        summary.depositDate = timeCreated?.format("yyyy-MM-dd")
         summary.status = doc?.getValue(key: "status")
         summary.type = doc?.getValue(key: "funding_type")
         summary.amount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount

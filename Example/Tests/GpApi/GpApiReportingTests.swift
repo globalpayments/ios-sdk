@@ -454,6 +454,54 @@ class GpApiReportingTests: XCTestCase {
 
     // MARK: - Deposits
 
+    func test_report_deposit_detail() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Deposit With id")
+        let expectedDepositId = "DEP_2342423423"
+        var depositSummary: DepositSummary?
+        var depositError: Error?
+
+        // WHEN
+        ReportingService
+            .depositDetail(depositId: expectedDepositId)
+            .execute { summary, error in
+                depositSummary = summary
+                depositError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 20.0)
+        XCTAssertNil(depositError)
+        XCTAssertNotNil(depositSummary)
+        XCTAssertEqual(depositSummary?.depositId, expectedDepositId)
+    }
+
+    func test_report_deposit_detail_invalid_id() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Deposit With id")
+        let depositId = "INVALID_ID"
+        var depositSummary: DepositSummary?
+        var depositError: GatewayException?
+
+        // WHEN
+        ReportingService
+            .depositDetail(depositId: depositId)
+            .execute { summary, error in
+                depositSummary = summary
+                if let gatewayException = error as? GatewayException {
+                    depositError = gatewayException
+                }
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 20.0)
+        XCTAssertNil(depositSummary)
+        XCTAssertNotNil(depositError)
+        XCTAssertEqual(depositError?.responseCode, "RESOURCE_NOT_FOUND")
+    }
+
     func test_report_find_deposits_by_startDate() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
@@ -490,51 +538,79 @@ class GpApiReportingTests: XCTestCase {
         }
     }
 
-    func test_report_find_deposit_with_id() {
+    func test_report_find_deposits_order_by_depositId() {
         // GIVEN
-        let summaryExpectation = expectation(description: "Report Find Deposit With id")
-        let depositId = "DEP_2342423423"
-        var depositSummary: DepositSummary?
+        let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
+        let startDate = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
+        var depositSummaryList: [String]?
+        var sortedDepositSummaryList: [String]?
         var depositError: Error?
 
         // WHEN
-        ReportingService
-            .depositDetail(depositId: depositId)
-            .execute { summary, error in
-                depositSummary = summary
+        ReportingService.findDeposits()
+            .orderBy(depositOrderBy: .depositId, .descending)
+            .withPaging(1, 10)
+            .where(.startDate, startDate)
+            .execute { list, error in
+                depositSummaryList = list?.compactMap { $0.depositId }
+                sortedDepositSummaryList = list?.compactMap { $0.depositId }.sorted(by: > )
                 depositError = error
                 summaryExpectation.fulfill()
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 20.0)
+        wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(depositError)
-        XCTAssertNotNil(depositSummary)
+        XCTAssertNotNil(depositSummaryList)
+        XCTAssertEqual(depositSummaryList, sortedDepositSummaryList)
     }
 
-    func test_report_find_deposit_with_invalid_id() {
+    func test_report_find_deposits_order_by_status() {
         // GIVEN
-        let summaryExpectation = expectation(description: "Report Find Deposit With id")
-        let depositId = "INVALID_ID"
-        var depositSummary: DepositSummary?
-        var depositError: GatewayException?
+        let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
+        let startDate = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
+        var depositSummaryList: [DepositSummary]?
+        var depositError: Error?
 
         // WHEN
-        ReportingService
-            .depositDetail(depositId: depositId)
-            .execute { summary, error in
-                depositSummary = summary
-                if let gatewayException = error as? GatewayException {
-                    depositError = gatewayException
-                }
+        ReportingService.findDeposits()
+            .orderBy(depositOrderBy: .status, .ascending)
+            .withPaging(1, 10)
+            .where(.startDate, startDate)
+            .execute {
+                depositSummaryList = $0
+                depositError = $1
                 summaryExpectation.fulfill()
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 20.0)
-        XCTAssertNil(depositSummary)
-        XCTAssertNotNil(depositError)
-        XCTAssertEqual(depositError?.responseCode, "RESOURCE_NOT_FOUND")
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(depositError)
+        XCTAssertNotNil(depositSummaryList)
+    }
+
+    func test_report_find_deposits_order_by_type() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
+        let startDate = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
+        var depositSummaryList: [DepositSummary]?
+        var depositError: Error?
+
+        // WHEN
+        ReportingService.findDeposits()
+            .orderBy(depositOrderBy: .type, .ascending)
+            .withPaging(1, 10)
+            .where(.startDate, startDate)
+            .execute {
+                depositSummaryList = $0
+                depositError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(depositError)
+        XCTAssertNotNil(depositSummaryList)
     }
 
     // MARK: - DISPUTES

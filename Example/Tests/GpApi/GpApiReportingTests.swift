@@ -615,10 +615,12 @@ class GpApiReportingTests: XCTestCase {
 
     // MARK: - DISPUTES
 
-    func test_report_find_disputes_with_criteria() {
+    func test_report_find_disputes_with_multiple_criteria() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
         let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let expectedDisputeStage = DisputeStage.compliance
+        let expectedAdjustmentFunding = AdjustmentFunding.debit
         var disputeSummaryList: [DisputeSummary]?
         var disputeSummaryError: Error?
 
@@ -626,9 +628,8 @@ class GpApiReportingTests: XCTestCase {
         ReportingService.findDisputes()
             .orderBy(disputeOrderBy: .brand, .ascending)
             .withPaging(1, 10)
-            .withDisputeStatus(.closed)
-            .withDisputeStage(.compliance)
-            .withAdjustmentFunding(.debit)
+            .withDisputeStage(expectedDisputeStage)
+            .withAdjustmentFunding(expectedAdjustmentFunding)
             .where(.startStageDate, oneYearBefore)
             .execute { summaryList, error in
                 disputeSummaryList = summaryList
@@ -640,7 +641,180 @@ class GpApiReportingTests: XCTestCase {
         wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(disputeSummaryError)
         XCTAssertNotNil(disputeSummaryList)
+        if let responseList = disputeSummaryList {
+            XCTAssertFalse(responseList.isEmpty)
+            for dispute in responseList {
+                guard let caseStage = dispute.caseStage else {
+                    XCTFail("caseStage cannot be nil")
+                    return
+                }
+                guard let adjustmentFunding = dispute.adjustmentFunding else {
+                    XCTFail("adjustmentFunding cannot be nil")
+                    return
+                }
+                XCTAssertEqual(caseStage, expectedDisputeStage)
+                XCTAssertEqual(adjustmentFunding, expectedAdjustmentFunding)
+            }
+        } else {
+            XCTFail("disputeSummaryList cannot be nil")
+        }
     }
+
+    func test_report_find_disputes_by_status() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let expectedDisputeStatus: DisputeStatus = .underReview
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .and(disputeStatus: expectedDisputeStatus)
+            .execute {
+                disputeSummaryList = $0
+                disputeSummaryError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertNotNil(disputeSummaryList)
+        if let responseList = disputeSummaryList {
+            XCTAssertFalse(responseList.isEmpty)
+            for dispute in responseList {
+                guard let caseStatus = dispute.caseStatus else {
+                    XCTFail("caseStatus cannot be nil")
+                    return
+                }
+                XCTAssertEqual(caseStatus, expectedDisputeStatus.mapped(for: .gpApi))
+            }
+        } else {
+            XCTFail("disputeSummaryList cannot be nil")
+        }
+    }
+
+    func test_report_find_disputes_by_arn() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let expectedArn = "135091790340196"
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .and(searchCriteria: .aquirerReferenceNumber, value: expectedArn)
+            .execute {
+                disputeSummaryList = $0
+                disputeSummaryError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertNotNil(disputeSummaryList)
+        if let responseList = disputeSummaryList {
+            XCTAssertFalse(responseList.isEmpty)
+            for dispute in responseList {
+                guard let transactionARN = dispute.transactionARN else {
+                    XCTFail("caseStatus cannot be nil")
+                    return
+                }
+                XCTAssertEqual(transactionARN, expectedArn)
+            }
+        } else {
+            XCTFail("disputeSummaryList cannot be nil")
+        }
+    }
+
+    func test_report_find_disputes_by_stage() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let expectedDisputeStage = DisputeStage.chargeback
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .and(disputeStage: expectedDisputeStage)
+            .execute {
+                disputeSummaryList = $0
+                disputeSummaryError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertNotNil(disputeSummaryList)
+        if let responseList = disputeSummaryList {
+            XCTAssertFalse(responseList.isEmpty)
+            for dispute in responseList {
+                guard let caseStage = dispute.caseStage else {
+                    XCTFail("caseStage cannot be nil")
+                    return
+                }
+                XCTAssertEqual(caseStage, expectedDisputeStage)
+            }
+        } else {
+            XCTFail("disputeSummaryList cannot be nil")
+        }
+    }
+
+    func test_report_find_disputes_by_merchantId_and_systemHierarchy() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let expectedMerchantId = "8593872"
+        let expectedSystemHierarchy = "111-23-099-002-005"
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .withPaging(1, 10)
+            .where(.startStageDate, oneYearBefore)
+            .and(dataServiceCriteria: .merchantId, value: expectedMerchantId)
+            .and(dataServiceCriteria: .systemHierarchy, value: expectedSystemHierarchy)
+            .execute {
+                disputeSummaryList = $0
+                disputeSummaryError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertNotNil(disputeSummaryList)
+        if let responseList = disputeSummaryList {
+            XCTAssertFalse(responseList.isEmpty)
+            for dispute in responseList {
+                guard let caseMerchantId = dispute.caseMerchantId else {
+                    XCTFail("caseMerchantId cannot be nil")
+                    return
+                }
+                guard let merchantHierarchy = dispute.merchantHierarchy else {
+                    XCTFail("merchantHierarchy cannot be nil")
+                    return
+                }
+                XCTAssertEqual(caseMerchantId, expectedMerchantId)
+                XCTAssertEqual(merchantHierarchy, expectedSystemHierarchy)
+            }
+        } else {
+            XCTFail("disputeSummaryList cannot be nil")
+        }
+    }
+
 
     func test_report_find_disputes_order_by_id() {
         // GIVEN
@@ -846,6 +1020,7 @@ class GpApiReportingTests: XCTestCase {
         wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(disputeSummaryError)
         if let disputeSummaryList = disputeSummaryList {
+            XCTAssertFalse(disputeSummaryList.isEmpty)
             for dispute in disputeSummaryList {
                 XCTAssertEqual(dispute.transactionCardType, expectedCardBrand)
             }
@@ -1085,6 +1260,123 @@ class GpApiReportingTests: XCTestCase {
         XCTAssertNil(documentMetadata)
         XCTAssertNotNil(documentError)
         XCTAssertEqual(documentError?.responseCode, "INVALID_REQUEST_DATA")
+    }
+
+    // MARK: - Settlement Disputes
+
+    func test_report_settlement_dispute_detail() {
+        // GIVEN
+        let disputeDetailExpectation = expectation(description: "Dispute Detail Expectation")
+        let expectedSettlementDisputeId = "DIS_810"
+        var disputeSummary: DisputeSummary?
+        var disputeError: Error?
+
+        // WHEN
+        ReportingService
+            .settlementDisputeDetail(disputeId: expectedSettlementDisputeId)
+            .execute {
+                disputeSummary = $0
+                disputeError = $1
+                disputeDetailExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [disputeDetailExpectation], timeout: 10.0)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummary)
+        XCTAssertEqual(disputeSummary?.caseId, expectedSettlementDisputeId)
+    }
+
+    func test_report_find_settlement_disputes_order_by_id() {
+        // GIVEN
+        let disputeDetailExpectation = expectation(description: "Dispute Detail Expectation")
+        let startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryListIds: [String]?
+        var expectedDisputeSummaryListIds: [String]?
+        var disputeError: Error?
+
+        // WHEN
+        ReportingService
+            .findSettlementDisputes()
+            .orderBy(disputeOrderBy: .id, .descending)
+            .withPaging(1, 10)
+            .where(.startStageDate, startDate)
+            .execute {
+                disputeSummaryListIds = $0?.compactMap { $0.caseId }
+                expectedDisputeSummaryListIds = $0?.compactMap { $0.caseId }.sorted(by: > )
+                disputeError = $1
+                disputeDetailExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [disputeDetailExpectation], timeout: 10.0)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummaryListIds)
+        XCTAssertEqual(disputeSummaryListIds, expectedDisputeSummaryListIds)
+    }
+
+    func test_report_find_settlement_disputes_order_by_arn() {
+        // GIVEN
+        let disputeDetailExpectation = expectation(description: "Dispute Detail Expectation")
+        let startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeError: Error?
+
+        // WHEN
+        ReportingService
+            .findSettlementDisputes()
+            .orderBy(disputeOrderBy: .arn, .descending)
+            .withPaging(1, 10)
+            .where(.startStageDate, startDate)
+            .execute {
+                disputeSummaryList = $0
+                disputeError = $1
+                disputeDetailExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [disputeDetailExpectation], timeout: 10.0)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummaryList)
+    }
+
+    func test_report_find_settlement_disputes_order_by_id_with_status_underReview() {
+        // GIVEN
+        let disputeDetailExpectation = expectation(description: "Dispute Detail Expectation")
+        let startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let expectedDisputeStatus: DisputeStatus = .underReview
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeError: Error?
+
+        // WHEN
+        ReportingService
+            .findSettlementDisputes()
+            .orderBy(disputeOrderBy: .id, .ascending)
+            .withPaging(1, 10)
+            .where(.startStageDate, startDate)
+            .and(disputeStatus: expectedDisputeStatus)
+            .execute {
+                disputeSummaryList = $0
+                disputeError = $1
+                disputeDetailExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [disputeDetailExpectation], timeout: 10.0)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummaryList)
+        if let responseList = disputeSummaryList {
+            XCTAssertFalse(responseList.isEmpty)
+            for dispute in responseList {
+                guard let caseStatus = dispute.caseStatus else {
+                    XCTFail("caseStatus cannot be nil")
+                    return
+                }
+                XCTAssertEqual(caseStatus, expectedDisputeStatus.mapped(for: .gpApi))
+            }
+        } else {
+            XCTFail("disputeSummaryList cannot be nil")
+        }
     }
 
     // MARK: - Other

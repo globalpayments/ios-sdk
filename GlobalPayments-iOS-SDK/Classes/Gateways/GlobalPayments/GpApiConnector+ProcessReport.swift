@@ -168,6 +168,11 @@ extension GpApiConnector: ReportingServiceType {
                          let disputeId = builder.searchCriteriaBuilder.disputeReference {
                    reportUrl = Endpoints.dispute(id: disputeId)
                }
+                else if builder.reportType == .settlementDisputeDetail,
+                        let settlementDisputeId = builder.searchCriteriaBuilder.settlementDisputeId {
+                    queryStringParams["account_name"] = self?.dataAccountName
+                    reportUrl = Endpoints.settlementDispute(id: settlementDisputeId)
+                }
                 else if builder.reportType == .acceptDispute,
                         let disputeId = builder.searchCriteriaBuilder.disputeReference {
                     reportUrl = Endpoints.acceptDispute(id: disputeId)
@@ -244,7 +249,7 @@ extension GpApiConnector: ReportingServiceType {
                 let mapped = deposits.map { mapDepositSummary($0) }
                 result = mapped
             }
-        } else if reportType == .disputeDetail && DisputeSummary() is T {
+        } else if (reportType == .disputeDetail || reportType == .settlementDisputeDetail) && DisputeSummary() is T {
             result = mapDisputeSummary(json)
         } else if (reportType == .findDisputes || reportType == .findSettlementDisputes) && [DisputeSummary]() is T {
             if let disputes: [JsonDoc] = json?.getValue(key: "disputes") {

@@ -98,6 +98,10 @@ extension GpApiConnector {
             return "/settlement/disputes"
         }
 
+        static func settlementDispute(id: String) -> String {
+            return "/settlement/disputes/\(id)"
+        }
+
         static func acceptDispute(id: String) -> String {
             return "/disputes/\(id)/acceptance"
         }

@@ -43,6 +43,11 @@ public class ReportingService {
         return TransactionReportBuilder<[DisputeSummary]>(reportType: .findSettlementDisputes)
     }
 
+    public static func settlementDisputeDetail(disputeId: String) -> TransactionReportBuilder<DisputeSummary> {
+        return TransactionReportBuilder<DisputeSummary>(reportType: .settlementDisputeDetail)
+            .withSettlementDisputeId(disputeId)
+    }
+
     public static func acceptDispute(id: String) -> TransactionReportBuilder<DisputeAction> {
         return TransactionReportBuilder<DisputeAction>(reportType: .acceptDispute)
             .withDisputeId(id)

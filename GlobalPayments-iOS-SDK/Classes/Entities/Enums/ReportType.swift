@@ -41,4 +41,6 @@ public struct ReportType: OptionSet, Hashable {
     public static let disputeDocument            = ReportType(rawValue: 1 << 15)
     /// Indicates a SettlementFindTransactions report.
     public static let findSettlementTransactions = ReportType(rawValue: 1 << 16)
+    /// Indicates a Settlement Dispute Details report.
+    public static let settlementDisputeDetail    = ReportType(rawValue: 1 << 17)
 }

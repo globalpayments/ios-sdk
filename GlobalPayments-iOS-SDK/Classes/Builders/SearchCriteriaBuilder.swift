@@ -40,6 +40,7 @@ public enum SearchCriteria: String {
     case siteTrace
     case startDate
     case disputeReference
+    case settlementDisputeId
     case disputeDocumentReference
     case uniqueDeviceId
     case username
@@ -133,6 +134,7 @@ public enum DataServiceCriteria: String {
     var referenceNumber: String?
     var transactionType: [TransactionType]?
     var settlementAmount: NSDecimalNumber?
+    var settlementDisputeId: String?
     var scheduleId: String?
     var siteTrace: String?
     var startAdjustmentDate: Date?

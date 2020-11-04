@@ -138,10 +138,18 @@ import Foundation
     }
 
     /// Sets the gateway dispute ID as criteria for the report.
-    /// - Parameter disputeId: The gateway dispute ID
+    /// - Parameter disputeId: The gateway settlement dispute id
     /// - Returns: TransactionReportBuilder<TResult>
     public func withDisputeId(_ disputeId: String?) -> TransactionReportBuilder<TResult> {
         searchCriteriaBuilder.disputeReference = disputeId
+        return self
+    }
+
+    /// Sets the gateway settlement dispute id as criteria for the report.
+    /// - Parameter disputeId: The gateway dispute ID
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withSettlementDisputeId(_ disputeId: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.settlementDisputeId = disputeId
         return self
     }
 

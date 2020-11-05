@@ -474,4 +474,57 @@ class GpApiCreditTests: XCTestCase {
         XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
         XCTAssertEqual(transactionResult?.responseMessage, "VERIFIED")
     }
+
+    func test_credit_charge_transactions_with_same_idempotency_key() {
+        // GIVEN
+        let idempotencyExpectation = expectation(description: "Idempotency Expectation")
+        let idempotencyKey = UUID().uuidString
+        var transactionResult: Transaction?
+        var transactionError: Error?
+        var transactionStatus: TransactionStatus?
+
+        // WHEN
+        card.charge(amount: 4.95)
+            .withIdempotencyKey(idempotencyKey)
+            .withCurrency("USD")
+            .execute(completion: {
+                transactionResult = $0
+                transactionError = $1
+                if let responseMessage = $0?.responseMessage {
+                    transactionStatus = TransactionStatus(rawValue: responseMessage)
+                }
+                idempotencyExpectation.fulfill()
+            })
+
+        // THEN
+        wait(for: [idempotencyExpectation], timeout: 10.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionStatus, TransactionStatus.captured)
+
+        // GIVEN
+        let dublicateExpectation = expectation(description: "Dublicate Idempotency Expectation")
+        var dublicateTransaction: Transaction?
+        var gatewayException: GatewayException?
+
+        // WHEN
+        card.charge(amount: 4.95)
+            .withCurrency("USD")
+            .withIdempotencyKey(idempotencyKey)
+            .execute {
+                dublicateTransaction = $0
+                if let error = $1 as? GatewayException {
+                    gatewayException = error
+                }
+                dublicateExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [dublicateExpectation], timeout: 10.0)
+        XCTAssertNil(dublicateTransaction)
+        XCTAssertNotNil(gatewayException)
+        XCTAssertEqual(gatewayException?.responseCode, "DUPLICATE_ACTION")
+        XCTAssertEqual(gatewayException?.responseMessage, "40039")
+    }
 }

@@ -39,6 +39,8 @@ class GpApiConnector: RestGateway, PaymentGateway {
         }
     }
 
+    func signOut() { }
+
     func getAccessToken(_ completion: @escaping ((GpApiTokenResponse?, Error?) -> Void)) {
         headers.removeValue(forKey: GpApiConnector.Header.Key.authorization)
         accessToken = nil
@@ -57,11 +59,31 @@ class GpApiConnector: RestGateway, PaymentGateway {
         }
     }
 
-    func signOut() { }
+    private func doTransactionWithIdempotencyKey(method: HTTPMethod,
+                                                 endpoint: String,
+                                                 data: String? = nil,
+                                                 idempotencyKey: String? = nil,
+                                                 queryStringParams: [String : String]? = nil,
+                                                 completion: @escaping (String?, Error?) -> Void) {
 
-    override func doTransaction(method: HTTPMethod,
+        if !idempotencyKey.isNilOrEmpty {
+            headers[GpApiConnector.Header.Key.idempotency] = idempotencyKey
+        }
+
+        super.doTransaction(
+            method: method,
+            endpoint: endpoint,
+            data: data,
+            queryStringParams: queryStringParams) { [weak self] response, error in
+            self?.headers.removeValue(forKey: GpApiConnector.Header.Key.idempotency)
+            completion(response, error)
+        }
+    }
+
+    func doTransaction(method: HTTPMethod,
                                 endpoint: String,
                                 data: String? = nil,
+                                idempotencyKey: String? = nil,
                                 queryStringParams: [String : String]? = nil,
                                 completion: @escaping (String?, Error?) -> Void) {
 
@@ -77,10 +99,11 @@ class GpApiConnector: RestGateway, PaymentGateway {
                         return
                     }
 
-                    super.doTransaction(
+                    self.doTransactionWithIdempotencyKey(
                         method: method,
                         endpoint: endpoint,
                         data: data,
+                        idempotencyKey: idempotencyKey,
                         queryStringParams: queryStringParams,
                         completion: completion
                     )
@@ -92,10 +115,11 @@ class GpApiConnector: RestGateway, PaymentGateway {
                 return
             }
 
-            super.doTransaction(
+            self.doTransactionWithIdempotencyKey(
                 method: method,
                 endpoint: endpoint,
                 data: data,
+                idempotencyKey: idempotencyKey,
                 queryStringParams: queryStringParams,
                 completion: completion
             )

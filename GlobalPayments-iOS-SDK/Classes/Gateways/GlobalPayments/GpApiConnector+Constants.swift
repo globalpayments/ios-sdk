@@ -6,6 +6,7 @@ extension GpApiConnector {
 
         struct Key {
             static let version: String = "X-GP-Version"
+            static let idempotency: String = "x-gp-idempotency"
             static let accept: String = "Accept"
             static let acceptEnconding: String = "Accept-Encoding"
             static let authorization: String = "Authorization"

@@ -214,7 +214,8 @@ extension GpApiConnector {
 
             self?.doTransaction(method: .post,
                                 endpoint: Endpoints.transactions(),
-                                data: data.toString()) { [weak self] response, error in
+                                data: data.toString(),
+                                idempotencyKey: builder.idempotencyKey) { [weak self] response, error in
                 guard let response = response else {
                     completion?(nil, error)
                     return

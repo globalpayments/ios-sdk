@@ -36,6 +36,7 @@ import Foundation
     var shippingAmt: NSDecimalNumber?
     var hostedPaymentData: HostedPaymentData?
     var invoiceNumber: String?
+    var idempotencyKey: String?
     var lodgingData: LodgingData?
     var messageAuthenticationCode: String?
     var miscProductData: [String]?
@@ -307,6 +308,14 @@ import Foundation
     /// - Returns: AuthorizationBuilder
     public func withInvoiceNumber(_ invoiceNumber: String) -> AuthorizationBuilder {
         self.invoiceNumber = invoiceNumber
+        return self
+    }
+
+    /// Field submitted in the request that is used to ensure idempotency is maintained within the action
+    /// - Parameter idempotencyKey: The idempotency key
+    /// - Returns: AuthorizationBuilder
+    public func withIdempotencyKey(_ idempotencyKey: String) -> AuthorizationBuilder {
+        self.idempotencyKey = idempotencyKey
         return self
     }
 

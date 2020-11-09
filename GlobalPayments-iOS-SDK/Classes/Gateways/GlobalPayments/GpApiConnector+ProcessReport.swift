@@ -186,7 +186,8 @@ extension GpApiConnector: ReportingServiceType {
                     self?.doTransaction(
                         method: .post,
                         endpoint: Endpoints.challengeDispute(id: disputeId),
-                        data: data) { [weak self] response, error in
+                        data: data,
+                        idempotencyKey: nil) { [weak self] response, error in
                         if let error = error {
                             completion?(nil, error)
                             return
@@ -211,6 +212,7 @@ extension GpApiConnector: ReportingServiceType {
             self?.doTransaction(
                 method: method,
                 endpoint: reportUrl,
+                idempotencyKey: nil,
                 queryStringParams: queryStringParams) { [weak self] response, error in
                 if let error = error {
                     completion?(nil, error)

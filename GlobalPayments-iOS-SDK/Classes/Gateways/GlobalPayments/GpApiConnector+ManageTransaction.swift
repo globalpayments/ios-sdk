@@ -13,7 +13,8 @@ extension GpApiConnector {
             doTransaction(
                 method: .post,
                 endpoint: Endpoints.transactionsCapture(transactionId: builder.transactionId ?? .empty),
-                data: data.toString()
+                data: data.toString(),
+                idempotencyKey: nil
             ) { [weak self] response, error in
                 guard let response = response else {
                     completion?(nil, error)
@@ -29,7 +30,8 @@ extension GpApiConnector {
             doTransaction(
                 method: .post,
                 endpoint: Endpoints.transactionsRefund(transactionId: (builder.transactionId ?? .empty)),
-                data: data.toString()
+                data: data.toString(),
+                idempotencyKey: nil
             ) { [weak self] response, error in
                 guard let response = response else {
                     completion?(nil, error)
@@ -45,7 +47,8 @@ extension GpApiConnector {
             doTransaction(
                 method: .post,
                 endpoint: Endpoints.transactionsReversal(transactionId: (builder.transactionId ?? .empty)),
-                data: data.toString()
+                data: data.toString(),
+                idempotencyKey: nil
             ) { [weak self] response, error in
                 guard let response = response else {
                     completion?(nil, error)
@@ -66,7 +69,8 @@ extension GpApiConnector {
             doTransaction(
                 method: .patch,
                 endpoint: Endpoints.paymentMethodsEdit(token: ((builder.paymentMethod as? Tokenizable)?.token ?? .empty)),
-                data: payload.toString()
+                data: payload.toString(),
+                idempotencyKey: nil
             ) { [weak self] response, error in
                 guard let response = response else {
                     completion?(nil, error)
@@ -80,7 +84,8 @@ extension GpApiConnector {
 
             doTransaction(
                 method: .post,
-                endpoint: Endpoints.paymentMethodsDelete(token: (tokenizable.token ?? .empty))
+                endpoint: Endpoints.paymentMethodsDelete(token: (tokenizable.token ?? .empty)),
+                idempotencyKey: nil
             ) { [weak self] response, error in
                 guard let response = response else {
                     completion?(nil, error)
@@ -94,7 +99,8 @@ extension GpApiConnector {
 
             doTransaction(
                 method: .post,
-                endpoint: Endpoints.paymentMethodsDetokenize(token: (detokenizable.token ?? .empty))
+                endpoint: Endpoints.paymentMethodsDetokenize(token: (detokenizable.token ?? .empty)),
+                idempotencyKey: nil
             ) { [weak self] response, error in
                 guard let response = response else {
                     completion?(nil, error)

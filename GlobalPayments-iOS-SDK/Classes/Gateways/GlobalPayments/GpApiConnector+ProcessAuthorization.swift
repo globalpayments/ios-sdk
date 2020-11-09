@@ -56,7 +56,8 @@ extension GpApiConnector {
                         self?.doTransaction(
                             method: .post,
                             endpoint: Endpoints.paymentMethods(),
-                            data: tokenizationData.toString()) { [weak self] response, error in
+                            data: tokenizationData.toString(),
+                            idempotencyKey: nil) { [weak self] response, error in
                             guard let tokenizationResponse = response else {
                                 completion?(nil, error)
                                 return
@@ -76,7 +77,8 @@ extension GpApiConnector {
 
                             self?.doTransaction(
                                 method: .get,
-                                endpoint: Endpoints.paymentMethodsWith(token: token)) { [weak self] response, error in
+                                endpoint: Endpoints.paymentMethodsWith(token: token),
+                                idempotencyKey: nil) { [weak self] response, error in
                                 guard let tokenizationResponse = response else {
                                     completion?(nil, error)
                                     return
@@ -101,7 +103,8 @@ extension GpApiConnector {
                             self?.doTransaction(
                                 method: .post,
                                 endpoint: Endpoints.verify(),
-                                data: verificationData.toString()) { [weak self] response, error in
+                                data: verificationData.toString(),
+                                idempotencyKey: nil) { [weak self] response, error in
                                 guard let tokenizationResponse = response else {
                                     completion?(nil, error)
                                     return

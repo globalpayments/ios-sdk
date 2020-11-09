@@ -81,36 +81,16 @@ class GpApiConnector: RestGateway, PaymentGateway {
     }
 
     func doTransaction(method: HTTPMethod,
-                                endpoint: String,
-                                data: String? = nil,
-                                idempotencyKey: String? = nil,
-                                queryStringParams: [String : String]? = nil,
-                                completion: @escaping (String?, Error?) -> Void) {
+                       endpoint: String,
+                       data: String? = nil,
+                       idempotencyKey: String? = nil,
+                       queryStringParams: [String : String]? = nil,
+                       completion: @escaping (String?, Error?) -> Void) {
 
 
         verifyAuthentication { error in
 
-            if let gatewayError = error as? GatewayException,
-               gatewayError.responseCode == "NOT_AUTHENTICATED" {
-
-                self.verifyAuthentication { error in
-                    if let error = error {
-                        completion(nil, error)
-                        return
-                    }
-
-                    self.doTransactionWithIdempotencyKey(
-                        method: method,
-                        endpoint: endpoint,
-                        data: data,
-                        idempotencyKey: idempotencyKey,
-                        queryStringParams: queryStringParams,
-                        completion: completion
-                    )
-                    return
-                }
-
-            } else if let error = error {
+            if let error = error {
                 completion(nil, error)
                 return
             }
@@ -120,9 +100,27 @@ class GpApiConnector: RestGateway, PaymentGateway {
                 endpoint: endpoint,
                 data: data,
                 idempotencyKey: idempotencyKey,
-                queryStringParams: queryStringParams,
-                completion: completion
-            )
+                queryStringParams: queryStringParams) { response, error in
+
+                if let gatewayError = error as? GatewayException,
+                   gatewayError.responseCode == "NOT_AUTHENTICATED" {
+
+                    self.signIn { _, _ in
+
+                        self.doTransactionWithIdempotencyKey(
+                            method: method,
+                            endpoint: endpoint,
+                            data: data,
+                            idempotencyKey: idempotencyKey,
+                            queryStringParams: queryStringParams,
+                            completion: completion
+                        )
+                    }
+                    return
+                }
+
+                completion(response, error)
+            }
         }
     }
 

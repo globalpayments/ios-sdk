@@ -192,7 +192,7 @@ class GpApiReportingTests: XCTestCase {
         }
 
         // THEN
-        wait(for: [reportingExecuteExpectation], timeout: 10.0)
+        wait(for: [reportingExecuteExpectation], timeout: 20.0)
         XCTAssertNotNil(transactionsSummaryResponse)
         XCTAssertNil(transactionsSummaryError)
         if let responseList = transactionsSummaryResponse {
@@ -1177,7 +1177,7 @@ class GpApiReportingTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [summaryExpectation], timeout: 10.0)
+        wait(for: [summaryExpectation], timeout: 20.0)
         XCTAssertNil(disputeAction)
         XCTAssertNotNil(disputeActionError)
         XCTAssertEqual(disputeActionError?.responseCode, "INVALID_DISPUTE_ACTION")

@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		06C80B851E55AD27D8857B82 /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
-		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */; };
@@ -19,6 +17,17 @@
 		824A16EC24E3EA230060944B /* BuilderValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824A16EB24E3EA230060944B /* BuilderValidationTests.swift */; };
 		8252038C24E2A72000784248 /* GpApiEbtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252038B24E2A72000784248 /* GpApiEbtTests.swift */; };
 		8252038E24E2C15600784248 /* CountryUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252038D24E2C15600784248 /* CountryUtilsTests.swift */; };
+		8258B118255C1B6900D02721 /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */; };
+		8258B11F255C1C0900D02721 /* Gateways.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8258B11E255C1C0900D02721 /* Gateways.storyboard */; };
+		8258B123255C1C2200D02721 /* GatewaysListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */; };
+		8258B127255C1CC500D02721 /* GatewaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B126255C1CC500D02721 /* GatewaysViewController.swift */; };
+		8258B130255C1ECB00D02721 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B12F255C1ECB00D02721 /* Colors.swift */; };
+		8258B143255C27EE00D02721 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8258B145255C27EE00D02721 /* Localizable.strings */; };
+		8258B15E255C2FC400D02721 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B15D255C2FC400D02721 /* StringExtensions.swift */; };
+		8258B164255C36DD00D02721 /* CellIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B163255C36DD00D02721 /* CellIdentifiable.swift */; };
+		8258B16B255C390C00D02721 /* SelectableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B169255C390C00D02721 /* SelectableTableViewCell.swift */; };
+		8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8258B16A255C390C00D02721 /* SelectableTableViewCell.xib */; };
+		8258B172255C3FBF00D02721 /* GatewayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B171255C3FBF00D02721 /* GatewayModel.swift */; };
 		82613EBC24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */; };
 		8267BC9824DAB5F100AF64D2 /* GpApiCreditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */; };
 		82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0485724AF367600FC32EC /* CardUtilsTests.swift */; };
@@ -47,8 +56,6 @@
 		607FACD01AFB9204008FA782 /* GlobalPayments-iOS-SDK_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GlobalPayments-iOS-SDK_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* GlobalPayments-iOS-SDK_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GlobalPayments-iOS-SDK_Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +68,17 @@
 		824A16EB24E3EA230060944B /* BuilderValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderValidationTests.swift; sourceTree = "<group>"; };
 		8252038B24E2A72000784248 /* GpApiEbtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiEbtTests.swift; sourceTree = "<group>"; };
 		8252038D24E2C15600784248 /* CountryUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryUtilsTests.swift; sourceTree = "<group>"; };
+		8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardInstantiable.swift; sourceTree = "<group>"; };
+		8258B11E255C1C0900D02721 /* Gateways.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Gateways.storyboard; sourceTree = "<group>"; };
+		8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewaysListBuilder.swift; sourceTree = "<group>"; };
+		8258B126255C1CC500D02721 /* GatewaysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewaysViewController.swift; sourceTree = "<group>"; };
+		8258B12F255C1ECB00D02721 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		8258B144255C27EE00D02721 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8258B15D255C2FC400D02721 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		8258B163255C36DD00D02721 /* CellIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifiable.swift; sourceTree = "<group>"; };
+		8258B169255C390C00D02721 /* SelectableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableTableViewCell.swift; sourceTree = "<group>"; };
+		8258B16A255C390C00D02721 /* SelectableTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectableTableViewCell.xib; sourceTree = "<group>"; };
+		8258B171255C3FBF00D02721 /* GatewayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewayModel.swift; sourceTree = "<group>"; };
 		82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiTokenManagementTests.swift; sourceTree = "<group>"; };
 		8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreditTests.swift; sourceTree = "<group>"; };
 		82B0485724AF367600FC32EC /* CardUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUtilsTests.swift; sourceTree = "<group>"; };
@@ -127,10 +145,11 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* ViewController.swift */,
-				607FACD91AFB9204008FA782 /* Main.storyboard */,
-				607FACDC1AFB9204008FA782 /* Images.xcassets */,
-				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				8258B115255C1B4100D02721 /* Modules */,
+				8258B15C255C2FB100D02721 /* Extensions */,
+				8258B116255C1B4500D02721 /* Utils */,
+				8258B12E255C1EB600D02721 /* Design */,
+				8258B13A255C251E00D02721 /* Resources */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for GlobalPayments-iOS-SDK";
@@ -174,6 +193,86 @@
 				866C760D426DC19D7E0BA8F6 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		8258B115255C1B4100D02721 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				8258B167255C38DB00D02721 /* SharedUI */,
+				8258B11D255C1B9200D02721 /* Gateways */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		8258B116255C1B4500D02721 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */,
+				8258B163255C36DD00D02721 /* CellIdentifiable.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		8258B11D255C1B9200D02721 /* Gateways */ = {
+			isa = PBXGroup;
+			children = (
+				8258B175255C412300D02721 /* Models */,
+				8258B11E255C1C0900D02721 /* Gateways.storyboard */,
+				8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */,
+				8258B126255C1CC500D02721 /* GatewaysViewController.swift */,
+			);
+			path = Gateways;
+			sourceTree = "<group>";
+		};
+		8258B12E255C1EB600D02721 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				8258B12F255C1ECB00D02721 /* Colors.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		8258B13A255C251E00D02721 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				607FACDC1AFB9204008FA782 /* Images.xcassets */,
+				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				8258B145255C27EE00D02721 /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		8258B15C255C2FB100D02721 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8258B15D255C2FC400D02721 /* StringExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8258B167255C38DB00D02721 /* SharedUI */ = {
+			isa = PBXGroup;
+			children = (
+				8258B168255C38EA00D02721 /* SelectableTableViewCell */,
+			);
+			path = SharedUI;
+			sourceTree = "<group>";
+		};
+		8258B168255C38EA00D02721 /* SelectableTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				8258B169255C390C00D02721 /* SelectableTableViewCell.swift */,
+				8258B16A255C390C00D02721 /* SelectableTableViewCell.xib */,
+			);
+			path = SelectableTableViewCell;
+			sourceTree = "<group>";
+		};
+		8258B175255C412300D02721 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8258B171255C3FBF00D02721 /* GatewayModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		8267BC9624DAB5B700AF64D2 /* GpApi */ = {
@@ -311,9 +410,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				8258B143255C27EE00D02721 /* Localizable.strings in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */,
+				8258B11F255C1C0900D02721 /* Gateways.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,8 +517,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				8258B15E255C2FC400D02721 /* StringExtensions.swift in Sources */,
+				8258B123255C1C2200D02721 /* GatewaysListBuilder.swift in Sources */,
+				8258B127255C1CC500D02721 /* GatewaysViewController.swift in Sources */,
+				8258B164255C36DD00D02721 /* CellIdentifiable.swift in Sources */,
+				8258B118255C1B6900D02721 /* StoryboardInstantiable.swift in Sources */,
+				8258B172255C3FBF00D02721 /* GatewayModel.swift in Sources */,
+				8258B130255C1ECB00D02721 /* Colors.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				8258B16B255C390C00D02721 /* SelectableTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,20 +557,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		607FACD91AFB9204008FA782 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				607FACDA1AFB9204008FA782 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		607FACDE1AFB9204008FA782 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				607FACDF1AFB9204008FA782 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		8258B145255C27EE00D02721 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8258B144255C27EE00D02721 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -22,6 +22,7 @@ extension GpApiConnector {
                     //                .set(for: "track", value: "")
                     .set(for: "tag", value: builder.tagData)
                     .set(for: "cvv", value: cardData.cvn)
+                    .set(for: "cvv_indicator", value: cardData.cvnPresenceIndicator.mapped(for: .gpApi))
                     .set(for: "avs_address", value: builder.billingAddress?.streetAddress1)
                     .set(for: "avs_postal_code", value: builder.billingAddress?.postalCode)
                     .set(for: "funding", value: builder.paymentMethod?.paymentMethodType == .debit ? "DEBIT" : "CREDIT")
@@ -97,7 +98,7 @@ extension GpApiConnector {
                                 .set(for: "channel", value: self?.channel?.mapped(for: .gpApi))
                                 .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
                                 .set(for: "currency", value: builder.currency)
-                                .set(for: "country", value: builder.billingAddress?.country ?? "US")
+                                .set(for: "country", value: builder.billingAddress?.country ?? self?.country)
                                 .set(for: "payment_method", doc: paymentMethod)
 
                             self?.doTransaction(
@@ -209,7 +210,7 @@ extension GpApiConnector {
                 .set(for: "cashback_amount", value: builder.cashBackAmount?.toNumericCurrencyString())
                 .set(for: "surcharge_amount", value: builder.surchargeAmount?.toNumericCurrencyString())
                 .set(for: "convenience_amount", value: builder.convenienceAmount?.toNumericCurrencyString())
-                .set(for: "country", value: builder.billingAddress?.country ?? "US")
+                .set(for: "country", value: builder.billingAddress?.country ?? self?.country)
                 //            .set(for: "language", value: language?.mapped(for: .gpApi))
                 .set(for: "ip_address", value: builder.customerIpAddress)
                 //            .set(for: "site_reference", value: "")

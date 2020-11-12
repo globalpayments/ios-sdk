@@ -4,7 +4,13 @@ public class EBTCardData: EBT, CardData {
     public var approvalCode: String?
     public var cardPresent: Bool = false
     public var cardType: String?
-    public var cvn: String?
+    /// The card's card verification number (CVN).
+    /// When set, `CreditCardData.CvnPresenceIndicator` is set to `CvnPresenceIndicator.present`.
+    public var cvn: String? {
+        willSet(newValue) {
+            cvnPresenceIndicator = newValue.isNilOrEmpty ? .notRequested : .present
+        }
+    }
     public var cvnPresenceIndicator: CvnPresenceIndicator = .notRequested
     public var number: String?
     public var expMonth: Int = .zero

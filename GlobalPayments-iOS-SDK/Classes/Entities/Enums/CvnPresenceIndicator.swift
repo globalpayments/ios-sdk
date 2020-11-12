@@ -14,7 +14,12 @@ public enum CvnPresenceIndicator: String, Mappable {
     public func mapped(for target: Target) -> String? {
         switch target {
         case .gpApi:
-            return self.rawValue
+            switch self {
+            case .present, .illegible, .notOnCard:
+                return self.rawValue
+            default:
+                return nil
+            }
         default:
             return nil
         }

@@ -7,6 +7,7 @@ class GpApiConnector: RestGateway, PaymentGateway {
     var intervalToExpire: IntervalToExpire?
     var channel: Channel?
     var language: Language?
+    var country: String?
     var supportsHostedPayments: Bool = false
     var accessToken: String?
     var dataAccountName: String?

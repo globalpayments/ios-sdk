@@ -13,8 +13,10 @@ public class GpApiConfig: GatewayConfig {
     public var intervalToExpire: IntervalToExpire?
     /// Channel
     public var channel: Channel
-    /// Language
+    /// Global API language configuration
     public var language: Language
+    /// Two lettero ISO 3166 country
+    public var country: String
     /// Access token information
     public var accessTokenInfo: AccessTokenInfo?
 
@@ -25,6 +27,7 @@ public class GpApiConfig: GatewayConfig {
                 intervalToExpire: IntervalToExpire? = nil,
                 channel: Channel = .cardNotPresent,
                 language: Language = .english,
+                country: String = "US",
                 accessTokenInfo: AccessTokenInfo? = nil) {
 
         self.appId = appId
@@ -34,6 +37,7 @@ public class GpApiConfig: GatewayConfig {
         self.intervalToExpire = intervalToExpire
         self.channel = channel
         self.language = language
+        self.country = country
         self.accessTokenInfo = accessTokenInfo
         super.init(gatewayProvider: .gpAPI)
     }
@@ -54,6 +58,7 @@ public class GpApiConfig: GatewayConfig {
         gateway.intervalToExpire = intervalToExpire
         gateway.channel = channel
         gateway.language = language
+        gateway.country = country
         gateway.serviceUrl = serviceUrl
         gateway.timeout = timeout
         gateway.accessToken = accessTokenInfo?.token

@@ -198,7 +198,7 @@
 		8258B115255C1B4100D02721 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				8258B167255C38DB00D02721 /* SharedUI */,
+				8258B167255C38DB00D02721 /* Components */,
 				8258B11D255C1B9200D02721 /* Gateways */,
 			);
 			path = Modules;
@@ -250,12 +250,12 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		8258B167255C38DB00D02721 /* SharedUI */ = {
+		8258B167255C38DB00D02721 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				8258B168255C38EA00D02721 /* SelectableTableViewCell */,
 			);
-			path = SharedUI;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		8258B168255C38EA00D02721 /* SelectableTableViewCell */ = {

@@ -7,10 +7,8 @@ public class CreditCardData: Credit, CardData {
     /// The card's card verification number (CVN).
     /// When set, `CreditCardData.CvnPresenceIndicator` is set to `CvnPresenceIndicator.present`.
     public var cvn: String? {
-        didSet(newValue) {
-            if !newValue.isNilOrEmpty {
-                cvnPresenceIndicator = .present
-            }
+        willSet(newValue) {
+            cvnPresenceIndicator = newValue.isNilOrEmpty ? .notRequested : .present
         }
     }
     /// The name on the front of the card.

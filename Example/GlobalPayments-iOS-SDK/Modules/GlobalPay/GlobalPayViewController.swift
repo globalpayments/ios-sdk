@@ -1,12 +1,11 @@
 import UIKit
-import GlobalPayments_iOS_SDK
 
-final class GatewaysViewController: UIViewController, StoryboardInstantiable {
+final class GlobalPayViewController: UIViewController, StoryboardInstantiable {
 
-    static let storyboardName = "Gateways"
+    static let storyboardName = "GlobalPay"
 
-    lazy fileprivate var gatewaysRouter: GatewaysRouter = {
-        return GatewaysRouter(navigationController: navigationController)
+    lazy fileprivate var globalPayRouter: GlobalPayRouter = {
+        return GlobalPayRouter(navigationController: navigationController)
     }()
 
     @IBOutlet private weak var tableView: UITableView!
@@ -18,7 +17,7 @@ final class GatewaysViewController: UIViewController, StoryboardInstantiable {
     }
 
     private func setupUI() {
-        title = "gateways.title".localized()
+        title = "globalpay.title".localized()
         setupTable()
     }
 
@@ -33,15 +32,15 @@ final class GatewaysViewController: UIViewController, StoryboardInstantiable {
 
 // MARK: - UITableViewDataSource
 
-extension GatewaysViewController: UITableViewDataSource {
+extension GlobalPayViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GatewayModel.models.count
+        return GlobalPayModel.models.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SelectableTableViewCell.identifier, for: indexPath) as! SelectableTableViewCell
-        let model = GatewayModel.models[indexPath.row]
+        let model = GlobalPayModel.models[indexPath.row]
         cell.setupTitle(model.name)
 
         return cell
@@ -50,18 +49,24 @@ extension GatewaysViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension GatewaysViewController: UITableViewDelegate {
+extension GlobalPayViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let videModel = GatewayModel.models[indexPath.row]
-        switch videModel.identifier {
-        case .gpapi:
-            gatewaysRouter.navigate(to: .gpapi)
-        case .portico:
-            showAlert(message: "generic.not.implemented".localized())
-        case .realex:
-            showAlert(message: "generic.not.implemented".localized())
+        let videModel = GlobalPayModel.models[indexPath.row]
+        switch videModel.path {
+        case .accessToken:
+            print("accc")
+        case .transactions:
+            print("transactions")
+        case .verifications:
+            print("verifications")
+        case .paymentMethods:
+            print("paymentMethods")
+        case .deposits:
+            print("deposits")
+        case .disputes:
+            print("disputes")
         }
     }
 }

@@ -21,12 +21,12 @@ struct DynamicColor {
 }
 
 extension UIColor {
-    static let appTintColor = UIColor(red: 55/255, green: 71/255, blue: 79/255, alpha: 1.0)
+    static let appTintColor = UIColor(red: 0, green: 60/255, blue: 113/255, alpha: 1.0)
 }
 
 struct Theme {
     @DynamicColor(light: UIColor.appTintColor, dark: UIColor.appTintColor)
     static var navigationBarColor: UIColor
-    @DynamicColor(light: UIColor.black, dark: UIColor.white)
+    @DynamicColor(light: UIColor.white, dark: UIColor.white)
     static var titleColor: UIColor
 }

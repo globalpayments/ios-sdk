@@ -3,6 +3,20 @@
 "gateways.portico.title" = "Portico";
 "gateways.realex.title" = "Realex";
 
+"globalpay.title" = "GP API";
+"globalpay.access.token.title" = "Access Token";
+"globalpay.transactions.title" = "Transactions";
+"globalpay.verifications.title" = "Verifications";
+"globalpay.payment.methods.title" = "Payment Methods";
+"globalpay.deposits.title" = "Deposits";
+"globalpay.disputes.title" = "Disputes";
+
+"generic.not.implemented" = "Not implemented";
+"generic.alert" = "Alert";
+"generic.close" = "Close";
+
+
+
 "transactions" = "Transactions";
 "portico" = "Portico";
 "realex" = "Realex";

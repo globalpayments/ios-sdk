@@ -14,6 +14,15 @@
 		8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */; };
 		824451BC24E150410080D06B /* GpApiReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824451BB24E150410080D06B /* GpApiReportingTests.swift */; };
 		824451C124E1801D0080D06B /* GpApiDebitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824451C024E1801D0080D06B /* GpApiDebitTests.swift */; };
+		8244D688255D692A00739364 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D687255D692A00739364 /* Router.swift */; };
+		8244D68E255D6EB900739364 /* GatewaysRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D68D255D6EB900739364 /* GatewaysRouter.swift */; };
+		8244D692255D74F400739364 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D691255D74F400739364 /* UIViewControllerExtensions.swift */; };
+		8244D698255D766100739364 /* GlobalPayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D697255D766100739364 /* GlobalPayModel.swift */; };
+		8244D6A0255D76D800739364 /* GlobalPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8244D69F255D76D800739364 /* GlobalPay.storyboard */; };
+		8244D6A4255D76E700739364 /* GlobalPayListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6A3255D76E700739364 /* GlobalPayListBuilder.swift */; };
+		8244D6A8255D76F500739364 /* GlobalPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6A7255D76F500739364 /* GlobalPayViewController.swift */; };
+		8244D6AC255D76FE00739364 /* GlobalPayRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */; };
+		8244D6B0255D795D00739364 /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6AF255D795D00739364 /* ModuleBuilder.swift */; };
 		824A16EC24E3EA230060944B /* BuilderValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824A16EB24E3EA230060944B /* BuilderValidationTests.swift */; };
 		8252038C24E2A72000784248 /* GpApiEbtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252038B24E2A72000784248 /* GpApiEbtTests.swift */; };
 		8252038E24E2C15600784248 /* CountryUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252038D24E2C15600784248 /* CountryUtilsTests.swift */; };
@@ -65,6 +74,15 @@
 		8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiAuthenticationTests.swift; sourceTree = "<group>"; };
 		824451BB24E150410080D06B /* GpApiReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingTests.swift; sourceTree = "<group>"; };
 		824451C024E1801D0080D06B /* GpApiDebitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDebitTests.swift; sourceTree = "<group>"; };
+		8244D687255D692A00739364 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		8244D68D255D6EB900739364 /* GatewaysRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewaysRouter.swift; sourceTree = "<group>"; };
+		8244D691255D74F400739364 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		8244D697255D766100739364 /* GlobalPayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPayModel.swift; sourceTree = "<group>"; };
+		8244D69F255D76D800739364 /* GlobalPay.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GlobalPay.storyboard; sourceTree = "<group>"; };
+		8244D6A3255D76E700739364 /* GlobalPayListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPayListBuilder.swift; sourceTree = "<group>"; };
+		8244D6A7255D76F500739364 /* GlobalPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPayViewController.swift; sourceTree = "<group>"; };
+		8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPayRouter.swift; sourceTree = "<group>"; };
+		8244D6AF255D795D00739364 /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
 		824A16EB24E3EA230060944B /* BuilderValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderValidationTests.swift; sourceTree = "<group>"; };
 		8252038B24E2A72000784248 /* GpApiEbtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiEbtTests.swift; sourceTree = "<group>"; };
 		8252038D24E2C15600784248 /* CountryUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryUtilsTests.swift; sourceTree = "<group>"; };
@@ -195,11 +213,32 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
+		8244D695255D760200739364 /* GlobalPay */ = {
+			isa = PBXGroup;
+			children = (
+				8244D696255D762200739364 /* Models */,
+				8244D69F255D76D800739364 /* GlobalPay.storyboard */,
+				8244D6A3255D76E700739364 /* GlobalPayListBuilder.swift */,
+				8244D6A7255D76F500739364 /* GlobalPayViewController.swift */,
+				8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */,
+			);
+			path = GlobalPay;
+			sourceTree = "<group>";
+		};
+		8244D696255D762200739364 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8244D697255D766100739364 /* GlobalPayModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		8258B115255C1B4100D02721 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
 				8258B167255C38DB00D02721 /* Components */,
 				8258B11D255C1B9200D02721 /* Gateways */,
+				8244D695255D760200739364 /* GlobalPay */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -209,6 +248,8 @@
 			children = (
 				8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */,
 				8258B163255C36DD00D02721 /* CellIdentifiable.swift */,
+				8244D687255D692A00739364 /* Router.swift */,
+				8244D6AF255D795D00739364 /* ModuleBuilder.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -220,6 +261,7 @@
 				8258B11E255C1C0900D02721 /* Gateways.storyboard */,
 				8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */,
 				8258B126255C1CC500D02721 /* GatewaysViewController.swift */,
+				8244D68D255D6EB900739364 /* GatewaysRouter.swift */,
 			);
 			path = Gateways;
 			sourceTree = "<group>";
@@ -246,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				8258B15D255C2FC400D02721 /* StringExtensions.swift */,
+				8244D691255D74F400739364 /* UIViewControllerExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -412,6 +455,7 @@
 			files = (
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				8258B143255C27EE00D02721 /* Localizable.strings in Resources */,
+				8244D6A0255D76D800739364 /* GlobalPay.storyboard in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */,
 				8258B11F255C1C0900D02721 /* Gateways.storyboard in Resources */,
@@ -517,12 +561,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8244D698255D766100739364 /* GlobalPayModel.swift in Sources */,
+				8244D6A4255D76E700739364 /* GlobalPayListBuilder.swift in Sources */,
 				8258B15E255C2FC400D02721 /* StringExtensions.swift in Sources */,
+				8244D688255D692A00739364 /* Router.swift in Sources */,
+				8244D6A8255D76F500739364 /* GlobalPayViewController.swift in Sources */,
+				8244D68E255D6EB900739364 /* GatewaysRouter.swift in Sources */,
 				8258B123255C1C2200D02721 /* GatewaysListBuilder.swift in Sources */,
+				8244D6B0255D795D00739364 /* ModuleBuilder.swift in Sources */,
+				8244D692255D74F400739364 /* UIViewControllerExtensions.swift in Sources */,
 				8258B127255C1CC500D02721 /* GatewaysViewController.swift in Sources */,
 				8258B164255C36DD00D02721 /* CellIdentifiable.swift in Sources */,
 				8258B118255C1B6900D02721 /* StoryboardInstantiable.swift in Sources */,
 				8258B172255C3FBF00D02721 /* GatewayModel.swift in Sources */,
+				8244D6AC255D76FE00739364 /* GlobalPayRouter.swift in Sources */,
 				8258B130255C1ECB00D02721 /* Colors.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				8258B16B255C390C00D02721 /* SelectableTableViewCell.swift in Sources */,

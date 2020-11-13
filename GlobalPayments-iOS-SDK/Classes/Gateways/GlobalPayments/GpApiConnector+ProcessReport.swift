@@ -357,6 +357,7 @@ extension GpApiConnector: ReportingServiceType {
         summary.transactionCardType = doc?.get(valueFor: "payment_method")?.get(valueFor: "card")?.getValue(key: "brand")
         //reason_code
         summary.reason = doc?.getValue(key: "reason_description")
+        summary.reasonCode = doc?.getValue(key: "reason_code")
         let timeToRespondBy: String? = doc?.getValue(key: "time_to_respond_by")
         summary.respondByDate = timeToRespondBy?.format()
         if let documents: [JsonDoc] = doc?.getValue(key: "documents"), !documents.isEmpty {
@@ -367,9 +368,11 @@ extension GpApiConnector: ReportingServiceType {
             }
         }
 
-        summary.adjustmentFunding = AdjustmentFunding(value: doc?.getValue(key: "last_adjustment_funding"))
-        summary.adjustmentAmount = NSDecimalNumber(string: doc?.getValue(key: "last_adjustment_amount")).amount
-        summary.adjustmentCurrency = doc?.getValue(key: "last_adjustment_currency")
+        summary.lastAdjustmentFunding = AdjustmentFunding(value: doc?.getValue(key: "last_adjustment_funding"))
+        summary.lastAdjustmentAmount = NSDecimalNumber(string: doc?.getValue(key: "last_adjustment_amount")).amount
+        summary.lastAdjustmentCurrency = doc?.getValue(key: "last_adjustment_currency")
+
+        summary.result = doc?.getValue(key: "result")
 
         return summary
     }

@@ -34,6 +34,8 @@ public class DisputeSummary {
     public var transactionCardType: String?
     public var transactionMaskedCardNumber: String?
     public var reason: String?
+    public var reasonCode: String?
+    public var result: String?
     public var issuerComment: String?
     public var issuerCaseNumber: String?
     public var disputeAmount: NSDecimalNumber?
@@ -42,8 +44,8 @@ public class DisputeSummary {
     public var disputeCustomerCurrency: String?
     public var respondByDate: Date?
     public var caseOriginalReference: String?
+    public var lastAdjustmentAmount: NSDecimalNumber?
+    public var lastAdjustmentCurrency: String?
+    public var lastAdjustmentFunding: AdjustmentFunding?
     public var documents: [DisputeDocument]?
-    public var adjustmentFunding: AdjustmentFunding?
-    public var adjustmentAmount: NSDecimalNumber?
-    public var adjustmentCurrency: String?
 }

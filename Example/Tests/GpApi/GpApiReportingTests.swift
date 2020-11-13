@@ -648,7 +648,7 @@ class GpApiReportingTests: XCTestCase {
                     XCTFail("caseStage cannot be nil")
                     return
                 }
-                guard let adjustmentFunding = dispute.adjustmentFunding else {
+                guard let adjustmentFunding = dispute.lastAdjustmentFunding else {
                     XCTFail("adjustmentFunding cannot be nil")
                     return
                 }
@@ -984,8 +984,8 @@ class GpApiReportingTests: XCTestCase {
             .withPaging(1, 10)
             .where(.startStageDate, oneYearBefore)
             .execute { summaryList, error in
-                disputeSummaryFundings = summaryList?.compactMap { $0.adjustmentFunding?.rawValue }
-                expectedSortedFundings = summaryList?.compactMap { $0.adjustmentFunding?.rawValue }.sorted(by: >)
+                disputeSummaryFundings = summaryList?.compactMap { $0.lastAdjustmentFunding?.rawValue }
+                expectedSortedFundings = summaryList?.compactMap { $0.lastAdjustmentFunding?.rawValue }.sorted(by: >)
                 disputeSummaryError = error
                 summaryExpectation.fulfill()
             }

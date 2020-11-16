@@ -1,6 +1,6 @@
 import Foundation
 
-public enum IntervalToExpire: String, Mappable {
+public enum IntervalToExpire: String, Mappable, CaseIterable {
     case week = "WEEK"
     case day = "DAY"
     case twelveHours = "12_HOURS"

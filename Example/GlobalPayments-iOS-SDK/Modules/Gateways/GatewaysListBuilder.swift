@@ -1,6 +1,6 @@
 import UIKit
 
-struct GatewaysListBuilder: ModuleBuilder {
+struct GatewaysListBuilder {
 
     static func build() -> UIViewController {
         let viewController = GatewaysViewController.instantiate()

@@ -13,14 +13,12 @@ struct GlobalPayRouter: Router {
         navigationController?.pushViewController(viewController, animated: true)
     }
 
-    private func makeViewController(for destination: Destination) -> UIViewController {
-
-//        switch destination {
-//        case .globalPayments:
-////            let flightDetailsController = FlightDetailsViewController.instantiate()
-////            flightDetailsController.setupFlight(flight)
-//
-//        }
-        return UIViewController()
+    private func makeViewController(for destination: GlobalPayModel.Path) -> UIViewController {
+        switch destination {
+        case .accessToken:
+            return AccessTokenBuilder.build()
+        default:
+            return UIViewController()
+        }
     }
 }

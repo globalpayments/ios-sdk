@@ -56,7 +56,7 @@ extension GlobalPayViewController: UITableViewDelegate {
         let videModel = GlobalPayModel.models[indexPath.row]
         switch videModel.path {
         case .accessToken:
-            print("accc")
+            globalPayRouter.navigate(to: .accessToken)
         case .transactions:
             print("transactions")
         case .verifications:

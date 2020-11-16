@@ -22,7 +22,19 @@
 		8244D6A4255D76E700739364 /* GlobalPayListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6A3255D76E700739364 /* GlobalPayListBuilder.swift */; };
 		8244D6A8255D76F500739364 /* GlobalPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6A7255D76F500739364 /* GlobalPayViewController.swift */; };
 		8244D6AC255D76FE00739364 /* GlobalPayRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */; };
-		8244D6B0255D795D00739364 /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6AF255D795D00739364 /* ModuleBuilder.swift */; };
+		8244D6C3255E98D400739364 /* AccessTokenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6C2255E98D400739364 /* AccessTokenViewController.swift */; };
+		8244D6C7255E99C200739364 /* AccessTokenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6C6255E99C200739364 /* AccessTokenBuilder.swift */; };
+		8244D6CB255EA28300739364 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6CA255EA28300739364 /* UIButtonExtensions.swift */; };
+		8244D6D2255EACF300739364 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6D1255EACF300739364 /* Constants.swift */; };
+		8244D6D8255EAD5F00739364 /* AccessTokenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6D7255EAD5F00739364 /* AccessTokenViewModel.swift */; };
+		8244D6E2255EB14100739364 /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6E0255EB14100739364 /* ResultTableViewCell.swift */; };
+		8244D6E3255EB14100739364 /* ResultTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8244D6E1255EB14100739364 /* ResultTableViewCell.xib */; };
+		8244D6EA255EBE3F00739364 /* AccessTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6E9255EBE3F00739364 /* AccessTokenView.swift */; };
+		8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8244D6EF255EBE4500739364 /* AccessTokenView.xib */; };
+		8244D6F4255ECCAF00739364 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6F3255ECCAF00739364 /* UIViewExtensions.swift */; };
+		8244D6F825629C0400739364 /* AccessTokenFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6F725629C0400739364 /* AccessTokenFormViewController.swift */; };
+		8244D6FC25629DBA00739364 /* AccessTokenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6FB25629DBA00739364 /* AccessTokenRouter.swift */; };
+		8244D70325629FA900739364 /* AccessTokenFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D70225629FA900739364 /* AccessTokenFormBuilder.swift */; };
 		824A16EC24E3EA230060944B /* BuilderValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824A16EB24E3EA230060944B /* BuilderValidationTests.swift */; };
 		8252038C24E2A72000784248 /* GpApiEbtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252038B24E2A72000784248 /* GpApiEbtTests.swift */; };
 		8252038E24E2C15600784248 /* CountryUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252038D24E2C15600784248 /* CountryUtilsTests.swift */; };
@@ -30,13 +42,14 @@
 		8258B11F255C1C0900D02721 /* Gateways.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8258B11E255C1C0900D02721 /* Gateways.storyboard */; };
 		8258B123255C1C2200D02721 /* GatewaysListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */; };
 		8258B127255C1CC500D02721 /* GatewaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B126255C1CC500D02721 /* GatewaysViewController.swift */; };
-		8258B130255C1ECB00D02721 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B12F255C1ECB00D02721 /* Colors.swift */; };
+		8258B130255C1ECB00D02721 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B12F255C1ECB00D02721 /* Theme.swift */; };
 		8258B143255C27EE00D02721 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8258B145255C27EE00D02721 /* Localizable.strings */; };
 		8258B15E255C2FC400D02721 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B15D255C2FC400D02721 /* StringExtensions.swift */; };
 		8258B164255C36DD00D02721 /* CellIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B163255C36DD00D02721 /* CellIdentifiable.swift */; };
 		8258B16B255C390C00D02721 /* SelectableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B169255C390C00D02721 /* SelectableTableViewCell.swift */; };
 		8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8258B16A255C390C00D02721 /* SelectableTableViewCell.xib */; };
 		8258B172255C3FBF00D02721 /* GatewayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B171255C3FBF00D02721 /* GatewayModel.swift */; };
+		8259A3582562CB6C00652BB7 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8259A3572562CB6C00652BB7 /* UITextFieldExtensions.swift */; };
 		82613EBC24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */; };
 		8267BC9824DAB5F100AF64D2 /* GpApiCreditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */; };
 		82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0485724AF367600FC32EC /* CardUtilsTests.swift */; };
@@ -82,7 +95,19 @@
 		8244D6A3255D76E700739364 /* GlobalPayListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPayListBuilder.swift; sourceTree = "<group>"; };
 		8244D6A7255D76F500739364 /* GlobalPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPayViewController.swift; sourceTree = "<group>"; };
 		8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPayRouter.swift; sourceTree = "<group>"; };
-		8244D6AF255D795D00739364 /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
+		8244D6C2255E98D400739364 /* AccessTokenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenViewController.swift; sourceTree = "<group>"; };
+		8244D6C6255E99C200739364 /* AccessTokenBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenBuilder.swift; sourceTree = "<group>"; };
+		8244D6CA255EA28300739364 /* UIButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
+		8244D6D1255EACF300739364 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8244D6D7255EAD5F00739364 /* AccessTokenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenViewModel.swift; sourceTree = "<group>"; };
+		8244D6E0255EB14100739364 /* ResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
+		8244D6E1255EB14100739364 /* ResultTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ResultTableViewCell.xib; sourceTree = "<group>"; };
+		8244D6E9255EBE3F00739364 /* AccessTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenView.swift; sourceTree = "<group>"; };
+		8244D6EF255EBE4500739364 /* AccessTokenView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccessTokenView.xib; sourceTree = "<group>"; };
+		8244D6F3255ECCAF00739364 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		8244D6F725629C0400739364 /* AccessTokenFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenFormViewController.swift; sourceTree = "<group>"; };
+		8244D6FB25629DBA00739364 /* AccessTokenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRouter.swift; sourceTree = "<group>"; };
+		8244D70225629FA900739364 /* AccessTokenFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenFormBuilder.swift; sourceTree = "<group>"; };
 		824A16EB24E3EA230060944B /* BuilderValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderValidationTests.swift; sourceTree = "<group>"; };
 		8252038B24E2A72000784248 /* GpApiEbtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiEbtTests.swift; sourceTree = "<group>"; };
 		8252038D24E2C15600784248 /* CountryUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryUtilsTests.swift; sourceTree = "<group>"; };
@@ -90,13 +115,14 @@
 		8258B11E255C1C0900D02721 /* Gateways.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Gateways.storyboard; sourceTree = "<group>"; };
 		8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewaysListBuilder.swift; sourceTree = "<group>"; };
 		8258B126255C1CC500D02721 /* GatewaysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewaysViewController.swift; sourceTree = "<group>"; };
-		8258B12F255C1ECB00D02721 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		8258B12F255C1ECB00D02721 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		8258B144255C27EE00D02721 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8258B15D255C2FC400D02721 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		8258B163255C36DD00D02721 /* CellIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifiable.swift; sourceTree = "<group>"; };
 		8258B169255C390C00D02721 /* SelectableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableTableViewCell.swift; sourceTree = "<group>"; };
 		8258B16A255C390C00D02721 /* SelectableTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectableTableViewCell.xib; sourceTree = "<group>"; };
 		8258B171255C3FBF00D02721 /* GatewayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewayModel.swift; sourceTree = "<group>"; };
+		8259A3572562CB6C00652BB7 /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
 		82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiTokenManagementTests.swift; sourceTree = "<group>"; };
 		8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreditTests.swift; sourceTree = "<group>"; };
 		82B0485724AF367600FC32EC /* CardUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUtilsTests.swift; sourceTree = "<group>"; };
@@ -221,6 +247,7 @@
 				8244D6A3255D76E700739364 /* GlobalPayListBuilder.swift */,
 				8244D6A7255D76F500739364 /* GlobalPayViewController.swift */,
 				8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */,
+				8244D6C1255E98A800739364 /* AccessToken */,
 			);
 			path = GlobalPay;
 			sourceTree = "<group>";
@@ -231,6 +258,46 @@
 				8244D697255D766100739364 /* GlobalPayModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		8244D6C1255E98A800739364 /* AccessToken */ = {
+			isa = PBXGroup;
+			children = (
+				8244D6E8255EBDC800739364 /* Views */,
+				8244D6C6255E99C200739364 /* AccessTokenBuilder.swift */,
+				8244D6D7255EAD5F00739364 /* AccessTokenViewModel.swift */,
+				8244D6FB25629DBA00739364 /* AccessTokenRouter.swift */,
+				8244D6C2255E98D400739364 /* AccessTokenViewController.swift */,
+				8244D70125629F7C00739364 /* AccessTokenForm */,
+			);
+			path = AccessToken;
+			sourceTree = "<group>";
+		};
+		8244D6DF255EB11D00739364 /* ResultTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				8244D6E0255EB14100739364 /* ResultTableViewCell.swift */,
+				8244D6E1255EB14100739364 /* ResultTableViewCell.xib */,
+			);
+			path = ResultTableViewCell;
+			sourceTree = "<group>";
+		};
+		8244D6E8255EBDC800739364 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8244D6E9255EBE3F00739364 /* AccessTokenView.swift */,
+				8244D6EF255EBE4500739364 /* AccessTokenView.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8244D70125629F7C00739364 /* AccessTokenForm */ = {
+			isa = PBXGroup;
+			children = (
+				8244D6F725629C0400739364 /* AccessTokenFormViewController.swift */,
+				8244D70225629FA900739364 /* AccessTokenFormBuilder.swift */,
+			);
+			path = AccessTokenForm;
 			sourceTree = "<group>";
 		};
 		8258B115255C1B4100D02721 /* Modules */ = {
@@ -249,7 +316,6 @@
 				8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */,
 				8258B163255C36DD00D02721 /* CellIdentifiable.swift */,
 				8244D687255D692A00739364 /* Router.swift */,
-				8244D6AF255D795D00739364 /* ModuleBuilder.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -269,7 +335,7 @@
 		8258B12E255C1EB600D02721 /* Design */ = {
 			isa = PBXGroup;
 			children = (
-				8258B12F255C1ECB00D02721 /* Colors.swift */,
+				8258B12F255C1ECB00D02721 /* Theme.swift */,
 			);
 			path = Design;
 			sourceTree = "<group>";
@@ -280,6 +346,7 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				8258B145255C27EE00D02721 /* Localizable.strings */,
+				8244D6D1255EACF300739364 /* Constants.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -289,6 +356,9 @@
 			children = (
 				8258B15D255C2FC400D02721 /* StringExtensions.swift */,
 				8244D691255D74F400739364 /* UIViewControllerExtensions.swift */,
+				8244D6CA255EA28300739364 /* UIButtonExtensions.swift */,
+				8244D6F3255ECCAF00739364 /* UIViewExtensions.swift */,
+				8259A3572562CB6C00652BB7 /* UITextFieldExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -297,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				8258B168255C38EA00D02721 /* SelectableTableViewCell */,
+				8244D6DF255EB11D00739364 /* ResultTableViewCell */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -455,8 +526,10 @@
 			files = (
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				8258B143255C27EE00D02721 /* Localizable.strings in Resources */,
+				8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */,
 				8244D6A0255D76D800739364 /* GlobalPay.storyboard in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				8244D6E3255EB14100739364 /* ResultTableViewCell.xib in Resources */,
 				8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */,
 				8258B11F255C1C0900D02721 /* Gateways.storyboard in Resources */,
 			);
@@ -562,20 +635,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				8244D698255D766100739364 /* GlobalPayModel.swift in Sources */,
+				8244D6E2255EB14100739364 /* ResultTableViewCell.swift in Sources */,
 				8244D6A4255D76E700739364 /* GlobalPayListBuilder.swift in Sources */,
 				8258B15E255C2FC400D02721 /* StringExtensions.swift in Sources */,
 				8244D688255D692A00739364 /* Router.swift in Sources */,
 				8244D6A8255D76F500739364 /* GlobalPayViewController.swift in Sources */,
+				8244D6CB255EA28300739364 /* UIButtonExtensions.swift in Sources */,
 				8244D68E255D6EB900739364 /* GatewaysRouter.swift in Sources */,
 				8258B123255C1C2200D02721 /* GatewaysListBuilder.swift in Sources */,
-				8244D6B0255D795D00739364 /* ModuleBuilder.swift in Sources */,
+				8244D6F825629C0400739364 /* AccessTokenFormViewController.swift in Sources */,
 				8244D692255D74F400739364 /* UIViewControllerExtensions.swift in Sources */,
+				8244D6D8255EAD5F00739364 /* AccessTokenViewModel.swift in Sources */,
+				8244D70325629FA900739364 /* AccessTokenFormBuilder.swift in Sources */,
 				8258B127255C1CC500D02721 /* GatewaysViewController.swift in Sources */,
+				8244D6D2255EACF300739364 /* Constants.swift in Sources */,
+				8244D6EA255EBE3F00739364 /* AccessTokenView.swift in Sources */,
+				8259A3582562CB6C00652BB7 /* UITextFieldExtensions.swift in Sources */,
+				8244D6C3255E98D400739364 /* AccessTokenViewController.swift in Sources */,
 				8258B164255C36DD00D02721 /* CellIdentifiable.swift in Sources */,
+				8244D6C7255E99C200739364 /* AccessTokenBuilder.swift in Sources */,
+				8244D6FC25629DBA00739364 /* AccessTokenRouter.swift in Sources */,
 				8258B118255C1B6900D02721 /* StoryboardInstantiable.swift in Sources */,
 				8258B172255C3FBF00D02721 /* GatewayModel.swift in Sources */,
 				8244D6AC255D76FE00739364 /* GlobalPayRouter.swift in Sources */,
-				8258B130255C1ECB00D02721 /* Colors.swift in Sources */,
+				8244D6F4255ECCAF00739364 /* UIViewExtensions.swift in Sources */,
+				8258B130255C1ECB00D02721 /* Theme.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				8258B16B255C390C00D02721 /* SelectableTableViewCell.swift in Sources */,
 			);

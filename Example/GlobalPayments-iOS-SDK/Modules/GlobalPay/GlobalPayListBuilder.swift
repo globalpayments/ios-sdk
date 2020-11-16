@@ -1,6 +1,6 @@
 import UIKit
 
-struct GlobalPayListBuilder: ModuleBuilder {
+struct GlobalPayListBuilder {
 
     static func build() -> UIViewController {
         GlobalPayViewController.instantiate()

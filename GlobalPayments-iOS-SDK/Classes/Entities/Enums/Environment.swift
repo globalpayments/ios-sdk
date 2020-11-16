@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Environment {
+public enum Environment: CaseIterable {
     case test
     case production
 }

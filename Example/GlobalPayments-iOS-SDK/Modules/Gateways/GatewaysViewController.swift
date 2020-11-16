@@ -1,5 +1,4 @@
 import UIKit
-import GlobalPayments_iOS_SDK
 
 final class GatewaysViewController: UIViewController, StoryboardInstantiable {
 

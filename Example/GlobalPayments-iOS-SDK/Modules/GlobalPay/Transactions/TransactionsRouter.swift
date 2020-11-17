@@ -1,6 +1,6 @@
 import UIKit
 
-struct GlobalPayRouter: Router {
+struct TransactionsRouter: Router {
 
     private weak var navigationController: UINavigationController?
 
@@ -8,18 +8,16 @@ struct GlobalPayRouter: Router {
         self.navigationController = navigationController
     }
 
-    func navigate(to destination: GlobalPayModel.Path) {
+    func navigate(to destination: TransactionModel.Path) {
         let viewController = makeViewController(for: destination)
         navigationController?.pushViewController(viewController, animated: true)
     }
 
-    private func makeViewController(for destination: GlobalPayModel.Path) -> UIViewController {
+    private func makeViewController(for destination: TransactionModel.Path) -> UIViewController {
         switch destination {
-        case .accessToken:
-            return AccessTokenBuilder.build()
-        case .transactions:
-            return TransactionsBuilder.build()
-        default:
+        case .report:
+            return TransactionReportBuilder.build()
+        case .operations:
             return UIViewController.empty()
         }
     }

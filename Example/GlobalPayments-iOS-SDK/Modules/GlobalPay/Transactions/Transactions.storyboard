@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Transactions View Controller-->
+        <scene sceneID="hIF-OX-QXK">
+            <objects>
+                <viewController storyboardIdentifier="TransactionsViewController" id="AEv-1M-GC2" customClass="TransactionsViewController" customModule="GlobalPayments_iOS_SDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MsA-Ce-Mah">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5mH-9v-ixL">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mLw-GK-taA"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="mLw-GK-taA" firstAttribute="trailing" secondItem="5mH-9v-ixL" secondAttribute="trailing" id="OCm-Mb-OED"/>
+                            <constraint firstItem="5mH-9v-ixL" firstAttribute="top" secondItem="mLw-GK-taA" secondAttribute="top" id="OEp-7f-88m"/>
+                            <constraint firstItem="mLw-GK-taA" firstAttribute="bottom" secondItem="5mH-9v-ixL" secondAttribute="bottom" id="v4r-4F-x57"/>
+                            <constraint firstItem="5mH-9v-ixL" firstAttribute="leading" secondItem="mLw-GK-taA" secondAttribute="leading" id="yAN-Am-HmX"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="5mH-9v-ixL" id="mLw-M1-b7C"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zDZ-hu-cb3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-282" y="118"/>
+        </scene>
+        <!--Transaction Report View Controller-->
+        <scene sceneID="b6W-f1-swl">
+            <objects>
+                <viewController storyboardIdentifier="TransactionReportViewController" id="Gco-QT-oAJ" customClass="TransactionReportViewController" customModule="GlobalPayments_iOS_SDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AUl-89-VEp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ep7-D3-zW8">
+                                <rect key="frame" x="8" y="804" width="398" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHo-jV-A4j">
+                                        <rect key="frame" x="0.0" y="0.0" width="195" height="50"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="getTransactionListAction" destination="Gco-QT-oAJ" eventType="touchUpInside" id="0h7-Rj-muA"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5DG-pm-aFf">
+                                        <rect key="frame" x="203" y="0.0" width="195" height="50"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="getTransactionByIdAction" destination="Gco-QT-oAJ" eventType="touchUpInside" id="bAf-VJ-4ci"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="vdf-fP-cLv"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vy7-tx-ehI"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vy7-tx-ehI" firstAttribute="trailing" secondItem="ep7-D3-zW8" secondAttribute="trailing" constant="8" id="Dkb-jO-uX2"/>
+                            <constraint firstItem="ep7-D3-zW8" firstAttribute="leading" secondItem="vy7-tx-ehI" secondAttribute="leading" constant="8" id="MWV-e8-fvX"/>
+                            <constraint firstItem="vy7-tx-ehI" firstAttribute="bottom" secondItem="ep7-D3-zW8" secondAttribute="bottom" constant="8" id="P0G-i4-dVK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="transactionByIdButton" destination="5DG-pm-aFf" id="qls-Fu-f4m"/>
+                        <outlet property="transactionListButton" destination="OHo-jV-A4j" id="Z04-dT-y76"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wXw-mn-1ex" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="528" y="118"/>
+        </scene>
+        <!--Transaction List Form View Controller-->
+        <scene sceneID="IXq-3V-BCz">
+            <objects>
+                <viewController storyboardIdentifier="TransactionListFormViewController" id="YZE-6l-BqB" customClass="TransactionListFormViewController" customModule="GlobalPayments_iOS_SDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zFM-Cb-d7z">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TransactionListFormViewController" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ap7-4h-4yj">
+                                <rect key="frame" x="73.5" y="437.5" width="267" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Obr-c4-srr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Ap7-4h-4yj" firstAttribute="centerX" secondItem="zFM-Cb-d7z" secondAttribute="centerX" id="C7c-EU-iGr"/>
+                            <constraint firstItem="Ap7-4h-4yj" firstAttribute="centerY" secondItem="zFM-Cb-d7z" secondAttribute="centerY" id="J1n-JX-Z2Z"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OmE-PU-kIc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1325" y="118"/>
+        </scene>
+        <!--Transaction ByID Form View Controller-->
+        <scene sceneID="y3U-Uz-JVd">
+            <objects>
+                <viewController storyboardIdentifier="TransactionByIDFormViewController" id="J1H-ml-aU0" customClass="TransactionByIDFormViewController" customModule="GlobalPayments_iOS_SDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="feR-kh-9YL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TransactionByIDFormViewController" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dkE-A4-0OC">
+                                <rect key="frame" x="69.5" y="437.5" width="275" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="dTg-3e-PMj"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dkE-A4-0OC" firstAttribute="centerX" secondItem="feR-kh-9YL" secondAttribute="centerX" id="Fpm-EB-qVe"/>
+                            <constraint firstItem="dkE-A4-0OC" firstAttribute="centerY" secondItem="feR-kh-9YL" secondAttribute="centerY" id="T1t-XH-CRE"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Ip-NB-vrb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2118.840579710145" y="117.85714285714285"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,6 +1,7 @@
 "generic.not.implemented" = "Not implemented";
 "generic.alert" = "Alert";
 "generic.close" = "Close";
+"generic.empty" = "Empty";
 
 "gateways.title" = "GlobalPay Sample App";
 "gateways.gpapi.title" = "GP API";
@@ -25,3 +26,11 @@
 "access.token.form.environment" = "Environment";
 "access.token.form.interval" = "Interval to expire";
 "access.token.form.submit" = "Submit";
+
+"transactions.title" = "Transactions";
+"transactions.report.title" = "Transaction Report";
+"transactions.operations.title" = "Transaction Operations";
+
+"transaction.report.title" = "Transaction Report";
+"transaction.report.get.list" = "Get transaction list";
+"transaction.report.get.by.id" = "Get transaction by ID";

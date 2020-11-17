@@ -5,10 +5,6 @@ final class AccessTokenViewController: UIViewController, StoryboardInstantiable 
 
     static let storyboardName = "AccessToken"
 
-    lazy fileprivate var accessTokenRouter: AccessTokenRouter = {
-        return AccessTokenRouter(navigationController: navigationController)
-    }()
-
     var viewModel: AccessTokenInput!
 
     @IBOutlet private weak var createTokenButton: UIButton!
@@ -29,7 +25,8 @@ final class AccessTokenViewController: UIViewController, StoryboardInstantiable 
     }
 
     @IBAction func onCreateToken() {
-        accessTokenRouter.navigate(to: .form(self))
+        let form = AccessTokenFormBuilder.build(delegate: self)
+        navigationController?.present(form, animated: true, completion: nil)
     }
 }
 

@@ -1,11 +1,11 @@
 import UIKit
 
-final class GlobalPayViewController: UIViewController, StoryboardInstantiable {
+final class TransactionsViewController: UIViewController, StoryboardInstantiable {
 
-    static let storyboardName = "GlobalPay"
+    static let storyboardName = "Transactions"
 
-    lazy fileprivate var globalPayRouter: GlobalPayRouter = {
-        return GlobalPayRouter(navigationController: navigationController)
+    lazy fileprivate var transactionsRouter: TransactionsRouter = {
+        return TransactionsRouter(navigationController: navigationController)
     }()
 
     @IBOutlet private weak var tableView: UITableView!
@@ -17,7 +17,7 @@ final class GlobalPayViewController: UIViewController, StoryboardInstantiable {
     }
 
     private func setupUI() {
-        title = "globalpay.title".localized()
+        title = "transactions.title".localized()
         setupTable()
     }
 
@@ -32,15 +32,15 @@ final class GlobalPayViewController: UIViewController, StoryboardInstantiable {
 
 // MARK: - UITableViewDataSource
 
-extension GlobalPayViewController: UITableViewDataSource {
+extension TransactionsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GlobalPayModel.models.count
+        TransactionModel.models.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SelectableTableViewCell.identifier, for: indexPath) as! SelectableTableViewCell
-        let model = GlobalPayModel.models[indexPath.row]
+        let model = TransactionModel.models[indexPath.row]
         cell.setupTitle(model.name)
 
         return cell
@@ -49,11 +49,11 @@ extension GlobalPayViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension GlobalPayViewController: UITableViewDelegate {
+extension TransactionsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let videModel = GlobalPayModel.models[indexPath.row]
-        globalPayRouter.navigate(to: videModel.path)
+        let videModel = TransactionModel.models[indexPath.row]
+        transactionsRouter.navigate(to: videModel.path)
     }
 }

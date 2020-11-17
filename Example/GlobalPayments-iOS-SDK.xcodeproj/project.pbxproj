@@ -33,7 +33,6 @@
 		8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8244D6EF255EBE4500739364 /* AccessTokenView.xib */; };
 		8244D6F4255ECCAF00739364 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6F3255ECCAF00739364 /* UIViewExtensions.swift */; };
 		8244D6F825629C0400739364 /* AccessTokenFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6F725629C0400739364 /* AccessTokenFormViewController.swift */; };
-		8244D6FC25629DBA00739364 /* AccessTokenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6FB25629DBA00739364 /* AccessTokenRouter.swift */; };
 		8244D70325629FA900739364 /* AccessTokenFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D70225629FA900739364 /* AccessTokenFormBuilder.swift */; };
 		824A16EC24E3EA230060944B /* BuilderValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824A16EB24E3EA230060944B /* BuilderValidationTests.swift */; };
 		8252038C24E2A72000784248 /* GpApiEbtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252038B24E2A72000784248 /* GpApiEbtTests.swift */; };
@@ -42,6 +41,17 @@
 		8253FBAC2563DB5500FBDCC9 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBAB2563DB5500FBDCC9 /* ErrorView.swift */; };
 		8253FBB02563DB5B00FBDCC9 /* ErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8253FBAF2563DB5B00FBDCC9 /* ErrorView.xib */; };
 		8253FBB72563E90C00FBDCC9 /* AccessToken.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8253FBB62563E90C00FBDCC9 /* AccessToken.storyboard */; };
+		8253FBBD2563E9D900FBDCC9 /* Transactions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8253FBBC2563E9D900FBDCC9 /* Transactions.storyboard */; };
+		8253FBC12563E9EA00FBDCC9 /* TransactionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBC02563E9EA00FBDCC9 /* TransactionsViewController.swift */; };
+		8253FBC72563E9F400FBDCC9 /* TransactionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBC62563E9F400FBDCC9 /* TransactionsBuilder.swift */; };
+		8253FBCC2563EDDA00FBDCC9 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBCB2563EDDA00FBDCC9 /* TransactionModel.swift */; };
+		8253FBD02563F07300FBDCC9 /* TransactionsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBCF2563F07300FBDCC9 /* TransactionsRouter.swift */; };
+		8253FBD42563F19700FBDCC9 /* TransactionReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBD32563F19700FBDCC9 /* TransactionReportViewController.swift */; };
+		8253FBD82563F20A00FBDCC9 /* TransactionReportBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBD72563F20A00FBDCC9 /* TransactionReportBuilder.swift */; };
+		8253FBDF256420D700FBDCC9 /* TransactionListFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBDE256420D700FBDCC9 /* TransactionListFormBuilder.swift */; };
+		8253FBE325642B5600FBDCC9 /* TransactionListFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBE225642B5600FBDCC9 /* TransactionListFormViewController.swift */; };
+		8253FBFA25642F2F00FBDCC9 /* TransactionByIDFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBF925642F2F00FBDCC9 /* TransactionByIDFormBuilder.swift */; };
+		8253FBFE25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBFD25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift */; };
 		8258B118255C1B6900D02721 /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */; };
 		8258B11F255C1C0900D02721 /* Gateways.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8258B11E255C1C0900D02721 /* Gateways.storyboard */; };
 		8258B123255C1C2200D02721 /* GatewaysListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */; };
@@ -110,7 +120,6 @@
 		8244D6EF255EBE4500739364 /* AccessTokenView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccessTokenView.xib; sourceTree = "<group>"; };
 		8244D6F3255ECCAF00739364 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		8244D6F725629C0400739364 /* AccessTokenFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenFormViewController.swift; sourceTree = "<group>"; };
-		8244D6FB25629DBA00739364 /* AccessTokenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenRouter.swift; sourceTree = "<group>"; };
 		8244D70225629FA900739364 /* AccessTokenFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenFormBuilder.swift; sourceTree = "<group>"; };
 		824A16EB24E3EA230060944B /* BuilderValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderValidationTests.swift; sourceTree = "<group>"; };
 		8252038B24E2A72000784248 /* GpApiEbtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiEbtTests.swift; sourceTree = "<group>"; };
@@ -119,6 +128,17 @@
 		8253FBAB2563DB5500FBDCC9 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		8253FBAF2563DB5B00FBDCC9 /* ErrorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorView.xib; sourceTree = "<group>"; };
 		8253FBB62563E90C00FBDCC9 /* AccessToken.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AccessToken.storyboard; sourceTree = "<group>"; };
+		8253FBBC2563E9D900FBDCC9 /* Transactions.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Transactions.storyboard; sourceTree = "<group>"; };
+		8253FBC02563E9EA00FBDCC9 /* TransactionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewController.swift; sourceTree = "<group>"; };
+		8253FBC62563E9F400FBDCC9 /* TransactionsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsBuilder.swift; sourceTree = "<group>"; };
+		8253FBCB2563EDDA00FBDCC9 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
+		8253FBCF2563F07300FBDCC9 /* TransactionsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsRouter.swift; sourceTree = "<group>"; };
+		8253FBD32563F19700FBDCC9 /* TransactionReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionReportViewController.swift; sourceTree = "<group>"; };
+		8253FBD72563F20A00FBDCC9 /* TransactionReportBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionReportBuilder.swift; sourceTree = "<group>"; };
+		8253FBDE256420D700FBDCC9 /* TransactionListFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListFormBuilder.swift; sourceTree = "<group>"; };
+		8253FBE225642B5600FBDCC9 /* TransactionListFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListFormViewController.swift; sourceTree = "<group>"; };
+		8253FBF925642F2F00FBDCC9 /* TransactionByIDFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionByIDFormBuilder.swift; sourceTree = "<group>"; };
+		8253FBFD25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionByIDFormViewController.swift; sourceTree = "<group>"; };
 		8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardInstantiable.swift; sourceTree = "<group>"; };
 		8258B11E255C1C0900D02721 /* Gateways.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Gateways.storyboard; sourceTree = "<group>"; };
 		8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewaysListBuilder.swift; sourceTree = "<group>"; };
@@ -276,7 +296,6 @@
 				8253FBB62563E90C00FBDCC9 /* AccessToken.storyboard */,
 				8244D6C6255E99C200739364 /* AccessTokenBuilder.swift */,
 				8244D6D7255EAD5F00739364 /* AccessTokenViewModel.swift */,
-				8244D6FB25629DBA00739364 /* AccessTokenRouter.swift */,
 				8244D6C2255E98D400739364 /* AccessTokenViewController.swift */,
 				8244D70125629F7C00739364 /* AccessTokenForm */,
 			);
@@ -323,6 +342,11 @@
 		8253FBB32563E8C600FBDCC9 /* Transactions */ = {
 			isa = PBXGroup;
 			children = (
+				8253FBCA2563EDCF00FBDCC9 /* Models */,
+				8253FBBC2563E9D900FBDCC9 /* Transactions.storyboard */,
+				8253FBC62563E9F400FBDCC9 /* TransactionsBuilder.swift */,
+				8253FBCF2563F07300FBDCC9 /* TransactionsRouter.swift */,
+				8253FBC02563E9EA00FBDCC9 /* TransactionsViewController.swift */,
 				8253FBB42563E8DF00FBDCC9 /* TransactionReport */,
 				8253FBB52563E8EB00FBDCC9 /* TransactionOperations */,
 			);
@@ -332,6 +356,10 @@
 		8253FBB42563E8DF00FBDCC9 /* TransactionReport */ = {
 			isa = PBXGroup;
 			children = (
+				8253FBD72563F20A00FBDCC9 /* TransactionReportBuilder.swift */,
+				8253FBD32563F19700FBDCC9 /* TransactionReportViewController.swift */,
+				8253FBDD2564209500FBDCC9 /* TransactionListForm */,
+				8253FBF425642D8A00FBDCC9 /* TransactionByID */,
 			);
 			path = TransactionReport;
 			sourceTree = "<group>";
@@ -341,6 +369,32 @@
 			children = (
 			);
 			path = TransactionOperations;
+			sourceTree = "<group>";
+		};
+		8253FBCA2563EDCF00FBDCC9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8253FBCB2563EDDA00FBDCC9 /* TransactionModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8253FBDD2564209500FBDCC9 /* TransactionListForm */ = {
+			isa = PBXGroup;
+			children = (
+				8253FBDE256420D700FBDCC9 /* TransactionListFormBuilder.swift */,
+				8253FBE225642B5600FBDCC9 /* TransactionListFormViewController.swift */,
+			);
+			path = TransactionListForm;
+			sourceTree = "<group>";
+		};
+		8253FBF425642D8A00FBDCC9 /* TransactionByID */ = {
+			isa = PBXGroup;
+			children = (
+				8253FBF925642F2F00FBDCC9 /* TransactionByIDFormBuilder.swift */,
+				8253FBFD25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift */,
+			);
+			path = TransactionByID;
 			sourceTree = "<group>";
 		};
 		8258B115255C1B4100D02721 /* Modules */ = {
@@ -570,6 +624,7 @@
 			files = (
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				8258B143255C27EE00D02721 /* Localizable.strings in Resources */,
+				8253FBBD2563E9D900FBDCC9 /* Transactions.storyboard in Resources */,
 				8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */,
 				8244D6A0255D76D800739364 /* GlobalPay.storyboard in Resources */,
 				8253FBB72563E90C00FBDCC9 /* AccessToken.storyboard in Resources */,
@@ -684,6 +739,7 @@
 				8244D6E2255EB14100739364 /* ResultTableViewCell.swift in Sources */,
 				8244D6A4255D76E700739364 /* GlobalPayListBuilder.swift in Sources */,
 				8258B15E255C2FC400D02721 /* StringExtensions.swift in Sources */,
+				8253FBFA25642F2F00FBDCC9 /* TransactionByIDFormBuilder.swift in Sources */,
 				8244D688255D692A00739364 /* Router.swift in Sources */,
 				8244D6A8255D76F500739364 /* GlobalPayViewController.swift in Sources */,
 				8244D6CB255EA28300739364 /* UIButtonExtensions.swift in Sources */,
@@ -692,24 +748,32 @@
 				8244D6F825629C0400739364 /* AccessTokenFormViewController.swift in Sources */,
 				8244D692255D74F400739364 /* UIViewControllerExtensions.swift in Sources */,
 				8244D6D8255EAD5F00739364 /* AccessTokenViewModel.swift in Sources */,
+				8253FBCC2563EDDA00FBDCC9 /* TransactionModel.swift in Sources */,
 				8244D70325629FA900739364 /* AccessTokenFormBuilder.swift in Sources */,
+				8253FBD42563F19700FBDCC9 /* TransactionReportViewController.swift in Sources */,
 				8258B127255C1CC500D02721 /* GatewaysViewController.swift in Sources */,
 				8244D6D2255EACF300739364 /* Constants.swift in Sources */,
+				8253FBFE25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift in Sources */,
 				8244D6EA255EBE3F00739364 /* AccessTokenView.swift in Sources */,
 				8259A3582562CB6C00652BB7 /* UITextFieldExtensions.swift in Sources */,
+				8253FBE325642B5600FBDCC9 /* TransactionListFormViewController.swift in Sources */,
 				8244D6C3255E98D400739364 /* AccessTokenViewController.swift in Sources */,
 				8258B164255C36DD00D02721 /* CellIdentifiable.swift in Sources */,
 				8244D6C7255E99C200739364 /* AccessTokenBuilder.swift in Sources */,
-				8244D6FC25629DBA00739364 /* AccessTokenRouter.swift in Sources */,
+				8253FBC72563E9F400FBDCC9 /* TransactionsBuilder.swift in Sources */,
 				8253FBA52563D26700FBDCC9 /* AccessTokenForm.swift in Sources */,
 				8258B118255C1B6900D02721 /* StoryboardInstantiable.swift in Sources */,
+				8253FBD82563F20A00FBDCC9 /* TransactionReportBuilder.swift in Sources */,
+				8253FBD02563F07300FBDCC9 /* TransactionsRouter.swift in Sources */,
 				8258B172255C3FBF00D02721 /* GatewayModel.swift in Sources */,
 				8244D6AC255D76FE00739364 /* GlobalPayRouter.swift in Sources */,
 				8253FBAC2563DB5500FBDCC9 /* ErrorView.swift in Sources */,
+				8253FBC12563E9EA00FBDCC9 /* TransactionsViewController.swift in Sources */,
 				8244D6F4255ECCAF00739364 /* UIViewExtensions.swift in Sources */,
 				8258B130255C1ECB00D02721 /* Theme.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				8258B16B255C390C00D02721 /* SelectableTableViewCell.swift in Sources */,
+				8253FBDF256420D700FBDCC9 /* TransactionListFormBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

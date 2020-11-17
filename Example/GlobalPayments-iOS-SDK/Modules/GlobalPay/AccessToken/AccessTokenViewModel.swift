@@ -2,7 +2,7 @@ import Foundation
 import GlobalPayments_iOS_SDK
 
 protocol AccessTokenInput {
-    func createToken()
+    func createToken(from form: AccessTokenForm)
 }
 
 protocol AccessTokenOutput: class {
@@ -14,11 +14,13 @@ final class AccessTokenViewModel: AccessTokenInput {
 
     weak var view: AccessTokenOutput?
 
-    func createToken() {
+    func createToken(from form: AccessTokenForm) {
         GpApiService.generateTransactionKey(
-            environment: Environment.test,
-            appId: Constants.gpApiAppID,
-            appKey: Constants.gpApiAppKey) { [weak self] accessTokenInfo, error in
+            environment: form.environment,
+            appId: form.appId,
+            appKey: form.appKey,
+            secondsToExpire: form.secondsToExpire,
+            intervalToExpire: form.interval) { [weak self] accessTokenInfo, error in
             DispatchQueue.main.async {
                 guard let accessTokenInfo = accessTokenInfo else {
                     self?.view?.showErrorView(error: error)
@@ -27,9 +29,5 @@ final class AccessTokenViewModel: AccessTokenInput {
                 self?.view?.showTokenView(token: accessTokenInfo)
             }
         }
-    }
-
-    deinit {
-        print("AccessTokenViewModel deinit")
     }
 }

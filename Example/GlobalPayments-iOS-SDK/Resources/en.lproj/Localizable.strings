@@ -17,3 +17,11 @@
 
 "access.token.title" = "Access Token";
 "access.token.create" = "Create Access Token";
+
+"access.token.form.title" = "Access Token Parameters";
+"access.token.form.app.id" = "App ID:";
+"access.token.form.app.key" = "App Key:";
+"access.token.form.seconds" = "Seconds to expire:";
+"access.token.form.environment" = "Environment";
+"access.token.form.interval" = "Interval to expire";
+"access.token.form.submit" = "Submit";

@@ -38,6 +38,10 @@
 		824A16EC24E3EA230060944B /* BuilderValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824A16EB24E3EA230060944B /* BuilderValidationTests.swift */; };
 		8252038C24E2A72000784248 /* GpApiEbtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252038B24E2A72000784248 /* GpApiEbtTests.swift */; };
 		8252038E24E2C15600784248 /* CountryUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8252038D24E2C15600784248 /* CountryUtilsTests.swift */; };
+		8253FBA52563D26700FBDCC9 /* AccessTokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBA42563D26700FBDCC9 /* AccessTokenForm.swift */; };
+		8253FBAC2563DB5500FBDCC9 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FBAB2563DB5500FBDCC9 /* ErrorView.swift */; };
+		8253FBB02563DB5B00FBDCC9 /* ErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8253FBAF2563DB5B00FBDCC9 /* ErrorView.xib */; };
+		8253FBB72563E90C00FBDCC9 /* AccessToken.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8253FBB62563E90C00FBDCC9 /* AccessToken.storyboard */; };
 		8258B118255C1B6900D02721 /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */; };
 		8258B11F255C1C0900D02721 /* Gateways.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8258B11E255C1C0900D02721 /* Gateways.storyboard */; };
 		8258B123255C1C2200D02721 /* GatewaysListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */; };
@@ -111,6 +115,10 @@
 		824A16EB24E3EA230060944B /* BuilderValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderValidationTests.swift; sourceTree = "<group>"; };
 		8252038B24E2A72000784248 /* GpApiEbtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiEbtTests.swift; sourceTree = "<group>"; };
 		8252038D24E2C15600784248 /* CountryUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryUtilsTests.swift; sourceTree = "<group>"; };
+		8253FBA42563D26700FBDCC9 /* AccessTokenForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenForm.swift; sourceTree = "<group>"; };
+		8253FBAB2563DB5500FBDCC9 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		8253FBAF2563DB5B00FBDCC9 /* ErrorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorView.xib; sourceTree = "<group>"; };
+		8253FBB62563E90C00FBDCC9 /* AccessToken.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AccessToken.storyboard; sourceTree = "<group>"; };
 		8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardInstantiable.swift; sourceTree = "<group>"; };
 		8258B11E255C1C0900D02721 /* Gateways.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Gateways.storyboard; sourceTree = "<group>"; };
 		8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewaysListBuilder.swift; sourceTree = "<group>"; };
@@ -248,6 +256,7 @@
 				8244D6A7255D76F500739364 /* GlobalPayViewController.swift */,
 				8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */,
 				8244D6C1255E98A800739364 /* AccessToken */,
+				8253FBB32563E8C600FBDCC9 /* Transactions */,
 			);
 			path = GlobalPay;
 			sourceTree = "<group>";
@@ -264,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				8244D6E8255EBDC800739364 /* Views */,
+				8253FBB62563E90C00FBDCC9 /* AccessToken.storyboard */,
 				8244D6C6255E99C200739364 /* AccessTokenBuilder.swift */,
 				8244D6D7255EAD5F00739364 /* AccessTokenViewModel.swift */,
 				8244D6FB25629DBA00739364 /* AccessTokenRouter.swift */,
@@ -294,10 +304,43 @@
 		8244D70125629F7C00739364 /* AccessTokenForm */ = {
 			isa = PBXGroup;
 			children = (
+				8253FBA42563D26700FBDCC9 /* AccessTokenForm.swift */,
 				8244D6F725629C0400739364 /* AccessTokenFormViewController.swift */,
 				8244D70225629FA900739364 /* AccessTokenFormBuilder.swift */,
 			);
 			path = AccessTokenForm;
+			sourceTree = "<group>";
+		};
+		8253FBAA2563D89600FBDCC9 /* ErrorView */ = {
+			isa = PBXGroup;
+			children = (
+				8253FBAB2563DB5500FBDCC9 /* ErrorView.swift */,
+				8253FBAF2563DB5B00FBDCC9 /* ErrorView.xib */,
+			);
+			path = ErrorView;
+			sourceTree = "<group>";
+		};
+		8253FBB32563E8C600FBDCC9 /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				8253FBB42563E8DF00FBDCC9 /* TransactionReport */,
+				8253FBB52563E8EB00FBDCC9 /* TransactionOperations */,
+			);
+			path = Transactions;
+			sourceTree = "<group>";
+		};
+		8253FBB42563E8DF00FBDCC9 /* TransactionReport */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TransactionReport;
+			sourceTree = "<group>";
+		};
+		8253FBB52563E8EB00FBDCC9 /* TransactionOperations */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TransactionOperations;
 			sourceTree = "<group>";
 		};
 		8258B115255C1B4100D02721 /* Modules */ = {
@@ -368,6 +411,7 @@
 			children = (
 				8258B168255C38EA00D02721 /* SelectableTableViewCell */,
 				8244D6DF255EB11D00739364 /* ResultTableViewCell */,
+				8253FBAA2563D89600FBDCC9 /* ErrorView */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -528,8 +572,10 @@
 				8258B143255C27EE00D02721 /* Localizable.strings in Resources */,
 				8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */,
 				8244D6A0255D76D800739364 /* GlobalPay.storyboard in Resources */,
+				8253FBB72563E90C00FBDCC9 /* AccessToken.storyboard in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				8244D6E3255EB14100739364 /* ResultTableViewCell.xib in Resources */,
+				8253FBB02563DB5B00FBDCC9 /* ErrorView.xib in Resources */,
 				8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */,
 				8258B11F255C1C0900D02721 /* Gateways.storyboard in Resources */,
 			);
@@ -655,9 +701,11 @@
 				8258B164255C36DD00D02721 /* CellIdentifiable.swift in Sources */,
 				8244D6C7255E99C200739364 /* AccessTokenBuilder.swift in Sources */,
 				8244D6FC25629DBA00739364 /* AccessTokenRouter.swift in Sources */,
+				8253FBA52563D26700FBDCC9 /* AccessTokenForm.swift in Sources */,
 				8258B118255C1B6900D02721 /* StoryboardInstantiable.swift in Sources */,
 				8258B172255C3FBF00D02721 /* GatewayModel.swift in Sources */,
 				8244D6AC255D76FE00739364 /* GlobalPayRouter.swift in Sources */,
+				8253FBAC2563DB5500FBDCC9 /* ErrorView.swift in Sources */,
 				8244D6F4255ECCAF00739364 /* UIViewExtensions.swift in Sources */,
 				8258B130255C1ECB00D02721 /* Theme.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,

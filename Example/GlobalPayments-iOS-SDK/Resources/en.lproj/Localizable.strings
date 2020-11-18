@@ -34,3 +34,25 @@
 "transaction.report.title" = "Transaction Report";
 "transaction.report.get.list" = "Get transaction list";
 "transaction.report.get.by.id" = "Get transaction by ID";
+
+"transaction.report.by.id.form.title" = "Report Parameters";
+"transaction.report.by.id.form" = "Transaction ID:";
+"transaction.report.by.id.submit" = "Submit";
+"transaction.report.by.id.id" = "ID:";
+"transaction.report.by.id.time" = "Time Created:";
+"transaction.report.by.id.status" = "Status:";
+"transaction.report.by.id.type" = "Type:";
+"transaction.report.by.id.channel" = "Channel:";
+"transaction.report.by.id.amount" = "Amount:";
+"transaction.report.by.id.currency" = "Currency:";
+"transaction.report.by.id.reference" = "Reference:";
+"transaction.report.by.id.client.trans.id" = "Client Transaction ID:";
+"transaction.report.by.id.batch.id" = "Batch ID:";
+"transaction.report.by.id.country" = "Country:";
+"transaction.report.by.id.org.trans.id" = "Original Transaction ID:";
+"transaction.report.by.id.gateway.msg" = "Gateway Response Message:";
+"transaction.report.by.id.entry.mode" = "Entry Mode:";
+"transaction.report.by.id.card.type" = "Card Type:";
+"transaction.report.by.id.auth.code" = "Auth Code:";
+"transaction.report.by.id.arn" = "Aquirer Reference Number:";
+"transaction.report.by.id.masked.number" = "Masked Card Number:";

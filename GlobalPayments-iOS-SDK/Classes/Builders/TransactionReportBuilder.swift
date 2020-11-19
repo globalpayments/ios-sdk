@@ -193,7 +193,7 @@ import Foundation
         return searchCriteriaBuilder.and(dataServiceCriteria: dataServiceCriteria, value: value)
     }
 
-    public func `where`(_ transactionStatus: TransactionStatus) -> SearchCriteriaBuilder<TResult> {
+    public func `where`(_ transactionStatus: TransactionStatus?) -> SearchCriteriaBuilder<TResult> {
         return searchCriteriaBuilder.and(transactionStatus: transactionStatus)
     }
 

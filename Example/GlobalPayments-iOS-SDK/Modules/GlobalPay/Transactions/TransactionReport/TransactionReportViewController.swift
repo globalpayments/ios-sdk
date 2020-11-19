@@ -37,7 +37,7 @@ final class TransactionReportViewController: UIViewController, StoryboardInstant
     // MARK: - Actions
 
     @IBAction private func getTransactionListAction() {
-        let form = TransactionListFormBuilder.build()
+        let form = TransactionListFormBuilder.build(with: self)
         navigationController?.present(form, animated: true, completion: nil)
     }
 
@@ -59,10 +59,16 @@ extension TransactionReportViewController: TransactionByIDFormDelegate {
     }
 }
 
-// MARK: -
+// MARK: - TransactionListFormDelegate
 
-extension TransactionReportViewController {
+extension TransactionReportViewController: TransactionListFormDelegate {
 
+    func onSubmitForm(form: TransactionListForm) {
+        tableView.backgroundView = nil
+        viewModel.clearViewModels()
+        activityIndicator.startAnimating()
+        viewModel.getTransactions(form: form)
+    }
 }
 
 // MARK: - TransactionReportViewOutput

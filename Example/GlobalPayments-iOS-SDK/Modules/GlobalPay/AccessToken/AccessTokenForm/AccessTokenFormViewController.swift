@@ -11,23 +11,18 @@ final class AccessTokenFormViewController: UIViewController, StoryboardInstantia
 
     weak var delegate: AccessTokenFormDelegate?
 
-    @IBOutlet weak private var submitButton: UIButton!
-    @IBOutlet weak private var navigationBar: UINavigationBar!
-    // App ID
-    @IBOutlet weak private var appIdLabel: UILabel!
-    @IBOutlet weak private var appIdTextField: UITextField!
-    // App Key
-    @IBOutlet weak private var appKeyLabel: UILabel!
-    @IBOutlet weak private var appKeyTextField: UITextField!
-    // Seconds to Expire
-    @IBOutlet weak private var secondsLabel: UILabel!
-    @IBOutlet weak private var secondsTextField: UITextField!
-    // Environment
-    @IBOutlet weak private var environmentLabel: UILabel!
-    @IBOutlet weak private var environmentTextField: UITextField!
-    // Interval to Expire
-    @IBOutlet weak private var intervalLabel: UILabel!
-    @IBOutlet weak private var intervalTextField: UITextField!
+    @IBOutlet private weak var submitButton: UIButton!
+    @IBOutlet private weak var navigationBar: UINavigationBar!
+    @IBOutlet private weak var appIdLabel: UILabel!
+    @IBOutlet private weak var appIdTextField: UITextField!
+    @IBOutlet private weak var appKeyLabel: UILabel!
+    @IBOutlet private weak var appKeyTextField: UITextField!
+    @IBOutlet private weak var secondsLabel: UILabel!
+    @IBOutlet private weak var secondsTextField: UITextField!
+    @IBOutlet private weak var environmentLabel: UILabel!
+    @IBOutlet private weak var environmentTextField: UITextField!
+    @IBOutlet private weak var intervalLabel: UILabel!
+    @IBOutlet private weak var intervalTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -1,6 +1,6 @@
 import Foundation
 
-public enum TransactionStatus: String, Mappable {
+public enum TransactionStatus: String, Mappable, CaseIterable {
     case initiated = "INITIATED"
     case authenticated = "AUTHENTICATED"
     case pending = "PENDING"
@@ -12,7 +12,7 @@ public enum TransactionStatus: String, Mappable {
     case funded = "FUNDED"
     case rejected = "REJECTED"
 
-    init?(value: String?) {
+    public init?(value: String?) {
         guard let value = value,
               let status = TransactionStatus(rawValue: value) else { return nil }
         self = status

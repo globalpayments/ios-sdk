@@ -140,6 +140,7 @@ extension NSObject {
 
     public func setValue(_ value: Any?, for property: String) {
         guard responds(to: Selector(property)) else { return }
+        guard !Optional.isNil(value) else { return }
         setValue(value, forKey: property)
     }
 }

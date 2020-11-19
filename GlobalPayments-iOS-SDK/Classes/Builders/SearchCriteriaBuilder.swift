@@ -72,6 +72,8 @@ public enum DataServiceCriteria: String {
     case timezone
     case country
     case currency
+    case startBatchDate
+    case endBatchDate
 }
 
 @objcMembers public class SearchCriteriaBuilder<TResult>: NSObject {
@@ -171,7 +173,7 @@ public enum DataServiceCriteria: String {
         return self
     }
 
-    public func and(transactionStatus: TransactionStatus) -> SearchCriteriaBuilder<TResult> {
+    public func and(transactionStatus: TransactionStatus?) -> SearchCriteriaBuilder<TResult> {
         self.transactionStatus = transactionStatus
         return self
     }

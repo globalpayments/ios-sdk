@@ -15,6 +15,11 @@ extension GpApiConnector: ReportingServiceType {
             var queryStringParams = [String: String]()
             var method: HTTPMethod = .get
 
+            func addQueryStringParam(params: inout [String: String], key: String, value: String?) {
+                guard let value = value, !value.isEmpty else { return }
+                params[key] = value
+            }
+
             if let builder = builder as? TransactionReportBuilder<T> {
 
                 if builder.reportType == .transactionDetail,
@@ -23,38 +28,35 @@ extension GpApiConnector: ReportingServiceType {
                 }
                 else if builder.reportType == .findTransactions {
                     reportUrl = Endpoints.transactions()
-
                     if let page = builder.page {
-                        queryStringParams["page"] = "\(page)"
+                        addQueryStringParam(params: &queryStringParams, key: "page", value: "\(page)")
                     }
                     if let pageSize = builder.pageSize {
-                        queryStringParams["page_size"] = "\(pageSize)"
+                        addQueryStringParam(params: &queryStringParams, key: "page_size", value: "\(pageSize)")
                     }
-                    queryStringParams["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
-                    queryStringParams["order"] = builder.transactionOrder?.mapped(for: .gpApi)
-                    queryStringParams["id"] = builder.transactionId
-                    queryStringParams["type"] = builder.searchCriteriaBuilder.paymentType?.mapped(for: .gpApi)
-                    queryStringParams["channel"] = builder.searchCriteriaBuilder.channel?.mapped(for: .gpApi)
-                    queryStringParams["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString()
-                    queryStringParams["currency"] = builder.searchCriteriaBuilder.currency
-                    queryStringParams["number_first6"] = builder.searchCriteriaBuilder.cardNumberFirstSix
-                    queryStringParams["number_last4"] = builder.searchCriteriaBuilder.cardNumberLastFour
-                    queryStringParams["token_first6"] = builder.searchCriteriaBuilder.tokenFirstSix
-                    queryStringParams["token_last4"] = builder.searchCriteriaBuilder.tokenLastFour
-                    queryStringParams["account_name"] = builder.searchCriteriaBuilder.accountName
-                    queryStringParams["brand"] = builder.searchCriteriaBuilder.cardBrand
-                    queryStringParams["brand_reference"] = builder.searchCriteriaBuilder.brandReference
-                    queryStringParams["authcode"] = builder.searchCriteriaBuilder.authCode
-                    queryStringParams["reference"] = builder.searchCriteriaBuilder.referenceNumber
-                    queryStringParams["status"] = builder.searchCriteriaBuilder.transactionStatus?.mapped(for: .gpApi)
-                    queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
-                    if let endDate = builder.endDate {
-                        queryStringParams["to_time_created"] = endDate.format("yyyy-MM-dd")
-                    }
-                    queryStringParams["country"] = builder.searchCriteriaBuilder.country
-                    queryStringParams["batch_id"] = builder.searchCriteriaBuilder.batchId
-                    queryStringParams["entry_mode"] = builder.searchCriteriaBuilder.paymentEntryMode?.mapped(for: .gpApi)
-                    queryStringParams["name"] = builder.searchCriteriaBuilder.name
+                    addQueryStringParam(params: &queryStringParams, key: "order_by", value: builder.transactionOrderBy?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "order", value: builder.transactionOrder?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "id", value: builder.transactionId)
+                    addQueryStringParam(params: &queryStringParams, key: "type", value: builder.searchCriteriaBuilder.paymentType?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "channel", value: builder.searchCriteriaBuilder.channel?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "amount", value: builder.searchCriteriaBuilder.amount?.toNumericCurrencyString())
+                    addQueryStringParam(params: &queryStringParams, key: "currency", value: builder.searchCriteriaBuilder.currency)
+                    addQueryStringParam(params: &queryStringParams, key: "number_first6", value: builder.searchCriteriaBuilder.cardNumberFirstSix)
+                    addQueryStringParam(params: &queryStringParams, key: "number_last4", value: builder.searchCriteriaBuilder.cardNumberLastFour)
+                    addQueryStringParam(params: &queryStringParams, key: "token_first6", value: builder.searchCriteriaBuilder.tokenFirstSix)
+                    addQueryStringParam(params: &queryStringParams, key: "token_last4", value: builder.searchCriteriaBuilder.tokenLastFour)
+                    addQueryStringParam(params: &queryStringParams, key: "account_name", value: builder.searchCriteriaBuilder.accountName)
+                    addQueryStringParam(params: &queryStringParams, key: "brand", value: builder.searchCriteriaBuilder.cardBrand)
+                    addQueryStringParam(params: &queryStringParams, key: "brand_reference", value: builder.searchCriteriaBuilder.brandReference)
+                    addQueryStringParam(params: &queryStringParams, key: "authcode", value: builder.searchCriteriaBuilder.authCode)
+                    addQueryStringParam(params: &queryStringParams, key: "reference", value: builder.searchCriteriaBuilder.referenceNumber)
+                    addQueryStringParam(params: &queryStringParams, key: "status", value: builder.searchCriteriaBuilder.transactionStatus?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "from_time_created", value: (builder.startDate ?? Date()).format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "to_time_created", value: builder.endDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "country", value: builder.searchCriteriaBuilder.country)
+                    addQueryStringParam(params: &queryStringParams, key: "batch_id", value: builder.searchCriteriaBuilder.batchId)
+                    addQueryStringParam(params: &queryStringParams, key: "entry_mode", value: builder.searchCriteriaBuilder.paymentEntryMode?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "name", value: builder.searchCriteriaBuilder.name)
                 }
                 else if builder.reportType == .findSettlementTransactions {
                     reportUrl = Endpoints.settlementTransactions()

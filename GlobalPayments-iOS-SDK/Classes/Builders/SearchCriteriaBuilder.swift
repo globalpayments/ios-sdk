@@ -178,37 +178,37 @@ public enum DataServiceCriteria: String {
         return self
     }
 
-    public func and(adjustmentFunding: AdjustmentFunding) -> SearchCriteriaBuilder<TResult> {
+    public func and(adjustmentFunding: AdjustmentFunding?) -> SearchCriteriaBuilder<TResult> {
         self.adjustmentFunding = adjustmentFunding
         return self
     }
 
-    public func and(disputeStage: DisputeStage) -> SearchCriteriaBuilder<TResult> {
+    public func and(disputeStage: DisputeStage?) -> SearchCriteriaBuilder<TResult> {
         self.disputeStage = disputeStage
         return self
     }
 
-    public func and(disputeStatus: DisputeStatus) -> SearchCriteriaBuilder<TResult> {
+    public func and(disputeStatus: DisputeStatus?) -> SearchCriteriaBuilder<TResult> {
         self.disputeStatus = disputeStatus
         return self
     }
 
-    public func and(depositStatus: DepositStatus) -> SearchCriteriaBuilder<TResult> {
+    public func and(depositStatus: DepositStatus?) -> SearchCriteriaBuilder<TResult> {
         self.depositStatus = depositStatus
         return self
     }
 
-    public func and(channel: Channel) -> SearchCriteriaBuilder<TResult> {
+    public func and(channel: Channel?) -> SearchCriteriaBuilder<TResult> {
         self.channel = channel
         return self
     }
 
-    public func and(paymentEntryMode: PaymentEntryMode) -> SearchCriteriaBuilder<TResult> {
+    public func and(paymentEntryMode: PaymentEntryMode?) -> SearchCriteriaBuilder<TResult> {
         self.paymentEntryMode = paymentEntryMode
         return self
     }
 
-    public func and(paymentType: PaymentType) -> SearchCriteriaBuilder<TResult> {
+    public func and(paymentType: PaymentType?) -> SearchCriteriaBuilder<TResult> {
         self.paymentType = paymentType
         return self
     }

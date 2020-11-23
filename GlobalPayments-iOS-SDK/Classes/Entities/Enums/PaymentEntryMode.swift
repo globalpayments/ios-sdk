@@ -1,6 +1,6 @@
 import Foundation
 
-public enum PaymentEntryMode: String, Mappable, Encodable {
+public enum PaymentEntryMode: String, Mappable, Encodable, CaseIterable {
     case moto = "MOTO"
     case ecom = "ECOM"
     case inApp = "IN_APP"
@@ -10,7 +10,7 @@ public enum PaymentEntryMode: String, Mappable, Encodable {
     case contactlessChip = "CONTACTLESS_CHIP"
     case contactlessSwipe = "CONTACTLESS_SWIPE"
 
-    init?(value: String?) {
+    public init?(value: String?) {
         guard let value = value,
               let mode = PaymentEntryMode(rawValue: value) else { return nil }
         self = mode

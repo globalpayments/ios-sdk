@@ -6,7 +6,8 @@ extension NSDecimalNumber {
         return (lhs ?? .zero).adding((rhs ?? .zero))
     }
 
-    func toNumericCurrencyString() -> String {
+    func toNumericCurrencyString() -> String? {
+        guard self != NSDecimalNumber.notANumber else { return nil }
         let input: NSDecimalNumber = self.multiplying(by: 100)
         let behavior = NSDecimalNumberHandler(
             roundingMode: .plain,

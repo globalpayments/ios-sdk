@@ -51,23 +51,26 @@ final class TransactionReportViewModel: TransactionReportViewInput {
             .findTransactions()
             .orderBy(transactionSortProperty: form.sortProperty, form.sordOrder)
             .withPaging(form.page, form.pageSize)
+            .withAmount(form.amount)
             .withTransactionId(form.transactionId)
             .where(form.transactionStatus)
+            .and(paymentType: form.type)
+            .and(channel: form.channel)
+            .and(paymentEntryMode: form.entryMode)
+            .and(dataServiceCriteria: .currency, value: form.currency)
+            .and(dataServiceCriteria: .country, value: form.country)
+            .and(searchCriteria: .cardNumberFirstSix, value: form.numberFirst6)
+            .and(searchCriteria: .cardNumberLastFour, value: form.numberLast4)
+            .and(searchCriteria: .tokenFirstSix, value: form.tokenFirst6)
+            .and(searchCriteria: .tokenLastFour, value: form.tokenLast4)
             .and(searchCriteria: .accountName, value: form.accountName)
             .and(searchCriteria: .cardBrand, value: form.cardBrand)
-            .and(searchCriteria: .aquirerReferenceNumber, value: form.arn)
             .and(searchCriteria: .brandReference, value: form.brandReference)
             .and(searchCriteria: .authCode, value: form.authCode)
             .and(searchCriteria: .referenceNumber, value: form.referenceNumber)
             .and(searchCriteria: .startDate, value: form.startDate)
             .and(searchCriteria: .endDate, value: form.endDate)
-            .and(dataServiceCriteria: .depositReference, value: form.depositReference)
-            .and(dataServiceCriteria: .startDepositDate, value: form.startDepositDate)
-            .and(dataServiceCriteria: .endDepositDate, value: form.endDepositDate)
-            .and(dataServiceCriteria: .startBatchDate, value: form.startBatchDate)
-            .and(dataServiceCriteria: .endBatchDate, value: form.endBatchDate)
-            .and(dataServiceCriteria: .merchantId, value: form.merchantId)
-            .and(dataServiceCriteria: .systemHierarchy, value: form.systemHierarchy)
+            .and(searchCriteria: .batchId, value: form.batchId)
             .execute { [weak self] TransactionSummaryList, error in
                 DispatchQueue.main.async {
                     guard let transactionSummaryList = TransactionSummaryList else {
@@ -77,7 +80,6 @@ final class TransactionReportViewModel: TransactionReportViewInput {
                     self?.transactions = transactionSummaryList
                 }
             }
-//            .and(dataServiceCriteria: .maskedCardNumber, value: form.maskedCardNumber)
     }
 
     func clearViewModels() {

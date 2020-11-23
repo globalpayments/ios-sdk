@@ -62,49 +62,47 @@ extension GpApiConnector: ReportingServiceType {
                     reportUrl = Endpoints.settlementTransactions()
 
                     if let page = builder.page {
-                        queryStringParams["page"] = "\(page)"
+                        addQueryStringParam(params: &queryStringParams, key: "page", value: "\(page)")
                     }
                     if let pageSize = builder.pageSize {
-                        queryStringParams["page_size"] = "\(pageSize)"
+                        addQueryStringParam(params: &queryStringParams, key: "page_size", value: "\(pageSize)")
                     }
-                    queryStringParams["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
-                    queryStringParams["order"] = builder.transactionOrder?.mapped(for: .gpApi)
-                    queryStringParams["number_first6"] = builder.searchCriteriaBuilder.cardNumberFirstSix
-                    queryStringParams["number_last4"] = builder.searchCriteriaBuilder.cardNumberLastFour
-                    queryStringParams["deposit_status"] = builder.searchCriteriaBuilder.depositStatus?.mapped(for: .gpApi)
-                    queryStringParams["account_name"] = self?.dataAccountName
-                    queryStringParams["brand"] = builder.searchCriteriaBuilder.brandReference
-                    queryStringParams["arn"] = builder.searchCriteriaBuilder.aquirerReferenceNumber
-                    queryStringParams["brand_reference"] = builder.searchCriteriaBuilder.brandReference
-                    queryStringParams["authcode"] = builder.searchCriteriaBuilder.authCode
-                    queryStringParams["reference"] = builder.searchCriteriaBuilder.referenceNumber
-                    queryStringParams["status"] = builder.searchCriteriaBuilder.transactionStatus?.mapped(for: .gpApi)
-                    queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["to_time_created"] = (builder.endDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["deposit_id"] = builder.searchCriteriaBuilder.depositReference
-                    queryStringParams["from_deposit_time_created"] = builder.searchCriteriaBuilder.startDepositDate?.format("yyyy-MM-dd")
-                    queryStringParams["to_deposit_time_created"] = builder.searchCriteriaBuilder.endDepositDate?.format("yyyy-MM-dd")
-                    queryStringParams["from_batch_time_created"] = builder.searchCriteriaBuilder.startBatchDate?.format("yyyy-MM-dd")
-                    queryStringParams["to_batch_time_created"] = builder.searchCriteriaBuilder.endBatchDate?.format("yyyy-MM-dd")
-                    queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
-                    queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
+                    addQueryStringParam(params: &queryStringParams, key: "order_by", value: builder.transactionOrderBy?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "order", value: builder.transactionOrder?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "number_first6", value: builder.searchCriteriaBuilder.cardNumberFirstSix)
+                    addQueryStringParam(params: &queryStringParams, key: "number_last4", value: builder.searchCriteriaBuilder.cardNumberLastFour)
+                    addQueryStringParam(params: &queryStringParams, key: "deposit_status", value: builder.searchCriteriaBuilder.depositStatus?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "account_name", value: self?.dataAccountName)
+                    addQueryStringParam(params: &queryStringParams, key: "brand", value: builder.searchCriteriaBuilder.cardBrand)
+                    addQueryStringParam(params: &queryStringParams, key: "arn", value: builder.searchCriteriaBuilder.aquirerReferenceNumber)
+                    addQueryStringParam(params: &queryStringParams, key: "brand_reference", value: builder.searchCriteriaBuilder.brandReference)
+                    addQueryStringParam(params: &queryStringParams, key: "authcode", value: builder.searchCriteriaBuilder.authCode)
+                    addQueryStringParam(params: &queryStringParams, key: "reference", value: builder.searchCriteriaBuilder.referenceNumber)
+                    addQueryStringParam(params: &queryStringParams, key: "status", value: builder.searchCriteriaBuilder.transactionStatus?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "from_time_created", value: (builder.startDate ?? Date()).format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "to_time_created", value: builder.endDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "deposit_id", value: builder.searchCriteriaBuilder.depositReference)
+                    addQueryStringParam(params: &queryStringParams, key: "from_deposit_time_created", value: builder.searchCriteriaBuilder.startDepositDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "to_deposit_time_created", value: builder.searchCriteriaBuilder.endDepositDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "from_batch_time_created", value: builder.searchCriteriaBuilder.startBatchDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "to_batch_time_created", value: builder.searchCriteriaBuilder.endBatchDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "system.mid", value: builder.searchCriteriaBuilder.merchantId)
+                    addQueryStringParam(params: &queryStringParams, key: "system.hierarchy", value: builder.searchCriteriaBuilder.systemHierarchy)
                 }
                 else if builder.reportType == .findDeposits {
                     reportUrl = Endpoints.deposits()
 
-                    queryStringParams["account_name"] = self?.dataAccountName
+                    addQueryStringParam(params: &queryStringParams, key: "account_name", value: self?.dataAccountName)
                     if let page = builder.page {
-                        queryStringParams["page"] = "\(page)"
+                        addQueryStringParam(params: &queryStringParams, key: "page", value: "\(page)")
                     }
                     if let pageSize = builder.pageSize {
-                        queryStringParams["page_size"] = "\(pageSize)"
+                        addQueryStringParam(params: &queryStringParams, key: "page_size", value: "\(pageSize)")
                     }
-                    if let status = builder.depositStatus?.mapped(for: .gpApi) {
-                        queryStringParams["status"] = status
-                    }
-                    queryStringParams["order_by"] = builder.depositOrderBy?.mapped(for: .gpApi)
-                    queryStringParams["order"] = builder.depositOrder?.mapped(for: .gpApi)
-                    queryStringParams["from_time_created"] = (builder.startDate ?? Date()).format("yyyy-MM-dd")
+                    addQueryStringParam(params: &queryStringParams, key: "status", value: builder.depositStatus?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "order_by", value: builder.depositOrderBy?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "order", value: builder.depositOrder?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "from_time_created", value: (builder.startDate ?? Date()).format("yyyy-MM-dd"))
                 }
                 else if builder.reportType == .depositDetail,
                           let depositId = builder.searchCriteriaBuilder.depositReference {
@@ -115,56 +113,48 @@ extension GpApiConnector: ReportingServiceType {
                     reportUrl = Endpoints.disputes()
 
                     if let page = builder.page {
-                        queryStringParams["page"] = "\(page)"
+                        addQueryStringParam(params: &queryStringParams, key: "page", value: "\(page)")
                     }
                     if let pageSize = builder.pageSize {
-                        queryStringParams["page_size"] = "\(pageSize)"
+                        addQueryStringParam(params: &queryStringParams, key: "page_size", value: "\(pageSize)")
                     }
-                    queryStringParams["order_by"] = builder.disputeOrderBy?.mapped(for: .gpApi)
-                    queryStringParams["order"] = builder.disputeOrder?.mapped(for: .gpApi)
-                    queryStringParams["arn"] = builder.searchCriteriaBuilder.aquirerReferenceNumber
-                    queryStringParams["brand"] = builder.searchCriteriaBuilder.cardBrand
-                    queryStringParams["status"] = builder.searchCriteriaBuilder.disputeStatus?.mapped(for: .gpApi)
-                    queryStringParams["stage"] = builder.searchCriteriaBuilder.disputeStage?.mapped(for: .gpApi)
-                    queryStringParams["from_stage_time_created"] = (builder.searchCriteriaBuilder.startStageDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["to_stage_time_created"] = (builder.searchCriteriaBuilder.endStageDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["adjustment_funding"] = builder.searchCriteriaBuilder.adjustmentFunding?.mapped(for: .gpApi)
-                    if let startAdjustmentDate = builder.searchCriteriaBuilder.startAdjustmentDate {
-                        queryStringParams["from_adjustment_time_created"] = startAdjustmentDate.format("yyyy-MM-dd")
-                    }
-                    if let endAdjustmentDate = builder.searchCriteriaBuilder.endAdjustmentDate {
-                        queryStringParams["to_adjustment_time_created"] = endAdjustmentDate.format("yyyy-MM-dd")
-                    }
-                    queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
-                    queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
+                    addQueryStringParam(params: &queryStringParams, key: "order_by", value: builder.disputeOrderBy?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "order", value: builder.disputeOrder?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "arn", value: builder.searchCriteriaBuilder.aquirerReferenceNumber)
+                    addQueryStringParam(params: &queryStringParams, key: "brand", value: builder.searchCriteriaBuilder.cardBrand)
+                    addQueryStringParam(params: &queryStringParams, key: "status", value: builder.searchCriteriaBuilder.disputeStatus?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "stage", value: builder.searchCriteriaBuilder.disputeStage?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "from_stage_time_created", value: (builder.searchCriteriaBuilder.startStageDate ?? Date()).format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "to_stage_time_created", value: builder.searchCriteriaBuilder.endStageDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "adjustment_funding", value: builder.searchCriteriaBuilder.adjustmentFunding?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "from_adjustment_time_created", value: builder.searchCriteriaBuilder.startAdjustmentDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "to_adjustment_time_created", value: builder.searchCriteriaBuilder.endAdjustmentDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "system.mid", value: builder.searchCriteriaBuilder.merchantId)
+                    addQueryStringParam(params: &queryStringParams, key: "system.hierarchy", value: builder.searchCriteriaBuilder.systemHierarchy)
                 }
                 else if builder.reportType == .findSettlementDisputes {
                     reportUrl = Endpoints.settlementDisputes()
 
                     if let page = builder.page {
-                        queryStringParams["page"] = "\(page)"
+                        addQueryStringParam(params: &queryStringParams, key: "page", value: "\(page)")
                     }
                     if let pageSize = builder.pageSize {
-                        queryStringParams["page_size"] = "\(pageSize)"
+                        addQueryStringParam(params: &queryStringParams, key: "page_size", value: "\(pageSize)")
                     }
-                    queryStringParams["order_by"] = builder.disputeOrderBy?.mapped(for: .gpApi)
-                    queryStringParams["order"] = builder.disputeOrder?.mapped(for: .gpApi)
-                    queryStringParams["arn"] = builder.searchCriteriaBuilder.aquirerReferenceNumber
-                    queryStringParams["brand"] = builder.searchCriteriaBuilder.cardBrand
-                    queryStringParams["STATUS"] = builder.searchCriteriaBuilder.disputeStatus?.mapped(for: .gpApi)
-                    queryStringParams["stage"] = builder.searchCriteriaBuilder.disputeStage?.mapped(for: .gpApi)
-                    queryStringParams["from_stage_time_created"] = (builder.searchCriteriaBuilder.startStageDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["to_stage_time_created"] = (builder.searchCriteriaBuilder.endStageDate ?? Date()).format("yyyy-MM-dd")
-                    queryStringParams["adjustment_funding"] = builder.searchCriteriaBuilder.adjustmentFunding?.mapped(for: .gpApi)
-                    if let startAdjustmentDate = builder.searchCriteriaBuilder.startAdjustmentDate {
-                        queryStringParams["from_adjustment_time_created"] = startAdjustmentDate.format("yyyy-MM-dd")
-                    }
-                    if let endAdjustmentDate = builder.searchCriteriaBuilder.endAdjustmentDate {
-                        queryStringParams["to_adjustment_time_created"] = endAdjustmentDate.format("yyyy-MM-dd")
-                    }
-                    queryStringParams["system.mid"] = builder.searchCriteriaBuilder.merchantId
-                    queryStringParams["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
-                    queryStringParams["account_name"] = self?.dataAccountName
+                    addQueryStringParam(params: &queryStringParams, key: "order_by", value: builder.disputeOrderBy?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "order", value: builder.disputeOrder?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "arn", value: builder.searchCriteriaBuilder.aquirerReferenceNumber)
+                    addQueryStringParam(params: &queryStringParams, key: "brand", value: builder.searchCriteriaBuilder.cardBrand)
+                    addQueryStringParam(params: &queryStringParams, key: "STATUS", value: builder.searchCriteriaBuilder.disputeStatus?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "stage", value: builder.searchCriteriaBuilder.disputeStage?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "from_stage_time_created", value: (builder.searchCriteriaBuilder.startStageDate ?? Date()).format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "to_stage_time_created", value: builder.searchCriteriaBuilder.endStageDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "adjustment_funding", value: builder.searchCriteriaBuilder.adjustmentFunding?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "from_adjustment_time_created", value: builder.searchCriteriaBuilder.startAdjustmentDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "to_adjustment_time_created", value: builder.searchCriteriaBuilder.endAdjustmentDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "system.mid", value: builder.searchCriteriaBuilder.merchantId)
+                    addQueryStringParam(params: &queryStringParams, key: "system.hierarchy", value: builder.searchCriteriaBuilder.systemHierarchy)
+                    addQueryStringParam(params: &queryStringParams, key: "account_name", value: self?.dataAccountName)
                 }
                 else if builder.reportType == .disputeDetail,
                          let disputeId = builder.searchCriteriaBuilder.disputeReference {
@@ -172,7 +162,7 @@ extension GpApiConnector: ReportingServiceType {
                }
                 else if builder.reportType == .settlementDisputeDetail,
                         let settlementDisputeId = builder.searchCriteriaBuilder.settlementDisputeId {
-                    queryStringParams["account_name"] = self?.dataAccountName
+                    addQueryStringParam(params: &queryStringParams, key: "account_name", value: self?.dataAccountName)
                     reportUrl = Endpoints.settlementDispute(id: settlementDisputeId)
                 }
                 else if builder.reportType == .acceptDispute,

@@ -104,7 +104,7 @@ class GpApiReportingTests: XCTestCase {
     func test_report_find_transactions_by_batchId() {
         // GIVEN
         let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
-        let startDate = Calendar.current.date(byAdding: .day, value: -30, to: Date())
+        let startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())
         let batchId = "BAT_845591"
         var transactionsSummaryResponse: [TransactionSummary]?
         var transactionsSummaryError: Error?

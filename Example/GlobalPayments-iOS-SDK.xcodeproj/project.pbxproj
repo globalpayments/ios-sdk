@@ -12,6 +12,8 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */; };
+		823EDBEF256D13BC009DED23 /* EmptyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 823EDBEE256D13BC009DED23 /* EmptyView.xib */; };
+		823EDBF9256D13D6009DED23 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823EDBF8256D13D6009DED23 /* EmptyView.swift */; };
 		824451BC24E150410080D06B /* GpApiReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824451BB24E150410080D06B /* GpApiReportingTests.swift */; };
 		824451C124E1801D0080D06B /* GpApiDebitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824451C024E1801D0080D06B /* GpApiDebitTests.swift */; };
 		8244D688255D692A00739364 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D687255D692A00739364 /* Router.swift */; };
@@ -105,6 +107,8 @@
 		650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiAuthenticationTests.swift; sourceTree = "<group>"; };
+		823EDBEE256D13BC009DED23 /* EmptyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyView.xib; sourceTree = "<group>"; };
+		823EDBF8256D13D6009DED23 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		824451BB24E150410080D06B /* GpApiReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingTests.swift; sourceTree = "<group>"; };
 		824451C024E1801D0080D06B /* GpApiDebitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDebitTests.swift; sourceTree = "<group>"; };
 		8244D687255D692A00739364 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -277,6 +281,15 @@
 				866C760D426DC19D7E0BA8F6 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		823EDBED256D13AC009DED23 /* EmptyView */ = {
+			isa = PBXGroup;
+			children = (
+				823EDBEE256D13BC009DED23 /* EmptyView.xib */,
+				823EDBF8256D13D6009DED23 /* EmptyView.swift */,
+			);
+			path = EmptyView;
 			sourceTree = "<group>";
 		};
 		8244D695255D760200739364 /* GlobalPay */ = {
@@ -478,6 +491,7 @@
 		8258B167255C38DB00D02721 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				823EDBED256D13AC009DED23 /* EmptyView */,
 				8253FC0F256531E900FBDCC9 /* TransactionSummaryTableViewCell */,
 				8253FBAA2563D89600FBDCC9 /* ErrorView */,
 				8258B168255C38EA00D02721 /* SelectableTableViewCell */,
@@ -644,6 +658,7 @@
 				8258B143255C27EE00D02721 /* Localizable.strings in Resources */,
 				8253FBBD2563E9D900FBDCC9 /* Transactions.storyboard in Resources */,
 				8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */,
+				823EDBEF256D13BC009DED23 /* EmptyView.xib in Resources */,
 				8244D6A0255D76D800739364 /* GlobalPay.storyboard in Resources */,
 				8253FBB72563E90C00FBDCC9 /* AccessToken.storyboard in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
@@ -757,6 +772,7 @@
 				8244D6A4255D76E700739364 /* GlobalPayListBuilder.swift in Sources */,
 				8258B15E255C2FC400D02721 /* StringExtensions.swift in Sources */,
 				8253FBFA25642F2F00FBDCC9 /* TransactionByIDFormBuilder.swift in Sources */,
+				823EDBF9256D13D6009DED23 /* EmptyView.swift in Sources */,
 				8244D688255D692A00739364 /* Router.swift in Sources */,
 				8244D6A8255D76F500739364 /* GlobalPayViewController.swift in Sources */,
 				8244D6CB255EA28300739364 /* UIButtonExtensions.swift in Sources */,

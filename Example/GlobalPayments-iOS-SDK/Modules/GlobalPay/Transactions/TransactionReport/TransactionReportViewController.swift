@@ -86,6 +86,10 @@ extension TransactionReportViewController: TransactionReportViewOutput {
         activityIndicator.stopAnimating()
         tableView.reloadData()
     }
+
+    func displayEmptyView() {
+        tableView.backgroundView = EmptyView.instantiateFromNib()
+    }
 }
 
 // MARK: - UITableViewDataSource

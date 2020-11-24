@@ -11,6 +11,7 @@ protocol TransactionReportViewInput {
 protocol TransactionReportViewOutput: class {
     func showErrorView(error: Error?)
     func reloadData()
+    func displayEmptyView()
 }
 
 final class TransactionReportViewModel: TransactionReportViewInput {
@@ -42,6 +43,9 @@ final class TransactionReportViewModel: TransactionReportViewInput {
                         return
                     }
                     self?.transactions = [transactionSummary]
+                    if self?.transactions.count == .zero {
+                        self?.view?.displayEmptyView()
+                    }
                 }
             }
     }
@@ -78,6 +82,9 @@ final class TransactionReportViewModel: TransactionReportViewInput {
                         return
                     }
                     self?.transactions = transactionSummaryList
+                    if self?.transactions.count == .zero {
+                        self?.view?.displayEmptyView()
+                    }
                 }
             }
     }

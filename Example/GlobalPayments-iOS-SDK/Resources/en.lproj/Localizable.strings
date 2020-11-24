@@ -12,7 +12,7 @@
 "globalpay.access.token.title" = "Access Token";
 "globalpay.transactions.title" = "Transactions";
 "globalpay.verifications.title" = "Verifications";
-"globalpay.payment.methods.title" = "Payment Methods";
+"globalpay.payment.methods.title" = "Stored Payment Methods";
 "globalpay.deposits.title" = "Deposits";
 "globalpay.disputes.title" = "Disputes";
 
@@ -84,3 +84,26 @@
 "transaction.report.list.batch.id" = "Batch Reference:";
 "transaction.report.list.entry.mode" = "Entry Mode:";
 "transaction.report.list.name" = "Payment Method owner name:";
+
+"transactoin.operations.title" = "Transaction Operations";
+"transactoin.operations.create.transaction" = "Create Transaction";
+
+"transactoin.operations.form.title" = "Enter details";
+"transactoin.operations.form.submit" = "Submit";
+"transactoin.operations.form.payment.card" = "Payment card";
+"transactoin.operations.form.card.number" = "Card Number:";
+"transactoin.operations.form.expiry.month" = "Expiry Month:";
+"transactoin.operations.form.expiry.year" = "Expiry Year:";
+"transactoin.operations.form.cvn.cvv" = "CVN/CVV:";
+"transactoin.operations.form.transaction.data" = "Transaction Data";
+"transactoin.operations.form.amount" = "Amount:";
+"transactoin.operations.form.currency" = "Currency:";
+"transactoin.operations.form.transaction.type" = "Transaction Type:";
+
+"transaction.view.transaction.id" = "Transaction ID:";
+"transaction.view.time.created" = "Time Created:";
+"transaction.view.status" = "Status:";
+"transaction.view.amount" = "Amount:";
+"transaction.view.reference" = "Reference:";
+"transaction.view.batch.id" = "Batch ID:";
+"transaction.view.result.code" = "Result Code:";

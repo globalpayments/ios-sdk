@@ -4,7 +4,7 @@ public enum AdjustmentFunding: String, Mappable {
     case credit = "CREDIT"
     case debit = "DEBIT"
 
-    init?(value: String?) {
+    public init?(value: String?) {
         guard let value = value,
               let funding = AdjustmentFunding(rawValue: value) else { return nil }
         self = funding

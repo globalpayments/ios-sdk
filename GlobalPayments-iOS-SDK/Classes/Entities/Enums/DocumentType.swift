@@ -8,7 +8,7 @@ public enum DocumentType: String, Mappable, Encodable {
     case cancelationPolicy = "CANCELLATION_POLICY"
     case other = "OTHER"
 
-    init?(value: String?) {
+    public init?(value: String?) {
         guard let value = value,
               let type = DocumentType(rawValue: value) else { return nil }
         self = type

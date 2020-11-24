@@ -18,7 +18,7 @@ struct TransactionsRouter: Router {
         case .report:
             return TransactionReportBuilder.build()
         case .operations:
-            return UIViewController.empty()
+            return TransactionOperationsBuilder.build()
         }
     }
 }

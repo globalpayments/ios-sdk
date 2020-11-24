@@ -15,18 +15,12 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
         delegate = self
         dataSource = self
 
-        DispatchQueue.main.async {
-            if pickerData.count > 0 {
-                self.pickerTextField.text = self.pickerData[0]
-                self.pickerTextField.isEnabled = true
-            } else {
-                self.pickerTextField.text = nil
-                self.pickerTextField.isEnabled = false
-            }
-        }
-
-        if let text = pickerTextField.text, let handler = selectionHandler {
-            handler(text)
+        if pickerData.count > 0 {
+            self.pickerTextField.text = self.pickerData[0]
+            self.pickerTextField.isEnabled = true
+        } else {
+            self.pickerTextField.text = nil
+            self.pickerTextField.isEnabled = false
         }
 
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
@@ -38,11 +32,21 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
             animated: true
         )
         pickerTextField.inputAccessoryView = toolBar
+
+        if #available(iOS 13, *) {
+            let downArrow = UIImageView(image: UIImage(systemName: "arrow.triangle.down"))
+            downArrow.backgroundColor = .red
+            addSubview(downArrow)
+        }
     }
 
     convenience init(pickerData: [String], dropdownField: UITextField, onSelect: ((String) -> Void)?) {
         self.init(pickerData: pickerData, dropdownField: dropdownField)
         self.selectionHandler = onSelect
+        if let text = pickerTextField.text, !text.isEmpty,
+           let handler = selectionHandler {
+            handler(text)
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -11,7 +11,7 @@ public enum DisputeStage: String, Mappable {
     case compliance = "COMPLIANCE"
     case goodFaith = "GOODFAITH"
 
-    init?(value: String?) {
+    public init?(value: String?) {
         guard let value = value,
               let stage = DisputeStage(rawValue: value) else { return nil }
         self = stage

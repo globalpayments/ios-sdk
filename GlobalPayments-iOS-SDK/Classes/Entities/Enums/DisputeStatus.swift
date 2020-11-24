@@ -5,7 +5,7 @@ public enum DisputeStatus: String, Mappable {
     case withMerchant = "WITH_MERCHANT"
     case closed = "CLOSED"
 
-    init?(value: String?) {
+    public init?(value: String?) {
         guard let value = value,
               let status = DisputeStatus(rawValue: value) else { return nil }
         self = status

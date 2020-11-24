@@ -8,7 +8,7 @@ public enum DepositStatus: String, Mappable {
     case irreg = "IRREG"
     case released = "RELEASED"
 
-    init?(value: String?) {
+    public init?(value: String?) {
         guard let value = value,
               let status = DepositStatus(rawValue: value) else { return nil }
         self = status

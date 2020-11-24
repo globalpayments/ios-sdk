@@ -7,7 +7,7 @@ public enum DisputeResult: String, Mappable {
     case lost = "LOST"
     case accepted = "ACCEPTED"
 
-    init?(value: String?) {
+    public init?(value: String?) {
         guard let value = value,
               let result = DisputeResult(rawValue: value) else { return nil }
         self = result

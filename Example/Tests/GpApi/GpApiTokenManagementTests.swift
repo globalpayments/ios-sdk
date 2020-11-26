@@ -98,7 +98,7 @@ class GpApiTokenManagementTests: XCTestCase {
         }
 
         // THEN
-        wait(for: [detokenizeExpectation], timeout: 10.0)
+        wait(for: [detokenizeExpectation], timeout: 100000.0)
         XCTAssertNotNil(responseCard)
         XCTAssertNil(responseError)
         XCTAssertEqual(card?.number, responseCard?.number)

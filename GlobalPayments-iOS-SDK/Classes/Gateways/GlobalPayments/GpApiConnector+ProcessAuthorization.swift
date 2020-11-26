@@ -93,13 +93,22 @@ extension GpApiConnector {
                             }
                             return
                         } else {
+                            paymentMethod.set(for: "first_name", value: builder.firstName)
+                            paymentMethod.set(for: "last_name", value: builder.lastName)
+                            paymentMethod.set(for: "id", value: builder.id)
+
                             let verificationData = JsonDoc()
                                 .set(for: "account_name", value: self?.transactionProcessingAccountName)
                                 .set(for: "channel", value: self?.channel?.mapped(for: .gpApi))
-                                .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
                                 .set(for: "currency", value: builder.currency)
                                 .set(for: "country", value: builder.billingAddress?.country ?? self?.country)
                                 .set(for: "payment_method", doc: paymentMethod)
+
+                            if let clientTransactionId = builder.clientTransactionId, !clientTransactionId.isEmpty {
+                                verificationData.set(for: "reference", value: clientTransactionId)
+                            } else {
+                                verificationData.set(for: "reference", value: UUID().uuidString)
+                            }
 
                             self?.doTransaction(
                                 method: .post,

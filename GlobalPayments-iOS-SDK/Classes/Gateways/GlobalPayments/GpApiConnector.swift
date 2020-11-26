@@ -186,8 +186,10 @@ class GpApiConnector: RestGateway, PaymentGateway {
         
         if let paymentMethod: JsonDoc = json?.get(valueFor: "payment_method"),
            let card: JsonDoc = paymentMethod.get(valueFor: "card") {
-
             transaction.cardLast4 = card.getValue(key: "masked_number_last4")
+        }
+
+        if let card: JsonDoc = json?.get(valueFor: "card") {
             transaction.cardExpMonth = Int(card.getValue(key: "expiry_month") ?? .empty)
             transaction.cardExpYear = Int(card.getValue(key: "expiry_year") ?? .empty)
             transaction.cardNumber = card.getValue(key: "number")

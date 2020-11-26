@@ -107,3 +107,25 @@
 "transaction.view.reference" = "Reference:";
 "transaction.view.batch.id" = "Batch ID:";
 "transaction.view.result.code" = "Result Code:";
+
+"verifications.title" = "Verifications";
+"verifications.initiate.verification" = "Initiate Verification";
+
+"verifications.form.title" = "Verifications";
+"verifications.form.submit" = "Submit";
+"verifications.form.transaction.data" = "Transaction Data";
+"verifications.form.reference" = "Reference:";
+"verifications.form.currency" = "Currency:";
+"verifications.form.country" = "Country:";
+"verifications.form.payment.method" = "Payment Method";
+"verifications.form.id" = "ID:";
+"verifications.form.first.name" = "First Name:";
+"verifications.form.last.name" = "Last Name:";
+"verifications.form.payment.card" = "Payment Card";
+"verifications.form.card.number" = "Card Number:";
+"verifications.form.expiry.month" = "Expiry Month:";
+"verifications.form.expiry.year" = "Expiry Year:";
+"verifications.form.cvn" = "CVN/CVV:";
+"verifications.form.avs.address" = "AVS Address:";
+"verifications.form.avs.postal.code" = "AVS Postal Code:";
+"verificatoins.form.missing.country" = "Country field cannot be empty \n Example: US";

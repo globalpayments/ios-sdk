@@ -19,6 +19,8 @@ struct GlobalPayRouter: Router {
             return AccessTokenBuilder.build()
         case .transactions:
             return TransactionsBuilder.build()
+        case .verifications:
+            return VerificationsBuilder.build()
         default:
             return UIViewController.empty()
         }

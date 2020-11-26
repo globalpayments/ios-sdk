@@ -3,10 +3,15 @@ import UIKit
 extension UIViewController {
 
     func showAlert(message: String) {
-        DispatchQueue.main.async { [weak navigationController] in
-            let alert = UIAlertController(title: "generic.alert".localized(), message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "generic.close".localized(), style: .default))
-            navigationController?.present(alert, animated: true)
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            DispatchQueue.main.async { [weak topController] in
+                let alert = UIAlertController(title: "generic.alert".localized(), message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "generic.close".localized(), style: .default))
+                topController?.present(alert, animated: true)
+            }
         }
     }
 

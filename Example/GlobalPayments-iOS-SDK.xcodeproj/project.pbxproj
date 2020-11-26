@@ -86,6 +86,13 @@
 		82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0485724AF367600FC32EC /* CardUtilsTests.swift */; };
 		82B493FD256FAF6D009C2CBD /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B493FC256FAF6D009C2CBD /* TransactionView.swift */; };
 		82B49403256FAF74009C2CBD /* TransactionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82B49402256FAF74009C2CBD /* TransactionView.xib */; };
+		82B49408256FE289009C2CBD /* Verifications.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82B49407256FE289009C2CBD /* Verifications.storyboard */; };
+		82B4940C256FE299009C2CBD /* VerificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4940B256FE299009C2CBD /* VerificationsViewController.swift */; };
+		82B49410256FE2A2009C2CBD /* VerificationsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4940F256FE2A2009C2CBD /* VerificationsBuilder.swift */; };
+		82B49417256FF1CB009C2CBD /* VerificationsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B49416256FF1CB009C2CBD /* VerificationsFormViewController.swift */; };
+		82B4941B256FF490009C2CBD /* VerificationsFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4941A256FF490009C2CBD /* VerificationsFormBuilder.swift */; };
+		82EC18B92575063900A93A3C /* VerificationsForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC18B82575063900A93A3C /* VerificationsForm.swift */; };
+		82EC18BF25750AD800A93A3C /* VerificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC18BE25750AD800A93A3C /* VerificationsViewModel.swift */; };
 		82FAF8DE2535B16E00B10401 /* gp_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 82FAF8DC2535B16E00B10401 /* gp_logo.png */; };
 		82FAF8DF2535B16E00B10401 /* gp_logo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 82FAF8DD2535B16E00B10401 /* gp_logo.pdf */; };
 		82FAF8E42535B2B500B10401 /* ResouceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FAF8E32535B2B500B10401 /* ResouceLoader.swift */; };
@@ -192,6 +199,13 @@
 		82B0485724AF367600FC32EC /* CardUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUtilsTests.swift; sourceTree = "<group>"; };
 		82B493FC256FAF6D009C2CBD /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		82B49402256FAF74009C2CBD /* TransactionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TransactionView.xib; sourceTree = "<group>"; };
+		82B49407256FE289009C2CBD /* Verifications.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Verifications.storyboard; sourceTree = "<group>"; };
+		82B4940B256FE299009C2CBD /* VerificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsViewController.swift; sourceTree = "<group>"; };
+		82B4940F256FE2A2009C2CBD /* VerificationsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsBuilder.swift; sourceTree = "<group>"; };
+		82B49416256FF1CB009C2CBD /* VerificationsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsFormViewController.swift; sourceTree = "<group>"; };
+		82B4941A256FF490009C2CBD /* VerificationsFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsFormBuilder.swift; sourceTree = "<group>"; };
+		82EC18B82575063900A93A3C /* VerificationsForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsForm.swift; sourceTree = "<group>"; };
+		82EC18BE25750AD800A93A3C /* VerificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsViewModel.swift; sourceTree = "<group>"; };
 		82FAF8DC2535B16E00B10401 /* gp_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gp_logo.png; sourceTree = "<group>"; };
 		82FAF8DD2535B16E00B10401 /* gp_logo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = gp_logo.pdf; sourceTree = "<group>"; };
 		82FAF8E32535B2B500B10401 /* ResouceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResouceLoader.swift; sourceTree = "<group>"; };
@@ -337,6 +351,7 @@
 				8244D6A7255D76F500739364 /* GlobalPayViewController.swift */,
 				8244D6C1255E98A800739364 /* AccessToken */,
 				8253FBB32563E8C600FBDCC9 /* Transactions */,
+				82B49406256FDF21009C2CBD /* Verifications */,
 			);
 			path = GlobalPay;
 			sourceTree = "<group>";
@@ -590,6 +605,28 @@
 			path = TransactionView;
 			sourceTree = "<group>";
 		};
+		82B49406256FDF21009C2CBD /* Verifications */ = {
+			isa = PBXGroup;
+			children = (
+				82B49407256FE289009C2CBD /* Verifications.storyboard */,
+				82B4940F256FE2A2009C2CBD /* VerificationsBuilder.swift */,
+				82B4940B256FE299009C2CBD /* VerificationsViewController.swift */,
+				82EC18BE25750AD800A93A3C /* VerificationsViewModel.swift */,
+				82B49415256FF1BA009C2CBD /* VerificationsForm */,
+			);
+			path = Verifications;
+			sourceTree = "<group>";
+		};
+		82B49415256FF1BA009C2CBD /* VerificationsForm */ = {
+			isa = PBXGroup;
+			children = (
+				82EC18B82575063900A93A3C /* VerificationsForm.swift */,
+				82B4941A256FF490009C2CBD /* VerificationsFormBuilder.swift */,
+				82B49416256FF1CB009C2CBD /* VerificationsFormViewController.swift */,
+			);
+			path = VerificationsForm;
+			sourceTree = "<group>";
+		};
 		82FAF8DB2535B14600B10401 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -704,6 +741,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				82B49408256FE289009C2CBD /* Verifications.storyboard in Resources */,
 				8258B143255C27EE00D02721 /* Localizable.strings in Resources */,
 				8253FBBD2563E9D900FBDCC9 /* Transactions.storyboard in Resources */,
 				8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */,
@@ -824,12 +862,14 @@
 				8253FBFA25642F2F00FBDCC9 /* TransactionByIDFormBuilder.swift in Sources */,
 				823EDBF9256D13D6009DED23 /* EmptyView.swift in Sources */,
 				8244D688255D692A00739364 /* Router.swift in Sources */,
+				82B4941B256FF490009C2CBD /* VerificationsFormBuilder.swift in Sources */,
 				8244D6A8255D76F500739364 /* GlobalPayViewController.swift in Sources */,
 				8244D6CB255EA28300739364 /* UIButtonExtensions.swift in Sources */,
 				823EDBFF256D416D009DED23 /* TransactionOperationsBuilder.swift in Sources */,
 				826695E82566CA8E003D6FFE /* DatePicker.swift in Sources */,
 				823EDC26256D7C23009DED23 /* TransactionOperationType.swift in Sources */,
 				8244D68E255D6EB900739364 /* GatewaysRouter.swift in Sources */,
+				82B4940C256FE299009C2CBD /* VerificationsViewController.swift in Sources */,
 				8258B123255C1C2200D02721 /* GatewaysListBuilder.swift in Sources */,
 				8244D6F825629C0400739364 /* AccessTokenFormViewController.swift in Sources */,
 				8244D692255D74F400739364 /* UIViewControllerExtensions.swift in Sources */,
@@ -837,8 +877,10 @@
 				823EDC07256D489A009DED23 /* TransactionOperationsViewModel.swift in Sources */,
 				8253FBCC2563EDDA00FBDCC9 /* TransactionModel.swift in Sources */,
 				826695E42566CA71003D6FFE /* DropDown.swift in Sources */,
+				82B49410256FE2A2009C2CBD /* VerificationsBuilder.swift in Sources */,
 				8244D70325629FA900739364 /* AccessTokenFormBuilder.swift in Sources */,
 				8253FBD42563F19700FBDCC9 /* TransactionReportViewController.swift in Sources */,
+				82B49417256FF1CB009C2CBD /* VerificationsFormViewController.swift in Sources */,
 				8258B127255C1CC500D02721 /* GatewaysViewController.swift in Sources */,
 				8244D6D2255EACF300739364 /* Constants.swift in Sources */,
 				8253FBFE25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift in Sources */,
@@ -865,11 +907,13 @@
 				8253FBAC2563DB5500FBDCC9 /* ErrorView.swift in Sources */,
 				823EDC16256D5170009DED23 /* TransactionOperationsFormViewController.swift in Sources */,
 				823EDC0C256D50B4009DED23 /* TransactionOperationsForm.swift in Sources */,
+				82EC18BF25750AD800A93A3C /* VerificationsViewModel.swift in Sources */,
 				8253FBC12563E9EA00FBDCC9 /* TransactionsViewController.swift in Sources */,
 				8253FC042565271900FBDCC9 /* TransactionReportViewModel.swift in Sources */,
 				8244D6F4255ECCAF00739364 /* UIViewExtensions.swift in Sources */,
 				8258B130255C1ECB00D02721 /* Theme.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				82EC18B92575063900A93A3C /* VerificationsForm.swift in Sources */,
 				826695EC2566CEFB003D6FFE /* TransactionListForm.swift in Sources */,
 				823EDC03256D417D009DED23 /* TransactionOperationsViewController.swift in Sources */,
 				8258B16B255C390C00D02721 /* SelectableTableViewCell.swift in Sources */,

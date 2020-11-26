@@ -46,6 +46,7 @@ public class JsonDoc {
     }
 
     @discardableResult public func set(for key: String, value: String?, force: Bool = false) -> JsonDoc {
+        guard let value = value, !value.isEmpty else { return self }
         dict[key] = encoder != nil ? encoder?.encode(value: value) : value
         return self
     }

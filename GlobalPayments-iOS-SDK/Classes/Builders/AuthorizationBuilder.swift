@@ -57,6 +57,9 @@ import Foundation
     var tagData: String?
     var timestamp: String?
     var surchargeAmount: NSDecimalNumber?
+    var firstName: String?
+    var lastName: String?
+    var id: String?
 
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
@@ -174,7 +177,7 @@ import Foundation
     /// terminal account.
     /// - Parameter transactionId: The client transaction ID
     /// - Returns: AuthorizationBuilder
-    public func withClientTransactionId(_ clientTransactionId: String) -> AuthorizationBuilder {
+    public func withClientTransactionId(_ clientTransactionId: String?) -> AuthorizationBuilder {
         if transactionType != .reversal || transactionType != .refund {
             self.clientTransactionId = clientTransactionId
             return self
@@ -526,6 +529,30 @@ import Foundation
     /// - Returns: AuthorizationBuilder
     public func withSurchargeAmount(_ surchargeAmount: NSDecimalNumber?) -> AuthorizationBuilder {
         self.surchargeAmount = surchargeAmount
+        return self
+    }
+
+    /// Sets the first name; where applicable.
+    /// - Parameter firstName: The first name
+    /// - Returns: AuthorizationBuilder
+    public func withFirstName(_ firstName: String?) -> AuthorizationBuilder {
+        self.firstName = firstName
+        return self
+    }
+
+    /// Sets the last name; where applicable.
+    /// - Parameter firstName: The last name
+    /// - Returns: AuthorizationBuilder
+    public func withLastName(_ lastName: String?) -> AuthorizationBuilder {
+        self.lastName = lastName
+        return self
+    }
+
+    /// Sets unique reference of a stored payment method to use to create a Sale or Refund transaction, instead of the actual payment method details.
+    /// - Parameter id: The ID
+    /// - Returns: AuthorizationBuilder
+    public func withId(_ id: String?) -> AuthorizationBuilder {
+        self.id = id
         return self
     }
 

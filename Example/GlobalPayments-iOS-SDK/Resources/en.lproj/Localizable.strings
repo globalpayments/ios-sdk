@@ -129,3 +129,7 @@
 "verifications.form.avs.address" = "AVS Address:";
 "verifications.form.avs.postal.code" = "AVS Postal Code:";
 "verificatoins.form.missing.country" = "Country field cannot be empty \n Example: US";
+
+"payment.methods.title" = "Stored Payment Methods";
+"payment.methods.report.title" = "Payment Method Report";
+"payment.methods.operations.title" = "Payment Method Operations";

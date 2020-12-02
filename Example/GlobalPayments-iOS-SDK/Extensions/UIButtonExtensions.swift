@@ -26,5 +26,7 @@ extension UIButton {
         setTitleColor(style.titleColor, for: .normal)
         layer.cornerRadius = style.cornerRadius
         titleLabel?.font = style.font
+        titleLabel?.lineBreakMode = .byWordWrapping
+        titleLabel?.textAlignment = .center
     }
 }

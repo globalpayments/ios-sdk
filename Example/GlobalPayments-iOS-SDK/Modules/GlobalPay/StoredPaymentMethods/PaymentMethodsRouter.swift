@@ -16,7 +16,7 @@ struct PaymentMethodsRouter: Router {
     private func makeViewController(for destination: PaymentMethodsModel.Path) -> UIViewController {
         switch destination {
         case .report:
-            return UIViewController.empty()
+            return PaymentMethodReportBuilder.build()
         case .operations:
             return UIViewController.empty()
         }

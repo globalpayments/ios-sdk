@@ -133,3 +133,20 @@
 "payment.methods.title" = "Stored Payment Methods";
 "payment.methods.report.title" = "Payment Method Report";
 "payment.methods.operations.title" = "Payment Method Operations";
+"payment.methods.not.implemented.title" = "Not implemented in SDK";
+
+"payment.methods.report.list" = "Get Payment Methods List";
+"payment.methods.report.id" = "Get Payment Method By ID";
+
+"payment.methods.report.id.title" = "Report Parameters";
+"payment.methods.report.id.payment.method" = "Payment Method ID:";
+"payment.methods.report.id.submit" = "Submit";
+
+"payment.method.view.method.id" = "Payment method ID:";
+"payment.method.view.time.created" = "Time Created:";
+"payment.method.view.status" = "Status:";
+"payment.method.view.reference" = "Reference:";
+"payment.method.view.result.code" = "Result Code:";
+"payment.method.view.card.type" = "Card Type:";
+"payment.method.view.card.expiry.month" = "Card Expiry Month:";
+"payment.method.view.card.expiry.year" = "Card Expiry Year:";

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
@@ -14,11 +14,11 @@
             <objects>
                 <viewController storyboardIdentifier="PaymentMethodsViewController" id="p2P-2U-iLM" customClass="PaymentMethodsViewController" customModule="GlobalPayments_iOS_SDK_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LOP-UQ-rYg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UGS-fV-h10">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="44" width="428" height="848"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
@@ -39,8 +39,147 @@
             </objects>
             <point key="canvasLocation" x="-471" y="104"/>
         </scene>
+        <!--Payment Method Report View Controller-->
+        <scene sceneID="trG-Ac-eZj">
+            <objects>
+                <viewController storyboardIdentifier="PaymentMethodReportViewController" id="xKo-Sl-wLx" customClass="PaymentMethodReportViewController" customModule="GlobalPayments_iOS_SDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="n7r-QB-aGU">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6rq-7z-vPT">
+                                <rect key="frame" x="8" y="834" width="412" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="a2t-tK-f4a">
+                                        <rect key="frame" x="0.0" y="0.0" width="202" height="50"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="getPaymentsListAction" destination="xKo-Sl-wLx" eventType="touchUpInside" id="Paa-EO-V6z"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="scC-J6-fko">
+                                        <rect key="frame" x="210" y="0.0" width="202" height="50"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="getPaymentByIdAction" destination="xKo-Sl-wLx" eventType="touchUpInside" id="0CI-qS-PRS"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="BsR-gf-VBm"/>
+                                </constraints>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3NC-af-8NN">
+                                <rect key="frame" x="0.0" y="44" width="428" height="790"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ycq-Mw-yKr">
+                                <rect key="frame" x="204" y="429" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="AM8-7h-JUB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="3NC-af-8NN" firstAttribute="top" secondItem="AM8-7h-JUB" secondAttribute="top" id="1dI-Ur-nJF"/>
+                            <constraint firstItem="AM8-7h-JUB" firstAttribute="trailing" secondItem="6rq-7z-vPT" secondAttribute="trailing" constant="8" id="5QV-eG-Zoy"/>
+                            <constraint firstItem="ycq-Mw-yKr" firstAttribute="centerX" secondItem="3NC-af-8NN" secondAttribute="centerX" id="GDR-Fe-g16"/>
+                            <constraint firstItem="6rq-7z-vPT" firstAttribute="top" secondItem="3NC-af-8NN" secondAttribute="bottom" id="Ldy-Dl-HP4"/>
+                            <constraint firstItem="6rq-7z-vPT" firstAttribute="leading" secondItem="AM8-7h-JUB" secondAttribute="leading" constant="8" id="WEI-rx-eFr"/>
+                            <constraint firstItem="AM8-7h-JUB" firstAttribute="trailing" secondItem="3NC-af-8NN" secondAttribute="trailing" id="Ylv-yF-9lz"/>
+                            <constraint firstItem="ycq-Mw-yKr" firstAttribute="centerY" secondItem="3NC-af-8NN" secondAttribute="centerY" id="kBB-fU-vhl"/>
+                            <constraint firstItem="AM8-7h-JUB" firstAttribute="bottom" secondItem="6rq-7z-vPT" secondAttribute="bottom" constant="8" id="srU-MJ-evV"/>
+                            <constraint firstItem="3NC-af-8NN" firstAttribute="leading" secondItem="AM8-7h-JUB" secondAttribute="leading" id="woT-wi-Agt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="ycq-Mw-yKr" id="7tR-ya-VPi"/>
+                        <outlet property="paymentByIdButton" destination="scC-J6-fko" id="tGh-0D-X5x"/>
+                        <outlet property="paymentsListButton" destination="a2t-tK-f4a" id="fYj-SJ-0EX"/>
+                        <outlet property="supportView" destination="3NC-af-8NN" id="1Dh-P4-OIx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="htY-us-Kh8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="328" y="104"/>
+        </scene>
+        <!--Payment Method ByID View Controller-->
+        <scene sceneID="pW8-p8-udE">
+            <objects>
+                <viewController storyboardIdentifier="PaymentMethodByIDViewController" id="e4C-HP-U1b" customClass="PaymentMethodByIDViewController" customModule="GlobalPayments_iOS_SDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LSa-Px-wpE">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d5z-kp-6LB">
+                                <rect key="frame" x="8" y="834" width="412" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="9dc-qI-MA6"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="onSubmitAction" destination="e4C-HP-U1b" eventType="touchUpInside" id="i4f-Tc-tj2"/>
+                                </connections>
+                            </button>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zUm-sv-OQm">
+                                <rect key="frame" x="0.0" y="44" width="428" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="GFg-gp-Ux4">
+                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="cancel" id="Ova-FK-rah">
+                                            <connections>
+                                                <action selector="onCancelAction" destination="e4C-HP-U1b" id="JIh-lA-bu0"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62N-QG-YR2">
+                                <rect key="frame" x="12" y="96" width="404" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZJ-vz-JzI">
+                                <rect key="frame" x="8" y="116.99999999999999" width="412" height="166.66666666666663"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="HmL-8c-aSl"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="HmL-8c-aSl" firstAttribute="trailing" secondItem="62N-QG-YR2" secondAttribute="trailing" constant="12" id="3W9-wh-zoB"/>
+                            <constraint firstItem="zUm-sv-OQm" firstAttribute="top" secondItem="HmL-8c-aSl" secondAttribute="top" id="GuH-sz-rep"/>
+                            <constraint firstItem="62N-QG-YR2" firstAttribute="top" secondItem="zUm-sv-OQm" secondAttribute="bottom" constant="8" id="XAI-dC-YwU"/>
+                            <constraint firstItem="HmL-8c-aSl" firstAttribute="bottom" secondItem="d5z-kp-6LB" secondAttribute="bottom" constant="8" id="YHp-60-AI4"/>
+                            <constraint firstItem="62N-QG-YR2" firstAttribute="leading" secondItem="HmL-8c-aSl" secondAttribute="leading" constant="12" id="eOP-hX-Aeh"/>
+                            <constraint firstItem="LZJ-vz-JzI" firstAttribute="top" secondItem="62N-QG-YR2" secondAttribute="bottom" id="gzs-AA-2Gm"/>
+                            <constraint firstItem="HmL-8c-aSl" firstAttribute="trailing" secondItem="LZJ-vz-JzI" secondAttribute="trailing" constant="8" id="knp-be-jwy"/>
+                            <constraint firstItem="zUm-sv-OQm" firstAttribute="leading" secondItem="HmL-8c-aSl" secondAttribute="leading" id="l5p-0S-h50"/>
+                            <constraint firstItem="LZJ-vz-JzI" firstAttribute="leading" secondItem="HmL-8c-aSl" secondAttribute="leading" constant="8" id="s0s-Jk-C1T"/>
+                            <constraint firstItem="HmL-8c-aSl" firstAttribute="trailing" secondItem="d5z-kp-6LB" secondAttribute="trailing" constant="8" id="weC-ex-TKS"/>
+                            <constraint firstItem="zUm-sv-OQm" firstAttribute="trailing" secondItem="HmL-8c-aSl" secondAttribute="trailing" id="xnD-Le-M4V"/>
+                            <constraint firstItem="d5z-kp-6LB" firstAttribute="leading" secondItem="HmL-8c-aSl" secondAttribute="leading" constant="8" id="ymi-sV-MSo"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="62N-QG-YR2" id="6jj-Md-eqa"/>
+                        <outlet property="inputTextView" destination="LZJ-vz-JzI" id="xDa-bd-G32"/>
+                        <outlet property="navigationBar" destination="zUm-sv-OQm" id="4wU-Db-6En"/>
+                        <outlet property="submitButton" destination="d5z-kp-6LB" id="Hay-iG-RJQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wxf-Zw-FsX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1150" y="104"/>
+        </scene>
     </scenes>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

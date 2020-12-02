@@ -18,7 +18,7 @@ struct PaymentMethodsRouter: Router {
         case .report:
             return PaymentMethodReportBuilder.build()
         case .operations:
-            return UIViewController.empty()
+            return PaymentMethodOperationsBuilder.build()
         }
     }
 }

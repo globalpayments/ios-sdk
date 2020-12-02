@@ -174,7 +174,9 @@ class GpApiConnector: RestGateway, PaymentGateway {
 
         let transaction = Transaction()
         transaction.transactionId = json?.getValue(key: "id")
-        transaction.balanceAmount = NSDecimalNumber(string: json?.getValue(key: "amount")).amount
+        if let amount: String = json?.getValue(key: "amount") {
+            transaction.balanceAmount = NSDecimalNumber(string: amount).amount
+        }
         transaction.timestamp = json?.getValue(key: "time_created")
         transaction.responseMessage = json?.getValue(key: "status")
         transaction.referenceNumber = json?.getValue(key: "reference")

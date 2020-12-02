@@ -2,9 +2,23 @@ import UIKit
 
 final class SelectableLabel: UILabel {
 
+    init() {
+        super.init(frame: .zero)
+
+        addGestureRecognizer()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        addGestureRecognizer()
+    }
+
+    private func addGestureRecognizer() {
         isUserInteractionEnabled = true
         addGestureRecognizer(
             UILongPressGestureRecognizer(

@@ -20,6 +20,7 @@ class GpApiTokenManagementTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
+        // GIVEN
         card = CreditCardData()
         card?.number = "4111111111111111"
         card?.expMonth = 12
@@ -27,36 +28,69 @@ class GpApiTokenManagementTests: XCTestCase {
         card?.cvn = "123"
 
         let tokenizeExpectation = expectation(description: "Tokenize exception")
+        var expectedToken: String?
+        var expectedError: ApiException?
 
+        // WHEN
         card?.tokenize(completion: { [weak self] token, error in
             self?.token = token
+            expectedToken = token
+            if let error = error as? ApiException {
+                expectedError = error
+            }
             tokenizeExpectation.fulfill()
         })
 
+        // THEN
         wait(for: [tokenizeExpectation], timeout: 20.0)
+        XCTAssertNil(expectedError)
+        XCTAssertNotNil(expectedToken)
+        XCTAssertNotEqual(expectedToken, "Token could not be generated.")
     }
 
     override func tearDown() {
         super.tearDown()
 
+        // GIVEN
+        let tokenizeExpectation = expectation(description: "Tokenize exception")
+        var deleted: Bool?
+        var expectedError: Error?
         let tokenizedCard = CreditCardData()
         tokenizedCard.token = token
 
-        let tokenizeExpectation = expectation(description: "Tokenize exception")
-        let verifyExpectation = expectation(description: "Verify exception")
-
+        // WHEN
         tokenizedCard.deleteToken { completed, error in
+            deleted = completed
+            expectedError = error
             tokenizeExpectation.fulfill()
         }
 
+        // THEN
         wait(for: [tokenizeExpectation], timeout: 20.0)
+        XCTAssertNil(expectedError)
+        XCTAssertNotNil(deleted)
+        XCTAssertEqual(deleted, true)
 
+        // GIVEN
+        let verifyExpectation = expectation(description: "Verify exception")
+        var expectedTransaction: Transaction?
+        var expectedVerifyError: GatewayException?
+
+        // WHEN
         tokenizedCard.verify()
             .execute { transaction, error in
+                expectedTransaction = transaction
+                if let error = error as? GatewayException {
+                    expectedVerifyError = error
+                }
                 verifyExpectation.fulfill()
         }
 
+        // THEN
         wait(for: [verifyExpectation], timeout: 10.0)
+        XCTAssertNil(expectedTransaction)
+        XCTAssertNotNil(expectedVerifyError)
+        XCTAssertEqual(expectedVerifyError?.responseCode, "RESOURCE_NOT_FOUND")
     }
 
     func test_verify_tokenized_payment_method() {
@@ -98,7 +132,7 @@ class GpApiTokenManagementTests: XCTestCase {
         }
 
         // THEN
-        wait(for: [detokenizeExpectation], timeout: 100000.0)
+        wait(for: [detokenizeExpectation], timeout: 10.0)
         XCTAssertNotNil(responseCard)
         XCTAssertNil(responseError)
         XCTAssertEqual(card?.number, responseCard?.number)
@@ -134,7 +168,9 @@ class GpApiTokenManagementTests: XCTestCase {
         var transactionErrorResult: Error?
 
         // WHEN
-        tokenizedCard.verify().execute { transaction, error in
+        tokenizedCard
+            .verify()
+            .execute { transaction, error in
             transactionResult = transaction
             transactionErrorResult = error
             executeExpectation.fulfill()

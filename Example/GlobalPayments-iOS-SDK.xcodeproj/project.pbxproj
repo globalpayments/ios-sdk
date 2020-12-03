@@ -26,7 +26,6 @@
 		824451BC24E150410080D06B /* GpApiReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824451BB24E150410080D06B /* GpApiReportingTests.swift */; };
 		824451C124E1801D0080D06B /* GpApiDebitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824451C024E1801D0080D06B /* GpApiDebitTests.swift */; };
 		8244D688255D692A00739364 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D687255D692A00739364 /* Router.swift */; };
-		8244D68E255D6EB900739364 /* GatewaysRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D68D255D6EB900739364 /* GatewaysRouter.swift */; };
 		8244D692255D74F400739364 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D691255D74F400739364 /* UIViewControllerExtensions.swift */; };
 		8244D698255D766100739364 /* GlobalPayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D697255D766100739364 /* GlobalPayModel.swift */; };
 		8244D6A0255D76D800739364 /* GlobalPay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8244D69F255D76D800739364 /* GlobalPay.storyboard */; };
@@ -64,16 +63,12 @@
 		8253FC0B256531E000FBDCC9 /* TransactionSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8253FC09256531E000FBDCC9 /* TransactionSummaryTableViewCell.swift */; };
 		8253FC0C256531E000FBDCC9 /* TransactionSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8253FC0A256531E000FBDCC9 /* TransactionSummaryTableViewCell.xib */; };
 		8258B118255C1B6900D02721 /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */; };
-		8258B11F255C1C0900D02721 /* Gateways.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8258B11E255C1C0900D02721 /* Gateways.storyboard */; };
-		8258B123255C1C2200D02721 /* GatewaysListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */; };
-		8258B127255C1CC500D02721 /* GatewaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B126255C1CC500D02721 /* GatewaysViewController.swift */; };
 		8258B130255C1ECB00D02721 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B12F255C1ECB00D02721 /* Theme.swift */; };
 		8258B143255C27EE00D02721 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8258B145255C27EE00D02721 /* Localizable.strings */; };
 		8258B15E255C2FC400D02721 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B15D255C2FC400D02721 /* StringExtensions.swift */; };
 		8258B164255C36DD00D02721 /* CellIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B163255C36DD00D02721 /* CellIdentifiable.swift */; };
 		8258B16B255C390C00D02721 /* SelectableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B169255C390C00D02721 /* SelectableTableViewCell.swift */; };
 		8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8258B16A255C390C00D02721 /* SelectableTableViewCell.xib */; };
-		8258B172255C3FBF00D02721 /* GatewayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8258B171255C3FBF00D02721 /* GatewayModel.swift */; };
 		8259A3582562CB6C00652BB7 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8259A3572562CB6C00652BB7 /* UITextFieldExtensions.swift */; };
 		82613EBC24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */; };
 		826695E42566CA71003D6FFE /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826695E32566CA71003D6FFE /* DropDown.swift */; };
@@ -162,7 +157,6 @@
 		824451BB24E150410080D06B /* GpApiReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingTests.swift; sourceTree = "<group>"; };
 		824451C024E1801D0080D06B /* GpApiDebitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDebitTests.swift; sourceTree = "<group>"; };
 		8244D687255D692A00739364 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		8244D68D255D6EB900739364 /* GatewaysRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewaysRouter.swift; sourceTree = "<group>"; };
 		8244D691255D74F400739364 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		8244D697255D766100739364 /* GlobalPayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPayModel.swift; sourceTree = "<group>"; };
 		8244D69F255D76D800739364 /* GlobalPay.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GlobalPay.storyboard; sourceTree = "<group>"; };
@@ -200,16 +194,12 @@
 		8253FC09256531E000FBDCC9 /* TransactionSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		8253FC0A256531E000FBDCC9 /* TransactionSummaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TransactionSummaryTableViewCell.xib; sourceTree = "<group>"; };
 		8258B117255C1B6900D02721 /* StoryboardInstantiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardInstantiable.swift; sourceTree = "<group>"; };
-		8258B11E255C1C0900D02721 /* Gateways.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Gateways.storyboard; sourceTree = "<group>"; };
-		8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewaysListBuilder.swift; sourceTree = "<group>"; };
-		8258B126255C1CC500D02721 /* GatewaysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewaysViewController.swift; sourceTree = "<group>"; };
 		8258B12F255C1ECB00D02721 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		8258B144255C27EE00D02721 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8258B15D255C2FC400D02721 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		8258B163255C36DD00D02721 /* CellIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifiable.swift; sourceTree = "<group>"; };
 		8258B169255C390C00D02721 /* SelectableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableTableViewCell.swift; sourceTree = "<group>"; };
 		8258B16A255C390C00D02721 /* SelectableTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectableTableViewCell.xib; sourceTree = "<group>"; };
-		8258B171255C3FBF00D02721 /* GatewayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewayModel.swift; sourceTree = "<group>"; };
 		8259A3572562CB6C00652BB7 /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
 		82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiTokenManagementTests.swift; sourceTree = "<group>"; };
 		826695E32566CA71003D6FFE /* DropDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
@@ -529,7 +519,6 @@
 			isa = PBXGroup;
 			children = (
 				8258B167255C38DB00D02721 /* Components */,
-				8258B11D255C1B9200D02721 /* Gateways */,
 				8244D695255D760200739364 /* GlobalPay */,
 			);
 			path = Modules;
@@ -543,18 +532,6 @@
 				8244D687255D692A00739364 /* Router.swift */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		8258B11D255C1B9200D02721 /* Gateways */ = {
-			isa = PBXGroup;
-			children = (
-				8258B175255C412300D02721 /* Models */,
-				8258B11E255C1C0900D02721 /* Gateways.storyboard */,
-				8258B122255C1C2200D02721 /* GatewaysListBuilder.swift */,
-				8244D68D255D6EB900739364 /* GatewaysRouter.swift */,
-				8258B126255C1CC500D02721 /* GatewaysViewController.swift */,
-			);
-			path = Gateways;
 			sourceTree = "<group>";
 		};
 		8258B12E255C1EB600D02721 /* Design */ = {
@@ -611,14 +588,6 @@
 				8258B16A255C390C00D02721 /* SelectableTableViewCell.xib */,
 			);
 			path = SelectableTableViewCell;
-			sourceTree = "<group>";
-		};
-		8258B175255C412300D02721 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				8258B171255C3FBF00D02721 /* GatewayModel.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		8267BC9624DAB5B700AF64D2 /* GpApi */ = {
@@ -889,7 +858,6 @@
 				8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */,
 				82B49403256FAF74009C2CBD /* TransactionView.xib in Resources */,
 				8253FC0C256531E000FBDCC9 /* TransactionSummaryTableViewCell.xib in Resources */,
-				8258B11F255C1C0900D02721 /* Gateways.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1005,11 +973,9 @@
 				823EDBFF256D416D009DED23 /* TransactionOperationsBuilder.swift in Sources */,
 				826695E82566CA8E003D6FFE /* DatePicker.swift in Sources */,
 				823EDC26256D7C23009DED23 /* TransactionOperationType.swift in Sources */,
-				8244D68E255D6EB900739364 /* GatewaysRouter.swift in Sources */,
 				82A9F7832577ABB300B8962D /* PaymentOperationFormViewController.swift in Sources */,
 				82B4940C256FE299009C2CBD /* VerificationsViewController.swift in Sources */,
 				82EC19092576467700A93A3C /* PaymentMethodReportViewModel.swift in Sources */,
-				8258B123255C1C2200D02721 /* GatewaysListBuilder.swift in Sources */,
 				8244D6F825629C0400739364 /* AccessTokenFormViewController.swift in Sources */,
 				8244D692255D74F400739364 /* UIViewControllerExtensions.swift in Sources */,
 				8244D6D8255EAD5F00739364 /* AccessTokenViewModel.swift in Sources */,
@@ -1022,7 +988,6 @@
 				8244D70325629FA900739364 /* AccessTokenFormBuilder.swift in Sources */,
 				8253FBD42563F19700FBDCC9 /* TransactionReportViewController.swift in Sources */,
 				82B49417256FF1CB009C2CBD /* VerificationsFormViewController.swift in Sources */,
-				8258B127255C1CC500D02721 /* GatewaysViewController.swift in Sources */,
 				8244D6D2255EACF300739364 /* Constants.swift in Sources */,
 				8253FBFE25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift in Sources */,
 				82A9F7962578F2F700B8962D /* PaymentMethodResultView.swift in Sources */,
@@ -1052,7 +1017,6 @@
 				8253FBD82563F20A00FBDCC9 /* TransactionReportBuilder.swift in Sources */,
 				82A9F7782577A34700B8962D /* PaymentMethodOperationsViewModel.swift in Sources */,
 				8253FBD02563F07300FBDCC9 /* TransactionsRouter.swift in Sources */,
-				8258B172255C3FBF00D02721 /* GatewayModel.swift in Sources */,
 				82EC18EC257531FD00A93A3C /* PaymentMethodsBuilder.swift in Sources */,
 				8244D6AC255D76FE00739364 /* GlobalPayRouter.swift in Sources */,
 				823EDC12256D5165009DED23 /* TransactionOperationsFormBuilder.swift in Sources */,

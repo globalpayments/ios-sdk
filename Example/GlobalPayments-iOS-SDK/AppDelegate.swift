@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func setupWindow() {
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = GatewaysListBuilder.build()
+        window?.rootViewController = GlobalPayListBuilder.build()
         window?.makeKeyAndVisible()
     }
 

@@ -18,9 +18,12 @@ public struct GpApiMapping {
         transaction.responseCode = doc?.get(valueFor: "action")?.getValue(key: "result_code")
         transaction.token = doc?.getValue(key: "id")
 
-        if let paymentMethod: JsonDoc = doc?.get(valueFor: "payment_method"),
-           let card: JsonDoc = paymentMethod.get(valueFor: "card") {
-            transaction.cardLast4 = card.getValue(key: "masked_number_last4")
+        if let paymentMethod: JsonDoc = doc?.get(valueFor: "payment_method") {
+            transaction.authorizationCode = paymentMethod.getValue(key: "result")
+            if let card: JsonDoc = paymentMethod.get(valueFor: "card") {
+                transaction.cardLast4 = card.getValue(key: "masked_number_last4")
+                transaction.cardType = card.getValue(key: "brand")
+            }
         }
 
         if let card: JsonDoc = doc?.get(valueFor: "card") {
@@ -28,6 +31,7 @@ public struct GpApiMapping {
             transaction.cardExpYear = Int(card.getValue(key: "expiry_year") ?? .empty)
             transaction.cardNumber = card.getValue(key: "number")
             transaction.cardType = card.getValue(key: "brand")
+            transaction.cardLast4 = card.getValue(key: "masked_number_last4")
         }
 
         return transaction
@@ -89,7 +93,7 @@ public struct GpApiMapping {
         summary.merchantDbaName = doc?.get(valueFor: "system")?.getValue(key: "dba")
 
         summary.salesTotalCount = doc?.get(valueFor: "sales")?.getValue(key: "count")
-        summary.amount = NSDecimalNumber(string: doc?.get(valueFor: "sales")?.getValue(key: "amount")).amount
+        summary.salesTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "sales")?.getValue(key: "amount")).amount
 
         summary.refundsTotalCount = doc?.get(valueFor: "refunds")?.getValue(key: "count")
         summary.refundsTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "refunds")?.getValue(key: "amount")).amount
@@ -117,9 +121,25 @@ public struct GpApiMapping {
         summary.caseCurrency = doc?.getValue(key: "currency")
         summary.caseMerchantId = doc?.get(valueFor: "system")?.getValue(key: "mid")
         summary.merchantHierarchy = doc?.get(valueFor: "system")?.getValue(key: "hierarchy")
-        summary.transactionMaskedCardNumber = doc?.get(valueFor: "payment_method")?.get(valueFor: "card")?.getValue(key: "number")
-        summary.transactionARN = doc?.get(valueFor: "payment_method")?.get(valueFor: "card")?.getValue(key: "arn")
-        summary.transactionCardType = doc?.get(valueFor: "payment_method")?.get(valueFor: "card")?.getValue(key: "brand")
+
+        summary.transactionARN = doc?.get(valueFor: "transaction")?
+            .get(valueFor: "payment_method")?
+            .get(valueFor: "card")?
+            .getValue(key: "arn")
+        summary.transactionReferenceNumber = doc?.get(valueFor: "transaction")?
+            .getValue(key: "reference")
+        summary.transactionAuthCode = doc?.get(valueFor: "transaction")?
+            .get(valueFor: "payment_method")?
+            .get(valueFor: "card")?
+            .getValue(key: "authcode")
+        summary.transactionCardType = doc?.get(valueFor: "transaction")?
+            .get(valueFor: "payment_method")?
+            .get(valueFor: "card")?
+            .getValue(key: "brand")
+        summary.transactionMaskedCardNumber = doc?.get(valueFor: "transaction")?
+            .get(valueFor: "payment_method")?
+            .get(valueFor: "card")?
+            .getValue(key: "number")
         //reason_code
         summary.reason = doc?.getValue(key: "reason_description")
         summary.reasonCode = doc?.getValue(key: "reason_code")
@@ -136,6 +156,8 @@ public struct GpApiMapping {
         summary.lastAdjustmentFunding = AdjustmentFunding(value: doc?.getValue(key: "last_adjustment_funding"))
         summary.lastAdjustmentAmount = NSDecimalNumber(string: doc?.getValue(key: "last_adjustment_amount")).amount
         summary.lastAdjustmentCurrency = doc?.getValue(key: "last_adjustment_currency")
+        let lastAdjustmentTimeCreated: String? = doc?.getValue(key: "last_adjustment_time_created")
+        summary.lastAdjustmentTimeCreated = lastAdjustmentTimeCreated?.format()
 
         summary.result = doc?.getValue(key: "result")
 

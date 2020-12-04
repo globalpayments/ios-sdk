@@ -97,6 +97,8 @@
 		82B49410256FE2A2009C2CBD /* VerificationsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4940F256FE2A2009C2CBD /* VerificationsBuilder.swift */; };
 		82B49417256FF1CB009C2CBD /* VerificationsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B49416256FF1CB009C2CBD /* VerificationsFormViewController.swift */; };
 		82B4941B256FF490009C2CBD /* VerificationsFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4941A256FF490009C2CBD /* VerificationsFormBuilder.swift */; };
+		82CF9A81257A60C400B7CC18 /* GpApiMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CF9A80257A60C400B7CC18 /* GpApiMappingTests.swift */; };
+		82CF9A88257A868C00B7CC18 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CF9A87257A868C00B7CC18 /* StringExtensions.swift */; };
 		82EC18B92575063900A93A3C /* VerificationsForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC18B82575063900A93A3C /* VerificationsForm.swift */; };
 		82EC18BF25750AD800A93A3C /* VerificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EC18BE25750AD800A93A3C /* VerificationsViewModel.swift */; };
 		82EC18E42575306500A93A3C /* PaymentMethods.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82EC18E32575306500A93A3C /* PaymentMethods.storyboard */; };
@@ -228,6 +230,8 @@
 		82B4940F256FE2A2009C2CBD /* VerificationsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsBuilder.swift; sourceTree = "<group>"; };
 		82B49416256FF1CB009C2CBD /* VerificationsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsFormViewController.swift; sourceTree = "<group>"; };
 		82B4941A256FF490009C2CBD /* VerificationsFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsFormBuilder.swift; sourceTree = "<group>"; };
+		82CF9A80257A60C400B7CC18 /* GpApiMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiMappingTests.swift; sourceTree = "<group>"; };
+		82CF9A87257A868C00B7CC18 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		82EC18B82575063900A93A3C /* VerificationsForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsForm.swift; sourceTree = "<group>"; };
 		82EC18BE25750AD800A93A3C /* VerificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsViewModel.swift; sourceTree = "<group>"; };
 		82EC18E32575306500A93A3C /* PaymentMethods.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PaymentMethods.storyboard; sourceTree = "<group>"; };
@@ -599,6 +603,7 @@
 				8252038B24E2A72000784248 /* GpApiEbtTests.swift */,
 				82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */,
 				8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */,
+				82CF9A80257A60C400B7CC18 /* GpApiMappingTests.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -742,6 +747,7 @@
 			isa = PBXGroup;
 			children = (
 				82FAF8E32535B2B500B10401 /* ResouceLoader.swift */,
+				82CF9A87257A868C00B7CC18 /* StringExtensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1045,9 +1051,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82CF9A88257A868C00B7CC18 /* StringExtensions.swift in Sources */,
 				824451C124E1801D0080D06B /* GpApiDebitTests.swift in Sources */,
 				82FAF8E42535B2B500B10401 /* ResouceLoader.swift in Sources */,
 				8252038C24E2A72000784248 /* GpApiEbtTests.swift in Sources */,
+				82CF9A81257A60C400B7CC18 /* GpApiMappingTests.swift in Sources */,
 				82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */,
 				824451BC24E150410080D06B /* GpApiReportingTests.swift in Sources */,
 				8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */,

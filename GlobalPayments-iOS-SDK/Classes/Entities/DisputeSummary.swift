@@ -47,5 +47,6 @@ public class DisputeSummary {
     public var lastAdjustmentAmount: NSDecimalNumber?
     public var lastAdjustmentCurrency: String?
     public var lastAdjustmentFunding: AdjustmentFunding?
+    public var lastAdjustmentTimeCreated: Date?
     public var documents: [DisputeDocument]?
 }

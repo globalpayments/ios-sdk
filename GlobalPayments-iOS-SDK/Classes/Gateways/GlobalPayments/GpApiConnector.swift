@@ -168,36 +168,4 @@ class GpApiConnector: RestGateway, PaymentGateway {
             completion(nil)
         }
     }
-
-    func mapResponse(_ rawResponse: String) -> Transaction {
-        let json = JsonDoc.parse(rawResponse)
-
-        let transaction = Transaction()
-        transaction.transactionId = json?.getValue(key: "id")
-        if let amount: String = json?.getValue(key: "amount") {
-            transaction.balanceAmount = NSDecimalNumber(string: amount).amount
-        }
-        transaction.timestamp = json?.getValue(key: "time_created")
-        transaction.responseMessage = json?.getValue(key: "status")
-        transaction.referenceNumber = json?.getValue(key: "reference")
-        let batchSummary = BatchSummary()
-        batchSummary.sequenceNumber = json?.getValue(key: "batch_id")
-        transaction.batchSummary = batchSummary
-        transaction.responseCode = json?.get(valueFor: "action")?.getValue(key: "result_code")
-        transaction.token = json?.getValue(key: "id")
-        
-        if let paymentMethod: JsonDoc = json?.get(valueFor: "payment_method"),
-           let card: JsonDoc = paymentMethod.get(valueFor: "card") {
-            transaction.cardLast4 = card.getValue(key: "masked_number_last4")
-        }
-
-        if let card: JsonDoc = json?.get(valueFor: "card") {
-            transaction.cardExpMonth = Int(card.getValue(key: "expiry_month") ?? .empty)
-            transaction.cardExpYear = Int(card.getValue(key: "expiry_year") ?? .empty)
-            transaction.cardNumber = card.getValue(key: "number")
-            transaction.cardType = card.getValue(key: "brand")
-        }
-
-        return transaction
-    }
 }

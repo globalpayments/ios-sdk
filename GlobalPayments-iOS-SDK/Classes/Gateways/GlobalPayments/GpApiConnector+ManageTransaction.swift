@@ -15,12 +15,13 @@ extension GpApiConnector {
                 endpoint: Endpoints.transactionsCapture(transactionId: builder.transactionId ?? .empty),
                 data: data.toString(),
                 idempotencyKey: nil
-            ) { [weak self] response, error in
+            ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
                     return
                 }
-                let transaction = self?.mapResponse(response)
+                let doc = JsonDoc.parse(response)
+                let transaction = GpApiMapping.mapTransaction(doc)
                 completion?(transaction, nil)
             }
         } else if builder.transactionType == .refund {
@@ -32,12 +33,13 @@ extension GpApiConnector {
                 endpoint: Endpoints.transactionsRefund(transactionId: (builder.transactionId ?? .empty)),
                 data: data.toString(),
                 idempotencyKey: nil
-            ) { [weak self] response, error in
+            ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
                     return
                 }
-                let transaction = self?.mapResponse(response)
+                let doc = JsonDoc.parse(response)
+                let transaction = GpApiMapping.mapTransaction(doc)
                 completion?(transaction, nil)
             }
         } else if builder.transactionType == .reversal {
@@ -49,12 +51,13 @@ extension GpApiConnector {
                 endpoint: Endpoints.transactionsReversal(transactionId: (builder.transactionId ?? .empty)),
                 data: data.toString(),
                 idempotencyKey: nil
-            ) { [weak self] response, error in
+            ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
                     return
                 }
-                let transaction = self?.mapResponse(response)
+                let doc = JsonDoc.parse(response)
+                let transaction = GpApiMapping.mapTransaction(doc)
                 completion?(transaction, nil)
             }
         } else if let creditCardData = builder.paymentMethod as? CreditCardData, builder.transactionType == .tokenUpdate {
@@ -71,12 +74,13 @@ extension GpApiConnector {
                 endpoint: Endpoints.paymentMethodsEdit(token: ((builder.paymentMethod as? Tokenizable)?.token ?? .empty)),
                 data: payload.toString(),
                 idempotencyKey: nil
-            ) { [weak self] response, error in
+            ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
                     return
                 }
-                let transaction = self?.mapResponse(response)
+                let doc = JsonDoc.parse(response)
+                let transaction = GpApiMapping.mapTransaction(doc)
                 completion?(transaction, nil)
             }
         } else if let tokenizable = builder.paymentMethod as? Tokenizable,
@@ -86,12 +90,13 @@ extension GpApiConnector {
                 method: .post,
                 endpoint: Endpoints.paymentMethodsDelete(token: (tokenizable.token ?? .empty)),
                 idempotencyKey: nil
-            ) { [weak self] response, error in
+            ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
                     return
                 }
-                let transaction = self?.mapResponse(response)
+                let doc = JsonDoc.parse(response)
+                let transaction = GpApiMapping.mapTransaction(doc)
                 completion?(transaction, nil)
             }
         } else if let detokenizable = builder.paymentMethod as? Tokenizable,
@@ -101,12 +106,13 @@ extension GpApiConnector {
                 method: .post,
                 endpoint: Endpoints.paymentMethodsDetokenize(token: (detokenizable.token ?? .empty)),
                 idempotencyKey: nil
-            ) { [weak self] response, error in
+            ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
                     return
                 }
-                let transaction = self?.mapResponse(response)
+                let doc = JsonDoc.parse(response)
+                let transaction = GpApiMapping.mapTransaction(doc)
                 completion?(transaction, nil)
             }
         }

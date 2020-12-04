@@ -17,7 +17,7 @@ class GpApiSessionInfo {
                        appKey: String,
                        secondsToExpire: Int? = nil,
                        intervalToExpire: IntervalToExpire? = nil) -> GpApiRequest {
-        let nonce = String(Date().timeIntervalSince1970)
+        let nonce = Date().format("MM/dd/yyyy HH:mm:ss.SSSS")
         let request = JsonDoc()
             .set(for: "app_id", value: appId)
             .set(for: "nonce", value: nonce)

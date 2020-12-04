@@ -333,7 +333,6 @@ extension GpApiConnector: ReportingServiceType {
 
     private func mapDisputeSummary(_ doc: JsonDoc?) -> DisputeSummary {
         let summary = DisputeSummary()
-        // TODO: map all available fields
         summary.caseId = doc?.getValue(key: "id")
         let timeCreated: String? = doc?.getValue(key: "time_created")
         summary.caseIdTime = timeCreated?.format()

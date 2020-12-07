@@ -23,7 +23,7 @@ public class GatewayConfig: Configuration {
         reportingService.clientId = dataClientId
         reportingService.clientSecret = dataClientSecret
         reportingService.userId = dataClientUserId
-        reportingService.serviceUrl = dataClientSeviceUrl ?? "https://globalpay-test.apigee.net/apis/reporting/"
+        reportingService.serviceUrl = dataClientSeviceUrl
         services.reportingService = reportingService
     }
 

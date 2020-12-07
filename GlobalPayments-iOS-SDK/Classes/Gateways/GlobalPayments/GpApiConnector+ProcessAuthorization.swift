@@ -100,10 +100,10 @@ extension GpApiConnector {
                                 .set(for: "country", value: builder.billingAddress?.country ?? self?.country)
                                 .set(for: "payment_method", doc: paymentMethod)
 
-                            if let clientTransactionId = builder.clientTransactionId, !clientTransactionId.isEmpty {
-                                verificationData.set(for: "reference", value: clientTransactionId)
-                            } else {
+                            if builder.clientTransactionId.isNilOrEmpty {
                                 verificationData.set(for: "reference", value: UUID().uuidString)
+                            } else {
+                                verificationData.set(for: "reference", value: builder.clientTransactionId)
                             }
 
                             self?.doTransaction(

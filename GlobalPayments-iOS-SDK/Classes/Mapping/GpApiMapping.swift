@@ -42,7 +42,6 @@ public struct GpApiMapping {
         let card: JsonDoc? = paymentMethod?.get(valueFor: "card")
 
         let summary = TransactionSummary()
-        //TODO: Map all transaction properties
         summary.transactionId = doc?.getValue(key: "id")
         let timeCreated: String? = doc?.getValue(key: "time_created")
         summary.transactionDate = timeCreated?.format()
@@ -116,7 +115,7 @@ public struct GpApiMapping {
         summary.caseIdTime = timeCreated?.format()
         summary.caseStatus = doc?.getValue(key: "status")
         summary.caseStage = DisputeStage(value: doc?.getValue(key: "stage"))
-        //stage
+
         summary.caseAmount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount
         summary.caseCurrency = doc?.getValue(key: "currency")
         summary.caseMerchantId = doc?.get(valueFor: "system")?.getValue(key: "mid")
@@ -140,7 +139,7 @@ public struct GpApiMapping {
             .get(valueFor: "payment_method")?
             .get(valueFor: "card")?
             .getValue(key: "number")
-        //reason_code
+
         summary.reason = doc?.getValue(key: "reason_description")
         summary.reasonCode = doc?.getValue(key: "reason_code")
         let timeToRespondBy: String? = doc?.getValue(key: "time_to_respond_by")

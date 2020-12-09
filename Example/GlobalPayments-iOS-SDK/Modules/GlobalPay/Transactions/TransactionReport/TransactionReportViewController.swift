@@ -20,10 +20,14 @@ final class TransactionReportViewController: UIViewController, StoryboardInstant
     private func setupUI() {
         setupTable()
         title = "transaction.report.title".localized()
-        transactionListButton.apply(style: .globalPayStyle)
-        transactionListButton.setTitle("transaction.report.get.list".localized(), for: .normal)
-        transactionByIdButton.apply(style: .globalPayStyle)
-        transactionByIdButton.setTitle("transaction.report.get.by.id".localized(), for: .normal)
+        transactionListButton.apply(
+            style: .globalPayStyle,
+            title: "transaction.report.get.list".localized()
+        )
+        transactionByIdButton.apply(
+            style: .globalPayStyle,
+            title: "transaction.report.get.by.id".localized()
+        )
         activityIndicator.stopAnimating()
     }
 

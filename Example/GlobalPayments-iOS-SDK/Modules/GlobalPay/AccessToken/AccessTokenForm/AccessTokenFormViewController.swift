@@ -35,8 +35,7 @@ final class AccessTokenFormViewController: UIViewController, StoryboardInstantia
 
         navigationBar.topItem?.title = "access.token.form.title".localized()
 
-        submitButton.apply(style: .globalPayStyle)
-        submitButton.setTitle("access.token.form.submit".localized(), for: .normal)
+        submitButton.apply(style: .globalPayStyle, title: "access.token.form.submit".localized())
 
         appIdLabel.text = "access.token.form.app.id".localized()
         appIdTextField.text = Constants.gpApiAppID

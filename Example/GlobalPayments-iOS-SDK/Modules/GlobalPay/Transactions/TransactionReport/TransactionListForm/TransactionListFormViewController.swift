@@ -75,8 +75,7 @@ final class TransactionListFormViewController: UIViewController, StoryboardInsta
     }
 
     private func setupUI() {
-        submitButton.apply(style: .globalPayStyle)
-        submitButton.setTitle("transaction.report.list.submit".localized(), for: .normal)
+        submitButton.apply(style: .globalPayStyle, title: "transaction.report.list.submit".localized())
         navigationBar.topItem?.title = "transaction.report.list.title".localized()
 
         pageLabel.text = "transaction.report.list.page".localized()

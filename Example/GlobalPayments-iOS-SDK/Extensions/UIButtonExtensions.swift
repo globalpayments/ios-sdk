@@ -21,12 +21,13 @@ extension ButtonStyle {
 
 extension UIButton {
 
-    func apply(style: ButtonStyle) {
+    func apply(style: ButtonStyle, title: String?, for state: UIControl.State = .normal) {
         backgroundColor = style.backgroundColor
         setTitleColor(style.titleColor, for: .normal)
         layer.cornerRadius = style.cornerRadius
         titleLabel?.font = style.font
         titleLabel?.lineBreakMode = .byWordWrapping
         titleLabel?.textAlignment = .center
+        setTitle(title, for: state)
     }
 }

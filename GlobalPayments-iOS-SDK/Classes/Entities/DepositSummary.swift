@@ -50,4 +50,8 @@ public class DepositSummary {
     public var adjustmentTotalCount: Int?
     public var adjustmentTotalAmount: NSDecimalNumber?
     public var adjustmentTotalCurrency: String?
+    public var discountsTotalCount: Int?
+    public var discountsTotalAmount: NSDecimalNumber?
+    public var taxTotalCount: Int?
+    public var taxTotalAmount: NSDecimalNumber?
 }

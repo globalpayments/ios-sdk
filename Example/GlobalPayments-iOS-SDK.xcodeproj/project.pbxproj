@@ -12,6 +12,14 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */; };
+		822FBEED2580EE7400D12353 /* DepositByIDFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822FBEEC2580EE7400D12353 /* DepositByIDFormBuilder.swift */; };
+		822FBEF32580EE8100D12353 /* DepositByIDFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822FBEF22580EE8100D12353 /* DepositByIDFormViewController.swift */; };
+		822FBEF92581059000D12353 /* DepositByIDForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822FBEF82581059000D12353 /* DepositByIDForm.swift */; };
+		822FBF0325810C3900D12353 /* DepositTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822FBF0125810C3900D12353 /* DepositTableViewCell.swift */; };
+		822FBF0425810C3900D12353 /* DepositTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 822FBF0225810C3900D12353 /* DepositTableViewCell.xib */; };
+		822FBF14258263B200D12353 /* DepositsListFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822FBF13258263B200D12353 /* DepositsListFormViewController.swift */; };
+		822FBF1A258263BB00D12353 /* DepositsListFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822FBF19258263BB00D12353 /* DepositsListFormBuilder.swift */; };
+		822FBF202582799F00D12353 /* DepositsListForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822FBF1F2582799F00D12353 /* DepositsListForm.swift */; };
 		823EDBEF256D13BC009DED23 /* EmptyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 823EDBEE256D13BC009DED23 /* EmptyView.xib */; };
 		823EDBF9256D13D6009DED23 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823EDBF8256D13D6009DED23 /* EmptyView.swift */; };
 		823EDBFF256D416D009DED23 /* TransactionOperationsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823EDBFE256D416D009DED23 /* TransactionOperationsBuilder.swift */; };
@@ -77,6 +85,10 @@
 		8267BC9824DAB5F100AF64D2 /* GpApiCreditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */; };
 		82883A63257E450D00914499 /* GpApiSdkCertification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82883A62257E450D00914499 /* GpApiSdkCertification.swift */; };
 		82883A69257E482000914499 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82883A68257E482000914499 /* DateExtensions.swift */; };
+		82883A782580E65100914499 /* DepositsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82883A772580E65100914499 /* DepositsBuilder.swift */; };
+		82883A7E2580E66100914499 /* DepositsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82883A7D2580E66100914499 /* DepositsViewController.swift */; };
+		82883A822580E66A00914499 /* DepositsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82883A812580E66A00914499 /* DepositsViewModel.swift */; };
+		82883A862580E69F00914499 /* Deposits.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82883A852580E69F00914499 /* Deposits.storyboard */; };
 		82A5183D256593FF00E14F76 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A5183C256593FF00E14F76 /* DateExtensions.swift */; };
 		82A5184125659C8800E14F76 /* SelectableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A5184025659C8800E14F76 /* SelectableLabel.swift */; };
 		82A9F7682577A0A100B8962D /* GlobalPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A9F7672577A0A100B8962D /* GlobalPayViewController.swift */; };
@@ -147,6 +159,14 @@
 		650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiAuthenticationTests.swift; sourceTree = "<group>"; };
+		822FBEEC2580EE7400D12353 /* DepositByIDFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositByIDFormBuilder.swift; sourceTree = "<group>"; };
+		822FBEF22580EE8100D12353 /* DepositByIDFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositByIDFormViewController.swift; sourceTree = "<group>"; };
+		822FBEF82581059000D12353 /* DepositByIDForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositByIDForm.swift; sourceTree = "<group>"; };
+		822FBF0125810C3900D12353 /* DepositTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositTableViewCell.swift; sourceTree = "<group>"; };
+		822FBF0225810C3900D12353 /* DepositTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DepositTableViewCell.xib; sourceTree = "<group>"; };
+		822FBF13258263B200D12353 /* DepositsListFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositsListFormViewController.swift; sourceTree = "<group>"; };
+		822FBF19258263BB00D12353 /* DepositsListFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositsListFormBuilder.swift; sourceTree = "<group>"; };
+		822FBF1F2582799F00D12353 /* DepositsListForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositsListForm.swift; sourceTree = "<group>"; };
 		823EDBEE256D13BC009DED23 /* EmptyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyView.xib; sourceTree = "<group>"; };
 		823EDBF8256D13D6009DED23 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		823EDBFE256D416D009DED23 /* TransactionOperationsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionOperationsBuilder.swift; sourceTree = "<group>"; };
@@ -212,6 +232,10 @@
 		8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreditTests.swift; sourceTree = "<group>"; };
 		82883A62257E450D00914499 /* GpApiSdkCertification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiSdkCertification.swift; sourceTree = "<group>"; };
 		82883A68257E482000914499 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		82883A772580E65100914499 /* DepositsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositsBuilder.swift; sourceTree = "<group>"; };
+		82883A7D2580E66100914499 /* DepositsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositsViewController.swift; sourceTree = "<group>"; };
+		82883A812580E66A00914499 /* DepositsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositsViewModel.swift; sourceTree = "<group>"; };
+		82883A852580E69F00914499 /* Deposits.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Deposits.storyboard; sourceTree = "<group>"; };
 		82A5183C256593FF00E14F76 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		82A5184025659C8800E14F76 /* SelectableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableLabel.swift; sourceTree = "<group>"; };
 		82A9F7672577A0A100B8962D /* GlobalPayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalPayViewController.swift; sourceTree = "<group>"; };
@@ -363,6 +387,35 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
+		822FBEEB2580EE4900D12353 /* DepositByIDForm */ = {
+			isa = PBXGroup;
+			children = (
+				822FBEF82581059000D12353 /* DepositByIDForm.swift */,
+				822FBEEC2580EE7400D12353 /* DepositByIDFormBuilder.swift */,
+				822FBEF22580EE8100D12353 /* DepositByIDFormViewController.swift */,
+			);
+			path = DepositByIDForm;
+			sourceTree = "<group>";
+		};
+		822FBF0025810C2000D12353 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				822FBF0125810C3900D12353 /* DepositTableViewCell.swift */,
+				822FBF0225810C3900D12353 /* DepositTableViewCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		822FBF122582638000D12353 /* DepositsListForm */ = {
+			isa = PBXGroup;
+			children = (
+				822FBF1F2582799F00D12353 /* DepositsListForm.swift */,
+				822FBF19258263BB00D12353 /* DepositsListFormBuilder.swift */,
+				822FBF13258263B200D12353 /* DepositsListFormViewController.swift */,
+			);
+			path = DepositsListForm;
+			sourceTree = "<group>";
+		};
 		823EDBED256D13AC009DED23 /* EmptyView */ = {
 			isa = PBXGroup;
 			children = (
@@ -397,6 +450,7 @@
 				8253FBB32563E8C600FBDCC9 /* Transactions */,
 				82B49406256FDF21009C2CBD /* Verifications */,
 				82EC18E22575304500A93A3C /* StoredPaymentMethods */,
+				82883A762580E5AD00914499 /* Deposits */,
 			);
 			path = GlobalPay;
 			sourceTree = "<group>";
@@ -621,6 +675,20 @@
 			path = Certification;
 			sourceTree = "<group>";
 		};
+		82883A762580E5AD00914499 /* Deposits */ = {
+			isa = PBXGroup;
+			children = (
+				822FBF0025810C2000D12353 /* Cells */,
+				82883A852580E69F00914499 /* Deposits.storyboard */,
+				82883A772580E65100914499 /* DepositsBuilder.swift */,
+				82883A7D2580E66100914499 /* DepositsViewController.swift */,
+				82883A812580E66A00914499 /* DepositsViewModel.swift */,
+				822FBF122582638000D12353 /* DepositsListForm */,
+				822FBEEB2580EE4900D12353 /* DepositByIDForm */,
+			);
+			path = Deposits;
+			sourceTree = "<group>";
+		};
 		82A9F77B2577AB8F00B8962D /* PaymentOperationForm */ = {
 			isa = PBXGroup;
 			children = (
@@ -825,7 +893,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 1200;
-				ORGANIZATIONNAME = CocoaPods;
+				ORGANIZATIONNAME = GlobalPayments;
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -866,6 +934,7 @@
 				82B49408256FE289009C2CBD /* Verifications.storyboard in Resources */,
 				82EC18E42575306500A93A3C /* PaymentMethods.storyboard in Resources */,
 				8258B143255C27EE00D02721 /* Localizable.strings in Resources */,
+				82883A862580E69F00914499 /* Deposits.storyboard in Resources */,
 				8253FBBD2563E9D900FBDCC9 /* Transactions.storyboard in Resources */,
 				8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */,
 				823EDBEF256D13BC009DED23 /* EmptyView.xib in Resources */,
@@ -875,6 +944,7 @@
 				8253FBB72563E90C00FBDCC9 /* AccessToken.storyboard in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				8253FBB02563DB5B00FBDCC9 /* ErrorView.xib in Resources */,
+				822FBF0425810C3900D12353 /* DepositTableViewCell.xib in Resources */,
 				8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */,
 				82B49403256FAF74009C2CBD /* TransactionView.xib in Resources */,
 				8253FC0C256531E000FBDCC9 /* TransactionSummaryTableViewCell.xib in Resources */,
@@ -981,6 +1051,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8244D698255D766100739364 /* GlobalPayModel.swift in Sources */,
+				822FBEF32580EE8100D12353 /* DepositByIDFormViewController.swift in Sources */,
+				82883A7E2580E66100914499 /* DepositsViewController.swift in Sources */,
 				8244D6A4255D76E700739364 /* GlobalPayListBuilder.swift in Sources */,
 				8258B15E255C2FC400D02721 /* StringExtensions.swift in Sources */,
 				8253FBFA25642F2F00FBDCC9 /* TransactionByIDFormBuilder.swift in Sources */,
@@ -990,6 +1062,7 @@
 				82B4941B256FF490009C2CBD /* VerificationsFormBuilder.swift in Sources */,
 				82EC18F02575347300A93A3C /* PaymentMethodsRouter.swift in Sources */,
 				8244D6CB255EA28300739364 /* UIButtonExtensions.swift in Sources */,
+				822FBF0325810C3900D12353 /* DepositTableViewCell.swift in Sources */,
 				823EDBFF256D416D009DED23 /* TransactionOperationsBuilder.swift in Sources */,
 				826695E82566CA8E003D6FFE /* DatePicker.swift in Sources */,
 				823EDC26256D7C23009DED23 /* TransactionOperationType.swift in Sources */,
@@ -997,6 +1070,7 @@
 				82B4940C256FE299009C2CBD /* VerificationsViewController.swift in Sources */,
 				82EC19092576467700A93A3C /* PaymentMethodReportViewModel.swift in Sources */,
 				8244D6F825629C0400739364 /* AccessTokenFormViewController.swift in Sources */,
+				822FBF202582799F00D12353 /* DepositsListForm.swift in Sources */,
 				8244D692255D74F400739364 /* UIViewControllerExtensions.swift in Sources */,
 				8244D6D8255EAD5F00739364 /* AccessTokenViewModel.swift in Sources */,
 				823EDC07256D489A009DED23 /* TransactionOperationsViewModel.swift in Sources */,
@@ -1011,11 +1085,14 @@
 				8244D6D2255EACF300739364 /* Constants.swift in Sources */,
 				8253FBFE25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift in Sources */,
 				82A9F7962578F2F700B8962D /* PaymentMethodResultView.swift in Sources */,
+				82883A822580E66A00914499 /* DepositsViewModel.swift in Sources */,
 				82EC18E82575319300A93A3C /* PaymentMethodsViewController.swift in Sources */,
 				8244D6EA255EBE3F00739364 /* AccessTokenView.swift in Sources */,
 				82A9F7A62578FB1E00B8962D /* PaymentMethodResultModelBuilder.swift in Sources */,
+				822FBEF92581059000D12353 /* DepositByIDForm.swift in Sources */,
 				82EC19052576466C00A93A3C /* PaymentMethodReportViewController.swift in Sources */,
 				823EDC1A256D740C009DED23 /* PaymentCardModel.swift in Sources */,
+				822FBF14258263B200D12353 /* DepositsListFormViewController.swift in Sources */,
 				82A9F7A02578F8E300B8962D /* PaymentMethodResultModel.swift in Sources */,
 				82A9F7702577A32E00B8962D /* PaymentMethodOperationsBuilder.swift in Sources */,
 				8259A3582562CB6C00652BB7 /* UITextFieldExtensions.swift in Sources */,
@@ -1039,6 +1116,7 @@
 				8253FBD02563F07300FBDCC9 /* TransactionsRouter.swift in Sources */,
 				82EC18EC257531FD00A93A3C /* PaymentMethodsBuilder.swift in Sources */,
 				8244D6AC255D76FE00739364 /* GlobalPayRouter.swift in Sources */,
+				822FBF1A258263BB00D12353 /* DepositsListFormBuilder.swift in Sources */,
 				823EDC12256D5165009DED23 /* TransactionOperationsFormBuilder.swift in Sources */,
 				8253FBAC2563DB5500FBDCC9 /* ErrorView.swift in Sources */,
 				823EDC16256D5170009DED23 /* TransactionOperationsFormViewController.swift in Sources */,
@@ -1048,12 +1126,14 @@
 				8253FC042565271900FBDCC9 /* TransactionReportViewModel.swift in Sources */,
 				82A9F7742577A33C00B8962D /* PaymentMethodOperationsViewController.swift in Sources */,
 				8244D6F4255ECCAF00739364 /* UIViewExtensions.swift in Sources */,
+				822FBEED2580EE7400D12353 /* DepositByIDFormBuilder.swift in Sources */,
 				8258B130255C1ECB00D02721 /* Theme.swift in Sources */,
 				82A9F7682577A0A100B8962D /* GlobalPayViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				82EC18B92575063900A93A3C /* VerificationsForm.swift in Sources */,
 				826695EC2566CEFB003D6FFE /* TransactionListForm.swift in Sources */,
 				82EC190E25765C3200A93A3C /* PaymentMethodByIDBuilder.swift in Sources */,
+				82883A782580E65100914499 /* DepositsBuilder.swift in Sources */,
 				823EDC03256D417D009DED23 /* TransactionOperationsViewController.swift in Sources */,
 				8258B16B255C390C00D02721 /* SelectableTableViewCell.swift in Sources */,
 				8253FBDF256420D700FBDCC9 /* TransactionListFormBuilder.swift in Sources */,

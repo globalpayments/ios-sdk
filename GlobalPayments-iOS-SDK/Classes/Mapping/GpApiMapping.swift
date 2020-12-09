@@ -23,6 +23,7 @@ public struct GpApiMapping {
             if let card: JsonDoc = paymentMethod.get(valueFor: "card") {
                 transaction.cardLast4 = card.getValue(key: "masked_number_last4")
                 transaction.cardType = card.getValue(key: "brand")
+                transaction.cvnResponseMessage = card.getValue(key: "cvv_result")
             }
         }
 
@@ -104,6 +105,12 @@ public struct GpApiMapping {
         summary.adjustmentTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "disputes")?.get(valueFor: "reversals")?.getValue(key: "amount")).amount
 
         summary.feesTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "fees")?.getValue(key: "amount")).amount
+
+        summary.discountsTotalCount = doc?.get(valueFor: "discounts")?.getValue(key: "count")
+        summary.discountsTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "discounts")?.getValue(key: "amount")).amount
+
+        summary.taxTotalCount = doc?.get(valueFor: "discounts")?.getValue(key: "count")
+        summary.taxTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "tax")?.getValue(key: "amount")).amount
 
         return summary
     }

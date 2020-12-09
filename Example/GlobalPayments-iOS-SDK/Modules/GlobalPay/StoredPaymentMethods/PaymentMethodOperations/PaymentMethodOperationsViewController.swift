@@ -18,8 +18,10 @@ final class PaymentMethodOperationsViewController: UIViewController, StoryboardI
 
     private func setupUI() {
         title = "payment.method.operations.title".localized()
-        initiatePaymentButton.apply(style: .globalPayStyle)
-        initiatePaymentButton.setTitle("payment.method.operations.payment.operation".localized(), for: .normal)
+        initiatePaymentButton.apply(
+            style: .globalPayStyle,
+            title: "payment.method.operations.payment.operation".localized()
+        )
         activityIndicator.stopAnimating()
     }
 

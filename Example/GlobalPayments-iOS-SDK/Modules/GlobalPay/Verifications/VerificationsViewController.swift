@@ -19,8 +19,7 @@ final class VerificationsViewController: UIViewController, StoryboardInstantiabl
 
     private func setupUI() {
         title = "verifications.title".localized()
-        initiatePaymentButton.setTitle("verifications.initiate.verification".localized(), for: .normal)
-        initiatePaymentButton.apply(style: .globalPayStyle)
+        initiatePaymentButton.apply(style: .globalPayStyle, title: "verifications.initiate.verification".localized())
         activityIndicator.stopAnimating()
     }
 

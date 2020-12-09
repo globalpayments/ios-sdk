@@ -41,8 +41,7 @@ final class TransactionOperationsFormViewController: UIViewController, Storyboar
     private func setupUI() {
         hideKeyboardWhenTappedAround()
         navigationBar.topItem?.title = "transactoin.operations.form.title".localized()
-        submitButton.apply(style: .globalPayStyle)
-        submitButton.setTitle("transactoin.operations.form.submit".localized(), for: .normal)
+        submitButton.apply(style: .globalPayStyle, title: "transactoin.operations.form.submit".localized())
         paymentCardLabel.text = "transactoin.operations.form.payment.card".localized()
         paymentCardTextField.loadDropDownData(PaymentCardModel.models.map { $0.name }, onSelectItem: onChangePaymentCard)
         cardNumberLabel.text = "transactoin.operations.form.card.number".localized()

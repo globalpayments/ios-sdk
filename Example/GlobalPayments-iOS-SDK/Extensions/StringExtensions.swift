@@ -8,7 +8,7 @@ extension String {
         NSLocalizedString(self, tableName: tableName, bundle: bundle, value: value, comment: comment ?? "Lozalized string: \(self)")
     }
 
-    func formattedDate(_ dateFormat: String = "yyyy-MM-dd") -> Date? {
+    func formattedDate(_ dateFormat: String = "yyyy-MM-dd HH:mm:ss ZZZZ") -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
         return dateFormatter.date(from: self)

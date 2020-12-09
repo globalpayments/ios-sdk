@@ -19,8 +19,7 @@ final class AccessTokenViewController: UIViewController, StoryboardInstantiable 
 
     private func setupUI() {
         title = "access.token.title".localized()
-        createTokenButton.setTitle("access.token.create".localized(), for: .normal)
-        createTokenButton.apply(style: .globalPayStyle)
+        createTokenButton.apply(style: .globalPayStyle, title: "access.token.create".localized())
         activityIndicator.stopAnimating()
     }
 

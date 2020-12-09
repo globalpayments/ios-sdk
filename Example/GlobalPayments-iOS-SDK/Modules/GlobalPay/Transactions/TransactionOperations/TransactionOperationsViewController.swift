@@ -19,8 +19,10 @@ final class TransactionOperationsViewController: UIViewController, StoryboardIns
 
     private func setupUI() {
         title = "transactoin.operations.title".localized()
-        submitButton.apply(style: .globalPayStyle)
-        submitButton.setTitle("transactoin.operations.create.transaction".localized(), for: .normal)
+        submitButton.apply(
+            style: .globalPayStyle,
+            title: "transactoin.operations.create.transaction".localized()
+        )
         activityIndicator.stopAnimating()
     }
 

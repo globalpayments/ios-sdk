@@ -1,6 +1,6 @@
 import Foundation
 
-public enum DepositStatus: String, Mappable {
+public enum DepositStatus: String, Mappable, CaseIterable {
     case funded = "FUNDED"
     case splitFunding = "SPLIT_FUNDING"
     case delayed = "DELAYED"

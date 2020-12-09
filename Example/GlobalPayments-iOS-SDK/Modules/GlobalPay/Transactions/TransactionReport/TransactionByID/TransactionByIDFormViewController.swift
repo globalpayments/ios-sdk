@@ -25,8 +25,7 @@ final class TransactionByIDFormViewController: UIViewController, StoryboardInsta
     private func setupUI() {
         hideKeyboardWhenTappedAround()
         navigationBar.topItem?.title = "transaction.report.by.id.form.title".localized()
-        submitButton.apply(style: .globalPayStyle)
-        submitButton.setTitle("transaction.report.by.id.submit".localized(), for: .normal)
+        submitButton.apply(style: .globalPayStyle, title: "transaction.report.by.id.submit".localized())
         transactionIDLabel.text = "transaction.report.by.id.form".localized()
         transactionIDTextView.text = transactionIdExample
     }

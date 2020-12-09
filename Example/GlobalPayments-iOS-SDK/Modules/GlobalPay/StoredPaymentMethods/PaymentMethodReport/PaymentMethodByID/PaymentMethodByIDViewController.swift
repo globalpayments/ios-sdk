@@ -26,8 +26,7 @@ final class PaymentMethodByIDViewController: UIViewController, StoryboardInstant
     private func setupUI() {
         hideKeyboardWhenTappedAround()
         navigationBar.topItem?.title = "payment.methods.report.id.title".localized()
-        submitButton.apply(style: .globalPayStyle)
-        submitButton.setTitle("payment.methods.report.id.submit".localized(), for: .normal)
+        submitButton.apply(style: .globalPayStyle, title: "payment.methods.report.id.submit".localized())
         descriptionLabel.text = "payment.methods.report.id.payment.method".localized()
         inputTextView.text = defaultPaymentMethodId
     }

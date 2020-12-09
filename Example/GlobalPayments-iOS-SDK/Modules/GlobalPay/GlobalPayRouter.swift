@@ -23,6 +23,8 @@ struct GlobalPayRouter: Router {
             return VerificationsBuilder.build()
         case .paymentMethods:
             return PaymentMethodsBuilder.build()
+        case .deposits:
+            return DepositsBuilder.build()
         default:
             return UIViewController.empty()
         }

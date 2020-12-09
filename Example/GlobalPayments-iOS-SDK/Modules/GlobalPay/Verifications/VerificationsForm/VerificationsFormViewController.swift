@@ -50,8 +50,7 @@ final class VerificationsFormViewController: UIViewController, StoryboardInstant
 
     private func setupUI() {
         navigationBar.topItem?.title = "verifications.form.title".localized()
-        submitButton.setTitle("verifications.form.submit".localized(), for: .normal)
-        submitButton.apply(style: .globalPayStyle)
+        submitButton.apply(style: .globalPayStyle, title: "verifications.form.submit".localized())
         transactionDataLabel.text = "verifications.form.transaction.data".localized()
         referenceLabel.text = "verifications.form.reference".localized()
         referenceTextField.placeholder = "generic.empty".localized()

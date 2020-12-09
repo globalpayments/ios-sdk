@@ -20,10 +20,8 @@ final class PaymentMethodReportViewController: UIViewController, StoryboardInsta
 
     private func setupUI() {
         title = "payment.methods.report.title".localized()
-        paymentsListButton.apply(style: .globalPayStyle)
-        paymentsListButton.setTitle("payment.methods.report.list".localized(), for: .normal)
-        paymentByIdButton.apply(style: .globalPayStyle)
-        paymentByIdButton.setTitle("payment.methods.report.id".localized(), for: .normal)
+        paymentsListButton.apply(style: .globalPayStyle, title: "payment.methods.report.list".localized())
+        paymentByIdButton.apply(style: .globalPayStyle, title: "payment.methods.report.id".localized())
         activityIndicator.stopAnimating()
     }
 

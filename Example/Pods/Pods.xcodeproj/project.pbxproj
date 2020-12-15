@@ -103,6 +103,7 @@
 		7F8EA27D0C88613ED23BF4B91511ED16 /* Authable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F320BC25A930B2D1E22E96B396C5811 /* Authable.swift */; };
 		8020547EC710BFB33CBDCFA15CD6883B /* CountryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622B04BDEC4DE4909234D00B65A8B1A8 /* CountryUtils.swift */; };
 		81BD7F377CF8704D3B52C9B70ED64A47 /* TimeZoneConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF6BBBA9C9B006D4274708E06DC1A70 /* TimeZoneConversion.swift */; };
+		82649F9D2588F2DB00E1144F /* StoredCredentialReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82649F9C2588F2DB00E1144F /* StoredCredentialReason.swift */; };
 		82CF9A75257A4F5700B7CC18 /* GpApiMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CF9A74257A4F5700B7CC18 /* GpApiMapping.swift */; };
 		840987764F579918CB89893AF2D40BC3 /* ValidationClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3999B6F711E10A20A69047F42B4550FB /* ValidationClause.swift */; };
 		8448A4EC089F3822E4241696F20F606A /* ScheduleFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2097069E6D244FC06702AB720BB55F43 /* ScheduleFrequency.swift */; };
@@ -370,6 +371,7 @@
 		7FE26259D40DF0CC34D0028AB3659347 /* TransactionReportBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TransactionReportBuilder.swift; sourceTree = "<group>"; };
 		80ACF16AAFE0C93C477429212B3C6225 /* GlobalPayments_iOS_SDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GlobalPayments_iOS_SDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8191FBE3ECC4B3BDFD8F85D6EAFB034C /* ThreeDSecure.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ThreeDSecure.swift; sourceTree = "<group>"; };
+		82649F9C2588F2DB00E1144F /* StoredCredentialReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredCredentialReason.swift; sourceTree = "<group>"; };
 		826C67B064EF6BA57EA6A76E517D4BF7 /* ReversalReasonCode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReversalReasonCode.swift; sourceTree = "<group>"; };
 		82CF9A74257A4F5700B7CC18 /* GpApiMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiMapping.swift; sourceTree = "<group>"; };
 		83219C0718BA5818A1171A6AF165737E /* RequestLogger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RequestLogger.swift; sourceTree = "<group>"; };
@@ -1009,6 +1011,7 @@
 				1BBDF25E62937870CAD0C5078A97C049 /* TransactionStatus.swift */,
 				4CA174B9FCF674D3D9333A6358D3E626 /* TransactionType.swift */,
 				7DF324F03BEBF1CED9AE2DD8FFE69DA5 /* VoidReason.swift */,
+				82649F9C2588F2DB00E1144F /* StoredCredentialReason.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1346,6 +1349,7 @@
 				4EA419EBEAF5E17E103EAC44AA323AEA /* Tokenizable.swift in Sources */,
 				F5164538ADDF7029B00C43C3FF7EB1A5 /* TrackData.swift in Sources */,
 				A33E088E26287A2F2B6A163461C25C3F /* TrackNumber.swift in Sources */,
+				82649F9D2588F2DB00E1144F /* StoredCredentialReason.swift in Sources */,
 				911A1866C34B0C235DAF8A214BBAE798 /* Transaction.swift in Sources */,
 				AFCBB6CFFC17C02B53514EBFE4A7A373 /* TransactionBuilder.swift in Sources */,
 				73B0D7C03BA7DD9CC355CFEAC9C63025 /* TransactionInfo.swift in Sources */,

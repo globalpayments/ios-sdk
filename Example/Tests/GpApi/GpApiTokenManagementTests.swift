@@ -213,4 +213,36 @@ class GpApiTokenManagementTests: XCTestCase {
         XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
         XCTAssertEqual(statusResult, TransactionStatus.captured)
     }
+
+    func test_credit_sale_with_tokenized_payment_method_with_stored_credentials() {
+        // GIVEN
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = token
+        var transactionResult: Transaction?
+        var errorResult: Error?
+        let executeExpectation = expectation(description: "Execute Expectation")
+
+        // WHEN
+        tokenizedCard
+            .charge(amount: 15.25)
+            .withCurrency("USD")
+            .withStoredCredential(
+                StoredCredential(
+                    type: .subscription,
+                    initiator: .merchant,
+                    sequence: .subsequent,
+                    reason: .incremental)
+            ).execute {
+                transactionResult = $0
+                errorResult = $1
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertNil(errorResult)
+        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
+    }
 }

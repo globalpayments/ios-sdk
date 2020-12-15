@@ -6,7 +6,7 @@ public enum EmvLastChipRead: Mappable {
     case notAChipTransaction
     case unknown
 
-    init(rawValue: String) {
+    public init(rawValue: String) {
         switch rawValue {
         case "SUCCESSFUL", "CHIP_FAILED_PREV_SUCCESS", "PREV_SUCCESS":
             self = .successful

@@ -208,7 +208,6 @@ extension GpApiConnector {
                 .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
                 .set(for: "description", value: builder.requestDescription)
                 .set(for: "order_reference", value: builder.orderId)
-                //            .set(for: "initiator", value: "")// [PAYER, MERCHANT] //default to PAYER
                 .set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString())
                 .set(for: "cashback_amount", value: builder.cashBackAmount?.toNumericCurrencyString())
                 .set(for: "surcharge_amount", value: builder.surchargeAmount?.toNumericCurrencyString())
@@ -218,6 +217,15 @@ extension GpApiConnector {
                 .set(for: "ip_address", value: builder.customerIpAddress)
                 //            .set(for: "site_reference", value: "")
                 .set(for: "payment_method", doc: paymentMethod)
+
+            if let storedCredential = builder.storedCredential {
+                data.set(for: "initiator", value: builder.storedCredential?.initiator.mapped(for: .gpApi))
+                let storedCredential = JsonDoc()
+                    .set(for: "model", value: storedCredential.type.mapped(for: .gpApi))
+                    .set(for: "reason", value: storedCredential.reason.mapped(for: .gpApi))
+                    .set(for: "sequence", value: storedCredential.sequence.mapped(for: .gpApi))
+                data.set(for: "stored_credential", doc: storedCredential)
+            }
 
             self?.doTransaction(method: .post,
                                 endpoint: Endpoints.transactions(),

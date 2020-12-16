@@ -163,12 +163,23 @@ extension GpApiConnector {
             if let creditCardData = builder.paymentMethod as? CreditCardData {
                 paymentMethod.set(for: "name", value: creditCardData.cardHolderName)
 
-                if let secureEcom = creditCardData.threeDSecure {
-                    let authentication = JsonDoc()
-                        .set(for: "xid", value: secureEcom.xid)
-                        .set(for: "cavv", value: secureEcom.cavv)
-                        .set(for: "eci", value: String(secureEcom.eci ?? .zero))
-                    //                    .set(for: "mac", value: "") //A message authentication code submitted to confirm integrity of the request.
+                if let secureEcom = creditCardData.threeDSecure,
+                   let eci = secureEcom.eci {
+                    let threeDs = JsonDoc()
+                        // Indicates the version of 3DS
+                        .set(for: "message_version", value: "\(secureEcom.version)")
+                        // An indication of the degree of the authentication and liability shift obtained for this transaction.
+                        // It is determined during the 3D Secure process.
+                        .set(for: "eci", value: "\(eci)")
+                        // The authentication value created as part of the 3D Secure process.
+                        .set(for: "value", value: secureEcom.authenticationValue)
+                        // The reference created by the 3DSecure provider to identify the specific authentication attempt.
+                        .set(for: "server_trans_ref", value: secureEcom.serverTransactionId)
+                        // The reference created by the 3DSecure Directory Server to identify the specific authentication attempt.
+                        .set(for: "ds_trans_ref", value: secureEcom.directoryServerTransactionId)
+
+                    let authentication = JsonDoc().set(for: "three_ds", doc: threeDs)
+
                     paymentMethod.set(for: "authentication", doc: authentication)
                 }
             }

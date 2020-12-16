@@ -429,6 +429,41 @@ class GpApiReportingTests: XCTestCase {
         }
     }
 
+    func test_report_find_transactions_by_name() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "FindTransactionsExpectation")
+        let expectedName = "James Mason"
+        let startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService
+            .findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 10)
+            .where(.name, expectedName)
+            .and(searchCriteria: .startDate, value: startDate)
+            .execute { list, error in
+                transactionSummaryList = list
+                transactionError = error
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertNil(transactionError)
+        if let responseList = transactionSummaryList {
+            XCTAssertFalse(responseList.isEmpty)
+            for transaction in responseList {
+                XCTAssertEqual(transaction.cardHolderName, expectedName)
+            }
+        } else {
+            XCTFail("transactionSummaryList cannot be nil")
+        }
+    }
+
     func test_report_find_settlement_transactions_with_criteria() {
         // GIVEN
         let findTransactionsExpectation = expectation(description: "FindTransactionsExpectation")

@@ -21,6 +21,7 @@ public class TransactionSummary {
     public var captureAmount: NSDecimalNumber?
     public var cardHolderFirstName: String?
     public var cardHolderLastName: String?
+    public var cardHolderName: String?
     public var cardSwiped: String?
     public var cardType: String?
     public var cavvResponseCode: String?

@@ -61,7 +61,7 @@ public struct GpApiMapping {
 
         summary.gatewayResponseMessage = paymentMethod?.getValue(key: "message")
         summary.entryMode = paymentMethod?.getValue(key: "entry_mode")
-        //?? = paymentMethod?.getValue(key: "name")
+        summary.cardHolderName = paymentMethod?.getValue(key: "name")
 
         summary.cardType = card?.getValue(key: "brand")
         summary.authCode = card?.getValue(key: "authcode")
@@ -128,24 +128,18 @@ public struct GpApiMapping {
         summary.caseMerchantId = doc?.get(valueFor: "system")?.getValue(key: "mid")
         summary.merchantHierarchy = doc?.get(valueFor: "system")?.getValue(key: "hierarchy")
 
-        summary.transactionARN = doc?.get(valueFor: "transaction")?
-            .get(valueFor: "payment_method")?
-            .get(valueFor: "card")?
-            .getValue(key: "arn")
-        summary.transactionReferenceNumber = doc?.get(valueFor: "transaction")?
-            .getValue(key: "reference")
-        summary.transactionAuthCode = doc?.get(valueFor: "transaction")?
-            .get(valueFor: "payment_method")?
-            .get(valueFor: "card")?
-            .getValue(key: "authcode")
-        summary.transactionCardType = doc?.get(valueFor: "transaction")?
-            .get(valueFor: "payment_method")?
-            .get(valueFor: "card")?
-            .getValue(key: "brand")
-        summary.transactionMaskedCardNumber = doc?.get(valueFor: "transaction")?
-            .get(valueFor: "payment_method")?
-            .get(valueFor: "card")?
-            .getValue(key: "number")
+        if let paymentMethod: JsonDoc = doc?.get(valueFor: "payment_method") {
+            summary.transactionARN = paymentMethod.get(valueFor: "card")?.getValue(key: "arn")
+            summary.transactionCardType = paymentMethod.get(valueFor: "card")?.getValue(key: "brand")
+            summary.transactionMaskedCardNumber = paymentMethod.get(valueFor: "card")?.getValue(key: "number")
+        } else if let transaction: JsonDoc = doc?.get(valueFor: "transaction"),
+                  let paymentMethod = transaction.get(valueFor: "payment_method"){
+            summary.transactionARN = paymentMethod.get(valueFor: "card")?.getValue(key: "arn")
+            summary.transactionReferenceNumber = transaction.getValue(key: "reference")
+            summary.transactionAuthCode = paymentMethod.get(valueFor: "card")?.getValue(key: "authcode")
+            summary.transactionCardType = paymentMethod.get(valueFor: "card")?.getValue(key: "brand")
+            summary.transactionMaskedCardNumber = paymentMethod.get(valueFor: "card")?.getValue(key: "number")
+        }
 
         summary.reason = doc?.getValue(key: "reason_description")
         summary.reasonCode = doc?.getValue(key: "reason_code")

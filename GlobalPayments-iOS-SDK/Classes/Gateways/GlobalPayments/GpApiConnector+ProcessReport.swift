@@ -92,17 +92,23 @@ extension GpApiConnector: ReportingServiceType {
                 else if builder.reportType == .findDeposits {
                     reportUrl = Endpoints.deposits()
 
-                    addQueryStringParam(params: &queryStringParams, key: "account_name", value: self?.dataAccountName)
                     if let page = builder.page {
                         addQueryStringParam(params: &queryStringParams, key: "page", value: "\(page)")
                     }
                     if let pageSize = builder.pageSize {
                         addQueryStringParam(params: &queryStringParams, key: "page_size", value: "\(pageSize)")
                     }
-                    addQueryStringParam(params: &queryStringParams, key: "status", value: builder.depositStatus?.mapped(for: .gpApi))
                     addQueryStringParam(params: &queryStringParams, key: "order_by", value: builder.depositOrderBy?.mapped(for: .gpApi))
                     addQueryStringParam(params: &queryStringParams, key: "order", value: builder.depositOrder?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "account_name", value: self?.dataAccountName)
                     addQueryStringParam(params: &queryStringParams, key: "from_time_created", value: (builder.startDate ?? Date()).format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "to_time_created", value: builder.endDate?.format("yyyy-MM-dd"))
+                    addQueryStringParam(params: &queryStringParams, key: "id", value: builder.searchCriteriaBuilder.depositReference);
+                    addQueryStringParam(params: &queryStringParams, key: "status", value: builder.depositStatus?.mapped(for: .gpApi))
+                    addQueryStringParam(params: &queryStringParams, key: "amount", value: builder.searchCriteriaBuilder.amount?.toNumericCurrencyString())
+                    addQueryStringParam(params: &queryStringParams, key: "masked_account_number_last4", value: builder.searchCriteriaBuilder.accountNumberLastFour)
+                    addQueryStringParam(params: &queryStringParams, key: "system.mid", value: builder.searchCriteriaBuilder.merchantId)
+                    addQueryStringParam(params: &queryStringParams, key: "system.hierarchy", value: builder.searchCriteriaBuilder.systemHierarchy)
                 }
                 else if builder.reportType == .depositDetail,
                           let depositId = builder.searchCriteriaBuilder.depositReference {

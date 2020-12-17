@@ -464,6 +464,162 @@ class GpApiReportingTests: XCTestCase {
         }
     }
 
+    func test_report_find_transactions_order_by_time_created_ascending() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "find transactions expectation")
+        var transactionSummaryList: [Date]?
+        var expectedTransactionSummaryList: [Date]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService
+            .findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .ascending)
+            .withPaging(1, 30)
+            .execute {
+                transactionSummaryList = $0?.compactMap { $0.transactionDate }
+                expectedTransactionSummaryList = $0?.compactMap { $0.transactionDate }.sorted(by: { $0.compare($1) == .orderedAscending })
+                transactionError = $1
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertEqual(transactionSummaryList, expectedTransactionSummaryList)
+    }
+
+    func test_report_find_transactions_order_by_time_created_descending() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "find transactions expectation")
+        var transactionSummaryList: [Date]?
+        var expectedTransactionSummaryList: [Date]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService
+            .findTransactions()
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withPaging(1, 30)
+            .execute {
+                transactionSummaryList = $0?.compactMap { $0.transactionDate }
+                expectedTransactionSummaryList = $0?.compactMap { $0.transactionDate }.sorted(by: { $0.compare($1) == .orderedDescending })
+                transactionError = $1
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertEqual(transactionSummaryList, expectedTransactionSummaryList)
+    }
+
+    func test_report_find_transactions_order_by_status_ascending() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "find transactions expectation")
+        var transactionSummaryList: [String]?
+        var expectedTransactionSummaryList: [String]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService
+            .findTransactions()
+            .orderBy(transactionSortProperty: .status, .ascending)
+            .withPaging(1, 30)
+            .execute {
+                transactionSummaryList = $0?.compactMap { $0.status }
+                expectedTransactionSummaryList = $0?.compactMap { $0.status }.sorted(by: { $0.compare($1) == .orderedAscending })
+                transactionError = $1
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertEqual(transactionSummaryList, expectedTransactionSummaryList)
+    }
+
+    func test_report_find_transactions_order_by_status_descending() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "find transactions expectation")
+        var transactionSummaryList: [String]?
+        var expectedTransactionSummaryList: [String]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService
+            .findTransactions()
+            .orderBy(transactionSortProperty: .status, .descending)
+            .withPaging(1, 30)
+            .execute {
+                transactionSummaryList = $0?.compactMap { $0.status }
+                expectedTransactionSummaryList = $0?.compactMap { $0.status }.sorted(by: { $0.compare($1) == .orderedDescending })
+                transactionError = $1
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertEqual(transactionSummaryList, expectedTransactionSummaryList)
+    }
+
+    func test_report_find_transactions_order_by_type_ascending() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "find transactions expectation")
+        var transactionSummaryList: [String]?
+        var expectedTransactionSummaryList: [String]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService
+            .findTransactions()
+            .orderBy(transactionSortProperty: .status, .ascending)
+            .withPaging(1, 30)
+            .execute {
+                transactionSummaryList = $0?.compactMap { $0.transactionType }
+                expectedTransactionSummaryList = $0?.compactMap { $0.transactionType }.sorted(by: { $0.compare($1) == .orderedAscending })
+                transactionError = $1
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertEqual(transactionSummaryList, expectedTransactionSummaryList)
+    }
+
+    func test_report_find_transactions_order_by_type_descending() {
+        // GIVEN
+        let findTransactionsExpectation = expectation(description: "find transactions expectation")
+        var transactionSummaryList: [String]?
+        var expectedTransactionSummaryList: [String]?
+        var transactionError: Error?
+
+        // WHEN
+        ReportingService
+            .findTransactions()
+            .orderBy(transactionSortProperty: .status, .descending)
+            .withPaging(1, 30)
+            .execute {
+                transactionSummaryList = $0?.compactMap { $0.transactionType }
+                expectedTransactionSummaryList = $0?.compactMap { $0.transactionType }.sorted(by: { $0.compare($1) == .orderedDescending })
+                transactionError = $1
+                findTransactionsExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findTransactionsExpectation], timeout: 10.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertEqual(transactionSummaryList, expectedTransactionSummaryList)
+    }
+
     func test_report_find_settlement_transactions_with_criteria() {
         // GIVEN
         let findTransactionsExpectation = expectation(description: "FindTransactionsExpectation")
@@ -953,6 +1109,35 @@ class GpApiReportingTests: XCTestCase {
         wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(disputeSummaryError)
         XCTAssertEqual(disputeSummaryStages, expectedSortedStages)
+    }
+
+    func test_report_find_disputes_order_by_arn() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
+        let oneYearBefore = Calendar.current.date(byAdding: .year, value: -1, to: Date())
+        let oneMonthBefore = Calendar.current.date(byAdding: .month, value: -1, to: Date())
+        var disputeSummaryArns: [String]?
+        var disputeSummaryError: Error?
+        var expectedSortedArns: [String]?
+
+        // WHEN
+        ReportingService.findDisputes()
+            .orderBy(disputeOrderBy: .arn, .descending)
+            .withPaging(1, 40)
+            .where(.startStageDate, oneYearBefore)
+            // EndStageDate must be set in order to be able to sort by ARN
+            .and(dataServiceCriteria: .endStageDate, value: oneMonthBefore)
+            .execute { summaryList, error in
+                disputeSummaryArns = summaryList?.compactMap { $0.transactionARN }
+                expectedSortedArns = summaryList?.compactMap { $0.transactionARN }.sorted(by: >)
+                disputeSummaryError = error
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        XCTAssertEqual(disputeSummaryArns, expectedSortedArns)
     }
 
     func test_report_find_disputes_order_by_from_stage_time_created() {

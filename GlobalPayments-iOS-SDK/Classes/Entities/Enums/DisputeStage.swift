@@ -1,6 +1,6 @@
 import Foundation
 
-public enum DisputeStage: String, Mappable {
+public enum DisputeStage: String, Mappable, CaseIterable {
     case retrieval = "RETRIEVAL"
     case chargeback = "CHARGEBACK"
     case reversal = "REVERSAL"

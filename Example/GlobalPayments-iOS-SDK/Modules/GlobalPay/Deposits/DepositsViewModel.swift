@@ -64,6 +64,7 @@ final class DepositsViewModel: DepositsViewInput {
             .and(searchCriteria: .accountName, value: form.accountName)
             .and(searchCriteria: .accountNumberLastFour, value: form.maskedNumber)
             .and(dataServiceCriteria: .merchantId, value: form.systemMID)
+            .and(dataServiceCriteria: .systemHierarchy, value: form.systemHierarchy)
             .execute { [weak self] deposits, error in
                 DispatchQueue.main.async {
                     guard let depositsList = deposits else {

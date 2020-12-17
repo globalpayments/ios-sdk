@@ -12,7 +12,6 @@ final class PaymentMethodByIDViewController: UIViewController, StoryboardInstant
 
     weak var delegate: PaymentMethodByIDDelegate?
 
-    @IBOutlet private weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var submitButton: UIButton!
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var inputTextView: UITextView!
@@ -25,7 +24,8 @@ final class PaymentMethodByIDViewController: UIViewController, StoryboardInstant
 
     private func setupUI() {
         hideKeyboardWhenTappedAround()
-        navigationBar.topItem?.title = "payment.methods.report.id.title".localized()
+        title = "payment.methods.report.id.title".localized()
+        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
         submitButton.apply(style: .globalPayStyle, title: "payment.methods.report.id.submit".localized())
         descriptionLabel.text = "payment.methods.report.id.payment.method".localized()
         inputTextView.text = defaultPaymentMethodId

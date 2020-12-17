@@ -1,8 +1,8 @@
 import Foundation
 
 public class DisputeDocument: Encodable, Equatable {
-    let id: String
-    let type: DocumentType
+    public let id: String
+    public let type: DocumentType
 
     public init(id: String, type: DocumentType) {
         self.id = id

@@ -10,7 +10,6 @@ final class TransactionOperationsFormViewController: UIViewController, Storyboar
     static var storyboardName = "Transactions"
     private let defaultAmount = "15.99"
 
-    @IBOutlet private weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var submitButton: UIButton!
     @IBOutlet private weak var paymentCardLabel: UILabel!
     @IBOutlet private weak var paymentCardTextField: UITextField!
@@ -40,7 +39,8 @@ final class TransactionOperationsFormViewController: UIViewController, Storyboar
 
     private func setupUI() {
         hideKeyboardWhenTappedAround()
-        navigationBar.topItem?.title = "transactoin.operations.form.title".localized()
+        title = "transactoin.operations.form.title".localized()
+        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
         submitButton.apply(style: .globalPayStyle, title: "transactoin.operations.form.submit".localized())
         paymentCardLabel.text = "transactoin.operations.form.payment.card".localized()
         paymentCardTextField.loadDropDownData(PaymentCardModel.models.map { $0.name }, onSelectItem: onChangePaymentCard)

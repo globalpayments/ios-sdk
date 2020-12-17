@@ -11,7 +11,6 @@ final class TransactionByIDFormViewController: UIViewController, StoryboardInsta
 
     weak var delegate: TransactionByIDFormDelegate?
 
-    @IBOutlet private weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var submitButton: UIButton!
     @IBOutlet private weak var transactionIDLabel: UILabel!
     @IBOutlet private weak var transactionIDTextView: UITextView!
@@ -24,7 +23,8 @@ final class TransactionByIDFormViewController: UIViewController, StoryboardInsta
 
     private func setupUI() {
         hideKeyboardWhenTappedAround()
-        navigationBar.topItem?.title = "transaction.report.by.id.form.title".localized()
+        title = "transaction.report.by.id.form.title".localized()
+        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
         submitButton.apply(style: .globalPayStyle, title: "transaction.report.by.id.submit".localized())
         transactionIDLabel.text = "transaction.report.by.id.form".localized()
         transactionIDTextView.text = transactionIdExample
@@ -32,7 +32,7 @@ final class TransactionByIDFormViewController: UIViewController, StoryboardInsta
 
     // MARK: - Actions
 
-    @IBAction private func onCloseAction() {
+    @objc private func onCancelAction() {
         dismiss(animated: true, completion: nil)
     }
 

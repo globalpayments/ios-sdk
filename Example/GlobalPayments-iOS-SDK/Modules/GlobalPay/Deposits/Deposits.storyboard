@@ -80,18 +80,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OvF-yY-S75">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="VaT-Zu-DRD">
-                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="cancel" id="QL6-oC-fha">
-                                            <connections>
-                                                <action selector="onCancelAction" destination="IOc-09-5Yu" id="l3H-Ij-2YB"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C7O-3k-sIE">
                                 <rect key="frame" x="8" y="804" width="398" height="50"/>
                                 <constraints>
@@ -103,13 +91,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E8I-We-LSo">
-                                <rect key="frame" x="12" y="96" width="390" height="21"/>
+                                <rect key="frame" x="12" y="52" width="390" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kzL-5W-cQV">
-                                <rect key="frame" x="8" y="117" width="398" height="166.5"/>
+                                <rect key="frame" x="8" y="73" width="398" height="166.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -121,23 +109,19 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="pc9-Je-jZ8" firstAttribute="bottom" secondItem="C7O-3k-sIE" secondAttribute="bottom" constant="8" id="1Ql-mQ-wSa"/>
-                            <constraint firstItem="OvF-yY-S75" firstAttribute="top" secondItem="pc9-Je-jZ8" secondAttribute="top" id="FWW-JY-Ov4"/>
+                            <constraint firstItem="E8I-We-LSo" firstAttribute="top" secondItem="pc9-Je-jZ8" secondAttribute="top" constant="8" id="MOb-OE-vxt"/>
                             <constraint firstItem="pc9-Je-jZ8" firstAttribute="trailing" secondItem="kzL-5W-cQV" secondAttribute="trailing" constant="8" id="SBp-G3-g1O"/>
                             <constraint firstItem="kzL-5W-cQV" firstAttribute="leading" secondItem="pc9-Je-jZ8" secondAttribute="leading" constant="8" id="Sw1-yj-sg5"/>
                             <constraint firstItem="C7O-3k-sIE" firstAttribute="leading" secondItem="pc9-Je-jZ8" secondAttribute="leading" constant="8" id="TYp-12-aQk"/>
                             <constraint firstItem="E8I-We-LSo" firstAttribute="leading" secondItem="pc9-Je-jZ8" secondAttribute="leading" constant="12" id="Vye-Z7-A1t"/>
-                            <constraint firstItem="OvF-yY-S75" firstAttribute="trailing" secondItem="pc9-Je-jZ8" secondAttribute="trailing" id="b8T-un-B6Y"/>
                             <constraint firstItem="pc9-Je-jZ8" firstAttribute="trailing" secondItem="C7O-3k-sIE" secondAttribute="trailing" constant="8" id="c8L-M3-syQ"/>
-                            <constraint firstItem="OvF-yY-S75" firstAttribute="leading" secondItem="pc9-Je-jZ8" secondAttribute="leading" id="fBF-DP-ChU"/>
                             <constraint firstItem="kzL-5W-cQV" firstAttribute="top" secondItem="E8I-We-LSo" secondAttribute="bottom" id="jhS-FX-V89"/>
                             <constraint firstItem="pc9-Je-jZ8" firstAttribute="trailing" secondItem="E8I-We-LSo" secondAttribute="trailing" constant="12" id="lcY-aa-dOT"/>
-                            <constraint firstItem="E8I-We-LSo" firstAttribute="top" secondItem="OvF-yY-S75" secondAttribute="bottom" constant="8" id="rlD-gr-iEV"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="descriptionLabel" destination="E8I-We-LSo" id="XHp-vB-Kqb"/>
                         <outlet property="inputTextView" destination="kzL-5W-cQV" id="Fal-BI-YIQ"/>
-                        <outlet property="navigationBar" destination="OvF-yY-S75" id="VXc-wk-Pr9"/>
                         <outlet property="submitButton" destination="C7O-3k-sIE" id="tPy-Pn-GoA"/>
                     </connections>
                 </viewController>
@@ -153,20 +137,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NHp-sB-lKh">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="Ecj-3X-KrC">
-                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="cancel" id="Hsf-3E-2y6">
-                                            <connections>
-                                                <action selector="onCancelAction" destination="KeF-IL-gOD" id="Tvg-5r-0P1"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="g2h-sB-H5z">
-                                <rect key="frame" x="0.0" y="88" width="414" height="558.5"/>
+                                <rect key="frame" x="0.0" y="52" width="414" height="558.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rv8-Sj-GhZ">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="558.5"/>
@@ -456,14 +428,11 @@
                         <viewLayoutGuide key="safeArea" id="9pM-Q3-YgT"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="g2h-sB-H5z" firstAttribute="top" secondItem="NHp-sB-lKh" secondAttribute="bottom" id="0Ce-A6-tnq"/>
-                            <constraint firstItem="NHp-sB-lKh" firstAttribute="leading" secondItem="9pM-Q3-YgT" secondAttribute="leading" id="Li6-SF-260"/>
+                            <constraint firstItem="g2h-sB-H5z" firstAttribute="top" secondItem="9pM-Q3-YgT" secondAttribute="top" constant="8" id="9IQ-Pk-Hdm"/>
                             <constraint firstItem="8uQ-eZ-qTi" firstAttribute="leading" secondItem="9pM-Q3-YgT" secondAttribute="leading" constant="8" id="MVa-t4-wdV"/>
-                            <constraint firstItem="NHp-sB-lKh" firstAttribute="top" secondItem="9pM-Q3-YgT" secondAttribute="top" id="MuQ-vF-tUL"/>
                             <constraint firstItem="9pM-Q3-YgT" firstAttribute="trailing" secondItem="g2h-sB-H5z" secondAttribute="trailing" id="WJQ-RF-f5B"/>
                             <constraint firstItem="g2h-sB-H5z" firstAttribute="leading" secondItem="9pM-Q3-YgT" secondAttribute="leading" id="ecE-ke-ZpF"/>
                             <constraint firstItem="9pM-Q3-YgT" firstAttribute="trailing" secondItem="8uQ-eZ-qTi" secondAttribute="trailing" constant="8" id="gnY-pM-zQe"/>
-                            <constraint firstItem="NHp-sB-lKh" firstAttribute="trailing" secondItem="9pM-Q3-YgT" secondAttribute="trailing" id="ozf-6M-LqP"/>
                             <constraint firstItem="8uQ-eZ-qTi" firstAttribute="top" relation="greaterThanOrEqual" secondItem="g2h-sB-H5z" secondAttribute="bottom" constant="8" id="p8P-7R-raD"/>
                             <constraint firstItem="9pM-Q3-YgT" firstAttribute="bottom" secondItem="8uQ-eZ-qTi" secondAttribute="bottom" constant="8" id="tsV-q2-QYz"/>
                         </constraints>
@@ -479,7 +448,6 @@
                         <outlet property="idTextField" destination="ZeX-Y6-V0c" id="TjT-j1-eOD"/>
                         <outlet property="maskedNumberLabel" destination="lSf-WR-DF7" id="lvt-I2-GAA"/>
                         <outlet property="maskedNumberTextField" destination="q95-vB-otB" id="d3f-Yv-pgz"/>
-                        <outlet property="navigationBar" destination="NHp-sB-lKh" id="yD1-s9-jeL"/>
                         <outlet property="orderLabel" destination="FH9-6I-cSM" id="m0w-z8-ViO"/>
                         <outlet property="orderTextField" destination="1zj-rw-mdL" id="Osg-t1-EtM"/>
                         <outlet property="orderyByLabel" destination="GdL-yH-As4" id="arh-FW-fbL"/>

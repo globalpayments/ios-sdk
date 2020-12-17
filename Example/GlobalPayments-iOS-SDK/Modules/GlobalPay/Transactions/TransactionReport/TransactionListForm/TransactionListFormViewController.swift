@@ -14,7 +14,6 @@ final class TransactionListFormViewController: UIViewController, StoryboardInsta
 
     weak var delegate: TransactionListFormDelegate?
 
-    @IBOutlet private weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var submitButton: UIButton!
 
     @IBOutlet private weak var pageLabel: UILabel!
@@ -76,7 +75,8 @@ final class TransactionListFormViewController: UIViewController, StoryboardInsta
 
     private func setupUI() {
         submitButton.apply(style: .globalPayStyle, title: "transaction.report.list.submit".localized())
-        navigationBar.topItem?.title = "transaction.report.list.title".localized()
+        title = "transaction.report.list.title".localized()
+        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
 
         pageLabel.text = "transaction.report.list.page".localized()
         pageTextField.text = defaultPage
@@ -169,7 +169,7 @@ final class TransactionListFormViewController: UIViewController, StoryboardInsta
         dismiss(animated: true, completion: nil)
     }
 
-    @IBAction private func onCancelAction() {
+    @objc private func onCancelAction() {
         dismiss(animated: true, completion: nil)
     }
 }

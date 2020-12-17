@@ -6,6 +6,6 @@ struct TransactionOperationsFormBuilder {
         let module = TransactionOperationsFormViewController.instantiate()
         module.delegate = delegate
 
-        return module
+        return UINavigationController(rootViewController: module)
     }
 }

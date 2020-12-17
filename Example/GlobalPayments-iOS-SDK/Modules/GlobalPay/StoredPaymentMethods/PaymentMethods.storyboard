@@ -170,26 +170,14 @@
                                     <action selector="onSubmitAction" destination="e4C-HP-U1b" eventType="touchUpInside" id="i4f-Tc-tj2"/>
                                 </connections>
                             </button>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zUm-sv-OQm">
-                                <rect key="frame" x="0.0" y="44" width="428" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="GFg-gp-Ux4">
-                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="cancel" id="Ova-FK-rah">
-                                            <connections>
-                                                <action selector="onCancelAction" destination="e4C-HP-U1b" id="JIh-lA-bu0"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62N-QG-YR2">
-                                <rect key="frame" x="12" y="96" width="404" height="21"/>
+                                <rect key="frame" x="12" y="52" width="404" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZJ-vz-JzI">
-                                <rect key="frame" x="8" y="116.99999999999999" width="412" height="166.66666666666663"/>
+                                <rect key="frame" x="8" y="72.999999999999986" width="412" height="166.66666666666663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -201,23 +189,19 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="HmL-8c-aSl" firstAttribute="trailing" secondItem="62N-QG-YR2" secondAttribute="trailing" constant="12" id="3W9-wh-zoB"/>
-                            <constraint firstItem="zUm-sv-OQm" firstAttribute="top" secondItem="HmL-8c-aSl" secondAttribute="top" id="GuH-sz-rep"/>
-                            <constraint firstItem="62N-QG-YR2" firstAttribute="top" secondItem="zUm-sv-OQm" secondAttribute="bottom" constant="8" id="XAI-dC-YwU"/>
+                            <constraint firstItem="62N-QG-YR2" firstAttribute="top" secondItem="HmL-8c-aSl" secondAttribute="top" constant="8" id="UID-Bl-Qhz"/>
                             <constraint firstItem="HmL-8c-aSl" firstAttribute="bottom" secondItem="d5z-kp-6LB" secondAttribute="bottom" constant="8" id="YHp-60-AI4"/>
                             <constraint firstItem="62N-QG-YR2" firstAttribute="leading" secondItem="HmL-8c-aSl" secondAttribute="leading" constant="12" id="eOP-hX-Aeh"/>
                             <constraint firstItem="LZJ-vz-JzI" firstAttribute="top" secondItem="62N-QG-YR2" secondAttribute="bottom" id="gzs-AA-2Gm"/>
                             <constraint firstItem="HmL-8c-aSl" firstAttribute="trailing" secondItem="LZJ-vz-JzI" secondAttribute="trailing" constant="8" id="knp-be-jwy"/>
-                            <constraint firstItem="zUm-sv-OQm" firstAttribute="leading" secondItem="HmL-8c-aSl" secondAttribute="leading" id="l5p-0S-h50"/>
                             <constraint firstItem="LZJ-vz-JzI" firstAttribute="leading" secondItem="HmL-8c-aSl" secondAttribute="leading" constant="8" id="s0s-Jk-C1T"/>
                             <constraint firstItem="HmL-8c-aSl" firstAttribute="trailing" secondItem="d5z-kp-6LB" secondAttribute="trailing" constant="8" id="weC-ex-TKS"/>
-                            <constraint firstItem="zUm-sv-OQm" firstAttribute="trailing" secondItem="HmL-8c-aSl" secondAttribute="trailing" id="xnD-Le-M4V"/>
                             <constraint firstItem="d5z-kp-6LB" firstAttribute="leading" secondItem="HmL-8c-aSl" secondAttribute="leading" constant="8" id="ymi-sV-MSo"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="descriptionLabel" destination="62N-QG-YR2" id="6jj-Md-eqa"/>
                         <outlet property="inputTextView" destination="LZJ-vz-JzI" id="xDa-bd-G32"/>
-                        <outlet property="navigationBar" destination="zUm-sv-OQm" id="4wU-Db-6En"/>
                         <outlet property="submitButton" destination="d5z-kp-6LB" id="Hay-iG-RJQ"/>
                     </connections>
                 </viewController>
@@ -233,20 +217,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AK1-Ht-ZdM">
-                                <rect key="frame" x="0.0" y="44" width="428" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="lI3-FI-423">
-                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="cancel" id="ZQX-to-X0V">
-                                            <connections>
-                                                <action selector="onCancelAction" destination="ab7-c0-nWk" id="b8p-pw-duF"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="C1U-kW-j0s">
-                                <rect key="frame" x="0.0" y="88" width="428" height="329.33333333333331"/>
+                                <rect key="frame" x="0.0" y="52" width="428" height="329.33333333333331"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o26-Xt-2xl">
                                         <rect key="frame" x="0.0" y="0.0" width="428" height="329.33333333333331"/>
@@ -331,7 +303,7 @@
                                                                 </constraints>
                                                             </stackView>
                                                             <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hkZ-Ug-9Dc">
-                                                                <rect key="frame" x="0.0" y="111.33333333333331" width="412" height="34"/>
+                                                                <rect key="frame" x="0.0" y="111.33333333333334" width="412" height="34"/>
                                                                 <subviews>
                                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expiry Month:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGc-Mb-71S">
                                                                         <rect key="frame" x="0.0" y="0.0" width="156.66666666666666" height="34"/>
@@ -425,15 +397,12 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="f11-7y-IO4" firstAttribute="trailing" secondItem="Xvk-h7-0vL" secondAttribute="trailing" constant="8" id="HCd-54-5MR"/>
-                            <constraint firstItem="C1U-kW-j0s" firstAttribute="top" secondItem="AK1-Ht-ZdM" secondAttribute="bottom" id="Inr-Ob-vKe"/>
                             <constraint firstItem="f11-7y-IO4" firstAttribute="trailing" secondItem="C1U-kW-j0s" secondAttribute="trailing" id="KpD-n7-IfI"/>
                             <constraint firstItem="f11-7y-IO4" firstAttribute="bottom" secondItem="Xvk-h7-0vL" secondAttribute="bottom" constant="8" id="PBm-24-RE8"/>
                             <constraint firstItem="Xvk-h7-0vL" firstAttribute="leading" secondItem="f11-7y-IO4" secondAttribute="leading" constant="8" id="Vsq-eF-CrJ"/>
                             <constraint firstItem="C1U-kW-j0s" firstAttribute="leading" secondItem="f11-7y-IO4" secondAttribute="leading" id="YAT-l0-ms4"/>
-                            <constraint firstItem="AK1-Ht-ZdM" firstAttribute="leading" secondItem="f11-7y-IO4" secondAttribute="leading" id="bfm-zx-sX7"/>
                             <constraint firstItem="Xvk-h7-0vL" firstAttribute="top" relation="greaterThanOrEqual" secondItem="C1U-kW-j0s" secondAttribute="bottom" constant="8" id="dGx-wz-eB8"/>
-                            <constraint firstItem="AK1-Ht-ZdM" firstAttribute="trailing" secondItem="f11-7y-IO4" secondAttribute="trailing" id="jUs-vm-Hqm"/>
-                            <constraint firstItem="AK1-Ht-ZdM" firstAttribute="top" secondItem="f11-7y-IO4" secondAttribute="top" id="sMH-gl-uUq"/>
+                            <constraint firstItem="C1U-kW-j0s" firstAttribute="top" secondItem="f11-7y-IO4" secondAttribute="top" constant="8" id="lVl-Ab-1IY"/>
                         </constraints>
                     </view>
                     <connections>
@@ -445,7 +414,6 @@
                         <outlet property="expiryMonthTextField" destination="pgF-J8-K7Q" id="gFI-dX-fOn"/>
                         <outlet property="expiryYearLabel" destination="YsE-x3-QXk" id="FuZ-wa-k3g"/>
                         <outlet property="expiryYearTextField" destination="sTz-BP-oca" id="6JZ-Pp-tmW"/>
-                        <outlet property="navigationBar" destination="AK1-Ht-ZdM" id="6nV-dv-tx3"/>
                         <outlet property="paymentCardLabel" destination="3Gs-8s-pUO" id="KW6-rs-aGH"/>
                         <outlet property="paymentCardStackView" destination="rEA-AO-ZOL" id="ZX6-9H-gDO"/>
                         <outlet property="paymentCardTextField" destination="bNc-F2-J6A" id="cxV-ja-ZbQ"/>

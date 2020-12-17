@@ -12,7 +12,6 @@ final class AccessTokenFormViewController: UIViewController, StoryboardInstantia
     weak var delegate: AccessTokenFormDelegate?
 
     @IBOutlet private weak var submitButton: UIButton!
-    @IBOutlet private weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var appIdLabel: UILabel!
     @IBOutlet private weak var appIdTextField: UITextField!
     @IBOutlet private weak var appKeyLabel: UILabel!
@@ -33,7 +32,8 @@ final class AccessTokenFormViewController: UIViewController, StoryboardInstantia
     private func setupUI() {
         hideKeyboardWhenTappedAround()
 
-        navigationBar.topItem?.title = "access.token.form.title".localized()
+        title = "access.token.form.title".localized()
+        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
 
         submitButton.apply(style: .globalPayStyle, title: "access.token.form.submit".localized())
 
@@ -54,7 +54,7 @@ final class AccessTokenFormViewController: UIViewController, StoryboardInstantia
 
     // MARK: - Actions
 
-    @IBAction private func onCloseAction() {
+    @objc private func onCancelAction() {
         dismiss(animated: true, completion: nil)
     }
 

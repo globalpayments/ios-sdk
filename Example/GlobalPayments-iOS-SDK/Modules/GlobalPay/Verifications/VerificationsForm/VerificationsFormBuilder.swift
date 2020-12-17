@@ -6,6 +6,6 @@ struct VerificationsFormBuilder {
         let module = VerificationsFormViewController.instantiate()
         module.delegate = delegate
 
-        return module
+        return UINavigationController(rootViewController: module) 
     }
 }

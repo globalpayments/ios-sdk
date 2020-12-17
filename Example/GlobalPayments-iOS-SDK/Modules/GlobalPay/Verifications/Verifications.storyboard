@@ -67,20 +67,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zPh-Ps-gZq">
-                                <rect key="frame" x="0.0" y="44" width="428" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="DOm-34-Wtv">
-                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="cancel" id="41H-04-Eoq">
-                                            <connections>
-                                                <action selector="onCancelAction" destination="jp7-L7-ksU" id="WIB-4Z-7T3"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="33b-bR-JKo">
-                                <rect key="frame" x="0.0" y="88" width="428" height="660"/>
+                                <rect key="frame" x="0.0" y="52" width="428" height="660"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qiY-RF-hu8">
                                         <rect key="frame" x="0.0" y="0.0" width="428" height="660"/>
@@ -166,7 +154,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="5vo-Ky-Blq">
-                                                                <rect key="frame" x="0.0" y="27.333333333333371" width="412" height="34"/>
+                                                                <rect key="frame" x="0.0" y="27.333333333333314" width="412" height="34"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ID:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EDD-js-qyz">
                                                                         <rect key="frame" x="0.0" y="0.0" width="156.66666666666666" height="34"/>
@@ -185,7 +173,7 @@
                                                                 </constraints>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="e2Y-al-m8p">
-                                                                <rect key="frame" x="0.0" y="69.333333333333371" width="412" height="34"/>
+                                                                <rect key="frame" x="0.0" y="69.333333333333343" width="412" height="34"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Name:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TUm-yo-E11">
                                                                         <rect key="frame" x="0.0" y="0.0" width="156.66666666666666" height="34"/>
@@ -204,7 +192,7 @@
                                                                 </constraints>
                                                             </stackView>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="tVe-yS-dyH">
-                                                                <rect key="frame" x="0.0" y="111.33333333333337" width="412" height="34"/>
+                                                                <rect key="frame" x="0.0" y="111.33333333333334" width="412" height="34"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Name:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xH2-iY-2zW">
                                                                         <rect key="frame" x="0.0" y="0.0" width="156.66666666666666" height="34"/>
@@ -392,13 +380,10 @@
                             <constraint firstItem="cxF-Dp-xUi" firstAttribute="top" relation="greaterThanOrEqual" secondItem="33b-bR-JKo" secondAttribute="bottom" constant="8" id="0T5-eZ-fBj"/>
                             <constraint firstItem="33b-bR-JKo" firstAttribute="leading" secondItem="acE-PN-FKW" secondAttribute="leading" id="4GR-NZ-dre"/>
                             <constraint firstItem="acE-PN-FKW" firstAttribute="bottom" secondItem="cxF-Dp-xUi" secondAttribute="bottom" constant="8" id="5qP-DR-0KG"/>
-                            <constraint firstItem="33b-bR-JKo" firstAttribute="top" secondItem="zPh-Ps-gZq" secondAttribute="bottom" id="9kk-Y1-Tom"/>
                             <constraint firstItem="acE-PN-FKW" firstAttribute="trailing" secondItem="33b-bR-JKo" secondAttribute="trailing" id="UCK-k0-eC9"/>
-                            <constraint firstItem="zPh-Ps-gZq" firstAttribute="top" secondItem="acE-PN-FKW" secondAttribute="top" id="aEb-gy-ntK"/>
                             <constraint firstItem="cxF-Dp-xUi" firstAttribute="leading" secondItem="acE-PN-FKW" secondAttribute="leading" constant="8" id="aoy-DR-qqw"/>
                             <constraint firstItem="acE-PN-FKW" firstAttribute="trailing" secondItem="cxF-Dp-xUi" secondAttribute="trailing" constant="8" id="h9K-W2-eKX"/>
-                            <constraint firstItem="zPh-Ps-gZq" firstAttribute="trailing" secondItem="acE-PN-FKW" secondAttribute="trailing" id="hRU-ei-S2c"/>
-                            <constraint firstItem="zPh-Ps-gZq" firstAttribute="leading" secondItem="acE-PN-FKW" secondAttribute="leading" id="sJp-c3-8z1"/>
+                            <constraint firstItem="33b-bR-JKo" firstAttribute="top" secondItem="acE-PN-FKW" secondAttribute="top" constant="8" id="kWC-lI-4tr"/>
                         </constraints>
                     </view>
                     <connections>
@@ -424,7 +409,6 @@
                         <outlet property="idTextField" destination="t2r-FP-dzl" id="EzJ-wC-d0r"/>
                         <outlet property="lastNameLabel" destination="xH2-iY-2zW" id="T7Z-Lh-RJ0"/>
                         <outlet property="lastNameTextField" destination="G4T-0f-n9K" id="dSP-p9-ee9"/>
-                        <outlet property="navigationBar" destination="zPh-Ps-gZq" id="FcR-DZ-flg"/>
                         <outlet property="paymentCardLabel" destination="3Ri-Zt-uJf" id="ZVF-r2-oha"/>
                         <outlet property="paymentCardTextField" destination="cjU-9t-j2e" id="39n-zN-d6n"/>
                         <outlet property="paymentMethodLabel" destination="Th8-D1-cqn" id="W0S-gy-tcS"/>

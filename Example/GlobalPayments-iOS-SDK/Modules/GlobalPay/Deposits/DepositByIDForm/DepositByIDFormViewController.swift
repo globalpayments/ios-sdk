@@ -13,7 +13,6 @@ final class DepositByIDFormViewController: UIViewController, StoryboardInstantia
     private let defaultDepositId = "DEP_2342423423"
 
     @IBOutlet private weak var submitButton: UIButton!
-    @IBOutlet private weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var inputTextView: UITextView!
 
@@ -25,7 +24,8 @@ final class DepositByIDFormViewController: UIViewController, StoryboardInstantia
 
     private func setupUI() {
         hideKeyboardWhenTappedAround()
-        navigationBar.topItem?.title = "deposits.deposit.by.id.form.title".localized()
+        title = "deposits.deposit.by.id.form.title".localized()
+        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
         submitButton.apply(style: .globalPayStyle, title: "deposits.deposit.by.id.form.submit".localized())
         descriptionLabel.text = "deposits.deposit.by.id.form.description".localized()
         inputTextView.text = defaultDepositId
@@ -33,7 +33,7 @@ final class DepositByIDFormViewController: UIViewController, StoryboardInstantia
 
     // MARK - Actions
 
-    @IBAction private func onCancelAction() {
+    @objc private func onCancelAction() {
         dismiss(animated: true, completion: nil)
     }
 

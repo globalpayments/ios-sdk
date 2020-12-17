@@ -77,20 +77,8 @@
                                     <action selector="onSubmitAction" destination="eqC-Ud-1cR" eventType="touchUpInside" id="WH2-O8-vGW"/>
                                 </connections>
                             </button>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7SB-zy-sEl">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <items>
-                                    <navigationItem title="Access Token Parameters" id="q6x-zG-56t">
-                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="cancel" id="QfM-1O-dLl">
-                                            <connections>
-                                                <action selector="onCloseAction" destination="eqC-Ud-1cR" id="J2O-Cy-nKO"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zKq-9O-7Ix">
-                                <rect key="frame" x="8" y="96" width="398" height="202"/>
+                                <rect key="frame" x="8" y="52" width="398" height="202"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="730-fz-gtE" userLabel="AppID">
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="34"/>
@@ -194,14 +182,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="zKq-9O-7Ix" firstAttribute="leading" secondItem="9uD-XM-hJp" secondAttribute="leading" constant="8" id="1nL-ve-TOQ"/>
-                            <constraint firstItem="7SB-zy-sEl" firstAttribute="leading" secondItem="JQw-GI-RcK" secondAttribute="leading" id="Euy-hR-2uS"/>
                             <constraint firstItem="9uD-XM-hJp" firstAttribute="trailing" secondItem="XSG-8u-EU5" secondAttribute="trailing" constant="8" id="Gea-L4-AoT"/>
-                            <constraint firstItem="9uD-XM-hJp" firstAttribute="trailing" secondItem="7SB-zy-sEl" secondAttribute="trailing" id="JzY-0O-jdI"/>
                             <constraint firstItem="9uD-XM-hJp" firstAttribute="bottom" secondItem="XSG-8u-EU5" secondAttribute="bottom" constant="8" id="L3i-rz-M3J"/>
                             <constraint firstItem="9uD-XM-hJp" firstAttribute="trailing" secondItem="zKq-9O-7Ix" secondAttribute="trailing" constant="8" id="Lm8-GO-Hnp"/>
                             <constraint firstItem="XSG-8u-EU5" firstAttribute="leading" secondItem="9uD-XM-hJp" secondAttribute="leading" constant="8" id="gpt-q6-6dI"/>
-                            <constraint firstItem="7SB-zy-sEl" firstAttribute="top" secondItem="9uD-XM-hJp" secondAttribute="top" id="iQn-84-22j"/>
-                            <constraint firstItem="zKq-9O-7Ix" firstAttribute="top" secondItem="7SB-zy-sEl" secondAttribute="bottom" constant="8" id="m1n-gb-WTw"/>
+                            <constraint firstItem="zKq-9O-7Ix" firstAttribute="top" secondItem="9uD-XM-hJp" secondAttribute="top" constant="8" id="h9v-9S-bOq"/>
                         </constraints>
                     </view>
                     <connections>
@@ -213,7 +198,6 @@
                         <outlet property="environmentTextField" destination="QkS-cz-zBv" id="RMT-X5-Nhn"/>
                         <outlet property="intervalLabel" destination="oag-Sa-afw" id="fTy-lg-YrP"/>
                         <outlet property="intervalTextField" destination="pm9-8D-Aqy" id="jfx-SZ-bni"/>
-                        <outlet property="navigationBar" destination="7SB-zy-sEl" id="Sx6-Ht-Wj8"/>
                         <outlet property="secondsLabel" destination="y59-Df-KxB" id="Oq0-iT-M2U"/>
                         <outlet property="secondsTextField" destination="R5s-Be-khf" id="Lgb-sW-S9U"/>
                         <outlet property="submitButton" destination="XSG-8u-EU5" id="v2U-Bd-V75"/>

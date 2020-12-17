@@ -14,7 +14,6 @@ final class DepositsListFormViewController: UIViewController, StoryboardInstanti
     private let defaultPage = "1"
     private let defaultPageSize = "5"
 
-    @IBOutlet private weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var submitButton: UIButton!
     @IBOutlet private weak var pageLabel: UILabel!
     @IBOutlet private weak var pageTextField: UITextField!
@@ -50,7 +49,8 @@ final class DepositsListFormViewController: UIViewController, StoryboardInstanti
     }
 
     private func setupUI() {
-        navigationBar.topItem?.title = "deposits.list.form.title".localized()
+        title = "deposits.list.form.title".localized()
+        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
         submitButton.apply(style: .globalPayStyle, title: "deposits.list.form.submit".localized())
         pageLabel.text = "deposits.list.form.page".localized()
         pageTextField.text = defaultPage
@@ -85,7 +85,7 @@ final class DepositsListFormViewController: UIViewController, StoryboardInstanti
 
     // MARK: - Actions
 
-    @IBAction private func onCancelAction() {
+    @objc private func onCancelAction() {
         dismiss(animated: true, completion: nil)
     }
 

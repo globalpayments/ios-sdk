@@ -6,6 +6,6 @@ struct PaymentMethodByIDBuilder {
         let module = PaymentMethodByIDViewController.instantiate()
         module.delegate = delegate
 
-        return module
+        return UINavigationController(rootViewController: module)
     }
 }

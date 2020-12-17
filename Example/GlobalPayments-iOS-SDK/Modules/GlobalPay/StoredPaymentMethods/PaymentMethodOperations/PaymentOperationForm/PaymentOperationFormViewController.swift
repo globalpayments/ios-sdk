@@ -8,7 +8,6 @@ final class PaymentOperationFormViewController: UIViewController, StoryboardInst
 
     static var storyboardName = "PaymentMethods"
 
-    @IBOutlet private weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var submitButton: UIButton!
     @IBOutlet private weak var paymentOperationLabel: UILabel!
     @IBOutlet private weak var paymentOperationTextField: UITextField!
@@ -37,7 +36,8 @@ final class PaymentOperationFormViewController: UIViewController, StoryboardInst
 
     private func setupUI() {
         hideKeyboardWhenTappedAround()
-        navigationBar.topItem?.title = "payment.operation.form.title".localized()
+        title = "payment.operation.form.title".localized()
+        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
         submitButton.apply(style: .globalPayStyle, title: "payment.operation.form.submit".localized())
         paymentOperationLabel.text = "payment.operation.form.payment.operation".localized()
         paymentOperationTextField.loadDropDownData(PaymentMethodOperationType.allCases.map { $0.rawValue.uppercased() }, onSelectItem: onSelectPaymentOperation)

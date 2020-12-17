@@ -197,7 +197,7 @@ import Foundation
         return searchCriteriaBuilder.and(transactionStatus: transactionStatus)
     }
 
-    public func `where`(_ adjustmentFunding: AdjustmentFunding) -> SearchCriteriaBuilder<TResult> {
+    public func `where`(_ adjustmentFunding: AdjustmentFunding?) -> SearchCriteriaBuilder<TResult> {
         return searchCriteriaBuilder.and(adjustmentFunding: adjustmentFunding)
     }
 

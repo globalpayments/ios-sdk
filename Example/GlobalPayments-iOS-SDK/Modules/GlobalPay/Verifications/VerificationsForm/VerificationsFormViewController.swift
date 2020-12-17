@@ -11,7 +11,6 @@ final class VerificationsFormViewController: UIViewController, StoryboardInstant
 
     weak var delegate: VerificationsFormDelegate?
 
-    @IBOutlet private weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var submitButton: UIButton!
     @IBOutlet private weak var transactionDataLabel: UILabel!
     @IBOutlet private weak var referenceLabel: UILabel!
@@ -49,7 +48,8 @@ final class VerificationsFormViewController: UIViewController, StoryboardInstant
     }
 
     private func setupUI() {
-        navigationBar.topItem?.title = "verifications.form.title".localized()
+        title = "verifications.form.title".localized()
+        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
         submitButton.apply(style: .globalPayStyle, title: "verifications.form.submit".localized())
         transactionDataLabel.text = "verifications.form.transaction.data".localized()
         referenceLabel.text = "verifications.form.reference".localized()

@@ -1,6 +1,6 @@
 import Foundation
 
-public enum DisputeStatus: String, Mappable {
+public enum DisputeStatus: String, Mappable, CaseIterable {
     case underReview = "UNDER_REVIEW"
     case withMerchant = "WITH_MERCHANT"
     case closed = "CLOSED"

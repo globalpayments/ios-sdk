@@ -1,6 +1,6 @@
 import Foundation
 
-public enum AdjustmentFunding: String, Mappable {
+public enum AdjustmentFunding: String, Mappable, CaseIterable {
     case credit = "CREDIT"
     case debit = "DEBIT"
 

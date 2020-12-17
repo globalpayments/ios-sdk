@@ -6,6 +6,6 @@ struct DepositByIDFormBuilder {
         let module = DepositByIDFormViewController.instantiate()
         module.delegate = delegate
 
-        return module
+        return UINavigationController(rootViewController: module)
     }
 }

@@ -218,3 +218,65 @@
 "deposits.list.form.masked.number" = "Mascked Account Number Last 4:";
 "deposits.list.form.system.mid" = "System MID:";
 "deposits.list.form.system.hierarchy" = "System Hierarchy:";
+
+"disputes.title" = "Disputes";
+"disputes.report.title" = "Disputes Report";
+"disputes.operations.title" = "Disputes Operations";
+
+"disputes.report.dispute.list" = "Get Disputes List";
+"disputes.report.dispute.by.id" = "Get Dispute By ID";
+"disputes.report.document.by.id" = "Get Document By ID";
+"disputes.report.document.id" = "ID:";
+"disputes.report.document.time.created" = "Time Created:";
+"disputes.report.document.status" = "Status:";
+"disputes.report.document.stage" = "Stage:";
+"disputes.report.document.amount" = "Amount:";
+"disputes.report.document.currency" = "Currency:";
+"disputes.report.document.mid" = "Merchant ID:";
+"disputes.report.document.merchant.hierarchy" = "Merchant Hierarchy:";
+"disputes.report.document.arn" = "Tranasction ARN;";
+"disputes.report.document.reference.number" = "Transaction Reference Number:";
+"disputes.report.document.auth.code" = "Transaction Auth Code:";
+"disputes.report.document.card.type" = "Transaction Card Type:";
+"disputes.report.document.masked.number" = "Transaction Masked Card Number:";
+"disputes.report.document.reason" = "Reason:";
+"disputes.report.document.reason.code" = "Reason Code:";
+"disputes.report.document.time.end" = "Respond By Date:";
+"disputes.report.document.documents" = "Documents:";
+"disputes.report.document.more" = "more...";
+"disputes.report.document.last.adjustment.funding" = "Last Adjustment Funding:";
+"disputes.report.document.last.adjustment.amount" = "Last Adjustment Amount:";
+"disputes.report.document.last.adjustment.currency" = "Last Adjustment Currency:";
+"disputes.report.document.last.adjustment.time" = "Last Adjustment Time:";
+"disputes.report.document.result" = "Result:";
+
+"dispute.document.form.title" = "Document Parameters";
+"dispute.document.form.submit" = "Submit";
+"dispute.document.form.dispute.id" = "Dispute ID:";
+"dispute.document.form.document.id" = "Document ID:";
+
+"dispute.by.id.title" = "Report Parameters";
+"dispute.by.id" = "Dispute ID:";
+"dispute.by.id.settlements" = "Get from settlements ?";
+"dispute.by.id.submit" = "Submit";
+
+"dispute.document.title" = "Documents";
+
+"dispute.list.form.title" = "Disputes Parameters";
+"dispute.list.form.submit" = "Submit";
+"dispute.list.form.page" = "Page:";
+"dispute.list.form.page.size" = "Page Size:";
+"dispute.list.form.order.by" = "Order By:";
+"dispute.list.form.order" = "Order:";
+"dispute.list.form.arn" = "ARN:";
+"dispute.list.form.brand" = "Brand:";
+"dispute.list.form.status" = "Status:";
+"dispute.list.form.stage" = "Stage:";
+"dispute.list.form.from.stage.time.created" = "From Stage Time Created:";
+"dispute.list.form.to.stage.time.created" = "To Stage Time Created:";
+"dispute.list.form.adjustment.funding" = "Adjustment Funding:";
+"dispute.list.form.from.adjustment.time.created" = "From Adjustment Time Created:";
+"dispute.list.form.to.adjustment.time.created" = "To Adjustment Time Created:";
+"dispute.list.form.system.mid" = "System MID:";
+"dispute.list.form.system.hierarchy" = "System Hierarchy:";
+"dispute.list.form.settlements" = "Get from Settlements?";

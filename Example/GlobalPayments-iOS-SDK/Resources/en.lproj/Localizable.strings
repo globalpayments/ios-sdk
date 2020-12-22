@@ -280,3 +280,31 @@
 "dispute.list.form.system.mid" = "System MID:";
 "dispute.list.form.system.hierarchy" = "System Hierarchy:";
 "dispute.list.form.settlements" = "Get from Settlements?";
+
+"disputes.operations.title" = "Dispute Operations";
+"disputes.operations.initiate.opearation" = "Initiate Dispute Operation";
+
+"disputes.operations.form.title" = "Operation Parameters";
+"disputes.operations.form.submit" = "Submit";
+"disputes.operations.form.operation.type" = "Operation Type:";
+"disputes.operations.form.dispute.id" = "Dispute ID:";
+"disputes.operations.form.image.not.selected" = "Please select an image!";
+
+"dispute.action.view.reference" = "Reference:";
+"dispute.action.view.status" = "Status:";
+"dispute.action.view.stage" = "Stage:";
+"dispute.action.view.amount" = "Amount:";
+"dispute.action.view.currency" = "Currency:";
+"dispute.action.view.reason.code" = "Reason Code:";
+"dispute.action.view.reason.description" = "Reason Description:";
+"dispute.action.view.reason.result" = "Result:";
+"dispute.action.view.documents" = "Documents:";
+
+"document.picker.view.title" = "Add Document File:";
+"document.picker.view.file" = "Document File:";
+"document.picker.view.select" = "Press to select a file";
+"document.picker.view.type" = "Document Type:";
+"document.picker.view.add" = "Add";
+"document.picker.view.add.document" = "Add Document";
+"document.picker.view.clear" = "Clear & Close";
+

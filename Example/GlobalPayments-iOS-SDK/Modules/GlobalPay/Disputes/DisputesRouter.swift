@@ -18,7 +18,7 @@ struct DisputesRouter: Router {
         case .report:
             return DisputeReportBuilder.build()
         case .operations:
-            return UIViewController.empty()
+            return DisputesOperationsBuilder.build()
         }
     }
 }

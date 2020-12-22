@@ -1,6 +1,6 @@
 import Foundation
 
-public enum DocumentType: String, Mappable, Encodable {
+public enum DocumentType: String, Mappable, Encodable, CaseIterable {
     case salesReceipt = "SALES_RECEIPT"
     case proofOfDelivery = "PROOF_OF_DELIVERY"
     case refundPolicy = "REFUND_POLICY"

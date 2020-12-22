@@ -23,6 +23,7 @@ struct DynamicColor {
 extension UIColor {
     static let appTintColor = UIColor(red: 0, green: 60/255, blue: 113/255, alpha: 1.0)
     static let appGreenColor = UIColor(red: 0, green: 128/255, blue: 79/255, alpha: 1.0)
+    static let appRedColor = UIColor(red: 181/255, green: 29/255, blue: 3/255, alpha: 1.0)
 }
 
 extension UIFont {
@@ -40,6 +41,8 @@ struct Theme {
     static var buttonFillColor: UIColor
     @DynamicColor(light: .white, dark: .white)
     static var buttonTextColor: UIColor
+    @DynamicColor(light: UIColor.appRedColor, dark: UIColor.appRedColor)
+    static var cancelButtonFillColor: UIColor
 
     // MARK: - Corners
     static var cornerRadius: CGFloat = 8.0

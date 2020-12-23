@@ -9,6 +9,7 @@
 "gateways.realex.title" = "Realex";
 
 "globalpay.title" = "GP API";
+"globalpay.container.failure" = "Oops!, looks like there is an error setting up the container. Check the error below: \n%@";
 "globalpay.access.token.title" = "Access Token";
 "globalpay.transactions.title" = "Transactions";
 "globalpay.verifications.title" = "Verifications";
@@ -308,3 +309,14 @@
 "document.picker.view.add.document" = "Add Document";
 "document.picker.view.clear" = "Clear & Close";
 
+"configuration.title" = "GP API Configuration";
+"configuration.app.id" = "App ID (required)";
+"configuration.app.key" = "App Key (required)";
+"configuration.seconds.to.expire" = "Seconds To Expire (optional)";
+"configuration.interval.to.expire" = "Interval To Expire (optional)";
+"configuration.channel" = "Channel (optional)";
+"configuration.language" = "Language (optional)";
+"configuration.country" = "Country (optional)";
+"configuration.save" = "Save Configuration";
+"configuration.app.id.message" = "Applicatoin ID field is required";
+"configuration.app.key.message" = "Applicatoin Key field is required";

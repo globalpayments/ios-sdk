@@ -14,6 +14,12 @@
 		8200B17625937A8B00042357 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B17525937A8B00042357 /* ImagePicker.swift */; };
 		8200B18925938E6500042357 /* DisputeDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */; };
 		8200B18A25938E6500042357 /* DisputeDocumentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8200B18825938E6500042357 /* DisputeDocumentTableViewCell.xib */; };
+		8200B19A25939D6B00042357 /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B19925939D6B00042357 /* ConfigurationViewController.swift */; };
+		8200B19E25939DA600042357 /* Configuration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8200B19D25939DA600042357 /* Configuration.storyboard */; };
+		8200B1A425939FA400042357 /* ConfigurationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1A325939FA400042357 /* ConfigurationBuilder.swift */; };
+		8200B1AA2593A2F300042357 /* ConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1A92593A2F300042357 /* ConfigurationViewModel.swift */; };
+		8200B1AF2594D21100042357 /* GlobalPayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1AE2594D21100042357 /* GlobalPayViewModel.swift */; };
+		8200B1B72594D33800042357 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1B62594D33800042357 /* Configuration.swift */; };
 		8214204B2591FC29003EA8DF /* DisputeListForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8214204A2591FC29003EA8DF /* DisputeListForm.swift */; };
 		8214204F2591FC30003EA8DF /* DisputeListFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8214204E2591FC30003EA8DF /* DisputeListFormBuilder.swift */; };
 		821420532591FC3C003EA8DF /* DisputeListFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821420522591FC3C003EA8DF /* DisputeListFormViewController.swift */; };
@@ -147,6 +153,9 @@
 		82B49410256FE2A2009C2CBD /* VerificationsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4940F256FE2A2009C2CBD /* VerificationsBuilder.swift */; };
 		82B49417256FF1CB009C2CBD /* VerificationsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B49416256FF1CB009C2CBD /* VerificationsFormViewController.swift */; };
 		82B4941B256FF490009C2CBD /* VerificationsFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B4941A256FF490009C2CBD /* VerificationsFormBuilder.swift */; };
+		82C8D0F225AC620C00F6704E /* KeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C8D0F125AC620C00F6704E /* KeyValueStore.swift */; };
+		82C8D0F625AC62B600F6704E /* ValuesKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C8D0F525AC62B600F6704E /* ValuesKeys.swift */; };
+		82C8D0FB25AC62F900F6704E /* DefaultsKey+Discovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C8D0FA25AC62F900F6704E /* DefaultsKey+Discovery.swift */; };
 		82CF9A81257A60C400B7CC18 /* GpApiMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CF9A80257A60C400B7CC18 /* GpApiMappingTests.swift */; };
 		82CF9A88257A868C00B7CC18 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CF9A87257A868C00B7CC18 /* StringExtensions.swift */; };
 		82E6BDB2258CE38400908C36 /* DisputeByIDFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E6BDB1258CE38400908C36 /* DisputeByIDFormBuilder.swift */; };
@@ -200,6 +209,12 @@
 		8200B17525937A8B00042357 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeDocumentTableViewCell.swift; sourceTree = "<group>"; };
 		8200B18825938E6500042357 /* DisputeDocumentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisputeDocumentTableViewCell.xib; sourceTree = "<group>"; };
+		8200B19925939D6B00042357 /* ConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewController.swift; sourceTree = "<group>"; };
+		8200B19D25939DA600042357 /* Configuration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Configuration.storyboard; sourceTree = "<group>"; };
+		8200B1A325939FA400042357 /* ConfigurationBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationBuilder.swift; sourceTree = "<group>"; };
+		8200B1A92593A2F300042357 /* ConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewModel.swift; sourceTree = "<group>"; };
+		8200B1AE2594D21100042357 /* GlobalPayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPayViewModel.swift; sourceTree = "<group>"; };
+		8200B1B62594D33800042357 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		8214204A2591FC29003EA8DF /* DisputeListForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeListForm.swift; sourceTree = "<group>"; };
 		8214204E2591FC30003EA8DF /* DisputeListFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeListFormBuilder.swift; sourceTree = "<group>"; };
 		821420522591FC3C003EA8DF /* DisputeListFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeListFormViewController.swift; sourceTree = "<group>"; };
@@ -333,6 +348,9 @@
 		82B4940F256FE2A2009C2CBD /* VerificationsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsBuilder.swift; sourceTree = "<group>"; };
 		82B49416256FF1CB009C2CBD /* VerificationsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsFormViewController.swift; sourceTree = "<group>"; };
 		82B4941A256FF490009C2CBD /* VerificationsFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationsFormBuilder.swift; sourceTree = "<group>"; };
+		82C8D0F125AC620C00F6704E /* KeyValueStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStore.swift; sourceTree = "<group>"; };
+		82C8D0F525AC62B600F6704E /* ValuesKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesKeys.swift; sourceTree = "<group>"; };
+		82C8D0FA25AC62F900F6704E /* DefaultsKey+Discovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultsKey+Discovery.swift"; sourceTree = "<group>"; };
 		82CF9A80257A60C400B7CC18 /* GpApiMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiMappingTests.swift; sourceTree = "<group>"; };
 		82CF9A87257A868C00B7CC18 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		82E6BDB1258CE38400908C36 /* DisputeByIDFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeByIDFormBuilder.swift; sourceTree = "<group>"; };
@@ -415,6 +433,8 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
+				82C8D0F925AC62D100F6704E /* Storage */,
+				8200B1AD25949BB100042357 /* Services */,
 				8258B115255C1B4100D02721 /* Modules */,
 				8258B15C255C2FB100D02721 /* Extensions */,
 				8258B116255C1B4500D02721 /* Utils */,
@@ -477,14 +497,34 @@
 		8200B18D2593995500042357 /* GlobalPay */ = {
 			isa = PBXGroup;
 			children = (
-				8244D696255D762200739364 /* Models */,
 				8244D69F255D76D800739364 /* GlobalPay.storyboard */,
 				8244D6A3255D76E700739364 /* GlobalPayListBuilder.swift */,
 				8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */,
+				8200B1AE2594D21100042357 /* GlobalPayViewModel.swift */,
 				82A9F7672577A0A100B8962D /* GlobalPayViewController.swift */,
+				8244D696255D762200739364 /* Models */,
 			);
 			name = GlobalPay;
 			path = GlobalPay/GlobalPay;
+			sourceTree = "<group>";
+		};
+		8200B19825939D4700042357 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				8200B19D25939DA600042357 /* Configuration.storyboard */,
+				8200B1A325939FA400042357 /* ConfigurationBuilder.swift */,
+				8200B1A92593A2F300042357 /* ConfigurationViewModel.swift */,
+				8200B19925939D6B00042357 /* ConfigurationViewController.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		8200B1AD25949BB100042357 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8200B1B62594D33800042357 /* Configuration.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		821420492591FBE8003EA8DF /* DisputeListForm */ = {
@@ -745,6 +785,7 @@
 			isa = PBXGroup;
 			children = (
 				8258B167255C38DB00D02721 /* Components */,
+				8200B19825939D4700042357 /* Configuration */,
 				8200B18D2593995500042357 /* GlobalPay */,
 				8244D6C1255E98A800739364 /* AccessToken */,
 				8253FBB32563E8C600FBDCC9 /* Transactions */,
@@ -971,6 +1012,16 @@
 			path = VerificationsForm;
 			sourceTree = "<group>";
 		};
+		82C8D0F925AC62D100F6704E /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				82C8D0F125AC620C00F6704E /* KeyValueStore.swift */,
+				82C8D0F525AC62B600F6704E /* ValuesKeys.swift */,
+				82C8D0FA25AC62F900F6704E /* DefaultsKey+Discovery.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		82E6BDB0258CE35000908C36 /* DisputeByIDForm */ = {
 			isa = PBXGroup;
 			children = (
@@ -1179,6 +1230,7 @@
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				8253FBB02563DB5B00FBDCC9 /* ErrorView.xib in Resources */,
 				822FBF0425810C3900D12353 /* DepositTableViewCell.xib in Resources */,
+				8200B19E25939DA600042357 /* Configuration.storyboard in Resources */,
 				8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */,
 				82B49403256FAF74009C2CBD /* TransactionView.xib in Resources */,
 				8249189B2590F2EE00A7566E /* DocumentTableViewCell.xib in Resources */,
@@ -1296,6 +1348,7 @@
 				823EDBF9256D13D6009DED23 /* EmptyView.swift in Sources */,
 				8244D688255D692A00739364 /* Router.swift in Sources */,
 				82A9F77D2577ABA900B8962D /* PaymentOperationFormBuilder.swift in Sources */,
+				82C8D0F225AC620C00F6704E /* KeyValueStore.swift in Sources */,
 				82B4941B256FF490009C2CBD /* VerificationsFormBuilder.swift in Sources */,
 				822609A9258CCD240008B3F0 /* DisputeDocumentForm.swift in Sources */,
 				82EC18F02575347300A93A3C /* PaymentMethodsRouter.swift in Sources */,
@@ -1308,6 +1361,7 @@
 				82A9F7832577ABB300B8962D /* PaymentOperationFormViewController.swift in Sources */,
 				82B4940C256FE299009C2CBD /* VerificationsViewController.swift in Sources */,
 				82EC19092576467700A93A3C /* PaymentMethodReportViewModel.swift in Sources */,
+				8200B1AF2594D21100042357 /* GlobalPayViewModel.swift in Sources */,
 				8244D6F825629C0400739364 /* AccessTokenFormViewController.swift in Sources */,
 				8214208325925492003EA8DF /* OperationType.swift in Sources */,
 				822FBF202582799F00D12353 /* DepositsListForm.swift in Sources */,
@@ -1315,6 +1369,7 @@
 				8244D6D8255EAD5F00739364 /* AccessTokenViewModel.swift in Sources */,
 				823EDC07256D489A009DED23 /* TransactionOperationsViewModel.swift in Sources */,
 				824918822590A00F00A7566E /* DisputeSummaryTableViewCell.swift in Sources */,
+				8200B1B72594D33800042357 /* Configuration.swift in Sources */,
 				8253FBCC2563EDDA00FBDCC9 /* TransactionModel.swift in Sources */,
 				8264A011258BBEDB00E1144F /* DisputeReportBuilder.swift in Sources */,
 				82EC191225765C3A00A93A3C /* PaymentMethodByIDViewController.swift in Sources */,
@@ -1325,6 +1380,7 @@
 				8244D70325629FA900739364 /* AccessTokenFormBuilder.swift in Sources */,
 				8253FBD42563F19700FBDCC9 /* TransactionReportViewController.swift in Sources */,
 				82B49417256FF1CB009C2CBD /* VerificationsFormViewController.swift in Sources */,
+				8200B19A25939D6B00042357 /* ConfigurationViewController.swift in Sources */,
 				8244D6D2255EACF300739364 /* Constants.swift in Sources */,
 				8253FBFE25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift in Sources */,
 				8214207525924CBD003EA8DF /* DisputesOperationsForm.swift in Sources */,
@@ -1335,6 +1391,7 @@
 				821420A325935CFA003EA8DF /* DocumentPickerView.swift in Sources */,
 				8244D6EA255EBE3F00739364 /* AccessTokenView.swift in Sources */,
 				82A9F7A62578FB1E00B8962D /* PaymentMethodResultModelBuilder.swift in Sources */,
+				8200B1A425939FA400042357 /* ConfigurationBuilder.swift in Sources */,
 				82649FFA258BA3BB00E1144F /* DisputesModel.swift in Sources */,
 				822FBEF92581059000D12353 /* DepositByIDForm.swift in Sources */,
 				82EC19052576466C00A93A3C /* PaymentMethodReportViewController.swift in Sources */,
@@ -1363,6 +1420,7 @@
 				824918882590E54E00A7566E /* DisputeDocumentBuilder.swift in Sources */,
 				8253FBA52563D26700FBDCC9 /* AccessTokenForm.swift in Sources */,
 				82A5184125659C8800E14F76 /* SelectableLabel.swift in Sources */,
+				8200B1AA2593A2F300042357 /* ConfigurationViewModel.swift in Sources */,
 				8258B118255C1B6900D02721 /* StoryboardInstantiable.swift in Sources */,
 				82A9F78F2577E8F100B8962D /* PaymentOperationForm.swift in Sources */,
 				823EDC20256D7B01009DED23 /* Currency.swift in Sources */,
@@ -1374,6 +1432,7 @@
 				8244D6AC255D76FE00739364 /* GlobalPayRouter.swift in Sources */,
 				822FBF1A258263BB00D12353 /* DepositsListFormBuilder.swift in Sources */,
 				823EDC12256D5165009DED23 /* TransactionOperationsFormBuilder.swift in Sources */,
+				82C8D0FB25AC62F900F6704E /* DefaultsKey+Discovery.swift in Sources */,
 				8253FBAC2563DB5500FBDCC9 /* ErrorView.swift in Sources */,
 				823EDC16256D5170009DED23 /* TransactionOperationsFormViewController.swift in Sources */,
 				8249188C2590E55900A7566E /* DisputeDocumentViewController.swift in Sources */,
@@ -1399,6 +1458,7 @@
 				82E6BDB2258CE38400908C36 /* DisputeByIDFormBuilder.swift in Sources */,
 				82883A782580E65100914499 /* DepositsBuilder.swift in Sources */,
 				822609A5258CB4300008B3F0 /* NavigationItems.swift in Sources */,
+				82C8D0F625AC62B600F6704E /* ValuesKeys.swift in Sources */,
 				8264A015258BBEEA00E1144F /* DisputeReportViewModel.swift in Sources */,
 				823EDC03256D417D009DED23 /* TransactionOperationsViewController.swift in Sources */,
 				82142090259259AC003EA8DF /* DisputeActionView.swift in Sources */,

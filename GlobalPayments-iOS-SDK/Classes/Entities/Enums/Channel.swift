@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Channel: String, Mappable, CaseIterable {
+public enum Channel: String, Mappable, CaseIterable, Codable {
     case cardPresent = "CP"
     case cardNotPresent = "CNP"
 

@@ -1,11 +1,11 @@
 import UIKit
 
-struct GlobalPayListBuilder {
+struct ConfigurationBuilder {
 
     static func build() -> UIViewController {
-        let module = GlobalPayViewController.instantiate()
+        let module = ConfigurationViewController.instantiate()
         let configuration = ConfigutationService()
-        let viewModel = GlobalPayViewModel(configuration: configuration)
+        let viewModel = ConfigurationViewModel(configuration: configuration)
         module.viewModel = viewModel
         viewModel.view = module
 

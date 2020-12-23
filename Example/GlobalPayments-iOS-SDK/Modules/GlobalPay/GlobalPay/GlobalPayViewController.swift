@@ -4,6 +4,8 @@ final class GlobalPayViewController: UIViewController, StoryboardInstantiable {
 
     static let storyboardName = "GlobalPay"
 
+    var viewModel: GlobalPayViewInput!
+
     lazy fileprivate var globalPayRouter: GlobalPayRouter = {
         return GlobalPayRouter(navigationController: navigationController)
     }()
@@ -14,10 +16,12 @@ final class GlobalPayViewController: UIViewController, StoryboardInstantiable {
         super.viewDidLoad()
 
         setupUI()
+        viewModel.onViewDidLoad()
     }
 
     private func setupUI() {
         title = "globalpay.title".localized()
+        navigationItem.rightBarButtonItem = NavigationItems.settings(self, #selector(onSettingsAction)).button
         setupTable()
     }
 
@@ -27,6 +31,16 @@ final class GlobalPayViewController: UIViewController, StoryboardInstantiable {
         tableView.register(UINib(nibName: SelectableTableViewCell.identifier, bundle: nil),
                            forCellReuseIdentifier: SelectableTableViewCell.identifier)
         tableView.tableFooterView = UIView()
+    }
+
+    @objc private func onSettingsAction() {
+        showConfigurationModule(.pageSheet)
+    }
+
+    private func showConfigurationModule(_ modalPresentationStyle: UIModalPresentationStyle) {
+        let module = ConfigurationBuilder.build()
+        module.modalPresentationStyle = modalPresentationStyle
+        navigationController?.present(module, animated: true, completion: nil)
     }
 }
 
@@ -55,5 +69,19 @@ extension GlobalPayViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let videModel = GlobalPayModel.models[indexPath.row]
         globalPayRouter.navigate(to: videModel.path)
+    }
+}
+
+// MARK: - GlobalPayViewOutput
+
+extension GlobalPayViewController: GlobalPayViewOutput {
+
+    func displayConfigModule() {
+        showConfigurationModule(.fullScreen)
+    }
+
+    func displayError(_ error: Error) {
+        let message = String(format: NSLocalizedString("globalpay.container.failure", comment: ""), error.localizedDescription)
+        showAlert(message: message)
     }
 }

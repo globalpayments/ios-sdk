@@ -474,6 +474,19 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		8200B18D2593995500042357 /* GlobalPay */ = {
+			isa = PBXGroup;
+			children = (
+				8244D696255D762200739364 /* Models */,
+				8244D69F255D76D800739364 /* GlobalPay.storyboard */,
+				8244D6A3255D76E700739364 /* GlobalPayListBuilder.swift */,
+				8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */,
+				82A9F7672577A0A100B8962D /* GlobalPayViewController.swift */,
+			);
+			name = GlobalPay;
+			path = GlobalPay/GlobalPay;
+			sourceTree = "<group>";
+		};
 		821420492591FBE8003EA8DF /* DisputeListForm */ = {
 			isa = PBXGroup;
 			children = (
@@ -576,24 +589,6 @@
 				823EDC15256D5170009DED23 /* TransactionOperationsFormViewController.swift */,
 			);
 			path = TransactionOperationsForm;
-			sourceTree = "<group>";
-		};
-		8244D695255D760200739364 /* GlobalPay */ = {
-			isa = PBXGroup;
-			children = (
-				8244D696255D762200739364 /* Models */,
-				8244D69F255D76D800739364 /* GlobalPay.storyboard */,
-				8244D6A3255D76E700739364 /* GlobalPayListBuilder.swift */,
-				8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */,
-				82A9F7672577A0A100B8962D /* GlobalPayViewController.swift */,
-				8244D6C1255E98A800739364 /* AccessToken */,
-				8253FBB32563E8C600FBDCC9 /* Transactions */,
-				82B49406256FDF21009C2CBD /* Verifications */,
-				82EC18E22575304500A93A3C /* StoredPaymentMethods */,
-				82883A762580E5AD00914499 /* Deposits */,
-				82649FF7258BA38000E1144F /* Disputes */,
-			);
-			path = GlobalPay;
 			sourceTree = "<group>";
 		};
 		8244D696255D762200739364 /* Models */ = {
@@ -750,7 +745,13 @@
 			isa = PBXGroup;
 			children = (
 				8258B167255C38DB00D02721 /* Components */,
-				8244D695255D760200739364 /* GlobalPay */,
+				8200B18D2593995500042357 /* GlobalPay */,
+				8244D6C1255E98A800739364 /* AccessToken */,
+				8253FBB32563E8C600FBDCC9 /* Transactions */,
+				82B49406256FDF21009C2CBD /* Verifications */,
+				82EC18E22575304500A93A3C /* StoredPaymentMethods */,
+				82883A762580E5AD00914499 /* Deposits */,
+				82649FF7258BA38000E1144F /* Disputes */,
 			);
 			path = Modules;
 			sourceTree = "<group>";

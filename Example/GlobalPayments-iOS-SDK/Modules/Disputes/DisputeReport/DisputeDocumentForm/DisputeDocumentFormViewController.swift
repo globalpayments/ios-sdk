@@ -34,6 +34,7 @@ final class DisputeDocumentFormViewController: UIViewController, StoryboardInsta
         disputeIdTextField.text = defaultDisputeId
         documentIdLabel.text = "dispute.document.form.document.id".localized()
         documentIdTextField.text = defaultDocumentId
+        hideKeyboardWhenTappedAround()
     }
 
     // MARK: - Actions

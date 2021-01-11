@@ -314,9 +314,10 @@
 "configuration.app.key" = "App Key (required)";
 "configuration.seconds.to.expire" = "Seconds To Expire (optional)";
 "configuration.interval.to.expire" = "Interval To Expire (optional)";
-"configuration.channel" = "Channel (optional)";
+"configuration.channel" = "Channel (required)";
 "configuration.language" = "Language (optional)";
 "configuration.country" = "Country (optional)";
 "configuration.save" = "Save Configuration";
 "configuration.app.id.message" = "Applicatoin ID field is required";
 "configuration.app.key.message" = "Applicatoin Key field is required";
+"configuration.channel.message" = "Channel field is required";

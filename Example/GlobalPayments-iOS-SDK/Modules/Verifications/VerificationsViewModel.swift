@@ -13,16 +13,6 @@ protocol VerificationsViewModelOutput: class {
 final class VerificationsViewModel: VerificationsViewModelInput {
     weak var view: VerificationsViewModelOutput?
 
-    init() {
-        do {
-            try ServicesContainer.configureService(
-                config: GpApiConfig(appId: Constants.gpApiAppID, appKey: Constants.gpApiAppKey)
-            )
-        } catch {
-            view?.showErrorView(error: error)
-        }
-    }
-
     func verifyTransaction(from form: VerificationsForm) {
 
         let address = Address()

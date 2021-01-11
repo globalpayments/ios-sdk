@@ -38,7 +38,7 @@ final class GlobalPayViewController: UIViewController, StoryboardInstantiable {
     }
 
     private func showConfigurationModule(_ modalPresentationStyle: UIModalPresentationStyle) {
-        let module = ConfigurationBuilder.build()
+        let module = ConfigurationBuilder.build(with: self)
         module.modalPresentationStyle = modalPresentationStyle
         navigationController?.present(module, animated: true, completion: nil)
     }
@@ -83,5 +83,14 @@ extension GlobalPayViewController: GlobalPayViewOutput {
     func displayError(_ error: Error) {
         let message = String(format: NSLocalizedString("globalpay.container.failure", comment: ""), error.localizedDescription)
         showAlert(message: message)
+    }
+}
+
+// MARK: - ConfigurationViewDelegate
+
+extension GlobalPayViewController: ConfigurationViewDelegate {
+
+    func onUpdateConfiguration() {
+        viewModel.onUpdateConfig()
     }
 }

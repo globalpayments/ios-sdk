@@ -1,11 +1,17 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
+protocol ConfigurationViewDelegate: class {
+    func onUpdateConfiguration()
+}
+
 final class ConfigurationViewController: UIViewController, StoryboardInstantiable {
 
     static var storyboardName = "Configuration"
 
     var viewModel: ConfigurationViewInput!
+
+    weak var delegate: ConfigurationViewDelegate?
 
     @IBOutlet private weak var appIdTextField: UITextField!
     @IBOutlet private weak var appKeyTextField: UITextField!
@@ -53,6 +59,10 @@ final class ConfigurationViewController: UIViewController, StoryboardInstantiabl
             showAlert(message: "configuration.app.key.message".localized())
             return
         }
+        guard let channel = Channel(value: channelTextField.text) else {
+            showAlert(message: "configuration.channel.message".localized())
+            return
+        }
         let secondsToExpire = (secondsToExpireTextField.text != nil && !secondsToExpireTextField.text!.isEmpty) ? Int(secondsToExpireTextField.text!) : nil
         let country = (countryTextField.text != nil && !countryTextField.text!.isEmpty) ? countryTextField.text : nil
         let config = Config(
@@ -60,7 +70,7 @@ final class ConfigurationViewController: UIViewController, StoryboardInstantiabl
             appKey: appKey,
             secondsToExpire: secondsToExpire,
             intervalToExpire: IntervalToExpire(value: intervalToExpireTextField.text),
-            channel: Channel(value: channelTextField.text),
+            channel: channel,
             language: Language(value: languageTextField.text),
             country: country
         )
@@ -79,7 +89,7 @@ extension ConfigurationViewController: ConfigurationViewOutput {
             secondsToExpireTextField.text = String(secondsToExpire)
         }
         intervalToExpireTextField.text = config.intervalToExpire?.mapped(for: .gpApi)?.uppercased()
-        channelTextField.text = config.channel?.mapped(for: .gpApi)?.uppercased()
+        channelTextField.text = config.channel.mapped(for: .gpApi)?.uppercased()
         languageTextField.text = config.language?.mapped(for: .gpApi)?.uppercased()
         countryTextField.text = config.country
     }
@@ -89,6 +99,7 @@ extension ConfigurationViewController: ConfigurationViewOutput {
     }
 
     func closeModule() {
+        delegate?.onUpdateConfiguration()
         dismiss(animated: true, completion: nil)
     }
 }

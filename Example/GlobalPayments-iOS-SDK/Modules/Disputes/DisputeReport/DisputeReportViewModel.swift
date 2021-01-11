@@ -27,16 +27,6 @@ final class DisputeReportViewModel: DisputeReportViewInput {
         }
     }
 
-    init() {
-        do {
-            try ServicesContainer.configureService(
-                config: GpApiConfig(appId: Constants.gpApiAppID, appKey: Constants.gpApiAppKey)
-            )
-        } catch {
-            view?.showErrorView(error: error)
-        }
-    }
-
     func getDocument(form: DisputeDocumentForm) {
         ReportingService
             .findDisputeDocument(id: form.documentId, disputeId: form.disputeId)

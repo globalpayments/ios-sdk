@@ -14,16 +14,6 @@ final class PaymentMethodReportViewModel: PaymentMethodReportInput {
 
     weak var view: PaymentMethodReportOutput?
 
-    init() {
-        do {
-            try ServicesContainer.configureService(
-                config: GpApiConfig(appId: Constants.gpApiAppID, appKey: Constants.gpApiAppKey)
-            )
-        } catch {
-            view?.showError(error: error)
-        }
-    }
-
     func getPaymentMethodById(_ id: String) {
         let tokenizedCard = CreditCardData()
         tokenizedCard.token = id

@@ -68,7 +68,6 @@
 		8244D6C3255E98D400739364 /* AccessTokenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6C2255E98D400739364 /* AccessTokenViewController.swift */; };
 		8244D6C7255E99C200739364 /* AccessTokenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6C6255E99C200739364 /* AccessTokenBuilder.swift */; };
 		8244D6CB255EA28300739364 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6CA255EA28300739364 /* UIButtonExtensions.swift */; };
-		8244D6D2255EACF300739364 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6D1255EACF300739364 /* Constants.swift */; };
 		8244D6D8255EAD5F00739364 /* AccessTokenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6D7255EAD5F00739364 /* AccessTokenViewModel.swift */; };
 		8244D6EA255EBE3F00739364 /* AccessTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8244D6E9255EBE3F00739364 /* AccessTokenView.swift */; };
 		8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8244D6EF255EBE4500739364 /* AccessTokenView.xib */; };
@@ -263,7 +262,6 @@
 		8244D6C2255E98D400739364 /* AccessTokenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenViewController.swift; sourceTree = "<group>"; };
 		8244D6C6255E99C200739364 /* AccessTokenBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenBuilder.swift; sourceTree = "<group>"; };
 		8244D6CA255EA28300739364 /* UIButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
-		8244D6D1255EACF300739364 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8244D6D7255EAD5F00739364 /* AccessTokenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenViewModel.swift; sourceTree = "<group>"; };
 		8244D6E9255EBE3F00739364 /* AccessTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenView.swift; sourceTree = "<group>"; };
 		8244D6EF255EBE4500739364 /* AccessTokenView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccessTokenView.xib; sourceTree = "<group>"; };
@@ -500,8 +498,8 @@
 				8244D69F255D76D800739364 /* GlobalPay.storyboard */,
 				8244D6A3255D76E700739364 /* GlobalPayListBuilder.swift */,
 				8244D6AB255D76FE00739364 /* GlobalPayRouter.swift */,
-				8200B1AE2594D21100042357 /* GlobalPayViewModel.swift */,
 				82A9F7672577A0A100B8962D /* GlobalPayViewController.swift */,
+				8200B1AE2594D21100042357 /* GlobalPayViewModel.swift */,
 				8244D696255D762200739364 /* Models */,
 			);
 			name = GlobalPay;
@@ -513,8 +511,8 @@
 			children = (
 				8200B19D25939DA600042357 /* Configuration.storyboard */,
 				8200B1A325939FA400042357 /* ConfigurationBuilder.swift */,
-				8200B1A92593A2F300042357 /* ConfigurationViewModel.swift */,
 				8200B19925939D6B00042357 /* ConfigurationViewController.swift */,
+				8200B1A92593A2F300042357 /* ConfigurationViewModel.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -554,10 +552,10 @@
 			children = (
 				8200B17925938D3700042357 /* Cells */,
 				8214209325934F64003EA8DF /* Views */,
-				8214208225925492003EA8DF /* OperationType.swift */,
 				8214207425924CBD003EA8DF /* DisputesOperationsForm.swift */,
 				8214207A25924D3D003EA8DF /* DisputesOperationsFormBuilder.swift */,
 				8214207E25924D5E003EA8DF /* DisputesOperationsFormViewController.swift */,
+				8214208225925492003EA8DF /* OperationType.swift */,
 			);
 			path = DisputesOperationsForm;
 			sourceTree = "<group>";
@@ -565,8 +563,8 @@
 		8214208A25925987003EA8DF /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				8214208B259259A4003EA8DF /* DisputeActionView.xib */,
 				8214208F259259AC003EA8DF /* DisputeActionView.swift */,
+				8214208B259259A4003EA8DF /* DisputeActionView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -612,8 +610,8 @@
 		823EDBED256D13AC009DED23 /* EmptyView */ = {
 			isa = PBXGroup;
 			children = (
-				823EDBEE256D13BC009DED23 /* EmptyView.xib */,
 				823EDBF8256D13D6009DED23 /* EmptyView.swift */,
+				823EDBEE256D13BC009DED23 /* EmptyView.xib */,
 			);
 			path = EmptyView;
 			sourceTree = "<group>";
@@ -622,11 +620,11 @@
 			isa = PBXGroup;
 			children = (
 				823EDC1F256D7B01009DED23 /* Currency.swift */,
-				823EDC25256D7C23009DED23 /* TransactionOperationType.swift */,
 				823EDC19256D740C009DED23 /* PaymentCardModel.swift */,
 				823EDC0B256D50B4009DED23 /* TransactionOperationsForm.swift */,
 				823EDC11256D5165009DED23 /* TransactionOperationsFormBuilder.swift */,
 				823EDC15256D5170009DED23 /* TransactionOperationsFormViewController.swift */,
+				823EDC25256D7C23009DED23 /* TransactionOperationType.swift */,
 			);
 			path = TransactionOperationsForm;
 			sourceTree = "<group>";
@@ -716,8 +714,8 @@
 				8253FBC62563E9F400FBDCC9 /* TransactionsBuilder.swift */,
 				8253FBCF2563F07300FBDCC9 /* TransactionsRouter.swift */,
 				8253FBC02563E9EA00FBDCC9 /* TransactionsViewController.swift */,
-				8253FBB42563E8DF00FBDCC9 /* TransactionReport */,
 				8253FBB52563E8EB00FBDCC9 /* TransactionOperations */,
+				8253FBB42563E8DF00FBDCC9 /* TransactionReport */,
 			);
 			path = Transactions;
 			sourceTree = "<group>";
@@ -823,7 +821,6 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				8258B145255C27EE00D02721 /* Localizable.strings */,
-				8244D6D1255EACF300739364 /* Constants.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -844,15 +841,15 @@
 		8258B167255C38DB00D02721 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				82B493FB256FAF58009C2CBD /* TransactionView */,
+				826695E72566CA8E003D6FFE /* DatePicker.swift */,
+				826695E32566CA71003D6FFE /* DropDown.swift */,
+				822609A4258CB4300008B3F0 /* NavigationItems.swift */,
+				82A5184025659C8800E14F76 /* SelectableLabel.swift */,
 				823EDBED256D13AC009DED23 /* EmptyView */,
-				8253FC0F256531E900FBDCC9 /* TransactionSummaryTableViewCell */,
 				8253FBAA2563D89600FBDCC9 /* ErrorView */,
 				8258B168255C38EA00D02721 /* SelectableTableViewCell */,
-				82A5184025659C8800E14F76 /* SelectableLabel.swift */,
-				826695E32566CA71003D6FFE /* DropDown.swift */,
-				826695E72566CA8E003D6FFE /* DatePicker.swift */,
-				822609A4258CB4300008B3F0 /* NavigationItems.swift */,
+				8253FC0F256531E900FBDCC9 /* TransactionSummaryTableViewCell */,
+				82B493FB256FAF58009C2CBD /* TransactionView */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -896,9 +893,9 @@
 				8264A018258BBF2300E1144F /* DisputeReportViewController.swift */,
 				8264A014258BBEEA00E1144F /* DisputeReportViewModel.swift */,
 				82E6BDB0258CE35000908C36 /* DisputeByIDForm */,
+				824918862590E53900A7566E /* DisputeDocument */,
 				8264A01C258CAD1800E1144F /* DisputeDocumentForm */,
 				821420492591FBE8003EA8DF /* DisputeListForm */,
-				824918862590E53900A7566E /* DisputeDocument */,
 			);
 			path = DisputeReport;
 			sourceTree = "<group>";
@@ -944,8 +941,8 @@
 				82883A772580E65100914499 /* DepositsBuilder.swift */,
 				82883A7D2580E66100914499 /* DepositsViewController.swift */,
 				82883A812580E66A00914499 /* DepositsViewModel.swift */,
-				822FBF122582638000D12353 /* DepositsListForm */,
 				822FBEEB2580EE4900D12353 /* DepositByIDForm */,
+				822FBF122582638000D12353 /* DepositsListForm */,
 			);
 			path = Deposits;
 			sourceTree = "<group>";
@@ -953,8 +950,8 @@
 		82A9F77B2577AB8F00B8962D /* PaymentOperationForm */ = {
 			isa = PBXGroup;
 			children = (
-				82A9F78E2577E8F100B8962D /* PaymentOperationForm.swift */,
 				82A9F7862577B73600B8962D /* PaymentMethodOperationType.swift */,
+				82A9F78E2577E8F100B8962D /* PaymentOperationForm.swift */,
 				82A9F77C2577ABA900B8962D /* PaymentOperationFormBuilder.swift */,
 				82A9F7822577ABB300B8962D /* PaymentOperationFormViewController.swift */,
 			);
@@ -964,10 +961,10 @@
 		82A9F7942578F23600B8962D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				82A9F79B2578F2FD00B8962D /* PaymentMethodResultView.xib */,
-				82A9F7952578F2F700B8962D /* PaymentMethodResultView.swift */,
 				82A9F79F2578F8E300B8962D /* PaymentMethodResultModel.swift */,
 				82A9F7A52578FB1E00B8962D /* PaymentMethodResultModelBuilder.swift */,
+				82A9F7952578F2F700B8962D /* PaymentMethodResultView.swift */,
+				82A9F79B2578F2FD00B8962D /* PaymentMethodResultView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1040,8 +1037,8 @@
 				82EC18EB257531FD00A93A3C /* PaymentMethodsBuilder.swift */,
 				82EC18EF2575347300A93A3C /* PaymentMethodsRouter.swift */,
 				82EC18E72575319300A93A3C /* PaymentMethodsViewController.swift */,
-				82EC18FD2575408100A93A3C /* PaymentMethodReport */,
 				82EC18FC2575407D00A93A3C /* PaymentMethodOperations */,
+				82EC18FD2575408100A93A3C /* PaymentMethodReport */,
 			);
 			path = StoredPaymentMethods;
 			sourceTree = "<group>";
@@ -1090,8 +1087,8 @@
 		82EC191525766E4000A93A3C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				82EC191625766E5B00A93A3C /* PaymentMethodView.xib */,
 				82EC191A25766E7200A93A3C /* PaymentMethodView.swift */,
+				82EC191625766E5B00A93A3C /* PaymentMethodView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1381,7 +1378,6 @@
 				8253FBD42563F19700FBDCC9 /* TransactionReportViewController.swift in Sources */,
 				82B49417256FF1CB009C2CBD /* VerificationsFormViewController.swift in Sources */,
 				8200B19A25939D6B00042357 /* ConfigurationViewController.swift in Sources */,
-				8244D6D2255EACF300739364 /* Constants.swift in Sources */,
 				8253FBFE25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift in Sources */,
 				8214207525924CBD003EA8DF /* DisputesOperationsForm.swift in Sources */,
 				82A9F7962578F2F700B8962D /* PaymentMethodResultView.swift in Sources */,

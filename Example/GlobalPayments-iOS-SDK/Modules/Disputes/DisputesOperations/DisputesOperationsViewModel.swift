@@ -15,16 +15,6 @@ final class DisputesOperationsViewModel: DisputesOperationsViewInput {
 
     weak var view: DisputesOperationsViewOutput?
 
-    init() {
-        do {
-            try ServicesContainer.configureService(
-                config: GpApiConfig(appId: Constants.gpApiAppID, appKey: Constants.gpApiAppKey)
-            )
-        } catch {
-            view?.showErrorView(error: error)
-        }
-    }
-
     func accceptDispute(with id: String) {
         ReportingService
             .acceptDispute(id: id)

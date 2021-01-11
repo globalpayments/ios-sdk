@@ -23,14 +23,10 @@ final class TransactionReportViewModel: TransactionReportViewInput {
         }
     }
 
-    init() {
-        do {
-            try ServicesContainer.configureService(
-                config: GpApiConfig(appId: Constants.gpApiAppID, appKey: Constants.gpApiAppKey)
-            )
-        } catch {
-            view?.showErrorView(error: error)
-        }
+    private let configuration: Configuration
+
+    init(configuration: Configuration) {
+        self.configuration = configuration
     }
 
     func getTransactionByID(_ id: String) {
@@ -51,6 +47,7 @@ final class TransactionReportViewModel: TransactionReportViewInput {
     }
 
     func getTransactions(form: TransactionListForm) {
+        updateConfiguration(from: form)
         ReportingService
             .findTransactions()
             .orderBy(transactionSortProperty: form.sortProperty, form.sordOrder)
@@ -87,6 +84,45 @@ final class TransactionReportViewModel: TransactionReportViewInput {
                     }
                 }
             }
+    }
+
+    private func updateConfiguration(from form: TransactionListForm) {
+        guard let channel = form.channel else { return }
+        guard var config = configuration.loadConfig() else { return }
+        config.channel = channel
+
+        do {
+            try configuration.saveConfig(config)
+            updateConfig()
+        } catch {
+            view?.showErrorView(error: error)
+        }
+    }
+
+    private func updateConfig() {
+        guard let appConfig = configuration.loadConfig() else { return }
+        configureContainer(with: appConfig)
+    }
+
+    private func configureContainer(with appConfig: Config) {
+        let config = GpApiConfig(
+            appId: appConfig.appId,
+            appKey: appConfig.appKey,
+            secondsToExpire: appConfig.secondsToExpire,
+            intervalToExpire: appConfig.intervalToExpire,
+            channel: appConfig.channel,
+            language: appConfig.language,
+            country: appConfig.country
+        )
+        config.environment = .test
+
+        do {
+            try ServicesContainer.configureService(
+                config: config
+            )
+        } catch {
+            view?.showErrorView(error: error)
+        }
     }
 
     func clearViewModels() {

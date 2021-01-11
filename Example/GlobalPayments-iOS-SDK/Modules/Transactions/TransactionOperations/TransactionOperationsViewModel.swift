@@ -14,16 +14,6 @@ final class TransactionOperationsViewModel: TransactionOperationsInput {
 
     weak var view: TransactionOperationsOutput?
 
-    init() {
-        do {
-            try ServicesContainer.configureService(
-                config: GpApiConfig(appId: Constants.gpApiAppID, appKey: Constants.gpApiAppKey)
-            )
-        } catch {
-            view?.showErrorView(error: error)
-        }
-    }
-
     func getTransaction(from form: TransactionOperationsForm) {
         let card = CreditCardData()
         card.number = form.cardNumber

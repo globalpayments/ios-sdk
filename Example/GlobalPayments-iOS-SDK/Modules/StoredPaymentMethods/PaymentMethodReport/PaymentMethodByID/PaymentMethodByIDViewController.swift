@@ -8,7 +8,7 @@ final class PaymentMethodByIDViewController: UIViewController, StoryboardInstant
 
     static var storyboardName = "PaymentMethods"
 
-    private let defaultPaymentMethodId = "PMT_98e6cbbb-8faf-4134-bfa1-f2cf3a72872f"
+    private let defaultPaymentMethodId = "PMT_d312d131-0ef4-4c1a-aec9-f632fdf3da00"
 
     weak var delegate: PaymentMethodByIDDelegate?
 

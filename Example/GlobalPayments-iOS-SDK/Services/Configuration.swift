@@ -6,7 +6,7 @@ struct Config: Codable {
     let appKey: String
     let secondsToExpire: Int?
     let intervalToExpire: IntervalToExpire?
-    let channel: Channel?
+    var channel: Channel
     let language: Language?
     let country: String?
 }

@@ -24,16 +24,6 @@ final class DepositsViewModel: DepositsViewInput {
         }
     }
 
-    init() {
-        do {
-            try ServicesContainer.configureService(
-                config: GpApiConfig(appId: Constants.gpApiAppID, appKey: Constants.gpApiAppKey)
-            )
-        } catch {
-            view?.showErrorView(error: error)
-        }
-    }
-
     func getDeposit(form: DepositByIDForm) {
         ReportingService
             .depositDetail(depositId: form.depositId)

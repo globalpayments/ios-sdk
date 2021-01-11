@@ -14,16 +14,6 @@ final class PaymentMethodOperationsViewModel: PaymentMethodOperationsInput {
 
     weak var view: PaymentMethodOperationsOutput?
 
-    init() {
-        do {
-            try ServicesContainer.configureService(
-                config: GpApiConfig(appId: Constants.gpApiAppID, appKey: Constants.gpApiAppKey)
-            )
-        } catch {
-            view?.showError(error: error)
-        }
-    }
-
     func performOperation(from form: PaymentOperationForm) {
 
         switch form.operationType {

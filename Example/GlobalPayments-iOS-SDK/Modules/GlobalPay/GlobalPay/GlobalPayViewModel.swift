@@ -3,6 +3,7 @@ import GlobalPayments_iOS_SDK
 
 protocol GlobalPayViewInput {
     func onViewDidLoad()
+    func onUpdateConfig()
 }
 
 protocol GlobalPayViewOutput: class {
@@ -21,6 +22,14 @@ final class GlobalPayViewModel: GlobalPayViewInput {
     }
 
     func onViewDidLoad() {
+        checkConfig()
+    }
+
+    func onUpdateConfig() {
+        checkConfig()
+    }
+
+    private func checkConfig() {
         guard let appConfig = configuration.loadConfig() else {
             view?.displayConfigModule()
             return

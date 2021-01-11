@@ -9,6 +9,9 @@ final class AccessTokenFormViewController: UIViewController, StoryboardInstantia
 
     static let storyboardName = "AccessToken"
 
+    private let defaultAppId = "OWTP5ptQZKGj7EnvPt3uqO844XDBt8Oj"
+    private let defaultAppKey = "qM31FmlFiyXRHGYh"
+
     weak var delegate: AccessTokenFormDelegate?
 
     @IBOutlet private weak var submitButton: UIButton!
@@ -38,10 +41,10 @@ final class AccessTokenFormViewController: UIViewController, StoryboardInstantia
         submitButton.apply(style: .globalPayStyle, title: "access.token.form.submit".localized())
 
         appIdLabel.text = "access.token.form.app.id".localized()
-        appIdTextField.text = Constants.gpApiAppID
+        appIdTextField.text = defaultAppId
 
         appKeyLabel.text = "access.token.form.app.key".localized()
-        appKeyTextField.text = Constants.gpApiAppKey
+        appKeyTextField.text = defaultAppKey
 
         secondsLabel.text = "access.token.form.seconds".localized()
 

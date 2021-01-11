@@ -31,6 +31,7 @@ final class DisputeByIDFormViewController: UIViewController, StoryboardInstantia
         disputeTextField.text = defaultDisputeId
         settlementsLabel.text = "dispute.by.id.settlements".localized()
         submitButton.apply(style: .globalPayStyle, title: "dispute.by.id.submit".localized())
+        hideKeyboardWhenTappedAround()
     }
 
     // MARK: - Actions

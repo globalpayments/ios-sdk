@@ -17,7 +17,6 @@ class GpApiConnector: RestGateway, PaymentGateway {
 
     override init() {
         super.init()
-        // Set required api version header
         headers[GpApiConnector.Header.Key.version]         = GpApiConnector.Header.Value.version
         headers[GpApiConnector.Header.Key.accept]          = GpApiConnector.Header.Value.accept
         headers[GpApiConnector.Header.Key.acceptEnconding] = GpApiConnector.Header.Value.acceptEnconding

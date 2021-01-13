@@ -173,7 +173,7 @@ class GpApiReportingTests: XCTestCase {
         let expectedAmount: NSDecimalNumber = 0.45
         let expectedCurrency = "USD"
         let expectedCountry = "US"
-        let startDate = Calendar.current.date(byAdding: .day, value: -30, to: Date())
+        let startDate = Calendar.current.date(byAdding: .day, value: -100, to: Date())
         var transactionsSummaryResponse: [TransactionSummary]?
         var transactionsSummaryError: Error?
 

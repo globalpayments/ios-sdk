@@ -153,7 +153,7 @@
 "payment.method.view.card.expiry.year" = "Card Expiry Year:";
 
 "payment.method.operations.title" = "Payment Method Operations";
-"payment.method.operations.payment.operation" = "Initiate Pyament Operation";
+"payment.method.operations.payment.operation" = "Initiate Pyment Operation";
 "payment.method.operations.result.view.payment.method.id" = "Payment Method ID:";
 "payment.method.operations.result.view.result" = "Result:";
 "payment.method.operations.result.view.card.type" = "Card Type:";

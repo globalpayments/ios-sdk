@@ -135,10 +135,12 @@ extension GpApiConnector {
                     .set(for: "avs_postal_code", value: builder.billingAddress?.postalCode)
                     .set(for: "authcode", value: builder.offlineAuthCode)
                 //                .set(for: "brand_reference", value: "")
-                if builder.transactionType == .sale {
-                    card.set(for: "number", value: track.pan)
-                    card.set(for: "expiry_month", value: track.expiry!.substring(with: 2..<4))
-                    card.set(for: "expiry_year", value: track.expiry!.substring(with: 0..<2))
+                if builder.transactionType == .sale || builder.transactionType == .refund {
+                    if track.value == nil {
+                        card.set(for: "number", value: track.pan)
+                        card.set(for: "expiry_month", value: track.expiry!.substring(with: 2..<4))
+                        card.set(for: "expiry_year", value: track.expiry!.substring(with: 0..<2))
+                    }
                     card.set(for: "chip_condition", value: builder.emvLastChipRead?.mapped(for: .gpApi))
                     card.set(for: "funding", value: builder.paymentMethod?.paymentMethodType == .debit ? "DEBIT" : "CREDIT")
                 }

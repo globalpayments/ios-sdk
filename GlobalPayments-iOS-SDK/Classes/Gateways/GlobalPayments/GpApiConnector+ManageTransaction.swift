@@ -65,6 +65,7 @@ extension GpApiConnector {
             let card = JsonDoc()
                 .set(for: "expiry_month", value: creditCardData.expMonth > .zero ? "\(creditCardData.expMonth)".leftPadding(toLength: 2, withPad: "0") : .empty)
                 .set(for: "expiry_year", value: creditCardData.expYear > .zero ? "\(creditCardData.expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : .empty)
+                .set(for: "number", value: creditCardData.number)
 
             let payload = JsonDoc()
                 .set(for: "card", doc: card)

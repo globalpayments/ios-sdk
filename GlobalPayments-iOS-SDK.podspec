@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/globalpayments/ios-sdk'
   s.license          = { :type => 'GNU', :file => 'LICENSE.md' }
   s.author           = { 'Global Paymets' => 'api.integrations@globalpay.com' }
-  s.source           = { :git => 'https://github.com/globalpayemts/GlobalPayments-iOS-SDK.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/globalpayments/ios-sdk.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
   s.source_files 		= 'GlobalPayments-iOS-SDK/Classes/**/*'

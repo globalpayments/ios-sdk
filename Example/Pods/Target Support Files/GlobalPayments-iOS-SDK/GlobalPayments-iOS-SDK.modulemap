@@ -1,0 +1,6 @@
+framework module GlobalPayments_iOS_SDK {
+  umbrella header "GlobalPayments-iOS-SDK-umbrella.h"
+
+  export *
+  module * { export * }
+}

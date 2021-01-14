@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="DocumentPickerView" customModule="GlobalPayments_iOS_SDK_Example" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="566" height="200"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wG7-YQ-XT4">
+                    <rect key="frame" x="8" y="8" width="550" height="184"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add document file:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1jW-0T-MD7">
+                            <rect key="frame" x="0.0" y="0.0" width="550" height="21"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" clipsSubviews="YES" tag="8" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9BO-6e-5hM">
+                            <rect key="frame" x="0.0" y="29" width="550" height="97"/>
+                            <subviews>
+                                <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="s5S-cG-26R">
+                                    <rect key="frame" x="0.0" y="0.0" width="550" height="55"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Document File:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XQO-eu-8FE">
+                                            <rect key="frame" x="0.0" y="0.0" width="149" height="55"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZM-yn-Wy8">
+                                            <rect key="frame" x="157" y="0.0" width="330" height="55"/>
+                                            <state key="normal" title="Press to select a file">
+                                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="onSelectFile:" destination="iN0-l3-epB" eventType="touchUpInside" id="BZN-v4-2Fe"/>
+                                            </connections>
+                                        </button>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RqJ-g1-b3u">
+                                            <rect key="frame" x="495" y="0.0" width="55" height="55"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="55" id="3GD-pW-Hmm"/>
+                                                <constraint firstAttribute="width" constant="55" id="ny0-Ba-u6N"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="GZM-yn-Wy8" firstAttribute="width" secondItem="s5S-cG-26R" secondAttribute="width" multiplier="0.6" id="1Eu-jN-GGh"/>
+                                    </constraints>
+                                </stackView>
+                                <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="tvC-DT-3jU">
+                                    <rect key="frame" x="0.0" y="63" width="550" height="34"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Document Type:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="asa-6A-rVj">
+                                            <rect key="frame" x="0.0" y="0.0" width="212" height="34"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wai-GP-vvC">
+                                            <rect key="frame" x="220" y="0.0" width="330" height="34"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="wai-GP-vvC" firstAttribute="width" secondItem="tvC-DT-3jU" secondAttribute="width" multiplier="0.6" id="n4h-uy-Ta5"/>
+                                    </constraints>
+                                </stackView>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hDm-gs-r3Q">
+                            <rect key="frame" x="0.0" y="134" width="550" height="50"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oW3-m7-ILt">
+                                    <rect key="frame" x="0.0" y="0.0" width="178" height="50"/>
+                                    <state key="normal" title="Add"/>
+                                    <connections>
+                                        <action selector="onAddButtonAction" destination="iN0-l3-epB" eventType="touchUpInside" id="GNm-kO-POU"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgH-io-jYN" userLabel="Add ">
+                                    <rect key="frame" x="186" y="0.0" width="178" height="50"/>
+                                    <state key="normal" title="Add Document"/>
+                                    <connections>
+                                        <action selector="onAddDocumentAction" destination="iN0-l3-epB" eventType="touchUpInside" id="rxb-ha-6rL"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4S4-zn-3UG">
+                                    <rect key="frame" x="372" y="0.0" width="178" height="50"/>
+                                    <state key="normal" title="Clear &amp; Close"/>
+                                    <connections>
+                                        <action selector="onClearAndCloseAction" destination="iN0-l3-epB" eventType="touchUpInside" id="iuU-1H-mOV"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="gKc-LZ-maG"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="wG7-YQ-XT4" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="85a-Pj-fGS"/>
+                <constraint firstItem="wG7-YQ-XT4" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="TPM-bA-3DE"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="wG7-YQ-XT4" secondAttribute="trailing" constant="8" id="dDg-4D-4jN"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="wG7-YQ-XT4" secondAttribute="bottom" constant="8" id="lra-pr-DvN"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="addButton" destination="oW3-m7-ILt" id="C4E-65-u0S"/>
+                <outlet property="addDocumentButton" destination="fgH-io-jYN" id="cZS-oK-98Q"/>
+                <outlet property="clearAndCloseButton" destination="4S4-zn-3UG" id="cG9-Hc-EKL"/>
+                <outlet property="documentImageView" destination="RqJ-g1-b3u" id="vNM-qZ-ctA"/>
+                <outlet property="fileLabel" destination="XQO-eu-8FE" id="eIQ-ky-iJA"/>
+                <outlet property="inputStackView" destination="9BO-6e-5hM" id="DMv-qV-eUD"/>
+                <outlet property="selectButton" destination="GZM-yn-Wy8" id="z0z-Ru-cwK"/>
+                <outlet property="titleLabel" destination="1jW-0T-MD7" id="8Pl-58-9x4"/>
+                <outlet property="typeLabel" destination="asa-6A-rVj" id="62G-jC-bDn"/>
+                <outlet property="typeTextField" destination="wai-GP-vvC" id="FF2-C5-Q7w"/>
+            </connections>
+            <point key="canvasLocation" x="247.82608695652175" y="353.39673913043481"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

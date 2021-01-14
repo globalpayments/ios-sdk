@@ -38,11 +38,11 @@ If you prefer not to use a dependency manager, you can integrate the Global Paym
 
 ## Documentation and Examples
 
-You can find the latest SDK documentation along with code examples and test cards on the [Global Payments](https://developer.realexpayments.com) and [Heartland](https://developer.heartlandpaymentsystems.com/documentation) Developer Hubs.
+You can find the latest SDK documentation along with code examples and test cards on the [Global Payments](https://developer.globalpay.com) Developer Hub.
 
 In addition you can find working examples in the our example code repository.
 
-*Quick Tip*: The included [test suite](https://github.com/globalpayments/ios-sdk/tree/feature/add-readme/Example/Tests) can be a great source of code samples for using the SDK!
+*Quick Tip*: The included [test suite](https://github.com/globalpayments/ios-sdk/tree/master/Example/Tests/GpApi) can be a great source of code samples for using the SDK!
 
 #### Process a Payment Example
 

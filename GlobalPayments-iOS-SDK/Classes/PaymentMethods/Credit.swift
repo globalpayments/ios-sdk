@@ -81,21 +81,18 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     }
 
     public func tokenize(configName: String = "default",
-                         idempotencyKey: String? = nil,
                          completion: ((String?, Error?) -> Void)?) {
 
-        tokenize(validateCard: true, configName: configName, idempotencyKey: idempotencyKey, completion: completion)
+        tokenize(validateCard: true, configName: configName, completion: completion)
     }
 
     public func tokenize(validateCard: Bool,
                          configName: String = "default",
-                         idempotencyKey: String? = nil,
                          completion: ((String?, Error?) -> Void)?) {
 
         let type: TransactionType = validateCard ? .verify : .tokenize
         AuthorizationBuilder(transactionType: type, paymentMethod: self)
             .withRequestMultiUseToken(true)
-            .withIdempotencyKey(idempotencyKey)
             .execute(configName: configName, completion: { transaction, error in
                 completion?(transaction?.token, error)
             })
@@ -106,7 +103,6 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// - Returns: boolean value indicating success/failure
     public func updateTokenExpiry(
         configName: String = "default",
-        idempotencyKey: String? = nil,
         completion: ((Bool, Error?) -> Void)?) {
 
         if token.isNilOrEmpty {
@@ -115,7 +111,6 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
         }
         ManagementBuilder(transactionType: .tokenUpdate)
             .withPaymentMethod(self)
-            .withIdempotencyKey(idempotencyKey)
             .execute(configName: configName, completion: { transaction, error in
                 if let error = error {
                     completion?(false, error)
@@ -130,7 +125,6 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// - Returns: boolean value indicating success/failure
     public func deleteToken(
         configName: String = "default",
-        idempotencyKey: String? = nil,
         completion: ((Bool, Error?) -> Void)?) {
 
         if token.isNilOrEmpty {
@@ -139,7 +133,6 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
         }
         ManagementBuilder(transactionType: .tokenDelete)
             .withPaymentMethod(self)
-            .withIdempotencyKey(idempotencyKey)
             .execute(configName: configName, completion: { transaction, error in
                 if let error = error {
                     completion?(false, error)
@@ -152,7 +145,6 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// Detokenizes payment method
     public func detokenize(
         configName: String = "default",
-        idempotencyKey: String? = nil,
         completion: ((CreditCardData?, Error?) -> Void)?) {
 
         if token.isNilOrEmpty {
@@ -162,7 +154,6 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
 
         ManagementBuilder(transactionType: .detokenize)
             .withPaymentMethod(self)
-            .withIdempotencyKey(idempotencyKey)
             .execute(configName: configName, completion: { transaction, error in
                 if let error = error {
                     completion?(nil, error)

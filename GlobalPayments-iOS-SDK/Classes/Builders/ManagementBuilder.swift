@@ -25,7 +25,6 @@ import Foundation
     var managementBuilderDescription: String?
     /// Request gratuity
     var gratuity: NSDecimalNumber?
-    var idempotencyKey: String?
     /// Request purchase order number
     var poNumber: String?
     /// Request tax amount
@@ -120,14 +119,6 @@ import Foundation
     /// - Returns: ManagementBuilder
     public func withGratuity(_ gratuity: NSDecimalNumber?) -> ManagementBuilder {
         self.gratuity = gratuity
-        return self
-    }
-
-    /// Field submitted in the request that is used to ensure idempotency is maintained within the action
-    /// - Parameter idempotencyKey: The idempotency key
-    /// - Returns: ManagementBuilder
-    public func withIdempotencyKey(_ idempotencyKey: String?) -> ManagementBuilder {
-        self.idempotencyKey = idempotencyKey
         return self
     }
 

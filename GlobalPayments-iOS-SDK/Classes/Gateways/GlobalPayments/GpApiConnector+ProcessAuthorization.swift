@@ -58,7 +58,7 @@ extension GpApiConnector {
                             method: .post,
                             endpoint: Endpoints.paymentMethods(),
                             data: tokenizationData.toString(),
-                            idempotencyKey: builder.idempotencyKey) { response, error in
+                            idempotencyKey: nil) { response, error in
                             guard let tokenizationResponse = response else {
                                 completion?(nil, error)
                                 return
@@ -77,7 +77,7 @@ extension GpApiConnector {
                             self?.doTransaction(
                                 method: .get,
                                 endpoint: Endpoints.paymentMethodsWith(token: token),
-                                idempotencyKey: builder.idempotencyKey) { response, error in
+                                idempotencyKey: nil) { response, error in
                                 guard let tokenizationResponse = response else {
                                     completion?(nil, error)
                                     return
@@ -110,7 +110,7 @@ extension GpApiConnector {
                                 method: .post,
                                 endpoint: Endpoints.verify(),
                                 data: verificationData.toString(),
-                                idempotencyKey: builder.idempotencyKey) { response, error in
+                                idempotencyKey: nil) { response, error in
                                 guard let tokenizationResponse = response else {
                                     completion?(nil, error)
                                     return
@@ -129,20 +129,20 @@ extension GpApiConnector {
                 let card = JsonDoc()
                     .set(for: "track", value: track.value)
                     .set(for: "tag", value: builder.tagData)
+                    //                .set(for: "cvv", value: "")
+                    //                .set(for: "cvv_indicator", value: "")
                     .set(for: "avs_address", value: builder.billingAddress?.streetAddress1)
                     .set(for: "avs_postal_code", value: builder.billingAddress?.postalCode)
                     .set(for: "authcode", value: builder.offlineAuthCode)
-
+                //                .set(for: "brand_reference", value: "")
                 if builder.transactionType == .sale || builder.transactionType == .refund {
                     if track.value == nil {
                         card.set(for: "number", value: track.pan)
-                        card.set(for: "expiry_month", value: track.expiry?.substring(with: 2..<4))
-                        card.set(for: "expiry_year", value: track.expiry?.substring(with: 0..<2))
+                        card.set(for: "expiry_month", value: track.expiry!.substring(with: 2..<4))
+                        card.set(for: "expiry_year", value: track.expiry!.substring(with: 0..<2))
                     }
                     card.set(for: "chip_condition", value: builder.emvLastChipRead?.mapped(for: .gpApi))
-                    if builder.transactionType == .sale {
-                        card.set(for: "funding", value: builder.paymentMethod?.paymentMethodType == .debit ? "DEBIT" : "CREDIT")
-                    }
+                    card.set(for: "funding", value: builder.paymentMethod?.paymentMethodType == .debit ? "DEBIT" : "CREDIT")
                 }
 
                 paymentMethod.set(for: "card", doc: card)

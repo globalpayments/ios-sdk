@@ -26,7 +26,6 @@ import Foundation
     var giftCardAmount: NSDecimalNumber?
     var homeCountryCode: String?
     var homeNumber: String?
-    var idempotencyKey: String?
     var maxNumberOfInstallments: Int?
     var maximumTimeout: Int?
     var merchantData: MerchantDataCollection?
@@ -217,11 +216,6 @@ import Foundation
                                _ homeCountryCode: String?) -> Secure3dBuilder {
         self.homeNumber = homeNumber
         self.homeCountryCode = homeCountryCode
-        return self
-    }
-
-    public func withIdempotencyKey(_ idempotencyKey: String?) -> Secure3dBuilder {
-        self.idempotencyKey = idempotencyKey
         return self
     }
 

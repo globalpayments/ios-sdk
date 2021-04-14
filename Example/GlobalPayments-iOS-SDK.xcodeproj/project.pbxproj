@@ -914,13 +914,13 @@
 			isa = PBXGroup;
 			children = (
 				82883A61257E44E400914499 /* Certification */,
-				8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */,
 				8267BC9724DAB5F100AF64D2 /* GpApiCreditTests.swift */,
 				824451C024E1801D0080D06B /* GpApiDebitTests.swift */,
-				8252038B24E2A72000784248 /* GpApiEbtTests.swift */,
-				82CF9A80257A60C400B7CC18 /* GpApiMappingTests.swift */,
 				824451BB24E150410080D06B /* GpApiReportingTests.swift */,
+				8252038B24E2A72000784248 /* GpApiEbtTests.swift */,
 				82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */,
+				8218B1E52521CFD6009DC67A /* GpApiAuthenticationTests.swift */,
+				82CF9A80257A60C400B7CC18 /* GpApiMappingTests.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";

@@ -10,7 +10,6 @@ import Foundation
     var endDate: Date? { return searchCriteriaBuilder.endDate }
     var startDate: Date? { return searchCriteriaBuilder.startDate }
     var transactionId: String?
-    var idempotencyKey: String?
     var page: Int?
     var pageSize: Int?
     var transactionOrderBy: TransactionSortProperty?
@@ -88,14 +87,6 @@ import Foundation
     /// - Returns: TransactionReportBuilder<TResult>
     public func withDepositStatus(_ depositStatus: DepositStatus?) -> TransactionReportBuilder<TResult> {
         self.depositStatus = depositStatus
-        return self
-    }
-
-    /// Field submitted in the request that is used to ensure idempotency is maintained within the action
-    /// - Parameter idempotencyKey: The idempotency key
-    /// - Returns: TransactionReportBuilder<TResult>
-    public func withIdempotencyKey(_ idempotencyKey: String?) -> TransactionReportBuilder<TResult> {
-        self.idempotencyKey = idempotencyKey
         return self
     }
 

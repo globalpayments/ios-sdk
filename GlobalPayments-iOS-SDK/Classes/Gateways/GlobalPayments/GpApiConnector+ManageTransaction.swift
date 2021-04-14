@@ -14,7 +14,7 @@ extension GpApiConnector {
                 method: .post,
                 endpoint: Endpoints.transactionsCapture(transactionId: builder.transactionId ?? .empty),
                 data: data.toString(),
-                idempotencyKey: builder.idempotencyKey
+                idempotencyKey: nil
             ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
@@ -32,7 +32,7 @@ extension GpApiConnector {
                 method: .post,
                 endpoint: Endpoints.transactionsRefund(transactionId: (builder.transactionId ?? .empty)),
                 data: data.toString(),
-                idempotencyKey: builder.idempotencyKey  
+                idempotencyKey: nil
             ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
@@ -50,7 +50,7 @@ extension GpApiConnector {
                 method: .post,
                 endpoint: Endpoints.transactionsReversal(transactionId: (builder.transactionId ?? .empty)),
                 data: data.toString(),
-                idempotencyKey: builder.idempotencyKey
+                idempotencyKey: nil
             ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
@@ -74,7 +74,7 @@ extension GpApiConnector {
                 method: .patch,
                 endpoint: Endpoints.paymentMethodsEdit(token: ((builder.paymentMethod as? Tokenizable)?.token ?? .empty)),
                 data: payload.toString(),
-                idempotencyKey: builder.idempotencyKey
+                idempotencyKey: nil
             ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
@@ -90,7 +90,7 @@ extension GpApiConnector {
             doTransaction(
                 method: .post,
                 endpoint: Endpoints.paymentMethodsDelete(token: (tokenizable.token ?? .empty)),
-                idempotencyKey: builder.idempotencyKey
+                idempotencyKey: nil
             ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)
@@ -106,7 +106,7 @@ extension GpApiConnector {
             doTransaction(
                 method: .post,
                 endpoint: Endpoints.paymentMethodsDetokenize(token: (detokenizable.token ?? .empty)),
-                idempotencyKey: builder.idempotencyKey
+                idempotencyKey: nil
             ) { response, error in
                 guard let response = response else {
                     completion?(nil, error)

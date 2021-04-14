@@ -317,7 +317,7 @@ import Foundation
     /// Field submitted in the request that is used to ensure idempotency is maintained within the action
     /// - Parameter idempotencyKey: The idempotency key
     /// - Returns: AuthorizationBuilder
-    public func withIdempotencyKey(_ idempotencyKey: String) -> AuthorizationBuilder {
+    public func withIdempotencyKey(_ idempotencyKey: String?) -> AuthorizationBuilder {
         self.idempotencyKey = idempotencyKey
         return self
     }

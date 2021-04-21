@@ -13,9 +13,7 @@ public class LodgingData: NSObject {
     public var lodgingDataEdit: String?
     public var preferredCustomer: Bool?
     public var extraChargeAmount: NSDecimalNumber? {
-        get {
-            return extraCharges.values.reduce(.zero) { $0?.adding($1) }
-        }
+        return extraCharges.values.reduce(.zero) { $0?.adding($1) }
     }
 
     public required init(extraChargeType: ExtraChargeType,

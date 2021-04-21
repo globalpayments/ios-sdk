@@ -80,7 +80,7 @@ public class RecurringEntity<TResult>: NSObject, Recurring {
             message: "Transaction type not supported for this payment method."
         )
     }
-    
+
     private static func getIdentifierName() -> String {
         if TResult.self is Customer.Type {
             return "customerIdentifier"

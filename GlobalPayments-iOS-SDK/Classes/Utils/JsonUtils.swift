@@ -45,13 +45,14 @@ public class JsonDoc {
         return self
     }
 
-    @discardableResult public func set(for key: String, value: String?, force: Bool = false) -> JsonDoc {
-        guard let value = value, !value.isEmpty else { return self }
+    @discardableResult public func set(for key: String, value: Encodable?, force: Bool = false) -> JsonDoc {
+        guard let value = value else { return self }
         dict[key] = encoder != nil ? encoder?.encode(value: value) : value
         return self
     }
 
     @discardableResult public func set(for key: String, doc: JsonDoc?) -> JsonDoc {
+        guard let doc = doc, !doc.keys.isEmpty else { return self }
         dict[key] = doc
         return self
     }
@@ -64,6 +65,7 @@ public class JsonDoc {
 
     public func toString() -> String? {
         let final = finalize()
+        if final.keys.isEmpty { return nil }
         guard let data = try? JSONSerialization.data(withJSONObject: final, options: .prettyPrinted) else { return nil }
         return String(data: data, encoding: .utf8)
     }
@@ -91,6 +93,16 @@ public class JsonDoc {
 
     public func getValue<T>(key: String) -> T? {
         return dict[key] as? T
+    }
+
+    public func getValue<T>(keys: String...) -> T? {
+        for key in keys {
+            guard let value = dict[key] as? T else {
+                continue
+            }
+            return value
+        }
+        return nil
     }
 
     public func getValue(key: String, encoder: RequestEncoder?) -> Any? {

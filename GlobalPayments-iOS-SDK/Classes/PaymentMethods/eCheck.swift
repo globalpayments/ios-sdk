@@ -28,4 +28,3 @@ public class eCheck: NSObject, PaymentMethod, Chargeable {
             .withAmount(amount)
     }
 }
-

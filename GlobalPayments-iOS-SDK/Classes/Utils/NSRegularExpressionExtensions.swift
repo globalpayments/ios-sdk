@@ -24,8 +24,8 @@ extension NSRegularExpression {
 private extension NSTextCheckingResult {
     func groups(_ string: String) -> [String] {
         var groups = [String]()
-        for i in  0 ..< self.numberOfRanges {
-            guard let range = Range(self.range(at: i), in: string) else { continue }
+        for position in  0 ..< self.numberOfRanges {
+            guard let range = Range(self.range(at: position), in: string) else { continue }
             let group = String(string[range])
             groups.append(group)
         }

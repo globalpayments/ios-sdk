@@ -26,9 +26,9 @@ final class DepositsViewModel: DepositsViewInput {
 
     func getDeposit(form: DepositByIDForm) {
         ReportingService
-            .depositDetail(depositId: form.depositId)
+            .depositDetail(depositReference: form.depositReference)
             .execute { [weak self] summary, error in
-                DispatchQueue.main.async {
+                UI {
                     guard let depositSummary = summary else {
                         self?.view?.showErrorView(error: error)
                         return
@@ -42,11 +42,11 @@ final class DepositsViewModel: DepositsViewInput {
     }
 
     func getDeposits(form: DepositsListForm) {
-        ReportingService
-            .findDeposits()
-            .withPaging(form.page, form.pageSize)
+        let reportingService = ReportingService.findDepositsPaged(page: form.page, pageSize: form.pageSize)
+
+        reportingService
             .orderBy(depositOrderBy: form.orderBy, form.order)
-            .withDepositId(form.id)
+            .withDepositReference(form.id)
             .withDepositStatus(form.status)
             .withAmount(form.amount)
             .where(.startDate, form.fromTimeCreated)
@@ -56,12 +56,12 @@ final class DepositsViewModel: DepositsViewInput {
             .and(dataServiceCriteria: .merchantId, value: form.systemMID)
             .and(dataServiceCriteria: .systemHierarchy, value: form.systemHierarchy)
             .execute { [weak self] deposits, error in
-                DispatchQueue.main.async {
+                UI {
                     guard let depositsList = deposits else {
                         self?.view?.showErrorView(error: error)
                         return
                     }
-                    self?.deposits = depositsList
+                    self?.deposits = depositsList.results
                     if self?.deposits.count == .zero {
                         self?.view?.displayEmptyView()
                     }

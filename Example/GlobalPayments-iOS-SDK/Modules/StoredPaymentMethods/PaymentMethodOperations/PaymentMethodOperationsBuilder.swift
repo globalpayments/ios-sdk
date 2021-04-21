@@ -11,4 +11,3 @@ struct PaymentMethodOperationsBuilder {
         return module
     }
 }
-

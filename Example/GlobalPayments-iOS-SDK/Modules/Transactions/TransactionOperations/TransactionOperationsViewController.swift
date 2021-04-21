@@ -10,7 +10,7 @@ final class TransactionOperationsViewController: UIViewController, StoryboardIns
     @IBOutlet private weak var submitButton: UIButton!
     @IBOutlet private weak var supportView: UIView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

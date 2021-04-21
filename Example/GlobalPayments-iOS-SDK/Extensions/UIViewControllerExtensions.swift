@@ -7,7 +7,7 @@ extension UIViewController {
             while let presentedViewController = topController.presentedViewController {
                 topController = presentedViewController
             }
-            DispatchQueue.main.async { [weak topController] in
+            UI { [weak topController] in
                 let alert = UIAlertController(title: "generic.alert".localized(), message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "generic.close".localized(), style: .default))
                 topController?.present(alert, animated: true)

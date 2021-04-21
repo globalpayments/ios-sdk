@@ -3,7 +3,7 @@ import UIKit
 final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate {
 
     private var pickerData: [String]
-    private var pickerTextField: UITextField
+    private weak var pickerTextField: UITextField?
     private var selectionHandler: ((String) -> Void)?
 
     init(pickerData: [String], dropdownField: UITextField) {
@@ -16,11 +16,11 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
         dataSource = self
 
         if pickerData.count > 0 {
-            self.pickerTextField.text = self.pickerData[0]
-            self.pickerTextField.isEnabled = true
+            self.pickerTextField?.text = self.pickerData[0]
+            self.pickerTextField?.isEnabled = true
         } else {
-            self.pickerTextField.text = nil
-            self.pickerTextField.isEnabled = false
+            self.pickerTextField?.text = nil
+            self.pickerTextField?.isEnabled = false
         }
 
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
@@ -31,7 +31,7 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
             ],
             animated: true
         )
-        pickerTextField.inputAccessoryView = toolBar
+        pickerTextField?.inputAccessoryView = toolBar
 
         if #available(iOS 13, *) {
             let downArrow = UIImageView(image: UIImage(systemName: "arrow.triangle.down"))
@@ -43,7 +43,7 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
     convenience init(pickerData: [String], dropdownField: UITextField, onSelect: ((String) -> Void)?) {
         self.init(pickerData: pickerData, dropdownField: dropdownField)
         self.selectionHandler = onSelect
-        if let text = pickerTextField.text, !text.isEmpty,
+        if let text = pickerTextField?.text, !text.isEmpty,
            let handler = selectionHandler {
             handler(text)
         }
@@ -54,7 +54,7 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
     }
 
     @objc private func onDoneAction() {
-        pickerTextField.resignFirstResponder()
+        pickerTextField?.resignFirstResponder()
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -70,9 +70,9 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        pickerTextField.text = pickerData[row]
+        pickerTextField?.text = pickerData[row]
 
-        guard let text = pickerTextField.text, let handler = selectionHandler else { return }
+        guard let text = pickerTextField?.text, let handler = selectionHandler else { return }
         handler(text)
     }
 }

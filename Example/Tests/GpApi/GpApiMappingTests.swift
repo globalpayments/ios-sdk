@@ -5,16 +5,16 @@ class GpApiMappingTests: XCTestCase {
 
     func test_map_transaction_without_card() {
         // GIVEN
-        let rawJson = "{\"id\":\"TRN_ImiKh03hpvpjJDPMLmCbpRMyv5v6Q7\",\"time_created\":\"2020-05-01T01:53:20.649Z\",\"time_last_updated\":\"2020-05-01T01:53:24.481Z\",\"status\":\"CAPTURED\",\"type\":\"SALE\",\"merchant_id\":\"MER_c4c0df11039c48a9b63701adeaa296c3\",\"merchant_name\":\"Sandbox_merchant_2\",\"account_id\":\"TRA_6716058969854a48b33347043ff8225f\",\"account_name\":\"Transaction_Processing\",\"channel\":\"CNP\",\"amount\":\"10000\",\"currency\":\"CAD\",\"reference\":\"My-TRANS-184398064\",\"description\":\"\",\"order_reference\":\"\",\"time_created_reference\":\"\",\"batch_id\":\"BAT_783464\",\"initiator\":\"\",\"country\":\"US\",\"language\":\"\",\"ip_address\":\"97.107.232.5\",\"site_reference\":\"\",\"payment_method\":{\"result\":\"00\",\"message\":\"Settled Successfully\",\"entry_mode\":\"ECOM\",\"name\":\"\",\"card\":{\"funding\":\"CREDIT\",\"brand\":\"MC\",\"authcode\":\"12345\",\"brand_reference\":\"\",\"masked_number_first6last4\":\"\",\"cvv_indicator\":\"\",\"cvv_result\":\"\",\"avs_address_result\":\"\",\"avs_postal_code_result\":\"\"}},\"action_create_id\":\"ACT_ImiKh03hpvpjJDPMLmCbpRMyv5v6Q7\",\"parent_resource_id\":\"TRN_JP9qn3ivl6iPNFRFSiCHesn0I5gs7t\",\"action\":{\"id\":\"ACT_k2incP0JYsIVRSJ8nzzSZm3gGWoNbr\",\"type\":\"TRANSACTION_SINGLE\",\"time_created\":\"2020-12-04T12:28:25.712Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"i9R0byBBor6RqTQNj3g4MuVBwH5rd7yR\",\"app_name\":\"demo_app\"}}"
+        let rawJson = "{\"id\":\"PMT_ImiKh03hpvpjJDPMLmCbpRMyv5v6Q7\",\"time_created\":\"2020-05-01T01:53:20.649Z\",\"time_last_updated\":\"2020-05-01T01:53:24.481Z\",\"status\":\"CAPTURED\",\"type\":\"SALE\",\"merchant_id\":\"MER_c4c0df11039c48a9b63701adeaa296c3\",\"merchant_name\":\"Sandbox_merchant_2\",\"account_id\":\"TRA_6716058969854a48b33347043ff8225f\",\"account_name\":\"Transaction_Processing\",\"channel\":\"CNP\",\"amount\":\"10000\",\"currency\":\"CAD\",\"reference\":\"My-TRANS-184398064\",\"description\":\"\",\"order_reference\":\"\",\"time_created_reference\":\"\",\"batch_id\":\"BAT_783464\",\"initiator\":\"\",\"country\":\"US\",\"language\":\"\",\"ip_address\":\"97.107.232.5\",\"site_reference\":\"\",\"payment_method\":{\"result\":\"00\",\"message\":\"Settled Successfully\",\"entry_mode\":\"ECOM\",\"name\":\"\",\"card\":{\"funding\":\"CREDIT\",\"brand\":\"MC\",\"authcode\":\"12345\",\"brand_reference\":\"\",\"masked_number_first6last4\":\"\",\"cvv_indicator\":\"\",\"cvv_result\":\"\",\"avs_address_result\":\"\",\"avs_postal_code_result\":\"\"}},\"action_create_id\":\"ACT_ImiKh03hpvpjJDPMLmCbpRMyv5v6Q7\",\"parent_resource_id\":\"TRN_JP9qn3ivl6iPNFRFSiCHesn0I5gs7t\",\"action\":{\"id\":\"ACT_k2incP0JYsIVRSJ8nzzSZm3gGWoNbr\",\"type\":\"TRANSACTION_SINGLE\",\"time_created\":\"2020-12-04T12:28:25.712Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"i9R0byBBor6RqTQNj3g4MuVBwH5rd7yR\",\"app_name\":\"demo_app\"}}"
         let doc = JsonDoc.parse(rawJson)
-        let expectedTransactionId = "TRN_ImiKh03hpvpjJDPMLmCbpRMyv5v6Q7"
+        let expectedTransactionId = "PMT_ImiKh03hpvpjJDPMLmCbpRMyv5v6Q7"
         let expectedBalanceAmount: NSDecimalNumber = 100
         let expectedTimestamp = "2020-05-01T01:53:20.649Z"
         let expectedResponseMessage = "CAPTURED"
         let expectedReferenceNumber = "My-TRANS-184398064"
         let expectedBatchSummary = "BAT_783464"
         let expectedResponseCode = "SUCCESS"
-        let expectedToken = "TRN_ImiKh03hpvpjJDPMLmCbpRMyv5v6Q7"
+        let expectedToken = "PMT_ImiKh03hpvpjJDPMLmCbpRMyv5v6Q7"
         let expectedAuthorizationCode = "00"
 
         // WHEN
@@ -26,7 +26,7 @@ class GpApiMappingTests: XCTestCase {
         XCTAssertEqual(transaction.timestamp, expectedTimestamp)
         XCTAssertEqual(transaction.responseMessage, expectedResponseMessage)
         XCTAssertEqual(transaction.referenceNumber, expectedReferenceNumber)
-        XCTAssertEqual(transaction.batchSummary?.sequenceNumber, expectedBatchSummary)
+        XCTAssertEqual(transaction.batchSummary?.batchReference, expectedBatchSummary)
         XCTAssertEqual(transaction.responseCode, expectedResponseCode)
         XCTAssertEqual(transaction.token, expectedToken)
         XCTAssertEqual(transaction.authorizationCode, expectedAuthorizationCode)
@@ -170,61 +170,125 @@ class GpApiMappingTests: XCTestCase {
 
     func test_map_dispute_summary() {
         // GIVEN
-        let rawJson = "{\"id\":\"DIS_SAND_abcd1235\",\"time_created\":\"2020-11-25T09:01:28.143Z\",\"merchant_id\":\"MER_62251730c5574bbcb268191b5f315de8\",\"merchant_name\":\"TEST MERCHANT\",\"account_id\":\"DIA_882c832d13e04185bb6e213d6303ed98\",\"account_name\":\"testdispute\",\"status\":\"WITH_MERCHANT\",\"status_time_created\":\"2020-11-27T09:01:28.143Z\",\"stage\":\"CHARGEBACK\",\"stage_time_created\":\"2020-11-30T09:01:28.143Z\",\"amount\":\"1500\",\"currency\":\"USD\",\"payer_amount\":\"1500\",\"payer_currency\":\"USD\",\"merchant_amount\":\"1500\",\"merchant_currency\":\"USD\",\"reason_code\":\"132\",\"reason_description\":\"Cancelled Recurring\",\"time_to_respond_by\":\"2020-12-12T09:01:28.143Z\",\"result\":\"PENDING\",\"investigator_comment\":\"WITH_MERCHANT CHARGEBACK PENDING 1500 USD 1500 USD\",\"system\":{\"mid\":\"627384967\",\"hierarchy\":\"111-23-099-001-001\",\"name\":\"ABC INC.\"},\"last_adjustment_amount\":\"1500\",\"last_adjustment_currency\":\"USD\",\"last_adjustment_funding\":\"DEBIT\",\"last_adjustment_time_created\":\"2020-12-03T09:01:28.143Z\",\"net_financial_amount\":\"1500\",\"net_financial_currency\":\"USD\",\"net_financial_funding\":\"DEBIT\",\"payment_method_provider\":[{\"comment\":\"issuer comments 34524\",\"reference\":\"issuer-reference-0002\",\"documents\":[]}],\"transaction\":{\"time_created\":\"2020-10-18T09:01:28.143Z\",\"type\":\"SALE\",\"amount\":\"1500\",\"currency\":\"USD\",\"reference\":\"my-trans-AAA2\",\"remarks\":\"my-trans-AAA2\",\"payment_method\":{\"card\":{\"number\":\"424242xxxxxx4242\",\"arn\":\"123934529762282\",\"brand\":\"VISA\",\"authcode\":\"AA2399\",\"brand_reference\":\"898375467348954\"}}},\"documents\":[{\"id\":\"DOC_MyEvidence_234234AVCDE-1\",\"type\":\"SALES_RECEIPT\"}],\"action\":{\"id\":\"ACT_5blBTHnIs4aOCIvGwG7KizYUpsGI0g\",\"type\":\"DISPUTE_SINGLE\",\"time_created\":\"2020-12-07T09:01:28.199Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"i9R0byBBor6RqTQNj3g4MuVBwH5rd7yR\",\"app_name\":\"demo_app\"}}"
+        let rawJson = "{\"id\":\"DIS_SAND_abcd1240\",\"time_created\":\"2021-03-13T12:34:40.292Z\",\"status\":\"WITH_MERCHANT\",\"stage\":\"COMPLIANCE\",\"amount\":\"4000\",\"currency\":\"USD\",\"system\":{\"mid\":\"101023947262\",\"hierarchy\":\"111-23-099-001-001\"},\"payment_method\":{\"card\":{\"number\":\"543267xxxxxx7207\",\"arn\":\"210286643954856\",\"brand\":\"MASTERCARD\"}},\"reason_code\":\"4837\",\"reason_description\":\"No Cardholder Authorization\",\"time_to_respond_by\":\"2021-03-30T12:34:40.293Z\",\"result\":\"PENDING\",\"last_adjustment_amount\":\"4000\",\"last_adjustment_currency\":\"USD\",\"last_adjustment_funding\":\"DEBIT\",\"documents\":[{\"id\":\"DOC_MyEvidence_234234AVCDE-1\",\"type\":\"SALES_RECEIPT\"}]}"
         let doc = JsonDoc.parse(rawJson)
-        let expectedCaseId = "DIS_SAND_abcd1235"
-        let expectedCaseIdTime = "2020-11-25T09:01:28.143Z".format()
+        let expectedCaseID = "DIS_SAND_abcd1240"
+        let expectedCaseTimeCreated = "2021-03-13T12:34:40.292Z".format()
         let expectedCaseStatus = "WITH_MERCHANT"
-        let expectedCaseStage = DisputeStage.chargeback
-        let expectedCaseAmount: NSDecimalNumber = 15
+        let expectedCaseStage = DisputeStage.compliance
+        let expectedCaseAmount: NSDecimalNumber = 40
         let expectedCaseCurrency = "USD"
-        let expectedCaseMerchantId = "627384967"
-        let expectedMerchantHierarchy = "111-23-099-001-001"
-        let expectedTransactionARN = "123934529762282"
-        let expectedTransactionReferenceNumber = "my-trans-AAA2"
-        let expectedTransactionAuthCode = "AA2399"
-        let expectedTransactionCardType = "VISA"
-        let expectedTransactionMaskedCardNumber = "424242xxxxxx4242"
-        let expectedReason = "Cancelled Recurring"
-        let expectedReasonCode = "132"
-        let expectedRespondByDate = "2020-12-12T09:01:28.143Z".format()
-        let expectedLastAdjustmentFunding = AdjustmentFunding.debit
-        let expectedLastAdjustmentAmount: NSDecimalNumber = 15
-        let expectedLastAdjustmentCurrency = "USD"
-        let expectedLastAdjustmentTimeCreated = "2020-12-03T09:01:28.143Z".format()
+        let expectedMid = "101023947262"
+        let expectedMidHierarchy = "111-23-099-001-001"
+        let expectedCardNumber = "543267xxxxxx7207"
+        let expectedCardArn = "210286643954856"
+        let expectedCardBrand = "MASTERCARD"
+        let expectedReasonCode = "4837"
+        let expectedReasonDescription = "No Cardholder Authorization"
+        let expectedTimeToRespondBy = "2021-03-30T12:34:40.293Z".format()
         let expectedResult = "PENDING"
+        let expectedLastAdjustmentAmount: NSDecimalNumber = 40
+        let expectedLastAdjustmentCurrency = "USD"
+        let expectedLastAdjustmentFunding = "DEBIT"
         let expectedDocuments = [DisputeDocument(id: "DOC_MyEvidence_234234AVCDE-1", type: DocumentType.salesReceipt)]
 
         // WHEN
         let disputeSummary = GpApiMapping.mapDisputeSummary(doc)
 
         // THEN
-        XCTAssertEqual(disputeSummary.caseId, expectedCaseId)
-        XCTAssertEqual(disputeSummary.caseIdTime, expectedCaseIdTime)
+        XCTAssertEqual(disputeSummary.caseId, expectedCaseID)
+        XCTAssertEqual(disputeSummary.caseIdTime, expectedCaseTimeCreated)
         XCTAssertEqual(disputeSummary.caseStatus, expectedCaseStatus)
         XCTAssertEqual(disputeSummary.caseStage, expectedCaseStage)
         XCTAssertEqual(disputeSummary.caseAmount, expectedCaseAmount)
         XCTAssertEqual(disputeSummary.caseCurrency, expectedCaseCurrency)
-        XCTAssertEqual(disputeSummary.caseMerchantId, expectedCaseMerchantId)
-        XCTAssertEqual(disputeSummary.merchantHierarchy, expectedMerchantHierarchy)
-        XCTAssertEqual(disputeSummary.transactionARN, expectedTransactionARN)
-        XCTAssertEqual(disputeSummary.transactionReferenceNumber, expectedTransactionReferenceNumber)
-        XCTAssertEqual(disputeSummary.transactionAuthCode, expectedTransactionAuthCode)
-        XCTAssertEqual(disputeSummary.transactionCardType, expectedTransactionCardType)
-        XCTAssertEqual(disputeSummary.transactionMaskedCardNumber, expectedTransactionMaskedCardNumber)
-        XCTAssertEqual(disputeSummary.reason, expectedReason)
+        XCTAssertEqual(disputeSummary.caseMerchantId, expectedMid)
+        XCTAssertEqual(disputeSummary.merchantHierarchy, expectedMidHierarchy)
+        XCTAssertEqual(disputeSummary.transactionMaskedCardNumber, expectedCardNumber)
+        XCTAssertEqual(disputeSummary.transactionARN, expectedCardArn)
+        XCTAssertEqual(disputeSummary.transactionCardType, expectedCardBrand)
         XCTAssertEqual(disputeSummary.reasonCode, expectedReasonCode)
-        XCTAssertEqual(disputeSummary.respondByDate, expectedRespondByDate)
-        XCTAssertEqual(disputeSummary.lastAdjustmentFunding, expectedLastAdjustmentFunding)
+        XCTAssertEqual(disputeSummary.reason, expectedReasonDescription)
+        XCTAssertEqual(disputeSummary.respondByDate, expectedTimeToRespondBy)
+        XCTAssertEqual(disputeSummary.result, expectedResult)
         XCTAssertEqual(disputeSummary.lastAdjustmentAmount, expectedLastAdjustmentAmount)
         XCTAssertEqual(disputeSummary.lastAdjustmentCurrency, expectedLastAdjustmentCurrency)
-        XCTAssertEqual(disputeSummary.lastAdjustmentTimeCreated, expectedLastAdjustmentTimeCreated)
-        XCTAssertEqual(disputeSummary.result, expectedResult)
+        XCTAssertEqual(disputeSummary.lastAdjustmentFunding, expectedLastAdjustmentFunding)
         guard let documents = disputeSummary.documents, !documents.isEmpty else {
             XCTFail("documents cannot be nil or empty")
             return
         }
         XCTAssertEqual(documents, expectedDocuments)
+    }
+
+    func test_map_settlement_dispute_summary() {
+        // GIVEN
+        let rawJson = "{\"id\":\"DIS_812\",\"status\":\"FUNDED\",\"stage\":\"CHARGEBACK\",\"stage_time_created\":\"2021-03-18T12:35:28\",\"amount\":\"200\",\"currency\":\"GBP\",\"reason_code\":\"PM\",\"reason_description\":\"Paid by Other Means\",\"time_to_respond_by\":\"2021-04-04T12:35:28\",\"result\":\"LOST\",\"funding_type\":\"DEBIT\",\"deposit_time_created\":\"2021-03-22\",\"deposit_id\":\"DEP_2342423443\",\"last_adjustment_amount\":\"4000\",\"last_adjustment_currency\":\"USD\",\"last_adjustment_funding\":\"DEBIT\",\"last_adjustment_time_created\":\"2020-12-03T09:01:28.143Z\",\"system\":{\"mid\":\"101023947262\",\"hierarchy\":\"055-70-024-011-019\",\"name\":\"XYZ LTD.\"},\"transaction\":{\"time_created\":\"2021-02-23T12:35:28\",\"merchant_time_created\":\"2021-02-23T14:35:28\",\"type\":\"SALE\",\"amount\":\"200\",\"currency\":\"GBP\",\"reference\":\"28012076eb6M\",\"payment_method\":{\"card\":{\"masked_number_first6last4\":\"379132XXXXX1007\",\"arn\":\"71400011203688701393903\",\"brand\":\"AMEX\",\"authcode\":\"129623\",\"brand_reference\":\"MWE1P0JG80110\"}}}}"
+
+        let doc = JsonDoc.parse(rawJson)
+        let expectedCaseId = "DIS_812"
+        let expectedCaseStatus = "FUNDED"
+        let expectedCaseStage = DisputeStage.chargeback
+        let expectedCaseIdTime = "2021-03-18T12:35:28".format()
+        let expectedCaseAmount: NSDecimalNumber = 2
+        let expectedCaseCurrency = "GBP"
+        let expectedReasonCode = "PM"
+        let expectedReasonDescription = "Paid by Other Means"
+        let expectedRespondByDate = "2021-04-04T12:35:28".format()
+        let expectedResult = "LOST"
+        let expectedFundingType = "DEBIT"
+        let expectedDepositTimeCreated = "2021-03-22".format("YYYY-MM-dd")
+        let expectedDepositID = "DEP_2342423443"
+        let expectedLastAdjustmentAmount: NSDecimalNumber = 40
+        let expectedLastAdjustmentCurrency = "USD"
+        let expectedLastAdjustmentFunding = "DEBIT"
+        let expectedLastAdjustmentTimeCreated = "2020-12-03T09:01:28.143Z".format()
+        let expectedCaseMerchantId = "101023947262"
+        let expectedMerchantHierarchy = "055-70-024-011-019"
+        let expectedMerchantName = "XYZ LTD."
+        let expectedTransactionTimeCreated = "2021-02-23T12:35:28".format()
+        let expectedTransactionType = "SALE"
+        let expectedTransactionAmount: NSDecimalNumber = 2
+        let expectedTransactionCurrency = "GBP"
+        let expectedTransactionReference = "28012076eb6M"
+        let expectedCardMaskedNumberFirst6last4 = "379132XXXXX1007"
+        let expectedCardARN = "71400011203688701393903"
+        let expectedCardBrand = "AMEX"
+        let expectedCardAuthcode = "129623"
+
+        // WHEN
+        let disputeSummary = GpApiMapping.mapDisputeSummary(doc)
+
+        // THEN
+        XCTAssertEqual(disputeSummary.caseId, expectedCaseId)
+        XCTAssertEqual(disputeSummary.caseStatus, expectedCaseStatus)
+        XCTAssertEqual(disputeSummary.caseStage, expectedCaseStage)
+        XCTAssertEqual(disputeSummary.caseIdTime, expectedCaseIdTime)
+        XCTAssertEqual(disputeSummary.caseAmount, expectedCaseAmount)
+        XCTAssertEqual(disputeSummary.caseCurrency, expectedCaseCurrency)
+        XCTAssertEqual(disputeSummary.reasonCode, expectedReasonCode)
+        XCTAssertEqual(disputeSummary.reason, expectedReasonDescription)
+        XCTAssertEqual(disputeSummary.respondByDate, expectedRespondByDate)
+        XCTAssertEqual(disputeSummary.result, expectedResult)
+        XCTAssertEqual(disputeSummary.type, expectedFundingType)
+        XCTAssertEqual(disputeSummary.depositDate, expectedDepositTimeCreated)
+        XCTAssertEqual(disputeSummary.depositReference, expectedDepositID)
+        XCTAssertEqual(disputeSummary.lastAdjustmentAmount, expectedLastAdjustmentAmount)
+        XCTAssertEqual(disputeSummary.lastAdjustmentCurrency, expectedLastAdjustmentCurrency)
+        XCTAssertEqual(disputeSummary.lastAdjustmentFunding, expectedLastAdjustmentFunding)
+        XCTAssertEqual(disputeSummary.lastAdjustmentTimeCreated, expectedLastAdjustmentTimeCreated)
+        XCTAssertEqual(disputeSummary.caseMerchantId, expectedCaseMerchantId)
+        XCTAssertEqual(disputeSummary.merchantHierarchy, expectedMerchantHierarchy)
+        XCTAssertEqual(disputeSummary.merchantName, expectedMerchantName)
+        XCTAssertEqual(disputeSummary.caseIdTime, expectedTransactionTimeCreated)
+        XCTAssertEqual(disputeSummary.transactionType, expectedTransactionType)
+        XCTAssertEqual(disputeSummary.transactionAmount, expectedTransactionAmount)
+        XCTAssertEqual(disputeSummary.transactionCurrency, expectedTransactionCurrency)
+        XCTAssertEqual(disputeSummary.transactionReferenceNumber, expectedTransactionReference)
+        XCTAssertEqual(disputeSummary.transactionMaskedCardNumber, expectedCardMaskedNumberFirst6last4)
+        XCTAssertEqual(disputeSummary.transactionARN, expectedCardARN)
+        XCTAssertEqual(disputeSummary.transactionCardType, expectedCardBrand)
+        XCTAssertEqual(disputeSummary.transactionAuthCode, expectedCardAuthcode)
     }
 
     func test_map_dispute_action() {

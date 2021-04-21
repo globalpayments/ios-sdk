@@ -16,7 +16,6 @@ protocol DisputeReportViewOutput: class {
     func displayEmptyView()
 }
 
-
 final class DisputeReportViewModel: DisputeReportViewInput {
 
     weak var view: DisputeReportViewOutput?
@@ -47,42 +46,21 @@ final class DisputeReportViewModel: DisputeReportViewInput {
     }
 
     func getDusputeList(form: DisputeListForm) {
-        switch form.source {
-        case .regular:
-            ReportingService
-                .findDisputes()
-                .withPaging(form.page, form.pageSize)
-                .orderBy(disputeOrderBy: form.sortProperty, form.sordOrder)
-                .withArn(form.arn)
-                .withDisputeStatus(form.status)
-                .withDisputeStage(form.stage)
-                .where(form.adjustmentFunding)
-                .and(searchCriteria: .cardBrand, value: form.brand)
-                .and(dataServiceCriteria: .startStageDate, value: form.fromStageTimeCreated)
-                .and(dataServiceCriteria: .endStageDate, value: form.toStageTimeCreated)
-                .and(dataServiceCriteria: .startAdjustmentDate, value: form.fromAdjustmentTimeCreated)
-                .and(dataServiceCriteria: .endAdjustmentDate, value: form.toAdjustmentTimeCreated)
-                .and(dataServiceCriteria: .merchantId, value: form.systemMID)
-                .and(dataServiceCriteria: .systemHierarchy, value: form.systemHierarchy)
-                .execute(completion: handleDisputesList)
-        case .settlement:
-            ReportingService
-                .findSettlementDisputes()
-                .withPaging(form.page, form.pageSize)
-                .orderBy(disputeOrderBy: form.sortProperty, form.sordOrder)
-                .withArn(form.arn)
-                .withDisputeStatus(form.status)
-                .withDisputeStage(form.stage)
-                .where(form.adjustmentFunding)
-                .and(searchCriteria: .cardBrand, value: form.brand)
-                .and(dataServiceCriteria: .startStageDate, value: form.fromStageTimeCreated)
-                .and(dataServiceCriteria: .endStageDate, value: form.toStageTimeCreated)
-                .and(dataServiceCriteria: .startAdjustmentDate, value: form.fromAdjustmentTimeCreated)
-                .and(dataServiceCriteria: .endAdjustmentDate, value: form.toAdjustmentTimeCreated)
-                .and(dataServiceCriteria: .merchantId, value: form.systemMID)
-                .and(dataServiceCriteria: .systemHierarchy, value: form.systemHierarchy)
-                .execute(completion: handleDisputesList)
-        }
+        let reportingService = (form.source == .regular) ?
+            ReportingService.findDisputesPaged(page: form.page, pageSize: form.pageSize) :
+            ReportingService.findSettlementDisputesPaged(page: form.page, pageSize: form.pageSize)
+
+        reportingService
+            .orderBy(disputeOrderBy: form.sortProperty, form.sordOrder)
+            .withArn(form.arn)
+            .withDisputeStatus(form.status)
+            .where(form.stage)
+            .and(searchCriteria: .cardBrand, value: form.brand)
+            .and(dataServiceCriteria: .startStageDate, value: form.fromStageTimeCreated)
+            .and(dataServiceCriteria: .endStageDate, value: form.toStageTimeCreated)
+            .and(dataServiceCriteria: .merchantId, value: form.systemMID)
+            .and(dataServiceCriteria: .systemHierarchy, value: form.systemHierarchy)
+            .execute(completion: handleDisputesResult)
     }
 
     func clearDisputes() {
@@ -90,7 +68,7 @@ final class DisputeReportViewModel: DisputeReportViewInput {
     }
 
     private func handleDocument(document: DocumentMetadata?, error: Error?) {
-        DispatchQueue.main.async {
+        UI {
             guard let document = document else {
                 self.view?.showErrorView(error: error)
                 return
@@ -100,7 +78,7 @@ final class DisputeReportViewModel: DisputeReportViewInput {
     }
 
     private func handleDisputeSummary(disputeSummary: DisputeSummary?, error: Error?) {
-        DispatchQueue.main.async {
+        UI {
             guard let disputeSummary = disputeSummary else {
                 self.view?.showErrorView(error: error)
                 return
@@ -112,9 +90,9 @@ final class DisputeReportViewModel: DisputeReportViewInput {
         }
     }
 
-    private func handleDisputesList(list: [DisputeSummary]?, error: Error?) {
-        DispatchQueue.main.async {
-            guard let disputeSummaryList = list else {
+    private func handleDisputesResult(result: PagedResult<DisputeSummary>?, error: Error?) {
+        UI {
+            guard let disputeSummaryList = result?.results else {
                 self.view?.showErrorView(error: error)
                 return
             }

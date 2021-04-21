@@ -13,10 +13,18 @@ public class GpApiConfig: GatewayConfig {
     public var channel: Channel
     /// Global API language configuration
     public var language: Language?
-    /// Two lettero ISO 3166 country
+    /// Two letters ISO 3166 country
     public var country: String?
     /// Access token information
     public var accessTokenInfo: AccessTokenInfo?
+    /// 3DSecure challenge return url
+    public var challengeNotificationUrl: String?
+    /// 3DSecure method return url
+    public var methodNotificationUrl: String?
+    /// URL of the merchant's website or customer care site.
+    public var merchantContactUrl: String?
+    /// The list of the permissions the integrator want the access token to have.
+    public var permissions: [String]?
 
     public init(appId: String,
                 appKey: String,
@@ -25,7 +33,11 @@ public class GpApiConfig: GatewayConfig {
                 channel: Channel = .cardNotPresent,
                 language: Language? = .english,
                 country: String? = "US",
-                accessTokenInfo: AccessTokenInfo? = nil) {
+                accessTokenInfo: AccessTokenInfo? = nil,
+                challengeNotificationUrl: String? = nil,
+                methodNotificationUrl: String? = nil,
+                merchantContactUrl: String? = nil,
+                permissions: [String]? = nil) {
 
         self.appId = appId
         self.appKey = appKey
@@ -35,6 +47,10 @@ public class GpApiConfig: GatewayConfig {
         self.language = language
         self.country = country
         self.accessTokenInfo = accessTokenInfo
+        self.challengeNotificationUrl = challengeNotificationUrl
+        self.methodNotificationUrl = methodNotificationUrl
+        self.permissions = permissions
+        self.merchantContactUrl = merchantContactUrl
         super.init(gatewayProvider: .gpAPI)
     }
 
@@ -47,24 +63,15 @@ public class GpApiConfig: GatewayConfig {
             }
         }
 
-        let gateway = GpApiConnector()
-        gateway.appId = appId
-        gateway.appKey = appKey
-        gateway.secondsToExpire = secondsToExpire
-        gateway.intervalToExpire = intervalToExpire
-        gateway.channel = channel
-        gateway.language = language
-        gateway.country = country
+        let gateway = GpApiConnector(gpApiConfig: self)
         gateway.serviceUrl = serviceUrl
         gateway.timeout = timeout
         gateway.accessToken = accessTokenInfo?.token
-        gateway.dataAccountName = accessTokenInfo?.dataAccountName
-        gateway.disputeManagementAccountName = accessTokenInfo?.disputeManagementAccountName
-        gateway.tokenizationAccountName = accessTokenInfo?.tokenizationAccountName
-        gateway.transactionProcessingAccountName = accessTokenInfo?.transactionProcessingAccountName
 
         services.gatewayConnector = gateway
         services.reportingService = gateway
+        services.setSecure3dProvider(provider: gateway, version: .one)
+        services.setSecure3dProvider(provider: gateway, version: .two)
     }
 
     override func validate() throws {

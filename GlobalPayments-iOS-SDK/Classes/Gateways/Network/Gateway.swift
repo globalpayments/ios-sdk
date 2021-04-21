@@ -27,7 +27,7 @@ class Gateway {
             completion(nil, NetworkError.canNotGenerateURL)
             return
         }
-        
+
         var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: timeout)
 
         request.httpMethod = method.rawValue
@@ -42,13 +42,13 @@ class Gateway {
         }
 
         let task = session.dataTask(with: request,
-                                    completionHandler: { [weak self] data, urlResponse, error in
+                                    completionHandler: { [weak self] data, urlResponse, _ in
                                         guard let data = data,
                                             let responseString = String(data: data, encoding: String.Encoding.utf8) else {
                                                 completion(nil, NetworkError.noData)
                                                 return
                                         }
-                                        
+
                                         self?.requestLogger?.responseReceived(response: responseString)
                                         guard let urlResponse = urlResponse as? HTTPURLResponse else {
                                             completion(nil, NetworkError.noResponse)

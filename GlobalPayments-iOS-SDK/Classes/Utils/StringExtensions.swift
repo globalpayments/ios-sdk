@@ -83,7 +83,7 @@ private struct HMAC {
         input.getBytes(&bytes, length: input.length)
         var hexString = ""
         for byte in bytes {
-            hexString += String(format:"%02x", UInt8(byte))
+            hexString += String(format: "%02x", UInt8(byte))
         }
         return hexString
     }

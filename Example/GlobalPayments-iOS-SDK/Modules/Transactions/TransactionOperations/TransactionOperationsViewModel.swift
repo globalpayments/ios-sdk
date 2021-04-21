@@ -25,14 +25,17 @@ final class TransactionOperationsViewModel: TransactionOperationsInput {
         case .authorization:
             card.authorize(amount: form.amount)
                 .withCurrency(form.currency)
+                .withIdempotencyKey(form.idempotencyKey)
                 .execute(completion: showOutput)
         case .sale:
             card.charge(amount: form.amount)
                 .withCurrency(form.currency)
+                .withIdempotencyKey(form.idempotencyKey)
                 .execute(completion: showOutput)
         case .capture:
             card.authorize(amount: form.amount)
                 .withCurrency(form.currency)
+                .withIdempotencyKey(form.idempotencyKey)
                 .execute { [weak self] transaction, error in
                     guard let transaction = transaction else {
                         self?.showOutput(transaction: nil, error: error)
@@ -45,10 +48,12 @@ final class TransactionOperationsViewModel: TransactionOperationsInput {
         case .refund:
             card.refund(amount: form.amount)
                 .withCurrency(form.currency)
+                .withIdempotencyKey(form.idempotencyKey)
                 .execute(completion: showOutput)
         case .reverse:
             card.charge(amount: form.amount)
                 .withCurrency(form.currency)
+                .withIdempotencyKey(form.idempotencyKey)
                 .execute { [weak self] transaction, error in
                     guard let transaction = transaction else {
                         self?.showOutput(transaction: nil, error: error)
@@ -62,7 +67,7 @@ final class TransactionOperationsViewModel: TransactionOperationsInput {
     }
 
     private func showOutput(transaction: Transaction?, error: Error?) {
-        DispatchQueue.main.async {
+        UI {
             guard let transaction = transaction else {
                 self.view?.showErrorView(error: error)
                 return

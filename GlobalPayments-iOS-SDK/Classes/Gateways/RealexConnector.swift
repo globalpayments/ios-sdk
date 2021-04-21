@@ -19,6 +19,6 @@ public class RealexConnector: PaymentGateway, ReportingServiceType {
     }
 
     func processReport<T>(builder: ReportBuilder<T>, completion: ((T?, Error?) -> Void)?) {
-        
+
     }
 }

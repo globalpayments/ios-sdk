@@ -31,7 +31,7 @@ final class DepositByIDFormViewController: UIViewController, StoryboardInstantia
         inputTextView.text = defaultDepositId
     }
 
-    // MARK - Actions
+    // MARK: - Actions
 
     @objc private func onCancelAction() {
         dismiss(animated: true, completion: nil)
@@ -39,7 +39,7 @@ final class DepositByIDFormViewController: UIViewController, StoryboardInstantia
 
     @IBAction private func onSubmitAction() {
         guard let depositId = inputTextView.text, !depositId.isEmpty else { return }
-        let form = DepositByIDForm(depositId: depositId)
+        let form = DepositByIDForm(depositReference: depositId)
         delegate?.onSubmitForm(form)
         dismiss(animated: true, completion: nil)
     }

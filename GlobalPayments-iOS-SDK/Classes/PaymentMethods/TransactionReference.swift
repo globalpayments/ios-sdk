@@ -8,7 +8,7 @@ public class TransactionReference: NSObject, PaymentMethod {
     public var transactionId: String?
     public var clientTransactionId: String?
     public var alternativePaymentType: String?
-    
+
     public required init(paymentMethodType: PaymentMethodType = .reference,
                          authCode: String? = nil,
                          batchNumber: String? = nil,
@@ -16,7 +16,7 @@ public class TransactionReference: NSObject, PaymentMethod {
                          transactionId: String? = nil,
                          clientTransactionId: String? = nil,
                          alternativePaymentType: String? = nil) {
-        
+
         self.paymentMethodType = paymentMethodType
         self.authCode = authCode
         self.batchNumber = batchNumber

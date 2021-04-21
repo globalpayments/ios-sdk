@@ -107,6 +107,7 @@ extension TransactionReportViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TransactionSummaryTableViewCell.identifier, for: indexPath) as! TransactionSummaryTableViewCell
         cell.setup(viewModel: viewModel.transactions[indexPath.row])
+
         return cell
     }
 }

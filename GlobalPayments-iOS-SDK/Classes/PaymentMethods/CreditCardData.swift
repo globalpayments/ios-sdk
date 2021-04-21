@@ -43,7 +43,7 @@ public class CreditCardData: Credit, CardData {
             .withAmount(amount)
             .withCurrency(currency)
             .withOrderId(orderId)
-            .execute { [weak self] transaction, error in
+            .execute { [weak self] transaction, _ in
                 guard let result = transaction,
                     let threeDSecure = result.threeDSecure else {
                     completion?(false)
@@ -118,6 +118,7 @@ extension CreditCardData: NSCopying {
 
     public func copy(with zone: NSZone? = nil) -> Any {
         let copy = CreditCardData()
+        copy.token = nil
         copy.cardPresent = cardPresent
         copy.cvn = cvn
         copy.cardHolderName = cardHolderName

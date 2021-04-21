@@ -15,7 +15,7 @@ class BuilderValidationTests: XCTestCase {
         card.cvn = "123"
         card.cardHolderName = "Joe Smith"
 
-        let config = GpApiConfig (
+        let config = GpApiConfig(
             appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
             appKey: "QDsW1ETQKHX6Y4TA"
         )
@@ -23,7 +23,7 @@ class BuilderValidationTests: XCTestCase {
         try ServicesContainer.configureService(config: config)
     }
 
-    override func tearDown(){
+    override func tearDown() {
         super.tearDown()
 
         card = nil
@@ -202,7 +202,8 @@ class BuilderValidationTests: XCTestCase {
         var transactionError: BuilderException?
 
         // WHEN
-        eCheck().charge(amount: 14)
+        eCheck()
+            .charge(amount: 14)
             .withCurrency("USD")
             .execute { transaction, error in
                 transactionResult = transaction

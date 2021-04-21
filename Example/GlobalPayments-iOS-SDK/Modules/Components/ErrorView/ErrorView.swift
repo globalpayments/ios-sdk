@@ -12,11 +12,15 @@ final class ErrorView: UIView {
     }
 
     func display(_ error: Error?) {
-        if let error = error as? BuilderException { errorMessageTextView.text = error.message }
-        else if let error = error as? ConfigurationException { errorMessageTextView.text = error.message }
-        else if let error = error as? UnsupportedTransactionException { errorMessageTextView.text = error.message }
-        else if let error = error as? ApiException { errorMessageTextView.text = error.message }
-        else if let error = error as? GatewayException {
+        if let error = error as? BuilderException {
+            errorMessageTextView.text = error.message
+        } else if let error = error as? ConfigurationException {
+            errorMessageTextView.text = error.message
+        } else if let error = error as? UnsupportedTransactionException {
+            errorMessageTextView.text = error.message
+        } else if let error = error as? ApiException {
+            errorMessageTextView.text = error.message
+        } else if let error = error as? GatewayException {
             let empty = "generic.empty".localized()
             let message = "Message:\n\(error.message ?? empty)"
             let responseCode = "Response Code:\n\(error.responseCode ?? empty)"

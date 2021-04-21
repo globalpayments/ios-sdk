@@ -2,6 +2,7 @@ import Foundation
 
 public class BatchSummary: NSObject {
     public var id: Int?
+    public var batchReference: String?
     public var closeTransactionId: String?
     public var closeCount: Int?
     public var creditAmount: NSDecimalNumber?

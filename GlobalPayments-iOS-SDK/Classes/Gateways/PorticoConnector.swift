@@ -6,12 +6,10 @@ public class PorticoConnector: PaymentGateway, ReportingServiceType {
 
     func processAuthorization(_ builder: AuthorizationBuilder,
                               completion: ((Transaction?, Error?) -> Void)?) {
-
     }
 
     func manageTransaction(_ builder: ManagementBuilder,
                            completion: ((Transaction?, Error?) -> Void)?) {
-        
     }
 
     func serializeRequest(_ builder: AuthorizationBuilder) -> String? {
@@ -19,6 +17,5 @@ public class PorticoConnector: PaymentGateway, ReportingServiceType {
     }
 
     func processReport<T>(builder: ReportBuilder<T>, completion: ((T?, Error?) -> Void)?) {
-        
     }
 }

@@ -2,18 +2,29 @@ import UIKit
 
 final class SelectableLabel: UILabel {
 
+    lazy var gestureRecognizer: UILongPressGestureRecognizer = {
+        UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(handleLongPress(_:))
+        )
+    }()
+
     init() {
         super.init(frame: .zero)
 
         addGestureRecognizer()
     }
-    
+
+    deinit {
+        removeGestureRecognizer(gestureRecognizer)
+    }
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
 
         addGestureRecognizer()
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -22,12 +33,7 @@ final class SelectableLabel: UILabel {
 
     private func addGestureRecognizer() {
         isUserInteractionEnabled = true
-        addGestureRecognizer(
-            UILongPressGestureRecognizer(
-                target: self,
-                action: #selector(handleLongPress(_:))
-            )
-        )
+        addGestureRecognizer(gestureRecognizer)
     }
 
     override var canBecomeFirstResponder: Bool {
@@ -52,7 +58,7 @@ final class SelectableLabel: UILabel {
            let recognizerSuperview = recognizerView.superview {
             recognizerView.becomeFirstResponder()
             UIMenuController.shared.setTargetRect(recognizerView.frame, in: recognizerSuperview)
-            UIMenuController.shared.setMenuVisible(true, animated:true)
+            UIMenuController.shared.setMenuVisible(true, animated: true)
         }
     }
 }

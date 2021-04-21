@@ -48,9 +48,7 @@ public class AutoSubstantiation: NSObject {
     public var realTimeSubstantiation: Bool = false
 
     public var totalHealthcareAmount: NSDecimalNumber {
-        get {
-            return amounts["TOTAL_HEALTHCARE_AMT"] ?? .zero
-        }
+        return amounts["TOTAL_HEALTHCARE_AMT"] ?? .zero
     }
 
     public var visionSubTotal: NSDecimalNumber {

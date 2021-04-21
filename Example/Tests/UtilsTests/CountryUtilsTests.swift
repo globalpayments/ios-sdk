@@ -109,7 +109,7 @@ class CountryUtilsTests: XCTestCase {
 
     func test_get_country_by_three_digit_code() {
         // GIVEN
-        let expectedResult = "United States"
+        let expectedResult = "United States of America"
 
         // WHEN
         let result = CountryUtils.shared.countryByCode("USA")
@@ -119,9 +119,73 @@ class CountryUtilsTests: XCTestCase {
         XCTAssertEqual(result, expectedResult)
     }
 
+    func test_get_country_code_by_valid_numeric_code() {
+        // GIVEN
+        let expectedResult = "US"
+
+        // WHEN
+        let result = CountryUtils.shared.countryCodeByCountry("840")
+
+        // THEN
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, expectedResult)
+    }
+
+    func test_get_country_code_by_invalid_numeric_code() {
+        // WHEN
+        let result = CountryUtils.shared.countryCodeByCountry("1")
+
+        // THEN
+        XCTAssertNil(result)
+    }
+
     func test_get_country_by_code_nil() {
         // WHEN
         let result = CountryUtils.shared.countryCodeByCountry(nil)
+
+        // THEN
+        XCTAssertNil(result)
+    }
+
+    func test_get_numeric_code_by_two_digit_code() {
+        // WHEN
+        let result = CountryUtils.shared.numericCodeByCountry("US")
+
+        // THEN
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, "840")
+    }
+
+    func test_get_numeric_code_by_three_digit_code() {
+        // WHEN
+        let result = CountryUtils.shared.numericCodeByCountry("USA")
+
+        // THEN
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, "840")
+    }
+
+    func test_get_numeric_code_by_country_name() {
+        // WHEN
+        let result = CountryUtils.shared.numericCodeByCountry("United States of America")
+
+        // THEN
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, "840")
+    }
+
+    func test_get_numeric_code_by_numeric_code() {
+        // WHEN
+        let result = CountryUtils.shared.numericCodeByCountry("840")
+
+        // THEN
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, "840")
+    }
+
+    func test_get_numeric_code_by_non_existing_country_name() {
+        // WHEN
+        let result = CountryUtils.shared.numericCodeByCountry("Fake Country Name")
 
         // THEN
         XCTAssertNil(result)
@@ -133,7 +197,7 @@ class CountryUtilsTests: XCTestCase {
         let expectedCountryCode = "US"
 
         // WHEN
-        address.country = "United States"
+        address.country = "United States of America"
 
         // THEN
         XCTAssertNotNil(address.countryCode)
@@ -143,7 +207,7 @@ class CountryUtilsTests: XCTestCase {
     func test_check_address_country_from_code_exact() {
         // GIVEN
         let address = Address()
-        let expectedCountry = "United States"
+        let expectedCountry = "United States of America"
 
         // WHEN
         address.countryCode = "US"
@@ -169,7 +233,7 @@ class CountryUtilsTests: XCTestCase {
     func test_check_address_country_from_code_fuzzy() {
         // GIVEN
         let address = Address()
-        let expectedCountry = "United States"
+        let expectedCountry = "United States of America"
 
         // WHEN
         address.countryCode = "USA"
@@ -179,15 +243,38 @@ class CountryUtilsTests: XCTestCase {
         XCTAssertEqual(address.country, expectedCountry)
     }
 
-    func test_address_isCountry_exact_Match() {
+    func test_address_isCountry_exact_match() {
         // GIVEN
         let address = Address()
 
         // WHEN
-        address.country = "United States"
+        address.country = "United States of America"
 
         // THEN
         XCTAssertTrue(address.isCountry("US"))
+    }
+
+    func test_check_address_country_code_from_valid_numeric_code() {
+        // GIVEN
+        let address = Address()
+
+        // WHEN
+        address.country = "056"
+
+        // THEN
+        XCTAssertNotNil(address.countryCode)
+        XCTAssertEqual(address.countryCode, "BE")
+    }
+
+    func test_check_address_country_code_from_invalid_numeric_code() {
+        // GIVEN
+        let address = Address()
+
+        // WHEN
+        address.country = "1"
+
+        // THEN
+        XCTAssertNil(address.countryCode)
     }
 
     func test_address_isCountry_exact_missmatch() {
@@ -238,7 +325,8 @@ class CountryUtilsTests: XCTestCase {
 
         let gpApiConfig = GpApiConfig(
             appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
-            appKey: "QDsW1ETQKHX6Y4TA"
+            appKey: "QDsW1ETQKHX6Y4TA",
+            country: "GB"
         )
         try ServicesContainer.configureService(config: gpApiConfig)
 
@@ -248,7 +336,7 @@ class CountryUtilsTests: XCTestCase {
 
         // WHEN
         card.charge(amount: 10)
-            .withCurrency("USD")
+            .withCurrency("GBP")
             .withAddress(address)
             .execute { transaction, error in
                 transactionResponse = transaction

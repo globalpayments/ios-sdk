@@ -47,7 +47,7 @@ public class MerchantDataCollection: NSObject {
                 message: String(format: "Value can't be nil")
             )
         }
-        if let _ = collection.first(where: { $0.key == key }) {
+        if collection.first(where: { $0.key == key }) != nil {
             if isVisible {
                 throw ApiException(
                     message: String(format: "Key %@ already exists in the collection.", key)

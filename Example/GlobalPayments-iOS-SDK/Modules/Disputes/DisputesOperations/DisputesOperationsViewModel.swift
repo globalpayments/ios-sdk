@@ -2,8 +2,8 @@ import Foundation
 import GlobalPayments_iOS_SDK
 
 protocol DisputesOperationsViewInput {
-    func accceptDispute(with id: String)
-    func challengeDispute(with id: String, documents: [DocumentInfo])
+    func accceptDispute(form: DisputesOperationsForm)
+    func challengeDispute(form: DisputesOperationsForm, documents: [DocumentInfo])
 }
 
 protocol DisputesOperationsViewOutput: class {
@@ -15,20 +15,22 @@ final class DisputesOperationsViewModel: DisputesOperationsViewInput {
 
     weak var view: DisputesOperationsViewOutput?
 
-    func accceptDispute(with id: String) {
+    func accceptDispute(form: DisputesOperationsForm) {
         ReportingService
-            .acceptDispute(id: id)
+            .acceptDispute(id: form.disputeId)
+            .withIdempotencyKey(form.idempotencyKey)
             .execute(completion: handleDisputeAction)
     }
 
-    func challengeDispute(with id: String, documents: [DocumentInfo]) {
+    func challengeDispute(form: DisputesOperationsForm, documents: [DocumentInfo]) {
         ReportingService
-            .challangeDispute(id: id, documents: documents)
+            .challangeDispute(id: form.disputeId, documents: documents)
+            .withIdempotencyKey(form.idempotencyKey)
             .execute(completion: handleDisputeAction)
     }
 
     private func handleDisputeAction(action: DisputeAction?, error: Error?) {
-        DispatchQueue.main.async {
+        UI {
             guard let disputeAction = action else {
                 self.view?.showErrorView(error: error)
                 return

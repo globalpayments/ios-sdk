@@ -2,7 +2,7 @@ import Foundation
 
 class ValidationTarget {
     /// All Validations
-    let parent: Validations
+    weak var parent: Validations?
     /// Specified validations to test against the property's value
     var precondition: ValidationClause?
     /// Specified validations to test against the property's value
@@ -14,7 +14,7 @@ class ValidationTarget {
     /// Property to validate
     var property: String?
 
-    public init(parent: Validations,
+    public init(parent: Validations?,
                 type: RuleType,
                 modifier: TransactionModifier? = nil,
                 property: String? = nil,

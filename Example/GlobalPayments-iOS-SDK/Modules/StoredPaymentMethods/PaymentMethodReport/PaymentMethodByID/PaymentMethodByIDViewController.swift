@@ -33,7 +33,7 @@ final class PaymentMethodByIDViewController: UIViewController, StoryboardInstant
 
     // MARK: - Actoins
 
-    @IBAction private func onCancelAction() {
+    @objc private func onCancelAction() {
         dismiss(animated: true, completion: nil)
     }
 

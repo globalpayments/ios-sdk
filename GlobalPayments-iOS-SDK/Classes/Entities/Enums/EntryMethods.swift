@@ -2,10 +2,10 @@ import Foundation
 
 /// Indicates how the payment method data was obtained.
 public enum EntryMethod {
-    ///Indicates manual entry.
+    /// Indicates manual entry.
     case manual
-    ///Indicates swipe entry.
+    /// Indicates swipe entry.
     case swipe
-    ///Indicates proximity/contactless entry.
+    /// Indicates proximity/contactless entry.
     case proximity
 }

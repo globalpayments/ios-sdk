@@ -6,13 +6,13 @@ public class DebitTrackData: Debit, TrackData {
     public var pan: String?
     public var trackNumber: TrackNumber?
     public var trackData: String? {
-        didSet(newValue) {
+        willSet(newValue) {
             if newValue != nil { value = newValue }
         }
     }
     public var discretionaryData: String?
     public var value: String? {
-        didSet(newValue) {
+        willSet(newValue) {
             CardUtils.parseTrackData(paymentMethod: self)
             cardType = CardUtils.mapCardType(cardNumber: pan)
         }

@@ -48,7 +48,8 @@ class GpApiTokenResponse {
                 self.accounts = accounts.map {
                     GpApiAccount(
                         id: $0.getValue(key: "id"),
-                        name: $0.getValue(key: "name")
+                        name: $0.getValue(key: "name"),
+                        permissions: $0.getValue(key: "permissions")
                     )
                 }
             }

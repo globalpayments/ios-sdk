@@ -66,6 +66,8 @@ final class TransactionListFormViewController: UIViewController, StoryboardInsta
     @IBOutlet private weak var entryModeTextField: UITextField!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var nameTextField: UITextField!
+    @IBOutlet private weak var settlementsLabel: UILabel!
+    @IBOutlet private weak var settlementsSwitch: UISwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +90,7 @@ final class TransactionListFormViewController: UIViewController, StoryboardInsta
         sortOrderTextField.loadDropDownData(SortDirection.allCases.map { $0.rawValue.uppercased() })
         transactionIdLabel.text = "transaction.report.list.transaction.id".localized()
         transactionIdTextField.placeholder = "generic.empty".localized()
-        paymentTypeLabel.text = "transaction.report.list.payment.type".localized();
+        paymentTypeLabel.text = "transaction.report.list.payment.type".localized()
         let paymentTypeData = ["NONE"] + PaymentType.allCases.map { $0.rawValue.uppercased() }
         paymentTypeTextField.loadDropDownData(paymentTypeData)
         channelLabel.text = "transaction.report.list.channel".localized()
@@ -134,11 +136,13 @@ final class TransactionListFormViewController: UIViewController, StoryboardInsta
         entryModeTextField.loadDropDownData(entryModeData)
         nameLabel.text = "transaction.report.list.name".localized()
         nameTextField.placeholder = "generic.empty".localized()
+        settlementsLabel.text = "transaction.settlements".localized()
     }
 
     // MARK: - Actions
 
     @IBAction private func onSubmitAction() {
+        let source: TransactionListForm.Source = settlementsSwitch.isOn ? .settlement : .regular
         let form = TransactionListForm(
             page: Int(pageTextField.text ?? defaultPage)!,
             pageSize: Int(pageSizeTextField.text ?? defaultPageSize)!,
@@ -163,7 +167,8 @@ final class TransactionListFormViewController: UIViewController, StoryboardInsta
             endDate: endDateTextField.text?.formattedDate(),
             country: countryTextField.text,
             batchId: batchReferenceTextField.text,
-            entryMode: PaymentEntryMode(value: entryModeTextField.text)
+            entryMode: PaymentEntryMode(value: entryModeTextField.text),
+            source: source
         )
         delegate?.onSubmitForm(form: form)
         dismiss(animated: true, completion: nil)

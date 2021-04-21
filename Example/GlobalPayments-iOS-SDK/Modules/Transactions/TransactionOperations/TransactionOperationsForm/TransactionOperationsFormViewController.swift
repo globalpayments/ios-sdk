@@ -28,6 +28,9 @@ final class TransactionOperationsFormViewController: UIViewController, Storyboar
     @IBOutlet private weak var currencyTextField: UITextField!
     @IBOutlet private weak var transactionTypeLabel: UILabel!
     @IBOutlet private weak var transactionTypeTextField: UITextField!
+    @IBOutlet private weak var idempotencyLabel: UILabel!
+    @IBOutlet private weak var idempotencyKeyLabel: UILabel!
+    @IBOutlet private weak var idempotencyKeyTextField: UITextField!
 
     weak var delegate: TransactionOperationsFormDelegate?
 
@@ -55,11 +58,14 @@ final class TransactionOperationsFormViewController: UIViewController, Storyboar
         currencyTextField.loadDropDownData(Currency.allCases.map { $0.rawValue })
         transactionTypeLabel.text = "transactoin.operations.form.transaction.type".localized()
         transactionTypeTextField.loadDropDownData(TransactionOperationType.allCases.map { $0.rawValue.uppercased() })
+        idempotencyLabel.text = "transactoin.operations.idempotency.title".localized()
+        idempotencyKeyLabel.text = "generic.idempotency.key.title".localized()
+        idempotencyKeyTextField.placeholder = "generic.optional".localized()
     }
 
     // MARK: - Actions
 
-    @IBAction private func onCancelAction() {
+    @objc private func onCancelAction() {
         dismiss(animated: true, completion: nil)
     }
 
@@ -80,7 +86,8 @@ final class TransactionOperationsFormViewController: UIViewController, Storyboar
             cvv: cvv,
             amount: NSDecimalNumber(string: amountTextField.text),
             currency: currency,
-            transactionOperationType: transactionOperationType
+            transactionOperationType: transactionOperationType,
+            idempotencyKey: idempotencyKeyTextField.text
         )
         delegate?.onSubmitForm(form: form)
         dismiss(animated: true, completion: nil)

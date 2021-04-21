@@ -25,7 +25,7 @@ final class PaymentOperationFormViewController: UIViewController, StoryboardInst
     @IBOutlet private weak var cvnTextField: UITextField!
     @IBOutlet private weak var paymentOperationStackView: UIStackView!
     @IBOutlet private weak var paymentCardStackView: UIStackView!
-    
+
     weak var delegate: PaymentOperationFormDelegate?
 
     override func viewDidLoad() {
@@ -53,7 +53,7 @@ final class PaymentOperationFormViewController: UIViewController, StoryboardInst
 
     // MARK: - Actions
 
-    @IBAction private func onCancelAction() {
+    @objc private func onCancelAction() {
         dismiss(animated: true, completion: nil)
     }
 

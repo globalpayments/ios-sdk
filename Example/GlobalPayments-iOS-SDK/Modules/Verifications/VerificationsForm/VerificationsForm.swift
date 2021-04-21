@@ -14,4 +14,5 @@ struct VerificationsForm {
     let cvn: String
     let avsAddress: String?
     let avsPostalCode: String?
+    let idempotencyKey: String?
 }

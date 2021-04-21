@@ -4,6 +4,7 @@ public class ThreeDSecure: NSObject {
     public var acsTransactionId: String?
     public var acsEndVersion: String?
     public var acsStartVersion: String?
+    public var acsInfoIndicator: [String]?
     public var algorithm: Int?
     /// The algorithm used.
     public var amount: NSDecimalNumber? {
@@ -18,6 +19,8 @@ public class ThreeDSecure: NSObject {
     /// Consumer authentication (3DSecure) verification value.
     public var cavv: String?
     public var challengeMandated: Bool?
+    public var challengeValue: String?
+    public var challengeReturnUrl: String?
     public var criticalityIndicator: String?
     public var currency: String? {
         didSet {
@@ -34,7 +37,7 @@ public class ThreeDSecure: NSObject {
     /// The URL of the Issuing Bank's ACS.
     public var issuerAcsUrl: String?
     /// A KVP collection of merchant supplied data
-    public var merchantData: MerchantDataCollection? {
+    public var merchantData: MerchantDataCollection? = MerchantDataCollection() {
         didSet {
             merchantData?.mergeHidden(collection: self.merchantData)
             if merchantData?.hasKey(key: "_amount") != nil {
@@ -48,7 +51,7 @@ public class ThreeDSecure: NSObject {
             }
             if merchantData?.hasKey(key: "_version") != nil {
                 let intValue = Int(merchantData?.getString(key: "_version") ?? .empty) ?? .zero
-                version = Secure3dVersion(rawValue: intValue) ?? .none
+                version = Secure3dVersion(rawValue: intValue)
             }
         }
     }
@@ -56,6 +59,7 @@ public class ThreeDSecure: NSObject {
     public var messageExtensionId: String?
     public var messageExtensionName: String?
     public var messageVersion: String?
+    public var messageType: String?
     /// The order ID used for the initial transaction
     public var orderId: String? {
         didSet {
@@ -75,17 +79,18 @@ public class ThreeDSecure: NSObject {
     public var serverTransactionId: String?
     public var status: String?
     public var statusReason: String?
-    public var version: Secure3dVersion = .none {
-        didSet {
+    public var version: Secure3dVersion? {
+        didSet(newValue) {
             try? merchantData?.put(
                 key: "_version",
-                value: "\(String(describing: version.rawValue))",
+                value: "\(String(describing: newValue?.rawValue))",
                 isVisible: false
             )
         }
     }
     /// Consumer authentication (3DSecure) transaction ID.
     public var xid: String?
+    public var sessionDataFieldName: String?
 
     public func threeDSecure() {
         paymentDataType = "3DSecure"
@@ -97,6 +102,7 @@ public class ThreeDSecure: NSObject {
         acsTransactionId = mergeValue(acsTransactionId, secureEcom.acsTransactionId)
         acsEndVersion = mergeValue(acsEndVersion, secureEcom.acsEndVersion)
         acsStartVersion = mergeValue(acsStartVersion, secureEcom.acsStartVersion)
+        acsInfoIndicator = mergeValue(acsInfoIndicator, secureEcom.acsInfoIndicator)
         algorithm = mergeValue(algorithm, secureEcom.algorithm)
         amount = mergeValue(amount, secureEcom.amount)
         authenticationSource = mergeValue(authenticationSource, secureEcom.authenticationSource)
@@ -105,6 +111,8 @@ public class ThreeDSecure: NSObject {
         cardHolderResponseInfo = mergeValue(cardHolderResponseInfo, secureEcom.cardHolderResponseInfo)
         cavv = mergeValue(cavv, secureEcom.cavv)
         challengeMandated = mergeValue(challengeMandated, secureEcom.challengeMandated)
+        challengeValue = mergeValue(challengeValue, secureEcom.challengeValue)
+        challengeReturnUrl = mergeValue(challengeReturnUrl, secureEcom.challengeReturnUrl)
         criticalityIndicator = mergeValue(criticalityIndicator, secureEcom.criticalityIndicator)
         currency = mergeValue(currency, secureEcom.currency)
         directoryServerTransactionId = mergeValue(directoryServerTransactionId, secureEcom.directoryServerTransactionId)
@@ -118,6 +126,7 @@ public class ThreeDSecure: NSObject {
         messageExtensionId = mergeValue(messageExtensionId, secureEcom.messageExtensionId)
         messageExtensionName = mergeValue(messageExtensionName, secureEcom.messageExtensionName)
         messageVersion = mergeValue(messageVersion, secureEcom.messageVersion)
+        messageType = mergeValue(messageType, secureEcom.messageType)
         orderId = mergeValue(orderId, secureEcom.orderId)
         payerAuthenticationRequest = mergeValue(payerAuthenticationRequest, secureEcom.payerAuthenticationRequest)
         paymentDataSource = mergeValue(paymentDataSource, secureEcom.paymentDataSource)
@@ -128,8 +137,9 @@ public class ThreeDSecure: NSObject {
         serverTransactionId = mergeValue(serverTransactionId, secureEcom.serverTransactionId)
         status = mergeValue(status, secureEcom.status)
         statusReason = mergeValue(statusReason, secureEcom.statusReason)
-        version = mergeValue(version, secureEcom.version) ?? .none
+        version = mergeValue(version, secureEcom.version)
         xid = mergeValue(xid, secureEcom.xid)
+        sessionDataFieldName = mergeValue(sessionDataFieldName, secureEcom.sessionDataFieldName)
     }
 
     private func mergeValue<T>(_ currentValue: T?, _ mergeValue: T?) -> T? {

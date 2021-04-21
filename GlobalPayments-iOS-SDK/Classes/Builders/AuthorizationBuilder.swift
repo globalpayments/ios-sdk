@@ -43,6 +43,7 @@ import Foundation
     var offlineAuthCode: String?
     var orderId: String?
     var paymentApplicationVersion: String?
+    var tokenUsageMode: TokenUsageMode?
     var posSequenceNumber: String?
     var productId: String?
     var recurringSequence: RecurringSequence?
@@ -166,6 +167,11 @@ import Foundation
 
     public func withChipCondition(_ chipCondition: EmvChipCondition?) -> AuthorizationBuilder {
         self.emvChipCondition = chipCondition
+        return self
+    }
+
+    public func withEmvLastChipRead(_ emvLastChipRead: EmvLastChipRead?) -> AuthorizationBuilder {
+        self.emvLastChipRead = emvLastChipRead
         return self
     }
 
@@ -317,7 +323,7 @@ import Foundation
     /// Field submitted in the request that is used to ensure idempotency is maintained within the action
     /// - Parameter idempotencyKey: The idempotency key
     /// - Returns: AuthorizationBuilder
-    public func withIdempotencyKey(_ idempotencyKey: String) -> AuthorizationBuilder {
+    public func withIdempotencyKey(_ idempotencyKey: String?) -> AuthorizationBuilder {
         self.idempotencyKey = idempotencyKey
         return self
     }
@@ -376,6 +382,11 @@ import Foundation
         return self
     }
 
+    public func withTokenUsageMode(_ tokenUsageMode: TokenUsageMode?) -> AuthorizationBuilder {
+        self.tokenUsageMode = tokenUsageMode
+        return self
+    }
+
     /// Sets the transaction's payment method.
     /// - Parameter paymentMethod: The payment method
     /// - Returns: AuthorizationBuilder
@@ -426,7 +437,7 @@ import Foundation
     ///   and 'last' for the final transaction of the set.
     /// - Returns: AuthorizationBuilder
     public func withRecurringInfo(recurringType: RecurringType?,
-                           recurringSequence: RecurringSequence?) -> AuthorizationBuilder {
+                                  recurringSequence: RecurringSequence?) -> AuthorizationBuilder {
         self.recurringSequence = recurringSequence
         self.recurringType = recurringType
         return self

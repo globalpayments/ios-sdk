@@ -10,6 +10,7 @@ import Foundation
     var endDate: Date? { return searchCriteriaBuilder.endDate }
     var startDate: Date? { return searchCriteriaBuilder.startDate }
     var transactionId: String?
+    var idempotencyKey: String?
     var page: Int?
     var pageSize: Int?
     var transactionOrderBy: TransactionSortProperty?
@@ -75,10 +76,10 @@ import Foundation
     }
 
     /// Sets the gateway deposit ID as criteria for the report.
-    /// - Parameter depositId: The gateway deposit ID
+    /// - Parameter depositReference: The gateway deposit ID
     /// - Returns: TransactionReportBuilder<TResult>
-    public func withDepositId(_ depositId: String?) -> TransactionReportBuilder<TResult> {
-        searchCriteriaBuilder.depositReference = depositId
+    public func withDepositReference(_ depositReference: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.depositReference = depositReference
         return self
     }
 
@@ -87,6 +88,14 @@ import Foundation
     /// - Returns: TransactionReportBuilder<TResult>
     public func withDepositStatus(_ depositStatus: DepositStatus?) -> TransactionReportBuilder<TResult> {
         self.depositStatus = depositStatus
+        return self
+    }
+
+    /// Field submitted in the request that is used to ensure idempotency is maintained within the action
+    /// - Parameter idempotencyKey: The idempotency key
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withIdempotencyKey(_ idempotencyKey: String?) -> TransactionReportBuilder<TResult> {
+        self.idempotencyKey = idempotencyKey
         return self
     }
 
@@ -169,14 +178,6 @@ import Foundation
         return self
     }
 
-    /// Set the adjustment funding for the report.
-    /// - Parameter adjustmentFunding: The gateway adjustment funding
-    /// - Returns: TransactionReportBuilder<TResult>
-    public func withAdjustmentFunding(_ adjustmentFunding: AdjustmentFunding?) -> TransactionReportBuilder<TResult> {
-        searchCriteriaBuilder.adjustmentFunding = adjustmentFunding
-        return self
-    }
-
     /// Set the amount for the report.
     /// - Parameter amount: The gateway amount
     /// - Returns: TransactionReportBuilder<TResult>
@@ -195,10 +196,6 @@ import Foundation
 
     public func `where`(_ transactionStatus: TransactionStatus?) -> SearchCriteriaBuilder<TResult> {
         return searchCriteriaBuilder.and(transactionStatus: transactionStatus)
-    }
-
-    public func `where`(_ adjustmentFunding: AdjustmentFunding?) -> SearchCriteriaBuilder<TResult> {
-        return searchCriteriaBuilder.and(adjustmentFunding: adjustmentFunding)
     }
 
     public func `where`(_ disputeStage: DisputeStage) -> SearchCriteriaBuilder<TResult> {

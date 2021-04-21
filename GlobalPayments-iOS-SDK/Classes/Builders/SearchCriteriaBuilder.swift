@@ -57,7 +57,6 @@ public enum DataServiceCriteria: String {
     case cardNumberLastFour
     case caseNumber
     case depositReference
-    case endAdjustmentDate
     case endDepositDate
     case endStageDate
     case hierarchy
@@ -65,7 +64,6 @@ public enum DataServiceCriteria: String {
     case localTransactionStartTime
     case merchantId
     case orderId
-    case startAdjustmentDate
     case startDepositDate
     case startStageDate
     case systemHierarchy
@@ -77,11 +75,10 @@ public enum DataServiceCriteria: String {
 }
 
 @objcMembers public class SearchCriteriaBuilder<TResult>: NSObject {
-    private let reportBuilder: TransactionReportBuilder<TResult>
+    private weak var reportBuilder: TransactionReportBuilder<TResult>?
 
     var accountName: String?
     var accountNumberLastFour: String?
-    var adjustmentFunding: AdjustmentFunding?
     var altPaymentStatus: String?
     var amount: NSDecimalNumber?
     var aquirerReferenceNumber: String?
@@ -114,7 +111,6 @@ public enum DataServiceCriteria: String {
     var disputeStage: DisputeStage?
     var disputeStatus: DisputeStatus?
     var disputeDocumentReference: String?
-    var endAdjustmentDate: Date?
     var endBatchDate: Date?
     var endDate: Date?
     var endDepositDate: Date?
@@ -139,7 +135,6 @@ public enum DataServiceCriteria: String {
     var settlementDisputeId: String?
     var scheduleId: String?
     var siteTrace: String?
-    var startAdjustmentDate: Date?
     var startBatchDate: Date?
     var startDate: Date?
     var startDepositDate: Date?
@@ -159,7 +154,7 @@ public enum DataServiceCriteria: String {
     var tokenFirstSix: String?
     var tokenLastFour: String?
 
-    init(reportBuilder: TransactionReportBuilder<TResult>) {
+    init(reportBuilder: TransactionReportBuilder<TResult>?) {
         self.reportBuilder = reportBuilder
     }
 
@@ -175,11 +170,6 @@ public enum DataServiceCriteria: String {
 
     public func and(transactionStatus: TransactionStatus?) -> SearchCriteriaBuilder<TResult> {
         self.transactionStatus = transactionStatus
-        return self
-    }
-
-    public func and(adjustmentFunding: AdjustmentFunding?) -> SearchCriteriaBuilder<TResult> {
-        self.adjustmentFunding = adjustmentFunding
         return self
     }
 
@@ -214,6 +204,6 @@ public enum DataServiceCriteria: String {
     }
 
     public func execute(completion: ((TResult?, Error?) -> Void)?) {
-        reportBuilder.execute(completion: completion)
+        reportBuilder?.execute(completion: completion)
     }
 }

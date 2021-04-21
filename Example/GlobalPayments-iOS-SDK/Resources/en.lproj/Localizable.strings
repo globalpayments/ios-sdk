@@ -2,6 +2,8 @@
 "generic.alert" = "Alert";
 "generic.close" = "Close";
 "generic.empty" = "Empty";
+"generic.idempotency.key.title" = "Idempotency Key:";
+"generic.optional" = "(optional)";
 
 "gateways.title" = "GlobalPay Sample App";
 "gateways.gpapi.title" = "GP API";
@@ -85,6 +87,7 @@
 "transaction.report.list.batch.id" = "Batch Reference:";
 "transaction.report.list.entry.mode" = "Entry Mode:";
 "transaction.report.list.name" = "Payment Method owner name:";
+"transaction.settlements" = "Get from settlements?";
 
 "transactoin.operations.title" = "Transaction Operations";
 "transactoin.operations.create.transaction" = "Create Transaction";
@@ -100,6 +103,7 @@
 "transactoin.operations.form.amount" = "Amount:";
 "transactoin.operations.form.currency" = "Currency:";
 "transactoin.operations.form.transaction.type" = "Transaction Type:";
+"transactoin.operations.idempotency.title" = "Idempotency";
 
 "transaction.view.transaction.id" = "Transaction ID:";
 "transaction.view.time.created" = "Time Created:";

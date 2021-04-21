@@ -1,20 +1,18 @@
 import Foundation
 
 public class GpApiService {
-    
+
     public static func generateTransactionKey(
         environment: Environment,
         appId: String,
         appKey: String,
         secondsToExpire: Int? = nil,
         intervalToExpire: IntervalToExpire? = nil,
+        permissions: [String]? = nil,
         completion: @escaping (AccessTokenInfo?, Error?) -> Void) {
-        
-        let connector = GpApiConnector()
-        connector.appId = appId
-        connector.appKey = appKey
-        connector.secondsToExpire = secondsToExpire
-        connector.intervalToExpire = intervalToExpire
+
+        let config = GpApiConfig(appId: appId, appKey: appKey, secondsToExpire: secondsToExpire, intervalToExpire: intervalToExpire, permissions: permissions)
+        let connector = GpApiConnector(gpApiConfig: config)
         connector.timeout = 10000
         switch environment {
         case .production:
@@ -22,7 +20,7 @@ public class GpApiService {
         case .test:
             connector.serviceUrl = ServiceEndpoints.gpApiTest.rawValue
         }
-        
+
         connector.getAccessToken { tokenResponse, error in
             if let error = error {
                 completion(nil, error)
@@ -34,7 +32,7 @@ public class GpApiService {
             accessTokenInfo.disputeManagementAccountName = tokenResponse?.disputeManagementAccountName
             accessTokenInfo.tokenizationAccountName = tokenResponse?.tokenizationAccountName
             accessTokenInfo.transactionProcessingAccountName = tokenResponse?.transactionProcessingAccountName
-            
+
             completion(accessTokenInfo, nil)
         }
     }

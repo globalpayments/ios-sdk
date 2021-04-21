@@ -66,7 +66,7 @@ public class RecurringPaymentMethod: RecurringEntity<RecurringPaymentMethod>, Pa
         return AuthorizationBuilder(transactionType: .refund, paymentMethod: self)
             .withAmount(amount)
     }
-    
+
     /// Verifies the payment method with the issuer.
     /// - Returns: AuthorizationBuilder
     public func verify() -> AuthorizationBuilder {

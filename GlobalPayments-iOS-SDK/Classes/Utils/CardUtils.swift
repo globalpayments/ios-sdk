@@ -118,4 +118,51 @@ public class CardUtils {
         }
         return false
     }
+
+    public static func generateCard(builder: AuthorizationBuilder) -> JsonDoc {
+        let funding = builder.paymentMethod?.paymentMethodType == .debit ? "DEBIT" : "CREDIT"
+        let card = JsonDoc()
+
+        if let cardData = builder.paymentMethod as? CardData {
+            card.set(for: "number", value: cardData.number)
+            card.set(for: "expiry_month", value: cardData.expMonth > .zero ? "\(cardData.expMonth)".leftPadding(toLength: 2, withPad: "0") : nil)
+            card.set(for: "expiry_year", value: cardData.expYear > .zero ? "\(cardData.expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : nil)
+            card.set(for: "cvv", value: cardData.cvn)
+            let cvnPresence = cardData.cvnPresenceIndicator
+            if cvnPresence == .present || cvnPresence == .illegible || cvnPresence == .notOnCard {
+                card.set(for: "cvv_indicator", value: cardData.cvnPresenceIndicator.mapped(for: .gpApi))
+            }
+            card.set(for: "funding", value: funding)
+            if builder.emvLastChipRead != nil {
+                card.set(for: "chip_condition", value: builder.emvLastChipRead?.mapped(for: .gpApi))
+            }
+        } else if let track = builder.paymentMethod as? TrackData {
+            card.set(for: "track", value: track.value)
+
+            if builder.transactionType == .sale || builder.transactionType == .refund {
+                if track.value == nil {
+                    card.set(for: "number", value: track.pan)
+                    card.set(for: "expiry_month", value: track.expiry?.substring(with: 2..<4))
+                    card.set(for: "expiry_year", value: track.expiry?.substring(with: 0..<2))
+                }
+                card.set(for: "chip_condition", value: builder.emvLastChipRead?.mapped(for: .gpApi))
+            }
+
+            if builder.transactionType == .sale {
+                card.set(for: "funding", value: funding)
+            }
+        }
+
+        // PIN Block
+        if let pinProtected = builder.paymentMethod as? PinProtected {
+            card.set(for: "pin_block", value: pinProtected.pinBlock)
+        }
+
+        card.set(for: "tag", value: builder.tagData)
+        card.set(for: "avs_address", value: builder.billingAddress?.streetAddress1)
+        card.set(for: "avs_postal_code", value: builder.billingAddress?.postalCode)
+        card.set(for: "authcode", value: builder.offlineAuthCode)
+
+        return card
+    }
 }

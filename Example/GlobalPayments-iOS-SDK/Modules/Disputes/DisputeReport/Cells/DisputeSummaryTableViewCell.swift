@@ -40,8 +40,6 @@ final class DisputeSummaryTableViewCell: UITableViewCell, CellIdentifiable {
     @IBOutlet private weak var respondByDateContentLabel: SelectableLabel!
     @IBOutlet private weak var documentsLabel: UILabel!
     @IBOutlet private weak var documentsMoreButton: UIButton!
-    @IBOutlet private weak var lastAdjFundingLabel: UILabel!
-    @IBOutlet private weak var lastAdjFundingContentLabel: SelectableLabel!
     @IBOutlet private weak var lastAdjAmountLabel: UILabel!
     @IBOutlet private weak var lastAdjAmountContentLabel: SelectableLabel!
     @IBOutlet private weak var lastAdjCurrencyLabel: UILabel!
@@ -77,7 +75,6 @@ final class DisputeSummaryTableViewCell: UITableViewCell, CellIdentifiable {
         documentsLabel.text = "disputes.report.document.documents".localized()
         documentsMoreButton.setTitle("disputes.report.document.more".localized(), for: .normal)
         documentsMoreButton.isEnabled = false
-        lastAdjFundingLabel.text = "disputes.report.document.last.adjustment.funding".localized()
         lastAdjAmountLabel.text = "disputes.report.document.last.adjustment.amount".localized()
         lastAdjCurrencyLabel.text = "disputes.report.document.last.adjustment.currency".localized()
         lastAdjTimeLabel.text = "disputes.report.document.last.adjustment.time".localized()
@@ -101,7 +98,6 @@ final class DisputeSummaryTableViewCell: UITableViewCell, CellIdentifiable {
         reasonContentLabel.text = viewModel.reason
         reasonCodeContentLabel.text = viewModel.reasonCode
         respondByDateContentLabel.text = viewModel.respondByDate?.format()
-        lastAdjFundingContentLabel.text = viewModel.lastAdjustmentFunding?.mapped(for: .gpApi)
         lastAdjAmountContentLabel.text = viewModel.lastAdjustmentAmount?.description
         lastAdjCurrencyContentLabel.text = viewModel.lastAdjustmentCurrency
         lastAdjTimeContentLabel.text = viewModel.lastAdjustmentTimeCreated?.format()

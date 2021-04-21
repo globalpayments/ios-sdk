@@ -10,7 +10,7 @@ import Foundation
 
     public override func execute(configName: String = "default",
                                  completion: ((TResult?, Error?) -> Void)?) {
-        
+
         super.execute(configName: configName) { _, error in
             if let error = error {
                 completion?(nil, error)

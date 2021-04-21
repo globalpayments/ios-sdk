@@ -2,8 +2,8 @@ import UIKit
 import GlobalPayments_iOS_SDK
 
 protocol DisputesOperationsFormDelegate: class {
-    func onAcceptDispute(_ disputeId: String)
-    func onChallengeDispute(_ disputeId: String, documents: [DocumentInfo])
+    func onAcceptDispute(form: DisputesOperationsForm)
+    func onChallengeDispute(form: DisputesOperationsForm, documents: [DocumentInfo])
 }
 
 final class DisputesOperationsFormViewController: UIViewController, StoryboardInstantiable {
@@ -17,6 +17,8 @@ final class DisputesOperationsFormViewController: UIViewController, StoryboardIn
     @IBOutlet private weak var operationTypeTextField: UITextField!
     @IBOutlet private weak var disputeIdLabel: UILabel!
     @IBOutlet private weak var disputeIdTextField: UITextField!
+    @IBOutlet private weak var idempotencyLabel: UILabel!
+    @IBOutlet private weak var idempotencyTextField: UITextField!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var detailsStackView: UIStackView!
 
@@ -27,7 +29,7 @@ final class DisputesOperationsFormViewController: UIViewController, StoryboardIn
         documentPicker.delegate = self
         return documentPicker
     }()
-    
+
     weak var delegate: DisputesOperationsFormDelegate?
 
     private var documents = [DocumentInfo]()
@@ -46,6 +48,8 @@ final class DisputesOperationsFormViewController: UIViewController, StoryboardIn
         operationTypeTextField.loadDropDownData(OperationType.allCases.map { $0.rawValue.uppercased() }, onSelectItem: onChangeOperation)
         disputeIdLabel.text = "disputes.operations.form.dispute.id".localized()
         disputeIdTextField.text = defaultDisputeId
+        idempotencyLabel.text = "generic.idempotency.key.title".localized()
+        idempotencyTextField.placeholder = "generic.optional".localized()
         detailsStackView.addArrangedSubview(documentPicker)
 
         setupTable()
@@ -82,15 +86,17 @@ final class DisputesOperationsFormViewController: UIViewController, StoryboardIn
 
     @IBAction private func onSubmitAction() {
         guard let operation = OperationType(value: operationTypeTextField.text?.lowercased()) else { return }
+        guard let disputeId = disputeIdTextField.text, !disputeId.isEmpty else { return }
+        let form = DisputesOperationsForm(disputeId: disputeId, idempotencyKey: idempotencyTextField.text)
         switch operation {
         case .accept:
             guard let disputeId = disputeIdTextField.text, !disputeId.isEmpty else { return }
-            delegate?.onAcceptDispute(disputeId)
+            delegate?.onAcceptDispute(form: form)
             dismiss(animated: true, completion: nil)
         case .challenge:
             guard let disputeId = disputeIdTextField.text, !disputeId.isEmpty else { return }
             guard !documents.isEmpty else { return }
-            delegate?.onChallengeDispute(disputeId, documents: documents)
+            delegate?.onChallengeDispute(form: form, documents: documents)
             dismiss(animated: true, completion: nil)
         }
     }

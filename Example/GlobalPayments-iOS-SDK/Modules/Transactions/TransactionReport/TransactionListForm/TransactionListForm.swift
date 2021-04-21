@@ -26,4 +26,10 @@ struct TransactionListForm {
     let country: String?
     let batchId: String?
     let entryMode: PaymentEntryMode?
+    let source: Source
+
+    enum Source {
+        case settlement
+        case regular
+    }
 }

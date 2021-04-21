@@ -6,7 +6,8 @@ class Validations {
 
     private var rules = ValidationRules()
 
-    public func of(ruleType: RuleType) -> ValidationTarget? {
+    public func of(ruleType: RuleType?) -> ValidationTarget? {
+        guard let ruleType = ruleType else { return nil }
         if let transactionType = ruleType.transactionType {
             return of(transactionType: transactionType)
         }

@@ -56,15 +56,15 @@ extension DisputesOperationsViewController: DisputesOperationsViewOutput {
 
 extension DisputesOperationsViewController: DisputesOperationsFormDelegate {
 
-    func onAcceptDispute(_ disputeId: String) {
+    func onAcceptDispute(form: DisputesOperationsForm) {
         activityIndicator.startAnimating()
-        viewModel.accceptDispute(with: disputeId)
+        viewModel.accceptDispute(form: form)
         supportView.clearSubviews()
     }
 
-    func onChallengeDispute(_ disputeId: String, documents: [DocumentInfo]) {
+    func onChallengeDispute(form: DisputesOperationsForm, documents: [DocumentInfo]) {
         activityIndicator.startAnimating()
-        viewModel.challengeDispute(with: disputeId, documents: documents)
+        viewModel.challengeDispute(form: form, documents: documents)
         supportView.clearSubviews()
     }
 }

@@ -6,6 +6,6 @@ struct AccessTokenFormBuilder {
         let module = AccessTokenFormViewController.instantiate()
         module.delegate = delegate
 
-        return UINavigationController(rootViewController: module) 
+        return UINavigationController(rootViewController: module)
     }
 }

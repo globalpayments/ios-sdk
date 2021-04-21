@@ -2,7 +2,7 @@ import UIKit
 
 final class DatePicker: UIDatePicker {
 
-    private var pickerTextField: UITextField
+    private weak var pickerTextField: UITextField?
     private var selectionHandler: ((String) -> Void)?
 
     init(dropdownField: UITextField, inputDate: Date) {
@@ -15,7 +15,7 @@ final class DatePicker: UIDatePicker {
             preferredDatePickerStyle = .wheels
         }
 
-        if let text = pickerTextField.text, let handler = selectionHandler {
+        if let text = pickerTextField?.text, let handler = selectionHandler {
             handler(text)
         }
 
@@ -29,7 +29,7 @@ final class DatePicker: UIDatePicker {
             ],
             animated: true
         )
-        pickerTextField.inputAccessoryView = toolBar
+        pickerTextField?.inputAccessoryView = toolBar
     }
 
     convenience init(dropdownField: UITextField, inputDate: Date, onSelect: ((String) -> Void)?) {
@@ -42,20 +42,20 @@ final class DatePicker: UIDatePicker {
     }
 
     @objc private func onDoneAction() {
-        pickerTextField.text = "\(self.date)"
-        pickerTextField.resignFirstResponder()
+        pickerTextField?.text = "\(self.date)"
+        pickerTextField?.resignFirstResponder()
     }
 
     @objc private func onCancelAction() {
-        pickerTextField.resignFirstResponder()
+        pickerTextField?.resignFirstResponder()
     }
 
     @objc private func onClearAction() {
-        pickerTextField.text = nil
-        pickerTextField.resignFirstResponder()
+        pickerTextField?.text = nil
+        pickerTextField?.resignFirstResponder()
     }
 
     @objc private func onDateChanged() {
-        pickerTextField.text = "\(self.date)"
+        pickerTextField?.text = "\(self.date)"
     }
 }

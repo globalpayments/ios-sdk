@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -50,15 +50,15 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6rq-7z-vPT">
                                 <rect key="frame" x="8" y="834" width="412" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="a2t-tK-f4a">
-                                        <rect key="frame" x="0.0" y="0.0" width="202" height="50"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="a2t-tK-f4a">
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <connections>
                                             <action selector="getPaymentsListAction" destination="xKo-Sl-wLx" eventType="touchUpInside" id="Paa-EO-V6z"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="scC-J6-fko">
-                                        <rect key="frame" x="210" y="0.0" width="202" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="412" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <connections>
                                             <action selector="getPaymentByIdAction" destination="xKo-Sl-wLx" eventType="touchUpInside" id="0CI-qS-PRS"/>
@@ -218,13 +218,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="C1U-kW-j0s">
-                                <rect key="frame" x="0.0" y="52" width="428" height="329.33333333333331"/>
+                                <rect key="frame" x="0.0" y="52" width="428" height="353.33333333333331"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o26-Xt-2xl">
-                                        <rect key="frame" x="0.0" y="0.0" width="428" height="329.33333333333331"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="353.33333333333331"/>
                                         <subviews>
-                                            <stackView opaque="NO" clipsSubviews="YES" tag="8" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="t9a-zM-iqv">
-                                                <rect key="frame" x="8" y="8" width="412" height="313.33333333333331"/>
+                                            <stackView opaque="NO" clipsSubviews="YES" tag="8" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="t9a-zM-iqv">
+                                                <rect key="frame" x="8" y="8" width="412" height="337.33333333333331"/>
                                                 <subviews>
                                                     <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="yHg-3J-FsS">
                                                         <rect key="frame" x="0.0" y="0.0" width="412" height="34"/>
@@ -246,7 +246,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="SHL-FL-kbS">
-                                                        <rect key="frame" x="0.0" y="42" width="412" height="34"/>
+                                                        <rect key="frame" x="0.0" y="54" width="412" height="34"/>
                                                         <subviews>
                                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment Method ID:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kjM-0m-Lxv">
                                                                 <rect key="frame" x="0.0" y="0.0" width="156.66666666666666" height="34"/>
@@ -265,7 +265,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rEA-AO-ZOL">
-                                                        <rect key="frame" x="0.0" y="84.000000000000014" width="412" height="229.33333333333337"/>
+                                                        <rect key="frame" x="0.0" y="108.00000000000001" width="412" height="229.33333333333337"/>
                                                         <subviews>
                                                             <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="B9B-VF-BXh">
                                                                 <rect key="frame" x="0.0" y="0.0" width="412" height="61.333333333333336"/>
@@ -303,7 +303,7 @@
                                                                 </constraints>
                                                             </stackView>
                                                             <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hkZ-Ug-9Dc">
-                                                                <rect key="frame" x="0.0" y="111.33333333333334" width="412" height="34"/>
+                                                                <rect key="frame" x="0.0" y="111.33333333333331" width="412" height="34"/>
                                                                 <subviews>
                                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expiry Month:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGc-Mb-71S">
                                                                         <rect key="frame" x="0.0" y="0.0" width="156.66666666666666" height="34"/>

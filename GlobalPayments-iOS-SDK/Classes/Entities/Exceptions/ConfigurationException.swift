@@ -4,7 +4,7 @@ import Foundation
 public struct ConfigurationException: Error {
     /// The exception message
     public let message: String?
-    
+
     public init(message: String? = nil) {
         self.message = message
     }

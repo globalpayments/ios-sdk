@@ -9,12 +9,9 @@ struct DisputeListForm {
     let arn: String?
     let brand: String?
     let status: DisputeStatus?
-    let stage: DisputeStage?
+    let stage: DisputeStage
     let fromStageTimeCreated: Date?
     let toStageTimeCreated: Date?
-    let adjustmentFunding: AdjustmentFunding?
-    let fromAdjustmentTimeCreated: Date?
-    let toAdjustmentTimeCreated: Date?
     let systemMID: String?
     let systemHierarchy: String?
     let source: Source

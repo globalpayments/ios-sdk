@@ -13,7 +13,7 @@ final class DisputeReportViewController: UIViewController, StoryboardInstantiabl
     @IBOutlet private weak var documentIdButton: UIButton!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var tableView: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -73,7 +73,7 @@ extension DisputeReportViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: DisputeSummaryTableViewCell.identifier, for: indexPath) as! DisputeSummaryTableViewCell
         cell.setup(viewModel: viewModel.disputes[indexPath.row])
         cell.onSelectDocuments = onShowDisputeDocuments
-        
+
         return cell
     }
 }

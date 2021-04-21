@@ -1,5 +1,5 @@
 import Foundation
 
 struct DepositByIDForm {
-    let depositId: String
+    let depositReference: String
 }

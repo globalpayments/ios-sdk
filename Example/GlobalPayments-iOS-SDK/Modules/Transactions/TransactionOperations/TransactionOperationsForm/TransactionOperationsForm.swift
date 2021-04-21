@@ -8,4 +8,5 @@ struct TransactionOperationsForm {
     let amount: NSDecimalNumber
     let currency: String
     let transactionOperationType: TransactionOperationType
+    let idempotencyKey: String?
 }

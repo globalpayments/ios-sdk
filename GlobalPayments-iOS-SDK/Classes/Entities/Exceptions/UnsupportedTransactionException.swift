@@ -4,7 +4,7 @@ import Foundation
 public struct UnsupportedTransactionException: Error {
     /// The exception message
     public let message: String?
-    
+
     public init(message: String? = nil) {
         self.message = message
     }

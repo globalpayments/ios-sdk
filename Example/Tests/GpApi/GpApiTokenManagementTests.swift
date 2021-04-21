@@ -10,10 +10,10 @@ class GpApiTokenManagementTests: XCTestCase {
         super.setUp()
 
         try? ServicesContainer.configureService(config:
-            GpApiConfig(
-                appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
-                appKey: "QDsW1ETQKHX6Y4TA"
-            )
+                                                    GpApiConfig(
+                                                        appId: "i872l4VgZRtSrykvSn8Lkah8RE1jihvT",
+                                                        appKey: "9pArW2uWoA8enxKc"
+                                                    )
         )
     }
 
@@ -77,14 +77,16 @@ class GpApiTokenManagementTests: XCTestCase {
         var expectedVerifyError: GatewayException?
 
         // WHEN
-        tokenizedCard.verify()
-            .execute { transaction, error in
-                expectedTransaction = transaction
-                if let error = error as? GatewayException {
+        tokenizedCard
+            .verify()
+            .withCurrency("USD")
+            .execute {
+                expectedTransaction = $0
+                if let error = $1 as? GatewayException {
                     expectedVerifyError = error
                 }
                 verifyExpectation.fulfill()
-        }
+            }
 
         // THEN
         wait(for: [verifyExpectation], timeout: 10.0)
@@ -102,18 +104,103 @@ class GpApiTokenManagementTests: XCTestCase {
         var errorResult: Error?
 
         // WHEN
-        tokenizedCard.verify().execute { transaction, error in
-            transactionResult = transaction
-            errorResult = error
-            verifyExpectation.fulfill()
-        }
+        tokenizedCard
+            .verify()
+            .withCurrency("USD")
+            .execute {
+                transactionResult = $0
+                errorResult = $1
+                verifyExpectation.fulfill()
+            }
 
         // THEN
         wait(for: [verifyExpectation], timeout: 10.0)
         XCTAssertNil(errorResult)
         XCTAssertNotNil(transactionResult)
-        XCTAssertEqual(transactionResult?.responseCode, "00")
-        XCTAssertEqual(transactionResult?.responseMessage, "ACTIVE")
+        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionResult?.responseMessage, "VERIFIED")
+    }
+
+    func test_verify_tokenized_payment_method_with_idempotency_key() {
+        // GIVEN
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = token
+        let verifyExpectation = expectation(description: "Verify Expectation")
+        let idempotencyKey = UUID().uuidString
+        var transactionResult: Transaction?
+        var errorResult: Error?
+
+        // WHEN
+        tokenizedCard
+            .verify()
+            .withCurrency("USD")
+            .withIdempotencyKey(idempotencyKey)
+            .execute {
+                transactionResult = $0
+                errorResult = $1
+                verifyExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [verifyExpectation], timeout: 10.0)
+        XCTAssertNil(errorResult)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionResult?.responseMessage, "VERIFIED")
+        XCTAssertEqual(transactionResult?.cardType, "VISA")
+
+        // GIVEN
+        let verifyIdempotencyKeyExpectation = expectation(description: "Verify Idempotency Expectation")
+        var verifyTransaction: Transaction?
+        var verifyError: GatewayException?
+
+        // WHEN
+        tokenizedCard
+            .verify()
+            .withCurrency("USD")
+            .withIdempotencyKey(idempotencyKey)
+            .execute {
+                verifyTransaction = $0
+                if let error = $1 as? GatewayException {
+                    verifyError = error
+                }
+                verifyIdempotencyKeyExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [verifyIdempotencyKeyExpectation], timeout: 10.0)
+        XCTAssertNil(verifyTransaction)
+        XCTAssertNotNil(verifyError)
+        XCTAssertEqual(verifyError?.responseCode, "DUPLICATE_ACTION")
+        XCTAssertEqual(verifyError?.responseMessage, "40039")
+    }
+
+    func test_verify_tokenized_payment_wrong_id() {
+        // GIVEN
+        let verifyExpectation = expectation(description: "Verify Expectation")
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = "PMT_" + UUID().uuidString
+        var transactionResult: Transaction?
+        var errorResult: GatewayException?
+
+        // WHEN
+        tokenizedCard
+            .verify()
+            .withCurrency("USD")
+            .execute {
+                transactionResult = $0
+                if let error = $1 as? GatewayException {
+                    errorResult = error
+                }
+                verifyExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [verifyExpectation], timeout: 10.0)
+        XCTAssertNil(transactionResult)
+        XCTAssertNotNil(errorResult)
+        XCTAssertEqual(errorResult?.responseCode, "RESOURCE_NOT_FOUND")
+        XCTAssertEqual(errorResult?.responseMessage, "40116")
     }
 
     func test_detokenize_payment_method() {
@@ -125,9 +212,9 @@ class GpApiTokenManagementTests: XCTestCase {
         tokenizedCard.token = token
 
         // WHEN
-        tokenizedCard.detokenize { response, error in
-            responseCard = response
-            responseError = error
+        tokenizedCard.detokenize {
+            responseCard = $0
+            responseError = $1
             detokenizeExpectation.fulfill()
         }
 
@@ -135,8 +222,34 @@ class GpApiTokenManagementTests: XCTestCase {
         wait(for: [detokenizeExpectation], timeout: 10.0)
         XCTAssertNotNil(responseCard)
         XCTAssertNil(responseError)
+        XCTAssertNil(responseCard?.token)
         XCTAssertEqual(card?.number, responseCard?.number)
         XCTAssertEqual(card?.shortExpiry, responseCard?.shortExpiry)
+    }
+
+    func test_detokenize_payment_method_wrong_id() {
+        // GIVEN
+        let detokenizeExpectation = expectation(description: "Detokenize Expectation")
+        var responseCard: CreditCardData?
+        var responseError: GatewayException?
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = "PMT_" + UUID().uuidString
+
+        // WHEN
+        tokenizedCard.detokenize {
+            responseCard = $0
+            if let error = $1 as? GatewayException {
+                responseError = error
+            }
+            detokenizeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [detokenizeExpectation], timeout: 10.0)
+        XCTAssertNil(responseCard)
+        XCTAssertNotNil(responseError)
+        XCTAssertEqual(responseError?.responseCode, "RESOURCE_NOT_FOUND")
+        XCTAssertEqual(responseError?.responseMessage, "40116")
     }
 
     func test_update_tokenized_payment_method() {
@@ -150,9 +263,9 @@ class GpApiTokenManagementTests: XCTestCase {
         var errorResult: Error?
 
         // WHEN
-        tokenizedCard.updateTokenExpiry { updated, error in
-            updatedResult = updated
-            errorResult = error
+        tokenizedCard.updateTokenExpiry {
+            updatedResult = $0
+            errorResult = $1
             tokenizeExpectation.fulfill()
         }
 
@@ -170,18 +283,47 @@ class GpApiTokenManagementTests: XCTestCase {
         // WHEN
         tokenizedCard
             .verify()
-            .execute { transaction, error in
-            transactionResult = transaction
-            transactionErrorResult = error
-            executeExpectation.fulfill()
-        }
+            .withCurrency("USD")
+            .execute {
+                transactionResult = $0
+                transactionErrorResult = $1
+                executeExpectation.fulfill()
+            }
 
         // THEN
         wait(for: [executeExpectation], timeout: 10.0)
         XCTAssertNotNil(transactionResult)
         XCTAssertNil(transactionErrorResult)
-        XCTAssertEqual(transactionResult?.responseCode, "00")
-        XCTAssertEqual(transactionResult?.responseMessage, "ACTIVE")
+        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionResult?.responseMessage, "VERIFIED")
+    }
+
+    func test_update_tokenized_payment_method_wrong_id() {
+        // GIVEN
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = "PMT" + UUID().uuidString
+        tokenizedCard.expMonth = 12
+        tokenizedCard.expYear = 30
+        let tokenizeExpectation = expectation(description: "Tokenize Expectation")
+        var updatedResult: Bool?
+        var errorResult: GatewayException?
+
+        // WHEN
+        tokenizedCard.updateTokenExpiry {
+            updatedResult = $0
+            if let error = $1 as? GatewayException {
+                errorResult = error
+            }
+            tokenizeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [tokenizeExpectation], timeout: 10.0)
+        XCTAssertNotNil(updatedResult)
+        XCTAssertEqual(updatedResult, false)
+        XCTAssertNotNil(errorResult)
+        XCTAssertEqual(errorResult?.responseCode, "INVALID_REQUEST_DATA")
+        XCTAssertEqual(errorResult?.responseMessage, "40213")
     }
 
     func test_credit_sale_with_tokenized_payment_method() {
@@ -190,28 +332,24 @@ class GpApiTokenManagementTests: XCTestCase {
         tokenizedCard.token = token
         var transactionResult: Transaction?
         var errorResult: Error?
-        var statusResult: TransactionStatus?
         let executeExpectation = expectation(description: "Execute Expectation")
 
         // WHEN
-        tokenizedCard.charge(amount: 19.99)
+        tokenizedCard
+            .charge(amount: 19.99)
             .withCurrency("USD")
-            .execute { transaction, error in
-                transactionResult = transaction
-                errorResult = error
-                if let responseMessage = transaction?.responseMessage,
-                    let status = TransactionStatus(rawValue: responseMessage) {
-                    statusResult = status
-                }
+            .execute {
+                transactionResult = $0
+                errorResult = $1
                 executeExpectation.fulfill()
-        }
+            }
 
         // THEN
         wait(for: [executeExpectation], timeout: 10.0)
         XCTAssertNotNil(transactionResult)
         XCTAssertNil(errorResult)
         XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
-        XCTAssertEqual(statusResult, TransactionStatus.captured)
+        XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
     }
 
     func test_credit_sale_with_tokenized_payment_method_with_stored_credentials() {
@@ -231,7 +369,8 @@ class GpApiTokenManagementTests: XCTestCase {
                     type: .subscription,
                     initiator: .merchant,
                     sequence: .subsequent,
-                    reason: .incremental)
+                    reason: .incremental
+                )
             ).execute {
                 transactionResult = $0
                 errorResult = $1
@@ -244,5 +383,98 @@ class GpApiTokenManagementTests: XCTestCase {
         XCTAssertNil(errorResult)
         XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
         XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
+    }
+
+    func test_credit_tokenization_then_update() {
+        // GIVEN
+        let tokenizeExpectation = expectation(description: "Tokenize Expectation")
+        var token: String?
+        var tokenizeError: Error?
+
+        // WHEN
+        card?.tokenize {
+            token = $0
+            tokenizeError = $1
+            tokenizeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [tokenizeExpectation], timeout: 10.0)
+        XCTAssertNil(tokenizeError)
+        XCTAssertNotNil(token)
+
+        // GIVEN
+        let updateTokenExpiryExpectation = expectation(description: "Update Token Expiry Expectation")
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = token
+        tokenizedCard.expYear = Date().currentYear + 1
+        tokenizedCard.expMonth = Date().currentMonth
+        var updateTokenExpiryResult: Bool?
+        var updateTokenExpiryError: Error?
+
+        // WHEN
+        tokenizedCard.updateTokenExpiry {
+            updateTokenExpiryResult = $0
+            updateTokenExpiryError = $1
+            updateTokenExpiryExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [updateTokenExpiryExpectation], timeout: 10.0)
+        XCTAssertNil(updateTokenExpiryError)
+        XCTAssertNotNil(updateTokenExpiryResult)
+        XCTAssertEqual(updateTokenExpiryResult, true)
+    }
+
+    func test_tokenize_payment_method() {
+        // GIVEN
+        let tokenizeExpectation = expectation(description: "Tokenize Expectation")
+        let cardData = CreditCardData()
+        cardData.number = "4111111111111111"
+        cardData.expMonth = 12
+        cardData.expYear = 2030
+        var tokenizeResult: String?
+        var tokenizeError: Error?
+
+        // WHEN
+        cardData.tokenize {
+            tokenizeResult = $0
+            tokenizeError = $1
+            tokenizeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [tokenizeExpectation], timeout: 10.0)
+        XCTAssertNil(tokenizeError)
+        XCTAssertNotNil(tokenizeResult)
+        if let result = tokenizeResult {
+            XCTAssertTrue(result.contains("PMT_"))
+        } else {
+            XCTFail("tokenizeResult cannot be nil")
+        }
+    }
+
+    func test_tokenize_payment_method_missing_card_number() {
+        // GIVEN
+        let tokenizeExpectation = expectation(description: "Tokenize Expectation")
+        let cardData = CreditCardData()
+        var tokenizeResult: String?
+        var tokenizeError: GatewayException?
+
+        // WHEN
+        cardData.tokenize {
+            tokenizeResult = $0
+            if let error = $1 as? GatewayException {
+                tokenizeError = error
+            }
+            tokenizeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [tokenizeExpectation], timeout: 10.0)
+        XCTAssertNil(tokenizeResult)
+        XCTAssertNotNil(tokenizeError)
+        XCTAssertEqual(tokenizeError?.responseCode, "MANDATORY_DATA_MISSING")
+        XCTAssertEqual(tokenizeError?.responseMessage, "40005")
     }
 }

@@ -19,6 +19,8 @@ final class VerificationsFormViewController: UIViewController, StoryboardInstant
     @IBOutlet private weak var currencyTextField: UITextField!
     @IBOutlet private weak var countryLabel: UILabel!
     @IBOutlet private weak var countryTextField: UITextField!
+    @IBOutlet private weak var idempotencyLabel: UILabel!
+    @IBOutlet private weak var idempotencyTextField: UITextField!
     @IBOutlet private weak var paymentMethodLabel: UILabel!
     @IBOutlet private weak var idLabel: UILabel!
     @IBOutlet private weak var idTextField: UITextField!
@@ -58,6 +60,8 @@ final class VerificationsFormViewController: UIViewController, StoryboardInstant
         currencyTextField.loadDropDownData(["USD", "CAD", "SBD", "EUR", "JPY"])
         countryLabel.text = "verifications.form.country".localized()
         countryTextField.placeholder = "generic.empty".localized()
+        idempotencyLabel.text = "generic.idempotency.key.title".localized()
+        idempotencyTextField.placeholder = "generic.optional".localized()
         paymentMethodLabel.text = "verifications.form.payment.method".localized()
         idLabel.text = "verifications.form.id".localized()
         idTextField.placeholder = "generic.empty".localized()
@@ -89,7 +93,7 @@ final class VerificationsFormViewController: UIViewController, StoryboardInstant
 
     // MARK: - Actions
 
-    @IBAction private func onCancelAction() {
+    @objc private func onCancelAction() {
         dismiss(animated: true, completion: nil)
     }
 
@@ -116,7 +120,8 @@ final class VerificationsFormViewController: UIViewController, StoryboardInstant
             expiryYear: expiryYear,
             cvn: cvn,
             avsAddress: avsAddressTextField.text,
-            avsPostalCode: avsPostalCodeTextField.text
+            avsPostalCode: avsPostalCodeTextField.text,
+            idempotencyKey: idempotencyTextField.text
         )
 
         delegate?.onSubmitForm(form)

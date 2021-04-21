@@ -18,6 +18,7 @@ import Foundation
         }
         return paymentMethod.clientTransactionId
     }
+    var batchReference: String?
     var commercialData: CommercialData?
     /// Request currency
     var currency: String?
@@ -25,6 +26,7 @@ import Foundation
     var managementBuilderDescription: String?
     /// Request gratuity
     var gratuity: NSDecimalNumber?
+    var idempotencyKey: String?
     /// Request purchase order number
     var poNumber: String?
     /// Request tax amount
@@ -79,6 +81,14 @@ import Foundation
         return self
     }
 
+    /// Sets the current batch reference
+    /// - Parameter batchReference: The batch reference
+    /// - Returns: ManagementBuilder
+    public func withBatchReference(_ batchReference: String?) -> ManagementBuilder {
+        self.batchReference = batchReference
+        return self
+    }
+
     public func withCommercialData(_ commercialData: CommercialData) -> ManagementBuilder {
         self.commercialData = commercialData
         if commercialData.commercialIndicator == .level_II {
@@ -119,6 +129,14 @@ import Foundation
     /// - Returns: ManagementBuilder
     public func withGratuity(_ gratuity: NSDecimalNumber?) -> ManagementBuilder {
         self.gratuity = gratuity
+        return self
+    }
+
+    /// Field submitted in the request that is used to ensure idempotency is maintained within the action
+    /// - Parameter idempotencyKey: The idempotency key
+    /// - Returns: ManagementBuilder
+    public func withIdempotencyKey(_ idempotencyKey: String?) -> ManagementBuilder {
+        self.idempotencyKey = idempotencyKey
         return self
     }
 
@@ -210,8 +228,7 @@ import Foundation
             .check(propertyName: "orderId")?.isNotNil()
 
         validations.of(transactionType: [.tokenDelete, .tokenUpdate])
-            .check(propertyName: "paymentMethod")?.isNotNil()?
-            .check(propertyName: "paymentMethod")?.conformsTo(protocol: Tokenizable.self)
+            .check(propertyName: "paymentMethod")?.isNotNil()
 
         validations.of(transactionType: .tokenUpdate)
             .check(propertyName: "paymentMethod")?.isInstanceOf(type: CreditCardData.self)

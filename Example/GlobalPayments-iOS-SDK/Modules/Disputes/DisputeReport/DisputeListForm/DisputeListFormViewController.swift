@@ -35,12 +35,6 @@ final class DisputeListFormViewController: UIViewController, StoryboardInstantia
     @IBOutlet private weak var fromStageTimeCreatedTextField: UITextField!
     @IBOutlet private weak var toStageTimeCreatedLabel: UILabel!
     @IBOutlet private weak var toStageTimeCreatedTextField: UITextField!
-    @IBOutlet private weak var adjustmentFundingLabel: UILabel!
-    @IBOutlet private weak var adjustmentFundingTextField: UITextField!
-    @IBOutlet private weak var fromAdjustmentTimeCreatedLabel: UILabel!
-    @IBOutlet private weak var fromAdjustmentTimeCreatedTextField: UITextField!
-    @IBOutlet private weak var toAdjustmentTimeCreatedLabel: UILabel!
-    @IBOutlet private weak var toAdjustmentTimeCreatedTextField: UITextField!
     @IBOutlet private weak var systemMIDLabel: UILabel!
     @IBOutlet private weak var systemMIDTextField: UITextField!
     @IBOutlet private weak var systemHierarchyLabel: UILabel!
@@ -83,15 +77,6 @@ final class DisputeListFormViewController: UIViewController, StoryboardInstantia
         toStageTimeCreatedLabel.text = "dispute.list.form.to.stage.time.created".localized()
         toStageTimeCreatedTextField.loadDate()
         toStageTimeCreatedTextField.placeholder = "generic.empty".localized()
-        adjustmentFundingLabel.text = "dispute.list.form.adjustment.funding".localized()
-        let fundingData = ["NONE"] + AdjustmentFunding.allCases.map { $0.rawValue.uppercased() }
-        adjustmentFundingTextField.loadDropDownData(fundingData)
-        fromAdjustmentTimeCreatedLabel.text = "dispute.list.form.from.adjustment.time.created".localized()
-        fromAdjustmentTimeCreatedTextField.loadDate()
-        fromAdjustmentTimeCreatedTextField.placeholder = "generic.empty".localized()
-        toAdjustmentTimeCreatedLabel.text = "dispute.list.form.to.adjustment.time.created".localized()
-        toAdjustmentTimeCreatedTextField.loadDate()
-        toAdjustmentTimeCreatedTextField.placeholder = "generic.empty".localized()
         systemMIDLabel.text = "dispute.list.form.system.mid".localized()
         systemMIDTextField.placeholder = "generic.empty".localized()
         systemHierarchyLabel.text = "dispute.list.form.system.hierarchy".localized()
@@ -110,6 +95,7 @@ final class DisputeListFormViewController: UIViewController, StoryboardInstantia
         guard let pageSizeValue = pageSizeTextField.text, !pageSizeValue.isEmpty, let pageSize = Int(pageSizeValue) else { return }
         guard let sortProperty = DisputeSortProperty(value: orderByTextField.text) else { return }
         guard let sortOrder = SortDirection(value: orderTextField.text) else { return }
+        guard let stage = DisputeStage(value: stageTextField.text) else { return }
         let source: DisputeListForm.Source = settlementsSwitch.isOn ? .settlement : .regular
 
         let form = DisputeListForm(
@@ -120,12 +106,9 @@ final class DisputeListFormViewController: UIViewController, StoryboardInstantia
             arn: arnTextField.text,
             brand: CardBrand(value: brandTextField.text?.lowercased())?.rawValue.uppercased(),
             status: DisputeStatus(value: statusTextField.text),
-            stage: DisputeStage(value: stageTextField.text),
+            stage: stage,
             fromStageTimeCreated: fromStageTimeCreatedTextField.text?.formattedDate(),
             toStageTimeCreated: toStageTimeCreatedTextField.text?.formattedDate(),
-            adjustmentFunding: AdjustmentFunding(value: adjustmentFundingTextField.text),
-            fromAdjustmentTimeCreated: fromAdjustmentTimeCreatedTextField.text?.formattedDate(),
-            toAdjustmentTimeCreated: toAdjustmentTimeCreatedTextField.text?.formattedDate(),
             systemMID: systemMIDTextField.text,
             systemHierarchy: systemHierarchyTextField.text,
             source: source

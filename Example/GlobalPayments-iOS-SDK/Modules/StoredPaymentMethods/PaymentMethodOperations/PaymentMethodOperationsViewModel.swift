@@ -23,8 +23,8 @@ final class PaymentMethodOperationsViewModel: PaymentMethodOperationsInput {
             card.expYear = form.cardExpiryYear
             card.expMonth = form.cardExpiryMonth
             card.cvn = form.cvn
-            card.tokenize { [weak self] token, error in
-                DispatchQueue.main.async {
+            card.tokenize() { [weak self] token, error in
+                UI {
                     guard let token = token else {
                         self?.view?.showError(error: error)
                         return
@@ -41,8 +41,8 @@ final class PaymentMethodOperationsViewModel: PaymentMethodOperationsInput {
             card.expMonth = form.cardExpiryMonth
             card.cvn = form.cvn
             card.token = form.paymentMethodId
-            card.updateTokenExpiry { [weak self] result, error in
-                DispatchQueue.main.async {
+            card.updateTokenExpiry() { [weak self] result, error in
+                UI {
                     if result == false {
                         self?.view?.showError(error: error)
                         return
@@ -55,8 +55,8 @@ final class PaymentMethodOperationsViewModel: PaymentMethodOperationsInput {
         case .detokenize:
             let tokenizedCard = CreditCardData()
             tokenizedCard.token = form.paymentMethodId
-            tokenizedCard.detokenize { [weak self] cardData, error in
-                DispatchQueue.main.async {
+            tokenizedCard.detokenize() { [weak self] cardData, error in
+                UI {
                     guard let cardData = cardData else {
                         self?.view?.showError(error: error)
                         return
@@ -69,8 +69,8 @@ final class PaymentMethodOperationsViewModel: PaymentMethodOperationsInput {
         case .delete:
             let card = CreditCardData()
             card.token = form.paymentMethodId
-            card.deleteToken { [weak self] result, error in
-                DispatchQueue.main.async {
+            card.deleteToken() { [weak self] result, error in
+                UI {
                     if result == false {
                         self?.view?.showError(error: error)
                         return

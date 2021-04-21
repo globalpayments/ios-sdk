@@ -33,24 +33,25 @@ class GpApiEbtTests: XCTestCase {
         card = nil
     }
 
-    func test_ebt_balance_inquiry() {
+    func ebt_balance_inquiry() {
         // GIVEN
         let balanceInquiryExpectation = expectation(description: "EBT Balance Inquiry expectation")
-        //var transactionResult: Transaction?
-        //var transactionError: Error?
+        var transactionResult: Transaction?
+        var transactionError: Error?
 
         // WHEN
         card.balanceInquiry()
-            .execute { transaction, error in
-                //transactionResult = transaction
-                //transactionError = error
+            .withCurrency("USD")
+            .execute {
+                transactionResult = $0
+                transactionError = $1
                 balanceInquiryExpectation.fulfill()
-        }
+            }
 
         // THEN
         wait(for: [balanceInquiryExpectation], timeout: 10.0)
-        //XCTAssertNotNil(transactionResult)
-        //XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertNil(transactionError)
     }
 
     func test_ebt_sale() {

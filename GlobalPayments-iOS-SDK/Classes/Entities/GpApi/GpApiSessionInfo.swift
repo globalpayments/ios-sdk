@@ -16,7 +16,8 @@ class GpApiSessionInfo {
     static func signIn(appId: String,
                        appKey: String,
                        secondsToExpire: Int? = nil,
-                       intervalToExpire: IntervalToExpire? = nil) -> GpApiRequest {
+                       intervalToExpire: IntervalToExpire? = nil,
+                       permissions: [String]? = nil) -> GpApiRequest {
         let nonce = Date().format("MM/dd/yyyy HH:mm:ss.SSSS")
         let request = JsonDoc()
             .set(for: "app_id", value: appId)
@@ -24,18 +25,15 @@ class GpApiSessionInfo {
             .set(for: "grant_type", value: "client_credentials")
             .set(for: "secret", value: generateSecret(nonce, appKey))
             .set(for: "interval_to_expire", value: intervalToExpire?.rawValue)
+            .set(for: "permissions", value: permissions)
         if let secondsToExpire = secondsToExpire {
             request.set(for: "seconds_to_expire", value: String(secondsToExpire))
         }
 
         return GpApiRequest(
-            endpoint: "/accesstoken",
+            endpoint: GpApiRequest.Endpoints.accesstoken(),
+            method: .post,
             requestBody: request.toString()
         )
-    }
-
-    static func signOut() {
-        print("signOut not implemented")
-        abort()
     }
 }

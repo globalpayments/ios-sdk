@@ -23,7 +23,7 @@ final class PaymentMethodReportViewModel: PaymentMethodReportInput {
     }
 
     private func handleResponse(transaction: Transaction?, error: Error?) {
-        DispatchQueue.main.async { [weak self] in
+        UI { [weak self] in
             guard let transaction = transaction else {
                 self?.view?.showError(error: error)
                 return

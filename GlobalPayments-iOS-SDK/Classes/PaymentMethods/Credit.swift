@@ -80,19 +80,15 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
         return AuthorizationBuilder(transactionType: .verify, paymentMethod: self)
     }
 
-    public func tokenize(configName: String = "default",
-                         completion: ((String?, Error?) -> Void)?) {
-
+    public func tokenize(configName: String = "default", completion: ((String?, Error?) -> Void)?) {
         tokenize(validateCard: true, configName: configName, completion: completion)
     }
 
-    public func tokenize(validateCard: Bool,
-                         configName: String = "default",
-                         completion: ((String?, Error?) -> Void)?) {
-
+    public func tokenize(validateCard: Bool, configName: String = "default", completion: ((String?, Error?) -> Void)?) {
         let type: TransactionType = validateCard ? .verify : .tokenize
         AuthorizationBuilder(transactionType: type, paymentMethod: self)
-            .withRequestMultiUseToken(true)
+            .withRequestMultiUseToken(validateCard)
+            .withTokenUsageMode(.multiple)
             .execute(configName: configName, completion: { transaction, error in
                 completion?(transaction?.token, error)
             })
@@ -101,9 +97,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// Updates the token expiry date with the values proced to the card object
     /// - Throws: BuilderException
     /// - Returns: boolean value indicating success/failure
-    public func updateTokenExpiry(
-        configName: String = "default",
-        completion: ((Bool, Error?) -> Void)?) {
+    public func updateTokenExpiry(configName: String = "default", completion: ((Bool, Error?) -> Void)?) {
 
         if token.isNilOrEmpty {
             completion?(false, BuilderException(message: "Token cannot be nil"))
@@ -123,9 +117,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     /// Deletes the token associated with the current card object
     /// - Throws: BuilderException
     /// - Returns: boolean value indicating success/failure
-    public func deleteToken(
-        configName: String = "default",
-        completion: ((Bool, Error?) -> Void)?) {
+    public func deleteToken(configName: String = "default", completion: ((Bool, Error?) -> Void)?) {
 
         if token.isNilOrEmpty {
             completion?(false, BuilderException(message: "Token cannot be nil"))
@@ -143,9 +135,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     }
 
     /// Detokenizes payment method
-    public func detokenize(
-        configName: String = "default",
-        completion: ((CreditCardData?, Error?) -> Void)?) {
+    public func detokenize(configName: String = "default", completion: ((CreditCardData?, Error?) -> Void)?) {
 
         if token.isNilOrEmpty {
             completion?(nil, BuilderException(message: "Token cannot be nil"))

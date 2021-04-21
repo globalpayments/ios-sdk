@@ -1,5 +1,5 @@
 PODS:
-  - GlobalPayments-iOS-SDK (0.1.0)
+  - GlobalPayments-iOS-SDK (1.0.0)
 
 DEPENDENCIES:
   - GlobalPayments-iOS-SDK (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  GlobalPayments-iOS-SDK: eef1b1b6cb03a0edc0a40224703da75e46b1a9f6
+  GlobalPayments-iOS-SDK: 4f7bc7aad8a805f5e9175f0769a250e82356e957
 
 PODFILE CHECKSUM: 48a8c3963f2d5c9604cf5005fae3b9b558d9f4aa
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1

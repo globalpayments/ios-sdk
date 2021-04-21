@@ -196,8 +196,11 @@ public class Transaction: NSObject {
     /// - Parameter amount: The amount to capture
     /// - Returns: ManagementBuilder
     public func capture(amount: NSDecimalNumber? = nil) -> ManagementBuilder {
+        guard let transactionReference = transactionReference else {
+            fatalError("transactionReference cannot be nil!")
+        }
         var builder = ManagementBuilder(transactionType: .capture)
-            .withPaymentMethod(transactionReference!)
+            .withPaymentMethod(transactionReference)
             .withAmount(amount)
         if multiCapture {
             builder = builder.withMultiCapture(

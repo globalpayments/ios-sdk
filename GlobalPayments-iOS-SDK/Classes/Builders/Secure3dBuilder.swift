@@ -8,17 +8,22 @@ import Foundation
     var addressMatchIndicator: Bool?
     var amount: NSDecimalNumber?
     var applicationId: String?
-    var authenticationSource: AuthenticationSource = .browser
-    var authenticationRequestType: AuthenticationRequestType = .paymentTransaction
+    var authenticationSource: AuthenticationSource
+    var authenticationRequestType: AuthenticationRequestType
     var billingAddress: Address?
+    var browserData: BrowserData?
     var currency: String?
     var customerAccountId: String?
     var customerAuthenticationData: String?
     var customerAuthenticationMethod: CustomerAuthenticationMethod?
     var customerAuthenticationTimestamp: Date?
     var customerEmail: String?
+    var decoupledFlowRequest: Bool?
+    var decoupledFlowTimeout: Int?
+    var decoupledNotificationUrl: String?
     var deliveryEmail: String?
     var deliveryTimeFrame: DeliveryTimeFrame?
+    var enableExemptionOptimization: Bool?
     var encodedData: String?
     var ephemeralPublicKey: JsonDoc?
     var giftCardCount: Int?
@@ -26,10 +31,11 @@ import Foundation
     var giftCardAmount: NSDecimalNumber?
     var homeCountryCode: String?
     var homeNumber: String?
+    var idempotencyKey: String?
     var maxNumberOfInstallments: Int?
     var maximumTimeout: Int?
     var merchantData: MerchantDataCollection?
-    var messageCategory: MessageCategory = .paymentAuthentication
+    var messageCategory: MessageCategory
     var merchantInitiatedRequestType: AuthenticationRequestType?
     var messageVersion: String?
     var methodUrlCompletion: MethodUrlCompletion?
@@ -59,16 +65,15 @@ import Foundation
     var recurringAuthorizationFrequency: Int?
     var referenceNumber: String?
     var reorderIndicator: ReorderIndicator?
+    var storedCredential: StoredCredential?
     var sdkInterface: SdkInterface?
     var sdkTransactionId: String?
     var sdkUiTypes: [SdkUiType]?
     var serverTransactionId: String? {
-        get {
-            if threeDSecure != nil {
-                return threeDSecure?.serverTransactionId
-            }
-            return nil
+        if threeDSecure != nil {
+            return threeDSecure?.serverTransactionId
         }
+        return nil
     }
     var shippingAddress: Address?
     var shippingAddressCreateDate: Date?
@@ -78,15 +83,16 @@ import Foundation
     var threeDSecure: ThreeDSecure?
     var transactionType: TransactionType?
     var secure3dVersion: Secure3dVersion? {
-        get {
-            if threeDSecure != nil {
-                return threeDSecure?.version
-            }
-            return nil
+        if threeDSecure != nil {
+            return threeDSecure?.version
         }
+        return nil
     }
+    var allowListStatus: Bool?
     var workCountryCode: String?
     var workNumber: String?
+    var paymentType: PaymentType?
+    var challengeRequestIndicator: ChallengeRequestIndicator?
 
     public func withAddress(_ address: Address?) -> Secure3dBuilder {
         return withAddress(address, .billing)
@@ -99,6 +105,11 @@ import Foundation
         } else {
             self.shippingAddress = address
         }
+        return self
+    }
+
+    public func withBrowserData(_ browserData: BrowserData?) -> Secure3dBuilder {
+        self.browserData = browserData
         return self
     }
 
@@ -187,15 +198,35 @@ import Foundation
         return self
     }
 
+    public func withEnableExemptionOptimization(_ enableExemptionOptimization: Bool?) -> Secure3dBuilder {
+        self.enableExemptionOptimization = enableExemptionOptimization
+        return self
+    }
+
+    public func withDecoupledFlowRequest(_ decoupledFlowRequest: Bool?) -> Secure3dBuilder {
+        self.decoupledFlowRequest = decoupledFlowRequest
+        return self
+    }
+
+    public func withDecoupledFlowTimeout(_ decoupledFlowTimeout: Int?) -> Secure3dBuilder {
+        self.decoupledFlowTimeout = decoupledFlowTimeout
+        return self
+    }
+
+    public func withDecoupledNotificationUrl(_ decoupledNotificationUrl: String?) -> Secure3dBuilder {
+        self.decoupledNotificationUrl = decoupledNotificationUrl
+        return self
+    }
+
     public func withEncodedData(_ encodedData: String?) -> Secure3dBuilder {
         self.encodedData = encodedData
         return self
     }
 
-    //    public Secure3dBuilder WithEphemeralPublicKey(string ephemeralPublicKey) {
-    //        EphemeralPublicKey = JsonDoc.Parse(ephemeralPublicKey);
-    //        return this;
-    //    }
+    public func withEphemeralPublicKey(_ ephemeralPublicKey: String) -> Secure3dBuilder {
+        self.ephemeralPublicKey = JsonDoc.parse(ephemeralPublicKey)
+        return self
+    }
 
     public func withGiftCardCount(_ giftCardCount: Int?) -> Secure3dBuilder {
         self.giftCardCount = giftCardCount
@@ -216,6 +247,11 @@ import Foundation
                                _ homeCountryCode: String?) -> Secure3dBuilder {
         self.homeNumber = homeNumber
         self.homeCountryCode = homeCountryCode
+        return self
+    }
+
+    public func withIdempotencyKey(_ idempotencyKey: String?) -> Secure3dBuilder {
+        self.idempotencyKey = idempotencyKey
         return self
     }
 
@@ -391,6 +427,11 @@ import Foundation
         return self
     }
 
+    public func withStoredCredential(_ storedCredential: StoredCredential?) -> Secure3dBuilder {
+        self.storedCredential = storedCredential
+        return self
+    }
+
     public func withSdkInterface(_ sdkInterface: SdkInterface?) -> Secure3dBuilder {
         self.sdkInterface = sdkInterface
         return self
@@ -444,6 +485,11 @@ import Foundation
         return self
     }
 
+    public func withAllowListStatus(_ allowListStatus: Bool?) -> Secure3dBuilder {
+        self.allowListStatus = allowListStatus
+        return self
+    }
+
     public func withWorkNumber(_ workNumber: String?,
                                _ workCountryCode: String?) -> Secure3dBuilder {
         self.workNumber = workNumber
@@ -451,13 +497,27 @@ import Foundation
         return self
     }
 
+    public func withPaymentType(_ paymentType: PaymentType?) -> Secure3dBuilder {
+        self.paymentType = paymentType
+        return self
+    }
+
+    public func withChallengeRequestIndicator(_ challengeRequestIndicator: ChallengeRequestIndicator?) -> Secure3dBuilder {
+        self.challengeRequestIndicator = challengeRequestIndicator
+        return self
+    }
+
     public required init(transactionType: TransactionType) {
+        self.authenticationSource = .mobileSDK
+        self.authenticationRequestType = AuthenticationRequestType.paymentTransaction
+        self.messageCategory = MessageCategory.paymentAuthentication
         self.transactionType = transactionType
     }
 
     // HELPER METHOD FOR THE CONNECTOR
     public var hasMobileFields: Bool {
         return !applicationId.isNilOrEmpty ||
+            ephemeralPublicKey != nil ||
             maximumTimeout != nil ||
             referenceNumber != nil ||
             !sdkTransactionId.isNilOrEmpty ||
@@ -499,6 +559,7 @@ import Foundation
             try validations.validate(builder: self)
         } catch {
             completion?(nil, error)
+            return
         }
 
         // setup return object
@@ -514,13 +575,10 @@ import Foundation
         }
 
         // get the provider
-        let provider = try? ServicesContainer.shared.secure3DProvider(
-            configName: configName,
-            version: version
-        )
-        if provider != nil {
+        do {
+            let provider = try ServicesContainer.shared.secure3DProvider(configName: configName, version: version)
             var canDowngrade = false
-            if provider?.getVersion() == .two && version == .any {
+            if provider.version == .two && version == .any {
                 do {
                     _ = try ServicesContainer.shared.secure3DProvider(
                         configName: configName,
@@ -530,42 +588,60 @@ import Foundation
                 } catch { /* NOT CONFIGURED */ }
             }
 
-            /// process the request, capture any exceptions which might have been thrown
-            provider?.processSecure3d(self, completion: { response in
+            // process the request, capture any exceptions which might have been thrown
+            provider.processSecure3d(self, { response, error in
                 if response == nil && canDowngrade {
-                    return execute(version: .one, completion: completion)
+                    self.execute(version: .one, completion: completion)
+                    return
+                }
+
+                if let error = error as? GatewayException {
+                    if error.responseCode == "110" && provider.version == .one {
+                        completion?(rvalue, nil)
+                        return
+                    } else if canDowngrade && self.transactionType == .verifyEnrolled {
+                        self.execute(version: .one, completion: completion)
+                        return
+                    } else {
+                        completion?(nil, error)
+                        return
+                    }
                 }
 
                 if let response = response,
-                    let transactionType = transactionType {
+                   let transactionType = self.transactionType {
 
                     switch transactionType {
                     case .verifyEnrolled:
-                        if let threeDSecure = response.threeDSecure,
-                            let version = provider?.getVersion() {
+                        if let threeDSecure = response.threeDSecure {
+                            let version = provider.version
                             rvalue = threeDSecure
                             if ["True", "Y"].contains(rvalue?.enrolled) {
-                                rvalue?.amount = amount
-                                rvalue?.currency = currency
+                                rvalue?.amount = self.amount
+                                rvalue?.currency = self.currency
                                 rvalue?.orderId = response.orderId
                                 rvalue?.version = version
                             } else if canDowngrade {
-                                return execute(version: .one, completion: completion)
+                                self.execute(version: .one, completion: completion)
+                                return
                             }
                         } else if canDowngrade {
-                            return execute(version: .one, completion: completion)
+                            self.execute(version: .one, completion: completion)
+                            return
                         }
                     case .initiateAuthentication,
                          .verifySignature:
                         rvalue?.merge(secureEcom: response.threeDSecure)
                     default:
-                        break
+                        completion?(nil, nil)
+                        return
                     }
+                    completion?(rvalue, nil)
                 }
             })
+        } catch {
+            completion?(nil, error)
         }
-
-        completion?(rvalue, nil)
     }
 
     public override func setupValidations() {
@@ -601,7 +677,7 @@ import Foundation
         validations.of(transactionType: .initiateAuthentication)
             .when(propertyName: "accountAgeIndicator")?.isNotNil()?
             .check(propertyName: "accountAgeIndicator")?.isNotEqualTo(expected: AgeIndicator.noChange)
-        
+
         validations.of(transactionType: .initiateAuthentication)
             .when(propertyName: "passwordChangeIndicator")?.isNotNil()?
             .check(propertyName: "passwordChangeIndicator")?.isNotEqualTo(expected: AgeIndicator.noAccount)

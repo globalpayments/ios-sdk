@@ -4,24 +4,24 @@ typealias ResultCallback = ((NSObject) -> Bool)
 
 class ValidationClause {
     /// All Validations
-    public let parent: Validations
+    weak var parent: Validations?
     /// Target of this validation clause
-    public let target: ValidationTarget
+    weak var target: ValidationTarget?
     /// Property to check
-    public let propertyName: String
+    let propertyName: String
     /// Callback to test a given property
-    public var callback: ResultCallback?
+    var callback: ResultCallback?
     /// Failed validation message
-    public var message: String?
+    var message: String?
     /// Validation clause is a precondition
-    public let precondition: Bool
+    let precondition: Bool
 
-    public init(parent: Validations,
-                target: ValidationTarget,
-                propertyName: String,
-                callback: ResultCallback? = nil,
-                message: String? = nil,
-                precondition: Bool = false) {
+    init(parent: Validations?,
+         target: ValidationTarget?,
+         propertyName: String,
+         callback: ResultCallback? = nil,
+         message: String? = nil,
+         precondition: Bool = false) {
 
         self.parent = parent
         self.target = target
@@ -36,25 +36,25 @@ class ValidationClause {
     ///   - message: Validation message to override the default
     ///   - subProperty: Parent of current property
     /// - Returns: ValidationTarget
-    @discardableResult public func isNotNil(message: String? = nil) -> ValidationTarget? {
-        callback = { builder in
-            return builder.value(for: self.propertyName) != nil
+    @discardableResult func isNotNil(message: String? = nil) -> ValidationTarget? {
+        callback = { [weak self] builder in
+            return builder.value(for: self?.propertyName) != nil
         }
         self.message = message ?? "\(propertyName) cannot be nil for this rule"
 
-        return precondition ? target : parent.of(ruleType: target.type)?.with(modifier: target.modifier)
+        return precondition ? target : parent?.of(ruleType: target?.type)?.with(modifier: target?.modifier)
     }
 
     /// Validates the target property is null
     /// - Parameter message: Validation message to override the default
     /// - Returns: ValidationTarget
-    @discardableResult public func isNil(message: String? = nil) -> ValidationTarget? {
-        callback = { builder in
-            return builder.value(for: self.propertyName) == nil
+    @discardableResult func isNil(message: String? = nil) -> ValidationTarget? {
+        callback = { [weak self] builder in
+            return builder.value(for: self?.propertyName) == nil
         }
         self.message = message ?? String(format: "%@ can be null for this transaction type.", propertyName)
 
-        return precondition ? target : parent.of(ruleType: target.type)?.with(modifier: target.modifier)
+        return precondition ? target : parent?.of(ruleType: target?.type)?.with(modifier: target?.modifier)
     }
 
     /// Validates the target class is instance of
@@ -62,16 +62,16 @@ class ValidationClause {
     ///   - class: AnyClass
     ///   - message: Validation message to override the default
     /// - Returns: ValidationTarget
-    @discardableResult public func isInstanceOf<T>(type: T.Type, message: String? = nil) -> ValidationTarget? {
-        callback = { builder in
-            let value = builder.value(for: self.propertyName)
+    @discardableResult func isInstanceOf<T>(type: T.Type, message: String? = nil) -> ValidationTarget? {
+        callback = { [weak self] builder in
+            let value = builder.value(for: self?.propertyName)
             return value is T
         }
         self.message = message ?? String(
             format: "%@ must be an instance of %@ class", propertyName, String(describing: T.self)
         )
 
-        return precondition ? target : parent.of(ruleType: target.type)?.with(modifier: target.modifier)
+        return precondition ? target : parent?.of(ruleType: target?.type)?.with(modifier: target?.modifier)
     }
 
     /// Validates the target class is conforms to specified protocol
@@ -79,16 +79,16 @@ class ValidationClause {
     ///   - protocol: Protocol
     ///   - message: Validation message to override the default
     /// - Returns: ValidationTarget
-    @discardableResult public func conformsTo(protocol: Protocol, message: String? = nil) -> ValidationTarget? {
-        callback = { builder in
-            let value = builder.value(for: self.propertyName) as AnyObject
+    @discardableResult func conformsTo(protocol: Protocol, message: String? = nil) -> ValidationTarget? {
+        callback = { [weak self] builder in
+            let value = builder.value(for: self?.propertyName) as AnyObject
             return value.conforms(to: `protocol`)
         }
         self.message = message ?? String(
             format: "%@ must conforms to %@ protocol", propertyName, String(describing: `protocol`)
         )
 
-        return precondition ? target : parent.of(ruleType: target.type)?.with(modifier: target.modifier)
+        return precondition ? target : parent?.of(ruleType: target?.type)?.with(modifier: target?.modifier)
     }
 
     /// Validates the target property is equal to the expected value
@@ -96,9 +96,9 @@ class ValidationClause {
     ///   - expected: expected value
     ///   - message: Validation message to override the default
     /// - Returns: ValidationTarget
-    @discardableResult public func isEqualTo(expected: Any, message: String? = nil) -> ValidationTarget? {
-        callback = { builder in
-            guard let value = builder.value(for: self.propertyName),
+    @discardableResult func isEqualTo(expected: Any, message: String? = nil) -> ValidationTarget? {
+        callback = { [weak self] builder in
+            guard let value = builder.value(for: self?.propertyName),
                   value is AnyHashable,
                   expected is AnyHashable else { return false }
             return (value as! AnyHashable) == (expected as! AnyHashable)
@@ -107,7 +107,7 @@ class ValidationClause {
             format: "%@ was not the expected value %@", propertyName, String(describing: expected)
         )
 
-        return precondition ? target : parent.of(ruleType: target.type)?.with(modifier: target.modifier)
+        return precondition ? target : parent?.of(ruleType: target?.type)?.with(modifier: target?.modifier)
     }
 
     /// Validates the target property is NOT equal to the expected value
@@ -115,9 +115,9 @@ class ValidationClause {
     ///   - expected: expected value
     ///   - message: Validation message to override the default
     /// - Returns: ValidationTarget
-    @discardableResult public func isNotEqualTo(expected: Any, message: String? = nil) -> ValidationTarget? {
-        callback = { builder in
-            guard let value = builder.value(for: self.propertyName) else {
+    @discardableResult func isNotEqualTo(expected: Any, message: String? = nil) -> ValidationTarget? {
+        callback = { [weak self] builder in
+            guard let value = builder.value(for: self?.propertyName) else {
                 return false
             }
             return type(of: value) != type(of: expected)
@@ -126,13 +126,14 @@ class ValidationClause {
             format: "%@ cannot be the value %@", propertyName, String(describing: expected)
         )
 
-        return precondition ? target : parent.of(ruleType: target.type)?.with(modifier: target.modifier)
+        return precondition ? target : parent?.of(ruleType: target?.type)?.with(modifier: target?.modifier)
     }
 }
 
 extension NSObject {
 
-    public func value(for property: String) -> Any? {
+    public func value(for property: String?) -> Any? {
+        guard let property = property else { return nil }
         let mirror = Mirror(reflecting: self)
         let child = mirror.allChildren.filter { $0.label == property }.first
         return Optional.isNil(child?.value) ? nil : child?.value

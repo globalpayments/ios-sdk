@@ -9,7 +9,7 @@ final class PaymentMethodOperationsViewController: UIViewController, StoryboardI
     @IBOutlet private weak var initiatePaymentButton: UIButton!
     @IBOutlet private weak var supportView: UIView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

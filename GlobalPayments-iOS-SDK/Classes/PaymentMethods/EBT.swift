@@ -23,7 +23,7 @@ public class EBT: NSObject, PaymentMethod, Balanceable, Chargeable, Refundable, 
         return AuthorizationBuilder(transactionType: .sale, paymentMethod: self)
             .withAmount(amount)
     }
-    
+
     public func refund(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .refund, paymentMethod: self)
             .withAmount(amount)

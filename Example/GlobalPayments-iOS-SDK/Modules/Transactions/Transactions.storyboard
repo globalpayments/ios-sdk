@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -321,6 +321,36 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" tag="8" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pcv-SK-a51">
+                                <rect key="frame" x="8" y="467" width="398" height="61.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Idempotency" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rV4-xz-680">
+                                        <rect key="frame" x="0.0" y="0.0" width="398" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GDh-M6-7CD">
+                                        <rect key="frame" x="0.0" y="27.5" width="398" height="34"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Idempotency key:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bEa-5k-JTC">
+                                                <rect key="frame" x="0.0" y="0.0" width="151" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Svd-KD-qr8">
+                                                <rect key="frame" x="159" y="0.0" width="239" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Svd-KD-qr8" firstAttribute="width" secondItem="GDh-M6-7CD" secondAttribute="width" multiplier="0.6" id="gbb-KD-SZ7"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9av-uR-rdH">
                                 <rect key="frame" x="8" y="804" width="398" height="50"/>
                                 <constraints>
@@ -337,10 +367,13 @@
                         <constraints>
                             <constraint firstItem="rlO-pn-i3M" firstAttribute="trailing" secondItem="D4b-y9-Kvf" secondAttribute="trailing" constant="8" id="5eR-ai-64P"/>
                             <constraint firstItem="rlO-pn-i3M" firstAttribute="trailing" secondItem="U3i-E0-4aD" secondAttribute="trailing" constant="8" id="AV9-0V-3ev"/>
+                            <constraint firstItem="pcv-SK-a51" firstAttribute="leading" secondItem="rlO-pn-i3M" secondAttribute="leading" constant="8" id="EQR-GG-F5j"/>
                             <constraint firstItem="U3i-E0-4aD" firstAttribute="top" secondItem="D4b-y9-Kvf" secondAttribute="bottom" constant="20" id="F23-X1-n46"/>
                             <constraint firstItem="rlO-pn-i3M" firstAttribute="trailing" secondItem="9av-uR-rdH" secondAttribute="trailing" constant="8" id="NZf-tb-Lve"/>
                             <constraint firstItem="9av-uR-rdH" firstAttribute="leading" secondItem="rlO-pn-i3M" secondAttribute="leading" constant="8" id="eZE-ve-Jkx"/>
                             <constraint firstItem="rlO-pn-i3M" firstAttribute="bottom" secondItem="9av-uR-rdH" secondAttribute="bottom" constant="8" id="iYh-Ax-UDB"/>
+                            <constraint firstItem="pcv-SK-a51" firstAttribute="top" secondItem="U3i-E0-4aD" secondAttribute="bottom" constant="20" id="iYh-uD-vDf"/>
+                            <constraint firstItem="rlO-pn-i3M" firstAttribute="trailing" secondItem="pcv-SK-a51" secondAttribute="trailing" constant="8" id="lM2-Vr-TTn"/>
                             <constraint firstItem="D4b-y9-Kvf" firstAttribute="leading" secondItem="rlO-pn-i3M" secondAttribute="leading" constant="8" id="qiw-c5-d3H"/>
                             <constraint firstItem="U3i-E0-4aD" firstAttribute="leading" secondItem="rlO-pn-i3M" secondAttribute="leading" constant="8" id="r2U-yZ-kRU"/>
                             <constraint firstItem="D4b-y9-Kvf" firstAttribute="top" secondItem="rlO-pn-i3M" secondAttribute="top" constant="8" id="rmh-BW-BiM"/>
@@ -359,6 +392,9 @@
                         <outlet property="expiryMonthTextField" destination="3wH-WU-zDP" id="e8g-UM-ifN"/>
                         <outlet property="expiryYearLabel" destination="6UR-zu-Fwo" id="1PL-be-5ag"/>
                         <outlet property="expiryYearTextField" destination="w08-g2-Bre" id="JSi-mm-hNC"/>
+                        <outlet property="idempotencyKeyLabel" destination="bEa-5k-JTC" id="WGC-Ag-pvZ"/>
+                        <outlet property="idempotencyKeyTextField" destination="Svd-KD-qr8" id="jf9-gE-DO9"/>
+                        <outlet property="idempotencyLabel" destination="rV4-xz-680" id="gSO-s4-vY4"/>
                         <outlet property="paymentCardLabel" destination="N7I-4X-Wo4" id="R9w-3b-oOz"/>
                         <outlet property="paymentCardTextField" destination="cDw-bk-zvf" id="9nN-jJ-gwx"/>
                         <outlet property="submitButton" destination="9av-uR-rdH" id="bgq-JJ-b1p"/>
@@ -440,10 +476,10 @@
                                 <rect key="frame" x="0.0" y="8" width="414" height="992"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d1g-rN-dVe">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1062.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1101.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="EIb-7s-KMp">
-                                                <rect key="frame" x="8" y="8" width="398" height="1046.5"/>
+                                                <rect key="frame" x="8" y="8" width="398" height="1085.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Fum-KX-dTg" userLabel="Page">
                                                         <rect key="frame" x="0.0" y="0.0" width="398" height="34"/>
@@ -920,6 +956,20 @@
                                                             <constraint firstItem="Wjv-K2-AzH" firstAttribute="width" secondItem="atW-VI-FRr" secondAttribute="width" multiplier="0.6" id="Sre-q1-Y9I"/>
                                                         </constraints>
                                                     </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Wzx-Gw-GqM">
+                                                        <rect key="frame" x="0.0" y="1054.5" width="398" height="31"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get From Settlements?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TU7-74-ptm">
+                                                                <rect key="frame" x="0.0" y="0.0" width="195" height="31"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Smu-ih-d77">
+                                                                <rect key="frame" x="349" y="0.0" width="51" height="31"/>
+                                                            </switch>
+                                                        </subviews>
+                                                    </stackView>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
@@ -1002,6 +1052,8 @@
                         <outlet property="paymentTypeTextField" destination="q2G-gm-Ua0" id="g0K-QD-Bmd"/>
                         <outlet property="referenceNumberLabel" destination="DFC-9y-nI7" id="Jpi-LF-eyU"/>
                         <outlet property="referenceNumberTextField" destination="rgi-mL-bs9" id="f06-VP-akV"/>
+                        <outlet property="settlementsLabel" destination="TU7-74-ptm" id="ahD-K2-0VT"/>
+                        <outlet property="settlementsSwitch" destination="Smu-ih-d77" id="l0Y-rZ-YPo"/>
                         <outlet property="sortByPropertyLabel" destination="MrO-ew-Ahu" id="hrO-3c-cDt"/>
                         <outlet property="sortByPropertyTextField" destination="dMa-Ll-qTg" id="FDX-gh-qKP"/>
                         <outlet property="sortOrderLabel" destination="Y74-iH-EHv" id="kQF-ry-Z1K"/>

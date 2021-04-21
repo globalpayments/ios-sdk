@@ -19,7 +19,7 @@ public class RecurringService {
         let response = RecurringBuilder<T>(type: .delete, entity: entity)
         response.execute(completion: completion)
     }
-    
+
     public static func get<T: Recurring>(entity: T?,
                                          completion: ((T?, Error?) -> Void)?) {
         RecurringBuilder<T>(type: .fetch, entity: entity)

@@ -18,12 +18,12 @@ final class TransactionView: UIView {
     @IBOutlet private weak var resultCodeLabel: UILabel!
     @IBOutlet private weak var resultCodeContentLabel: SelectableLabel!
 
-
     class func instantiateFromNib() -> TransactionView {
         let nib = UINib(nibName: "TransactionView", bundle: .main)
             .instantiate(withOwner: self, options: nil)
             .first as! TransactionView
         nib.setupUI()
+
         return nib
     }
 

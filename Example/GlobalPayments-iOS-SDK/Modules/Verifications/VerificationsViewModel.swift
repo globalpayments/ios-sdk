@@ -33,11 +33,12 @@ final class VerificationsViewModel: VerificationsViewModelInput {
             .withLastName(form.lastName)
             .withClientTransactionId(form.reference)
             .withId(form.id)
+            .withIdempotencyKey(form.idempotencyKey)
             .execute(completion: showOutput)
     }
 
     private func showOutput(transaction: Transaction?, error: Error?) {
-        DispatchQueue.main.async {
+        UI {
             guard let transaction = transaction else {
                 self.view?.showErrorView(error: error)
                 return

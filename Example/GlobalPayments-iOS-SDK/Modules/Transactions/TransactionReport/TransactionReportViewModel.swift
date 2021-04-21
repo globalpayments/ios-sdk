@@ -33,7 +33,7 @@ final class TransactionReportViewModel: TransactionReportViewInput {
         ReportingService
             .transactionDetail(transactionId: id)
             .execute { [weak self] transactionSummary, error in
-                DispatchQueue.main.async {
+                UI {
                     guard let transactionSummary = transactionSummary else {
                         self?.view?.showErrorView(error: error)
                         return
@@ -48,10 +48,12 @@ final class TransactionReportViewModel: TransactionReportViewInput {
 
     func getTransactions(form: TransactionListForm) {
         updateConfiguration(from: form)
-        ReportingService
-            .findTransactions()
+        let reportingService = (form.source == .regular) ?
+            ReportingService.findTransactionsPaged(page: form.page, pageSize: form.pageSize) :
+            ReportingService.findSettlementTransactionsPaged(page: form.page, pageSize: form.pageSize)
+
+        reportingService
             .orderBy(transactionSortProperty: form.sortProperty, form.sordOrder)
-            .withPaging(form.page, form.pageSize)
             .withAmount(form.amount)
             .withTransactionId(form.transactionId)
             .where(form.transactionStatus)
@@ -72,13 +74,13 @@ final class TransactionReportViewModel: TransactionReportViewInput {
             .and(searchCriteria: .startDate, value: form.startDate)
             .and(searchCriteria: .endDate, value: form.endDate)
             .and(searchCriteria: .batchId, value: form.batchId)
-            .execute { [weak self] TransactionSummaryList, error in
-                DispatchQueue.main.async {
-                    guard let transactionSummaryList = TransactionSummaryList else {
+            .execute { [weak self] transactionSummaryList, error in
+                UI {
+                    guard let transactionSummaryList = transactionSummaryList else {
                         self?.view?.showErrorView(error: error)
                         return
                     }
-                    self?.transactions = transactionSummaryList
+                    self?.transactions = transactionSummaryList.results
                     if self?.transactions.count == .zero {
                         self?.view?.displayEmptyView()
                     }

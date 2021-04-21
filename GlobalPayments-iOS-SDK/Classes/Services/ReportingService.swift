@@ -5,62 +5,88 @@ public class ReportingService {
     // MARK: - Transactions
 
     public static func findTransactions() -> TransactionReportBuilder<[TransactionSummary]> {
-        return TransactionReportBuilder<[TransactionSummary]>(reportType: .findTransactions)
+        TransactionReportBuilder<[TransactionSummary]>(reportType: .findTransactions)
+    }
+
+    public static func findTransactionsPaged(page: Int, pageSize: Int, transactionId: String? = nil) -> TransactionReportBuilder<PagedResult<TransactionSummary>> {
+        TransactionReportBuilder<PagedResult<TransactionSummary>>(reportType: .findTransactionsPaged)
+            .withTransactionId(transactionId)
+            .withPaging(page, pageSize)
     }
 
     public static func findSettlementTransactions() -> TransactionReportBuilder<[TransactionSummary]> {
-        return TransactionReportBuilder<[TransactionSummary]>(reportType: .findSettlementTransactions)
+        TransactionReportBuilder<[TransactionSummary]>(reportType: .findSettlementTransactions)
+    }
+
+    public static func findSettlementTransactionsPaged(page: Int, pageSize: Int) -> TransactionReportBuilder<PagedResult<TransactionSummary>> {
+        TransactionReportBuilder<PagedResult<TransactionSummary>>(reportType: .findSettlementTransactionsPaged)
+            .withPaging(page, pageSize)
     }
 
     public static func transactionDetail(transactionId: String) -> TransactionReportBuilder<TransactionSummary> {
-        return TransactionReportBuilder<TransactionSummary>(reportType: .transactionDetail)
+        TransactionReportBuilder<TransactionSummary>(reportType: .transactionDetail)
             .withTransactionId(transactionId)
     }
 
     // MARK: - Deposits
 
     public static func findDeposits() -> TransactionReportBuilder<[DepositSummary]> {
-        return TransactionReportBuilder<[DepositSummary]>(reportType: .findDeposits)
+        TransactionReportBuilder<[DepositSummary]>(reportType: .findDeposits)
     }
 
-    public static func depositDetail(depositId: String) -> TransactionReportBuilder<DepositSummary> {
-        return TransactionReportBuilder<DepositSummary>(reportType: .depositDetail)
-            .withDepositId(depositId)
+    public static func findDepositsPaged(page: Int, pageSize: Int) -> TransactionReportBuilder<PagedResult<DepositSummary>> {
+        TransactionReportBuilder<PagedResult<DepositSummary>>(reportType: .findDepositsPaged)
+            .withPaging(page, pageSize)
+    }
+
+    public static func depositDetail(depositReference: String) -> TransactionReportBuilder<DepositSummary> {
+        TransactionReportBuilder<DepositSummary>(reportType: .depositDetail)
+            .withDepositReference(depositReference)
     }
 
     // MARK: - Disputes
 
     public static func findDisputes() -> TransactionReportBuilder<[DisputeSummary]> {
-        return TransactionReportBuilder<[DisputeSummary]>(reportType: .findDisputes)
+        TransactionReportBuilder<[DisputeSummary]>(reportType: .findDisputes)
+    }
+
+    public static func findDisputesPaged(page: Int, pageSize: Int) -> TransactionReportBuilder<PagedResult<DisputeSummary>> {
+        TransactionReportBuilder<PagedResult<DisputeSummary>>(reportType: .findDisputesPaged)
+            .withPaging(page, pageSize)
     }
 
     public static func disputeDetail(disputeId: String) -> TransactionReportBuilder<DisputeSummary> {
-        return TransactionReportBuilder<DisputeSummary>(reportType: .disputeDetail)
+        TransactionReportBuilder<DisputeSummary>(reportType: .disputeDetail)
             .withDisputeId(disputeId)
     }
 
     public static func findSettlementDisputes() -> TransactionReportBuilder<[DisputeSummary]> {
-        return TransactionReportBuilder<[DisputeSummary]>(reportType: .findSettlementDisputes)
+        TransactionReportBuilder<[DisputeSummary]>(reportType: .findSettlementDisputes)
+    }
+
+    public static func findSettlementDisputesPaged(page: Int, pageSize: Int) -> TransactionReportBuilder<PagedResult<DisputeSummary>> {
+        TransactionReportBuilder<PagedResult<DisputeSummary>>(reportType: .findSettlementDisputesPaged)
+            .withPaging(page, pageSize)
     }
 
     public static func settlementDisputeDetail(disputeId: String) -> TransactionReportBuilder<DisputeSummary> {
-        return TransactionReportBuilder<DisputeSummary>(reportType: .settlementDisputeDetail)
+        TransactionReportBuilder<DisputeSummary>(reportType: .settlementDisputeDetail)
             .withSettlementDisputeId(disputeId)
     }
 
     public static func acceptDispute(id: String) -> TransactionReportBuilder<DisputeAction> {
-        return TransactionReportBuilder<DisputeAction>(reportType: .acceptDispute)
+        TransactionReportBuilder<DisputeAction>(reportType: .acceptDispute)
             .withDisputeId(id)
     }
 
     public static func challangeDispute(id: String, documents: [DocumentInfo]?) -> TransactionReportBuilder<DisputeAction> {
-        return TransactionReportBuilder<DisputeAction>(reportType: .challangeDispute)
+        TransactionReportBuilder<DisputeAction>(reportType: .challangeDispute)
             .withDisputeId(id)
             .withDisputeDocuments(documents)
     }
 
     public static func findDisputeDocument(id: String, disputeId: String) -> TransactionReportBuilder<DocumentMetadata> {
-        return TransactionReportBuilder<DocumentMetadata>(reportType: .disputeDocument)
+        TransactionReportBuilder<DocumentMetadata>(reportType: .disputeDocument)
             .withDisputeId(disputeId)
             .withDocumentId(id)
     }
@@ -68,6 +94,6 @@ public class ReportingService {
     // MARK: - Other
 
     public static func activity() -> TransactionReportBuilder<[TransactionSummary]> {
-        return TransactionReportBuilder<[TransactionSummary]>(reportType: .activity)
+        TransactionReportBuilder<[TransactionSummary]>(reportType: .activity)
     }
 }

@@ -9,7 +9,6 @@ final class AccessTokenView: UIView {
     @IBOutlet private weak var tokenizationAccountNameLabel: UILabel!
     @IBOutlet private weak var transactionProcessingAccountNameLabel: UILabel!
 
-
     class func instantiateFromNib() -> AccessTokenView {
         UINib(nibName: "AccessTokenView", bundle: .main)
             .instantiate(withOwner: self, options: nil)

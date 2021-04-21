@@ -1,6 +1,6 @@
 import Foundation
 
 public protocol Secure3dProvider {
-    func getVersion() -> Secure3dVersion
-    func processSecure3d(_ builder: Secure3dBuilder, completion: (Transaction?) -> Void)
+    var version: Secure3dVersion { get }
+    func processSecure3d(_ builder: Secure3dBuilder, _ completion: @escaping (Transaction?, Error?) -> Void)
 }

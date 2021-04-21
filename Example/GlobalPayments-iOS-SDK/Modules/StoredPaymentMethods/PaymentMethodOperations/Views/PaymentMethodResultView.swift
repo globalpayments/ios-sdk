@@ -8,6 +8,7 @@ final class PaymentMethodResultView: UIView {
         let nib = UINib(nibName: "PaymentMethodResultView", bundle: .main)
             .instantiate(withOwner: self, options: nil)
             .first as! PaymentMethodResultView
+
         return nib
     }
 

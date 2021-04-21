@@ -31,7 +31,7 @@ public class ServicesContainer {
             shared.addConfiguration(configName: configName, config: configuredService)
         }
     }
-    
+
     private func configuration(for configName: String) -> ConfiguredServices {
         return configurations[configName] ?? ConfiguredServices()
     }

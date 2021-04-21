@@ -21,7 +21,7 @@ final class AccessTokenViewModel: AccessTokenInput {
             appKey: form.appKey,
             secondsToExpire: form.secondsToExpire,
             intervalToExpire: form.interval) { [weak self] accessTokenInfo, error in
-            DispatchQueue.main.async {
+            UI {
                 guard let accessTokenInfo = accessTokenInfo else {
                     self?.view?.showErrorView(error: error)
                     return

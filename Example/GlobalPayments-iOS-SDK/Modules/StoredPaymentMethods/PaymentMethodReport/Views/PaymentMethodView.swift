@@ -25,6 +25,7 @@ final class PaymentMethodView: UIView {
             .instantiate(withOwner: self, options: nil)
             .first as! PaymentMethodView
         nib.setupUI()
+
         return nib
     }
 

@@ -8,6 +8,8 @@ public enum FraudFilterMode {
     case off
     /// Sets the fraud filter to passive mode
     case passive
+    /// Sets the fraud filter to active mode
+    case active
 }
 
 /// Options when specifying HPP versions.

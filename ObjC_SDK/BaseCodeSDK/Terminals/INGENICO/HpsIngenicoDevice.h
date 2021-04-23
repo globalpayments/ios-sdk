@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(HpsIngenicoTerminalAuthBuilder*)authorize:(NSNumber*)amount;
 -(HpsIngenicoTerminalManageBuilder*)capture:(NSNumber*)amount;
 -(HpsIngenicoTerminalAuthBuilder*)verify;
+-(HpsIngenicoTerminalManageBuilder*)referralConfirmation;
 
 //TransactionManagement
 -(void)duplicate:(void (^)(id<IHPSDeviceResponse>, NSError *))responseBlock;

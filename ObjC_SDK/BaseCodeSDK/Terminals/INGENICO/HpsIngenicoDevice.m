@@ -115,6 +115,13 @@ static id sharedInstance = nil;
     return builder;
 }
 
+-(HpsIngenicoTerminalManageBuilder*)referralConfirmation{
+    HpsIngenicoTerminalManageBuilder *builder = [[HpsIngenicoTerminalManageBuilder alloc] initWithDevice:self];
+    builder.withAmount([NSNumber numberWithDouble:0.01]).withTransactionType(Referral).withPaymentType(HpsIngenicoPaymentType_REFERRAL_CONFIRMATION);
+    
+    return builder;
+}
+
 
 //Transaction Management
 

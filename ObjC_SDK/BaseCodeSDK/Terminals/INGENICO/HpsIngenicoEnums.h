@@ -17,6 +17,7 @@ typedef NS_ENUM(int, PaymentType) {
     HpsIngenicoPaymentType_COMPLETION = 2,
     HpsIngenicoPaymentType_PREAUTH = 3,
     HpsIngenicoPaymentType_ACCOUNT_VERIFICATION = 6,
+    HpsIngenicoPaymentType_REFERRAL_CONFIRMATION = 9
 };
 
 typedef NS_ENUM(int, TaxFreeType) {

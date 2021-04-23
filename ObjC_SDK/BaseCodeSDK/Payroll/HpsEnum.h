@@ -132,6 +132,7 @@ typedef NS_ENUM(NSInteger, TransactionType) {
     Auth,
     Refund,
     Reversal,
+    Referral,
     Sale,
     Edit,
     Void,

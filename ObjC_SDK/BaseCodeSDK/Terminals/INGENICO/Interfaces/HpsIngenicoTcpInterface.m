@@ -288,6 +288,8 @@ NSTimer *timeoutTimer = nil;
     
     [NSObject cancelPreviousPerformRequestsWithTarget: self selector:@selector(returnTimeoutMessage) object: self];
     [self cancel];
+    
+    [self invalidateTimer];
 
 }
 
@@ -330,6 +332,12 @@ NSTimer *timeoutTimer = nil;
     
     if (bytesWritten == -1)  {
         return;
+    }
+    
+    if (isTransactionOngoing && config.timeout > 0){
+        
+        NSInteger timeout = config.timeout;
+        timeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(returnTimeoutMessage) userInfo:nil repeats:NO];
     }
 
     [outputBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten)
@@ -375,9 +383,9 @@ NSTimer *timeoutTimer = nil;
                 
             } else {
                 
-                [self invalidateTimer];
-                
                 if (isTransactionOngoing && config.timeout > 0){
+                    
+                    [self invalidateTimer];
                     
                     NSInteger timeout = config.timeout;
                     timeoutTimer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(returnTimeoutMessage) userInfo:nil repeats:NO];
@@ -416,10 +424,12 @@ NSTimer *timeoutTimer = nil;
                     NSError *error;
                     error = nil;
                     
-                    if ([dataBuffer length] > 0){
+                    if ([dataBuffer length] > 0 && !terminalResponded){
                         
                         terminalResponded = true;
                         isTransactionOngoing = false;
+                        
+                        [self invalidateTimer];
                         
                         if (responseDataBlock){
                             responseDataBlock(dataBuffer,error);
@@ -427,7 +437,12 @@ NSTimer *timeoutTimer = nil;
                         
                     } else {
                         
-                        if (messageSentBlock){
+                        if (messageSentBlock && !terminalResponded){
+                            terminalResponded = true;
+                            isTransactionOngoing = false;
+                            
+                            [self invalidateTimer];
+                            
                             messageSentBlock(@"Server Error", error);
                         }
                         
@@ -481,7 +496,22 @@ NSTimer *timeoutTimer = nil;
 
 -(void)returnTimeoutMessage{
     if (!terminalResponded){
-        messageSentBlock(@"Server Error: Timeout",nil);
+        
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"Server Timeout"};
+        NSError *error = [NSError errorWithDomain:[HpsCommon sharedInstance].hpsErrorDomain
+                                             code:CocoaError
+                                         userInfo:userInfo];
+        
+        terminalResponded = true;
+        isTransactionOngoing = false;
+        
+        if (responseDataBlock){
+            responseDataBlock(nil,error);
+        }
+        
+        [self invalidateTimer];
+            
+        //messageSentBlock(@"Server Timeout",nil);
     }
 }
 

@@ -47,14 +47,23 @@ public enum SearchCriteria: String {
     case name
     case tokenFirstSix
     case tokenLastFour
+    case accountId
+    case actionType
+    case appName
+    case httpResponseCode
+    case merchantName
+    case resource
+    case resourceStatus
+    case resourceId
+    case responseCode
+    case version
+    case actionId
 }
 
 public enum DataServiceCriteria: String {
     case amount
     case bankAccountNumber
     case caseId
-    case cardNumberFirstSix
-    case cardNumberLastFour
     case caseNumber
     case depositReference
     case endDepositDate
@@ -72,6 +81,9 @@ public enum DataServiceCriteria: String {
     case currency
     case startBatchDate
     case endBatchDate
+    case storedPaymentMethodId
+    case startLastUpdatedDate
+    case endLastUpdatedDate
 }
 
 @objcMembers public class SearchCriteriaBuilder<TResult>: NSObject {
@@ -153,6 +165,21 @@ public enum DataServiceCriteria: String {
     var paymentType: PaymentType?
     var tokenFirstSix: String?
     var tokenLastFour: String?
+    var storedPaymentMethodId: String?
+    var storedPaymentMethodStatus: StoredPaymentMethodStatus?
+    var startLastUpdatedDate: Date?
+    var endLastUpdatedDate: Date?
+    var accountId: String?
+    var actionType: String?
+    var appName: String?
+    var httpResponseCode: String?
+    var merchantName: String?
+    var resource: String?
+    var resourceStatus: String?
+    var resourceId: String?
+    var responseCode: String?
+    var version: String?
+    var actionId: String?
 
     init(reportBuilder: TransactionReportBuilder<TResult>?) {
         self.reportBuilder = reportBuilder
@@ -200,6 +227,11 @@ public enum DataServiceCriteria: String {
 
     public func and(paymentType: PaymentType?) -> SearchCriteriaBuilder<TResult> {
         self.paymentType = paymentType
+        return self
+    }
+
+    public func and(storedPaymentMethodStatus: StoredPaymentMethodStatus?) -> SearchCriteriaBuilder<TResult> {
+        self.storedPaymentMethodStatus = storedPaymentMethodStatus
         return self
     }
 

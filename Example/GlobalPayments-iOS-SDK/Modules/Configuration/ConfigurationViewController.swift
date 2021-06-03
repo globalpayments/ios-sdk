@@ -20,6 +20,9 @@ final class ConfigurationViewController: UIViewController, StoryboardInstantiabl
     @IBOutlet private weak var channelTextField: UITextField!
     @IBOutlet private weak var languageTextField: UITextField!
     @IBOutlet private weak var countryTextField: UITextField!
+    @IBOutlet private weak var challengeNotificationUrlTextField: UITextField!
+    @IBOutlet private weak var methodNotificationUrlTextField: UITextField!
+    @IBOutlet private weak var merchantContactUrlTextField: UITextField!
     @IBOutlet private weak var saveButton: UIButton!
 
     override func viewDidLoad() {
@@ -45,6 +48,10 @@ final class ConfigurationViewController: UIViewController, StoryboardInstantiabl
         languageTextField.text = nil
         countryTextField.placeholder = "configuration.country".localized()
         saveButton.apply(style: .globalPayStyle, title: "configuration.save".localized())
+        challengeNotificationUrlTextField.placeholder = "configuration.challenge.notification.url".localized()
+        methodNotificationUrlTextField.placeholder = "configuration.method.notification.url".localized()
+        merchantContactUrlTextField.placeholder = "configuration.merchant.contact.url".localized()
+
         hideKeyboardWhenTappedAround()
     }
 
@@ -72,7 +79,10 @@ final class ConfigurationViewController: UIViewController, StoryboardInstantiabl
             intervalToExpire: IntervalToExpire(value: intervalToExpireTextField.text),
             channel: channel,
             language: Language(value: languageTextField.text),
-            country: country
+            country: country,
+            challengeNotificationUrl: challengeNotificationUrlTextField.text,
+            methodNotificationUrl: methodNotificationUrlTextField.text,
+            merchantContactUrl: merchantContactUrlTextField.text
         )
         viewModel.saveConfig(config)
     }
@@ -92,6 +102,9 @@ extension ConfigurationViewController: ConfigurationViewOutput {
         channelTextField.text = config.channel.mapped(for: .gpApi)?.uppercased()
         languageTextField.text = config.language?.mapped(for: .gpApi)?.uppercased()
         countryTextField.text = config.country
+        challengeNotificationUrlTextField.text = config.challengeNotificationUrl
+        methodNotificationUrlTextField.text = config.methodNotificationUrl
+        merchantContactUrlTextField.text = config.merchantContactUrl
     }
 
     func displayError(_ error: Error) {

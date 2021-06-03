@@ -203,6 +203,45 @@ public struct GpApiMapping {
         return summary
     }
 
+    public static func mapStoredPaymentMethodSummary(_ doc: JsonDoc?) -> StoredPaymentMethodSummary {
+        let summary = StoredPaymentMethodSummary()
+        summary.id = doc?.getValue(key: "id")
+        let timeCreated: String? = doc?.getValue(key: "time_created")
+        summary.timeCreated = timeCreated?.format()
+        summary.status = doc?.getValue(key: "status")
+        summary.reference = doc?.getValue(key: "reference")
+        summary.name = doc?.getValue(key: "name")
+        if let card: JsonDoc = doc?.get(valueFor: "card") {
+            summary.cardLast4 = card.getValue(key: "number_last4")
+            summary.cardType = card.getValue(key: "brand")
+            summary.cardExpMonth = card.getValue(key: "expiry_month")
+            summary.cardExpYear = card.getValue(key: "expiry_year")
+        }
+
+        return summary
+    }
+
+    public static func mapActionSummary(_ doc: JsonDoc?) -> ActionSummary {
+        let summary = ActionSummary()
+        summary.id = doc?.getValue(key: "id")
+        summary.type = doc?.getValue(key: "type")
+        let timeCreated: String? = doc?.getValue(key: "time_created")
+        summary.timeCreated = timeCreated?.format()
+        summary.resource = doc?.getValue(key: "resource")
+        summary.version = doc?.getValue(key: "version")
+        summary.resourceId = doc?.getValue(key: "resource_id")
+        summary.resourceStatus = doc?.getValue(key: "resource_status")
+        summary.httpResponseCode = doc?.getValue(key: "http_response_code")
+        summary.responseCode = doc?.getValue(key: "response_code")
+        summary.appId = doc?.getValue(key: "app_id")
+        summary.appName = doc?.getValue(key: "app_name")
+        summary.accountId = doc?.getValue(key: "account_id")
+        summary.accountName = doc?.getValue(key: "account_name")
+        summary.merchantName = doc?.getValue(key: "merchant_name")
+
+        return summary
+    }
+
     public static func mapDisputeAction(_ doc: JsonDoc?) -> DisputeAction {
         let action = DisputeAction()
         action.reference = doc?.getValue(key: "id")
@@ -307,6 +346,15 @@ public struct GpApiMapping {
                 pagedResult?.results = mapped
             }
             result = pagedResult
+        } else if reportType == .storedPaymentMethodDetail && StoredPaymentMethodSummary() is T {
+            result = GpApiMapping.mapStoredPaymentMethodSummary(json)
+        } else if reportType == .findStoredPaymentMethodsPaged && PagedResult<StoredPaymentMethodSummary>(totalRecordCount: nil, pageSize: 0, page: 0, order: nil, orderBy: nil) is T {
+            var pagedResult: PagedResult<StoredPaymentMethodSummary>? = getPagedResult(json)
+            if let deposits: [JsonDoc] = json?.getValue(key: "payment_methods") {
+                let mapped = deposits.map { GpApiMapping.mapStoredPaymentMethodSummary($0) }
+                pagedResult?.results = mapped
+            }
+            result = pagedResult
         } else if (reportType == .disputeDetail || reportType == .settlementDisputeDetail) && DisputeSummary() is T {
             result = GpApiMapping.mapDisputeSummary(json)
         } else if (reportType == .findDisputesPaged || reportType == .findSettlementDisputesPaged)
@@ -314,6 +362,16 @@ public struct GpApiMapping {
             var pagedResult: PagedResult<DisputeSummary>? = getPagedResult(json)
             if let disputes: [JsonDoc] = json?.getValue(key: "disputes") {
                 let mapped = disputes.map { GpApiMapping.mapDisputeSummary($0) }
+                pagedResult?.results = mapped
+            }
+            result = pagedResult
+        } else if reportType == .actionDetail && ActionSummary() is T {
+            result = GpApiMapping.mapActionSummary(json)
+        } else if reportType == .findActionsPaged
+                    && PagedResult<ActionSummary>(totalRecordCount: nil, pageSize: 0, page: 0, order: nil, orderBy: nil) is T {
+            var pagedResult: PagedResult<ActionSummary>? = getPagedResult(json)
+            if let actions: [JsonDoc] = json?.getValue(key: "actions") {
+                let mapped = actions.map { GpApiMapping.mapActionSummary($0) }
                 pagedResult?.results = mapped
             }
             result = pagedResult

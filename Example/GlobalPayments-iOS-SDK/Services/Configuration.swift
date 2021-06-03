@@ -9,6 +9,9 @@ struct Config: Codable {
     var channel: Channel
     let language: Language?
     let country: String?
+    let challengeNotificationUrl: String?
+    let methodNotificationUrl: String?
+    let merchantContactUrl: String?
 }
 
 protocol Configuration {

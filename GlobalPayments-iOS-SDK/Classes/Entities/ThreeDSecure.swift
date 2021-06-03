@@ -91,6 +91,10 @@ public class ThreeDSecure: NSObject {
     /// Consumer authentication (3DSecure) transaction ID.
     public var xid: String?
     public var sessionDataFieldName: String?
+    /// The exempt status
+    public var exemptStatus: ExemptStatus?
+    /// The exemption optimization service reason
+    public var exemptReason: ExemptReason?
 
     public func threeDSecure() {
         paymentDataType = "3DSecure"
@@ -140,6 +144,8 @@ public class ThreeDSecure: NSObject {
         version = mergeValue(version, secureEcom.version)
         xid = mergeValue(xid, secureEcom.xid)
         sessionDataFieldName = mergeValue(sessionDataFieldName, secureEcom.sessionDataFieldName)
+        exemptStatus = mergeValue(exemptStatus, secureEcom.exemptStatus)
+        exemptReason = mergeValue(exemptReason, secureEcom.exemptReason)
     }
 
     private func mergeValue<T>(_ currentValue: T?, _ mergeValue: T?) -> T? {

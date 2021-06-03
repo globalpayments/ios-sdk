@@ -27,6 +27,8 @@ struct GlobalPayRouter: Router {
             return DepositsBuilder.build()
         case .disputes:
             return DisputesBuilder.build()
+        case .authentications:
+            return AuthenticationsBuilder.build()
         }
     }
 }

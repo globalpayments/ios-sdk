@@ -3,7 +3,6 @@ import Foundation
 enum PaymentMethodOperationType: String, CaseIterable {
     case tokenize
     case edit
-    case detokenize
     case delete
 
     public init?(value: String?) {

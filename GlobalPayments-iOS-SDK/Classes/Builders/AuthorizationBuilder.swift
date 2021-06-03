@@ -127,11 +127,6 @@ import Foundation
         return self
     }
 
-    public func withAmountEstimated(_ amountEstimated: Bool) -> AuthorizationBuilder {
-        self.amountEstimated = amountEstimated
-        return self
-    }
-
     /// Sets the transaction's authorization amount; where applicable.
     /// This is a specialized field. In most cases, `Authorization.withAmount` should be used.
     /// - Parameter authAmount: The authorization amount

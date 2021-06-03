@@ -4,6 +4,7 @@
 "generic.empty" = "Empty";
 "generic.idempotency.key.title" = "Idempotency Key:";
 "generic.optional" = "(optional)";
+"generic.submit" = "Submit";
 
 "gateways.title" = "GlobalPay Sample App";
 "gateways.gpapi.title" = "GP API";
@@ -18,6 +19,7 @@
 "globalpay.payment.methods.title" = "Stored Payment Methods";
 "globalpay.deposits.title" = "Deposits";
 "globalpay.disputes.title" = "Disputes";
+"globalpay.disputes.authentications" = "Authentications";
 
 "access.token.title" = "Access Token";
 "access.token.create" = "Create Access Token";
@@ -325,3 +327,70 @@
 "configuration.app.id.message" = "Applicatoin ID field is required";
 "configuration.app.key.message" = "Applicatoin Key field is required";
 "configuration.channel.message" = "Channel field is required";
+"configuration.challenge.notification.url" = "Challenge Notification URL (optional)";
+"configuration.method.notification.url" = "Method Notification URL (optional)";
+"configuration.merchant.contact.url" = "Merchant Contact URL (optional)";
+
+// MARK: - Authentications
+
+"authentications.title" = "Authentications";
+"authentications.check.availability" = "Check Availability";
+"authentications.initiate" = "Initiate";
+"authentications.get.result" = "Get Result";
+"authentications.full.flow" = "Full Flow";
+
+// MARK: - Check Availability Form
+
+"check.availability.form.title" = "Check Availability";
+"check.availability.form.payment.card" = "Payment card";
+"check.availability.form.card.number" = "Card number:";
+"check.availability.form.expiry.month" = "Expiry month;";
+"check.availability.form.expiry.year" = "Expiry year:";
+"check.availability.form.card.holder.name" = "Card holder name:";
+"check.availability.form.transaction.data" = "Transaction data";
+"check.availability.form.amount" = "Amount:";
+"check.availability.form.currency" = "Currency:";
+
+// MARK: - Authentication Data Form
+
+"authentication.data.form.title" = "Authentication Data Form";
+"authentication.data.form.transaction.id" = "Transaction ID:";
+"authentication.data.form.payer.response" = "Payer Authentication Response:";
+
+// MARK: - Initiate Form
+
+"initiate.form.title" = "Initiate Form";
+"initiate.form.full.title" = "Full Cycle Form";
+"initiate.form.payment.card" = "Payment Card";
+"initiate.form.card.number" = "Card number:";
+"initiate.form.exp.month" = "Expiry month:";
+"initiate.form.exp.year" = "Expiry year:";
+"initiate.form.cardholder.name" = "Cardholder name:";
+"initiate.form.amount" = "Amount:";
+"initiate.form.currency" = "Currency:";
+"initiate.form.method.url" = "Method URL completion:";
+"initiate.form.auth.source" = "Authentication source:";
+"initiate.form.order.date" = "Order create date:";
+"initiate.form.billing.address1" = "Street address 1:";
+"initiate.form.billing.address2" = "Street address 2:";
+"initiate.form.billing.address3" = "Street address 3:";
+"initiate.form.billing.city" = "City:";
+"initiate.form.billing.postal.code" = "Postal code:";
+"initiate.form.billing.country.code" = "Country code:";
+"initiate.form.shipping.address1" = "Street address 1:";
+"initiate.form.shipping.address2" = "Street address 2:";
+"initiate.form.shipping.address3" = "Street address 3:";
+"initiate.form.shipping.city" = "City:";
+"initiate.form.shipping.postal.code" = "Postal code:";
+"initiate.form.shipping.country.code" = "Country code:";
+"initiate.form.accept.header" = "Accept header:";
+"initiate.form.color.depth" = "Color depth:";
+"initiate.form.ip.address" = "IP address:";
+"initiate.form.java.enabled" = "Java enabled:";
+"initiate.form.js.enabled" = "JavaScript enabled:";
+"initiate.form.language" = "Language:";
+"initiate.form.screen.height" = "Screen height:";
+"initiate.form.screen.width" = "Screen width:";
+"initiate.form.window.size" = "Challenge window size:";
+"initiate.form.timezone" = "Timezone:";
+"initiate.form.user.agent" = "User agent:";

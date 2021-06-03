@@ -5,12 +5,6 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
     func generateRequest(for builder: ManagementBuilder, config: GpApiConfig) -> GpApiRequest? {
 
         switch builder.transactionType {
-        case .detokenize:
-            let token = getToken(from: builder)
-            return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.paymentMethodsDetokenize(token: token),
-                method: .post
-            )
         case .tokenDelete:
             let token = getToken(from: builder)
             return GpApiRequest(
@@ -61,6 +55,14 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.batchClose(id: builder.batchReference ?? .empty),
                 method: .post
+            )
+        case .reauth:
+            let payload = JsonDoc()
+                .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.transactionsReauthorization(transactionId: (builder.transactionId ?? .empty)),
+                method: .post,
+                requestBody: payload.toString()
             )
         default:
             return nil

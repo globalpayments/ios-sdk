@@ -116,7 +116,7 @@ final class PaymentOperationFormViewController: UIViewController, StoryboardInst
                         case .edit:
                             self?.paymentOperationStackView.isHidden = false
                             self?.paymentCardStackView.isHidden = false
-                        case .delete, .detokenize:
+                        case .delete:
                             self?.paymentOperationStackView.isHidden = false
                             self?.paymentCardStackView.isHidden = true
                         }

@@ -13,13 +13,13 @@ import Foundation
     var idempotencyKey: String?
     var page: Int?
     var pageSize: Int?
+    var order: SortDirection?
     var transactionOrderBy: TransactionSortProperty?
-    var transactionOrder: SortDirection?
     var depositOrderBy: DepositSortProperty?
-    var depositOrder: SortDirection?
     var depositStatus: DepositStatus?
     var disputeOrderBy: DisputeSortProperty?
-    var disputeOrder: SortDirection?
+    var storedPaymentMethodOrderBy: StoredPaymentMethodSortProperty?
+    var actionOrderBy: ActionSortProperty?
     var disputeDocuments: [DocumentInfo]?
 
     /// Sets the device ID as criteria for the report.
@@ -110,6 +110,14 @@ import Foundation
         return self
     }
 
+    /// Sets the gateway action id as criteria for the report.
+    /// - Parameter id: The gateway action id
+    /// - Returns: TResult
+    public func withActionId(_ id: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.actionId = id
+        return self
+    }
+
     /// Set the gateway transaction order by criteria for the report.
     /// - Parameters:
     ///   - transactionSortProperty: Order by transaction sort property
@@ -118,7 +126,7 @@ import Foundation
     public func orderBy(transactionSortProperty: TransactionSortProperty,
                         _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
         self.transactionOrderBy = transactionSortProperty
-        self.transactionOrder = direction
+        self.order = direction
         return self
     }
 
@@ -130,7 +138,7 @@ import Foundation
     public func orderBy(depositOrderBy: DepositSortProperty,
                         _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
         self.depositOrderBy = depositOrderBy
-        self.depositOrder = direction
+        self.order = direction
         return self
     }
 
@@ -142,7 +150,31 @@ import Foundation
     public func orderBy(disputeOrderBy: DisputeSortProperty,
                         _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
         self.disputeOrderBy = disputeOrderBy
-        self.disputeOrder = direction
+        self.order = direction
+        return self
+    }
+
+    /// Set the gateway stored payment method order by criteria for the report.
+    /// - Parameters:
+    ///   - storedPaymentMethodOrderBy: Order by property
+    ///   - direction: Order by direction
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func orderBy(storedPaymentMethodOrderBy: StoredPaymentMethodSortProperty,
+                        _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
+        self.storedPaymentMethodOrderBy = storedPaymentMethodOrderBy
+        self.order = direction
+        return self
+    }
+
+    /// Set the gateway action order by criteria for the report.
+    /// - Parameters:
+    ///   - actionOrderBy: Order by property
+    ///   - direction: Order by direction
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func orderBy(actionOrderBy: ActionSortProperty,
+                        _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
+        self.actionOrderBy = actionOrderBy
+        self.order = direction
         return self
     }
 
@@ -186,6 +218,14 @@ import Foundation
         return self
     }
 
+    /// Sets the gateway stored payment method id as a critria for the report.
+    /// - Parameter storedPaymentMethodId: The stored payment method id
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withStoredPaymentMethodId(_ storedPaymentMethodId: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.storedPaymentMethodId = storedPaymentMethodId
+        return self
+    }
+
     public func `where`<T>(_ searchCriteria: SearchCriteria, _ value: T) -> SearchCriteriaBuilder<TResult> {
         return searchCriteriaBuilder.and(searchCriteria: searchCriteria, value: value)
     }
@@ -220,6 +260,10 @@ import Foundation
 
     public func `where`(_ paymentType: PaymentType) -> SearchCriteriaBuilder<TResult> {
         return searchCriteriaBuilder.and(paymentType: paymentType)
+    }
+
+    public func `where`(_ storedPaymentMethodStatus: StoredPaymentMethodStatus) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(storedPaymentMethodStatus: storedPaymentMethodStatus)
     }
 
     public override func setupValidations() {

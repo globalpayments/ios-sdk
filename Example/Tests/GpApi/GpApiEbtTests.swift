@@ -3,15 +3,19 @@ import GlobalPayments_iOS_SDK
 
 class GpApiEbtTests: XCTestCase {
 
-    var card: EBTCardData!
+    private var card: EBTCardData!
+    private var track: EBTTrackData!
+    private var amount: NSDecimalNumber = 10.0
+    private var currency: String = "USD"
 
     override class func setUp() {
         super.setUp()
 
-        try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
-            appKey: "QDsW1ETQKHX6Y4TA",
-            channel: .cardPresent
+        try? ServicesContainer.configureService(
+            config: GpApiConfig(
+                appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
+                appKey: "QDsW1ETQKHX6Y4TA",
+                channel: .cardPresent
             )
         )
     }
@@ -25,51 +29,32 @@ class GpApiEbtTests: XCTestCase {
         card.expYear = 2025
         card.cvn = "123"
         card.pinBlock = "32539F50C245A6A93D123412324000AA"
+
+        track = EBTTrackData()
+        track.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        track.entryMethod = .swipe
+        track.pinBlock = "32539F50C245A6A93D123412324000AA"
     }
 
     override func tearDown() {
         super.tearDown()
 
         card = nil
+        track = nil
     }
 
-    func ebt_balance_inquiry() {
-        // GIVEN
-        let balanceInquiryExpectation = expectation(description: "EBT Balance Inquiry expectation")
-        var transactionResult: Transaction?
-        var transactionError: Error?
-
-        // WHEN
-        card.balanceInquiry()
-            .withCurrency("USD")
-            .execute {
-                transactionResult = $0
-                transactionError = $1
-                balanceInquiryExpectation.fulfill()
-            }
-
-        // THEN
-        wait(for: [balanceInquiryExpectation], timeout: 10.0)
-        XCTAssertNotNil(transactionResult)
-        XCTAssertNil(transactionError)
-    }
-
-    func test_ebt_sale() {
+    func test_ebt_sale_manual() {
         // GIVEN
         let ebtSaleExpectation = expectation(description: "EBT sale expectation")
         var transactionResult: Transaction?
         var transactionError: Error?
-        var transactionStatus: TransactionStatus?
 
         // WHEN
-        card.charge(amount: 10)
-            .withCurrency("USD")
-            .execute { transaction, error in
-                transactionResult = transaction
-                transactionError = error
-                if let responseMessage = transaction?.responseMessage {
-                    transactionStatus = TransactionStatus(rawValue: responseMessage)
-                }
+        card.charge(amount: amount)
+            .withCurrency(currency)
+            .execute {
+                transactionResult = $0
+                transactionError = $1
                 ebtSaleExpectation.fulfill()
         }
 
@@ -78,7 +63,31 @@ class GpApiEbtTests: XCTestCase {
         XCTAssertNotNil(transactionResult)
         XCTAssertNil(transactionError)
         XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
-        XCTAssertEqual(transactionStatus, TransactionStatus.captured)
+        XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
+    }
+
+    func test_ebt_sale_swipe() {
+        // GIVEN
+        let ebtSaleExpectation = expectation(description: "EBT sale expectation")
+        var transactionResult: Transaction?
+        var transactionError: Error?
+
+        // WHEN
+        track.charge(amount: amount)
+            .withCurrency(currency)
+            .withAllowDuplicates(true)
+            .execute {
+                transactionResult = $0
+                transactionError = $1
+                ebtSaleExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [ebtSaleExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertNil(transactionError)
+        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
     }
 
     func test_ebt_refund() {
@@ -86,17 +95,13 @@ class GpApiEbtTests: XCTestCase {
         let ebtRefundExpectation = expectation(description: "EBT refund expectation")
         var transactionResult: Transaction?
         var transactionError: Error?
-        var transactionStatusResponse: TransactionStatus?
 
         // WHEN
-        card.refund(amount: 10)
-            .withCurrency("USD")
-            .execute { transaction, error in
-                transactionResult = transaction
-                transactionError = error
-                if let responseMessage = transaction?.responseMessage {
-                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
-                }
+        card.refund(amount: amount)
+            .withCurrency(currency)
+            .execute {
+                transactionResult = $0
+                transactionError = $1
                 ebtRefundExpectation.fulfill()
         }
 
@@ -105,6 +110,56 @@ class GpApiEbtTests: XCTestCase {
         XCTAssertNotNil(transactionResult)
         XCTAssertNil(transactionError)
         XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
-        XCTAssertEqual(transactionStatusResponse, TransactionStatus.captured)
+        XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
+    }
+
+    func test_ebt_transaction_refund() {
+
+        // Charge
+
+        // GIVEN
+        let chargeExpectation = expectation(description: "Charge Expectation")
+        var chargeTransactionResult: Transaction?
+        var chargeTransactionError: Error?
+
+        // WHEN
+        card.charge(amount: amount)
+            .withCurrency(currency)
+            .execute {
+                chargeTransactionResult = $0
+                chargeTransactionError = $1
+                chargeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [chargeExpectation], timeout: 10.0)
+        XCTAssertNil(chargeTransactionError)
+        XCTAssertNotNil(chargeTransactionResult)
+        XCTAssertEqual(chargeTransactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(chargeTransactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
+
+        // Refund
+
+        // GIVEN
+        let refundExpectation = expectation(description: "Refund Expectation")
+        var refundTransactionResult: Transaction?
+        var refundTransactionError: Error?
+
+        // WHEN
+        chargeTransactionResult?
+            .refund()
+            .withCurrency(currency)
+            .execute {
+                refundTransactionResult = $0
+                refundTransactionError = $1
+                refundExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [refundExpectation], timeout: 10.0)
+        XCTAssertNil(refundTransactionError)
+        XCTAssertNotNil(refundTransactionResult)
+        XCTAssertEqual(refundTransactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(refundTransactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
     }
 }

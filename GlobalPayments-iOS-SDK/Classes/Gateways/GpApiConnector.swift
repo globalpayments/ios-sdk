@@ -329,7 +329,7 @@ extension GpApiConnector {
         }
 
         struct Value {
-            static let version: String = "2020-12-22"
+            static let version: String = "2021-03-22"
             static let accept: String = "application/json"
             static let acceptEnconding: String = "gzip"
         }

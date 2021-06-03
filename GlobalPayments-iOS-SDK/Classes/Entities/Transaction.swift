@@ -273,4 +273,16 @@ public class Transaction: NSObject {
             .withAmount(amount)
             .withPaymentMethod(transactionReference)
     }
+
+    /// Reauthorize the original transaction.
+    /// - Parameter amount: The original authorization amount
+    /// - Returns: ManagementBuilder
+    public func reauthorize(amount: NSDecimalNumber? = nil) -> ManagementBuilder {
+        guard let transactionReference = transactionReference else {
+            fatalError("transactionReference cannot be nil!")
+        }
+        return ManagementBuilder(transactionType: .reauth)
+            .withPaymentMethod(transactionReference)
+            .withAmount(amount ?? balanceAmount)
+    }
 }

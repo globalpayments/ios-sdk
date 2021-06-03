@@ -30,6 +30,17 @@ final class DatePicker: UIDatePicker {
             animated: true
         )
         pickerTextField?.inputAccessoryView = toolBar
+
+        let downArrow = UIImageView(image: UIImage(named: "triangle.down"))
+        downArrow.tintColor = .gray
+        downArrow.contentMode = .scaleAspectFit
+        downArrow.translatesAutoresizingMaskIntoConstraints = false
+        downArrow.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        downArrow.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        dropdownField.rightView = downArrow
+        dropdownField.rightViewMode = .always
+
+        pickerTextField?.text = "\(self.date)"
     }
 
     convenience init(dropdownField: UITextField, inputDate: Date, onSelect: ((String) -> Void)?) {

@@ -33,11 +33,14 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
         )
         pickerTextField?.inputAccessoryView = toolBar
 
-        if #available(iOS 13, *) {
-            let downArrow = UIImageView(image: UIImage(systemName: "arrow.triangle.down"))
-            downArrow.backgroundColor = .red
-            addSubview(downArrow)
-        }
+        let downArrow = UIImageView(image: UIImage(named: "triangle.down"))
+        downArrow.tintColor = .gray
+        downArrow.contentMode = .scaleAspectFit
+        downArrow.translatesAutoresizingMaskIntoConstraints = false
+        downArrow.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        downArrow.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        dropdownField.rightView = downArrow
+        dropdownField.rightViewMode = .always
     }
 
     convenience init(pickerData: [String], dropdownField: UITextField, onSelect: ((String) -> Void)?) {

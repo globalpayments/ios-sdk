@@ -53,7 +53,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             var params = [String: String]()
             addPageParams(&params, builder)
             params["order_by"] = builder.depositOrderBy?.mapped(for: .gpApi)
-            params["order"] = builder.depositOrder?.mapped(for: .gpApi)
+            params["order"] = builder.order?.mapped(for: .gpApi)
             params["account_name"] = config?.accessTokenInfo?.dataAccountName
             params["from_time_created"] = builder.startDate?.format("yyyy-MM-dd")
             params["to_time_created"] = builder.endDate?.format("yyyy-MM-dd")
@@ -123,6 +123,36 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                 endpoint: GpApiRequest.Endpoints.document(id: documentId, disputeId: disputeId),
                 method: .get
             )
+        case .storedPaymentMethodDetail:
+            let paymentMethodId = builder.searchCriteriaBuilder.storedPaymentMethodId ?? .empty
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.paymentMethodsWith(paymentMethodId: paymentMethodId),
+                method: .get
+            )
+        case .findStoredPaymentMethodsPaged:
+            var params = [String: String]()
+            addPageParams(&params, builder)
+            addPaymentsParams(&params, builder)
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.paymentMethods(),
+                method: .get,
+                queryParams: sanitize(params: params)
+            )
+        case .actionDetail:
+            let actionId = builder.searchCriteriaBuilder.actionId ?? .empty
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.action(id: actionId),
+                method: .get
+            )
+        case .findActionsPaged:
+            var params = [String: String]()
+            addPageParams(&params, builder)
+            addActionsParams(&params, builder)
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.actions(),
+                method: .get,
+                queryParams: sanitize(params: params)
+            )
         default:
             return nil
         }
@@ -139,7 +169,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
 
     private func addTransactionParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {
         params["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
-        params["order"] = builder.transactionOrder?.mapped(for: .gpApi)
+        params["order"] = builder.order?.mapped(for: .gpApi)
         params["number_first6"] = builder.searchCriteriaBuilder.cardNumberFirstSix
         params["number_last4"] = builder.searchCriteriaBuilder.cardNumberLastFour
         params["brand"] = builder.searchCriteriaBuilder.cardBrand
@@ -153,7 +183,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
 
     private func addDisputesParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {
         params["order_by"] = builder.disputeOrderBy?.mapped(for: .gpApi)
-        params["order"] = builder.disputeOrder?.mapped(for: .gpApi)
+        params["order"] = builder.order?.mapped(for: .gpApi)
         params["arn"] = builder.searchCriteriaBuilder.aquirerReferenceNumber
         params["brand"] = builder.searchCriteriaBuilder.cardBrand
         params["stage"] = builder.searchCriteriaBuilder.disputeStage?.mapped(for: .gpApi)
@@ -161,6 +191,37 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
         params["to_stage_time_created"] = builder.searchCriteriaBuilder.endStageDate?.format("yyyy-MM-dd")
         params["system.mid"] = builder.searchCriteriaBuilder.merchantId
         params["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
+    }
+
+    private func addPaymentsParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {
+        params["order_by"] = builder.storedPaymentMethodOrderBy?.mapped(for: .gpApi)
+        params["order"] = builder.order?.mapped(for: .gpApi)
+        params["id"] = builder.searchCriteriaBuilder.storedPaymentMethodId
+        params["number_last4"] = builder.searchCriteriaBuilder.cardNumberLastFour
+        params["reference"] = builder.searchCriteriaBuilder.referenceNumber
+        params["status"] = builder.searchCriteriaBuilder.storedPaymentMethodStatus?.mapped(for: .gpApi)
+        params["from_time_created"] = builder.searchCriteriaBuilder.startDate?.format("yyyy-MM-dd")
+        params["to_time_created"] = builder.searchCriteriaBuilder.endDate?.format("yyyy-MM-dd")
+        params["from_time_last_updated"] = builder.searchCriteriaBuilder.startLastUpdatedDate?.format("yyyy-MM-dd")
+        params["to_time_last_updated"] = builder.searchCriteriaBuilder.endLastUpdatedDate?.format("yyyy-MM-dd")
+    }
+
+    private func addActionsParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {
+        params["order_by"] = builder.actionOrderBy?.mapped(for: .gpApi)
+        params["order"] = builder.order?.mapped(for: .gpApi)
+        params["id"] = builder.searchCriteriaBuilder.actionId
+        params["type"] = builder.searchCriteriaBuilder.actionType
+        params["resource"] = builder.searchCriteriaBuilder.resource
+        params["resource_status"] = builder.searchCriteriaBuilder.resourceStatus
+        params["resource_id"] = builder.searchCriteriaBuilder.resourceId
+        params["from_time_created"] = builder.searchCriteriaBuilder.startDate?.format("yyyy-MM-dd")
+        params["to_time_created"] = builder.searchCriteriaBuilder.endDate?.format("yyyy-MM-dd")
+        params["merchant_name"] = builder.searchCriteriaBuilder.merchantName
+        params["account_name"] = builder.searchCriteriaBuilder.accountName
+        params["app_name"] = builder.searchCriteriaBuilder.appName
+        params["version"] = builder.searchCriteriaBuilder.version
+        params["response_code"] = builder.searchCriteriaBuilder.responseCode
+        params["http_response_code"] = builder.searchCriteriaBuilder.httpResponseCode
     }
 
     private func sanitize(params: [String: String]) -> [String: String] {

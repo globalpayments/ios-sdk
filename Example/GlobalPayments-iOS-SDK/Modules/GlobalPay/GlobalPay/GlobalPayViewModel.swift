@@ -46,7 +46,10 @@ final class GlobalPayViewModel: GlobalPayViewInput {
                 intervalToExpire: appConfig.intervalToExpire,
                 channel: appConfig.channel,
                 language: appConfig.language,
-                country: appConfig.country
+                country: appConfig.country,
+                challengeNotificationUrl: appConfig.challengeNotificationUrl,
+                methodNotificationUrl: appConfig.methodNotificationUrl,
+                merchantContactUrl: appConfig.merchantContactUrl
             )
             config.environment = .test
             try ServicesContainer.configureService(

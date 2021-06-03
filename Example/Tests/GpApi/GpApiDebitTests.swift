@@ -290,4 +290,139 @@ class GpApiDebitTests: XCTestCase {
         XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
         XCTAssertEqual(transactionResult?.responseMessage, "VERIFIED")
     }
+
+    func test_credit_card_reauthorize_transaction() {
+
+        // Charge
+
+        // GIVEN
+        let card = CreditCardData()
+        card.number = "5425230000004415"
+        card.expMonth = Date().currentMonth
+        card.expYear = Date().currentYear + 1
+        card.cvn = "123"
+        card.cardHolderName = "John Smith"
+        let chargeExpectation = expectation(description: "Charge Expectation")
+        var chargeTransactionResult: Transaction?
+        var chargeTransactionError: Error?
+
+        // WHEN
+        card.charge(amount: 1.25)
+            .withCurrency("USD")
+            .execute {
+                chargeTransactionResult = $0
+                chargeTransactionError = $1
+                chargeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [chargeExpectation], timeout: 10.0)
+        XCTAssertNil(chargeTransactionError)
+        XCTAssertNotNil(chargeTransactionResult)
+        XCTAssertEqual(chargeTransactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(chargeTransactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
+
+        // Charge
+
+        // GIVEN
+        let reverseExpectation = expectation(description: "Reverse Expectation")
+        var reverseTransactionResult: Transaction?
+        var reverseTransactionError: Error?
+
+        // WHEN
+        chargeTransactionResult?
+            .reverse(amount: 1.25)
+            .execute {
+                reverseTransactionResult = $0
+                reverseTransactionError = $1
+                reverseExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [reverseExpectation], timeout: 10.0)
+        XCTAssertNil(reverseTransactionError)
+        XCTAssertNotNil(reverseTransactionResult)
+        XCTAssertEqual(reverseTransactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(reverseTransactionResult?.responseMessage, TransactionStatus.reversed.mapped(for: .gpApi))
+
+        // Reauthorize
+
+        // GIVEN
+        let reauthorizeExpectation = expectation(description: "Reauthorize Expectation")
+        var reauthorizeTransactionResult: Transaction?
+        var reauthorizeTransactionError: Error?
+
+        // WHEN
+        chargeTransactionResult?
+            .reauthorize()
+            .execute {
+                reauthorizeTransactionResult = $0
+                reauthorizeTransactionError = $1
+                reauthorizeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [reauthorizeExpectation], timeout: 10.0)
+        XCTAssertNil(reauthorizeTransactionError)
+        XCTAssertNotNil(reauthorizeTransactionResult)
+        XCTAssertEqual(reauthorizeTransactionResult?.authorizationCode, "00")
+        XCTAssertEqual(reauthorizeTransactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(reauthorizeTransactionResult?.responseMessage, TransactionStatus.captured.rawValue)
+    }
+
+    func reauthorized_and_existing_transaction() {
+
+        // Obtain TransactionSummary
+
+        // GIVEN
+        let reportingService = ReportingService.findTransactionsPaged(page: 1, pageSize: 1)
+        let findExpectation = expectation(description: "Find Expectation")
+        let startDate = Date().addDays(-30)
+        let endDate = Date().addDays(-27)
+        var transactionSummaryResult: TransactionSummary?
+        var transactionSummaryError: Error?
+
+        // WHEN
+        reportingService
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .where(.preauthorized)
+            .and(channel: .cardPresent)
+            .and(searchCriteria: .startDate, value: startDate)
+            .and(searchCriteria: .endDate, value: endDate)
+            .execute {
+                transactionSummaryResult = $0?.results.first
+                transactionSummaryError = $1
+                findExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [findExpectation], timeout: 10.0)
+        XCTAssertNil(transactionSummaryError)
+        XCTAssertNotNil(transactionSummaryResult)
+
+        // Reauthorize
+
+        // GIVEN
+        let transaction = Transaction()
+        transaction.transactionId = transactionSummaryResult?.transactionId
+        let reauthorizeExpectation = expectation(description: "Reauthorize Expectation")
+        var reauthorizeTransactionResult: Transaction?
+        var reauthorizeTransactionError: Error?
+
+        // WHEN
+        transaction
+            .reauthorize(amount: transactionSummaryResult?.amount)
+            .execute {
+                reauthorizeTransactionResult = $0
+                reauthorizeTransactionError = $1
+                reauthorizeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [reauthorizeExpectation], timeout: 10.0)
+        XCTAssertNil(reauthorizeTransactionError)
+        XCTAssertNotNil(reauthorizeTransactionResult)
+        XCTAssertEqual(reauthorizeTransactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(reauthorizeTransactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
+    }
 }

@@ -448,21 +448,20 @@ class GpApi3DSecure1Tests: XCTestCase {
         // GIVEN
         let authenticateExpectation = expectation(description: "Authenticate Expectation")
         let acsClient = GpApi3DSecureAcsClient(redirectURL: threeDSecureResult?.issuerAcsUrl)
-        var authResponse: String?
-        var payerAuthenticationResponse: String?
+        var acsResponse: AcsResponse?
 
         // WHEN
         acsClient?.authenticateV1(threeDSecureResult, .successful) {
-            authResponse = $0
-            payerAuthenticationResponse = $1
+            acsResponse = $0
             authenticateExpectation.fulfill()
         }
 
         // THEN
         wait(for: [authenticateExpectation], timeout: 20.0)
-        XCTAssertNotNil(payerAuthenticationResponse)
-        XCTAssertNotNil(authResponse)
-        XCTAssertEqual(authResponse, "{\"success\":true}")
+        XCTAssertNotNil(acsResponse)
+        XCTAssertNotNil(acsResponse?.authResponse)
+        XCTAssertNotNil(acsResponse?.merchantData)
+        XCTAssertEqual(acsResponse?.status, true)
 
         // Get Authentication Data
 
@@ -474,8 +473,8 @@ class GpApi3DSecure1Tests: XCTestCase {
         // WHEN
         Secure3dService
             .getAuthenticationData()
-            .withServerTransactionId(threeDSecureResult?.serverTransactionId)
-            .withPayerAuthenticationResponse(payerAuthenticationResponse)
+            .withServerTransactionId(acsResponse?.merchantData)
+            .withPayerAuthenticationResponse(acsResponse?.authResponse)
             .execute {
                 secureEcomResult = $0
                 secureEcomError = $1
@@ -486,7 +485,7 @@ class GpApi3DSecure1Tests: XCTestCase {
         wait(for: [getAuthenticationDataExpectation], timeout: 10.0)
         XCTAssertNil(secureEcomError)
         XCTAssertNotNil(secureEcomResult)
-        XCTAssertEqual(secureEcomResult?.status, "AUTHENTICATION_SUCCESSFUL")
+        XCTAssertEqual(secureEcomResult?.status, "SUCCESS_AUTHENTICATED")
         XCTAssertEqual(secureEcomResult?.challengeMandated, true)
         XCTAssertNotNil(secureEcomResult?.issuerAcsUrl)
         XCTAssertNotNil(secureEcomResult?.payerAuthenticationRequest)
@@ -526,21 +525,20 @@ class GpApi3DSecure1Tests: XCTestCase {
         // GIVEN
         let authenticateExpectation = expectation(description: "Authenticate Expectation")
         let acsClient = GpApi3DSecureAcsClient(redirectURL: threeDSecureResult?.issuerAcsUrl)
-        var authResponse: String?
-        var payerAuthenticationResponse: String?
+        var acsResponse: AcsResponse?
 
         // WHEN
         acsClient?.authenticateV1(threeDSecureResult, .successful) {
-            authResponse = $0
-            payerAuthenticationResponse = $1
+            acsResponse = $0
             authenticateExpectation.fulfill()
         }
 
         // THEN
         wait(for: [authenticateExpectation], timeout: 20.0)
-        XCTAssertNotNil(payerAuthenticationResponse)
-        XCTAssertNotNil(authResponse)
-        XCTAssertEqual(authResponse, "{\"success\":true}")
+        XCTAssertNotNil(acsResponse)
+        XCTAssertNotNil(acsResponse?.authResponse)
+        XCTAssertNotNil(acsResponse?.merchantData)
+        XCTAssertEqual(acsResponse?.status, true)
 
         // Get Authentication Data
 
@@ -552,8 +550,8 @@ class GpApi3DSecure1Tests: XCTestCase {
         // WHEN
         Secure3dService
             .getAuthenticationData()
-            .withServerTransactionId(threeDSecureResult?.serverTransactionId)
-            .withPayerAuthenticationResponse(payerAuthenticationResponse)
+            .withServerTransactionId(acsResponse?.merchantData)
+            .withPayerAuthenticationResponse(acsResponse?.authResponse)
             .withIdempotencyKey(idempotencyKey)
             .execute {
                 secureEcomResult = $0
@@ -565,7 +563,7 @@ class GpApi3DSecure1Tests: XCTestCase {
         wait(for: [getAuthenticationDataExpectation], timeout: 10.0)
         XCTAssertNil(secureEcomError)
         XCTAssertNotNil(secureEcomResult)
-        XCTAssertEqual(secureEcomResult?.status, "AUTHENTICATION_SUCCESSFUL")
+        XCTAssertEqual(secureEcomResult?.status, "SUCCESS_AUTHENTICATED")
         XCTAssertEqual(secureEcomResult?.challengeMandated, true)
         XCTAssertNotNil(secureEcomResult?.issuerAcsUrl)
         XCTAssertNotNil(secureEcomResult?.payerAuthenticationRequest)
@@ -583,8 +581,8 @@ class GpApi3DSecure1Tests: XCTestCase {
         // WHEN
         Secure3dService
             .getAuthenticationData()
-            .withServerTransactionId(threeDSecureResult?.serverTransactionId)
-            .withPayerAuthenticationResponse(payerAuthenticationResponse)
+            .withServerTransactionId(acsResponse?.merchantData)
+            .withPayerAuthenticationResponse(acsResponse?.authResponse)
             .withIdempotencyKey(idempotencyKey)
             .execute {
                 secureEcomRepeatResult = $0
@@ -755,7 +753,7 @@ class GpApi3DSecure1Tests: XCTestCase {
             XCTFail("getAuthenticationDataError?.message cannot be nil")
         }
     }
-    
+
     private func assertCheckEnrollmentChallengeV1(_ secureEcom: ThreeDSecure?) {
         XCTAssertNotNil(secureEcom)
         XCTAssertEqual(secureEcom?.enrolled, "ENROLLED")

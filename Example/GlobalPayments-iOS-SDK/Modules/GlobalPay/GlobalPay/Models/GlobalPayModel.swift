@@ -11,6 +11,7 @@ struct GlobalPayModel {
         case paymentMethods
         case deposits
         case disputes
+        case authentications
     }
 }
 
@@ -23,7 +24,8 @@ extension GlobalPayModel {
             GlobalPayModel(name: "globalpay.verifications.title".localized(), path: .verifications),
             GlobalPayModel(name: "globalpay.payment.methods.title".localized(), path: .paymentMethods),
             GlobalPayModel(name: "globalpay.deposits.title".localized(), path: .deposits),
-            GlobalPayModel(name: "globalpay.disputes.title".localized(), path: .disputes)
+            GlobalPayModel(name: "globalpay.disputes.title".localized(), path: .disputes),
+            GlobalPayModel(name: "globalpay.disputes.authentications".localized(), path: .authentications)
         ]
     }
 }

@@ -291,6 +291,66 @@ class GpApiMappingTests: XCTestCase {
         XCTAssertEqual(disputeSummary.transactionAuthCode, expectedCardAuthcode)
     }
 
+    func test_map_batch_summary() {
+        // GIVEN
+        let rawJson = "{\"id\":\"BAT_633828-717\",\"time_last_updated\":\"2021-04-28T07:59:07.525Z\",\"status\":\"CLOSED\",\"amount\":\"199\",\"currency\":\"USD\",\"country\":\"US\",\"transaction_count\":1,\"action\":{\"id\":\"ACT_MBc4l40ZTiEb90sSq55S4GOY7gZj6h\",\"type\":\"CLOSE\",\"time_created\":\"2021-04-28T07:59:07.525Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"P3LRVjtGRGxWQQJDE345mSkEh2KfdAyg\",\"app_name\":\"colleens_app\"}}"
+        let doc = JsonDoc.parse(rawJson)
+        let expectedBatchReference = "BAT_633828-717"
+        let expectedStatus = "CLOSED"
+        let expectedTransactionCount = 1
+        let expectedTotalAmount: NSDecimalNumber = 1.99
+
+        // WHEN
+        let transaction = GpApiMapping.mapTransaction(doc)
+
+        // THEN
+        XCTAssertNotNil(transaction.batchSummary)
+        XCTAssertEqual(transaction.batchSummary?.batchReference, expectedBatchReference)
+        XCTAssertEqual(transaction.batchSummary?.status, expectedStatus)
+        XCTAssertEqual(transaction.batchSummary?.transactionCount, expectedTransactionCount)
+        XCTAssertEqual(transaction.batchSummary?.totalAmount, expectedTotalAmount)
+    }
+
+    func test_map_action_summary() {
+        // GIVEN
+        let rawJson = "{\"id\":\"ACT_PJiFWTaNcLW8aVBo2fA8E5Dqd8ZyrH\",\"type\":\"CREATE_TOKEN\",\"time_created\":\"2021-03-24T02:02:27.158Z\",\"resource\":\"ACCESS_TOKENS\",\"resource_request_url\":\"http://localhost:8998/v7/unifiedcommerce/accesstoken\",\"version\":\"2020-12-22\",\"resource_parent_id\":\"\",\"resource_id\":\"ACT_PJiFWTaNcLW8aVBo2fA8E5Dqd8ZyrH\",\"resource_status\":\"PREAUTHORIZED\",\"http_response_code\":\"200\",\"http_response_message\":\"OK\",\"response_code\":\"SUCCESS\",\"response_detailed_code\":\"\",\"response_detailed_message\":\"\",\"app_id\":\"P3LRVjtGRGxWQQJDE345mSkEh2KfdAyg\",\"app_name\":\"colleens_app\",\"app_developer\":\"colleen.mcgloin@globalpay.com\",\"merchant_id\":\"MER_c4c0df11039c48a9b63701adeaa296c3\",\"merchant_name\":\"Sandbox_merchant_2\",\"account_id\":\"TRA_6716058969854a48b33347043ff8225f\",\"account_name\":\"Transaction_Processing\",\"source_location\":\"63.241.252.2\",\"destination_location\":\"74.125.196.153\",\"metrics\":{\"X-GP-Version\":\"2020-12-22\"},\"action\":{\"id\":\"ACT_qOTwHG38UvuWwjcI6DBNu0uqbg8eoR\",\"type\":\"ACTION_SINGLE\",\"time_created\":\"2021-04-23T18:23:05.824Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"P3LRVjtGRGxWQQJDE345mSkEh2KfdAyg\",\"app_name\":\"colleens_app\"}}"
+        let doc = JsonDoc.parse(rawJson)
+
+        let expectedId = "ACT_PJiFWTaNcLW8aVBo2fA8E5Dqd8ZyrH"
+        let expectedType = "CREATE_TOKEN"
+        let expectedTimeCreated = "2021-03-24T02:02:27.158Z".format()
+        let expectedResource = "ACCESS_TOKENS"
+        let expectedVersion = "2020-12-22"
+        let expectedResourceId = "ACT_PJiFWTaNcLW8aVBo2fA8E5Dqd8ZyrH"
+        let expectedResourceStatus = "PREAUTHORIZED"
+        let expectedHttpResponseCode = "200"
+        let expectedResponseCode = "SUCCESS"
+        let expectedAppId = "P3LRVjtGRGxWQQJDE345mSkEh2KfdAyg"
+        let expectedAppName = "colleens_app"
+        let expectedAccountId = "TRA_6716058969854a48b33347043ff8225f"
+        let expectedAccountName = "Transaction_Processing"
+        let expectedMerchantName = "Sandbox_merchant_2"
+
+        // WHEN
+        let actionSummary = GpApiMapping.mapActionSummary(doc)
+
+        // THEN
+        XCTAssertEqual(actionSummary.id, expectedId)
+        XCTAssertEqual(actionSummary.type, expectedType)
+        XCTAssertEqual(actionSummary.timeCreated, expectedTimeCreated)
+        XCTAssertEqual(actionSummary.resource, expectedResource)
+        XCTAssertEqual(actionSummary.version, expectedVersion)
+        XCTAssertEqual(actionSummary.resourceId, expectedResourceId)
+        XCTAssertEqual(actionSummary.resourceStatus, expectedResourceStatus)
+        XCTAssertEqual(actionSummary.httpResponseCode, expectedHttpResponseCode)
+        XCTAssertEqual(actionSummary.responseCode, expectedResponseCode)
+        XCTAssertEqual(actionSummary.appId, expectedAppId)
+        XCTAssertEqual(actionSummary.appName, expectedAppName)
+        XCTAssertEqual(actionSummary.accountId, expectedAccountId)
+        XCTAssertEqual(actionSummary.accountName, expectedAccountName)
+        XCTAssertEqual(actionSummary.merchantName, expectedMerchantName)
+    }
+
     func test_map_dispute_action() {
         // GIVEN
         let rawJson = "{\"id\":\"DIS_SAND_abcd1234\",\"status\":\"CLOSED\",\"stage\":\"RETRIEVAL\",\"amount\":\"1000\",\"currency\":\"USD\",\"reason_code\":\"104\",\"reason_description\":\"Other Fraud-Card Absent Environment\",\"result\":\"FULFILLED\",\"documents\":[{\"id\":\"DOC_MyEvidence_234234AVCDE-0\"}],\"action\":{\"id\":\"ACT_5blBTHnIs4aOCIvGwG7KizYUpsGI0g\",\"type\":\"CHALLENGE\",\"time_created\":\"2020-12-07T10:26:20.124Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"i9R0byBBor6RqTQNj3g4MuVBwH5rd7yR\",\"app_name\":\"demo_app\"}}"
@@ -337,5 +397,34 @@ class GpApiMappingTests: XCTestCase {
         }
         XCTAssertEqual(metadata.id, expectedId)
         XCTAssertEqual(metadata.b64Content, expectedB64Content)
+    }
+
+    func test_map_stored_payment_summary() {
+        // GIVEN
+        let rawJson = "{\"id\":\"PMT_476ef932-7412-42ce-b2bd-082c01a77f70\",\"time_created\":\"2021-04-21T11:56:07.000Z\",\"status\":\"ACTIVE\",\"merchant_id\":\"MER_c4c0df11039c48a9b63701adeaa296c3\",\"merchant_name\":\"Sandbox_merchant_2\",\"account_id\":\"TKA_eba30a1b5c4a468d90ceeef2ffff7f5e\",\"account_name\":\"Tokenization\",\"reference\":\"86D32E17-A5BB-4CDC-8B81-21E2B7C67F10\",\"name\":\"James Mason\",\"card\":{\"number_last4\":\"xxxxxxxxxxxx1111\",\"brand\":\"VISA\",\"expiry_month\":\"12\",\"expiry_year\":\"25\"},\"action\":{\"id\":\"ACT_f7SPGvaFnosJCZCHAUCNddgyUBoBWt\",\"type\":\"PAYMENT_METHOD_SINGLE\",\"time_created\":\"2021-04-21T11:56:07.917Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"P3LRVjtGRGxWQQJDE345mSkEh2KfdAyg\",\"app_name\":\"colleens_app\"}}"
+        let doc = JsonDoc.parse(rawJson)
+        let expectedId: String? = "PMT_476ef932-7412-42ce-b2bd-082c01a77f70"
+        let expectedTimeCreated: Date? = "2021-04-21T11:56:07.000Z".format()
+        let expectedStatus: String? = "ACTIVE"
+        let expectedReference: String? = "86D32E17-A5BB-4CDC-8B81-21E2B7C67F10"
+        let expectedName: String? = "James Mason"
+        let expectedCardLast4: String? = "xxxxxxxxxxxx1111"
+        let expectedCardType: String? = "VISA"
+        let expectedCardExpMonth: String? = "12"
+        let expectedCardExpYear: String? = "25"
+
+        // WHEN
+        let storedPaymentMethodSummary = GpApiMapping.mapStoredPaymentMethodSummary(doc)
+
+        // THEN
+        XCTAssertEqual(storedPaymentMethodSummary.id, expectedId)
+        XCTAssertEqual(storedPaymentMethodSummary.timeCreated, expectedTimeCreated)
+        XCTAssertEqual(storedPaymentMethodSummary.status, expectedStatus)
+        XCTAssertEqual(storedPaymentMethodSummary.reference, expectedReference)
+        XCTAssertEqual(storedPaymentMethodSummary.name, expectedName)
+        XCTAssertEqual(storedPaymentMethodSummary.cardLast4, expectedCardLast4)
+        XCTAssertEqual(storedPaymentMethodSummary.cardType, expectedCardType)
+        XCTAssertEqual(storedPaymentMethodSummary.cardExpMonth, expectedCardExpMonth)
+        XCTAssertEqual(storedPaymentMethodSummary.cardExpYear, expectedCardExpYear)
     }
 }

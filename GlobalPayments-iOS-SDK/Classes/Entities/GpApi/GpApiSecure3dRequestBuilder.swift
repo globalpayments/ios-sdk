@@ -154,11 +154,14 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
             .set(for: "reason", value: builder.storedCredential?.reason.mapped(for: .gpApi))
             .set(for: "sequence", value: builder.storedCredential?.sequence.mapped(for: .gpApi))
 
+        let threeDS = JsonDoc()
+            .set(for: "source", value: builder.authenticationSource.mapped(for: .gpApi))
+            .set(for: "preference", value: builder.challengeRequestIndicator?.mapped(for: .gpApi))
+            .set(for: "message_version", value: builder.messageVersion)
+
         var payload = JsonDoc()
             .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
             .set(for: "currency", value: builder.currency)
-            .set(for: "preference", value: builder.challengeRequestIndicator?.mapped(for: .gpApi))
-            .set(for: "source", value: builder.authenticationSource.mapped(for: .gpApi))
             .set(for: "method_url_completion_status", value: builder.methodUrlCompletion?.mapped(for: .gpApi))
             .set(for: "merchant_contact_url", value: config?.merchantContactUrl)
             .set(for: "payment_method", doc: paymentMethod)
@@ -170,6 +173,7 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
             .set(for: "browser_data", doc: browserData)
             .set(for: "initiator", value: builder.storedCredential?.initiator.mapped(for: .gpApi))
             .set(for: "stored_credential", doc: storedCredential)
+            .set(for: "three_ds", doc: threeDS)
         initBaseParams(payload: &payload, config: config)
 
         return payload

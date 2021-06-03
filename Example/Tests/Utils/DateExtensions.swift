@@ -25,4 +25,10 @@ extension Date {
     func addDays(_ value: Int) -> Date {
         Calendar.current.date(byAdding: .day, value: value, to: self)!
     }
+
+    func format(_ format: String = "yyyy-MM-dd") -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
 }

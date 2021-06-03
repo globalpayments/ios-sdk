@@ -52,20 +52,6 @@ final class PaymentMethodOperationsViewModel: PaymentMethodOperationsInput {
                     )
                 }
             }
-        case .detokenize:
-            let tokenizedCard = CreditCardData()
-            tokenizedCard.token = form.paymentMethodId
-            tokenizedCard.detokenize() { [weak self] cardData, error in
-                UI {
-                    guard let cardData = cardData else {
-                        self?.view?.showError(error: error)
-                        return
-                    }
-                    self?.view?.showViewModels(
-                        models: PaymentMethodResultModelBuilder.buildDetokenizeModels(cardData)
-                    )
-                }
-            }
         case .delete:
             let card = CreditCardData()
             card.token = form.paymentMethodId

@@ -53,4 +53,12 @@ public struct ReportType: OptionSet, Hashable {
     public static let findDisputesPaged               = ReportType(rawValue: 1 << 21)
     /// Indicates paged Settlement Dispute report
     public static let findSettlementDisputesPaged     = ReportType(rawValue: 1 << 22)
+    /// Indicates a Stored Payment Method details report
+    public static let storedPaymentMethodDetail       = ReportType(rawValue: 1 << 23)
+    /// Indicates a Stored Payment Methods report paged
+    public static let findStoredPaymentMethodsPaged   = ReportType(rawValue: 1 << 24)
+    /// Indcates an action details report
+    public static let actionDetail                    = ReportType(rawValue: 1 << 25)
+    /// Indicates an actions report paged
+    public static let findActionsPaged                = ReportType(rawValue: 1 << 26)
 }

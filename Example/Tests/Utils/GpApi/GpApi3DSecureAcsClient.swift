@@ -30,13 +30,13 @@ struct GpApi3DSecureAcsClient {
     ///   - completion: Raw HTML result
     func authenticateV1(_ secureEcom: ThreeDSecure?,
                         _ authenticationResultCode: AuthenticationResultCode,
-                        _ completion: @escaping (String?, String?) -> Void) {
+                        _ completion: @escaping (AcsResponse?) -> Void) {
 
         guard let secureEcom = secureEcom,
               let issuerAcsUrl = secureEcom.issuerAcsUrl,
               let sessionDataFieldName = secureEcom.sessionDataFieldName,
               let messageType = secureEcom.messageType else {
-            completion(nil, nil)
+            completion(nil)
             return
         }
         var formData = [String: String]()
@@ -49,28 +49,32 @@ struct GpApi3DSecureAcsClient {
             switch result {
             case .success(let rawResponse):
                 guard let paRes = getInputValue(rawHTML: rawResponse, inputName: "PaRes") else {
-                    completion(nil, nil)
+                    completion(nil)
                     return
                 }
                 formData.removeAll()
                 formData["PaRes"] = paRes
                 formData["MD"] = getInputValue(rawHTML: rawResponse, inputName: "MD")
                 guard let serviceUrl = getFormAction(rawHTML: rawResponse, formName: "PAResForm") else {
-                    completion(nil, nil)
+                    completion(nil)
                     return
                 }
                 submitFormData(formUrl: serviceUrl, formData: formData) { result in
                     switch result {
                     case .success(let response):
-                        completion(response, paRes)
+                        var acsResponse = AcsResponse()
+                        acsResponse.status = response == "{\"success\":true}" ? true : false
+                        acsResponse.authResponse = paRes
+                        acsResponse.merchantData = getInputValue(rawHTML: rawResponse, inputName: "MD")
+                        completion(acsResponse)
                     case .failure(let error):
                         print(error.localizedDescription)
-                        completion(nil, nil)
+                        completion(nil)
                     }
                 }
             case .failure(let error):
                 print(error.localizedDescription)
-                completion(nil, nil)
+                completion(nil)
             }
         }
     }
@@ -80,7 +84,7 @@ struct GpApi3DSecureAcsClient {
     ///   - secureEcom: ThreeDSecure object
     ///   - completion: Raw HTML result
     func authenticateV2(secureEcom: ThreeDSecure?,
-                        _ completion: @escaping (String?) -> Void) {
+                        _ completion: @escaping (AcsResponse?) -> Void) {
 
         guard let secureEcom = secureEcom,
               let issuerAcsUrl = secureEcom.issuerAcsUrl else {
@@ -88,10 +92,7 @@ struct GpApi3DSecureAcsClient {
             return
         }
         var formData = [String: String]()
-        // TODO: - creq: secureEcom.messageType
-        formData["creq"] = secureEcom.payerAuthenticationRequest
-        // TODO: - threeDSSessionData: secureEcom.sessionDataFieldName
-        formData["threeDSSessionData"] = secureEcom.serverTransactionId
+        formData[secureEcom.messageType ?? ""] = secureEcom.payerAuthenticationRequest
         submitFormData(formUrl: issuerAcsUrl, formData: formData) { result in
             switch result {
             case .success:
@@ -104,12 +105,18 @@ struct GpApi3DSecureAcsClient {
                             switch result {
                             case .success(let rawResponse):
                                 formData.removeAll()
-                                formData["cres"] = getInputValue(rawHTML: rawResponse, inputName: "cres")
+                                let cres = getInputValue(rawHTML: rawResponse, inputName: "cres") ?? ""
+                                formData["cres"] = cres
+                                let decodedData = Data(base64Encoded: cres.fixedBase64Format) ?? Data()
+                                let acsDecodedRS = try? JSONSerialization.jsonObject(with: decodedData, options: []) as? [String: String]
                                 let url = getFormAction(rawHTML: rawResponse, formName: "ResForm") ?? ""
                                 submitFormData(formUrl: url, formData: formData) { result in
                                     switch result {
                                     case .success(let response):
-                                        completion(response)
+                                        var acsResponse = AcsResponse()
+                                        acsResponse.status = response == "{\"success\":true}" ? true : false
+                                        acsResponse.merchantData = acsDecodedRS?["threeDSServerTransID"]
+                                        completion(acsResponse)
                                     case .failure(let error):
                                         print(error.localizedDescription)
                                         completion(nil)
@@ -197,5 +204,15 @@ struct GpApi3DSecureAcsClient {
     private func getFormAction(rawHTML: String, formName: String) -> String? {
         let searchString = "name=\"\(formName)\" action=\""
         return rawHTML.slice(from: searchString, to: "\">")
+    }
+}
+
+private extension String {
+
+    var fixedBase64Format: Self {
+        let offset = count % 4
+        guard offset != 0 else { return self }
+
+        return padding(toLength: count + 4 - offset, withPad: "=", startingAt: 0)
     }
 }

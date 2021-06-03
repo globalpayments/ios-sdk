@@ -28,4 +28,10 @@ public class Debit: NSObject, PaymentMethod, PrePaid, Refundable, Reversable, Ch
         return AuthorizationBuilder(transactionType: .reversal, paymentMethod: self)
             .withAmount(amount)
     }
+
+    public func authorize(amount: NSDecimalNumber? = nil, isEstimated: Bool = true) -> AuthorizationBuilder {
+        return AuthorizationBuilder(transactionType: .auth, paymentMethod: self)
+            .withAmount(amount)
+            .withAmountEstimated(isEstimated)
+    }
 }

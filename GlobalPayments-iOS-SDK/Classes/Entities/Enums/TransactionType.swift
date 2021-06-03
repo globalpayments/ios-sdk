@@ -81,4 +81,6 @@ public struct TransactionType: OptionSet, Hashable {
     public static let cashAdvance            = TransactionType(rawValue: 1 << 37)
     /// Indicates a detokenization transaction
     public static let detokenize             = TransactionType(rawValue: 1 << 38)
+    /// Indicates a transaction reauthorization
+    public static let reauth                 = TransactionType(rawValue: 1 << 39)
 }

@@ -91,6 +91,30 @@ public class ReportingService {
             .withDocumentId(id)
     }
 
+    // MARK: - Stored Payment Method
+
+    public static func storedPaymentMethodDetail(storedPaymentMethodId: String) -> TransactionReportBuilder<StoredPaymentMethodSummary> {
+        TransactionReportBuilder<StoredPaymentMethodSummary>(reportType: .storedPaymentMethodDetail)
+            .withStoredPaymentMethodId(storedPaymentMethodId)
+    }
+
+    public static func findStoredPaymentMethodsPaged(page: Int, pageSize: Int) -> TransactionReportBuilder<PagedResult<StoredPaymentMethodSummary>> {
+        TransactionReportBuilder<PagedResult<StoredPaymentMethodSummary>>(reportType: .findStoredPaymentMethodsPaged)
+            .withPaging(page, pageSize)
+    }
+
+    // MARK: - Actions
+
+    public static func actionDetail(actionId: String) -> TransactionReportBuilder<ActionSummary> {
+        TransactionReportBuilder<ActionSummary>(reportType: .actionDetail)
+            .withActionId(actionId)
+    }
+
+    public static func findActionsPaged(page: Int, pageSize: Int) -> TransactionReportBuilder<PagedResult<ActionSummary>> {
+        TransactionReportBuilder<PagedResult<ActionSummary>>(reportType: .findActionsPaged)
+            .withPaging(page, pageSize)
+    }
+
     // MARK: - Other
 
     public static func activity() -> TransactionReportBuilder<[TransactionSummary]> {

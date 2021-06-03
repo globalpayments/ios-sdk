@@ -15,7 +15,7 @@ public class BrowserData {
 
     public init() { }
 
-    public enum ColorDepth: String {
+    public enum ColorDepth: String, CaseIterable {
         case oneBit = "ONE_BIT"
         case twoBits = "TWO_BITS"
         case fourBits = "FOUR_BITS"
@@ -25,13 +25,25 @@ public class BrowserData {
         case twentyFourBits = "TWENTY_FOUR_BITS"
         case thirtyTwoBits = "THIRTY_TWO_BITS"
         case fortyEightBits = "FORTY_EIGHT_BITS"
+
+        public init?(value: String?) {
+            guard let value = value,
+                  let colorDepth = ColorDepth(rawValue: value) else { return nil }
+            self = colorDepth
+        }
     }
 
-    public enum ChallengeWindowSize: String {
+    public enum ChallengeWindowSize: String, CaseIterable {
         case windowed250x400 = "WINDOWED_250X400"
         case windowed390x400 = "WINDOWED_390X400"
         case windowed500x600 = "WINDOWED_500X600"
         case windowed600x400 = "WINDOWED_600X400"
         case fullScreen = "FULL_SCREEN"
+
+        public init?(value: String?) {
+            guard let value = value,
+                  let challengeWindowSize = ChallengeWindowSize(rawValue: value) else { return nil }
+            self = challengeWindowSize
+        }
     }
 }

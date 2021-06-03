@@ -9,11 +9,11 @@ class GpApiTokenManagementTests: XCTestCase {
     override class func setUp() {
         super.setUp()
 
-        try? ServicesContainer.configureService(config:
-                                                    GpApiConfig(
-                                                        appId: "i872l4VgZRtSrykvSn8Lkah8RE1jihvT",
-                                                        appKey: "9pArW2uWoA8enxKc"
-                                                    )
+        try? ServicesContainer.configureService(
+            config: GpApiConfig(
+                appId: "i872l4VgZRtSrykvSn8Lkah8RE1jihvT",
+                appKey: "9pArW2uWoA8enxKc"
+            )
         )
     }
 
@@ -201,55 +201,6 @@ class GpApiTokenManagementTests: XCTestCase {
         XCTAssertNotNil(errorResult)
         XCTAssertEqual(errorResult?.responseCode, "RESOURCE_NOT_FOUND")
         XCTAssertEqual(errorResult?.responseMessage, "40116")
-    }
-
-    func test_detokenize_payment_method() {
-        // GIVEN
-        let detokenizeExpectation = expectation(description: "Detokenize Expectation")
-        var responseCard: CreditCardData?
-        var responseError: Error?
-        let tokenizedCard = CreditCardData()
-        tokenizedCard.token = token
-
-        // WHEN
-        tokenizedCard.detokenize {
-            responseCard = $0
-            responseError = $1
-            detokenizeExpectation.fulfill()
-        }
-
-        // THEN
-        wait(for: [detokenizeExpectation], timeout: 10.0)
-        XCTAssertNotNil(responseCard)
-        XCTAssertNil(responseError)
-        XCTAssertNil(responseCard?.token)
-        XCTAssertEqual(card?.number, responseCard?.number)
-        XCTAssertEqual(card?.shortExpiry, responseCard?.shortExpiry)
-    }
-
-    func test_detokenize_payment_method_wrong_id() {
-        // GIVEN
-        let detokenizeExpectation = expectation(description: "Detokenize Expectation")
-        var responseCard: CreditCardData?
-        var responseError: GatewayException?
-        let tokenizedCard = CreditCardData()
-        tokenizedCard.token = "PMT_" + UUID().uuidString
-
-        // WHEN
-        tokenizedCard.detokenize {
-            responseCard = $0
-            if let error = $1 as? GatewayException {
-                responseError = error
-            }
-            detokenizeExpectation.fulfill()
-        }
-
-        // THEN
-        wait(for: [detokenizeExpectation], timeout: 10.0)
-        XCTAssertNil(responseCard)
-        XCTAssertNotNil(responseError)
-        XCTAssertEqual(responseError?.responseCode, "RESOURCE_NOT_FOUND")
-        XCTAssertEqual(responseError?.responseMessage, "40116")
     }
 
     func test_update_tokenized_payment_method() {

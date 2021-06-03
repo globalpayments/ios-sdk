@@ -38,8 +38,8 @@ extension GpApiRequest {
             "/payment-methods/\(token)"
         }
 
-        static func paymentMethodsDetokenize(token: String) -> String {
-            "/payment-methods/\(token)/detokenize"
+        static func paymentMethodsWith(paymentMethodId: String) -> String {
+            "/payment-methods/\(paymentMethodId)"
         }
 
         // MARK: - Transactions
@@ -66,6 +66,10 @@ extension GpApiRequest {
 
         static func transactionsReversal(transactionId: String) -> String {
             "/transactions/\(transactionId)/reversal"
+        }
+
+        static func transactionsReauthorization(transactionId: String) -> String {
+            "/transactions/\(transactionId)/reauthorization"
         }
 
         // MARK: - Verifications
@@ -132,6 +136,16 @@ extension GpApiRequest {
 
         static func batchClose(id: String) -> String {
             "/batches/\(id)"
+        }
+
+        // MARK: - Actions
+
+        static func action(id: String) -> String {
+            "/actions/\(id)"
+        }
+
+        static func actions() -> String {
+            "/actions"
         }
     }
 }

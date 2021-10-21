@@ -14,7 +14,7 @@ class GpApiReportingDepositsTests: XCTestCase {
     }
 
     func test_report_deposit_detail() {
-        guard let depositReference = try? await(getDepositSummary)?.depositId else {
+        guard let depositReference = try? awaitResponse(getDepositSummary)?.depositId else {
             XCTFail("transactionId cannot be nil")
             return
         }

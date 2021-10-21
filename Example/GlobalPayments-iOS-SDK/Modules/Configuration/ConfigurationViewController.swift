@@ -1,7 +1,7 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-protocol ConfigurationViewDelegate: class {
+protocol ConfigurationViewDelegate: AnyObject {
     func onUpdateConfiguration()
 }
 
@@ -47,6 +47,7 @@ final class ConfigurationViewController: UIViewController, StoryboardInstantiabl
         languageTextField.loadDropDownData(Language.allCases.map { $0.rawValue.uppercased() })
         languageTextField.text = nil
         countryTextField.placeholder = "configuration.country".localized()
+        countryTextField.loadDropDownData(CountryUtils.ISOCountryInfo.allCountries.map({ $0.alpha2}))
         saveButton.apply(style: .globalPayStyle, title: "configuration.save".localized())
         challengeNotificationUrlTextField.placeholder = "configuration.challenge.notification.url".localized()
         methodNotificationUrlTextField.placeholder = "configuration.method.notification.url".localized()

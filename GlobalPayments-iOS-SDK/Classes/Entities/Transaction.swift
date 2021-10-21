@@ -25,6 +25,8 @@ public class Transaction: NSObject {
     public var availableBalance: NSDecimalNumber?
     /// The address verification service (AVS) response code.
     public var avsResponseCode: String?
+    /// The address verification service (AVS) address response.
+    public var avsAddressResponse: String?
     /// The address verification service (AVS) response message.
     public var avsResponseMessage: String?
     /// The balance on the account after the transaction.

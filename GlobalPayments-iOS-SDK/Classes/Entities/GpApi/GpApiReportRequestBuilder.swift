@@ -88,6 +88,9 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             addPageParams(&params, builder)
             addDisputesParams(&params, builder)
             params["STATUS"] = builder.searchCriteriaBuilder.disputeStatus?.mapped(for: .gpApi)
+            params["deposit_id"] = builder.searchCriteriaBuilder.depositReference
+            params["from_deposit_time_created"] = builder.searchCriteriaBuilder.startDepositDate?.format("yyyy-MM-dd")
+            params["to_deposit_time_created"] = builder.searchCriteriaBuilder.endDepositDate?.format("yyyy-MM-dd")
             params["account_name"] = config?.accessTokenInfo?.dataAccountName
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.settlementDisputes(),

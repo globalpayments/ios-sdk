@@ -132,7 +132,7 @@ public class CountryUtils {
                     previousMatchingCharacterIndex = termIndex
                     termCharacterMatchFound = true
                 }
-
+                    
                 index += 1
             }
         }
@@ -145,13 +145,13 @@ public class CountryUtils {
 
 extension CountryUtils {
 
-    private struct ISOCountryInfo {
+    public struct ISOCountryInfo {
         public let name: String
         public let numeric: String
         public let alpha2: String
         public let alpha3: String
 
-        static let allCountries: [ISOCountryInfo] = [
+        public static let allCountries: [ISOCountryInfo] = [
             ISOCountryInfo(name: "Afghanistan", numeric: "004", alpha2: "AF", alpha3: "AFG"),
             ISOCountryInfo(name: "Åland Islands", numeric: "248", alpha2: "AX", alpha3: "ALA"),
             ISOCountryInfo(name: "Albania", numeric: "008", alpha2: "AL", alpha3: "ALB"),
@@ -309,6 +309,7 @@ extension CountryUtils {
             ISOCountryInfo(name: "Nauru", numeric: "520", alpha2: "NR", alpha3: "NRU"),
             ISOCountryInfo(name: "Nepal", numeric: "524", alpha2: "NP", alpha3: "NPL"),
             ISOCountryInfo(name: "Netherlands", numeric: "528", alpha2: "NL", alpha3: "NLD"),
+            ISOCountryInfo(name: "Netherlands Antilles", numeric: "530", alpha2: "AN", alpha3: "ANT"),
             ISOCountryInfo(name: "New Caledonia", numeric: "540", alpha2: "NC", alpha3: "NCL"),
             ISOCountryInfo(name: "New Zealand", numeric: "554", alpha2: "NZ", alpha3: "NZL"),
             ISOCountryInfo(name: "Nicaragua", numeric: "558", alpha2: "NI", alpha3: "NIC"),

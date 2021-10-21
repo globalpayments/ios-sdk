@@ -76,7 +76,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "account_name", value: config?.accessTokenInfo?.tokenizationAccountName)
             .set(for: "name", value: builder.requestDescription)
             .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
-            .set(for: "usage_mode", value: builder.tokenUsageMode?.mapped(for: .gpApi))
+            .set(for: "usage_mode", value: builder.paymentMethodUsageMode?.mapped(for: .gpApi))
         if let cardData = builder.paymentMethod as? CardData {
             let card = JsonDoc()
                 .set(for: "number", value: cardData.number)
@@ -137,25 +137,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             paymentMethod.set(for: "name", value: creditCardData.cardHolderName)
 
             if let secureEcom = creditCardData.threeDSecure {
-                let threeDs = JsonDoc()
-                    // Indicates the version of 3DS
-                    .set(for: "message_version", value: secureEcom.messageVersion)
-                    // The authentication value created as part of the 3D Secure process.
-                    .set(for: "value", value: secureEcom.authenticationValue)
-                    // The reference created by the 3DSecure provider to identify the specific authentication attempt.
-                    .set(for: "server_trans_ref", value: secureEcom.serverTransactionId)
-                    // The reference created by the 3DSecure Directory Server to identify the specific authentication attempt.
-                    .set(for: "ds_trans_ref", value: secureEcom.directoryServerTransactionId)
-                if let eci = secureEcom.eci {
-                    // An indication of the degree of the authentication and liability shift obtained for this transaction.
-                    // It is determined during the 3D Secure process.
-                    threeDs.set(for: "eci", value: "\(eci)")
-                }
-
-                let authentication = JsonDoc()
-                    .set(for: "three_ds", doc: threeDs)
-
-                paymentMethod.set(for: "authentication", doc: authentication)
+                paymentMethod.set(for: "id",value: secureEcom.serverTransactionId)
             }
         }
 

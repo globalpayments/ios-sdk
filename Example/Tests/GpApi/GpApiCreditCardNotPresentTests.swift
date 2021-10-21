@@ -1684,7 +1684,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         // WHEN
         AuthorizationBuilder(transactionType: .verify, paymentMethod: card)
             .withRequestMultiUseToken(true)
-            .withTokenUsageMode(.single)
+            .withPaymentMethodUsageMode(.single)
             .execute {
                 tokenizeToken = $0?.token
                 tokenizeError = $1
@@ -1800,7 +1800,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         // WHEN
         AuthorizationBuilder(transactionType: .verify, paymentMethod: card)
             .withRequestMultiUseToken(true)
-            .withTokenUsageMode(.single)
+            .withPaymentMethodUsageMode(.single)
             .withCurrency("USD")
             .execute(completion: { transaction, _ in
                 expectedToken = transaction?.token

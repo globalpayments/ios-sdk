@@ -14,6 +14,9 @@ struct DisputeListForm {
     let toStageTimeCreated: Date?
     let systemMID: String?
     let systemHierarchy: String?
+    let disputeId: String?
+    let fromTimeCreated: Date?
+    let toTimeCreated: Date?
     let source: Source
 
     enum Source {

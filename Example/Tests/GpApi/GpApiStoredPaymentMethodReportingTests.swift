@@ -143,7 +143,7 @@ class GpApiStoredPaymentMethodReportingTests: XCTestCase {
     }
 
     func test_find_stored_payment_method_by_id() {
-        guard let paymentMethodId = try? await(getStoredPaymentMethodSummary)?.id else {
+        guard let paymentMethodId = try? awaitResponse(getStoredPaymentMethodSummary)?.id else {
             XCTFail("paymentMethodId cannot be nil")
             return
         }

@@ -13,7 +13,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_action_detail() {
-        guard let actionId = try? await(getActionSummary)?.id else {
+        guard let actionId = try? awaitResponse(getActionSummary)?.id else {
             XCTFail("actionId cannot be nil")
             return
         }
@@ -69,7 +69,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_id() {
-        guard let actionId = try? await(getActionSummary)?.id else {
+        guard let actionId = try? awaitResponse(getActionSummary)?.id else {
             XCTFail("actionId cannot be nil")
             return
         }
@@ -124,7 +124,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_type() {
-        guard let actionType = try? await(getActionSummary)?.type else {
+        guard let actionType = try? awaitResponse(getActionSummary)?.type else {
             XCTFail("actionType cannot be nil")
             return
         }
@@ -179,7 +179,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_resource() {
-        guard let actionResource = try? await(getActionSummary)?.resource else {
+        guard let actionResource = try? awaitResponse(getActionSummary)?.resource else {
             XCTFail("actionType cannot be nil")
             return
         }
@@ -210,7 +210,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_status() {
-        guard let actionResourceStatus = try? await(getActionSummary)?.resourceStatus else {
+        guard let actionResourceStatus = try? awaitResponse(getActionSummary)?.resourceStatus else {
             XCTFail("actionResourceStatus cannot be nil")
             return
         }
@@ -241,7 +241,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_resource_id() {
-        guard let actionResourceId = try? await(getActionSummary)?.resourceId else {
+        guard let actionResourceId = try? awaitResponse(getActionSummary)?.resourceId else {
             XCTFail("actionResourceId cannot be nil")
             return
         }
@@ -329,7 +329,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_merchant_name() {
-        guard let actionMerchantName = try? await(getActionSummary)?.merchantName else {
+        guard let actionMerchantName = try? awaitResponse(getActionSummary)?.merchantName else {
             XCTFail("actionMerchantName cannot be nil")
             return
         }
@@ -387,7 +387,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_account_name() {
-        guard let actionAccountName = try? await(getActionSummary)?.accountName else {
+        guard let actionAccountName = try? awaitResponse(getActionSummary)?.accountName else {
             XCTFail("actionAccountName cannot be nil")
             return
         }
@@ -418,7 +418,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_app_name() {
-        guard let actionAppName = try? await(getActionSummary)?.appName else {
+        guard let actionAppName = try? awaitResponse(getActionSummary)?.appName else {
             XCTFail("actionAppName cannot be nil")
             return
         }
@@ -449,7 +449,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_version() {
-        guard let actionVersion = try? await(getActionSummary)?.version else {
+        guard let actionVersion = try? awaitResponse(getActionSummary)?.version else {
             XCTFail("actionVersion cannot be nil")
             return
         }
@@ -504,7 +504,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_response_code() {
-        guard let actionResponseCode = try? await(getActionSummary)?.responseCode else {
+        guard let actionResponseCode = try? awaitResponse(getActionSummary)?.responseCode else {
             XCTFail("actionResponseCode cannot be nil")
             return
         }
@@ -535,7 +535,7 @@ class GpApiActionsReportTests: XCTestCase {
     }
 
     func test_report_find_actions_paged_by_http_response_code() {
-        guard let actionHttpResponseCode = try? await(getActionSummary)?.httpResponseCode else {
+        guard let actionHttpResponseCode = try? awaitResponse(getActionSummary)?.httpResponseCode else {
             XCTFail("actionHttpResponseCode cannot be nil")
             return
         }

@@ -16,7 +16,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     // MARK: - Transactions
 
     func test_report_transaction_detail() {
-        guard let transactionId = try? await(getTransactionSummary)?.transactionId else {
+        guard let transactionId = try? awaitResponse(getTransactionSummary)?.transactionId else {
             XCTFail("transactionId cannot be nil")
             return
         }
@@ -104,7 +104,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_transactions_paged_by_id() {
-        guard let transactionId = try? await(getTransactionSummary)?.transactionId else {
+        guard let transactionId = try? awaitResponse(getTransactionSummary)?.transactionId else {
             XCTFail("transactionId cannot be nil")
             return
         }
@@ -169,7 +169,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_transactions_paged_by_batchId() {
-        guard let batchSequenceNumber = try? await(getTransactionSummary)?.batchSequenceNumber else {
+        guard let batchSequenceNumber = try? awaitResponse(getTransactionSummary)?.batchSequenceNumber else {
             XCTFail("batchSequenceNumber cannot be nil")
             return
         }
@@ -239,7 +239,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_transactions_paged_by_amount_and_currency_and_country() {
-        guard let transactionSummary = try? await(getTransactionSummary),
+        guard let transactionSummary = try? awaitResponse(getTransactionSummary),
               let expectedCurrency = transactionSummary.currency,
               let expectedCountry = transactionSummary.country else {
             XCTFail("currency && country cannot be nil")
@@ -348,7 +348,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_transactions_paged_by_card_brand_and_auth_code() {
-        guard let transactionSummary = try? await(getTransactionSummary),
+        guard let transactionSummary = try? awaitResponse(getTransactionSummary),
               let expectedCardBrand = transactionSummary.cardType,
               let expectedAuthCode = transactionSummary.authCode else {
             XCTFail("cardType & authCode cannot be nil")
@@ -388,7 +388,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_transactions_paged_by_reference() {
-        guard let referenceNumber = try? await(getTransactionSummary)?.referenceNumber else {
+        guard let referenceNumber = try? awaitResponse(getTransactionSummary)?.referenceNumber else {
             XCTFail("referenceNumber cannot be nil")
             return
         }
@@ -430,7 +430,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_transactions_paged_by_brand_reference() {
-        guard let brandReference = try? await(getTransactionSummary)?.brandReference else {
+        guard let brandReference = try? awaitResponse(getTransactionSummary)?.brandReference else {
             XCTFail("brandReference cannot be nil")
             return
         }
@@ -500,7 +500,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_transactions_paged_by_number_first6_and_number_last4() {
-        guard let maskedCardNumber = try? await(getTransactionSummary)?.maskedCardNumber else {
+        guard let maskedCardNumber = try? awaitResponse(getTransactionSummary)?.maskedCardNumber else {
             XCTFail("maskedCardNumber cannot be nil")
             return
         }
@@ -537,7 +537,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_transactions_paged_by_name() {
-        guard let cardHolderName = try? await(getTransactionSummary)?.cardHolderName else {
+        guard let cardHolderName = try? awaitResponse(getTransactionSummary)?.cardHolderName else {
             XCTFail("cardHolderName cannot be nil")
             return
         }
@@ -1070,7 +1070,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_settlement_transactions_paged_by_number_first6_and_number_last4() {
-        guard let maskedCardNumber = try? await(getSettlementTransactionSummary)?.maskedCardNumber else {
+        guard let maskedCardNumber = try? awaitResponse(getSettlementTransactionSummary)?.maskedCardNumber else {
             XCTFail("maskedCardNumber cannot be nil")
             return
         }
@@ -1107,7 +1107,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_settlement_transactions_paged_by_card_brand() {
-        guard let cardBrand = try? await(getSettlementTransactionSummary)?.cardType else {
+        guard let cardBrand = try? awaitResponse(getSettlementTransactionSummary)?.cardType else {
             XCTFail("maskedCardNumber cannot be nil")
             return
         }
@@ -1223,7 +1223,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_settlement_transactions_paged_by_brand_reference() {
-        guard let brandReference = try? await(getSettlementTransactionSummary)?.brandReference else {
+        guard let brandReference = try? awaitResponse(getSettlementTransactionSummary)?.brandReference else {
             XCTFail("brandReference cannot be nil")
             return
         }
@@ -1283,7 +1283,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_settlement_transactions_paged_by_card_brand_and_auth_code() {
-        guard let transactionSummary = try? await(getSettlementTransactionSummary) else {
+        guard let transactionSummary = try? awaitResponse(getSettlementTransactionSummary) else {
             XCTFail("transactionSummary cannot be nil")
             return
         }
@@ -1318,7 +1318,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_settlement_transactions_paged_by_reference() {
-        guard let referenceNumber = try? await(getSettlementTransactionSummary)?.referenceNumber else {
+        guard let referenceNumber = try? awaitResponse(getSettlementTransactionSummary)?.referenceNumber else {
             XCTFail("referenceNumber cannot be nil")
             return
         }
@@ -1407,7 +1407,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_settlement_transactions_paged_by_deposit_reference() {
-        guard let depositReference = try? await(getSettlementTransactionSummary)?.depositReference else {
+        guard let depositReference = try? awaitResponse(getSettlementTransactionSummary)?.depositReference else {
             XCTFail("depositReference cannot be nil")
             return
         }
@@ -1531,7 +1531,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
     }
 
     func test_report_find_settlement_transactions_paged_by_merchant_id_and_system_hierarchy() {
-        guard let transactionSummary = try? await(getSettlementTransactionSummary) else {
+        guard let transactionSummary = try? awaitResponse(getSettlementTransactionSummary) else {
             XCTFail("transactionSummary cannot be nil")
             return
         }

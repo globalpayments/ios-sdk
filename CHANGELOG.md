@@ -1,5 +1,18 @@
 # Changelog
 
+## Latest
+
+#### Enhancements
+
+- Add spinner for country list inside configuration screen
+- Add AVS missing mapping to response
+- Add deposit date filter on settlement disputes report - GP-API
+- Remove "funding" and "cvv_indicator" from Create Stored Payment Method
+- add DepositDate, DepositReference on the SettledDisputes report
+- Add "Netherlands Antilles" to our mapping for country codes
+
+---
+
 ## 1.2.0
 
 #### Enhancements:

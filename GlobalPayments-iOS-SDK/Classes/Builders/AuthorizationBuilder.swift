@@ -43,7 +43,7 @@ import Foundation
     var offlineAuthCode: String?
     var orderId: String?
     var paymentApplicationVersion: String?
-    var tokenUsageMode: TokenUsageMode?
+    var paymentMethodUsageMode: PaymentMethodUsageMode?
     var posSequenceNumber: String?
     var productId: String?
     var recurringSequence: RecurringSequence?
@@ -377,8 +377,8 @@ import Foundation
         return self
     }
 
-    public func withTokenUsageMode(_ tokenUsageMode: TokenUsageMode?) -> AuthorizationBuilder {
-        self.tokenUsageMode = tokenUsageMode
+    public func withPaymentMethodUsageMode(_ paymentMethodUsageMode: PaymentMethodUsageMode?) -> AuthorizationBuilder {
+        self.paymentMethodUsageMode = paymentMethodUsageMode
         return self
     }
 

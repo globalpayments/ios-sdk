@@ -120,7 +120,7 @@ class GpApiReportingDisputesTests: XCTestCase {
     }
 
     func test_report_find_disputes_by_arn() {
-        guard let aquirerReferenceNumber = try? await(getDisputeSummary, calledWith: .underReview)?.transactionARN else {
+        guard let aquirerReferenceNumber = try? awaitResponse(getDisputeSummary, calledWith: .underReview)?.transactionARN else {
             XCTFail("aquirerReferenceNumber cannot be nil")
             return
         }
@@ -198,7 +198,7 @@ class GpApiReportingDisputesTests: XCTestCase {
     }
 
     func test_report_find_disputes_by_merchantId_and_systemHierarchy() {
-        guard let disputeSummary = try? await(getDisputeSummary, calledWith: .underReview),
+        guard let disputeSummary = try? awaitResponse(getDisputeSummary, calledWith: .underReview),
               let expectedMerchantId = disputeSummary.caseMerchantId,
               let expectedSystemHierarchy = disputeSummary.merchantHierarchy else {
             XCTFail("caseMerchantId & merchantHierarchy cannot be nil")
@@ -435,7 +435,7 @@ class GpApiReportingDisputesTests: XCTestCase {
     }
 
     func test_report_find_disputes_order_by_id_with_brand_visa() {
-        guard let transactionCardType = try? await(getDisputeSummary, calledWith: .underReview)?.transactionCardType else {
+        guard let transactionCardType = try? awaitResponse(getDisputeSummary, calledWith: .underReview)?.transactionCardType else {
             XCTFail("transactionCardType cannot be nil")
             return
         }
@@ -530,7 +530,7 @@ class GpApiReportingDisputesTests: XCTestCase {
     }
 
     func test_report_find_dispute_by_given_id() {
-        guard let caseId = try? await(getDisputeSummary, calledWith: .underReview)?.caseId else {
+        guard let caseId = try? awaitResponse(getDisputeSummary, calledWith: .underReview)?.caseId else {
             XCTFail("caseId cannot be nil")
             return
         }
@@ -556,7 +556,7 @@ class GpApiReportingDisputesTests: XCTestCase {
     }
 
     func test_report_accept_dispute_success() {
-        guard let caseId = try? await(getDisputeSummary, calledWith: .withMerchant)?.caseId else {
+        guard let caseId = try? awaitResponse(getDisputeSummary, calledWith: .withMerchant)?.caseId else {
             XCTFail("caseId cannot be nil")
             return
         }
@@ -607,7 +607,7 @@ class GpApiReportingDisputesTests: XCTestCase {
     }
 
     func test_report_challange_dispute_success() {
-        guard let caseId = try? await(getDisputeSummary, calledWith: .withMerchant)?.caseId else {
+        guard let caseId = try? awaitResponse(getDisputeSummary, calledWith: .withMerchant)?.caseId else {
             XCTFail("caseId cannot be nil")
             return
         }
@@ -692,7 +692,7 @@ class GpApiReportingDisputesTests: XCTestCase {
     // MARK: - Settlement Disputes
 
     func test_report_settlement_dispute_detail() {
-        guard let caseId = try? await(getSettlementDisputeSummary)?.caseId else {
+        guard let caseId = try? awaitResponse(getSettlementDisputeSummary)?.caseId else {
             XCTFail("caseId cannot be nil")
             return
         }
@@ -770,7 +770,7 @@ class GpApiReportingDisputesTests: XCTestCase {
     }
 
     func test_report_find_settlement_disputes_paged_by_merchant_id() {
-        guard let expectedCaseMerchantId = try? await(getSettlementDisputeSummary)?.caseMerchantId else {
+        guard let expectedCaseMerchantId = try? awaitResponse(getSettlementDisputeSummary)?.caseMerchantId else {
             XCTFail("caseMerchantId cannot be nil")
             return
         }

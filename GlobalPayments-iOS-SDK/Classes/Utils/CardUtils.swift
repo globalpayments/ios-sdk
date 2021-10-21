@@ -127,12 +127,19 @@ public class CardUtils {
             card.set(for: "number", value: cardData.number)
             card.set(for: "expiry_month", value: cardData.expMonth > .zero ? "\(cardData.expMonth)".leftPadding(toLength: 2, withPad: "0") : nil)
             card.set(for: "expiry_year", value: cardData.expYear > .zero ? "\(cardData.expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : nil)
-            card.set(for: "cvv", value: cardData.cvn)
-            let cvnPresence = cardData.cvnPresenceIndicator
-            if cvnPresence == .present || cvnPresence == .illegible || cvnPresence == .notOnCard {
-                card.set(for: "cvv_indicator", value: cardData.cvnPresenceIndicator.mapped(for: .gpApi))
+
+            if let cvn = cardData.cvn, !cvn.isEmpty {
+                card.set(for: "cvv", value: cvn)
+
+                if builder.transactionType == .tokenize || builder.transactionType == .verify {
+                    let cvnPresence = cardData.cvnPresenceIndicator
+                    if cvnPresence != .notRequested {
+                        card.set(for: "cvv_indicator", value: cvnPresence.mapped(for: .gpApi))
+                    }
+                    card.set(for: "funding", value: funding)
+                }
             }
-            card.set(for: "funding", value: funding)
+
             if builder.emvLastChipRead != nil {
                 card.set(for: "chip_condition", value: builder.emvLastChipRead?.mapped(for: .gpApi))
             }

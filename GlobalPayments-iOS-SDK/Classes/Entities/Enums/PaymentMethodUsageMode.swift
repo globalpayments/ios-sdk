@@ -1,6 +1,6 @@
 import Foundation
 
-public enum TokenUsageMode: String, Mappable {
+public enum PaymentMethodUsageMode: String, Mappable {
     case single = "SINGLE"
     case multiple = "MULTIPLE"
 

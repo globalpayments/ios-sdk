@@ -1,6 +1,6 @@
 import UIKit
 
-protocol PaymentOperationFormDelegate: class {
+protocol PaymentOperationFormDelegate: AnyObject {
     func onSubmitForm(_ form: PaymentOperationForm)
 }
 

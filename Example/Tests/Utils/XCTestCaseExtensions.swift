@@ -8,7 +8,7 @@ extension XCTestCase {
 
     typealias Function<T> = (T) -> Void
 
-    func await<T>(_ function: (@escaping (T) -> Void) -> Void) throws -> T {
+    func awaitResponse<T>(_ function: (@escaping (T) -> Void) -> Void) throws -> T {
         let expectation = self.expectation(description: "Async call")
         var result: T?
 
@@ -25,10 +25,10 @@ extension XCTestCase {
 
         return unwrappedResult
     }
-
-    func await<A, R>(_ function: @escaping Function<(A, Function<R>)>,
+    
+    func awaitResponse<A, R>(_ function: @escaping Function<(A, Function<R>)>,
                      calledWith argument: A) throws -> R {
-        return try await { handler in
+        return try awaitResponse { handler in
             function((argument, handler))
         }
     }

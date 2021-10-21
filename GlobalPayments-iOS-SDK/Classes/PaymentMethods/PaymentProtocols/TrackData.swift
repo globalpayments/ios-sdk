@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol TrackData: class {
+public protocol TrackData: AnyObject {
     var expiry: String? { get set }
     var pan: String? { get set }
     var trackNumber: TrackNumber? { get set }

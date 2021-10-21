@@ -8,7 +8,8 @@ protocol DisputeListFormDelegate: class {
 final class DisputeListFormViewController: UIViewController, StoryboardInstantiable {
 
     static var storyboardName = "Disputes"
-
+    
+    private let defaultDisputeId = "DIS_SAND_abcd1235"
     private let defaultPage = "1"
     private let defaultPageSize = "5"
 
@@ -40,6 +41,12 @@ final class DisputeListFormViewController: UIViewController, StoryboardInstantia
     @IBOutlet private weak var systemHierarchyLabel: UILabel!
     @IBOutlet private weak var systemHierarchyTextField: UITextField!
     @IBOutlet private weak var settlementsLabel: UILabel!
+    @IBOutlet private weak var disputeIdLabel: UILabel!
+    @IBOutlet private weak var disputeIdTextField: UITextField!
+    @IBOutlet private weak var startDateLabel: UILabel!
+    @IBOutlet private weak var startDateTextField: UITextField!
+    @IBOutlet private weak var endDateLabel: UILabel!
+    @IBOutlet private weak var endDateTextField: UITextField!
     @IBOutlet private weak var settlementsSwitch: UISwitch!
 
     override func viewDidLoad() {
@@ -81,6 +88,14 @@ final class DisputeListFormViewController: UIViewController, StoryboardInstantia
         systemMIDTextField.placeholder = "generic.empty".localized()
         systemHierarchyLabel.text = "dispute.list.form.system.hierarchy".localized()
         systemHierarchyTextField.placeholder = "generic.empty".localized()
+        disputeIdLabel.text = "dispute.by.id".localized()
+        disputeIdTextField.text = defaultDisputeId
+        startDateLabel.text = "transaction.report.list.start.date".localized()
+        startDateTextField.placeholder = "generic.empty".localized()
+        startDateTextField.loadDate()
+        endDateLabel.text = "transaction.report.list.end.date".localized()
+        endDateTextField.placeholder = "generic.empty".localized()
+        endDateTextField.loadDate()
         settlementsLabel.text = "dispute.list.form.settlements".localized()
     }
 
@@ -96,6 +111,7 @@ final class DisputeListFormViewController: UIViewController, StoryboardInstantia
         guard let sortProperty = DisputeSortProperty(value: orderByTextField.text) else { return }
         guard let sortOrder = SortDirection(value: orderTextField.text) else { return }
         guard let stage = DisputeStage(value: stageTextField.text) else { return }
+        guard let brand = CardBrand(value: brandTextField.text?.lowercased()) else {return}
         let source: DisputeListForm.Source = settlementsSwitch.isOn ? .settlement : .regular
 
         let form = DisputeListForm(
@@ -104,13 +120,16 @@ final class DisputeListFormViewController: UIViewController, StoryboardInstantia
             sortProperty: sortProperty,
             sordOrder: sortOrder,
             arn: arnTextField.text,
-            brand: CardBrand(value: brandTextField.text?.lowercased())?.rawValue.uppercased(),
+            brand: brand.rawValue.uppercased(),
             status: DisputeStatus(value: statusTextField.text),
             stage: stage,
             fromStageTimeCreated: fromStageTimeCreatedTextField.text?.formattedDate(),
             toStageTimeCreated: toStageTimeCreatedTextField.text?.formattedDate(),
             systemMID: systemMIDTextField.text,
             systemHierarchy: systemHierarchyTextField.text,
+            disputeId: disputeIdTextField.text,
+            fromTimeCreated: startDateTextField.text?.formattedDate(),
+            toTimeCreated: endDateTextField.text?.formattedDate(),
             source: source
         )
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -418,13 +418,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="Jb9-Zd-Hmg">
-                                <rect key="frame" x="0.0" y="52" width="414" height="560"/>
+                                <rect key="frame" x="0.0" y="52" width="414" height="686"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gPU-BY-58U">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="560"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="686"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="T8O-JW-Xbd">
-                                                <rect key="frame" x="8" y="8" width="398" height="544"/>
+                                                <rect key="frame" x="8" y="8" width="398" height="670"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DqX-fF-M0C">
                                                         <rect key="frame" x="0.0" y="0.0" width="398" height="34"/>
@@ -654,8 +654,65 @@
                                                             <constraint firstItem="YuP-qW-xVC" firstAttribute="width" secondItem="dZS-zr-pt4" secondAttribute="width" multiplier="0.6" id="mip-pC-8XY"/>
                                                         </constraints>
                                                     </stackView>
+                                                    <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Z5k-jf-TYE">
+                                                        <rect key="frame" x="0.0" y="513" width="398" height="34"/>
+                                                        <subviews>
+                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dispute ID:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dvl-pL-R76">
+                                                                <rect key="frame" x="0.0" y="0.0" width="151" height="34"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Ih-Fe-S8m">
+                                                                <rect key="frame" x="159" y="0.0" width="239" height="34"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits"/>
+                                                            </textField>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="6Ih-Fe-S8m" firstAttribute="width" secondItem="Z5k-jf-TYE" secondAttribute="width" multiplier="0.6" id="1OL-56-H0f"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Hvt-vA-VOA" userLabel="Start Date">
+                                                        <rect key="frame" x="0.0" y="555" width="398" height="34"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Date:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j56-hN-fAn">
+                                                                <rect key="frame" x="0.0" y="0.0" width="151" height="34"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5jg-zq-HeD">
+                                                                <rect key="frame" x="159" y="0.0" width="239" height="34"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits"/>
+                                                            </textField>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="5jg-zq-HeD" firstAttribute="width" secondItem="Hvt-vA-VOA" secondAttribute="width" multiplier="0.6" id="18s-0P-fx2"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bYn-8Y-BFW" userLabel="End Date">
+                                                        <rect key="frame" x="0.0" y="597" width="398" height="34"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End Date:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zRQ-oB-Mxs">
+                                                                <rect key="frame" x="0.0" y="0.0" width="151" height="34"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pY7-vI-HN9">
+                                                                <rect key="frame" x="159" y="0.0" width="239" height="34"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits"/>
+                                                            </textField>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="pY7-vI-HN9" firstAttribute="width" secondItem="bYn-8Y-BFW" secondAttribute="width" multiplier="0.6" id="dae-hn-gMx"/>
+                                                        </constraints>
+                                                    </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lzw-v6-8tf">
-                                                        <rect key="frame" x="0.0" y="513" width="398" height="31"/>
+                                                        <rect key="frame" x="0.0" y="639" width="398" height="31"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get From Settlements?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vFo-Jx-heR">
                                                                 <rect key="frame" x="0.0" y="0.0" width="195" height="31"/>
@@ -717,6 +774,10 @@
                         <outlet property="arnTextField" destination="EZq-gS-wgS" id="Da4-IF-h5U"/>
                         <outlet property="brandLabel" destination="BHn-MK-DYK" id="FTc-cC-4D5"/>
                         <outlet property="brandTextField" destination="30S-Gz-276" id="Urh-8I-u95"/>
+                        <outlet property="disputeIdLabel" destination="Dvl-pL-R76" id="aB8-D9-Qya"/>
+                        <outlet property="disputeIdTextField" destination="6Ih-Fe-S8m" id="3k0-vt-30D"/>
+                        <outlet property="endDateLabel" destination="zRQ-oB-Mxs" id="4QH-CI-LPQ"/>
+                        <outlet property="endDateTextField" destination="pY7-vI-HN9" id="dpG-wQ-6uc"/>
                         <outlet property="fromStageTimeCreatedLabel" destination="7i8-sY-0K1" id="P9Q-Iq-whU"/>
                         <outlet property="fromStageTimeCreatedTextField" destination="jbi-BL-Z7L" id="qcz-J3-UM3"/>
                         <outlet property="orderByLabel" destination="vqL-hQ-8qz" id="MM0-35-eA5"/>
@@ -731,6 +792,8 @@
                         <outlet property="settlementsSwitch" destination="1qH-eY-39X" id="vvw-ba-tSu"/>
                         <outlet property="stageLabel" destination="fYc-b5-FfG" id="x12-lf-T3Q"/>
                         <outlet property="stageTextField" destination="uZV-5p-zx1" id="Jxa-OT-El8"/>
+                        <outlet property="startDateLabel" destination="j56-hN-fAn" id="KdK-8n-kz8"/>
+                        <outlet property="startDateTextField" destination="5jg-zq-HeD" id="Be2-jA-PSS"/>
                         <outlet property="statusLabel" destination="d9X-SJ-l9N" id="bld-Dz-znr"/>
                         <outlet property="statusTextField" destination="bls-id-8gO" id="eGj-iT-EsX"/>
                         <outlet property="submitButton" destination="a2F-7H-jGw" id="gad-Fu-PzF"/>

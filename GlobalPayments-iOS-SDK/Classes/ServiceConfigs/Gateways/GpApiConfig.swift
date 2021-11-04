@@ -25,6 +25,8 @@ public class GpApiConfig: GatewayConfig {
     public var merchantContactUrl: String?
     /// The list of the permissions the integrator want the access token to have.
     public var permissions: [String]?
+    
+    public var dynamicHeaders: [String:String]?
 
     public init(appId: String,
                 appKey: String,
@@ -37,7 +39,8 @@ public class GpApiConfig: GatewayConfig {
                 challengeNotificationUrl: String? = nil,
                 methodNotificationUrl: String? = nil,
                 merchantContactUrl: String? = nil,
-                permissions: [String]? = nil) {
+                permissions: [String]? = nil,
+                dynamicHeaders: [String:String]? = nil) {
 
         self.appId = appId
         self.appKey = appKey
@@ -51,6 +54,7 @@ public class GpApiConfig: GatewayConfig {
         self.methodNotificationUrl = methodNotificationUrl
         self.permissions = permissions
         self.merchantContactUrl = merchantContactUrl
+        self.dynamicHeaders = dynamicHeaders
         super.init(gatewayProvider: .gpAPI)
     }
 

@@ -4,6 +4,12 @@
 
 #### Enhancements
 
+- Add SDK and library versions on headers
+
+## 1.2.1
+
+#### Enhancements
+
 - Add spinner for country list inside configuration screen
 - Add AVS missing mapping to response
 - Add deposit date filter on settlement disputes report - GP-API

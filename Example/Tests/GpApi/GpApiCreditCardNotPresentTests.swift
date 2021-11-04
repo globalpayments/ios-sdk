@@ -11,7 +11,12 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
             appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
             appKey: "QDsW1ETQKHX6Y4TA",
             channel: .cardNotPresent,
-            country: "GB"
+            country: "GB",
+            // DO NOT DELETE - usage example for some settings
+            // dynamicHeaders : [
+            //    "x-gp-platform" : "prestashop;version=1.7.2",
+            //    "x-gp-extension" : "coccinet;version=2.4.1"
+            // ]
         ))
     }
 

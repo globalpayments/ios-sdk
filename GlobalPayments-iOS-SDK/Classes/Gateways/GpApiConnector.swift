@@ -11,6 +11,12 @@ class GpApiConnector: RestGateway {
         headers[GpApiConnector.Header.Key.version]         = GpApiConnector.Header.Value.version
         headers[GpApiConnector.Header.Key.accept]          = GpApiConnector.Header.Value.accept
         headers[GpApiConnector.Header.Key.acceptEnconding] = GpApiConnector.Header.Value.acceptEnconding
+        headers[GpApiConnector.Header.Key.versionSdk]      = "iOS;version=\(getVersionSDK())"
+        headers[GpApiConnector.Header.Key.versionLibrary]  = "swift;version=\(SwiftLang.getVersion())"
+
+        if let headers = gpApiConfig.dynamicHeaders{
+            dynamicHeaders = headers
+        }
     }
 
     func signIn(completion: @escaping ((Bool, Error?) -> Void)) {
@@ -229,6 +235,13 @@ extension GpApiConnector: PaymentGateway {
     func serializeRequest(_ builder: AuthorizationBuilder) -> String? {
         return nil
     }
+
+    private func getVersionSDK() -> String {
+        if let version = Bundle(identifier: "org.cocoapods.GlobalPayments-iOS-SDK")?.infoDictionary?["CFBundleShortVersionString"] as? String {
+            return version
+        }
+        return ""
+    }
 }
 
 // MARK: - ReportingServiceType
@@ -326,6 +339,8 @@ extension GpApiConnector {
             static let accept: String = "Accept"
             static let acceptEnconding: String = "Accept-Encoding"
             static let authorization: String = "Authorization"
+            static let versionSdk: String = "x-gp-sdk"
+            static let versionLibrary: String = "x-gp-library"
         }
 
         struct Value {

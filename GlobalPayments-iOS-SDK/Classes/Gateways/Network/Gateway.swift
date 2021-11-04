@@ -2,6 +2,7 @@ import Foundation
 
 class Gateway {
     public var headers: [String: String]
+    public var dynamicHeaders: [String: String]
     public var requestLogger: RequestLogger?
     public var timeout: TimeInterval = 60.0
     public var serviceUrl: String?
@@ -14,6 +15,7 @@ class Gateway {
         self.session = session
         self.contentType = contentType
         self.headers = [String: String]()
+        self.dynamicHeaders = [String: String]()
     }
 
     func sendRequest(endpoint: String,
@@ -33,6 +35,9 @@ class Gateway {
         request.httpMethod = method.rawValue
         request.addValue(contentType ?? self.contentType, forHTTPHeaderField: "Accept")
         headers.forEach {
+            request.setValue($0.value, forHTTPHeaderField: $0.key)
+        }
+        dynamicHeaders.forEach {
             request.setValue($0.value, forHTTPHeaderField: $0.key)
         }
         if method != .get && data != nil {

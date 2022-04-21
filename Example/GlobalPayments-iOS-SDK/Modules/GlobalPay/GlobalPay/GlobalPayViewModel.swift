@@ -6,7 +6,7 @@ protocol GlobalPayViewInput {
     func onUpdateConfig()
 }
 
-protocol GlobalPayViewOutput: class {
+protocol GlobalPayViewOutput: AnyObject {
     func displayConfigModule()
     func displayError(_ error: Error)
 }

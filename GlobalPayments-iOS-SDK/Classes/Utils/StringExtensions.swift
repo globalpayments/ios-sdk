@@ -22,6 +22,10 @@ extension String {
         return replacingOccurrences(of: self, with: trimString)
     }
 
+    func remove(_ removeString: String) -> String {
+        return replacingOccurrences(of: removeString, with: "")
+    }
+
     func index(from: Int) -> Index {
         return self.index(startIndex, offsetBy: from)
     }
@@ -48,6 +52,16 @@ extension String {
         dateFormatter.locale = .current
         dateFormatter.dateFormat = format
         return dateFormatter.date(from: self)
+    }
+
+    func substring(from: Int) -> String {
+        let fromIndex = index(from: from)
+        return String(self[fromIndex...])
+    }
+
+    func substring(to: Int) -> String {
+        let toIndex = index(from: to)
+        return String(self[..<toIndex])
     }
 }
 
@@ -106,4 +120,9 @@ private enum HMACAlgorithm {
         }
         return Int(result)
     }
+}
+
+extension StringProtocol {
+    var data: Data { .init(utf8) }
+    var bytes: [UInt8] { .init(utf8) }
 }

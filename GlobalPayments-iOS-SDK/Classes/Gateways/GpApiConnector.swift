@@ -14,7 +14,7 @@ class GpApiConnector: RestGateway {
         headers[GpApiConnector.Header.Key.versionSdk]      = "iOS;version=\(getVersionSDK())"
         headers[GpApiConnector.Header.Key.versionLibrary]  = "swift;version=\(SwiftLang.getVersion())"
 
-        if let headers = gpApiConfig.dynamicHeaders{
+        if let headers = gpApiConfig.dynamicHeaders {
             dynamicHeaders = headers
         }
     }

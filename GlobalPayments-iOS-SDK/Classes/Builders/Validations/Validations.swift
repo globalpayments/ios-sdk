@@ -59,7 +59,7 @@ class Validations {
 
         for key in rules.keys {
             var value: Any? = Validations.propertyValue(in: builder, for: key.name)
-
+            
             if value == nil && builder is TransactionBuilder<T> {
                 if let transactionBuilder = builder as? TransactionBuilder<T>,
                     let paymentMethod = transactionBuilder.paymentMethod {

@@ -7,8 +7,8 @@ class GpApiActionsReportTests: XCTestCase {
         super.setUp()
 
         try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "P3LRVjtGRGxWQQJDE345mSkEh2KfdAyg",
-            appKey: "ockJr6pv6KFoGiZA"
+            appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+            appKey: "DYcEE2GpSzblo0ib"
         ))
     }
 
@@ -298,8 +298,9 @@ class GpApiActionsReportTests: XCTestCase {
     func test_report_find_actions_paged_by_start_date_and_end_date() {
         // GIVEN
         let executeExpectation = expectation(description: "Execute Expectation")
-        let reportingService = ReportingService.findActionsPaged(page: 1, pageSize: 100)
+        let reportingService = ReportingService.findActionsPaged(page: 1, pageSize: 5)
         let startDate = Date().addDays(-40)
+        let startDateOfStartDay = Date().addDays(-40).startDayTime()
         let endDate = Date().addDays(-10)
         var actionSummaryResults: [ActionSummary]?
         var actionSummaryError: Error?
@@ -319,12 +320,15 @@ class GpApiActionsReportTests: XCTestCase {
         XCTAssertNil(actionSummaryError)
         XCTAssertNotNil(actionSummaryResults)
         XCTAssertEqual(actionSummaryResults?.isEmpty, false)
-        for actionSummary in actionSummaryResults! {
-            guard let timeCreated = actionSummary.timeCreated else {
-                continue
+        
+        if let results = actionSummaryResults{
+            for actionSummary in results {
+                guard let timeCreated = actionSummary.timeCreated else {
+                    continue
+                }
+                XCTAssertTrue(timeCreated.format() >= startDateOfStartDay.format())
+                XCTAssertTrue(timeCreated.format() <= endDate.format())
             }
-            XCTAssertTrue(timeCreated.format() >= startDate.format())
-            XCTAssertTrue(timeCreated.format() <= endDate.format())
         }
     }
 

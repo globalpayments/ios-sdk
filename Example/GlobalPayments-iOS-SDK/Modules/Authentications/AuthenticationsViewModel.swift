@@ -9,7 +9,7 @@ protocol AuthenticationsViewModelInput {
     func onFinishChallenge(form: InitiateForm?, threeDSecure: ThreeDSecure?)
 }
 
-protocol AuthenticationsViewModelOutput: class {
+protocol AuthenticationsViewModelOutput: AnyObject {
     func showErrorView(error: Error?)
     func showThreeDSecure(_ threeDSecure: ThreeDSecure)
     func showTransaction(_ transaction: Transaction)

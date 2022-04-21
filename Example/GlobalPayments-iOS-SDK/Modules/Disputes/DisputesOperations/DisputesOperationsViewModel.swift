@@ -6,7 +6,7 @@ protocol DisputesOperationsViewInput {
     func challengeDispute(form: DisputesOperationsForm, documents: [DocumentInfo])
 }
 
-protocol DisputesOperationsViewOutput: class {
+protocol DisputesOperationsViewOutput: AnyObject {
     func showErrorView(error: Error?)
     func showDisputeActionView(disputeAction: DisputeAction)
 }

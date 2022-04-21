@@ -11,8 +11,8 @@ class GpApi3DSecure1Tests: XCTestCase {
         super.setUp()
 
         try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "yDkdruxQ7hUjm8p76SaeBVAUnahESP5P",
-            appKey: "o8C8CYrgXNELI46x",
+            appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+            appKey: "DYcEE2GpSzblo0ib",
             channel: .cardNotPresent,
             country: "GB",
             challengeNotificationUrl: "https://ensi808o85za.x.pipedream.net/",

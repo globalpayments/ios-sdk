@@ -8,8 +8,8 @@ class GpApiCreditCardPresentTests: XCTestCase {
         super.setUp()
 
         try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
-            appKey: "QDsW1ETQKHX6Y4TA",
+            appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+            appKey: "DYcEE2GpSzblo0ib",
             channel: .cardPresent
         ))
     }
@@ -191,6 +191,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
 
         // WHEN
         card?.cvn = "123"
+        card?.cardPresent = true
         card?.verify()
             .withCurrency("GBP")
             .execute(completion: {
@@ -214,6 +215,9 @@ class GpApiCreditCardPresentTests: XCTestCase {
         var transactionError: Error?
 
         // WHEN
+        card?.number = "30450000000985"
+        card?.cvn = "098"
+        card?.cardPresent = true
         card?.verify()
             .withCurrency("GBP")
             .execute(completion: {
@@ -228,6 +232,5 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertNotNil(transactionResult)
         XCTAssertEqual(transactionResult?.responseCode, "NOT_VERIFIED")
         XCTAssertEqual(transactionResult?.responseMessage, "NOT_VERIFIED")
-        XCTAssertEqual(transactionResult?.cvnResponseMessage, "NOT_MATCHED")
     }
 }

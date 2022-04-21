@@ -1,7 +1,7 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-protocol CheckAvailabilityFormDelegate: class {
+protocol CheckAvailabilityFormDelegate: AnyObject {
     func onSubmitForm(form: CheckAvailabilityForm)
 }
 

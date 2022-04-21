@@ -645,7 +645,7 @@ import Foundation
     }
 
     public override func setupValidations() {
-
+        
         validations.of(transactionType: .verifyEnrolled)
             .check(propertyName: "paymentMethod")?.isNotNil()
 

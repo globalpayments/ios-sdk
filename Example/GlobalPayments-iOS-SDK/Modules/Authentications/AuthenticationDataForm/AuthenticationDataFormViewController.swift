@@ -1,6 +1,6 @@
 import UIKit
 
-protocol AuthenticationDataFormDelegate: class {
+protocol AuthenticationDataFormDelegate: AnyObject {
     func onSubmitForm(form: AuthenticationDataForm)
 }
 

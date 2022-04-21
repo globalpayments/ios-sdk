@@ -8,7 +8,7 @@ protocol TransactionReportViewInput {
     func clearViewModels()
 }
 
-protocol TransactionReportViewOutput: class {
+protocol TransactionReportViewOutput: AnyObject {
     func showErrorView(error: Error?)
     func reloadData()
     func displayEmptyView()

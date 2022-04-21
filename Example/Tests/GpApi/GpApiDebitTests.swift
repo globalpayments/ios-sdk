@@ -7,8 +7,8 @@ class GpApiDebitTests: XCTestCase {
         super.setUp()
 
         try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
-            appKey: "QDsW1ETQKHX6Y4TA",
+            appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+            appKey: "DYcEE2GpSzblo0ib",
             channel: .cardPresent
             )
         )
@@ -231,12 +231,12 @@ class GpApiDebitTests: XCTestCase {
         XCTAssertEqual(transactionStatusResponse, TransactionStatus.captured)
     }
 
-    func test_debit_sale_contactless_chip() {
+    func test_debit_sale_contactless_swipe() {
         // GIVEN
         let debitSaleExpectation = expectation(description: "Debit Sale Expectation")
         let track = DebitTrackData()
         track.value = ";4024720012345671=18125025432198712345?"
-        track.entryMethod = .proximity
+        track.entryMethod = .swipe
         track.pinBlock = "AFEC374574FC90623D010000116001EE"
         let tagData = "82021C008407A0000002771010950580000000009A031709289C01005F280201245F2A0201245F3401019F02060000000010009F03060000000000009F080200019F090200019F100706010A03A420009F1A0201249F26089CC473F4A4CE18D39F2701809F3303E0F8C89F34030100029F3501229F360200639F370435EFED379F410400000019"
         var transactionResponse: Transaction?
@@ -302,6 +302,7 @@ class GpApiDebitTests: XCTestCase {
         card.expYear = Date().currentYear + 1
         card.cvn = "123"
         card.cardHolderName = "John Smith"
+        card.cardPresent = true
         let chargeExpectation = expectation(description: "Charge Expectation")
         var chargeTransactionResult: Transaction?
         var chargeTransactionError: Error?
@@ -370,7 +371,7 @@ class GpApiDebitTests: XCTestCase {
         XCTAssertEqual(reauthorizeTransactionResult?.responseMessage, TransactionStatus.captured.rawValue)
     }
 
-    func reauthorized_and_existing_transaction() {
+    func test_reauthorized_and_existing_transaction() {
 
         // Obtain TransactionSummary
 

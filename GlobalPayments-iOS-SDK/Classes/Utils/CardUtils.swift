@@ -4,7 +4,7 @@ public class CardUtils {
 
     public static let cardTypes: [String: NSRegularExpression] = [
         "Amex": NSRegularExpression("^3[47]"),
-        "MC": NSRegularExpression("^(?:5[1-5]|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)"),
+        "MC": NSRegularExpression("^(?:5[1-6]|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)"),
         "Visa": NSRegularExpression("^4"),
         "DinersClub": NSRegularExpression("^3(?:0[0-5]|[68][0-9])"),
         "EnRoute": NSRegularExpression("^(2014|2149)"),
@@ -117,6 +117,12 @@ public class CardUtils {
             }
         }
         return false
+    }
+
+    public static func getBaseCardType(cardType: String?) -> String? {
+        guard let cardType = cardType else { return nil }
+        let baseCardType = cardType.remove("FLEET")
+        return baseCardType
     }
 
     public static func generateCard(builder: AuthorizationBuilder) -> JsonDoc {

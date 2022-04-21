@@ -50,7 +50,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "convenience_amount", value: builder.convenienceAmount?.toNumericCurrencyString())
             .set(for: "cashback_amount", value: builder.cashBackAmount?.toNumericCurrencyString())
             .set(for: "ip_address", value: builder.customerIpAddress)
-            .set(for: "payment_method", doc: createPaymentMethodParam(for: builder))
+            .set(for: "payment_method", doc: createPaymentMethodParam(for: builder, channel: config?.channel))
+            .set(for: "link", doc: JsonDoc().set(for: "id", value: builder.paymentLinkId))
 
         // set order reference
         if !builder.orderId.isNilOrEmpty {
@@ -96,27 +97,61 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "country", value: config?.country)
             .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
             .set(for: "currency", value: builder.currency)
-            .set(for: "payment_method", doc: createPaymentMethodParam(for: builder))
+            .set(for: "payment_method", doc: createPaymentMethodParam(for: builder, channel: config?.channel))
 
         return payload
     }
 
-    private func entryMode(for builder: Builder) -> String {
-        if let card = builder.paymentMethod as? CardData {
-            if card.readerPresent {
-                return card.cardPresent ? PaymentEntryMode.manual.rawValue : PaymentEntryMode.inApp.rawValue
-            } else {
-                return card.cardPresent ? PaymentEntryMode.manual.rawValue : PaymentEntryMode.ecom.rawValue
+    private func entryMode(for builder: Builder, channel: Channel?) -> String {
+        if channel == .cardPresent {
+            if let track = builder.paymentMethod as? TrackData {
+                if builder.tagData != nil {
+                    if track.entryMethod == .proximity {
+                        return PaymentEntryMode.contactlessSwipe.rawValue
+                    }
+                    if let emvData = EmvUtils.shared.parseTagData(builder.tagData) {
+                        if emvData.isContactlessMsd() {
+                            return PaymentEntryMode.contactlessSwipe.rawValue
+                        }
+                        return PaymentEntryMode.chip.rawValue
+                    }
+                }
             }
-        } else if let track = builder.paymentMethod as? TrackData {
-            if builder.tagData != nil {
-                return track.entryMethod == .swipe ? PaymentEntryMode.chip.rawValue : PaymentEntryMode.contactlessChip.rawValue
-            } else if builder.hasEmvFallbackData {
-                return PaymentEntryMode.contactlessSwipe.rawValue
+
+            if let cardData = builder.paymentMethod as? CardData, cardData.cardPresent {
+                return PaymentEntryMode.manual.rawValue
             }
             return PaymentEntryMode.swipe.rawValue
+        } else if channel == .cardNotPresent {
+            if let cardData = builder.paymentMethod as? CardData {
+                if cardData.readerPresent {
+                    return PaymentEntryMode.ecom.rawValue
+                } else {
+                    if let entryMethod = cardData.entryMethod {
+                        switch entryMethod {
+                        case ManualEntryMethod.PHONE:
+                            return PaymentEntryMode.phone.rawValue
+                        case ManualEntryMethod.MOTO:
+                            return PaymentEntryMode.moto.rawValue
+                        case ManualEntryMethod.MAIL:
+                            return PaymentEntryMode.mail.rawValue
+                        default:
+                            break
+                        }
+                    }
+                }
+            }
+
+            if builder.transactionModifier == .encryptedMobile,
+               let creditCard = builder.paymentMethod as? CreditCardData,
+               creditCard.hasInAppPaymentData() {
+                return PaymentEntryMode.inApp.rawValue
+            }
+
+            return PaymentEntryMode.ecom.rawValue
         }
-        return PaymentEntryMode.ecom.rawValue
+
+        return ""
     }
 
     private func captureMode(for builder: Builder) -> String {
@@ -128,16 +163,16 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         return CaptureMode.auto.rawValue
     }
 
-    private func createPaymentMethodParam(for builder: Builder) -> JsonDoc {
+    private func createPaymentMethodParam(for builder: Builder, channel: Channel?) -> JsonDoc {
         let paymentMethod = JsonDoc()
-        paymentMethod.set(for: "entry_mode", value: entryMode(for: builder))
+        paymentMethod.set(for: "entry_mode", value: entryMode(for: builder, channel: channel))
 
         // Authentication
         if let creditCardData = builder.paymentMethod as? CreditCardData {
             paymentMethod.set(for: "name", value: creditCardData.cardHolderName)
 
             if let secureEcom = creditCardData.threeDSecure {
-                paymentMethod.set(for: "id",value: secureEcom.serverTransactionId)
+                paymentMethod.set(for: "authentication.id",value: secureEcom.serverTransactionId)
             }
         }
 
@@ -165,7 +200,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         }
 
         if builder.requestMultiUseToken == true {
-            paymentMethod.set(for: "storage_model", value: "ON_SUCCESS")
+            paymentMethod.set(for: "storage_mode", value: "ON_SUCCESS")
         }
 
         if paymentMethod.getValue(key: "id") == nil {

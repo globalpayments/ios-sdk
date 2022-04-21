@@ -7,8 +7,8 @@ class GpApiReportingTransactionsTests: XCTestCase {
         super.setUp()
 
         try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "GkwdYGzQrEy1SdTz7S10P8uRjFMlEsJg",
-            appKey: "zvXE2DmmoxPbQ6d0",
+            appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+            appKey: "DYcEE2GpSzblo0ib",
             channel: .cardNotPresent
         ))
     }
@@ -1616,15 +1616,9 @@ class GpApiReportingTransactionsTests: XCTestCase {
 
         // THEN
         wait(for: [executeExpectation], timeout: 10.0)
-        XCTAssertNil(transactionSummaryList)
-        XCTAssertNotNil(transactionError)
-        XCTAssertEqual(transactionError?.responseCode, "INVALID_REQUEST_DATA")
-        XCTAssertEqual(transactionError?.responseMessage, "40105")
-        if let message = transactionError?.message {
-            XCTAssertEqual(message, "Status Code: 400 - Invalid Value provided in the input field - system.hierarchy")
-        } else {
-            XCTFail("transactionError?.message cannot be nil")
-        }
+        XCTAssertNotNil(transactionSummaryList)
+        XCTAssertNil(transactionError)
+        XCTAssertTrue(transactionSummaryList?.count == 0)
     }
 
     func test_report_find_settlement_transactions_paged_by_invalid_merchant_id() {
@@ -1654,9 +1648,9 @@ class GpApiReportingTransactionsTests: XCTestCase {
         XCTAssertNil(transactionSummaryList)
         XCTAssertNotNil(transactionError)
         XCTAssertEqual(transactionError?.responseCode, "INVALID_REQUEST_DATA")
-        XCTAssertEqual(transactionError?.responseMessage, "40100")
+        XCTAssertEqual(transactionError?.responseMessage, "40090")
         if let message = transactionError?.message {
-            XCTAssertEqual(message, "Status Code: 400 - Invalid Value provided in the input field - system.mid")
+            XCTAssertEqual(message, "Status Code: 400 - system.mid value is invalid. Please check the format and data provided is correct")
         } else {
             XCTFail("transactionError?.message cannot be nil")
         }

@@ -7,9 +7,8 @@ class GpApiReportingDisputesTests: XCTestCase {
         super.setUp()
 
         try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "GkwdYGzQrEy1SdTz7S10P8uRjFMlEsJg",
-            appKey: "zvXE2DmmoxPbQ6d0",
-            channel: .cardNotPresent
+            appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+            appKey: "DYcEE2GpSzblo0ib"
         ))
     }
 
@@ -127,15 +126,13 @@ class GpApiReportingDisputesTests: XCTestCase {
 
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
         var disputeSummaryError: Error?
 
         // WHEN
         reportingService
-            .where(.startStageDate, startStageDate)
-            .and(searchCriteria: .aquirerReferenceNumber, value: aquirerReferenceNumber)
+            .where(.aquirerReferenceNumber, aquirerReferenceNumber)
             .execute {
                 disputeSummaryList = $0?.results
                 disputeSummaryError = $1
@@ -896,7 +893,7 @@ class GpApiReportingDisputesTests: XCTestCase {
     // MARK: - Utils
 
     private func getDisputeSummary(_ status: DisputeStatus, _ completion: @escaping ((DisputeSummary?) -> Void)) {
-        let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 100)
+        let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         reportingService
             .orderBy(disputeOrderBy: .toAdjustmentTimeCreated, .descending)
             .withDisputeStatus(status)

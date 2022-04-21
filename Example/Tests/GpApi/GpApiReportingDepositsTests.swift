@@ -7,9 +7,8 @@ class GpApiReportingDepositsTests: XCTestCase {
         super.setUp()
 
         try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "GkwdYGzQrEy1SdTz7S10P8uRjFMlEsJg",
-            appKey: "zvXE2DmmoxPbQ6d0",
-            channel: .cardNotPresent
+            appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+            appKey: "DYcEE2GpSzblo0ib"
         ))
     }
 

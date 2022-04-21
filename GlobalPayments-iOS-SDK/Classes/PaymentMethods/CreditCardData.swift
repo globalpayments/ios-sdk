@@ -2,6 +2,7 @@ import Foundation
 
 /// Use credit tokens or manual entry data as a payment method.
 public class CreditCardData: Credit, CardData {
+
     /// Use credit tokens or manual entry data as a payment method.
     public var cardPresent: Bool = false
     /// The card's card verification number (CVN).
@@ -18,7 +19,7 @@ public class CreditCardData: Credit, CardData {
     public var cvnPresenceIndicator: CvnPresenceIndicator = .notRequested
     /// The card's number.
     public var number: String? {
-        didSet(newValue) {
+        willSet(newValue) {
             cardType = CardUtils.mapCardType(cardNumber: newValue)
         }
     }
@@ -34,6 +35,8 @@ public class CreditCardData: Credit, CardData {
         let year: String = expYear > .zero ? "\(expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : .empty
         return month + year
     }
+
+    public var entryMethod: ManualEntryMethod?
 
     public func verifyEnrolled(amount: NSDecimalNumber,
                                currency: String,
@@ -111,6 +114,10 @@ public class CreditCardData: Credit, CardData {
                     completion?(false)
                 }
         }
+    }
+
+    func hasInAppPaymentData() -> Bool {
+        return !token.isNilOrEmpty && !mobileType.isNilOrEmpty
     }
 }
 

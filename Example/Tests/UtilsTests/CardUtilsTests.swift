@@ -189,4 +189,16 @@ class CardUtilsTests: XCTestCase {
         XCTAssertEqual(successfulResult, expectedResult)
         XCTAssertEqual(failureResult, expectedFailure)
     }
+
+    func test_strip_fleet_cardType() {
+        // GIVEN
+        let validValueCardType = "MCFLEET"
+        let expectedResult = "MC"
+
+        // WHEN
+        let result = CardUtils.getBaseCardType(cardType: validValueCardType)
+
+        // THEN
+        XCTAssertEqual(result, expectedResult)
+    }
 }

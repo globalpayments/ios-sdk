@@ -2,6 +2,8 @@ import Foundation
 
 public enum PaymentEntryMode: String, Mappable, Encodable, CaseIterable {
     case moto = "MOTO"
+    case mail = "MAIL"
+    case phone = "PHONE"
     case ecom = "ECOM"
     case inApp = "IN_APP"
     case chip = "CHIP"

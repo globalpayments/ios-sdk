@@ -5,7 +5,7 @@ protocol PaymentMethodOperationsInput {
     func performOperation(from form: PaymentOperationForm)
 }
 
-protocol PaymentMethodOperationsOutput: class {
+protocol PaymentMethodOperationsOutput: AnyObject {
     func showError(error: Error?)
     func showViewModels(models: [PaymentMethodResultModel])
 }

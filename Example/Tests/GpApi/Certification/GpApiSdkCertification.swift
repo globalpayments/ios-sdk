@@ -8,8 +8,8 @@ class GpApiSdkCertification: XCTestCase {
     func test_credit_card_visa_success() {
         // GIVEN
         try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
-            appKey: "QDsW1ETQKHX6Y4TA",
+            appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+            appKey: "DYcEE2GpSzblo0ib",
             channel: .cardNotPresent,
             country: "GB"
         ))

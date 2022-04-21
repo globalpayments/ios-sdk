@@ -22,4 +22,5 @@ public class EBTCardData: EBT, CardData {
         let year: String = expYear > .zero ? "\(expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : .empty
         return month + year
     }
+    public var entryMethod: ManualEntryMethod?
 }

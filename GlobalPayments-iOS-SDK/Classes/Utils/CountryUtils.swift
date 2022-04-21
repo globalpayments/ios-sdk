@@ -132,7 +132,7 @@ public class CountryUtils {
                     previousMatchingCharacterIndex = termIndex
                     termCharacterMatchFound = true
                 }
-                    
+
                 index += 1
             }
         }

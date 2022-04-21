@@ -10,4 +10,5 @@ public protocol CardData {
     var expYear: Int { get set }
     var readerPresent: Bool { get set }
     var shortExpiry: String { get }
+    var entryMethod: ManualEntryMethod? { get set }
 }

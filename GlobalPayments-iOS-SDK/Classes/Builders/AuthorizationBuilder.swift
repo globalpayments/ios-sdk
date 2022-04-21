@@ -43,6 +43,7 @@ import Foundation
     var offlineAuthCode: String?
     var orderId: String?
     var paymentApplicationVersion: String?
+    var paymentLinkId: String?
     var paymentMethodUsageMode: PaymentMethodUsageMode?
     var posSequenceNumber: String?
     var productId: String?
@@ -527,6 +528,11 @@ import Foundation
 
     public func withModifier(_ transactionModifier: TransactionModifier) -> AuthorizationBuilder {
         self.transactionModifier = transactionModifier
+        return self
+    }
+    
+    public func withPaymentLink(_ paymentLinkId: String) -> AuthorizationBuilder {
+        self.paymentLinkId = paymentLinkId
         return self
     }
 

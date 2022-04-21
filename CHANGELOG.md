@@ -4,6 +4,15 @@
 
 #### Enhancements
 
+- GP-API: Add Payment Link Id in the request for authorize
+- GP-API: Update "entry_mode" functionality and add manual entry methods: MOTO, PHONE, MAIL
+- CardUtils MC regex updated
+- GP-API: Prepare "IN_APP" entry_mode when creating a transaction with digital wallets
+
+## 1.2.2 (11/04/2021)
+
+#### Enhancements
+
 - Add SDK and library versions on headers
 
 ## 1.2.1

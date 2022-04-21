@@ -81,7 +81,7 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     }
 
     public func tokenize(configName: String = "default", paymentMethodUsageMode: PaymentMethodUsageMode = .multiple, completion: ((String?, Error?) -> Void)?) {
-        tokenize(validateCard: true, configName: configName,paymentMethodUsageMode: paymentMethodUsageMode, completion: completion)
+        tokenize(validateCard: true, configName: configName, paymentMethodUsageMode: paymentMethodUsageMode, completion: completion)
     }
 
     public func tokenize(validateCard: Bool, configName: String = "default", paymentMethodUsageMode: PaymentMethodUsageMode = .multiple, completion: ((String?, Error?) -> Void)?) {

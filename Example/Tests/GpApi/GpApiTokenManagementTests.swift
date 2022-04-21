@@ -11,8 +11,8 @@ class GpApiTokenManagementTests: XCTestCase {
 
         try? ServicesContainer.configureService(
             config: GpApiConfig(
-                appId: "i872l4VgZRtSrykvSn8Lkah8RE1jihvT",
-                appKey: "9pArW2uWoA8enxKc"
+                appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+                appKey: "DYcEE2GpSzblo0ib"
             )
         )
     }
@@ -26,6 +26,7 @@ class GpApiTokenManagementTests: XCTestCase {
         card?.expMonth = 12
         card?.expYear = 2025
         card?.cvn = "123"
+        card?.cardPresent = true
 
         let tokenizeExpectation = expectation(description: "Tokenize exception")
         var expectedToken: String?
@@ -50,7 +51,9 @@ class GpApiTokenManagementTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-
+    }
+    
+    func skiped_to_test_delete_token(){
         // GIVEN
         let tokenizeExpectation = expectation(description: "Tokenize exception")
         var deleted: Bool?

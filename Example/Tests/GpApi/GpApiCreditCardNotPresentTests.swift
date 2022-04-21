@@ -8,10 +8,10 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         super.setUp()
 
         try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
-            appKey: "QDsW1ETQKHX6Y4TA",
+            appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+            appKey: "DYcEE2GpSzblo0ib",
             channel: .cardNotPresent,
-            country: "GB",
+            country: "GB"
             // DO NOT DELETE - usage example for some settings
             // dynamicHeaders : [
             //    "x-gp-platform" : "prestashop;version=1.7.2",
@@ -280,6 +280,34 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertEqual(capture3Response?.responseCode, "SUCCESS")
         XCTAssertEqual(capture3StatusResponse, TransactionStatus.captured)
     }
+    
+    func test_credit_authorization_with_paymentLinkId() {
+        
+        // Authorize
+        
+        //GIVEN
+        let authorizeExpectation = expectation(description: "Authorize Expectation")
+        var authorizeTransactionResult: Transaction?
+        var authorizeTransactionError: Error?
+        
+        //WHEN
+        card.authorize(amount: 14)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .withPaymentLink("LNK_W1xgWehivDP8P779cFDDTZwzL01EEw4")
+            .execute {
+                authorizeTransactionResult = $0
+                authorizeTransactionError = $1
+                authorizeExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [authorizeExpectation], timeout: 10.0)
+        XCTAssertNil(authorizeTransactionError)
+        XCTAssertNotNil(authorizeTransactionResult)
+        XCTAssertEqual(authorizeTransactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(authorizeTransactionResult?.responseMessage, TransactionStatus.preauthorized.mapped(for: .gpApi))
+    }
 
     func test_credit_authorization_capture_lower_amount() {
 
@@ -437,7 +465,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertEqual(captureTransactionError?.responseCode, "INVALID_REQUEST_DATA")
         XCTAssertEqual(captureTransactionError?.responseMessage, "50020")
         if let message = captureTransactionError?.message {
-            XCTAssertTrue(message.contains("Status Code: 400 - Can\'t settle for more than 115% of that which you authorised."))
+            XCTAssertTrue(message.contains("Status Code: 400 - Can\'t settle for more than 115% of that which you authorised"))
         } else {
             XCTFail("captureTransactionError message cannot be nil")
         }
@@ -512,7 +540,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertNil(transactionResult)
         XCTAssertNotNil(gatewayException)
         XCTAssertEqual(gatewayException?.responseCode, "RESOURCE_NOT_FOUND")
-        XCTAssertEqual(gatewayException?.responseMessage, "40118")
+        XCTAssertEqual(gatewayException?.responseMessage, "40008")
     }
 
     func test_credit_capture_then_refund_higher_amount() {
@@ -589,7 +617,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertEqual(refundTransactionError?.responseCode, "INVALID_REQUEST_DATA")
         XCTAssertEqual(refundTransactionError?.responseMessage, "40087")
         if let message = refundTransactionError?.message {
-            XCTAssertEqual(message, "Status Code: 400 - You may only refund up to 100% of the original amount.")
+            XCTAssertEqual(message, "Status Code: 400 - You may only refund up to 115% of the original amount ")
         } else {
             XCTFail("refundTransactionError message cannot be nil")
         }
@@ -887,7 +915,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertEqual(refund4TransactionError?.responseCode, "INVALID_REQUEST_DATA")
         XCTAssertEqual(refund4TransactionError?.responseMessage, "40087")
         if let message = refund4TransactionError?.message {
-            XCTAssertTrue(message.contains("Status Code: 400 - You may only refund up to 100% of the original amount."))
+            XCTAssertTrue(message.contains("Status Code: 400 - You may only refund up to 115% of the original amount"))
         } else {
             XCTFail("refund4TransactionError message cannot be nil")
         }
@@ -928,7 +956,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
 
         // WHEN
         chargeTransactionResult?
-            .refund(amount: 22)
+            .refund(amount: 6)
             .withCurrency("USD")
             .execute {
                 refund1TransactionResult = $0
@@ -1026,7 +1054,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
 
         // GIVEN
         let amount: NSDecimalNumber = 5.95
-        let expectedAmount: NSDecimalNumber = amount.multiplying(by: 1.1)
+        let expectedAmount: NSDecimalNumber = amount.multiplying(by: 1.5)
         let chargeExpectation = expectation(description: "Charge Expectation")
         var chargeTransactionResult: Transaction?
         var chargeTransactionError: Error?
@@ -1074,7 +1102,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertEqual(refundTransactionError?.responseCode, "INVALID_REQUEST_DATA")
         XCTAssertEqual(refundTransactionError?.responseMessage, "40087")
         if let message = refundTransactionError?.message {
-            XCTAssertTrue(message.contains("Status Code: 400 - You may only refund up to 100% of the original amount."))
+            XCTAssertTrue(message.contains("Status Code: 400 - You may only refund up to 115% of the original amount"))
         } else {
             XCTFail("refundTransactionError message cannot be nil")
         }
@@ -1170,7 +1198,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
 
         // WHEN
         transactionCharge?
-            .refund(amount: 10)
+            .refund(amount: 6)
             .withCurrency("GBP")
             .execute(completion: {
                 partialRefund = $0
@@ -1279,7 +1307,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertNil(transactionResponse)
         XCTAssertNotNil(transactionError)
         XCTAssertEqual(transactionError?.responseCode, "RESOURCE_NOT_FOUND")
-        XCTAssertEqual(transactionError?.responseMessage, "40118")
+        XCTAssertEqual(transactionError?.responseMessage, "40008")
     }
 
     // MARK: - Reverse
@@ -1414,7 +1442,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertNil(transactionResponse)
         XCTAssertNotNil(transactionError)
         XCTAssertEqual(transactionError?.responseCode, "RESOURCE_NOT_FOUND")
-        XCTAssertEqual(transactionError?.responseMessage, "40118")
+        XCTAssertEqual(transactionError?.responseMessage, "40008")
     }
 
     func test_credit_partial_reverse_transaction() {

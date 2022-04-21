@@ -5,7 +5,7 @@ protocol TransactionOperationsInput {
     func getTransaction(from form: TransactionOperationsForm)
 }
 
-protocol TransactionOperationsOutput: class {
+protocol TransactionOperationsOutput: AnyObject {
     func showErrorView(error: Error?)
     func showTransaction(_ transaction: Transaction)
 }
@@ -13,6 +13,12 @@ protocol TransactionOperationsOutput: class {
 final class TransactionOperationsViewModel: TransactionOperationsInput {
 
     weak var view: TransactionOperationsOutput?
+    
+    private let configuration: Configuration
+
+    init(configuration: Configuration) {
+        self.configuration = configuration
+    }
 
     func getTransaction(from form: TransactionOperationsForm) {
         let card = CreditCardData()
@@ -20,6 +26,11 @@ final class TransactionOperationsViewModel: TransactionOperationsInput {
         card.expMonth = form.expiryMonth
         card.expYear = form.expiryYear
         card.cvn = form.cvv
+        
+        if let channel = configuration.loadConfig()?.channel, channel == .cardPresent {
+            card.cardPresent = true
+            card.entryMethod = form.manualEntryMethod
+        }
 
         switch form.transactionOperationType {
         case .authorization:

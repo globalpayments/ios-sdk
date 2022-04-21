@@ -13,8 +13,8 @@ class GpApiEbtTests: XCTestCase {
 
         try? ServicesContainer.configureService(
             config: GpApiConfig(
-                appId: "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll",
-                appKey: "QDsW1ETQKHX6Y4TA",
+                appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
+                appKey: "DYcEE2GpSzblo0ib",
                 channel: .cardPresent
             )
         )
@@ -29,6 +29,7 @@ class GpApiEbtTests: XCTestCase {
         card.expYear = 2025
         card.cvn = "123"
         card.pinBlock = "32539F50C245A6A93D123412324000AA"
+        card.cardPresent = true
 
         track = EBTTrackData()
         track.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"

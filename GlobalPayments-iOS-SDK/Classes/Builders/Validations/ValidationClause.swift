@@ -38,7 +38,7 @@ class ValidationClause {
     /// - Returns: ValidationTarget
     @discardableResult func isNotNil(message: String? = nil) -> ValidationTarget? {
         callback = { [weak self] builder in
-            return builder.value(for: self?.propertyName) != nil
+            return builder.validateProperty(for: self?.propertyName) != nil
         }
         self.message = message ?? "\(propertyName) cannot be nil for this rule"
 
@@ -50,7 +50,7 @@ class ValidationClause {
     /// - Returns: ValidationTarget
     @discardableResult func isNil(message: String? = nil) -> ValidationTarget? {
         callback = { [weak self] builder in
-            return builder.value(for: self?.propertyName) == nil
+            return builder.validateProperty(for: self?.propertyName) == nil
         }
         self.message = message ?? String(format: "%@ can be null for this transaction type.", propertyName)
 
@@ -137,6 +137,21 @@ extension NSObject {
         let mirror = Mirror(reflecting: self)
         let child = mirror.allChildren.filter { $0.label == property }.first
         return Optional.isNil(child?.value) ? nil : child?.value
+    }
+    
+    public func validateProperty(for property: String?) -> Any? {
+        guard let property = property else { return nil }
+        let mirror = Mirror(reflecting: self)
+        let child = mirror.allChildren.filter { $0.label == property }.first
+        return isNil(child?.value) ? nil : child?.value
+    }
+    
+    public func isNil(_ child: Any?) -> Bool{
+        if let _ = child as? NSObject {
+            return false
+        }else{
+            return true
+        }
     }
 
     public func setValue(_ value: Any?, for property: String) {

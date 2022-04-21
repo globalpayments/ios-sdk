@@ -1,7 +1,7 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-protocol TransactionOperationsFormDelegate: class {
+protocol TransactionOperationsFormDelegate: AnyObject {
     func onSubmitForm(form: TransactionOperationsForm)
 }
 
@@ -31,8 +31,12 @@ final class TransactionOperationsFormViewController: UIViewController, Storyboar
     @IBOutlet private weak var idempotencyLabel: UILabel!
     @IBOutlet private weak var idempotencyKeyLabel: UILabel!
     @IBOutlet private weak var idempotencyKeyTextField: UITextField!
-
+    @IBOutlet weak var manualEntryLabel: UILabel!
+    @IBOutlet weak var manualEntryTextField: UITextField!
+    
     weak var delegate: TransactionOperationsFormDelegate?
+    
+    private let configuration: Configuration = ConfigutationService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +65,14 @@ final class TransactionOperationsFormViewController: UIViewController, Storyboar
         idempotencyLabel.text = "transactoin.operations.idempotency.title".localized()
         idempotencyKeyLabel.text = "generic.idempotency.key.title".localized()
         idempotencyKeyTextField.placeholder = "generic.optional".localized()
+        
+        if let channel = configuration.loadConfig()?.channel, channel == .cardPresent {
+            let manualEntryMethods = ["NONE"] + ManualEntryCases.allCases.map { $0.rawValue }
+            manualEntryTextField.loadDropDownData(manualEntryMethods)
+        } else{
+            manualEntryTextField.isHidden = true
+            manualEntryLabel.isHidden = true
+        }
     }
 
     // MARK: - Actions
@@ -87,7 +99,8 @@ final class TransactionOperationsFormViewController: UIViewController, Storyboar
             amount: NSDecimalNumber(string: amountTextField.text),
             currency: currency,
             transactionOperationType: transactionOperationType,
-            idempotencyKey: idempotencyKeyTextField.text
+            idempotencyKey: idempotencyKeyTextField.text,
+            manualEntryMethod: ManualEntryMethod.withLabel(manualEntryTextField.text)
         )
         delegate?.onSubmitForm(form: form)
         dismiss(animated: true, completion: nil)

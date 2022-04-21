@@ -508,6 +508,7 @@ class GpApiBatchTests: XCTestCase {
         creditCard.expMonth = 5
         creditCard.expYear = 2025
         creditCard.cvn = "123"
+        creditCard.cardPresent = true
         let chargeExpectation = expectation(description: "Charge Expectation")
         let expectedAmount: NSDecimalNumber = 1.99
         let currency: String = "USD"
@@ -557,10 +558,11 @@ class GpApiBatchTests: XCTestCase {
 
         // GIVEN
         let creditCard = CreditCardData()
-        creditCard.number = "4263970000005262"
+        creditCard.number = "38865000000705"
         creditCard.expMonth = 5
         creditCard.expYear = 2025
         creditCard.cvn = "852"
+        creditCard.cardPresent = true
         let chargeExpectation = expectation(description: "Charge Expectation")
         let expectedAmount: NSDecimalNumber = 1.99
         let currency: String = "USD"
@@ -587,7 +589,7 @@ class GpApiBatchTests: XCTestCase {
         // Close batch
 
         // GIVEN
-        sleep(1)
+        sleep(5)
         let closeBatchExpectation = expectation(description: "Close Batch Expectation")
         var batchSummaryResult: BatchSummary?
         var batchSummaryError: GatewayException?

@@ -8,7 +8,7 @@ protocol DepositsViewInput {
     func clearViewModels()
 }
 
-protocol DepositsViewOutput: class {
+protocol DepositsViewOutput: AnyObject{
     func showErrorView(error: Error?)
     func reloadData()
     func displayEmptyView()

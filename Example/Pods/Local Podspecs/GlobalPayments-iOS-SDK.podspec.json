@@ -1,6 +1,6 @@
 {
   "name": "GlobalPayments-iOS-SDK",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "summary": "The official Global Payments iOS SDK for GP-API.",
   "swift_versions": "5.0",
   "homepage": "https://github.com/globalpayments/ios-sdk",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/globalpayments/ios-sdk.git",
-    "tag": "1.2.1"
+    "tag": "1.2.2"
   },
   "platforms": {
     "ios": "9.0"

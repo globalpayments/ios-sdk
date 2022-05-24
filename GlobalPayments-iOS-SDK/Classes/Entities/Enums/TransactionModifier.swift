@@ -16,4 +16,5 @@ public enum TransactionModifier {
     case encryptedMobile
     case secure3D
     case alternativePaymentMethod
+    case decryptedMobile
 }

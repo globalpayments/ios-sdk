@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		06C80B851E55AD27D8857B82 /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */; };
+		308E27C32829F56F001441D0 /* DigitalWalletsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308E27C22829F56F001441D0 /* DigitalWalletsBuilder.swift */; };
+		308E27C52829F5A5001441D0 /* DigitalWalletsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308E27C42829F5A5001441D0 /* DigitalWalletsViewController.swift */; };
+		308E27C72829F67E001441D0 /* DigitalWallets.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 308E27C62829F67E001441D0 /* DigitalWallets.storyboard */; };
+		30EB561228201FC500AEA47B /* GpApiDigitalWalletsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB561128201FC500AEA47B /* GpApiDigitalWalletsTests.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
@@ -228,6 +232,10 @@
 /* Begin PBXFileReference section */
 		25872CCBB9B9D3BAA3E1C009 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; sourceTree = "<group>"; };
 		25E89B4C4C3BC69C6EA4BF0A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		308E27C22829F56F001441D0 /* DigitalWalletsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalWalletsBuilder.swift; sourceTree = "<group>"; };
+		308E27C42829F5A5001441D0 /* DigitalWalletsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalWalletsViewController.swift; sourceTree = "<group>"; };
+		308E27C62829F67E001441D0 /* DigitalWallets.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DigitalWallets.storyboard; sourceTree = "<group>"; };
+		30EB561128201FC500AEA47B /* GpApiDigitalWalletsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDigitalWalletsTests.swift; sourceTree = "<group>"; };
 		37187487A0802F473CB34DD9 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3D967F781B7EDA086B664CC6 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		58FEA9F194AA0CFA78C12075 /* GlobalPayments-iOS-SDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "GlobalPayments-iOS-SDK.podspec"; path = "../GlobalPayments-iOS-SDK.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -474,6 +482,16 @@
 				A3321008DB1409EE8F482E4A /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		308E27C12829F552001441D0 /* DigitalWallets */ = {
+			isa = PBXGroup;
+			children = (
+				308E27C22829F56F001441D0 /* DigitalWalletsBuilder.swift */,
+				308E27C42829F5A5001441D0 /* DigitalWalletsViewController.swift */,
+				308E27C62829F67E001441D0 /* DigitalWallets.storyboard */,
+			);
+			path = DigitalWallets;
 			sourceTree = "<group>";
 		};
 		607FACC71AFB9204008FA782 = {
@@ -891,6 +909,7 @@
 		8258B115255C1B4100D02721 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				308E27C12829F552001441D0 /* DigitalWallets */,
 				8258B167255C38DB00D02721 /* Components */,
 				8200B19825939D4700042357 /* Configuration */,
 				8200B18D2593995500042357 /* GlobalPay */,
@@ -1043,6 +1062,7 @@
 				82B8FE82263317120023BA5E /* GpApiActionsReportTests.swift */,
 				82F3270E260DD62100B49E80 /* GpApiTokenManagementErrorTests.swift */,
 				82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */,
+				30EB561128201FC500AEA47B /* GpApiDigitalWalletsTests.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -1345,12 +1365,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = A339TG8695;
+						DevelopmentTeam = 4UCKY7Z4HC;
 						LastSwiftMigration = 1130;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = A339TG8695;
+						DevelopmentTeam = 4UCKY7Z4HC;
 						LastSwiftMigration = 1130;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -1400,6 +1420,7 @@
 				8253FBB72563E90C00FBDCC9 /* AccessToken.storyboard in Resources */,
 				821420A225935CFA003EA8DF /* DocumentPickerView.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				308E27C72829F67E001441D0 /* DigitalWallets.storyboard in Resources */,
 				8253FBB02563DB5B00FBDCC9 /* ErrorView.xib in Resources */,
 				822FBF0425810C3900D12353 /* DepositTableViewCell.xib in Resources */,
 				8200B19E25939DA600042357 /* Configuration.storyboard in Resources */,
@@ -1572,6 +1593,7 @@
 				826695E42566CA71003D6FFE /* DropDown.swift in Sources */,
 				82B49410256FE2A2009C2CBD /* VerificationsBuilder.swift in Sources */,
 				8244D70325629FA900739364 /* AccessTokenFormBuilder.swift in Sources */,
+				308E27C52829F5A5001441D0 /* DigitalWalletsViewController.swift in Sources */,
 				8253FBD42563F19700FBDCC9 /* TransactionReportViewController.swift in Sources */,
 				82B49417256FF1CB009C2CBD /* VerificationsFormViewController.swift in Sources */,
 				8200B19A25939D6B00042357 /* ConfigurationViewController.swift in Sources */,
@@ -1615,6 +1637,7 @@
 				82E6BDB6258CE38C00908C36 /* DisputeByIDFormViewController.swift in Sources */,
 				82B493FD256FAF6D009C2CBD /* TransactionView.swift in Sources */,
 				8253FBC72563E9F400FBDCC9 /* TransactionsBuilder.swift in Sources */,
+				308E27C32829F56F001441D0 /* DigitalWalletsBuilder.swift in Sources */,
 				824918882590E54E00A7566E /* DisputeDocumentBuilder.swift in Sources */,
 				8253FBA52563D26700FBDCC9 /* AccessTokenForm.swift in Sources */,
 				82A5184125659C8800E14F76 /* SelectableLabel.swift in Sources */,
@@ -1680,6 +1703,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82F9A57325B723EB00B5E3E1 /* XCTestCaseExtensions.swift in Sources */,
+				30EB561228201FC500AEA47B /* GpApiDigitalWalletsTests.swift in Sources */,
 				8247931925D56C7B00989CD5 /* URLRequestExtensions.swift in Sources */,
 				82CF9A88257A868C00B7CC18 /* StringExtensions.swift in Sources */,
 				824451C124E1801D0080D06B /* GpApiDebitTests.swift in Sources */,
@@ -1854,7 +1878,7 @@
 			baseConfigurationReference = 3D967F781B7EDA086B664CC6 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A339TG8695;
+				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				INFOPLIST_FILE = "GlobalPayments-iOS-SDK/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1871,7 +1895,7 @@
 			baseConfigurationReference = 25872CCBB9B9D3BAA3E1C009 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A339TG8695;
+				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				INFOPLIST_FILE = "GlobalPayments-iOS-SDK/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1887,7 +1911,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 37187487A0802F473CB34DD9 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = A339TG8695;
+				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1910,7 +1934,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A3321008DB1409EE8F482E4A /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = A339TG8695;
+				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",

@@ -2,6 +2,9 @@ import XCTest
 import GlobalPayments_iOS_SDK
 
 class GpApiReportingDisputesTests: XCTestCase {
+    
+    private let startStageDate = Date().addYears(-1).addDays(1)
+    private let startDate = Date().addYears(-1).addMonths(1)
 
     override class func setUp() {
         super.setUp()
@@ -17,7 +20,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_without_criteria() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 50)
         var disputeSummaryList: [DisputeSummary]?
         var disputeSummaryError: Error?
@@ -46,7 +48,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_with_multiple_criteria() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let expectedDisputeStage = DisputeStage.compliance
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 30)
         var disputeSummaryList: [DisputeSummary]?
@@ -84,7 +85,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func report_find_disputes_by_status() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let expectedDisputeStatus: DisputeStatus = .underReview
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
@@ -160,7 +160,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_by_stage() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let expectedDisputeStage = DisputeStage.chargeback
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
@@ -204,7 +203,6 @@ class GpApiReportingDisputesTests: XCTestCase {
 
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
         var disputeSummaryError: Error?
@@ -246,7 +244,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_order_by_id() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryIds: [String]?
         var disputeSummaryError: Error?
@@ -272,7 +269,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_order_by_brand() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryTypes: [String]?
         var disputeSummaryError: Error?
@@ -298,7 +294,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_order_by_status() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryStatuses: [String]?
         var disputeSummaryError: Error?
@@ -324,7 +319,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_order_by_stage() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryStages: [String]?
         var disputeSummaryError: Error?
@@ -350,7 +344,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_order_by_arn() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let endStageDate = Date().addMonths(-1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 40)
         var disputeSummaryArns: [String]?
@@ -379,7 +372,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_order_by_from_stage_time_created() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 40)
         var disputeSummaryDates: [Date]?
         var disputeSummaryError: Error?
@@ -406,7 +398,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_order_by_to_stage_time_created() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 100)
         var disputeSummaryList: [Date]?
         var sortedDisputeSummaryList: [Date]?
@@ -439,7 +430,6 @@ class GpApiReportingDisputesTests: XCTestCase {
 
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
         var disputeSummaryError: Error?
@@ -471,7 +461,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_order_by_id_with_status_under_review() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
         var disputeSummaryError: Error?
@@ -496,7 +485,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_disputes_order_by_id_with_stage_chargeback() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
         let expectedStage = DisputeStage.chargeback
         let reportingService = ReportingService.findDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
@@ -718,7 +706,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_settlement_disputes_order_by_id() {
         // GIVEN
         let disputeDetailExpectation = expectation(description: "Dispute Detail Expectation")
-        let startDate = Date().addYears(-2).addMonths(1)
         let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryListIds: [String]?
         var expectedDisputeSummaryListIds: [String]?
@@ -745,7 +732,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_settlement_disputes_order_by_arn() {
         // GIVEN
         let disputeDetailExpectation = expectation(description: "Dispute Detail Expectation")
-        let startDate = Date().addYears(-2).addMonths(1)
         let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
         var disputeError: Error?
@@ -774,7 +760,6 @@ class GpApiReportingDisputesTests: XCTestCase {
 
         // GIVEN
         let executeExpectation = expectation(description: "Execute Expectation")
-        let startStageDate = Date().addYears(-2).addMonths(1)
         let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
         var disputeError: Error?
@@ -782,7 +767,7 @@ class GpApiReportingDisputesTests: XCTestCase {
         // WHEN
         reportingService
             .orderBy(disputeOrderBy: .id, .descending)
-            .where(.startStageDate, startStageDate)
+            .where(.startStageDate, startDate)
             .and(dataServiceCriteria: .merchantId, value: expectedCaseMerchantId)
             .execute {
                 disputeSummaryList = $0?.results
@@ -806,7 +791,6 @@ class GpApiReportingDisputesTests: XCTestCase {
     func report_find_settlement_disputes_order_by_id_with_status_underReview() {
         // GIVEN
         let disputeDetailExpectation = expectation(description: "Dispute Detail Expectation")
-        let startDate = Date().addYears(-2).addMonths(1)
         let expectedDisputeStatus: DisputeStatus = .underReview
         let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
@@ -844,7 +828,7 @@ class GpApiReportingDisputesTests: XCTestCase {
     func test_report_find_settlement_disputes_with_criteria() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Settlement Disputes With Criteria")
-        let startStageDate = Date().addYears(-2).addDays(1)
+        let startStageDate = Date().addYears(-1).addDays(1)
         let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
         var disputeSummaryList: [DisputeSummary]?
         var disputeSummaryError: Error?
@@ -897,7 +881,7 @@ class GpApiReportingDisputesTests: XCTestCase {
         reportingService
             .orderBy(disputeOrderBy: .toAdjustmentTimeCreated, .descending)
             .withDisputeStatus(status)
-            .where(.startStageDate, Date().addYears(-2).addDays(1))
+            .where(.startStageDate, Date().addYears(-1).addDays(1))
             .execute { pagedResult, _ in
                 let results = pagedResult?.results
                     .filter {
@@ -917,7 +901,7 @@ class GpApiReportingDisputesTests: XCTestCase {
         let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 100)
         reportingService
             .orderBy(disputeOrderBy: .toAdjustmentTimeCreated, .descending)
-            .where(.startStageDate, Date().addYears(-2).addDays(1))
+            .where(.startStageDate, Date().addYears(-1).addDays(1))
             .execute { pagedResult, _ in
                 let results = pagedResult?.results.filter {
                     !$0.caseId.isNilOrEmpty &&

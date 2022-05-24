@@ -2,6 +2,8 @@ import XCTest
 import GlobalPayments_iOS_SDK
 
 class GpApiReportingTransactionsTests: XCTestCase {
+    
+    private let startDate = Date().addYears(-1).addDays(1)
 
     override class func setUp() {
         super.setUp()
@@ -111,7 +113,6 @@ class GpApiReportingTransactionsTests: XCTestCase {
 
         // GIVEN
         let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
-        let startDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findTransactionsPaged(page: 1, pageSize: 10)
         var transactionsSummaryResponse: [TransactionSummary]?
         var transactionsSummaryError: Error?
@@ -144,7 +145,6 @@ class GpApiReportingTransactionsTests: XCTestCase {
         // GIVEN
         let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
         let transactionId = UUID().uuidString
-        let startDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findTransactionsPaged(page: 1, pageSize: 10)
         var transactionsSummaryResponse: [TransactionSummary]?
         var transactionsSummaryError: GatewayException?
@@ -176,7 +176,6 @@ class GpApiReportingTransactionsTests: XCTestCase {
 
         // GIVEN
         let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
-        let startDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findTransactionsPaged(page: 1, pageSize: 10)
         var transactionsSummaryResponse: [TransactionSummary]?
         var transactionsSummaryError: Error?
@@ -249,7 +248,6 @@ class GpApiReportingTransactionsTests: XCTestCase {
         // GIVEN
         let reportingExecuteExpectation = expectation(description: "ReportTransactionDetail")
         let expectedAmount: NSDecimalNumber = transactionSummary.amount ?? 0.45
-        let startDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findTransactionsPaged(page: 1, pageSize: 50)
         var transactionsSummaryResponse: [TransactionSummary]?
         var transactionsSummaryError: Error?
@@ -395,7 +393,6 @@ class GpApiReportingTransactionsTests: XCTestCase {
 
         // GIVEN
         let findTransactionsExpectation = expectation(description: "FindTransactionsExpectation")
-        let startDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findTransactionsPaged(page: 1, pageSize: 10)
         var transactionSummaryList: [TransactionSummary]?
         var transactionError: Error?
@@ -437,7 +434,6 @@ class GpApiReportingTransactionsTests: XCTestCase {
 
         // GIVEN
         let findTransactionsExpectation = expectation(description: "FindTransactionsExpectation")
-        let startDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findTransactionsPaged(page: 1, pageSize: 10)
         var transactionSummaryList: [TransactionSummary]?
         var transactionError: Error?
@@ -544,7 +540,6 @@ class GpApiReportingTransactionsTests: XCTestCase {
 
         // GIVEN
         let findTransactionsExpectation = expectation(description: "FindTransactionsExpectation")
-        let startDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findTransactionsPaged(page: 1, pageSize: 10)
         var transactionSummaryList: [TransactionSummary]?
         var transactionError: Error?
@@ -603,7 +598,6 @@ class GpApiReportingTransactionsTests: XCTestCase {
     func test_report_find_transactions_paged_by_start_date_order_by_id_ascending() {
         // GIVEN
         let reportingExecuteExpectation = expectation(description: "Reporting Execute Expectation")
-        let startDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findTransactionsPaged(page: 1, pageSize: 10)
         var transactionsSummaryResponse: [String]?
         var sortedTransactionsSummaryResponse: [String]?
@@ -1662,7 +1656,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
         let reportingService = ReportingService.findTransactionsPaged(page: 1, pageSize: 100)
         reportingService
             .orderBy(transactionSortProperty: .timeCreated, .descending)
-            .where(.startDate, Date().addYears(-2).addDays(1))
+            .where(.startDate, startDate)
             .execute { pagedResult, _ in
                 let results = pagedResult?.results
                     .filter {
@@ -1686,7 +1680,7 @@ class GpApiReportingTransactionsTests: XCTestCase {
         let reportingService = ReportingService.findSettlementTransactionsPaged(page: 1, pageSize: 100)
         reportingService
             .orderBy(transactionSortProperty: .timeCreated, .descending)
-            .where(.startDate, Date().addYears(-2).addDays(1))
+            .where(.startDate, startDate)
             .execute { pagedResult, _ in
                 let results = pagedResult?.results
                     .filter {

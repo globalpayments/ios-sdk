@@ -17,7 +17,7 @@ public class Customer: RecurringEntity<Customer> {
     /// Customer's domain name
     var domainName: String?
     /// Customer's device finger print
-    var deviceFingerPrint: String?
+    public var deviceFingerPrint: String?
     /// Customer's address
     var address: Address?
     /// Customer's home phone number

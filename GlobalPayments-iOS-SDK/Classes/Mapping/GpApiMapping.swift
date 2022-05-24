@@ -27,6 +27,15 @@ public struct GpApiMapping {
         }
 
         if let paymentMethod: JsonDoc = doc?.get(valueFor: "payment_method") {
+            
+            if let fingerPrint: String = paymentMethod.getValue(key: "fingerprint"){
+                transaction.fingerPrint = fingerPrint
+            }
+            
+            if let fingerPrintIndicator: String = paymentMethod.getValue(key: "fingerprint_presence_indicator"){
+                transaction.fingerPrintIndicator = fingerPrintIndicator
+            }
+            
             transaction.authorizationCode = paymentMethod.getValue(key: "result")
             if let token: String = paymentMethod.getValue(key: "id") {
                 transaction.token = token

@@ -78,6 +78,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "name", value: builder.requestDescription)
             .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
             .set(for: "usage_mode", value: builder.paymentMethodUsageMode?.mapped(for: .gpApi))
+            .set(for: "fingerprint_mode", value: builder.customerData?.deviceFingerPrint)
         if let cardData = builder.paymentMethod as? CardData {
             let card = JsonDoc()
                 .set(for: "number", value: cardData.number)
@@ -98,6 +99,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
             .set(for: "currency", value: builder.currency)
             .set(for: "payment_method", doc: createPaymentMethodParam(for: builder, channel: config?.channel))
+            .set(for: "fingerprint_mode", value: builder.customerData?.deviceFingerPrint)
 
         return payload
     }
@@ -166,19 +168,62 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
     private func createPaymentMethodParam(for builder: Builder, channel: Channel?) -> JsonDoc {
         let paymentMethod = JsonDoc()
         paymentMethod.set(for: "entry_mode", value: entryMode(for: builder, channel: channel))
-
-        // Authentication
-        if let creditCardData = builder.paymentMethod as? CreditCardData {
-            paymentMethod.set(for: "name", value: creditCardData.cardHolderName)
-
-            if let secureEcom = creditCardData.threeDSecure {
-                paymentMethod.set(for: "authentication.id",value: secureEcom.serverTransactionId)
+        
+        switch(builder.paymentMethod){
+        case let creditCardData as CreditCardData:
+            creditCardDataPaymentMethod(paymentMethod, modifier: builder.transactionModifier, creditCardData: creditCardData, builder: builder)
+            break
+        case let encryptable as Encryptable:
+            encryptablePaymentMethod(paymentMethod, encryptable: encryptable)
+            break
+        case .none, .some(_): break
+        }
+        
+        if let tokenizable = builder.paymentMethod as? Tokenizable, builder.transactionModifier != .encryptedMobile, builder.transactionModifier != .decryptedMobile {
+            if let token = tokenizable.token, !token.isEmpty {
+                paymentMethod.set(for: "id", value: token)
             }
         }
 
-        // Encryption
-        if let encryptable = builder.paymentMethod as? Encryptable,
-           let encryptionData = encryptable.encryptionData {
+        if builder.requestMultiUseToken == true {
+            paymentMethod.set(for: "storage_mode", value: "ON_SUCCESS")
+        }
+        
+        if paymentMethod.getValue(key: "id") == nil {
+            paymentMethod.set(for: "card", doc: CardUtils.generateCard(builder: builder))
+        }
+        return paymentMethod
+    }
+    
+    private func creditCardDataPaymentMethod(_ paymentMethod: JsonDoc, modifier: TransactionModifier, creditCardData: CreditCardData, builder: Builder){
+        paymentMethod.set(for: "name", value: creditCardData.cardHolderName)
+        
+        if let secureEcom = creditCardData.threeDSecure {
+            paymentMethod.set(for: "authentication.id",value: secureEcom.serverTransactionId)
+        }
+        
+        paymentMethod.set(for: "fingerprint_mode", value: builder.customerData?.deviceFingerPrint)
+        
+        if modifier == TransactionModifier.encryptedMobile || modifier == TransactionModifier.decryptedMobile {
+            let digitalWallet = JsonDoc()
+            if modifier == TransactionModifier.encryptedMobile {
+                let jsonToken = JsonDoc.parse(creditCardData.token ?? "{}")
+                digitalWallet.set(for: "payment_token", doc: jsonToken)
+            }else if modifier == TransactionModifier.decryptedMobile{
+                digitalWallet.set(for: "token", value: creditCardData.token)
+                digitalWallet.set(for: "token_format", value: DigitalWalletTokenFormat.CARD_NUMBER.rawValue)
+                digitalWallet.set(for: "expiry_month", value: CardUtils.getExpMonthFormat(creditCardData.expMonth))
+                digitalWallet.set(for: "expiry_year", value: CardUtils.getExpYearFormat(creditCardData.expYear))
+                digitalWallet.set(for: "cryptogram", value: creditCardData.cryptogram)
+                digitalWallet.set(for: "eci", value: creditCardData.eci)
+            }
+            digitalWallet.set(for: "provider", value: creditCardData.mobileType)
+            paymentMethod.set(for: "digital_wallet", doc: digitalWallet)
+        }
+    }
+    
+    private func encryptablePaymentMethod(_ paymentMethod: JsonDoc, encryptable: Encryptable){
+        if let encryptionData = encryptable.encryptionData {
             let encryption = JsonDoc()
                 .set(for: "version", value: encryptionData.version)
             if !encryptionData.ktb.isNilOrEmpty {
@@ -192,21 +237,5 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                 paymentMethod.set(for: "encryption", doc: encryption)
             }
         }
-
-        // Tokenized Payment Method
-        if let tokenizable = builder.paymentMethod as? Tokenizable,
-           let token = tokenizable.token, !token.isEmpty {
-            paymentMethod.set(for: "id", value: token)
-        }
-
-        if builder.requestMultiUseToken == true {
-            paymentMethod.set(for: "storage_mode", value: "ON_SUCCESS")
-        }
-
-        if paymentMethod.getValue(key: "id") == nil {
-            paymentMethod.set(for: "card", doc: CardUtils.generateCard(builder: builder))
-        }
-
-        return paymentMethod
     }
 }

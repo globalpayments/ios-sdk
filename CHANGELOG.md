@@ -4,6 +4,13 @@
 
 #### Enhancements
 
+- GP-API: Add fingerprint mode
+- GP-API: Add functionality for Digital Wallet
+
+## 1.2.3 (17/04/2022)
+
+#### Enhancements
+
 - GP-API: Add Payment Link Id in the request for authorize
 - GP-API: Update "entry_mode" functionality and add manual entry methods: MOTO, PHONE, MAIL
 - CardUtils MC regex updated

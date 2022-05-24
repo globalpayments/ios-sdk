@@ -124,6 +124,14 @@ public class CardUtils {
         let baseCardType = cardType.remove("FLEET")
         return baseCardType
     }
+    
+    public static func getExpMonthFormat(_ value: Int) -> String?{
+        return value > .zero ? "\(value)".leftPadding(toLength: 2, withPad: "0") : nil
+    }
+    
+    public static func getExpYearFormat(_ value: Int) -> String?{
+        return value > .zero ? "\(value)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : nil
+    }
 
     public static func generateCard(builder: AuthorizationBuilder) -> JsonDoc {
         let funding = builder.paymentMethod?.paymentMethodType == .debit ? "DEBIT" : "CREDIT"
@@ -131,8 +139,8 @@ public class CardUtils {
 
         if let cardData = builder.paymentMethod as? CardData {
             card.set(for: "number", value: cardData.number)
-            card.set(for: "expiry_month", value: cardData.expMonth > .zero ? "\(cardData.expMonth)".leftPadding(toLength: 2, withPad: "0") : nil)
-            card.set(for: "expiry_year", value: cardData.expYear > .zero ? "\(cardData.expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : nil)
+            card.set(for: "expiry_month", value: getExpMonthFormat(cardData.expMonth))
+            card.set(for: "expiry_year", value: getExpYearFormat(cardData.expYear))
 
             if let cvn = cardData.cvn, !cvn.isEmpty {
                 card.set(for: "cvv", value: cvn)

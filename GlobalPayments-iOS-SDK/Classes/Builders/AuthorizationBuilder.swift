@@ -650,6 +650,10 @@ import Foundation
         validations.of(transactionType: [.auth, .sale])
             .with(modifier: .encryptedMobile)
             .check(propertyName: "paymentMethod")?.isNotNil()
+        
+        validations.of(transactionType: [.auth, .sale])
+            .with(modifier: .decryptedMobile)
+            .check(propertyName: "paymentMethod")?.isNotNil()
 
         validations.of(paymentMethodType: .recurring)
             .check(propertyName: "shippingAmt")?.isNil()

@@ -11,6 +11,7 @@ public enum TransactionStatus: String, Mappable, CaseIterable {
     case reversed = "REVERSED"
     case funded = "FUNDED"
     case rejected = "REJECTED"
+    case verified = "VERIFIED"
 
     public init?(value: String?) {
         guard let value = value,

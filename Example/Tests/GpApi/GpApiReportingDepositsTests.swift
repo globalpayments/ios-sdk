@@ -2,6 +2,8 @@ import XCTest
 import GlobalPayments_iOS_SDK
 
 class GpApiReportingDepositsTests: XCTestCase {
+    
+    private let startDate = Date().addYears(-1).addDays(1)
 
     override class func setUp() {
         super.setUp()
@@ -67,7 +69,6 @@ class GpApiReportingDepositsTests: XCTestCase {
     func test_report_find_deposits_by_startDate() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
-        let startDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDepositsPaged(page: 1, pageSize: 10)
         var depositSummaryList: [DepositSummary]?
         var depositError: Error?
@@ -103,7 +104,6 @@ class GpApiReportingDepositsTests: XCTestCase {
     func test_report_find_deposits_order_by_depositId() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
-        let startDate = Date().addYears(-2).addDays(1)
         let reportingService = ReportingService.findDepositsPaged(page: 1, pageSize: 10)
         var depositSummaryList: [String]?
         var sortedDepositSummaryList: [String]?
@@ -131,7 +131,6 @@ class GpApiReportingDepositsTests: XCTestCase {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
         let reportingService = ReportingService.findDepositsPaged(page: 1, pageSize: 10)
-        let startDate = Date().addYears(-2).addDays(1)
         var depositSummaryList: [String]?
         var sortedDepositSummaryList: [String]?
         var depositError: Error?
@@ -158,7 +157,6 @@ class GpApiReportingDepositsTests: XCTestCase {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Deposits With Criteria")
         let reportingService = ReportingService.findDepositsPaged(page: 1, pageSize: 10)
-        let startDate = Date().addYears(-2).addDays(1)
         var depositSummaryList: [String]?
         var sortedDepositSummaryList: [String]?
         var depositError: Error?
@@ -187,7 +185,7 @@ class GpApiReportingDepositsTests: XCTestCase {
         let reportingService = ReportingService.findDepositsPaged(page: 1, pageSize: 100)
         reportingService
             .orderBy(depositOrderBy: .timeCreated, .descending)
-            .where(.startDate, Date().addYears(-2).addDays(1))
+            .where(.startDate, startDate)
             .execute { pagedResult, _ in
                 let results = pagedResult?.results.filter { !$0.depositId.isNilOrEmpty }
 

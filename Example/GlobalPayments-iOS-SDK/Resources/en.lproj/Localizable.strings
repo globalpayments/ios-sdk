@@ -21,6 +21,9 @@
 "globalpay.disputes.title" = "Disputes";
 "globalpay.disputes.authentications" = "Authentications";
 
+"globalpay.digital.wallets" = "Digital Wallets";
+"globalpay.apple.pay" = "Apple Pay";
+
 "access.token.title" = "Access Token";
 "access.token.create" = "Create Access Token";
 

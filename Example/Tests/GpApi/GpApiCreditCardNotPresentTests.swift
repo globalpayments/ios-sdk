@@ -1872,4 +1872,152 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertEqual(transaction?.responseMessage, "VERIFIED")
         XCTAssertEqual(transaction?.responseCode, "SUCCESS")
     }
+    
+    func test_credit_sale_with_fingerPrint() {
+        
+        // GIVEN
+        let cardChargeExpectation = expectation(description: "Card Charge Expectaion")
+        var cardChargeResult: Transaction?
+        var cardChargeError: Error?
+        
+        let address = Address()
+        address.streetAddress1 = "123 Main St."
+        address.city = "Downtown"
+        address.state = "NJ"
+        address.country = "US"
+        address.postalCode = "12345"
+
+        let customer = Customer()
+        customer.deviceFingerPrint = "ALWAYS"
+        
+        // WHEN
+        card.charge(amount: 69)
+            .withCurrency("GBP")
+            .withAddress(address)
+            .withCustomerData(customer)
+            .execute {
+                cardChargeResult = $0
+                cardChargeError = $1
+                cardChargeExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [cardChargeExpectation], timeout: 10.0)
+        XCTAssertNotNil(cardChargeResult)
+        XCTAssertNil(cardChargeError)
+        XCTAssertEqual(cardChargeResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(cardChargeResult?.responseMessage, TransactionStatus.captured.rawValue)
+        XCTAssertNotNil(cardChargeResult?.fingerPrint)
+        XCTAssertNotNil(cardChargeResult?.fingerPrintIndicator)
+        XCTAssertEqual(cardChargeResult?.fingerPrintIndicator, "EXISTS")
+    }
+    
+    func test_verify_tokenized_paymentMethod_with_fingerprint(){
+        // GIVEN
+        let customer = Customer()
+        customer.deviceFingerPrint = "ALWAYS"
+        
+        let tokenizeException = expectation(description: "Tokenize Exception")
+        var token: String?
+        var tokenError: Error?
+
+        // WHEN
+        card.tokenize {
+            token = $0
+            tokenError = $1
+            tokenizeException.fulfill()
+        }
+
+        // THEN
+        wait(for: [tokenizeException], timeout: 10.0)
+        XCTAssertNil(tokenError)
+        XCTAssertNotNil(token)
+        
+        // GIVEN
+        let verifyExpectation = expectation(description: "Verify Exception")
+        var verifyResult: Transaction?
+        var verifyResultError: Error?
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = token
+        
+        // WHEN
+        tokenizedCard
+            .verify()
+            .withCurrency("GBP")
+            .withCustomerData(customer)
+            .execute {
+                verifyResult = $0
+                verifyResultError = $1
+                verifyExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [verifyExpectation], timeout: 10.0)
+        XCTAssertNil(verifyResultError)
+        XCTAssertNotNil(verifyResult)
+        XCTAssertEqual(verifyResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(verifyResult?.responseMessage, TransactionStatus.verified.rawValue)
+        XCTAssertNotNil(verifyResult?.fingerPrint)
+    }
+    
+    func test_credit_sale_with_fingerPrint_onSuccess() {
+        // GIVEN
+        let cardChargeExpectation = expectation(description: "Card Charge Expectaion")
+        var cardChargeResult: Transaction?
+        var cardChargeError: Error?
+
+        let customer = Customer()
+        customer.deviceFingerPrint = "ON_SUCCESS"
+        
+        // WHEN
+        card.charge(amount: 2)
+            .withCurrency("GBP")
+            .withCustomerData(customer)
+            .execute {
+                cardChargeResult = $0
+                cardChargeError = $1
+                cardChargeExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [cardChargeExpectation], timeout: 10.0)
+        XCTAssertNotNil(cardChargeResult)
+        XCTAssertNil(cardChargeError)
+        XCTAssertEqual(cardChargeResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(cardChargeResult?.responseMessage, TransactionStatus.captured.rawValue)
+        XCTAssertNotNil(cardChargeResult?.fingerPrint)
+        XCTAssertNotNil(cardChargeResult?.fingerPrintIndicator)
+        XCTAssertEqual(cardChargeResult?.fingerPrintIndicator, "EXISTS")
+    }
+    
+    func test_credit_sale_with_fingerPrint_onSuccess_with_declined_auth(){
+        // GIVEN
+        let cardDeclinedExpectation = expectation(description: "Card Declined Expectaion")
+        var cardDeclinedResult: Transaction?
+        var cardDeclinedError: Error?
+        
+        card.number = "4000120000001154"
+
+        let customer = Customer()
+        customer.deviceFingerPrint = "ON_SUCCESS"
+        
+        // WHEN
+        card.charge(amount: 2)
+            .withCurrency("GBP")
+            .withCustomerData(customer)
+            .execute {
+                cardDeclinedResult = $0
+                cardDeclinedError = $1
+                cardDeclinedExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [cardDeclinedExpectation], timeout: 10.0)
+        XCTAssertNotNil(cardDeclinedResult)
+        XCTAssertNil(cardDeclinedError)
+        XCTAssertEqual(cardDeclinedResult?.responseCode, "DECLINED")
+        XCTAssertEqual(cardDeclinedResult?.responseMessage, TransactionStatus.declined.rawValue)
+        XCTAssertEqual(cardDeclinedResult?.fingerPrint, "")
+        XCTAssertEqual(cardDeclinedResult?.fingerPrintIndicator, "")
+    }
 }

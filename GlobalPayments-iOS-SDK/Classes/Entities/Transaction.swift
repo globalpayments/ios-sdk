@@ -143,6 +143,10 @@ public class Transaction: NSObject {
     }
     /// The payment token returned in the transaction.
     public var token: String?
+    
+    public var fingerPrint: String?
+    public var fingerPrintIndicator: String?
+    
     var giftCard: GiftCard?
     var transactionReference: TransactionReference?
 

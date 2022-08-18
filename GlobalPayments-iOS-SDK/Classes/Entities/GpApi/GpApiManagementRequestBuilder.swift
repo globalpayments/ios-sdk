@@ -1,9 +1,9 @@
 import Foundation
 
 struct GpApiManagementRequestBuilder: GpApiRequestData {
-
+    
     func generateRequest(for builder: ManagementBuilder, config: GpApiConfig) -> GpApiRequest? {
-
+        
         switch builder.transactionType {
         case .tokenDelete:
             let token = getToken(from: builder)
@@ -19,6 +19,12 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                     .set(for: "number", value: creditCardData.number)
                     .set(for: "expiry_month", value: creditCardData.expMonth > .zero ? "\(creditCardData.expMonth)".leftPadding(toLength: 2, withPad: "0") : .empty)
                     .set(for: "expiry_year", value: creditCardData.expYear > .zero ? "\(creditCardData.expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : .empty)
+                    .set(for: "name", value: creditCardData.cardHolderName)
+                
+                if let methodUsage = creditCardData.methodUsageMode?.rawValue {
+                    payload.set(for: "usage_mode", value: methodUsage)
+                }
+                
                 payload.set(for: "card", doc: card)
             }
             return GpApiRequest(
@@ -68,12 +74,12 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             return nil
         }
     }
-
+    
     private func getToken(from builder: ManagementBuilder) -> String {
         guard let tokenizable = builder.paymentMethod as? Tokenizable,
               let token = tokenizable.token, !token.isEmpty else {
-            return .empty
-        }
+                  return .empty
+              }
         return token
     }
 }

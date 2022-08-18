@@ -29,7 +29,7 @@ final class PaymentMethodResultView: UIView {
             let horizontalStackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel])
             horizontalStackView.alignment = .top
             horizontalStackView.distribution = .fill
-            horizontalStackView.axis = .horizontal
+            horizontalStackView.axis = .vertical
             horizontalStackView.spacing = 8
 
             stackView.addArrangedSubview(horizontalStackView)

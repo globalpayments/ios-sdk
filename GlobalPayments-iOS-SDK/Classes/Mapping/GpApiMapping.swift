@@ -40,6 +40,7 @@ public struct GpApiMapping {
             if let token: String = paymentMethod.getValue(key: "id") {
                 transaction.token = token
             }
+            
             if let card: JsonDoc = paymentMethod.get(valueFor: "card") {
                 transaction.cardLast4 = card.getValue(key: "masked_number_last4")
                 transaction.cardType = card.getValue(key: "brand")
@@ -48,6 +49,10 @@ public struct GpApiMapping {
                 transaction.avsAddressResponse = card.getValue(key: "avs_address_result") ?? .empty
                 transaction.avsResponseMessage = card.getValue(key: "avs_action") ?? .empty
             }
+        }
+        
+        if let usageMode: String = doc?.getValue(key: "usage_mode") {
+            transaction.methodUsageMode = PaymentMethodUsageMode.init(value: usageMode)
         }
 
         if let card: JsonDoc = doc?.get(valueFor: "card") {

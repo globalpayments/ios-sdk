@@ -108,6 +108,9 @@ public class Transaction: NSObject {
             transactionReference?.paymentMethodType = newValue
         }
     }
+    
+    public var methodUsageMode: PaymentMethodUsageMode?
+    
     /// The remaining points on the account after the transaction.
     public var pointsBalanceAmount: NSDecimalNumber?
     /// The recurring profile data code.

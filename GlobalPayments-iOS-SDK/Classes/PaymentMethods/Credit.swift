@@ -118,6 +118,22 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
                 completion?(transaction != nil, nil)
             })
     }
+    
+    public func updateToken(configName: String = "default", completion: ((Transaction?, Error?) -> Void)?) {
+        if token.isNilOrEmpty {
+            completion?(nil, BuilderException(message: "Token cannot be nil"))
+            return
+        }
+        ManagementBuilder(transactionType: .tokenUpdate)
+            .withPaymentMethod(self)
+            .execute(configName: configName, completion: { transaction, error in
+                if let error = error {
+                    completion?(nil, error)
+                    return
+                }
+                completion?(transaction, nil)
+            })
+    }
 
     /// Deletes the token associated with the current card object
     /// - Throws: BuilderException

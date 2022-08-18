@@ -2020,4 +2020,177 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertEqual(cardDeclinedResult?.fingerPrint, "")
         XCTAssertEqual(cardDeclinedResult?.fingerPrintIndicator, "")
     }
+    
+    func test_update_payment_token(){
+        // GIVEN
+        let startDate = Date().addDays(-30)
+        let endDate = Date().addDays(-3)
+        let summaryExpectation = expectation(description: "Report Find Strored Payments With Criteria")
+        let reportingService = ReportingService.findStoredPaymentMethodsPaged(page: 1, pageSize: 1)
+        var storedPaymentList: [StoredPaymentMethodSummary]?
+        var storedPaymentError: Error?
+        
+        // WHEN
+        reportingService
+            .orderBy(storedPaymentMethodOrderBy: .timeCreated, .descending)
+            .where(.startDate, startDate)
+            .and(searchCriteria: .endDate, value: endDate)
+            .execute {
+                storedPaymentList = $0?.results
+                storedPaymentError = $1
+                summaryExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(storedPaymentError)
+        XCTAssertNotNil(storedPaymentList)
+        
+        //GIVEN
+        let cardUpdatedExpectation = expectation(description: "Card Updated Expectation")
+        var cardUpdatedResult: Transaction?
+        var cardUpdatedError: Error?
+        let pmtToken = storedPaymentList?.first?.id
+        XCTAssertNotNil(pmtToken)
+        
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = pmtToken
+        tokenizedCard.cardHolderName = "James BondUp"
+        tokenizedCard.expYear = Date().currentYear + 1
+        tokenizedCard.expMonth = Date().currentMonth
+        tokenizedCard.number = "4263970000005262"
+        tokenizedCard.methodUsageMode = .multiple
+        
+        //WHEN
+        tokenizedCard.updateToken {
+            cardUpdatedResult = $0
+            cardUpdatedError = $1
+            cardUpdatedExpectation.fulfill()
+        }
+        
+        //THEN
+        wait(for: [cardUpdatedExpectation], timeout: 10.0)
+        XCTAssertNotNil(cardUpdatedResult)
+        XCTAssertNil(cardUpdatedError)
+        XCTAssertEqual(cardUpdatedResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(cardUpdatedResult?.responseMessage, "ACTIVE")
+        XCTAssertEqual(cardUpdatedResult?.token, pmtToken)
+        XCTAssertEqual(cardUpdatedResult?.methodUsageMode, .multiple)
+    }
+    
+    func test_card_tokenization_update_charge(){
+        // GIVEN
+        let tokenizeExpectation = expectation(description: "Tokenize Exception")
+        var token: String?
+        var tokenError: Error?
+
+        // WHEN
+        card.tokenize {
+            token = $0
+            tokenError = $1
+            tokenizeExpectation.fulfill()
+        }
+        
+        //THEN
+        wait(for: [tokenizeExpectation], timeout: 10.0)
+        XCTAssertNotNil(token)
+        XCTAssertNil(tokenError)
+        
+        //GIVEN
+        let cardUpdatedExpectation = expectation(description: "Card Updated Expectation")
+        var cardUpdatedResult: Transaction?
+        var cardUpdatedError: Error?
+        
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = token
+        tokenizedCard.cardHolderName = "GpApi"
+        tokenizedCard.methodUsageMode = .multiple
+        
+        //WHEN
+        tokenizedCard.updateToken {
+            cardUpdatedResult = $0
+            cardUpdatedError = $1
+            cardUpdatedExpectation.fulfill()
+        }
+        
+        //THEN
+        wait(for: [cardUpdatedExpectation], timeout: 10.0)
+        XCTAssertNotNil(cardUpdatedResult)
+        XCTAssertNil(cardUpdatedError)
+        XCTAssertEqual(cardUpdatedResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(cardUpdatedResult?.responseMessage, "ACTIVE")
+        XCTAssertEqual(cardUpdatedResult?.methodUsageMode, .multiple)
+        
+        //GIVEN
+        let cardChargeExpectation = expectation(description: "Card Charge Expectaion")
+        var cardChargeResult: Transaction?
+        var cardChargeError: Error?
+        
+        // WHEN
+        tokenizedCard.charge(amount: 1)
+            .withCurrency("GBP")
+            .execute {
+                cardChargeResult = $0
+                cardChargeError = $1
+                cardChargeExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [cardChargeExpectation], timeout: 10.0)
+        XCTAssertNotNil(cardChargeResult)
+        XCTAssertNil(cardChargeError)
+        XCTAssertEqual(cardChargeResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(cardChargeResult?.responseMessage, TransactionStatus.captured.rawValue)
+    }
+    
+    func test_card_tokenization_update_without_usage_mode() {
+        //GIVEN
+        let cardUpdatedExpectation = expectation(description: "Card Updated Expectation")
+        var cardUpdatedResult: Transaction?
+        var cardUpdatedError: GatewayException?
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = "PMT_\(UUID().uuidString)"
+        
+        //WHEN
+        tokenizedCard.updateToken {
+            cardUpdatedResult = $0
+            if let error = $1 as? GatewayException {
+                cardUpdatedError = error
+            }
+            cardUpdatedExpectation.fulfill()
+        }
+        
+        //THEN
+        wait(for: [cardUpdatedExpectation], timeout: 10.0)
+        XCTAssertNil(cardUpdatedResult)
+        XCTAssertNotNil(cardUpdatedError)
+        XCTAssertEqual(cardUpdatedError?.responseCode, "MANDATORY_DATA_MISSING")
+        XCTAssertEqual(cardUpdatedError?.responseMessage, "50021")
+    }
+    
+    func test_card_tokenization_update_single_usage() {
+        //GIVEN
+        let cardUpdatedExpectation = expectation(description: "Card Updated Expectation")
+        var cardUpdatedResult: Transaction?
+        var cardUpdatedError: GatewayException?
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = "PMT_\(UUID().uuidString)"
+        tokenizedCard.methodUsageMode = .single
+        
+        //WHEN
+        tokenizedCard.updateToken {
+            cardUpdatedResult = $0
+            if let error = $1 as? GatewayException {
+                cardUpdatedError = error
+            }
+            cardUpdatedExpectation.fulfill()
+        }
+        
+        //THEN
+        wait(for: [cardUpdatedExpectation], timeout: 10.0)
+        XCTAssertNil(cardUpdatedResult)
+        XCTAssertNotNil(cardUpdatedError)
+        XCTAssertEqual(cardUpdatedError?.responseCode, "INVALID_REQUEST_DATA")
+        XCTAssertEqual(cardUpdatedError?.responseMessage, "50020")
+    }
 }

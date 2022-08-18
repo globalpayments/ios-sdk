@@ -35,23 +35,7 @@ final class PaymentMethodOperationsViewModel: PaymentMethodOperationsInput {
                 }
             }
         case .edit:
-            let card = CreditCardData()
-            card.number = form.cardNumber
-            card.expYear = form.cardExpiryYear
-            card.expMonth = form.cardExpiryMonth
-            card.cvn = form.cvn
-            card.token = form.paymentMethodId
-            card.updateTokenExpiry() { [weak self] result, error in
-                UI {
-                    if result == false {
-                        self?.view?.showError(error: error)
-                        return
-                    }
-                    self?.view?.showViewModels(
-                        models: PaymentMethodResultModelBuilder.buildEditModels(result)
-                    )
-                }
-            }
+            edit(form)
         case .delete:
             let card = CreditCardData()
             card.token = form.paymentMethodId
@@ -65,6 +49,27 @@ final class PaymentMethodOperationsViewModel: PaymentMethodOperationsInput {
                         models: PaymentMethodResultModelBuilder.buildDeleteModels(result)
                     )
                 }
+            }
+        }
+    }
+    
+    private func edit(_ form: PaymentOperationForm){
+        let card = CreditCardData()
+        card.number = form.cardNumber
+        card.expYear = form.cardExpiryYear
+        card.expMonth = form.cardExpiryMonth
+        card.cvn = form.cvn
+        card.token = form.paymentMethodId
+        card.methodUsageMode = form.methodUsageMode
+        card.updateTokenExpiry() { [weak self] result, error in
+            UI {
+                if result == false {
+                    self?.view?.showError(error: error)
+                    return
+                }
+                self?.view?.showViewModels(
+                    models: PaymentMethodResultModelBuilder.buildEditModels(result)
+                )
             }
         }
     }

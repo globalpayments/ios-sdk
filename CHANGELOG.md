@@ -4,6 +4,12 @@
 
 #### Enhancements
 
+- GP-API: Add update payment token
+
+## 1.2.4 (23/05/2022)
+
+#### Enhancements
+
 - GP-API: Add fingerprint mode
 - GP-API: Add functionality for Digital Wallet
 

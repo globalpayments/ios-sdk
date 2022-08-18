@@ -37,6 +37,7 @@ public class CreditCardData: Credit, CardData {
     }
 
     public var entryMethod: ManualEntryMethod?
+    public var methodUsageMode: PaymentMethodUsageMode?
 
     public func verifyEnrolled(amount: NSDecimalNumber,
                                currency: String,

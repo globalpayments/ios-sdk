@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -105,7 +105,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" tag="8" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cuc-eb-3Fu">
-                                <rect key="frame" x="8" y="52" width="398" height="229.5"/>
+                                <rect key="frame" x="8" y="52" width="398" height="276"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment Card" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ckK-WL-0Rg">
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="19.5"/>
@@ -194,10 +194,29 @@
                                             <constraint firstItem="d5b-mB-dPO" firstAttribute="width" secondItem="DG3-b7-eBj" secondAttribute="width" multiplier="0.6" id="waj-ry-fMj"/>
                                         </constraints>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bfc-Hw-cKW">
+                                        <rect key="frame" x="0.0" y="237.5" width="398" height="38.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Authentication source:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Fq-tL-i7V">
+                                                <rect key="frame" x="0.0" y="0.0" width="151" height="38.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w5g-ad-asP">
+                                                <rect key="frame" x="159" y="0.0" width="239" height="38.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="w5g-ad-asP" firstAttribute="width" secondItem="bfc-Hw-cKW" secondAttribute="width" multiplier="0.6" id="msh-po-ngb"/>
+                                        </constraints>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" tag="8" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="heO-k9-JQa">
-                                <rect key="frame" x="8" y="301.5" width="398" height="103.5"/>
+                                <rect key="frame" x="8" y="348" width="398" height="103.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transaction Data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="56b-8K-abc">
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="19.5"/>
@@ -273,6 +292,8 @@
                     <connections>
                         <outlet property="amountLabel" destination="mJ6-Xo-vBx" id="4P8-JC-goF"/>
                         <outlet property="amountTextField" destination="XvF-Ck-ghV" id="QKo-oI-Qm5"/>
+                        <outlet property="authSourceLabel" destination="0Fq-tL-i7V" id="Otx-Bh-EQP"/>
+                        <outlet property="authSourceTextField" destination="w5g-ad-asP" id="RFK-cb-dRh"/>
                         <outlet property="cardHolderNameLabel" destination="qtP-Vt-CMT" id="qdJ-p4-MPf"/>
                         <outlet property="cardHolderNameTextField" destination="d5b-mB-dPO" id="VxN-2d-cFh"/>
                         <outlet property="cardNumberLabel" destination="NwF-Dp-brQ" id="fvF-gK-W1O"/>
@@ -302,7 +323,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" tag="8" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Jsr-FL-aKj">
-                                <rect key="frame" x="8" y="52" width="398" height="99.5"/>
+                                <rect key="frame" x="8" y="52" width="398" height="34"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fUa-T3-zZz">
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="34"/>
@@ -321,25 +342,6 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="rky-Vu-IXv" firstAttribute="width" secondItem="fUa-T3-zZz" secondAttribute="width" multiplier="0.6" id="Tje-k2-O0d"/>
-                                        </constraints>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="YCi-21-ZKE">
-                                        <rect key="frame" x="0.0" y="42" width="398" height="57.5"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payer Authentication Response:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E0W-qM-JOv">
-                                                <rect key="frame" x="0.0" y="0.0" width="151" height="57.5"/>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="(optional)" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ahE-Nv-b9N">
-                                                <rect key="frame" x="159" y="0.0" width="239" height="57.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="ahE-Nv-b9N" firstAttribute="width" secondItem="YCi-21-ZKE" secondAttribute="width" multiplier="0.6" id="QNh-eU-Gtp"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
@@ -367,8 +369,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="payerResponseLabel" destination="E0W-qM-JOv" id="dVo-di-QcY"/>
-                        <outlet property="payerResponseTextField" destination="ahE-Nv-b9N" id="eBg-Lt-HLG"/>
                         <outlet property="submitButton" destination="9a8-mR-jM6" id="gpl-XG-erJ"/>
                         <outlet property="transactionIdLabel" destination="Ugy-Cy-WPL" id="aJF-rb-0Zb"/>
                         <outlet property="transactionIdTextField" destination="rky-Vu-IXv" id="E9U-c3-UOr"/>
@@ -907,7 +907,7 @@
                                                                 <rect key="frame" x="0.0" y="153.5" width="398" height="31"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Java Enabled:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hsz-Mu-Gnx">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="195" height="31"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="105" height="31"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
@@ -921,7 +921,7 @@
                                                                 <rect key="frame" x="0.0" y="192.5" width="398" height="31"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JavaScript Enabled:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dL2-bF-BOb">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="195" height="31"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="150.5" height="31"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>

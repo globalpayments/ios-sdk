@@ -2,17 +2,17 @@ import Foundation
 
 /// Indicates a reason for the transaction.
 /// This is typically used for returns/reversals.
-public enum ReasonCode {
+public enum ReasonCode: String {
     /// Indicates fraud.
-    case fraud
+    case fraud = "FRAUD"
     /// Indicates a false positive.
-    case falsePositive
+    case falsePositive = "FALSE_POSITIVE"
     /// Indicates desired good is out of stock.
-    case outOfStock
+    case outOfStock = "OUT_OF_STOCK"
     /// Indicates desired good is in of stock.
-    case inStock
+    case inStock = "IN_STOCK"
     /// Indicates another reason.
-    case other
+    case other = "OTHER"
     /// Indicates reason was not given.
-    case notGiven
+    case notGiven = "NOT_GIVEN"
 }

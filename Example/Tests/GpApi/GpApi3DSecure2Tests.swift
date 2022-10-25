@@ -9,6 +9,7 @@ class GpApi3DSecure2Tests: XCTestCase {
     var shippingAddress: Address!
     var billingAddress: Address!
     var browserData: BrowserData!
+    var mobileData: MobileData!
 
     override class func setUp() {
         super.setUp()
@@ -70,6 +71,21 @@ class GpApi3DSecure2Tests: XCTestCase {
         browserData.challengeWindowSize = .fullScreen
         browserData.timezone = "0"
         browserData.userAgent = "Mozilla/5.0 (Windows NT 6.1; Win64, x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+        
+        // Mobile data
+        mobileData = MobileData()
+        mobileData.encodedData = "ew0KCSJEViI6ICIxLjAiLA0KCSJERCI6IHsNCgkJIkMwMDEiOiAiQW5kcm9pZCIsDQoJCSJDMDAyIjogIkhUQyBPbmVfTTgiLA0KCQkiQzAwNCI6ICI1LjAuMSIsDQoJCSJDMDA1IjogImVuX1VTIiwNCgkJIkMwMDYiOiAiRWFzdGVybiBTdGFuZGFyZCBUaW1lIiwNCgkJIkMwMDciOiAiMDY3OTc5MDMtZmI2MS00MWVkLTk0YzItNGQyYjc0ZTI3ZDE4IiwNCgkJIkMwMDkiOiAiSm9obidzIEFuZHJvaWQgRGV2aWNlIg0KCX0sDQoJIkRQTkEiOiB7DQoJCSJDMDEwIjogIlJFMDEiLA0KCQkiQzAxMSI6ICJSRTAzIg0KCX0sDQoJIlNXIjogWyJTVzAxIiwgIlNXMDQiXQ0KfQ0K"
+        mobileData.applicationReference = "f283b3ec-27da-42a1-acea-f3f70e75bbdc"
+        mobileData.sdkInterface = .both
+        mobileData.sdkUiTypes = [SdkUiType.oob]
+        mobileData.ephemeralPublicKey = JsonDoc()
+            .set(for: "kty", value: "EC")
+            .set(for: "crv", value: "P-256")
+            .set(for: "x", value: "WWcpTjbOqiu_1aODllw5rYTq5oLXE_T0huCPjMIRbkI")
+            .set(for: "y", value: "Wz_7anIeadV8SJZUfr4drwjzuWoUbOsHp5GdRZBAAiw")
+        mobileData.maximumTimeout = 50
+        mobileData.referenceNumber = "3DS_LOA_SDK_PPFU_020100_00007"
+        mobileData.sdkTransReference = "b2385523-a66c-4907-ac3c-91848e8c0067"
     }
 
     override func tearDown() {
@@ -81,6 +97,7 @@ class GpApi3DSecure2Tests: XCTestCase {
         shippingAddress = nil
         billingAddress = nil
         browserData = nil
+        mobileData = nil
     }
 
     // MARK: - Frictionless scenario
@@ -2379,5 +2396,76 @@ class GpApi3DSecure2Tests: XCTestCase {
         XCTAssertNotNil(secureEcom?.acsTransactionId)
         XCTAssertNil(secureEcom?.eci)
         XCTAssertEqual(secureEcom?.messageVersion, "2.2.0")
+    }
+    
+    func test_card_holder_enrolled_challenge_required_v2_initiate_mobileSDK() {
+        // GIVEN
+        card.number = GpApi3DSTestCards.cardChallengeRequiredV21
+        let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
+        var threeDSecureResult: ThreeDSecure?
+        var threeDSecureError: Error?
+        
+        // WHEN
+        Secure3dService
+            .checkEnrollment(paymentMethod: card)
+            .withCurrency(currency)
+            .withAmount(amount)
+            .execute {
+                threeDSecureResult = $0
+                threeDSecureError = $1
+                checkEnrollmentExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [checkEnrollmentExpectation], timeout: 10.0)
+        XCTAssertNil(threeDSecureError)
+        assertThreeDSResponse(with: threeDSecureResult, status: "AVAILABLE", secure3dVersion: .two)
+        
+        // Initiate authentication
+        
+        // GIVEN
+        let initiateAuthenticationExpectation = expectation(description: "Initiate Authentication Expectation")
+        var initAuthResult: ThreeDSecure?
+        var initAuthError: Error?
+        
+        // WHEN
+        Secure3dService
+            .initiateAuthentication(paymentMethod: card, secureEcom: threeDSecureResult)
+            .withAmount(amount)
+            .withCurrency(currency)
+            .withAuthenticationSource(.mobileSDK)
+            .withMobileData(mobileData)
+            .withMethodUrlCompletion(.yes)
+            .withOrderCreateDate(Date())
+            .withAddress(shippingAddress, .shipping)
+            .withBrowserData(browserData)
+            .execute {
+                initAuthResult = $0
+                initAuthError = $1
+                initiateAuthenticationExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [initiateAuthenticationExpectation], timeout: 200.0)
+        XCTAssertNil(initAuthError)
+        assertThreeDSResponse(with: initAuthResult, status: "CHALLENGE_REQUIRED", secure3dVersion: .two)
+        XCTAssertNotNil(initAuthResult?.payerAuthenticationRequest)
+        XCTAssertNotNil(initAuthResult?.acsInterface)
+        XCTAssertNotNil(initAuthResult?.acsUiTemplate)
+        XCTAssertNotNil(initAuthResult?.acsReferenceNumber)
+        XCTAssertNotNil(initAuthResult?.serverTransferReference)
+     }
+    
+    private func assertThreeDSResponse(with secureEcom: ThreeDSecure?, status: String, secure3dVersion: Secure3dVersion) {
+        XCTAssertNotNil(secureEcom)
+        XCTAssertEqual(secureEcom?.enrolled, "ENROLLED")
+        XCTAssertEqual(secureEcom?.version, secure3dVersion)
+        XCTAssertEqual(secureEcom?.status, status)
+        XCTAssertNotNil(secureEcom?.issuerAcsUrl)
+        XCTAssertNotNil(secureEcom?.payerAuthenticationRequest)
+        XCTAssertNotNil(secureEcom?.challengeReturnUrl)
+        XCTAssertNotNil(secureEcom?.messageType)
+        XCTAssertNotNil(secureEcom?.sessionDataFieldName)
+        XCTAssertNil(secureEcom?.eci)
     }
 }

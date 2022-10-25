@@ -70,6 +70,17 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 method: .post,
                 requestBody: payload.toString()
             )
+        case .release, .hold:
+            let payload = JsonDoc()
+                .set(for: "reason_code", value: builder.reasonCode?.rawValue)
+
+            let endpoint = builder.transactionType == .release ? "release" : builder.transactionType == .hold ? "hold" : ""
+
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.transactionsReleaseHold(transactionId: (builder.transactionId ?? .empty), endpoint: endpoint),
+                method: .post,
+                requestBody: payload.toString()
+            )
         default:
             return nil
         }

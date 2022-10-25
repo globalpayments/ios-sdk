@@ -12,8 +12,6 @@ final class AuthenticationDataFormViewController: UIViewController, StoryboardIn
 
     @IBOutlet private weak var transactionIdLabel: UILabel!
     @IBOutlet private weak var transactionIdTextField: UITextField!
-    @IBOutlet private weak var payerResponseLabel: UILabel!
-    @IBOutlet private weak var payerResponseTextField: UITextField!
     @IBOutlet private weak var submitButton: UIButton!
 
     weak var delegate: AuthenticationDataFormDelegate?
@@ -30,8 +28,6 @@ final class AuthenticationDataFormViewController: UIViewController, StoryboardIn
 
         transactionIdLabel.text = "authentication.data.form.transaction.id".localized()
         transactionIdTextField.text = transactionId
-        payerResponseLabel.text = "authentication.data.form.payer.response".localized()
-        payerResponseTextField.placeholder = "generic.optional".localized()
         submitButton.apply(style: .globalPayStyle, title: "generic.submit".localized())
     }
 
@@ -44,8 +40,7 @@ final class AuthenticationDataFormViewController: UIViewController, StoryboardIn
     @IBAction private func onSubmitAction() {
         guard let transactionId = transactionIdTextField.text, !transactionId.isEmpty else { return }
         let form = AuthenticationDataForm(
-            serverTransactionId: transactionId,
-            payerAuthenticationResponse: payerResponseTextField.text
+            serverTransactionId: transactionId
         )
         delegate?.onSubmitForm(form: form)
         dismiss(animated: true, completion: nil)

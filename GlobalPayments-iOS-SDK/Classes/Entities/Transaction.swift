@@ -39,6 +39,8 @@ public class Transaction: NSObject {
     public var cardLast4: String?
     /// The card number used in the transaction.
     public var cardNumber: String?
+    
+    public var cardIssuerResponse: CardIssuerResponse?
     /// The card expiry month used in the transaction
     public var cardExpMonth: Int?
     /// The card expiry year used in the transaction
@@ -70,6 +72,8 @@ public class Transaction: NSObject {
     public var debitMac: DebitMac?
     /// The EMV response from the issuer.
     public var emvIssuerResponse: String?
+    
+    public var fraudResponse: FraudResponse?
     /// The host response date
     public var hostResponseDate: Date?
     /// The Auto settle Flag which comes in response

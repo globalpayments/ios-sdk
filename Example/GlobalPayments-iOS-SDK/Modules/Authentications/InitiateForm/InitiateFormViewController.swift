@@ -102,7 +102,7 @@ final class InitiateFormViewController: UIViewController, StoryboardInstantiable
         submitButton.apply(style: .globalPayStyle, title: "generic.submit".localized())
         // Card
         paymentCardLabel.text = "initiate.form.payment.card".localized()
-        paymentCardTextField.loadDropDownData(PaymentCardModel.models.map { $0.name }, onSelectItem: onChangePaymentCard)
+        paymentCardTextField.loadDropDownData(PaymentCardModel.modelsWith3ds.map { $0.name }, onSelectItem: onChangePaymentCard)
         cardNumberLabel.text = "initiate.form.card.number".localized()
         expMonthLabel.text = "initiate.form.exp.month".localized()
         expYearLabel.text = "initiate.form.exp.year".localized()
@@ -235,7 +235,7 @@ final class InitiateFormViewController: UIViewController, StoryboardInstantiable
     }
 
     private func onChangePaymentCard(name: String) {
-        guard let paymentCard = PaymentCardModel.models.filter({ $0.name == name }).first else {
+        guard let paymentCard = PaymentCardModel.modelsWith3ds.filter({ $0.name == name }).first else {
             return
         }
         cardNumberTextField.text = paymentCard.number

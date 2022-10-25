@@ -39,6 +39,7 @@ public class CreditCardData: Credit, CardData {
     public var entryMethod: ManualEntryMethod?
     public var methodUsageMode: PaymentMethodUsageMode?
 
+    @available(*, deprecated, message: "Please use CheckEnrollment  from Secure3dService")
     public func verifyEnrolled(amount: NSDecimalNumber,
                                currency: String,
                                orderId: String? = nil,
@@ -69,6 +70,7 @@ public class CreditCardData: Credit, CardData {
         }
     }
 
+    @available(*, deprecated, message: "Please use GetAuthenticationData from Secure3dService")
     public func verifySignature(authorizationResponse: String,
                                 amount: NSDecimalNumber? = nil,
                                 currency: String,
@@ -85,6 +87,7 @@ public class CreditCardData: Credit, CardData {
                                completion: completion)
     }
 
+    @available(*, deprecated, message: "Please use GetAuthenticationData from Secure3dService")
     public func verifySignature(authorizationResponse: String,
                                 merchantData: MerchantDataCollection? = nil,
                                 completion: ((Bool) -> Void)?) {

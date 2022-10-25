@@ -43,9 +43,7 @@ final class ACSWebView: UIView, WKNavigationDelegate {
             "challenge_value": threeDSecure.payerAuthenticationRequest ?? "",
             "TermUrl": threeDSecure.challengeReturnUrl ?? "",
             (threeDSecure.sessionDataFieldName ?? ""): (threeDSecure.serverTransactionId ?? ""),
-            (threeDSecure.messageType ?? ""): (threeDSecure.payerAuthenticationRequest ?? ""),
-            "creq": threeDSecure.payerAuthenticationRequest ?? "",
-            "threeDSSessionData": threeDSecure.serverTransactionId ?? ""
+            (threeDSecure.messageType ?? ""): (threeDSecure.payerAuthenticationRequest ?? "")
         ]
 
         request.encodeParameters(parameters: parameters)

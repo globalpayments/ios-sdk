@@ -2193,4 +2193,33 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertEqual(cardUpdatedError?.responseCode, "INVALID_REQUEST_DATA")
         XCTAssertEqual(cardUpdatedError?.responseMessage, "50020")
     }
+    
+    func test_credit_sale_with_dynamic_descriptor(){
+        // GIVEN
+        let executeExpectation = expectation(description: "Card Sale Dynamic Descriptor")
+        let dynamicDescriptor = "My company"
+        var transactionResponse: Transaction?
+        var transactionErrorResponse: Error?
+        var transactionStatusResponse: TransactionStatus?
+
+        // WHEN
+        card.charge(amount: 10.0)
+            .withCurrency("GBP")
+            .withDynamicDescriptor(dynamicDescriptor)
+            .execute { transaction, error in
+                transactionResponse = transaction
+                transactionErrorResponse = error
+                if let responseMessage = transactionResponse?.responseMessage {
+                    transactionStatusResponse = TransactionStatus(rawValue: responseMessage)
+                }
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNotNil(transactionResponse)
+        XCTAssertNil(transactionErrorResponse)
+        XCTAssertEqual(transactionResponse?.responseCode, "SUCCESS")
+        XCTAssertEqual(transactionStatusResponse, TransactionStatus.captured)
+    }
 }

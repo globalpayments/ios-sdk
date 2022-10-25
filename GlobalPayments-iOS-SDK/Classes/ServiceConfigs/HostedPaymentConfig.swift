@@ -1,7 +1,7 @@
 import Foundation
 
 /// Specify how the fraud filter should operate
-public enum FraudFilterMode {
+public enum FraudFilterMode: String {
     /// Fraud filter will behave as configured in RealControl
     case none
     /// Disables the fraud filter
@@ -10,6 +10,12 @@ public enum FraudFilterMode {
     case passive
     /// Sets the fraud filter to active mode
     case active
+    
+    public init?(value: String?) {
+        guard let value = value?.lowercased(),
+              let property = FraudFilterMode(rawValue: value) else { return nil }
+        self = property
+    }
 }
 
 /// Options when specifying HPP versions.

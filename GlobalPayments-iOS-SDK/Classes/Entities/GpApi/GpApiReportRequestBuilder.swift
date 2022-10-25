@@ -25,6 +25,11 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             params["batch_id"] = builder.searchCriteriaBuilder.batchId
             params["entry_mode"] = builder.searchCriteriaBuilder.paymentEntryMode?.mapped(for: .gpApi)
             params["name"] = builder.searchCriteriaBuilder.name
+            
+            params["risk_assessment_mode"] = builder.searchCriteriaBuilder.riskAssessmentMode?.rawValue
+            params["risk_assessment_result"] = builder.searchCriteriaBuilder.riskAssessmentResult?.rawValue
+            params["risk_assessment_reason_code"] = builder.searchCriteriaBuilder.riskAssessmentReasonCode?.rawValue
+            
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.transactions(),
                 method: .get,

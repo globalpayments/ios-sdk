@@ -1,10 +1,12 @@
 import Foundation
 
 public class ThreeDSecure: NSObject {
+    public var acsInterface: String?
     public var acsTransactionId: String?
     public var acsEndVersion: String?
     public var acsStartVersion: String?
     public var acsInfoIndicator: [String]?
+    public var acsUiTemplate: String?
     public var algorithm: Int?
     /// The algorithm used.
     public var amount: NSDecimalNumber? {
@@ -36,6 +38,9 @@ public class ThreeDSecure: NSObject {
     public var enrolled: String?
     /// The URL of the Issuing Bank's ACS.
     public var issuerAcsUrl: String?
+    
+    public var liabilityShift: String?
+    
     /// A KVP collection of merchant supplied data
     public var merchantData: MerchantDataCollection? = MerchantDataCollection() {
         didSet {
@@ -77,6 +82,8 @@ public class ThreeDSecure: NSObject {
     public var sdkUiType: String?
     public var secureCode: String?
     public var serverTransactionId: String?
+    public var acsReferenceNumber: String?
+    public var serverTransferReference: String?
     public var status: String?
     public var statusReason: String?
     public var version: Secure3dVersion? {
@@ -95,6 +102,8 @@ public class ThreeDSecure: NSObject {
     public var exemptStatus: ExemptStatus?
     /// The exemption optimization service reason
     public var exemptReason: ExemptReason?
+    
+    public var whiteListStatus: String?
 
     public func threeDSecure() {
         paymentDataType = "3DSecure"
@@ -107,6 +116,9 @@ public class ThreeDSecure: NSObject {
         acsEndVersion = mergeValue(acsEndVersion, secureEcom.acsEndVersion)
         acsStartVersion = mergeValue(acsStartVersion, secureEcom.acsStartVersion)
         acsInfoIndicator = mergeValue(acsInfoIndicator, secureEcom.acsInfoIndicator)
+        acsInterface = mergeValue(acsInterface, secureEcom.acsInterface)
+        acsUiTemplate = mergeValue(acsUiTemplate, secureEcom.acsUiTemplate)
+        acsReferenceNumber = mergeValue(acsReferenceNumber, secureEcom.acsReferenceNumber)
         algorithm = mergeValue(algorithm, secureEcom.algorithm)
         amount = mergeValue(amount, secureEcom.amount)
         authenticationSource = mergeValue(authenticationSource, secureEcom.authenticationSource)
@@ -146,6 +158,8 @@ public class ThreeDSecure: NSObject {
         sessionDataFieldName = mergeValue(sessionDataFieldName, secureEcom.sessionDataFieldName)
         exemptStatus = mergeValue(exemptStatus, secureEcom.exemptStatus)
         exemptReason = mergeValue(exemptReason, secureEcom.exemptReason)
+        liabilityShift = mergeValue(liabilityShift, secureEcom.liabilityShift)
+        whiteListStatus = mergeValue(whiteListStatus, secureEcom.whiteListStatus)
     }
 
     private func mergeValue<T>(_ currentValue: T?, _ mergeValue: T?) -> T? {

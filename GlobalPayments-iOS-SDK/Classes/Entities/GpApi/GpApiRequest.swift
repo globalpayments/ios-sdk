@@ -71,6 +71,10 @@ extension GpApiRequest {
         static func transactionsReauthorization(transactionId: String) -> String {
             "/transactions/\(transactionId)/reauthorization"
         }
+        
+        static func transactionsReleaseHold(transactionId: String, endpoint: String) -> String {
+            "/transactions/\(transactionId)/\(endpoint)"
+        }
 
         // MARK: - Verifications
 

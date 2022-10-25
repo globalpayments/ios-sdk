@@ -15,6 +15,8 @@ final class CheckAvailabilityFormViewController: UIViewController, StoryboardIns
     @IBOutlet private weak var paymentCardTextField: UITextField!
     @IBOutlet private weak var cardNumberLabel: UILabel!
     @IBOutlet private weak var cardNumberTextField: UITextField!
+    @IBOutlet private weak var authSourceLabel: UILabel!
+    @IBOutlet private weak var authSourceTextField: UITextField!
     @IBOutlet private weak var expiryMonthLabel: UILabel!
     @IBOutlet private weak var expiryMonthTextField: UITextField!
     @IBOutlet private weak var expiryYearLabel: UILabel!
@@ -40,8 +42,10 @@ final class CheckAvailabilityFormViewController: UIViewController, StoryboardIns
         navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
 
         paymentCardLabel.text = "check.availability.form.payment.card".localized()
-        paymentCardTextField.loadDropDownData(PaymentCardModel.models.map { $0.name }, onSelectItem: onChangePaymentCard)
+        paymentCardTextField.loadDropDownData(PaymentCardModel.modelsWith3ds.map { $0.name }, onSelectItem: onChangePaymentCard)
         cardNumberLabel.text = "check.availability.form.card.number".localized()
+        authSourceLabel.text = "initiate.form.auth.source".localized()
+        authSourceTextField.loadDropDownData(AuthenticationSource.allCases.map { $0.rawValue })
         expiryMonthLabel.text = "check.availability.form.expiry.month".localized()
         expiryYearLabel.text = "check.availability.form.expiry.year".localized()
         cardHolderNameLabel.text = "check.availability.form.card.holder.name".localized()
@@ -66,6 +70,7 @@ final class CheckAvailabilityFormViewController: UIViewController, StoryboardIns
               let expiryMonthNumeric = Int(expiryMonth) else { return }
         guard let expiryYear = expiryYearTextField.text, !expiryYear.isEmpty,
               let expiryYearNumeric = Int(expiryYear) else { return }
+        guard let authSource = AuthenticationSource(value: authSourceTextField.text) else { return }
         guard let cardHolderName = cardHolderNameTextField.text, !cardHolderName.isEmpty else { return }
         guard let currency = currencyTextField.text, !currency.isEmpty else { return }
 
@@ -77,6 +82,7 @@ final class CheckAvailabilityFormViewController: UIViewController, StoryboardIns
 
         let form = CheckAvailabilityForm(
             card: card,
+            authSource: authSource,
             amount: NSDecimalNumber(string: amountTextField.text),
             currency: currency
         )
@@ -85,7 +91,7 @@ final class CheckAvailabilityFormViewController: UIViewController, StoryboardIns
     }
 
     private func onChangePaymentCard(name: String) {
-        guard let paymentCard = PaymentCardModel.models.filter({ $0.name == name }).first else {
+        guard let paymentCard = PaymentCardModel.modelsWith3ds.filter({ $0.name == name }).first else {
             return
         }
         cardNumberTextField.text = paymentCard.number

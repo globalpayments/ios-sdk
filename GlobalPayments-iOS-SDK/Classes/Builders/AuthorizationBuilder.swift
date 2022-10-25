@@ -31,7 +31,8 @@ import Foundation
     var emvFallbackCondition: EmvFallbackCondition?
     var emvLastChipRead: EmvLastChipRead?
     var emvChipCondition: EmvChipCondition?
-    var fraudFilterMode: FraudFilterMode = .none
+    var fraudFilterMode: FraudFilterMode?
+    var fraudRules: FraudRuleCollection?
     var gratuity: NSDecimalNumber?
     var shippingAmt: NSDecimalNumber?
     var hostedPaymentData: HostedPaymentData?
@@ -549,6 +550,14 @@ import Foundation
     /// - Returns: AuthorizationBuilder
     public func withFirstName(_ firstName: String?) -> AuthorizationBuilder {
         self.firstName = firstName
+        return self
+    }
+    
+    public func withFraudFilter(_ fraudFilterMode: FraudFilterMode, fraudRules: FraudRuleCollection? = nil)-> AuthorizationBuilder {
+        self.fraudFilterMode = fraudFilterMode
+        if let rules = fraudRules {
+            self.fraudRules = rules
+        }
         return self
     }
 

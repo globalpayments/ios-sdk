@@ -148,6 +148,17 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
             .set(for: "challenge_window_size", value: builder.browserData?.challengeWindowSize?.rawValue)
             .set(for: "timezone", value: builder.browserData?.timezone)
             .set(for: "user_agent", value: builder.browserData?.userAgent)
+        
+        let mobileData = JsonDoc()
+            .set(for: "encoded_data", value: builder.mobileData?.encodedData)
+            .set(for: "application_reference", value: builder.mobileData?.applicationReference)
+            .set(for: "sdk_interface", value: builder.mobileData?.sdkInterface?.mapped(for: .gpApi))
+            .set(for: "sdk_ui_type", value: SdkUiType.sdkUiTypes(builder.mobileData?.sdkUiTypes, target: .gpApi))
+            .set(for: "ephemeral_public_key",doc: builder.mobileData?.ephemeralPublicKey)
+            .set(for: "maximum_timeout", value: builder.mobileData?.maximumTimeout)
+            .set(for: "reference_number", value: builder.mobileData?.referenceNumber)
+            .set(for: "sdk_trans_reference", value: builder.mobileData?.sdkTransReference)
+        
 
         let storedCredential = JsonDoc()
             .set(for: "model", value: builder.storedCredential?.type.mapped(for: .gpApi))
@@ -171,6 +182,7 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
             .set(for: "recurring_authorization_data", doc: recurringAuthorizationData)
             .set(for: "payer_login_data", doc: payerLoginData)
             .set(for: "browser_data", doc: browserData)
+            .set(for: "mobile_data", doc: mobileData)
             .set(for: "initiator", value: builder.storedCredential?.initiator.mapped(for: .gpApi))
             .set(for: "stored_credential", doc: storedCredential)
             .set(for: "three_ds", doc: threeDS)

@@ -764,6 +764,7 @@ class GpApi3DSecure1Tests: XCTestCase {
         XCTAssertNotNil(secureEcom?.issuerAcsUrl)
         XCTAssertNotNil(secureEcom?.payerAuthenticationRequest)
         XCTAssertNotNil(secureEcom?.challengeValue)
+        XCTAssertEqual(secureEcom?.liabilityShift, "NO")
         XCTAssertNil(secureEcom?.eci)
     }
 
@@ -772,8 +773,9 @@ class GpApi3DSecure1Tests: XCTestCase {
         XCTAssertEqual(secureEcom?.version, .one)
         XCTAssertEqual(secureEcom?.enrolled, "NOT_ENROLLED")
         XCTAssertEqual(secureEcom?.status, "NOT_ENROLLED")
-        XCTAssertEqual(secureEcom?.eci, 6)
+        XCTAssertNil(secureEcom?.eci)
         XCTAssertEqual(secureEcom?.messageVersion, "1.0.0")
         XCTAssertEqual(secureEcom?.challengeMandated, false)
+        XCTAssertEqual(secureEcom?.liabilityShift, "NO")
     }
 }

@@ -58,6 +58,9 @@ public enum SearchCriteria: String {
     case responseCode
     case version
     case actionId
+    case riskAssessmentMode
+    case riskAssessmentResult
+    case riskAssessmentReasonCode
 }
 
 public enum DataServiceCriteria: String {
@@ -180,6 +183,9 @@ public enum DataServiceCriteria: String {
     var responseCode: String?
     var version: String?
     var actionId: String?
+    var riskAssessmentMode: FraudFilterMode?
+    var riskAssessmentResult: FraudFilterResult?
+    var riskAssessmentReasonCode: ReasonCode?
 
     init(reportBuilder: TransactionReportBuilder<TResult>?) {
         self.reportBuilder = reportBuilder

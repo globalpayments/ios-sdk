@@ -48,7 +48,15 @@ public struct GpApiMapping {
                 transaction.avsResponseCode = card.getValue(key: "avs_postal_code_result") ?? .empty
                 transaction.avsAddressResponse = card.getValue(key: "avs_address_result") ?? .empty
                 transaction.avsResponseMessage = card.getValue(key: "avs_action") ?? .empty
+                
+                if let provider: JsonDoc = card.get(valueFor: "provider") {
+                    transaction.cardIssuerResponse = mapCardIssuerResponse(provider)
+                }
             }
+        }
+        
+        if let riskAssessments: [JsonDoc] = doc?.getValue(key: "risk_assessment") {
+            transaction.fraudResponse = FraudResponse.init(docs: riskAssessments)
         }
         
         if let usageMode: String = doc?.getValue(key: "usage_mode") {
@@ -110,6 +118,16 @@ public struct GpApiMapping {
         summary.merchantDbaName = doc?.get(valueFor: "system")?.getValue(key: "dba")
 
         return summary
+    }
+    
+    public static func mapCardIssuerResponse(_ doc:JsonDoc) -> CardIssuerResponse {
+        let cardIssuer = CardIssuerResponse()
+        cardIssuer.result = doc.getValue(key: "result")
+        cardIssuer.avsResult = doc.getValue(key: "avs_result")
+        cardIssuer.cvvResult = doc.getValue(key: "cvv_result")
+        cardIssuer.avsAddressResult = doc.getValue(key: "avs_address_result")
+        cardIssuer.avsPostalCodeResult = doc.getValue(key: "avs_postal_code_result")
+        return cardIssuer
     }
 
     public static func mapDepositSummary(_ doc: JsonDoc?) -> DepositSummary {
@@ -310,11 +328,13 @@ public struct GpApiMapping {
         secure.directoryServerEndVersion = doc?.get(valueFor: "three_ds")?.getValue(key: "ds_protocol_version_end")
         secure.acsStartVersion = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_protocol_version_start")
         secure.acsEndVersion = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_protocol_version_end")
-        secure.enrolled = doc?.get(valueFor: "three_ds")?.getValue(key: "enrolled_status") ?? "NOT_ENROLLED"
+        secure.acsReferenceNumber = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_reference_number")
+        secure.serverTransferReference = doc?.get(valueFor: "three_ds")?.getValue(key: "server_trans_ref")
+        secure.enrolled = doc?.get(valueFor: "three_ds")?.getValue(key: "enrolled_status")
         if let eci: String = doc?.get(valueFor: "three_ds")?.getValue(key: "eci"), let eciValue = Int(eci) {
             secure.eci = eciValue
         }
-        secure.acsInfoIndicator = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_info_indicator")
+        secure.acsInfoIndicator = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_decoupled_response_indicator")
         secure.challengeMandated = doc?.get(valueFor: "three_ds")?.getValue(key: "challenge_status") == "MANDATED"
         secure.payerAuthenticationRequest = doc?.get(valueFor: "three_ds")?.get(valueFor: "method_data")?.getValue(key: "encoded_method_data")
         secure.issuerAcsUrl = doc?.get(valueFor: "three_ds")?.getValue(key: "method_url")
@@ -328,10 +348,23 @@ public struct GpApiMapping {
         secure.messageType = doc?.get(valueFor: "three_ds")?.getValue(key: "message_type")
         secure.sessionDataFieldName = doc?.get(valueFor: "three_ds")?.getValue(key: "session_data_field_name")
         secure.challengeReturnUrl = doc?.get(valueFor: "notifications")?.getValue(key: "challenge_return_url")
+        secure.authenticationSource = doc?.get(valueFor: "three_ds")?.getValue(key: "authentication_source")
+        secure.liabilityShift = doc?.get(valueFor: "three_ds")?.getValue(key: "liability_shift")
+        secure.authenticationType = doc?.get(valueFor: "three_ds")?.getValue(key: "authentication_request_type")
+        secure.whiteListStatus = doc?.get(valueFor: "three_ds")?.getValue(key: "whitelist_status")
         if let acsChallengeRequestUrl: String = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_challenge_request_url") {
             if secure.challengeMandated == true {
                 secure.issuerAcsUrl = acsChallengeRequestUrl
                 secure.payerAuthenticationRequest = doc?.get(valueFor: "three_ds")?.getValue(key: "challenge_value")
+            }
+        }
+        
+        // Mobile data
+        if let source: String = doc?.getValue(key: "source"), source == "MOBILE_SDK", let mobileData: JsonDoc = doc?.get(valueFor: "three_ds")?.get(valueFor: "mobile_data") {
+            secure.payerAuthenticationRequest = mobileData.getValue(key: "acs_signed_content")
+            if let acsRenderingType = mobileData.get(valueFor: "acs_rendering_type"){
+                secure.acsInterface = acsRenderingType.getValue(key: "acs_interface")
+                secure.acsUiTemplate = acsRenderingType.getValue(key: "acs_ui_template")
             }
         }
 

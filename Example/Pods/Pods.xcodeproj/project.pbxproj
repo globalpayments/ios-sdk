@@ -44,7 +44,14 @@
 		269EF916AC65B83E3FC95DEB8E31DF64 /* Risk.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4ABAB619ED5D5F36F39519A0799ECA /* Risk.swift */; };
 		2914610EF92636F2D61BC6C85C203893 /* RealexConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FC066AD56DED98F3EA8EF68DB0F4E4E /* RealexConnector.swift */; };
 		2B58A4297006E2570C2B5210DDF4BBE8 /* Debit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564A6AC22823239CC2E5F3E78AF9BF4A /* Debit.swift */; };
+		300A066E28EF7A6800F843BD /* CardIssuerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300A066D28EF7A6800F843BD /* CardIssuerResponse.swift */; };
+		300A067028EF7FE200F843BD /* FraudFilterResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300A066F28EF7FE200F843BD /* FraudFilterResult.swift */; };
+		300A067228EF818000F843BD /* FraudResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300A067128EF818000F843BD /* FraudResponse.swift */; };
+		300A067428EF827300F843BD /* FraudRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300A067328EF827300F843BD /* FraudRule.swift */; };
+		302D583428FF089500A5D4BA /* FraudRuleCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D583328FF089500A5D4BA /* FraudRuleCollection.swift */; };
+		302D583B28FF1DED00A5D4BA /* FraudMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D583A28FF1DED00A5D4BA /* FraudMode.swift */; };
 		302E8CCF9C1CDABE611C7E574E3CC4FE /* ServicesConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A5255056747A7723B262E67C0BC032 /* ServicesConfig.swift */; };
+		305BAFB428C92FBD00A8D588 /* MobileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BAFB328C92FBD00A8D588 /* MobileData.swift */; };
 		30EB560E28201B5400AEA47B /* DigitalWalletTokenFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB560D28201B5400AEA47B /* DigitalWalletTokenFormat.swift */; };
 		30EB561028201F1200AEA47B /* EncryptedMobileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB560F28201F1200AEA47B /* EncryptedMobileType.swift */; };
 		310BA164A42145051D0ED02112A35FFB /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB788EE627AF1BBA1F658193F98E1E1 /* CollectionExtensions.swift */; };
@@ -309,6 +316,13 @@
 		2A75E0EA938B81C379185D7E0D1AF381 /* TransactionModifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TransactionModifier.swift; sourceTree = "<group>"; };
 		2ADCEE908F389ED73DAFC2B941CD715E /* LICENSE.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		2EBA9AC128DCCB686E9878E97933B4DC /* GlobalPayments-iOS-SDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GlobalPayments-iOS-SDK-prefix.pch"; sourceTree = "<group>"; };
+		305BAFB328C92FBD00A8D588 /* MobileData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileData.swift; sourceTree = "<group>"; };
+		300A066D28EF7A6800F843BD /* CardIssuerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIssuerResponse.swift; sourceTree = "<group>"; };
+		300A066F28EF7FE200F843BD /* FraudFilterResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FraudFilterResult.swift; sourceTree = "<group>"; };
+		300A067128EF818000F843BD /* FraudResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FraudResponse.swift; sourceTree = "<group>"; };
+		300A067328EF827300F843BD /* FraudRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FraudRule.swift; sourceTree = "<group>"; };
+		302D583328FF089500A5D4BA /* FraudRuleCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FraudRuleCollection.swift; sourceTree = "<group>"; };
+		302D583A28FF1DED00A5D4BA /* FraudMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FraudMode.swift; sourceTree = "<group>"; };
 		30A0CD6485EE372C1CE1912039A5259B /* Pods-GlobalPayments-iOS-SDK_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-GlobalPayments-iOS-SDK_Example"; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30AEC820A624F6D13FAD12C397BEFF96 /* CommercialLineItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CommercialLineItem.swift; sourceTree = "<group>"; };
 		30EB560D28201B5400AEA47B /* DigitalWalletTokenFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalWalletTokenFormat.swift; sourceTree = "<group>"; };
@@ -680,6 +694,7 @@
 				2388B41B87B079BC643EE2B0DD045E30 /* VoidReason.swift */,
 				30EB560D28201B5400AEA47B /* DigitalWalletTokenFormat.swift */,
 				30EB560F28201F1200AEA47B /* EncryptedMobileType.swift */,
+				300A066F28EF7FE200F843BD /* FraudFilterResult.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -942,11 +957,13 @@
 		DB22012B0F0A099EF169BF8839153DB1 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				305BAFB328C92FBD00A8D588 /* MobileData.swift */,
 				00257A7CFAED02ABC82EEA9CA804ADAF /* AdditionalTaxDetails.swift */,
 				5255237944174C0BD20870F600275B12 /* Address.swift */,
 				E3C43D41F74C9AFCD2B27E3C4FEFACC3 /* AutoSubstantiation.swift */,
 				D284542B20DD315BF44352E2AF8775C9 /* BatchSummary.swift */,
 				7125319C4028A7BAD9C0AA99A87949BF /* BrowserData.swift */,
+				300A066D28EF7A6800F843BD /* CardIssuerResponse.swift */,
 				EB252E82E2B6FB42F4E12DF4D645FAEB /* CommercialData.swift */,
 				30AEC820A624F6D13FAD12C397BEFF96 /* CommercialLineItem.swift */,
 				98420701F6B95DD2A28CDDB6B0310CD3 /* Customer.swift */,
@@ -974,6 +991,10 @@
 				C81736BCBE86941E419FB96959ED4797 /* GpApi */,
 				9041830729DB30D5A28DA98078F7A384 /* Lodging */,
 				B660C41A8EB0F496AA3DE33CC26774E8 /* Reporting */,
+				300A067128EF818000F843BD /* FraudResponse.swift */,
+				300A067328EF827300F843BD /* FraudRule.swift */,
+				302D583328FF089500A5D4BA /* FraudRuleCollection.swift */,
+				302D583A28FF1DED00A5D4BA /* FraudMode.swift */,
 			);
 			name = Entities;
 			path = "GlobalPayments-iOS-SDK/Classes/Entities";
@@ -1233,6 +1254,7 @@
 				C0616E402FEEF91990F7E330D44A97EA /* BuilderException.swift in Sources */,
 				1258284CC5D9684161C67C8F734528C5 /* CaptureMode.swift in Sources */,
 				118A3556B33A89D2798559A3FCD6826C /* CardData.swift in Sources */,
+				302D583B28FF1DED00A5D4BA /* FraudMode.swift in Sources */,
 				8D6B7452361061A92C810AB24A8AB39E /* CardType.swift in Sources */,
 				C96879E77EF6B24EBF538BE8F11FB7E4 /* CardUtils.swift in Sources */,
 				FFCDA62903700D5F5C10103B0FCCA0C7 /* Cash.swift in Sources */,
@@ -1244,6 +1266,7 @@
 				310BA164A42145051D0ED02112A35FFB /* CollectionExtensions.swift in Sources */,
 				0F05B56AEE5E791DF28F17C9C0644564 /* CommercialData.swift in Sources */,
 				E505C774CF3A5C61C134160CF5B78CC0 /* CommercialIndicator.swift in Sources */,
+				300A066E28EF7A6800F843BD /* CardIssuerResponse.swift in Sources */,
 				082F8E615B8F0C736D92F02F65E61B4B /* CommercialLineItem.swift in Sources */,
 				98F8B8D9E645299522E7D1D8E095E7B8 /* Configuration.swift in Sources */,
 				079D781DA03E3DABD432074CB46A8137 /* ConfigurationException.swift in Sources */,
@@ -1267,6 +1290,7 @@
 				A2E65F39ED86EB1528374687A6E12F0F /* DecimalExtensions.swift in Sources */,
 				4C38510125AA3EBF40EC7052155486A4 /* DecisionManager.swift in Sources */,
 				686B756ED4F79AF8FDD5F0A2D2EFFFAF /* DeliveryTimeFrame.swift in Sources */,
+				300A067228EF818000F843BD /* FraudResponse.swift in Sources */,
 				3E0C8E27974034054D514EAFDE8026D5 /* DepositSortProperty.swift in Sources */,
 				9A0C9DC9496BB555246858E0C50F17AE /* DepositStatus.swift in Sources */,
 				25CF2FC31F980920178563B260C898F0 /* DepositSummary.swift in Sources */,
@@ -1376,6 +1400,7 @@
 				C77AADB7D01100401B75CFB6180F0331 /* RequestLogger.swift in Sources */,
 				43B304E11E78316A51C669F6FABA98E8 /* RestGateway.swift in Sources */,
 				BAE42E47363AC71111DF6753402BDBB4 /* Reversable.swift in Sources */,
+				305BAFB428C92FBD00A8D588 /* MobileData.swift in Sources */,
 				FEA9152F5B95EC6393EBF78CAC60D88D /* ReversalReasonCode.swift in Sources */,
 				269EF916AC65B83E3FC95DEB8E31DF64 /* Risk.swift in Sources */,
 				34C65B2B1E4C1B3DC87F0C116D84EBD3 /* Schedule.swift in Sources */,
@@ -1396,16 +1421,19 @@
 				4CC4979E831F50C0A235469C06CE47B6 /* SortDirection.swift in Sources */,
 				336B495B26F6C9F46E0B7CDB27F50A93 /* StoredCredential.swift in Sources */,
 				3D900B82F0ECD2B64B1D43B014C651C1 /* StoredCredentialInitiator.swift in Sources */,
+				302D583428FF089500A5D4BA /* FraudRuleCollection.swift in Sources */,
 				D51EBC84FB0FBC8D42831F55AAFCE04A /* StoredCredentialReason.swift in Sources */,
 				AEEB9E3C9B9D5B43C851023BD70F0058 /* StoredCredentialSequence.swift in Sources */,
 				10DC92BEA34D7DCEE9D1BFB51B2945E0 /* StoredCredentialType.swift in Sources */,
 				E207D73F469673510897EFF7CCB4CF09 /* StoredPaymentMethodSortProperty.swift in Sources */,
+				300A067428EF827300F843BD /* FraudRule.swift in Sources */,
 				F7CFCB800963B169812C9BEEB670720E /* StoredPaymentMethodStatus.swift in Sources */,
 				8EFCCD7F1654A4FD5589FF5FDAE5C10B /* StoredPaymentMethodSummary.swift in Sources */,
 				811836ECAC757D7246172AAC8E174044 /* StringExtensions.swift in Sources */,
 				52710209794E7E0D3834C2F207FB8419 /* SwiftLang.swift in Sources */,
 				592CBE190F378A117CCF9C6FA1E12EAF /* TaxCategory.swift in Sources */,
 				67BFC70037427587DC15387B66E809C7 /* TaxType.swift in Sources */,
+				300A067028EF7FE200F843BD /* FraudFilterResult.swift in Sources */,
 				A4C079C6E9558130EF26DCCD47F32660 /* ThreeDSecure.swift in Sources */,
 				86F7FCCA18EB38F67D8AA3C47BF15D3E /* TimeZoneConversion.swift in Sources */,
 				F6F87B724E260964CBEE99C250331378 /* TlvData.swift in Sources */,

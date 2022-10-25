@@ -27,6 +27,7 @@ final class AuthenticationsViewModel: AuthenticationsViewModelInput {
     func onCheckAvailability(form: CheckAvailabilityForm) {
         checkEnrollment(
             card: form.card,
+            authSource: form.authSource,
             currency: form.currency,
             amount: form.amount,
             completion: showOutput
@@ -36,7 +37,6 @@ final class AuthenticationsViewModel: AuthenticationsViewModelInput {
     func onGetResult(form: AuthenticationDataForm) {
         getAuthenticationData(
             serverTransactionId: form.serverTransactionId,
-            payerAuthenticationResponse: form.payerAuthenticationResponse,
             completion: showOutput
         )
     }
@@ -44,22 +44,28 @@ final class AuthenticationsViewModel: AuthenticationsViewModelInput {
     func onInitiate(form: InitiateForm) {
         checkEnrollment(
             card: form.card,
+            authSource: form.authSource,
             currency: form.currency,
             amount: form.amount) { threeDSecure, error in
-            guard let threeDSecure = threeDSecure else {
-                self.showOutput(threeDSecure: nil, error: error)
-                return
+                guard let threeDSecure = threeDSecure else {
+                    self.showOutput(threeDSecure: nil, error: error)
+                    return
+                }
+                guard let liabilityShift = threeDSecure.liabilityShift else { return }
+                if liabilityShift == "NO" {
+                    self.showOutput(threeDSecure: nil, error: ApiException(message: "Liability Shift is NO please select another card"))
+                } else {
+                    self.initiateAuthentication(
+                        initiateForm: form,
+                        threeDSecure: threeDSecure,
+                        completion: self.showOutput
+                    )
+                }
             }
-            self.initiateAuthentication(
-                initiateForm: form,
-                threeDSecure: threeDSecure,
-                completion: self.showOutput
-            )
-        }
     }
 
     func onFullFlow(form: InitiateForm) {
-        checkEnrollment(card: form.card, currency: form.currency, amount: form.amount) { [weak self] threeDSecure, error in
+        checkEnrollment(card: form.card,authSource: form.authSource, currency: form.currency, amount: form.amount) { [weak self] threeDSecure, error in
             guard let threeDSecure = threeDSecure else {
                 self?.showOutput(threeDSecure: nil, error: error)
                 return
@@ -71,8 +77,11 @@ final class AuthenticationsViewModel: AuthenticationsViewModelInput {
                 UI { self?.view?.showThreeDSecure(threeDSecure) }
             } else {
                 if version == .one {
-                    if checkAvailabilityStatus == self?.challengeRequired {
+                    guard let liabilityShift = threeDSecure.liabilityShift else { return }
+                    if liabilityShift == "YES" && checkAvailabilityStatus == self?.challengeRequired {
                         UI { self?.view?.showChallengeWebView(form, threeDSecure) }
+                    } else if liabilityShift == "NO" {
+                        self?.showOutput(threeDSecure: nil, error: ApiException(message: "3DS ONE is not supported anymore"))
                     }
                 } else if version == .two {
                     if checkAvailabilityStatus == self?.available {
@@ -131,11 +140,13 @@ final class AuthenticationsViewModel: AuthenticationsViewModelInput {
     typealias ThreeDSecureCompletion = (ThreeDSecure?, Error?) -> Void
 
     private func checkEnrollment(card: CreditCardData,
+                                 authSource: AuthenticationSource,
                                  currency: String?,
                                  amount: NSDecimalNumber?,
                                  completion: @escaping ThreeDSecureCompletion) {
         Secure3dService
             .checkEnrollment(paymentMethod: card)
+            .withAuthenticationSource(authSource)
             .withCurrency(currency)
             .withAmount(amount)
             .execute(completion: completion)

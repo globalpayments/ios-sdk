@@ -27,12 +27,34 @@ class GpApiConnector: RestGateway {
             }
             self?.headers[GpApiConnector.Header.Key.authorization] = "Bearer \(token)"
             self?.accessToken = token
-            let accessTokenInfo = AccessTokenInfo()
-            accessTokenInfo.token = token
-            accessTokenInfo.dataAccountName = response.dataAccountName
-            accessTokenInfo.tokenizationAccountName = response.tokenizationAccountName
-            accessTokenInfo.transactionProcessingAccountName = response.transactionProcessingAccountName
-            accessTokenInfo.disputeManagementAccountName = response.disputeManagementAccountName
+            
+            var accessTokenInfo = self?.gpApiConfig.accessTokenInfo
+            
+            if accessTokenInfo == nil {
+                accessTokenInfo = AccessTokenInfo()
+            }
+            
+            if accessTokenInfo?.token.isNilOrEmpty ?? true {
+                accessTokenInfo?.token = token
+            }
+            
+            if accessTokenInfo?.dataAccountName.isNilOrEmpty ?? true {
+                accessTokenInfo?.dataAccountName = response.dataAccountName
+            }
+            
+            if accessTokenInfo?.tokenizationAccountName.isNilOrEmpty ?? true {
+                accessTokenInfo?.tokenizationAccountName = response.tokenizationAccountName
+            }
+            
+            
+            if accessTokenInfo?.transactionProcessingAccountName.isNilOrEmpty ?? true {
+                accessTokenInfo?.transactionProcessingAccountName = response.transactionProcessingAccountName
+            }
+             
+            if accessTokenInfo?.disputeManagementAccountName.isNilOrEmpty ?? true {
+                accessTokenInfo?.disputeManagementAccountName = response.disputeManagementAccountName
+            }
+            
             self?.gpApiConfig.accessTokenInfo = accessTokenInfo
 
             completion(true, nil)

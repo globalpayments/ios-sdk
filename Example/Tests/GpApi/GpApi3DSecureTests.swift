@@ -617,7 +617,7 @@ class GpApi3DSecureTests: XCTestCase {
         XCTAssertEqual(checkEnrollmentResult?.version, .one)
         XCTAssertEqual(checkEnrollmentResult?.enrolled, NOT_ENROLLED)
         XCTAssertEqual(checkEnrollmentResult?.status, NOT_ENROLLED)
-        XCTAssertEqual(checkEnrollmentResult?.eci, 6)
+        XCTAssertNil(checkEnrollmentResult?.eci)
         XCTAssertEqual(checkEnrollmentResult?.messageVersion, "1.0.0")
         XCTAssertEqual(checkEnrollmentResult?.challengeMandated, false)
 
@@ -987,10 +987,10 @@ class GpApi3DSecureTests: XCTestCase {
             cardNumber: GpApi3DSTestCards.cardChallengeRequiredV21,
             status: SUCCESS_AUTHENTICATED
         )
-        card_holder_enrolled_challenge_required_v2(
-            cardNumber: GpApi3DSTestCards.cardChallengeRequiredV22,
-            status: SUCCESS_AUTHENTICATED
-        )
+//        card_holder_enrolled_challenge_required_v2(
+//            cardNumber: GpApi3DSTestCards.cardChallengeRequiredV22,
+//            status: SUCCESS_AUTHENTICATED
+//        )
     }
 
     func card_holder_enrolled_challenge_required_v2(cardNumber: String, status: String) {
@@ -1495,9 +1495,10 @@ class GpApi3DSecureTests: XCTestCase {
         XCTAssertNotNil(secureEcom?.payerAuthenticationRequest)
         XCTAssertNotNil(secureEcom?.challengeReturnUrl)
         XCTAssertNotNil(secureEcom?.challengeValue)
-        XCTAssertNil(secureEcom?.eci) // ??
+        XCTAssertNil(secureEcom?.eci)
         XCTAssertEqual(secureEcom?.messageVersion, "1.0.0")
         XCTAssertNotNil(secureEcom?.messageType)
         XCTAssertNotNil(secureEcom?.sessionDataFieldName)
+        XCTAssertEqual(secureEcom?.liabilityShift, "NO")
     }
 }

@@ -41,6 +41,7 @@ import Foundation
     var methodUrlCompletion: MethodUrlCompletion?
     var mobileCountryCode: String?
     var mobileNumber: String?
+    var mobileData: MobileData?
     var numberOfAddCardAttemptsInLast24Hours: Int?
     var numberOfPurchasesInLastSixMonths: Int?
     var numberOfTransactionsInLast24Hours: Int?
@@ -110,6 +111,11 @@ import Foundation
 
     public func withBrowserData(_ browserData: BrowserData?) -> Secure3dBuilder {
         self.browserData = browserData
+        return self
+    }
+    
+    public func withMobileData(_ mobileData: MobileData?) -> Secure3dBuilder {
+        self.mobileData = mobileData
         return self
     }
 

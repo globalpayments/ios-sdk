@@ -30,7 +30,7 @@ public class JsonDoc {
     var dict: [String: Any]
     var encoder: RequestEncoder?
 
-    init(dict: [String: Any] = [String: Any](),
+    public init(dict: [String: Any] = [String: Any](),
          encoder: RequestEncoder? = nil) {
         self.dict = dict
         self.encoder = encoder
@@ -56,6 +56,12 @@ public class JsonDoc {
         dict[key] = doc
         return self
     }
+    
+    @discardableResult public func set(for key: String, docs: [JsonDoc]?) -> JsonDoc {
+        guard let docs = docs, !docs.isEmpty else { return self }
+        dict[key] = docs
+        return self
+    }
 
     public func subElement(for key: String) -> JsonDoc {
         let subRequest = JsonDoc()
@@ -75,6 +81,10 @@ public class JsonDoc {
         for key in dict.keys {
             if let jsonDoc = dict[key] as? JsonDoc {
                 final[key] = jsonDoc.finalize()
+            } else if let docs = dict[key] as? [JsonDoc]{
+                final[key] = docs.map({ doc in
+                    doc.finalize()
+                })
             } else {
                 final[key] = dict[key]
             }

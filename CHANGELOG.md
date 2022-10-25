@@ -4,6 +4,15 @@
 
 #### Enhancements
 
+- GP-API: Add mapping for card issuer result codes
+- GP-API: Add GP-API Dynamic Descriptor
+- GP-API: Add Fraud Management flow
+- GP-API: Add mapping on missing fields in 3DS flow
+
+## 1.2.5 (17/07/2022)
+
+#### Enhancements
+
 - GP-API: Add update payment token
 
 ## 1.2.4 (23/05/2022)

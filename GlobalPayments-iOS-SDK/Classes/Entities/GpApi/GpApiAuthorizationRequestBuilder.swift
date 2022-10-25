@@ -51,6 +51,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "cashback_amount", value: builder.cashBackAmount?.toNumericCurrencyString())
             .set(for: "ip_address", value: builder.customerIpAddress)
             .set(for: "payment_method", doc: createPaymentMethodParam(for: builder, channel: config?.channel))
+            .set(for: "risk_assessment", docs: builder.fraudFilterMode != nil ? mapFraudManagement(builder) : nil)
             .set(for: "link", doc: JsonDoc().set(for: "id", value: builder.paymentLinkId))
 
         // set order reference
@@ -192,6 +193,9 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         if paymentMethod.getValue(key: "id") == nil {
             paymentMethod.set(for: "card", doc: CardUtils.generateCard(builder: builder))
         }
+        
+        paymentMethod.set(for: "narrative", value: builder.dynamicDescriptor)
+        
         return paymentMethod
     }
     
@@ -237,5 +241,24 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                 paymentMethod.set(for: "encryption", doc: encryption)
             }
         }
+    }
+    
+    private func mapFraudManagement(_ builder: AuthorizationBuilder)-> [JsonDoc] {
+        var rules = [JsonDoc]()
+        if let fraudRules = builder.fraudRules {
+            fraudRules.rules.forEach { rule in
+                let doc = JsonDoc()
+                doc.set(for: "reference", value: rule.key)
+                doc.set(for: "mode", value: rule.mode?.rawValue)
+                rules.append(doc)
+            }
+        }
+        
+        var result = [JsonDoc]()
+        let item = JsonDoc()
+        item.set(for: "mode", value: builder.fraudFilterMode?.rawValue)
+        item.set(for: "rules", docs: rules)
+        result.append(item)
+        return result
     }
 }

@@ -12,6 +12,8 @@ public class LodgingData: NSObject {
     public var advancedDepositType: AdvancedDepositType?
     public var lodgingDataEdit: String?
     public var preferredCustomer: Bool?
+    public var bookingReference: String?
+    public var items: [LodgingItem]?
     public var extraChargeAmount: NSDecimalNumber? {
         return extraCharges.values.reduce(.zero) { $0?.adding($1) }
     }
@@ -27,5 +29,9 @@ public class LodgingData: NSObject {
         if let value = extraCharges[extraChargeType] {
             extraCharges[extraChargeType] = value.adding(amount)
         }
+    }
+    
+    public override init() {
+        self.extraCharges = [ExtraChargeType: NSDecimalNumber]()
     }
 }

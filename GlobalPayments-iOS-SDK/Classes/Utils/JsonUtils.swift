@@ -56,10 +56,12 @@ public class JsonDoc {
         dict[key] = doc
         return self
     }
-    
-    @discardableResult public func set(for key: String, docs: [JsonDoc]?) -> JsonDoc {
-        guard let docs = docs, !docs.isEmpty else { return self }
-        dict[key] = docs
+
+    @discardableResult public func set(for key: String, values: [JsonDoc]?) -> JsonDoc {
+        guard let values = values else { return self }
+        dict[key] = values.map({ doc in
+            doc.finalize()
+        })
         return self
     }
 

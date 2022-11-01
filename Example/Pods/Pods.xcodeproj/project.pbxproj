@@ -51,6 +51,9 @@
 		302D583428FF089500A5D4BA /* FraudRuleCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D583328FF089500A5D4BA /* FraudRuleCollection.swift */; };
 		302D583B28FF1DED00A5D4BA /* FraudMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D583A28FF1DED00A5D4BA /* FraudMode.swift */; };
 		302E8CCF9C1CDABE611C7E574E3CC4FE /* ServicesConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A5255056747A7723B262E67C0BC032 /* ServicesConfig.swift */; };
+		3065E8F5290ABCCD00C6116C /* LodgingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3065E8F4290ABCCD00C6116C /* LodgingItem.swift */; };
+		3065E8F7290ABE7400C6116C /* LodgingItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3065E8F6290ABE7400C6116C /* LodgingItemType.swift */; };
+		3065E8F9290AC00100C6116C /* PaymentMethodProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3065E8F8290AC00100C6116C /* PaymentMethodProgram.swift */; };
 		305BAFB428C92FBD00A8D588 /* MobileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BAFB328C92FBD00A8D588 /* MobileData.swift */; };
 		30EB560E28201B5400AEA47B /* DigitalWalletTokenFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB560D28201B5400AEA47B /* DigitalWalletTokenFormat.swift */; };
 		30EB561028201F1200AEA47B /* EncryptedMobileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB560F28201F1200AEA47B /* EncryptedMobileType.swift */; };
@@ -323,6 +326,9 @@
 		300A067328EF827300F843BD /* FraudRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FraudRule.swift; sourceTree = "<group>"; };
 		302D583328FF089500A5D4BA /* FraudRuleCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FraudRuleCollection.swift; sourceTree = "<group>"; };
 		302D583A28FF1DED00A5D4BA /* FraudMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FraudMode.swift; sourceTree = "<group>"; };
+		3065E8F4290ABCCD00C6116C /* LodgingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodgingItem.swift; sourceTree = "<group>"; };
+		3065E8F6290ABE7400C6116C /* LodgingItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LodgingItemType.swift; sourceTree = "<group>"; };
+		3065E8F8290AC00100C6116C /* PaymentMethodProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodProgram.swift; sourceTree = "<group>"; };
 		30A0CD6485EE372C1CE1912039A5259B /* Pods-GlobalPayments-iOS-SDK_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-GlobalPayments-iOS-SDK_Example"; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30AEC820A624F6D13FAD12C397BEFF96 /* CommercialLineItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CommercialLineItem.swift; sourceTree = "<group>"; };
 		30EB560D28201B5400AEA47B /* DigitalWalletTokenFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalWalletTokenFormat.swift; sourceTree = "<group>"; };
@@ -695,6 +701,8 @@
 				30EB560D28201B5400AEA47B /* DigitalWalletTokenFormat.swift */,
 				30EB560F28201F1200AEA47B /* EncryptedMobileType.swift */,
 				300A066F28EF7FE200F843BD /* FraudFilterResult.swift */,
+				3065E8F6290ABE7400C6116C /* LodgingItemType.swift */,
+				3065E8F8290AC00100C6116C /* PaymentMethodProgram.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -995,6 +1003,7 @@
 				300A067328EF827300F843BD /* FraudRule.swift */,
 				302D583328FF089500A5D4BA /* FraudRuleCollection.swift */,
 				302D583A28FF1DED00A5D4BA /* FraudMode.swift */,
+				3065E8F4290ABCCD00C6116C /* LodgingItem.swift */,
 			);
 			name = Entities;
 			path = "GlobalPayments-iOS-SDK/Classes/Entities";
@@ -1295,6 +1304,7 @@
 				9A0C9DC9496BB555246858E0C50F17AE /* DepositStatus.swift in Sources */,
 				25CF2FC31F980920178563B260C898F0 /* DepositSummary.swift in Sources */,
 				62768FFE4378DB8D9E02C10084FC75C8 /* DiscountDetails.swift in Sources */,
+				3065E8F5290ABCCD00C6116C /* LodgingItem.swift in Sources */,
 				FFDF769E9429A3D283DD3617965F0E0B /* DisputeAction.swift in Sources */,
 				8527187033BDF1389FDBF53D26B2BB5A /* DisputeDocument.swift in Sources */,
 				6F0A34D6CC841C7312D1BF3D8DA7819B /* DisputeResult.swift in Sources */,
@@ -1330,6 +1340,7 @@
 				E2F0688FEE6AE62B816AAA87FDD46FA4 /* GatewayConfig.swift in Sources */,
 				903C5847007450D3FC1D8C9E7FF05C37 /* GatewayException.swift in Sources */,
 				E6B3CA59DB16FAC2FA12CAA40ADB384D /* GatewayProvider.swift in Sources */,
+				3065E8F7290ABE7400C6116C /* LodgingItemType.swift in Sources */,
 				08029BDF41031D9A061BFB073166072D /* GatewayResponse.swift in Sources */,
 				1D806AB2E8EFBEA9ABA4ED27E9B27B5B /* GiftCard.swift in Sources */,
 				7EE98224C2EBAD96F2D0912E60EE8483 /* GlobalPayments-iOS-SDK-dummy.m in Sources */,
@@ -1349,6 +1360,7 @@
 				BA8F42466FD8C828F8B7E54F327F219A /* HostedPaymentConfig.swift in Sources */,
 				ED912AED4E03727B2E19496B14593CF1 /* HostedPaymentData.swift in Sources */,
 				964C86A9E375F756637069696DCF36A9 /* HTTPMethod.swift in Sources */,
+				3065E8F9290AC00100C6116C /* PaymentMethodProgram.swift in Sources */,
 				216564040B81C6566A2FB80371A62090 /* InquiryType.swift in Sources */,
 				9E81C76D7158700EA536D0F26A50960D /* IntervalToExpire.swift in Sources */,
 				70660D090239DE2CE4E3CE25A0349B5C /* JsonUtils.swift in Sources */,

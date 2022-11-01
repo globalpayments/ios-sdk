@@ -51,7 +51,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "cashback_amount", value: builder.cashBackAmount?.toNumericCurrencyString())
             .set(for: "ip_address", value: builder.customerIpAddress)
             .set(for: "payment_method", doc: createPaymentMethodParam(for: builder, channel: config?.channel))
-            .set(for: "risk_assessment", docs: builder.fraudFilterMode != nil ? mapFraudManagement(builder) : nil)
+            .set(for: "risk_assessment", values: builder.fraudFilterMode != nil ? mapFraudManagement(builder) : nil)
             .set(for: "link", doc: JsonDoc().set(for: "id", value: builder.paymentLinkId))
 
         // set order reference
@@ -257,7 +257,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         var result = [JsonDoc]()
         let item = JsonDoc()
         item.set(for: "mode", value: builder.fraudFilterMode?.rawValue)
-        item.set(for: "rules", docs: rules)
+        item.set(for: "rules", values: rules)
         result.append(item)
         return result
     }

@@ -3,6 +3,10 @@ import GlobalPayments_iOS_SDK
 
 class GpApiCreditCardPresentTests: XCTestCase {
     var card: CreditCardData!
+    
+    let amount: NSDecimalNumber = 12.02
+    let currency = "USD"
+    let expectedResponseCode = "SUCCESS"
 
     override class func setUp() {
         super.setUp()
@@ -232,5 +236,90 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertNotNil(transactionResult)
         XCTAssertEqual(transactionResult?.responseCode, "NOT_VERIFIED")
         XCTAssertEqual(transactionResult?.responseMessage, "NOT_VERIFIED")
+    }
+    
+    func test_incremental_auth() {
+        // GIVEN
+        let incrementalExpectation = expectation(description: "Incremental Expectation")
+        var incrementalResult: Transaction?
+        var incrementalError: Error?
+        
+        card?.number = "4263970000005262"
+        card?.cvn = "123"
+        card?.cardPresent = true
+        
+        // WHEN
+        card?.authorize()
+            .withAmount(amount)
+            .withCurrency(currency)
+            .execute(completion: {
+                incrementalResult = $0
+                incrementalError = $1
+                incrementalExpectation.fulfill()
+            })
+        
+        // THEN
+        wait(for: [incrementalExpectation], timeout: 10.0)
+        XCTAssertNil(incrementalError)
+        XCTAssertNotNil(incrementalResult)
+        XCTAssertEqual(expectedResponseCode, incrementalResult?.responseCode)
+        XCTAssertEqual(TransactionStatus.preauthorized.rawValue, incrementalResult?.responseMessage)
+
+        // GIVEN
+        let additionalExpectation = expectation(description: "Additional Expectation")
+        var additionalResult: Transaction?
+        var additionalError: Error?
+        
+        let lodgingInfo = LodgingData()
+        lodgingInfo.bookingReference = "s9RpaDwXq1sPRkbP"
+        lodgingInfo.stayDuration = 10
+        lodgingInfo.checkInDate = Date()
+        lodgingInfo.checkOutDate = Date().addDays(7)
+        lodgingInfo.rate = 1349
+        
+        let item1 = LodgingItem()
+        item1.types = LodgingItemType.NO_SHOW.rawValue
+        item1.reference = "item_1"
+        item1.totalAmount = "1349"
+        item1.paymentMethodProgramCodes = [PaymentMethodProgram.ASSURED_RESERVATION.rawValue]
+        lodgingInfo.items = [item1]
+
+        // WHEN
+        incrementalResult?.additionalAuth(amount: 10)
+            .withCurrency(currency)
+            .withLodgingData(lodgingInfo)
+            .execute(completion: {
+                additionalResult = $0
+                additionalError = $1
+                additionalExpectation.fulfill()
+            })
+        
+        // THEN
+        wait(for: [additionalExpectation], timeout: 10.0)
+        XCTAssertNil(additionalError)
+        XCTAssertNotNil(additionalResult)
+        XCTAssertEqual(expectedResponseCode, additionalResult?.responseCode)
+        XCTAssertEqual(TransactionStatus.preauthorized.rawValue, additionalResult?.responseMessage)
+        XCTAssertEqual(12.12, additionalResult?.authorizedAmount)
+        
+        // GIVEN
+        let captureExpectation = expectation(description: "Capture Expectation")
+        var captureResult: Transaction?
+        var captureError: Error?
+        
+        // WHEN
+        additionalResult?.capture()
+            .execute(completion: {
+                captureResult = $0
+                captureError = $1
+                captureExpectation.fulfill()
+            })
+        
+        // THEN
+        wait(for: [captureExpectation], timeout: 10.0)
+        XCTAssertNil(captureError)
+        XCTAssertNotNil(captureResult)
+        XCTAssertEqual(expectedResponseCode, captureResult?.responseCode)
+        XCTAssertEqual(TransactionStatus.captured.rawValue, captureResult?.responseMessage)
     }
 }

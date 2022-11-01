@@ -4,6 +4,10 @@
 
 #### Enhancements
 
+- GP-API: Add incremental auth feature
+
+## 1.2.6 (22/10/2022)
+
 - GP-API: Add mapping for card issuer result codes
 - GP-API: Add GP-API Dynamic Descriptor
 - GP-API: Add Fraud Management flow

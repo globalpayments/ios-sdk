@@ -19,6 +19,10 @@ public struct GpApiMapping {
         batchSummary.transactionCount = doc?.getValue(key: "transaction_count")
         if let amount: String = doc?.getValue(key: "amount") {
             batchSummary.totalAmount = NSDecimalNumber(string: amount).amount
+            
+            if transaction.responseMessage == TransactionStatus.preauthorized.rawValue {
+                transaction.authorizedAmount = NSDecimalNumber(string: amount).amount
+            }
         }
         transaction.batchSummary = batchSummary
         transaction.responseCode = doc?.get(valueFor: "action")?.getValue(key: "result_code")

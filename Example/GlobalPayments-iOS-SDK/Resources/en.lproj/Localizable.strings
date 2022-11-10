@@ -333,6 +333,7 @@
 "configuration.challenge.notification.url" = "Challenge Notification URL (optional)";
 "configuration.method.notification.url" = "Method Notification URL (optional)";
 "configuration.merchant.contact.url" = "Merchant Contact URL (optional)";
+"configuration.merchant.id" = "Acccount names are required";
 
 // MARK: - Authentications
 

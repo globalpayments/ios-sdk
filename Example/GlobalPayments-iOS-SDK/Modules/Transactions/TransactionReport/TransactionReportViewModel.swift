@@ -107,6 +107,11 @@ final class TransactionReportViewModel: TransactionReportViewInput {
     }
 
     private func configureContainer(with appConfig: Config) {
+        
+        let accessTokenInfo =  AccessTokenInfo()
+        accessTokenInfo.transactionProcessingAccountName = appConfig.transactionProcessing
+        accessTokenInfo.tokenizationAccountName = appConfig.tokenization
+        
         let config = GpApiConfig(
             appId: appConfig.appId,
             appKey: appConfig.appKey,
@@ -114,7 +119,9 @@ final class TransactionReportViewModel: TransactionReportViewInput {
             intervalToExpire: appConfig.intervalToExpire,
             channel: appConfig.channel,
             language: appConfig.language,
-            country: appConfig.country
+            country: appConfig.country,
+            accessTokenInfo: accessTokenInfo,
+            merchantId: appConfig.merchantId
         )
         config.environment = .test
 

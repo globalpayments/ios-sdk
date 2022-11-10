@@ -3,12 +3,12 @@ import Foundation
 struct GpApiManagementRequestBuilder: GpApiRequestData {
     
     func generateRequest(for builder: ManagementBuilder, config: GpApiConfig) -> GpApiRequest? {
-        
+        let merchantUrl: String = !(config.merchantId?.isEmpty ?? true) ? "/merchants/\(config.merchantId ?? "")" : ""
         switch builder.transactionType {
         case .tokenDelete:
             let token = getToken(from: builder)
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.paymentMethodsWith(token: token),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.paymentMethodsWith(token: token),
                 method: .delete
             )
         case .tokenUpdate:
@@ -28,7 +28,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 payload.set(for: "card", doc: card)
             }
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.paymentMethodsWith(token: token),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.paymentMethodsWith(token: token),
                 method: .patch,
                 requestBody: payload.toString()
             )
@@ -36,7 +36,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.transactionsRefund(transactionId: (builder.transactionId ?? .empty)),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsRefund(transactionId: (builder.transactionId ?? .empty)),
                 method: .post,
                 requestBody: payload.toString()
             )
@@ -44,7 +44,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.transactionsReversal(transactionId: (builder.transactionId ?? .empty)),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsReversal(transactionId: (builder.transactionId ?? .empty)),
                 method: .post,
                 requestBody: payload.toString()
             )
@@ -53,20 +53,20 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
                 .set(for: "gratuity", value: builder.gratuity?.toNumericCurrencyString())
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.transactionsCapture(transactionId: builder.transactionId ?? .empty),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsCapture(transactionId: builder.transactionId ?? .empty),
                 method: .post,
                 requestBody: payload.toString()
             )
         case .batchClose:
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.batchClose(id: builder.batchReference ?? .empty),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.batchClose(id: builder.batchReference ?? .empty),
                 method: .post
             )
         case .reauth:
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.transactionsReauthorization(transactionId: (builder.transactionId ?? .empty)),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsReauthorization(transactionId: (builder.transactionId ?? .empty)),
                 method: .post,
                 requestBody: payload.toString()
             )
@@ -103,11 +103,11 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
         case .release, .hold:
             let payload = JsonDoc()
                 .set(for: "reason_code", value: builder.reasonCode?.rawValue)
-
+            
             let endpoint = builder.transactionType == .release ? "release" : builder.transactionType == .hold ? "hold" : ""
-
+            
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.transactionsReleaseHold(transactionId: (builder.transactionId ?? .empty), endpoint: endpoint),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsReleaseHold(transactionId: (builder.transactionId ?? .empty), endpoint: endpoint),
                 method: .post,
                 requestBody: payload.toString()
             )

@@ -39,6 +39,10 @@ final class GlobalPayViewModel: GlobalPayViewInput {
 
     private func configureContainer(with appConfig: Config) {
         do {
+            let accessTokenInfo =  AccessTokenInfo()
+            accessTokenInfo.transactionProcessingAccountName = appConfig.transactionProcessing
+            accessTokenInfo.tokenizationAccountName = appConfig.tokenization
+            
             let config = GpApiConfig(
                 appId: appConfig.appId,
                 appKey: appConfig.appKey,
@@ -47,9 +51,11 @@ final class GlobalPayViewModel: GlobalPayViewInput {
                 channel: appConfig.channel,
                 language: appConfig.language,
                 country: appConfig.country,
+                accessTokenInfo: accessTokenInfo,
                 challengeNotificationUrl: appConfig.challengeNotificationUrl,
                 methodNotificationUrl: appConfig.methodNotificationUrl,
-                merchantContactUrl: appConfig.merchantContactUrl
+                merchantContactUrl: appConfig.merchantContactUrl,
+                merchantId: appConfig.merchantId
             )
             config.environment = .test
             try ServicesContainer.configureService(

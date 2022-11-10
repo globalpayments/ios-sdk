@@ -12,6 +12,9 @@ struct Config: Codable {
     let challengeNotificationUrl: String?
     let methodNotificationUrl: String?
     let merchantContactUrl: String?
+    let merchantId: String?
+    let transactionProcessing: String?
+    let tokenization: String?
 }
 
 protocol Configuration {

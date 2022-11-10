@@ -48,6 +48,7 @@ public struct GpApiMapping {
             if let card: JsonDoc = paymentMethod.get(valueFor: "card") {
                 transaction.cardLast4 = card.getValue(key: "masked_number_last4")
                 transaction.cardType = card.getValue(key: "brand")
+                transaction.cardBrandTransactionId = card.getValue(key: "brand_reference")
                 transaction.cvnResponseMessage = card.getValue(key: "cvv_result")
                 transaction.avsResponseCode = card.getValue(key: "avs_postal_code_result") ?? .empty
                 transaction.avsAddressResponse = card.getValue(key: "avs_address_result") ?? .empty

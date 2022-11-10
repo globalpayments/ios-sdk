@@ -3,22 +3,23 @@ import Foundation
 struct GpApiSecure3dRequestBuilder: GpApiRequestData {
 
     func generateRequest(for builder: Secure3dBuilder, config: GpApiConfig?) -> GpApiRequest? {
+        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : ""
         switch builder.transactionType {
         case .verifyEnrolled?:
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.authenticationCheckAvailability(),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.authenticationCheckAvailability(),
                 method: .post,
                 requestBody: verifyEnrolled(builder, config).toString()
             )
         case .initiateAuthentication?:
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.authenticationInitiate(id: builder.serverTransactionId ?? .empty),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.authenticationInitiate(id: builder.serverTransactionId ?? .empty),
                 method: .post,
                 requestBody: initiateAuthenticationData(builder, config).toString()
             )
         case .verifySignature?:
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.authenticationResult(id: builder.serverTransactionId ?? .empty),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.authenticationResult(id: builder.serverTransactionId ?? .empty),
                 method: .post,
                 requestBody: verifySignature(builder)?.toString()
             )

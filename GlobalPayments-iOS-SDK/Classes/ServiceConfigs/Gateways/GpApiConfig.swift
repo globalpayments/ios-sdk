@@ -27,6 +27,8 @@ public class GpApiConfig: GatewayConfig {
     public var permissions: [String]?
 
     public var dynamicHeaders: [String: String]?
+    
+    public var merchantId: String?
 
     public init(appId: String,
                 appKey: String,
@@ -40,7 +42,8 @@ public class GpApiConfig: GatewayConfig {
                 methodNotificationUrl: String? = nil,
                 merchantContactUrl: String? = nil,
                 permissions: [String]? = nil,
-                dynamicHeaders: [String: String]? = nil) {
+                dynamicHeaders: [String: String]? = nil,
+                merchantId: String? = nil) {
 
         self.appId = appId
         self.appKey = appKey
@@ -55,6 +58,7 @@ public class GpApiConfig: GatewayConfig {
         self.permissions = permissions
         self.merchantContactUrl = merchantContactUrl
         self.dynamicHeaders = dynamicHeaders
+        self.merchantId = merchantId
         super.init(gatewayProvider: .gpAPI)
     }
 

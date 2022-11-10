@@ -1208,8 +1208,8 @@ class GpApi3DSecureTests: XCTestCase {
         wait(for: [getAuthenticationDataExpectation], timeout: 10.0)
         XCTAssertNil(getAuthenticationDataThreeDSecureError)
         XCTAssertNotNil(getAuthenticationDataThreeDSecureResult)
-        XCTAssertEqual(getAuthenticationDataThreeDSecureResult?.enrolled, NOT_ENROLLED)
         XCTAssertEqual(getAuthenticationDataThreeDSecureResult?.status, CHALLENGE_REQUIRED)
+        XCTAssertNil(getAuthenticationDataThreeDSecureResult?.enrolled)
     }
 
     func test_full_cycle_frictionless_with_tokenized_payment_method_V2() {

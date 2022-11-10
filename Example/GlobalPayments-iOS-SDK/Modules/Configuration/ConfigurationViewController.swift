@@ -23,6 +23,11 @@ final class ConfigurationViewController: UIViewController, StoryboardInstantiabl
     @IBOutlet private weak var challengeNotificationUrlTextField: UITextField!
     @IBOutlet private weak var methodNotificationUrlTextField: UITextField!
     @IBOutlet private weak var merchantContactUrlTextField: UITextField!
+    
+    @IBOutlet private weak var merchantIdTextField: UITextField!
+    @IBOutlet private weak var transactionProcessingTextField: UITextField!
+    @IBOutlet private weak var tokenizationAccountNameTextField: UITextField!
+    
     @IBOutlet private weak var saveButton: UIButton!
 
     override func viewDidLoad() {
@@ -67,6 +72,24 @@ final class ConfigurationViewController: UIViewController, StoryboardInstantiabl
             showAlert(message: "configuration.app.key.message".localized())
             return
         }
+        
+        let accessTokenInfo = AccessTokenInfo()
+        
+        if let transactionProcessing = transactionProcessingTextField.text, !transactionProcessing.isEmpty {
+            accessTokenInfo.transactionProcessingAccountName = transactionProcessing
+        }
+        
+        if let tokenization = tokenizationAccountNameTextField.text, !tokenization.isEmpty {
+            accessTokenInfo.tokenizationAccountName = tokenization
+        }
+        
+        if let merchantId = merchantIdTextField.text, !merchantId.isEmpty {
+            if accessTokenInfo.transactionProcessingAccountName == nil || accessTokenInfo.tokenizationAccountName == nil {
+                showAlert(message: "configuration.merchant.id".localized())
+                return
+            }
+        }
+        
         guard let channel = Channel(value: channelTextField.text) else {
             showAlert(message: "configuration.channel.message".localized())
             return
@@ -83,7 +106,10 @@ final class ConfigurationViewController: UIViewController, StoryboardInstantiabl
             country: country,
             challengeNotificationUrl: challengeNotificationUrlTextField.text,
             methodNotificationUrl: methodNotificationUrlTextField.text,
-            merchantContactUrl: merchantContactUrlTextField.text
+            merchantContactUrl: merchantContactUrlTextField.text,
+            merchantId: merchantIdTextField.text,
+            transactionProcessing: transactionProcessingTextField.text,
+            tokenization: tokenizationAccountNameTextField.text
         )
         viewModel.saveConfig(config)
     }
@@ -106,6 +132,10 @@ extension ConfigurationViewController: ConfigurationViewOutput {
         challengeNotificationUrlTextField.text = config.challengeNotificationUrl
         methodNotificationUrlTextField.text = config.methodNotificationUrl
         merchantContactUrlTextField.text = config.merchantContactUrl
+        
+        merchantIdTextField.text = config.merchantId
+        transactionProcessingTextField.text = config.transactionProcessing
+        tokenizationAccountNameTextField.text = config.tokenization
     }
 
     func displayError(_ error: Error) {

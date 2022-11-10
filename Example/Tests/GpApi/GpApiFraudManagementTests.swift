@@ -46,25 +46,26 @@ class GpApiFraudManagementTests: XCTestCase {
     
     func test_fraud_management_data_submissions() {
         // GIVEN
-        var fraudManagementResult: Transaction?
-        var fraudManagementError: Error?
         let fraudFilters = [FraudFilterMode.active: FraudFilterResult.PASS.rawValue, FraudFilterMode.passive: FraudFilterResult.PASS.rawValue, FraudFilterMode.off : ""]
+        var fraudExpectations = [XCTestExpectation]()
+        var fraudResults = [(Transaction?, Error?, FraudFilterMode, String)]()
         
+        // WHEN
         fraudFilters.forEach { key, value in
             let fraudManagementExpectation = expectation(description: "Check Fraud Management Expectation")
-            // WHEN
+            fraudExpectations.append(fraudManagementExpectation)
             card.charge(amount: amount)
                 .withCurrency(currency)
                 .withFraudFilter(key)
                 .execute {
-                    fraudManagementResult = $0
-                    fraudManagementError = $1
+                    fraudResults.append(($0, $1, key, value))
                     fraudManagementExpectation.fulfill()
                 }
-            
-            // THEN
-            
-            wait(for: [fraudManagementExpectation], timeout: 10.0)
+        }
+        
+        // THEN
+        wait(for: fraudExpectations, timeout: 10.0)
+        fraudResults.forEach { fraudManagementResult, fraudManagementError, key, value in
             XCTAssertNil(fraudManagementError)
             XCTAssertNotNil(fraudManagementResult)
             XCTAssertEqual("SUCCESS", fraudManagementResult?.responseCode)
@@ -74,7 +75,6 @@ class GpApiFraudManagementTests: XCTestCase {
             XCTAssertNotNil(assessment)
             XCTAssertEqual(key.rawValue.uppercased(), assessment?.mode)
             XCTAssertEqual(value, assessment?.result)
-            sleep(10)
         }
      }
     

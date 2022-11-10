@@ -3,12 +3,12 @@ import Foundation
 struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
 
     func generateRequest(for builder: AuthorizationBuilder, config: GpApiConfig?) -> GpApiRequest? {
-
+        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : ""
         switch builder.transactionType {
         case .sale, .refund, .auth:
             let payload = createFromAuthorizationBuilder(builder, config)
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.transactions(),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.transactions(),
                 method: .post,
                 requestBody: payload.toString()
             )
@@ -16,14 +16,14 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             if builder.requestMultiUseToken == true && ((builder.paymentMethod as? Tokenizable)?.token == nil) {
                 let payload = createForVerify(builder, config)
                 return GpApiRequest(
-                    endpoint: GpApiRequest.Endpoints.paymentMethods(),
+                    endpoint: merchantUrl + GpApiRequest.Endpoints.paymentMethods(),
                     method: .post,
                     requestBody: payload.toString()
                 )
             } else {
                 let payload = generateVerificationRequest(builder, config)
                 return GpApiRequest(
-                    endpoint: GpApiRequest.Endpoints.verify(),
+                    endpoint: merchantUrl + GpApiRequest.Endpoints.verify(),
                     method: .post,
                     requestBody: payload.toString()
                 )

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Indicates how the payment method data was obtained.
-public enum EntryMethod {
+public enum EntryMethod: String, CaseIterable {
     /// Indicates manual entry.
     case manual
     /// Indicates swipe entry.

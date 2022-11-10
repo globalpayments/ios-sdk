@@ -4,6 +4,12 @@
 
 #### Enhancements
 
+- GP-API: Add partner functionality
+
+## 1.2.7 (01/11/2022)
+
+#### Enhancements
+
 - GP-API: Add incremental auth feature
 
 ## 1.2.6 (22/10/2022)

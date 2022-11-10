@@ -33,6 +33,9 @@ public class Transaction: NSObject {
     public var balanceAmount: NSDecimalNumber?
     /// Summary of the batch.
     public var batchSummary: BatchSummary?
+    
+    public var cardBrandTransactionId: String?
+    
     /// The type of card used in the transaction.
     public var cardType: String?
     /// The last four digits of the card number used in the transaction.

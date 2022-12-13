@@ -19,7 +19,7 @@ public struct GpApiMapping {
         batchSummary.transactionCount = doc?.getValue(key: "transaction_count")
         if let amount: String = doc?.getValue(key: "amount") {
             batchSummary.totalAmount = NSDecimalNumber(string: amount).amount
-            
+
             if transaction.responseMessage == TransactionStatus.preauthorized.rawValue {
                 transaction.authorizedAmount = NSDecimalNumber(string: amount).amount
             }
@@ -31,20 +31,20 @@ public struct GpApiMapping {
         }
 
         if let paymentMethod: JsonDoc = doc?.get(valueFor: "payment_method") {
-            
-            if let fingerPrint: String = paymentMethod.getValue(key: "fingerprint"){
+
+            if let fingerPrint: String = paymentMethod.getValue(key: "fingerprint") {
                 transaction.fingerPrint = fingerPrint
             }
-            
-            if let fingerPrintIndicator: String = paymentMethod.getValue(key: "fingerprint_presence_indicator"){
+
+            if let fingerPrintIndicator: String = paymentMethod.getValue(key: "fingerprint_presence_indicator") {
                 transaction.fingerPrintIndicator = fingerPrintIndicator
             }
-            
+
             transaction.authorizationCode = paymentMethod.getValue(key: "result")
             if let token: String = paymentMethod.getValue(key: "id") {
                 transaction.token = token
             }
-            
+
             if let card: JsonDoc = paymentMethod.get(valueFor: "card") {
                 transaction.cardLast4 = card.getValue(key: "masked_number_last4")
                 transaction.cardType = card.getValue(key: "brand")
@@ -53,17 +53,17 @@ public struct GpApiMapping {
                 transaction.avsResponseCode = card.getValue(key: "avs_postal_code_result") ?? .empty
                 transaction.avsAddressResponse = card.getValue(key: "avs_address_result") ?? .empty
                 transaction.avsResponseMessage = card.getValue(key: "avs_action") ?? .empty
-                
+
                 if let provider: JsonDoc = card.get(valueFor: "provider") {
                     transaction.cardIssuerResponse = mapCardIssuerResponse(provider)
                 }
             }
         }
-        
+
         if let riskAssessments: [JsonDoc] = doc?.getValue(key: "risk_assessment") {
             transaction.fraudResponse = FraudResponse.init(docs: riskAssessments)
         }
-        
+
         if let usageMode: String = doc?.getValue(key: "usage_mode") {
             transaction.methodUsageMode = PaymentMethodUsageMode.init(value: usageMode)
         }
@@ -124,8 +124,8 @@ public struct GpApiMapping {
 
         return summary
     }
-    
-    public static func mapCardIssuerResponse(_ doc:JsonDoc) -> CardIssuerResponse {
+
+    public static func mapCardIssuerResponse(_ doc: JsonDoc) -> CardIssuerResponse {
         let cardIssuer = CardIssuerResponse()
         cardIssuer.result = doc.getValue(key: "result")
         cardIssuer.avsResult = doc.getValue(key: "avs_result")
@@ -309,6 +309,16 @@ public struct GpApiMapping {
         return DocumentMetadata(id: id, b64Content: convertedData)
     }
 
+    public static func mapDisputeDocument(_ doc: JsonDoc?) -> DisputeDocument? {
+        guard let id: String = doc?.getValue(key: "id"),
+              let b64Content: String = doc?.getValue(key: "b64_content"),
+              let convertedData = Data(base64Encoded: b64Content) else {
+            return nil
+        }
+
+        return DisputeDocument(id: id, content: convertedData)
+    }
+
     public static func mapThreeDSecure(_ doc: JsonDoc?) -> Transaction {
 
         let parseVersion: (String?) -> Secure3dVersion = { version in
@@ -363,11 +373,11 @@ public struct GpApiMapping {
                 secure.payerAuthenticationRequest = doc?.get(valueFor: "three_ds")?.getValue(key: "challenge_value")
             }
         }
-        
+
         // Mobile data
         if let source: String = doc?.getValue(key: "source"), source == "MOBILE_SDK", let mobileData: JsonDoc = doc?.get(valueFor: "three_ds")?.get(valueFor: "mobile_data") {
             secure.payerAuthenticationRequest = mobileData.getValue(key: "acs_signed_content")
-            if let acsRenderingType = mobileData.get(valueFor: "acs_rendering_type"){
+            if let acsRenderingType = mobileData.get(valueFor: "acs_rendering_type") {
                 secure.acsInterface = acsRenderingType.getValue(key: "acs_interface")
                 secure.acsUiTemplate = acsRenderingType.getValue(key: "acs_ui_template")
             }
@@ -434,6 +444,8 @@ public struct GpApiMapping {
             result = GpApiMapping.mapDisputeAction(json)
         } else if reportType == .disputeDocument {
             result = GpApiMapping.mapDocumentMetadata(json)
+        } else if reportType == .documentDisputeDetail {
+            result = GpApiMapping.mapDisputeDocument(json)
         }
 
         return result as? T

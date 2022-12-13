@@ -87,6 +87,9 @@ public enum DataServiceCriteria: String {
     case storedPaymentMethodId
     case startLastUpdatedDate
     case endLastUpdatedDate
+    case paymentMethodName
+    case disputeDocumentId
+    case paymentMethod
 }
 
 @objcMembers public class SearchCriteriaBuilder<TResult>: NSObject {
@@ -143,6 +146,7 @@ public enum DataServiceCriteria: String {
     var oneTime: Bool?
     var orderId: String?
     var paymentMethodKey: String?
+    var paymentMethod: PaymentMethod?
     var paymentTypes: [PaymentMethodType]?
     var referenceNumber: String?
     var transactionType: [TransactionType]?
@@ -203,6 +207,11 @@ public enum DataServiceCriteria: String {
 
     public func and(transactionStatus: TransactionStatus?) -> SearchCriteriaBuilder<TResult> {
         self.transactionStatus = transactionStatus
+        return self
+    }
+
+    public func and(paymentMethod: PaymentMethod?) -> SearchCriteriaBuilder<TResult> {
+        self.paymentMethod = paymentMethod
         return self
     }
 

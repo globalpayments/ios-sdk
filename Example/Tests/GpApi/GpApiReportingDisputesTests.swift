@@ -911,4 +911,30 @@ class GpApiReportingDisputesTests: XCTestCase {
                 completion(results?.first)
             }
     }
+
+    func test_find_document_associated_with_dispute() {
+        // GIVEN
+        let disputeDocumentExpectation = expectation(description: "Dispute Document Expectation")
+        let disputeId = "DIS_SAND_abcd1235"
+        let disputeDocumentId = "DOC_MyEvidence_234234AVCDE-1"
+        let reportingService = ReportingService.documentDisputeDetail(disputeId)
+        var disputeDocument: DisputeDocument?
+        var disputeDocumentError: Error?
+
+        // WHEN
+        reportingService.withDocumentId(disputeDocumentId)
+            .where(.disputeDocumentId, disputeDocumentId)
+            .execute {
+                disputeDocument = $0
+                disputeDocumentError = $1
+                disputeDocumentExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [disputeDocumentExpectation], timeout: 10.0)
+        XCTAssertNil(disputeDocumentError)
+        XCTAssertNotNil(disputeDocument)
+        XCTAssertEqual(disputeDocumentId, disputeDocument?.id)
+        XCTAssertNotNil(disputeDocument?.base64Content)
+    }
 }

@@ -21,6 +21,7 @@ import Foundation
     var storedPaymentMethodOrderBy: StoredPaymentMethodSortProperty?
     var actionOrderBy: ActionSortProperty?
     var disputeDocuments: [DocumentInfo]?
+    var disputeDocumentId: String?
 
     /// Sets the device ID as criteria for the report.
     /// - Parameter deviceId: The device ID
@@ -225,6 +226,14 @@ import Foundation
         searchCriteriaBuilder.storedPaymentMethodId = storedPaymentMethodId
         return self
     }
+    
+    /// Sets the gateway DisputeDocumentId as criteria for the report
+    /// - Parameter documentId: The dispute document id
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDisputeDocumentId(_ documentId: String) -> TransactionReportBuilder<TResult> {
+        disputeDocumentId = documentId
+        return self
+    }
 
     public func `where`<T>(_ searchCriteria: SearchCriteria, _ value: T) -> SearchCriteriaBuilder<TResult> {
         return searchCriteriaBuilder.and(searchCriteria: searchCriteria, value: value)
@@ -266,6 +275,10 @@ import Foundation
         return searchCriteriaBuilder.and(storedPaymentMethodStatus: storedPaymentMethodStatus)
     }
 
+    public func `where`(_ paymentMethod: PaymentMethod) -> SearchCriteriaBuilder<TResult> {
+        return searchCriteriaBuilder.and(paymentMethod: paymentMethod)
+    }
+
     public override func setupValidations() {
         validations.of(reportType: .transactionDetail)
             .check(propertyName: "transactionId")?.isNotNil()
@@ -276,5 +289,8 @@ import Foundation
         validations.of(transactionType: .refund)
             .when(propertyName: "amount")?.isNotNil()?
             .check(propertyName: "currency")?.isNotNil()
+
+        validations.of(transactionType: .documentDisputeDetail)
+            .when(propertyName: "disputeDocumentId")?.isNotNil()
     }
 }

@@ -4,6 +4,14 @@
 
 #### Enhancements
 
+- GP-API: Add new feature Adjust, TransactionType::EDIT
+- GP-API: Add Stored Payment Methods Search Request
+- GP-API: Add get Dispute Document
+
+## 1.2.8 (06/11/2022)
+
+#### Enhancements
+
 - GP-API: Add partner functionality
 
 ## 1.2.7 (01/11/2022)

@@ -7,9 +7,9 @@ class GpApiStoredPaymentMethodReportingTests: XCTestCase {
 
     private lazy var card: CreditCardData = {
         let card = CreditCardData()
-        card.number = "4111111111111111"
+        card.number = "4242424242424242"
         card.expMonth = 12
-        card.expYear = 2025
+        card.expYear = Date().addYears(1).currentYear
         card.cvn = "123"
         card.cardPresent = true
         return card
@@ -46,8 +46,8 @@ class GpApiStoredPaymentMethodReportingTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
     }
-    
-    func skipped_to_test_delete_token(){
+
+    func skipped_to_test_delete_token() {
         // GIVEN
         let deleteTokenExpectation = expectation(description: "Delete Token Expectation")
         var result: Bool?
@@ -303,8 +303,8 @@ class GpApiStoredPaymentMethodReportingTests: XCTestCase {
                 XCTFail("timeCreated cannot be nil")
                 return
             }
-            XCTAssertTrue(timeCreated.format() >= startDate.format())
-            XCTAssertTrue(timeCreated.format() <= endDate.format())
+            XCTAssertTrue(timeCreated >= startDate.startDayTime())
+            XCTAssertTrue(timeCreated <= endDate)
         }
     }
 
@@ -373,5 +373,186 @@ class GpApiStoredPaymentMethodReportingTests: XCTestCase {
 
                 completion(results?.first)
             }
+    }
+
+    func test_report_stored_payment_method_detail_with_non_existent_id() {
+        // GIVEN
+        let fakeToken = "PMT_\(UUID().uuidString)"
+        let reportingService = ReportingService.storedPaymentMethodDetail(storedPaymentMethodId: fakeToken)
+        let executeExpectation = expectation(description: "Execute Expectation")
+        var storedPaymentMethodResponse: StoredPaymentMethodSummary?
+        var storedPaymentMethodError: GatewayException?
+
+        // WHEN
+        reportingService.execute {
+            storedPaymentMethodResponse = $0
+            if let error = $1 as? GatewayException {
+                storedPaymentMethodError = error
+            }
+            executeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(storedPaymentMethodResponse)
+        XCTAssertNotNil(storedPaymentMethodError)
+        XCTAssertEqual("RESOURCE_NOT_FOUND", storedPaymentMethodError?.responseCode)
+        XCTAssertEqual("40118", storedPaymentMethodError?.responseMessage)
+        XCTAssertEqual("Status Code: 404 - PAYMENT_METHODS \(fakeToken) not found at this /ucp/payment-methods/\(fakeToken)",
+                       storedPaymentMethodError?.message)
+    }
+
+    func test_report_find_stored_payment_methods_paged_by_random_id() {
+        // GIVEN
+        let fakeToken = "PMT_\(UUID().uuidString)"
+        let reportingService = ReportingService.findStoredPaymentMethodsPaged(page: 1, pageSize: 10)
+        let executeExpectation = expectation(description: "Execute Expectation")
+        var storedPaymentMethodArray: [StoredPaymentMethodSummary]?
+        var storedPaymentMethodError: Error?
+
+        // WHEN
+        reportingService.where(.storedPaymentMethodId, fakeToken)
+            .execute {
+                storedPaymentMethodArray = $0?.results
+                storedPaymentMethodError = $1
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(storedPaymentMethodError)
+        XCTAssertNotNil(storedPaymentMethodArray)
+        XCTAssertEqual(0, storedPaymentMethodArray?.count)
+    }
+
+    func test_find_stored_payment_method_by_card_info() {
+        // GIVEN
+        let reportingService = ReportingService.findStoredPaymentMethodsPaged(page: 1, pageSize: 100)
+        let executeExpectation = expectation(description: "Execute Expectation")
+        var storedPaymentMethodArray: [StoredPaymentMethodSummary]?
+        var storedPaymentMethodError: Error?
+
+        // WHEN
+        reportingService.where(card)
+            .execute {
+            storedPaymentMethodArray = $0?.results
+            storedPaymentMethodError = $1
+            executeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(storedPaymentMethodError)
+        XCTAssertNotNil(storedPaymentMethodArray)
+        storedPaymentMethodArray?.forEach {
+            XCTAssertEqual(String(card.expMonth), $0.cardExpMonth)
+            XCTAssertEqual(String(card.expYear).suffix(2).description, $0.cardExpYear)
+            XCTAssertEqual(card.number?.suffix(4).description, $0.cardLast4?.suffix(4).description)
+        }
+    }
+
+    func test_find_stored_payment_method_by_only_card_number_info() {
+        // GIVEN
+        let reportingService = ReportingService.findStoredPaymentMethodsPaged(page: 1, pageSize: 100)
+        let executeExpectation = expectation(description: "Execute Expectation")
+        var storedPaymentMethodArray: [StoredPaymentMethodSummary]?
+        var storedPaymentMethodError: Error?
+
+        let card = CreditCardData()
+        card.number = "4263970000005262"
+        card.expMonth = 12
+        card.expYear = Date().addYears(1).currentYear
+        card.cvn = "123"
+
+        // WHEN
+        reportingService.where(card)
+            .execute {
+            storedPaymentMethodArray = $0?.results
+            storedPaymentMethodError = $1
+            executeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(storedPaymentMethodError)
+        XCTAssertNotNil(storedPaymentMethodArray)
+        storedPaymentMethodArray?.forEach {
+            XCTAssertEqual(String(card.expMonth), $0.cardExpMonth)
+            XCTAssertEqual(String(card.expYear).suffix(2).description, $0.cardExpYear)
+            XCTAssertEqual(card.number?.suffix(4).description, $0.cardLast4?.suffix(4).description)
+        }
+    }
+
+    func test_find_stored_payment_method_by_without_mandatory_card_number() {
+        // GIVEN
+        let reportingService = ReportingService.findStoredPaymentMethodsPaged(page: 1, pageSize: 100)
+        let executeExpectation = expectation(description: "Execute Expectation")
+        var storedPaymentMethodArray: [StoredPaymentMethodSummary]?
+        var storedPaymentMethodError: GatewayException?
+
+        let card = CreditCardData()
+        card.expMonth = 12
+        card.expYear = Date().addYears(1).currentYear
+
+        // WHEN
+        reportingService.where(card)
+            .execute {
+                storedPaymentMethodArray = $0?.results
+                if let error = $1 as? GatewayException {
+                    storedPaymentMethodError = error
+                }
+
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(storedPaymentMethodArray)
+        XCTAssertNotNil(storedPaymentMethodError)
+        XCTAssertEqual("40005", storedPaymentMethodError?.responseMessage)
+        XCTAssertEqual("Status Code: 400 - Request expects the following fields : number", storedPaymentMethodError?.message)
+    }
+
+    func test_report_find_stored_payment_methods_paged_by_reference() {
+        // GIVEN
+        let reportingService = ReportingService.storedPaymentMethodDetail(storedPaymentMethodId: token)
+        let executeExpectation = expectation(description: "Execute Expectation")
+        var storedPaymentMethodResponse: StoredPaymentMethodSummary?
+        var storedPaymentMethodError: Error?
+
+        // WHEN
+        reportingService.execute {
+            storedPaymentMethodResponse = $0
+            storedPaymentMethodError = $1
+            executeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(storedPaymentMethodError)
+        XCTAssertNotNil(storedPaymentMethodResponse)
+        XCTAssertNotNil(storedPaymentMethodResponse?.reference)
+
+        // GIVEN
+        let reportingServiceDetail = ReportingService.findStoredPaymentMethodsPaged(page: 1, pageSize: 10)
+        let detailExpectation = expectation(description: "Detail Expectation")
+        var storedPaymentMethodArray: [StoredPaymentMethodSummary]?
+        var detailError: Error?
+
+        // WHEN
+        reportingServiceDetail.where(.referenceNumber, storedPaymentMethodResponse?.reference)
+            .execute {
+                storedPaymentMethodArray = $0?.results
+                detailError = $1
+                detailExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [detailExpectation], timeout: 10.0)
+        XCTAssertNil(detailError)
+        XCTAssertNotNil(storedPaymentMethodArray)
+        storedPaymentMethodArray?.forEach {
+            XCTAssertEqual(storedPaymentMethodResponse?.reference, $0.reference)
+        }
     }
 }

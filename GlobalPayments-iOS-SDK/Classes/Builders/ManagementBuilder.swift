@@ -47,6 +47,7 @@ import Foundation
     var multiCaptureSequence: Int?
     var invoiceNumber: String?
     var lodgingData: LodgingData?
+    var tagData: String?
     var transactionId: String? {
         guard let paymentMethod = paymentMethod as? TransactionReference else {
             return nil
@@ -184,6 +185,14 @@ import Foundation
     /// - Returns: ManagementBuilder
     public func withLodgingData(_ lodgingData: LodgingData) -> ManagementBuilder {
         self.lodgingData = lodgingData
+        return self
+    }
+    
+    /// Sets the EMV tag data to be sent along with an EMV transaction.
+    /// - Parameter tagData: the EMV tag data
+    /// - Returns: ManagementBuilder
+    public func withTagData(_ tagData: String?) -> ManagementBuilder {
+        self.tagData = tagData
         return self
     }
 

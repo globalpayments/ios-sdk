@@ -25,11 +25,11 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             params["batch_id"] = builder.searchCriteriaBuilder.batchId
             params["entry_mode"] = builder.searchCriteriaBuilder.paymentEntryMode?.mapped(for: .gpApi)
             params["name"] = builder.searchCriteriaBuilder.name
-            
+
             params["risk_assessment_mode"] = builder.searchCriteriaBuilder.riskAssessmentMode?.rawValue
             params["risk_assessment_result"] = builder.searchCriteriaBuilder.riskAssessmentResult?.rawValue
             params["risk_assessment_reason_code"] = builder.searchCriteriaBuilder.riskAssessmentReasonCode?.rawValue
-            
+
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.transactions(),
                 method: .get,
@@ -138,14 +138,32 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                 method: .get
             )
         case .findStoredPaymentMethodsPaged:
-            var params = [String: String]()
-            addPageParams(&params, builder)
-            addPaymentsParams(&params, builder)
-            return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.paymentMethods(),
-                method: .get,
-                queryParams: sanitize(params: params)
-            )
+
+            if let creditCard = builder.searchCriteriaBuilder.paymentMethod as? CreditCardData {
+                let card = JsonDoc()
+                card.set(for: "number", value: creditCard.number)
+                card.set(for: "expiry_month", value: String(creditCard.expMonth))
+                card.set(for: "expiry_year", value: String(creditCard.expYear).suffix(2).description)
+
+                let payload = JsonDoc()
+                payload.set(for: "reference", value: builder.searchCriteriaBuilder.referenceNumber)
+                payload.set(for: "card", doc: card)
+
+                return GpApiRequest(
+                    endpoint: GpApiRequest.Endpoints.paymentMethodsSearch(),
+                    method: .post,
+                    requestBody: payload.toString()
+                )
+            } else {
+                var params = [String: String]()
+                addPageParams(&params, builder)
+                addPaymentsParams(&params, builder)
+                return GpApiRequest(
+                    endpoint: GpApiRequest.Endpoints.paymentMethods(),
+                    method: .get,
+                    queryParams: sanitize(params: params)
+                )
+            }
         case .actionDetail:
             let actionId = builder.searchCriteriaBuilder.actionId ?? .empty
             return GpApiRequest(
@@ -160,6 +178,13 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                 endpoint: GpApiRequest.Endpoints.actions(),
                 method: .get,
                 queryParams: sanitize(params: params)
+            )
+        case .documentDisputeDetail:
+            let disputeId = builder.searchCriteriaBuilder.disputeReference ?? .empty
+            let documentId = builder.searchCriteriaBuilder.disputeDocumentReference ?? .empty
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.document(id: documentId, disputeId: disputeId),
+                method: .get
             )
         default:
             return nil

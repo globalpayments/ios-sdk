@@ -83,4 +83,6 @@ public struct TransactionType: OptionSet, Hashable {
     public static let detokenize             = TransactionType(rawValue: 1 << 38)
     /// Indicates a transaction reauthorization
     public static let reauth                 = TransactionType(rawValue: 1 << 39)
+    /// Indicates a Dispute Document Details report.
+    public static let documentDisputeDetail  = TransactionType(rawValue: 1 << 40)
 }

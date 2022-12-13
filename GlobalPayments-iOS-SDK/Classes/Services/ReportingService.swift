@@ -103,6 +103,11 @@ public class ReportingService {
             .withPaging(page, pageSize)
     }
 
+    public static func documentDisputeDetail(_ disputeId: String) -> TransactionReportBuilder<DisputeDocument> {
+            TransactionReportBuilder<DisputeDocument>(reportType: .documentDisputeDetail)
+                .withDisputeId(disputeId)
+    }
+
     // MARK: - Actions
 
     public static func actionDetail(actionId: String) -> TransactionReportBuilder<ActionSummary> {

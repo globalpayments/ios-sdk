@@ -4,7 +4,7 @@ public enum StoredPaymentMethodStatus: String, Mappable {
     case active = "ACTIVE"
 
     public init?(value: String?) {
-        guard let value = value, let type = StoredPaymentMethodStatus(value: value) else { return nil }
+        guard let value = value, let type = StoredPaymentMethodStatus(rawValue: value) else { return nil }
         self = type
     }
 

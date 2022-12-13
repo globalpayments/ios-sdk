@@ -7,7 +7,7 @@ final class DocumentTableViewCell: UITableViewCell, CellIdentifiable {
     @IBOutlet private weak var descriptionLabel: SelectableLabel!
 
     func setup(viewModel: DisputeDocument) {
-        titleLabel.text = viewModel.type.mapped(for: .gpApi)
+        titleLabel.text = viewModel.type?.mapped(for: .gpApi)
         descriptionLabel.text = viewModel.id
     }
 }

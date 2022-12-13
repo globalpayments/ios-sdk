@@ -61,4 +61,6 @@ public struct ReportType: OptionSet, Hashable {
     public static let actionDetail                    = ReportType(rawValue: 1 << 25)
     /// Indicates an actions report paged
     public static let findActionsPaged                = ReportType(rawValue: 1 << 26)
+    /// Indicates a Dispute Document Details report.
+    public static let documentDisputeDetail           = ReportType(rawValue: 1 << 27)
 }

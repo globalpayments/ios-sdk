@@ -41,6 +41,10 @@ extension GpApiRequest {
         static func paymentMethodsWith(paymentMethodId: String) -> String {
             "/payment-methods/\(paymentMethodId)"
         }
+        
+        static func paymentMethodsSearch() -> String {
+            "/payment-methods/search"
+        }
 
         // MARK: - Transactions
 
@@ -78,6 +82,10 @@ extension GpApiRequest {
 
         static func transactionsIncrementalAuthorization(transactionId: String) -> String {
             "/transactions/\(transactionId)/incremental"
+        }
+        
+        static func transactionsAdjusmentAuthorization(transactionId: String) -> String {
+            "/transactions/\(transactionId)/adjustment"
         }
 
         // MARK: - Verifications

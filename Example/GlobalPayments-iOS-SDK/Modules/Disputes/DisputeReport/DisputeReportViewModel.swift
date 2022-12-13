@@ -9,7 +9,7 @@ protocol DisputeReportViewInput {
     func clearDisputes()
 }
 
-protocol DisputeReportViewOutput: class {
+protocol DisputeReportViewOutput: AnyObject {
     func showErrorView(error: Error?)
     func showPDF(_ data: Data)
     func reloadData()

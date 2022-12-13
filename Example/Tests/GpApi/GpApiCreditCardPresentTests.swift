@@ -3,7 +3,8 @@ import GlobalPayments_iOS_SDK
 
 class GpApiCreditCardPresentTests: XCTestCase {
     var card: CreditCardData!
-    
+    var creditTrackData: CreditTrackData?
+
     let amount: NSDecimalNumber = 12.02
     let currency = "USD"
     let expectedResponseCode = "SUCCESS"
@@ -237,17 +238,17 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertEqual(transactionResult?.responseCode, "NOT_VERIFIED")
         XCTAssertEqual(transactionResult?.responseMessage, "NOT_VERIFIED")
     }
-    
+
     func test_incremental_auth() {
         // GIVEN
         let incrementalExpectation = expectation(description: "Incremental Expectation")
         var incrementalResult: Transaction?
         var incrementalError: Error?
-        
+
         card?.number = "4263970000005262"
         card?.cvn = "123"
         card?.cardPresent = true
-        
+
         // WHEN
         card?.authorize()
             .withAmount(amount)
@@ -257,7 +258,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
                 incrementalError = $1
                 incrementalExpectation.fulfill()
             })
-        
+
         // THEN
         wait(for: [incrementalExpectation], timeout: 10.0)
         XCTAssertNil(incrementalError)
@@ -269,14 +270,14 @@ class GpApiCreditCardPresentTests: XCTestCase {
         let additionalExpectation = expectation(description: "Additional Expectation")
         var additionalResult: Transaction?
         var additionalError: Error?
-        
+
         let lodgingInfo = LodgingData()
         lodgingInfo.bookingReference = "s9RpaDwXq1sPRkbP"
         lodgingInfo.stayDuration = 10
         lodgingInfo.checkInDate = Date()
         lodgingInfo.checkOutDate = Date().addDays(7)
         lodgingInfo.rate = 1349
-        
+
         let item1 = LodgingItem()
         item1.types = LodgingItemType.NO_SHOW.rawValue
         item1.reference = "item_1"
@@ -293,7 +294,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
                 additionalError = $1
                 additionalExpectation.fulfill()
             })
-        
+
         // THEN
         wait(for: [additionalExpectation], timeout: 10.0)
         XCTAssertNil(additionalError)
@@ -301,12 +302,12 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertEqual(expectedResponseCode, additionalResult?.responseCode)
         XCTAssertEqual(TransactionStatus.preauthorized.rawValue, additionalResult?.responseMessage)
         XCTAssertEqual(12.12, additionalResult?.authorizedAmount)
-        
+
         // GIVEN
         let captureExpectation = expectation(description: "Capture Expectation")
         var captureResult: Transaction?
         var captureError: Error?
-        
+
         // WHEN
         additionalResult?.capture()
             .execute(completion: {
@@ -314,12 +315,410 @@ class GpApiCreditCardPresentTests: XCTestCase {
                 captureError = $1
                 captureExpectation.fulfill()
             })
-        
+
         // THEN
         wait(for: [captureExpectation], timeout: 10.0)
         XCTAssertNil(captureError)
         XCTAssertNotNil(captureResult)
         XCTAssertEqual(expectedResponseCode, captureResult?.responseCode)
         XCTAssertEqual(TransactionStatus.captured.rawValue, captureResult?.responseMessage)
+    }
+
+    func test_adjust_sale_transaction() {
+        // GIVEN
+        let adjustSaleExpectation = expectation(description: "Adjust Sale Expectation")
+        var adjustSaleResponse: Transaction?
+        var adjustSaleError: Error?
+        let card = CreditTrackData()
+        card.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        card.entryMethod = .proximity
+
+        let tagData = "9F4005F000F0A0019F02060000000025009F03060000000000009F2608D90A06501B48564E82027C005F3401019F360200029F0702FF009F0802008C9F0902008C9F34030403029F2701809F0D05F0400088009F0E0508000000009F0F05F0400098005F280208409F390105FFC605DC4000A800FFC7050010000000FFC805DC4004F8009F3303E0B8C89F1A0208409F350122950500000080005F2A0208409A031409109B02E8009F21030811539C01009F37045EED3A8E4F07A00000000310109F0607A00000000310108407A00000000310109F100706010A03A400029F410400000001"
+
+        // WHEN
+        card.charge(amount: 10.0)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .withTagData(tagData)
+            .execute {
+                adjustSaleResponse = $0
+                adjustSaleError = $1
+                adjustSaleExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustSaleExpectation], timeout: 10.0)
+        XCTAssertNil(adjustSaleError)
+        assertTransactionResponse(transaction: adjustSaleResponse, transactionStatus: .captured)
+
+        // GIVEN
+        let adjustEditExpectation = expectation(description: "Ajust Edit Expectation")
+        var adjustEditResponse: Transaction?
+        var adjustEditError: Error?
+
+        // WHEN
+        adjustSaleResponse?.edit()
+            .withAmount(10.01)
+            .withTagData(tagData)
+            .withGratuity(5.01)
+            .execute {
+                adjustEditResponse = $0
+                adjustEditError = $1
+                adjustEditExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustEditExpectation], timeout: 10.0)
+        XCTAssertNil(adjustEditError)
+        assertTransactionResponse(transaction: adjustEditResponse, transactionStatus: .captured)
+    }
+
+    func test_adjust_auth_transaction() {
+        // GIVEN
+        let adjustSaleExpectation = expectation(description: "Adjust Sale Expectation")
+        var adjustSaleResponse: Transaction?
+        var adjustSaleError: Error?
+        initCreditTrackData(.proximity)
+
+        let tagData = "9F4005F000F0A0019F02060000000025009F03060000000000009F2608D90A06501B48564E82027C005F3401019F360200029F0702FF009F0802008C9F0902008C9F34030403029F2701809F0D05F0400088009F0E0508000000009F0F05F0400098005F280208409F390105FFC605DC4000A800FFC7050010000000FFC805DC4004F8009F3303E0B8C89F1A0208409F350122950500000080005F2A0208409A031409109B02E8009F21030811539C01009F37045EED3A8E4F07A00000000310109F0607A00000000310108407A00000000310109F100706010A03A400029F410400000001"
+
+        // WHEN
+        creditTrackData?.authorize(amount: 10.0)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .withTagData(tagData)
+            .execute {
+                adjustSaleResponse = $0
+                adjustSaleError = $1
+                adjustSaleExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustSaleExpectation], timeout: 10.0)
+        XCTAssertNil(adjustSaleError)
+        assertTransactionResponse(transaction: adjustSaleResponse, transactionStatus: .preauthorized)
+
+        // GIVEN
+        let adjustEditExpectation = expectation(description: "Ajust Edit Expectation")
+        var adjustEditResponse: Transaction?
+        var adjustEditError: Error?
+
+        // WHEN
+        adjustSaleResponse?.edit()
+            .withAmount(10.01)
+            .withTagData(tagData)
+            .withGratuity(5.01)
+            .withMultiCapture(sequence: 1, paymentCount: 1)
+            .execute {
+                adjustEditResponse = $0
+                adjustEditError = $1
+                adjustEditExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustEditExpectation], timeout: 10.0)
+        XCTAssertNil(adjustEditError)
+        assertTransactionResponse(transaction: adjustEditResponse, transactionStatus: .preauthorized)
+    }
+
+    func test_adjust_sale_transaction_adjust_amount_higher_than_sale() {
+        // GIVEN
+        let adjustSaleExpectation = expectation(description: "Adjust Sale Expectation")
+        var adjustSaleResponse: Transaction?
+        var adjustSaleError: Error?
+        initCreditTrackData()
+
+        // WHEN
+        creditTrackData?.charge(amount: 10.0)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .execute {
+                adjustSaleResponse = $0
+                adjustSaleError = $1
+                adjustSaleExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustSaleExpectation], timeout: 10.0)
+        XCTAssertNil(adjustSaleError)
+        assertTransactionResponse(transaction: adjustSaleResponse, transactionStatus: .captured)
+
+        // GIVEN
+        let adjustEditExpectation = expectation(description: "Ajust Edit Expectation")
+        var adjustEditResponse: Transaction?
+        var adjustEditError: Error?
+
+        // WHEN
+        adjustSaleResponse?.edit()
+            .withAmount(12.0)
+            .execute {
+                adjustEditResponse = $0
+                adjustEditError = $1
+                adjustEditExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustEditExpectation], timeout: 10.0)
+        XCTAssertNil(adjustEditError)
+        assertTransactionResponse(transaction: adjustEditResponse, transactionStatus: .captured)
+    }
+
+    func test_adjust_sale_transaction_adjust_only_tag() {
+        // GIVEN
+        let adjustSaleExpectation = expectation(description: "Adjust Sale Expectation")
+        var adjustSaleResponse: Transaction?
+        var adjustSaleError: Error?
+        initCreditTrackData(.proximity)
+
+        let tagData = "9F4005F000F0A0019F02060000000025009F03060000000000009F2608D90A06501B48564E82027C005F3401019F360200029F0702FF009F0802008C9F0902008C9F34030403029F2701809F0D05F0400088009F0E0508000000009F0F05F0400098005F280208409F390105FFC605DC4000A800FFC7050010000000FFC805DC4004F8009F3303E0B8C89F1A0208409F350122950500000080005F2A0208409A031409109B02E8009F21030811539C01009F37045EED3A8E4F07A00000000310109F0607A00000000310108407A00000000310109F100706010A03A400029F410400000001"
+
+        // WHEN
+        creditTrackData?.charge(amount: 10.0)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .withTagData(tagData)
+            .execute {
+                adjustSaleResponse = $0
+                adjustSaleError = $1
+                adjustSaleExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustSaleExpectation], timeout: 10.0)
+        XCTAssertNil(adjustSaleError)
+        assertTransactionResponse(transaction: adjustSaleResponse, transactionStatus: .captured)
+
+        // GIVEN
+        let adjustEditExpectation = expectation(description: "Ajust Edit Expectation")
+        var adjustEditResponse: Transaction?
+        var adjustEditError: Error?
+
+        // WHEN
+        adjustSaleResponse?.edit()
+            .withTagData(tagData)
+            .execute {
+                adjustEditResponse = $0
+                adjustEditError = $1
+                adjustEditExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustEditExpectation], timeout: 10.0)
+        XCTAssertNil(adjustEditError)
+        assertTransactionResponse(transaction: adjustEditResponse, transactionStatus: .captured)
+    }
+
+    func test_adjust_sale_transaction_adjust_only_gratuity() {
+        // GIVEN
+        let adjustSaleExpectation = expectation(description: "Adjust Sale Expectation")
+        var adjustSaleResponse: Transaction?
+        var adjustSaleError: Error?
+        initCreditTrackData()
+
+        // WHEN
+        creditTrackData?.charge(amount: 10.0)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .withChipCondition(EmvChipCondition.chipFailPreviousSuccess)
+            .execute {
+                adjustSaleResponse = $0
+                adjustSaleError = $1
+                adjustSaleExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustSaleExpectation], timeout: 10.0)
+        XCTAssertNil(adjustSaleError)
+        assertTransactionResponse(transaction: adjustSaleResponse, transactionStatus: .captured)
+
+        // GIVEN
+        let adjustEditExpectation = expectation(description: "Ajust Edit Expectation")
+        var adjustEditResponse: Transaction?
+        var adjustEditError: Error?
+
+        // WHEN
+        adjustSaleResponse?.edit()
+            .withGratuity(1.0)
+            .execute {
+                adjustEditResponse = $0
+                adjustEditError = $1
+                adjustEditExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustEditExpectation], timeout: 10.0)
+        XCTAssertNil(adjustEditError)
+        assertTransactionResponse(transaction: adjustEditResponse, transactionStatus: .captured)
+    }
+
+    func test_adjust_sale_transaction_adjust_amount_zero() {
+        // GIVEN
+        let adjustSaleExpectation = expectation(description: "Adjust Sale Expectation")
+        var adjustSaleResponse: Transaction?
+        var adjustSaleError: Error?
+        initCreditTrackData()
+
+        // WHEN
+        creditTrackData?.charge(amount: 10.0)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .withChipCondition(EmvChipCondition.chipFailPreviousSuccess)
+            .execute {
+                adjustSaleResponse = $0
+                adjustSaleError = $1
+                adjustSaleExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustSaleExpectation], timeout: 10.0)
+        XCTAssertNil(adjustSaleError)
+        assertTransactionResponse(transaction: adjustSaleResponse, transactionStatus: .captured)
+
+        // GIVEN
+        let adjustEditExpectation = expectation(description: "Ajust Edit Expectation")
+        var adjustEditResponse: Transaction?
+        var adjustEditError: Error?
+
+        // WHEN
+        adjustSaleResponse?.edit()
+            .withAmount(0.0)
+            .execute {
+                adjustEditResponse = $0
+                adjustEditError = $1
+                adjustEditExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustEditExpectation], timeout: 10.0)
+        XCTAssertNil(adjustEditError)
+        assertTransactionResponse(transaction: adjustEditResponse, transactionStatus: .captured)
+    }
+
+    func test_adjust_sale_transaction_adjust_gratuity_to_zero() {
+        // GIVEN
+        let adjustSaleExpectation = expectation(description: "Adjust Sale Expectation")
+        var adjustSaleResponse: Transaction?
+        var adjustSaleError: Error?
+        initCreditTrackData()
+
+        // WHEN
+        creditTrackData?.charge(amount: 10.0)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .withEmvLastChipRead(.successful)
+            .execute {
+                adjustSaleResponse = $0
+                adjustSaleError = $1
+                adjustSaleExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustSaleExpectation], timeout: 10.0)
+        XCTAssertNil(adjustSaleError)
+        assertTransactionResponse(transaction: adjustSaleResponse, transactionStatus: .captured)
+
+        // GIVEN
+        let adjustEditExpectation = expectation(description: "Ajust Edit Expectation")
+        var adjustEditResponse: Transaction?
+        var adjustEditError: Error?
+
+        // WHEN
+        adjustSaleResponse?.edit()
+            .withGratuity(0.0)
+            .execute {
+                adjustEditResponse = $0
+                adjustEditError = $1
+                adjustEditExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustEditExpectation], timeout: 10.0)
+        XCTAssertNil(adjustEditError)
+        assertTransactionResponse(transaction: adjustEditResponse, transactionStatus: .captured)
+    }
+
+    func test_adjust_sale_transaction_without_mandatory() {
+        // GIVEN
+        let adjustSaleExpectation = expectation(description: "Adjust Sale Expectation")
+        var adjustSaleResponse: Transaction?
+        var adjustSaleError: Error?
+        initCreditTrackData()
+
+        // WHEN
+        creditTrackData?.charge(amount: 10.0)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .withEmvLastChipRead(.successful)
+            .execute {
+                adjustSaleResponse = $0
+                adjustSaleError = $1
+                adjustSaleExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustSaleExpectation], timeout: 10.0)
+        XCTAssertNil(adjustSaleError)
+        assertTransactionResponse(transaction: adjustSaleResponse, transactionStatus: .captured)
+
+        // GIVEN
+        let adjustEditExpectation = expectation(description: "Ajust Edit Expectation")
+        var adjustEditResponse: Transaction?
+        var adjustEditError: GatewayException?
+
+        // WHEN
+        adjustSaleResponse?.edit()
+            .execute {
+                adjustEditResponse = $0
+                if let error = $1 as? GatewayException {
+                    adjustEditError = error
+                }
+                adjustEditExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustEditExpectation], timeout: 10.0)
+        XCTAssertNil(adjustEditResponse)
+        XCTAssertNotNil(adjustEditError)
+        XCTAssertEqual("40005", adjustEditError?.responseMessage)
+        XCTAssertEqual("Status Code: 400 - Request expects the following fields [amount or tag or gratuityAmount]", adjustEditError?.message)
+    }
+
+    func test_adjust_sale_transaction_not_found() {
+        // GIVEN
+        let adjustSaleExpectation = expectation(description: "Adjust Sale Expectation")
+        let transactionId = UUID().uuidString
+        var adjustSaleResponse: Transaction? = Transaction()
+        adjustSaleResponse?.transactionId = transactionId
+        var adjustSaleError: GatewayException?
+
+        // WHEN
+        adjustSaleResponse?.edit()
+            .execute {
+                adjustSaleResponse = $0
+                if let error = $1 as? GatewayException {
+                    adjustSaleError = error
+                }
+                adjustSaleExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [adjustSaleExpectation], timeout: 10.0)
+        XCTAssertNil(adjustSaleResponse)
+        XCTAssertNotNil(adjustSaleError)
+        XCTAssertEqual("40008", adjustSaleError?.responseMessage)
+        XCTAssertEqual("Status Code: 404 - Transaction \(transactionId) not found at this location.", adjustSaleError?.message)
+    }
+
+    private func initCreditTrackData(_ entryMethod: EntryMethod? = .swipe) {
+        creditTrackData = CreditTrackData()
+        creditTrackData?.value =
+            "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        creditTrackData?.entryMethod = entryMethod
+    }
+
+    private func assertTransactionResponse(transaction: Transaction?, transactionStatus: TransactionStatus?) {
+        XCTAssertNotNil(transaction)
+        XCTAssertEqual(expectedResponseCode, transaction?.responseCode)
+        XCTAssertEqual(transactionStatus?.rawValue, transaction?.responseMessage)
     }
 }

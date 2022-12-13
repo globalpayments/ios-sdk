@@ -111,6 +111,23 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 method: .post,
                 requestBody: payload.toString()
             )
+        case .edit:
+            let card = JsonDoc()
+            card.set(for: "tag", value: builder.tagData)
+            
+            let paymentMethod = JsonDoc()
+            paymentMethod.set(for: "card", doc: card)
+            
+            let payload = JsonDoc()
+            payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+            payload.set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString())
+            payload.set(for: "payment_method", doc: paymentMethod)
+            
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.transactionsAdjusmentAuthorization(transactionId: (builder.transactionId ?? .empty)),
+                method: .post,
+                requestBody: payload.toString()
+            )
         default:
             return nil
         }

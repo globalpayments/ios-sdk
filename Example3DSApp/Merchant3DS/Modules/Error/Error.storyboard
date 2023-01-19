@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Error View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="ErrorViewController" id="Y6W-OH-hqX" customClass="ErrorViewController" customModule="Merchant3DS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sad" translatesAutoresizingMaskIntoConstraints="NO" id="rpX-sP-QhJ">
+                                <rect key="frame" x="87" y="172" width="240" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="rpX-sP-QhJ" secondAttribute="height" multiplier="1:1" id="JFs-T9-VLw"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We're sorry..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FjH-El-aKu">
+                                <rect key="frame" x="87" y="475" width="240" height="48"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Sfk-Wq-E8d">
+                                <rect key="frame" x="87" y="531" width="240" height="93"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="93" id="cB0-NQ-ZGD"/>
+                                </constraints>
+                                <string key="text">Something went wrong while processing your transaction
+
+Please try another card</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Sfk-Wq-E8d" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="87" id="AvM-Fy-7oz"/>
+                            <constraint firstItem="Sfk-Wq-E8d" firstAttribute="top" secondItem="FjH-El-aKu" secondAttribute="bottom" constant="8" symbolic="YES" id="CGN-Go-WHQ"/>
+                            <constraint firstItem="FjH-El-aKu" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="87" id="N6M-Hi-Wju"/>
+                            <constraint firstItem="FjH-El-aKu" firstAttribute="top" secondItem="rpX-sP-QhJ" secondAttribute="bottom" constant="63" id="QEx-gF-2Rf"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="rpX-sP-QhJ" secondAttribute="trailing" constant="87" id="Y33-T3-ftN"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Sfk-Wq-E8d" secondAttribute="trailing" constant="87" id="aU5-s5-sif"/>
+                            <constraint firstItem="rpX-sP-QhJ" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="128" id="nOo-FN-Lf7"/>
+                            <constraint firstItem="rpX-sP-QhJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="87" id="x3i-pA-XrA"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="FjH-El-aKu" secondAttribute="trailing" constant="87" id="xNF-kK-9ix"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="85.714285714285708"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="sad" width="256" height="256"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

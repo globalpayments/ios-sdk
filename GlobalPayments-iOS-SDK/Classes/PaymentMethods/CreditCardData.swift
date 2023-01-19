@@ -120,6 +120,12 @@ public class CreditCardData: Credit, CardData {
         }
     }
 
+    public func getDccRate() -> AuthorizationBuilder {
+        let dccRateData = DccRateData()
+        return AuthorizationBuilder(transactionType: .dccRateLookup, paymentMethod: self)
+            .withDccRateData(dccRateData)
+    }
+
     func hasInAppPaymentData() -> Bool {
         return !token.isNilOrEmpty && !mobileType.isNilOrEmpty
     }

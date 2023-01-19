@@ -46,6 +46,10 @@ extension GpApiRequest {
             "/payment-methods/search"
         }
 
+        static func currencyConversions() -> String {
+            "/currency-conversions"
+        }
+
         // MARK: - Transactions
 
         static func transactions() -> String {

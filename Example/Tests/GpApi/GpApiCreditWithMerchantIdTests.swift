@@ -15,7 +15,7 @@ class GpApiCreditWithMerchantIdTests: XCTestCase {
         super.setUp()
         
         // create the card object
-        card = CreditCardData();
+        card = CreditCardData()
         card.number = "4263970000005262"
         card.expMonth = 12
         card.expYear = 2025

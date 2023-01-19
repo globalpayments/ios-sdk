@@ -20,11 +20,11 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                     .set(for: "expiry_month", value: creditCardData.expMonth > .zero ? "\(creditCardData.expMonth)".leftPadding(toLength: 2, withPad: "0") : .empty)
                     .set(for: "expiry_year", value: creditCardData.expYear > .zero ? "\(creditCardData.expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : .empty)
                     .set(for: "name", value: creditCardData.cardHolderName)
-                
+
                 if let methodUsage = creditCardData.methodUsageMode?.rawValue {
                     payload.set(for: "usage_mode", value: methodUsage)
                 }
-                
+
                 payload.set(for: "card", doc: card)
             }
             return GpApiRequest(
@@ -52,6 +52,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
                 .set(for: "gratuity", value: builder.gratuity?.toNumericCurrencyString())
+                .set(for: "currency_conversion", value: builder.dccRateData?.dccId)
             return GpApiRequest(
                 endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsCapture(transactionId: builder.transactionId ?? .empty),
                 method: .post,
@@ -65,6 +66,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
         case .reauth:
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+
             return GpApiRequest(
                 endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsReauthorization(transactionId: (builder.transactionId ?? .empty)),
                 method: .post,
@@ -91,7 +93,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 lodgingDataDoc.set(for: "date_checked_in", value: lodgingData.checkInDate?.format("yyyy-MM-dd"))
                 lodgingDataDoc.set(for: "date_checked_out", value: lodgingData.checkOutDate?.format("yyyy-MM-dd"))
                 lodgingDataDoc.set(for: "daily_rate_amount", value: "\(lodgingData.rate ?? 0 )")
-                lodgingDataDoc.set(for : "charge_items", values: lodgingItems)
+                lodgingDataDoc.set(for: "charge_items", values: lodgingItems)
                 payload.set(for: "lodging", doc: lodgingDataDoc)
             }
 
@@ -103,9 +105,9 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
         case .release, .hold:
             let payload = JsonDoc()
                 .set(for: "reason_code", value: builder.reasonCode?.rawValue)
-            
+
             let endpoint = builder.transactionType == .release ? "release" : builder.transactionType == .hold ? "hold" : ""
-            
+
             return GpApiRequest(
                 endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsReleaseHold(transactionId: (builder.transactionId ?? .empty), endpoint: endpoint),
                 method: .post,
@@ -114,15 +116,15 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
         case .edit:
             let card = JsonDoc()
             card.set(for: "tag", value: builder.tagData)
-            
+
             let paymentMethod = JsonDoc()
             paymentMethod.set(for: "card", doc: card)
-            
+
             let payload = JsonDoc()
             payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
             payload.set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString())
             payload.set(for: "payment_method", doc: paymentMethod)
-            
+
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.transactionsAdjusmentAuthorization(transactionId: (builder.transactionId ?? .empty)),
                 method: .post,
@@ -132,7 +134,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             return nil
         }
     }
-    
+
     private func getToken(from builder: ManagementBuilder) -> String {
         guard let tokenizable = builder.paymentMethod as? Tokenizable,
               let token = tokenizable.token, !token.isEmpty else {

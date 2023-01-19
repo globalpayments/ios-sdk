@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		06C80B851E55AD27D8857B82 /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */; };
 		302D583D28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */; };
+		304226FB29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */; };
 		308E27C32829F56F001441D0 /* DigitalWalletsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308E27C22829F56F001441D0 /* DigitalWalletsBuilder.swift */; };
 		308E27C52829F5A5001441D0 /* DigitalWalletsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308E27C42829F5A5001441D0 /* DigitalWalletsViewController.swift */; };
 		308E27C72829F67E001441D0 /* DigitalWallets.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 308E27C62829F67E001441D0 /* DigitalWallets.storyboard */; };
@@ -235,6 +236,7 @@
 		25872CCBB9B9D3BAA3E1C009 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; sourceTree = "<group>"; };
 		25E89B4C4C3BC69C6EA4BF0A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GpApiFraudManagementTests.swift; path = Tests/GpApi/GpApiFraudManagementTests.swift; sourceTree = SOURCE_ROOT; };
+		304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDccCardNotPresentTest.swift; sourceTree = "<group>"; };
 		308E27C22829F56F001441D0 /* DigitalWalletsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalWalletsBuilder.swift; sourceTree = "<group>"; };
 		308E27C42829F5A5001441D0 /* DigitalWalletsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalWalletsViewController.swift; sourceTree = "<group>"; };
 		308E27C62829F67E001441D0 /* DigitalWallets.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DigitalWallets.storyboard; sourceTree = "<group>"; };
@@ -1069,6 +1071,7 @@
 				82613EBB24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift */,
 				30EB561128201FC500AEA47B /* GpApiDigitalWalletsTests.swift */,
 				30A5668729108B78004C8E6C /* GpApiCreditWithMerchantIdTests.swift */,
+				304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -1728,6 +1731,7 @@
 				8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */,
 				82613EBC24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift in Sources */,
 				8252038E24E2C15600784248 /* CountryUtilsTests.swift in Sources */,
+				304226FB29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift in Sources */,
 				824A16EC24E3EA230060944B /* BuilderValidationTests.swift in Sources */,
 				8267BC9824DAB5F100AF64D2 /* GpApiCreditCardNotPresentTests.swift in Sources */,
 				82F9A57B25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift in Sources */,

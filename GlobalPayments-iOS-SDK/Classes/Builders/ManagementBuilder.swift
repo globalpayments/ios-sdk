@@ -23,6 +23,7 @@ import Foundation
     /// Request currency
     var currency: String?
     var customerId: String?
+    var dccRateData: DccRateData?
     var managementBuilderDescription: String?
     /// Request gratuity
     var gratuity: NSDecimalNumber?
@@ -87,6 +88,11 @@ import Foundation
     /// - Returns: ManagementBuilder
     public func withBatchReference(_ batchReference: String?) -> ManagementBuilder {
         self.batchReference = batchReference
+        return self
+    }
+
+    public func withDccRateData(_ value: DccRateData?) -> ManagementBuilder {
+        self.dccRateData = value
         return self
     }
 

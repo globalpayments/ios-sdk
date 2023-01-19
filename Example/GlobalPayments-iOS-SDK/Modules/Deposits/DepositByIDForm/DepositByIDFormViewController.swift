@@ -1,6 +1,6 @@
 import UIKit
 
-protocol DepositByIDFormDelegate: class {
+protocol DepositByIDFormDelegate: AnyObject {
     func onSubmitForm(_ form: DepositByIDForm)
 }
 

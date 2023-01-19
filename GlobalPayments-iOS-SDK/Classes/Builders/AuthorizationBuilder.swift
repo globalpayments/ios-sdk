@@ -24,6 +24,7 @@ import Foundation
     var customData: [String]?
     var customerIpAddress: String?
     var cvn: String?
+    var dccRateData: DccRateData?
     var requestDescription: String?
     var decisionManager: DecisionManager?
     var dynamicDescriptor: String?
@@ -164,6 +165,11 @@ import Foundation
 
     public func withChipCondition(_ chipCondition: EmvChipCondition?) -> AuthorizationBuilder {
         self.emvChipCondition = chipCondition
+        return self
+    }
+
+    public func withDccRateData(_ value: DccRateData?) -> AuthorizationBuilder {
+        self.dccRateData = value
         return self
     }
 

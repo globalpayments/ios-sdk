@@ -1,7 +1,7 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-protocol AccessTokenFormDelegate: class {
+protocol AccessTokenFormDelegate: AnyObject {
     func onComletedForm(form: AccessTokenForm)
 }
 

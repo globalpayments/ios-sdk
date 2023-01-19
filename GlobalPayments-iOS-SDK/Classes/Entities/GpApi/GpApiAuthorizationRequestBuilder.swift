@@ -12,6 +12,27 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                 method: .post,
                 requestBody: payload.toString()
             )
+        case .dccRateLookup:
+            let paymentMethod = createForVerify(builder, config)
+            paymentMethod.set(for: "entry_mode", value: entryMode(for: builder, channel: config?.channel))
+            if let builderTokenized = builder.paymentMethod as? Tokenizable {
+                paymentMethod.set(for: "id", value: builderTokenized.token)
+            }
+
+            let payload = JsonDoc()
+            payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
+            payload.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
+            payload.set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
+            payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+            payload.set(for: "currency", value: builder.currency)
+            payload.set(for: "country", value: config?.country)
+            payload.set(for: "payment_method", doc: paymentMethod)
+
+            return GpApiRequest(
+                endpoint: merchantUrl + GpApiRequest.Endpoints.currencyConversions(),
+                method: .post,
+                requestBody: payload.toString()
+            )
         case .verify:
             if builder.requestMultiUseToken == true && ((builder.paymentMethod as? Tokenizable)?.token == nil) {
                 let payload = createForVerify(builder, config)
@@ -53,6 +74,12 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "payment_method", doc: createPaymentMethodParam(for: builder, channel: config?.channel))
             .set(for: "risk_assessment", values: builder.fraudFilterMode != nil ? mapFraudManagement(builder) : nil)
             .set(for: "link", doc: JsonDoc().set(for: "id", value: builder.paymentLinkId))
+
+        if let dccId = builder.dccRateData?.dccId, !dccId.isEmpty {
+            let currencyDoc = JsonDoc()
+            currencyDoc.set(for: "id", value: dccId)
+            payload.set(for: "currency_conversion", doc: currencyDoc)
+        }
 
         // set order reference
         if !builder.orderId.isNilOrEmpty {

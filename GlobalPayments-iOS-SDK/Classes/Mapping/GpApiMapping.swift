@@ -2,6 +2,8 @@ import Foundation
 
 public struct GpApiMapping {
 
+    static let DC_RESPONSE = "RATE_LOOKUP"
+
     public static func mapTransaction(_ doc: JsonDoc?) -> Transaction {
 
         let transaction = Transaction()
@@ -75,6 +77,8 @@ public struct GpApiMapping {
             transaction.cardType = card.getValue(key: "brand")
             transaction.cardLast4 = card.getValue(key: "masked_number_last4")
         }
+
+        transaction.dccRateData = mapDccInfo(doc)
 
         return transaction
     }
@@ -386,6 +390,45 @@ public struct GpApiMapping {
         let transaction = Transaction()
         transaction.threeDSecure = secure
         return transaction
+    }
+
+    public static func mapDccInfo(_ responseData: JsonDoc?) -> DccRateData? {
+        var response: JsonDoc? = responseData
+
+        if let responseData = response, responseData.get(valueFor: "action")?.getValue(key: "type") != self.DC_RESPONSE, !responseData.has(key: "currency_conversion") {
+            return nil
+        }
+
+        if let currencyConversion = response?.get(valueFor: "currency_conversion") {
+            response = currencyConversion
+        }
+
+        guard let dccRateDataResponse = response else { return nil }
+
+        let dccRateData = DccRateData()
+
+        dccRateData.cardHolderCurrency = dccRateDataResponse.getValue(key: "payer_currency")
+
+        if let amount: String = dccRateDataResponse.getValue(key: "payer_amount") {
+            dccRateData.cardHolderAmount = NSDecimalNumber(string: amount).amount
+        }
+        if let rate: String = dccRateDataResponse.getValue(key: "exchange_rate") {
+            dccRateData.cardHolderRate = NSDecimalNumber(string: rate)
+        }
+        if let amount: String = dccRateDataResponse.getValue(key: "amount") {
+            dccRateData.merchantAmount = NSDecimalNumber(string: amount).amount
+        }
+
+        dccRateData.merchantCurrency = dccRateDataResponse.getValue(key: "currency")
+        dccRateData.marginRatePercentage = dccRateDataResponse.getValue(key: "margin_rate_percentage")
+        dccRateData.exchangeRateSourceName = dccRateDataResponse.getValue(key: "exchange_rate_source")
+        dccRateData.commissionPercentage = dccRateDataResponse.getValue(key: "commission_percentage")
+
+        let timeCreated: String? = dccRateDataResponse.getValue(key: "exchange_rate_time_created")
+        dccRateData.exchangeRateSourceTimestamp = timeCreated?.format() ?? timeCreated?.format("yyyy-MM-dd'T'HH:mm:ss")
+        dccRateData.dccId = dccRateDataResponse.getValue(key: "id")
+
+        return dccRateData
     }
 
     public static func mapReportResponse<T>(_ rawResponse: String, _ reportType: ReportType) -> T? {

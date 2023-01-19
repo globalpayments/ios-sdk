@@ -5,7 +5,7 @@ protocol AccessTokenInput {
     func createToken(from form: AccessTokenForm)
 }
 
-protocol AccessTokenOutput: class {
+protocol AccessTokenOutput: AnyObject {
     func showTokenView(token: AccessTokenInfo)
     func showErrorView(error: Error?)
 }

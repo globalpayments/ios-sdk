@@ -4,6 +4,13 @@
 
 #### Enhancements
 
+- GP-API: Add new feature Currency Conversion DCC
+- GP-API: Add 3DS demo app using netcetera library
+
+## 1.2.9 (07/12/2022)
+
+#### Enhancements
+
 - GP-API: Add new feature Adjust, TransactionType::EDIT
 - GP-API: Add Stored Payment Methods Search Request
 - GP-API: Add get Dispute Document

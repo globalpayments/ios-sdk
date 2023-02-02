@@ -4,6 +4,12 @@
 
 #### Enhancements
 
+- GP-API: Add new feature Decoupled Auth on SDK and 3ds demo app project
+
+## 1.2.10 (17/01/2023)
+
+#### Enhancements
+
 - GP-API: Add new feature Currency Conversion DCC
 - GP-API: Add 3DS demo app using netcetera library
 

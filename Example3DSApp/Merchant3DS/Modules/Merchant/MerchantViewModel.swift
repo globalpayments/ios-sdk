@@ -8,10 +8,10 @@ protocol MerchantViewInput {
 }
 
 protocol MerchantViewOutput: AnyObject {
-    func displayConfigModule()
     func displayError(_ error: Error)
     func showTokenLoaded(_ token: String)
-    func showNetceteraLoaded()
+    func showLoading(_ message: String)
+    func hideLoading()
     func requestError(_ error: Error)
     func requestSuccess(_ message: String?)
     func showTransaction(_ transaction: TransactionResponse)
@@ -64,7 +64,8 @@ final class MerchantViewModel: MerchantViewInput {
         DemoAppService.checkEnrollment(
             cardToken: token,
             amount: amount,
-            currency: currency){ [weak self] secureEcom, error in
+            currency: currency,
+            decoupledAuth: true){ [weak self] secureEcom, error in
                 guard let secureEcom = secureEcom else {
                     if let error = error{
                         self?.view?.requestError(error)
@@ -80,7 +81,7 @@ final class MerchantViewModel: MerchantViewInput {
         if (secureEcom?.status == "AVAILABLE" ) {
             // 6. Instantiation
             if initThreeDS2Service() {
-                self.view?.showNetceteraLoaded()
+                // SDK Initiated
             }            
             createTransaction(secureEcom: secureEcom)
         }else {
@@ -134,37 +135,44 @@ final class MerchantViewModel: MerchantViewInput {
         threeDSecureData.status = secureEcom.status
         threeDSecureData.messageVersion = secureEcom.messageVersion
         threeDSecureData.serverTransactionId = secureEcom.serverTransactionId
+
+        let isDecoupledAuth = ApiConstants.isDecoupledAuth
         
-        
-        DemoAppService.sendAuthenticationParams(token, amount: amount, currency: currency, mobileData: mobileData, threeDSecure: threeDSecureData) { [weak self] secureEcom, error in
+        DemoAppService.sendAuthenticationParams(token, amount: amount, currency: currency, mobileData: mobileData, threeDSecure: threeDSecureData, decoupledAuth: isDecoupledAuth, decoupledTimeout: ApiConstants.decoupledTimeout) { [weak self] secureEcom, error in
             guard let secureEcom = secureEcom else {
                 if let error = error {
                     self?.view?.requestError(error)
                 }
                 return
             }
-            self?.startChallengeFlow(secureEcom)
+            self?.startChallengeFlow(secureEcom, decoupledAuth: isDecoupledAuth)
         }
     }
     
     //15.3 Frictionless or Challenge
-    private func startChallengeFlow(_ secureEcom: AuthParamsResponse) {
+    private func startChallengeFlow(_ secureEcom: AuthParamsResponse, decoupledAuth: Bool) {
         if(secureEcom.status == self.CHALLENGE_REQUIRED){
             let challengeStatusReceiver = AppChallengeStatusReceiver(view: self, dsTransId: secureEcom.dsTransferReference, secureEcom: secureEcom)
             let challengeParameters = self.prepareChallengeParameters(secureEcom)
-            UI {
-                do {
-                    //16. Do challenge
-                    try self.transaction?.doChallenge(challengeParameters: challengeParameters,
-                                                      challengeStatusReceiver: challengeStatusReceiver,
-                                                      timeOut:10,
-                                                      inViewController: self.view!)
-                } catch {
-                    self.view?.requestError(error)
-                }
+            do {
+                //16. Do challenge
+                try self.transaction?.doChallenge(challengeParameters: challengeParameters,
+                                                  challengeStatusReceiver: challengeStatusReceiver,
+                                                  timeOut:10,
+                                                  inViewController: self.view!)
+            } catch {
+                self.view?.requestError(error)
             }
         }else if((secureEcom.status == self.SUCCESS_AUTHENTICATED || secureEcom.status == self.SUCCESS) && secureEcom.liabilityShift == "YES"){
-            self.doAuth(secureEcom: secureEcom)
+            if decoupledAuth {
+                self.view?.showLoading("Waiting for auth")
+                DispatchQueue.main.asyncAfter(deadline: .now() + ApiConstants.authTimeout) {
+                    self.view?.hideLoading()
+                    self.doAuth(secureEcom: secureEcom)
+                }
+            }else {
+                self.doAuth(secureEcom: secureEcom)
+            }
         }else {
             self.view?.requestError(ApiException(message: "ANOTHER CARD IS NECCESARY"))
         }

@@ -50,6 +50,7 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
         let notifications = JsonDoc()
             .set(for: "challenge_return_url", value: config?.challengeNotificationUrl)
             .set(for: "three_ds_method_return_url", value: config?.methodNotificationUrl)
+            .set(for: "decoupled_notification_url", value: builder.decoupledNotificationUrl)
         payload.set(for: "notifications", doc: notifications)
 
         return payload
@@ -187,6 +188,18 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
             .set(for: "initiator", value: builder.storedCredential?.initiator.mapped(for: .gpApi))
             .set(for: "stored_credential", doc: storedCredential)
             .set(for: "three_ds", doc: threeDS)
+
+        let notifications = JsonDoc()
+            .set(for: "challenge_return_url", value: config?.challengeNotificationUrl)
+            .set(for: "three_ds_method_return_url", value: config?.methodNotificationUrl)
+            .set(for: "decoupled_notification_url", value: builder.decoupledNotificationUrl)
+        payload.set(for: "notifications", doc: notifications)
+
+        if let flowRequest = builder.decoupledFlowRequest {
+            payload.set(for: "decoupled_flow_request", value: flowRequest ? DecoupledFlowRequest.DECOUPLED_PREFERRED.rawValue : DecoupledFlowRequest.DO_NOT_USE_DECOUPLED.rawValue)
+        }
+        payload.set(for: "decoupled_flow_timeout", value: builder.decoupledFlowTimeout)
+
         initBaseParams(payload: &payload, config: config)
 
         return payload

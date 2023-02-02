@@ -34,11 +34,12 @@ public class ThreeDSecure: NSObject {
     public var directoryServerStartVersion: String?
     /// Consumer authentication (3DSecure) electronic commerce indicator.
     public var eci: Int?
+    public var decoupledResponseIndicator: String?
     /// The enrolment status:
     public var enrolled: String?
     /// The URL of the Issuing Bank's ACS.
     public var issuerAcsUrl: String?
-    
+
     public var liabilityShift: String?
     
     /// A KVP collection of merchant supplied data
@@ -102,7 +103,7 @@ public class ThreeDSecure: NSObject {
     public var exemptStatus: ExemptStatus?
     /// The exemption optimization service reason
     public var exemptReason: ExemptReason?
-    
+
     public var whiteListStatus: String?
 
     public func threeDSecure() {

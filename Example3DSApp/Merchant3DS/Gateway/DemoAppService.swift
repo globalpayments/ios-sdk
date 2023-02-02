@@ -2,9 +2,9 @@ import Foundation
 
 class DemoAppService {
     
-    static func checkEnrollment(cardToken: String, amount: Decimal, currency: String, completion: @escaping (CheckEnrollmentResponse?, Error?) -> Void){
+    static func checkEnrollment(cardToken: String, amount: Decimal, currency: String, decoupledAuth: Bool, completion: @escaping (CheckEnrollmentResponse?, Error?) -> Void){
         
-        let request = ApiSessionInfo.checkEnrollment(cardToken, amount: amount, currency: currency)
+        let request = ApiSessionInfo.checkEnrollment(cardToken, amount: amount, currency: currency, decoupledAuth: decoupledAuth)
         doRequest(request: request) { data, error in
             completion(CheckEnrollmentResponse().mapFromSource(data), error)
         }
@@ -17,8 +17,8 @@ class DemoAppService {
         }
     }
     
-    static func sendAuthenticationParams(_ cardToken: String, amount: Decimal, currency: String, mobileData: MobileData,threeDSecure: ThreeDSecureRequest, completion: @escaping (AuthParamsResponse?, Error?) -> Void){
-        let request = ApiSessionInfo.sendAuthenticationParams(cardToken, amount: amount, currency: currency, mobileData: mobileData, threeDSecure: threeDSecure)
+    static func sendAuthenticationParams(_ cardToken: String, amount: Decimal, currency: String, mobileData: MobileData,threeDSecure: ThreeDSecureRequest, decoupledAuth: Bool, decoupledTimeout: Int, completion: @escaping (AuthParamsResponse?, Error?) -> Void){
+        let request = ApiSessionInfo.sendAuthenticationParams(cardToken, amount: amount, currency: currency, mobileData: mobileData, threeDSecure: threeDSecure, decoupledAuth: decoupledAuth, decoupledTimeout: decoupledTimeout)
         doRequest(request: request){ data, error in
             completion(AuthParamsResponse().mapFromSource(data), error)
         }

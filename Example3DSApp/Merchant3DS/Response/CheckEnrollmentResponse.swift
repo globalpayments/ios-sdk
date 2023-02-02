@@ -11,6 +11,7 @@ class CheckEnrollmentResponse: ApiMapperProtocol {
     var status: String?
     var serverTransactionId: String?
     var messageVersion: String?
+    var acsInfoIndicator: String?
     
     func mapFromSource(_ data: String?) -> CheckEnrollmentResponse? {
         guard let data = data else {
@@ -21,6 +22,7 @@ class CheckEnrollmentResponse: ApiMapperProtocol {
         response.status = jsonDoc?.getValue(key: "status")
         response.serverTransactionId = jsonDoc?.getValue(key: "serverTransactionId")
         response.messageVersion = jsonDoc?.getValue(key: "messageVersion")
+        response.acsInfoIndicator = jsonDoc?.getValue(key: "acs_info_indicator")
         return response
     }
 }

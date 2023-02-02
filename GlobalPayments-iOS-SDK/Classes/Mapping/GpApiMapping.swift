@@ -353,7 +353,6 @@ public struct GpApiMapping {
         if let eci: String = doc?.get(valueFor: "three_ds")?.getValue(key: "eci"), let eciValue = Int(eci) {
             secure.eci = eciValue
         }
-        secure.acsInfoIndicator = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_decoupled_response_indicator")
         secure.challengeMandated = doc?.get(valueFor: "three_ds")?.getValue(key: "challenge_status") == "MANDATED"
         secure.payerAuthenticationRequest = doc?.get(valueFor: "three_ds")?.get(valueFor: "method_data")?.getValue(key: "encoded_method_data")
         secure.issuerAcsUrl = doc?.get(valueFor: "three_ds")?.getValue(key: "method_url")
@@ -370,6 +369,7 @@ public struct GpApiMapping {
         secure.authenticationSource = doc?.get(valueFor: "three_ds")?.getValue(key: "authentication_source")
         secure.liabilityShift = doc?.get(valueFor: "three_ds")?.getValue(key: "liability_shift")
         secure.authenticationType = doc?.get(valueFor: "three_ds")?.getValue(key: "authentication_request_type")
+        secure.decoupledResponseIndicator = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_decoupled_response_indicator")
         secure.whiteListStatus = doc?.get(valueFor: "three_ds")?.getValue(key: "whitelist_status")
         if let acsChallengeRequestUrl: String = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_challenge_request_url") {
             if secure.challengeMandated == true {

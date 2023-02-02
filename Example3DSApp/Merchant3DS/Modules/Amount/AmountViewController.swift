@@ -41,10 +41,8 @@ extension AmountViewController: TokenizedCardDataDelegate {
 
 extension AmountViewController: MerchantViewOutput {
     
-    func displayConfigModule() {
-    }
-    
     func showTokenLoaded(_ token: String) {
+        activityIndicator.removeLoadingLabel()
         activityIndicator.stopAnimating()
         
         if token.isEmpty {
@@ -53,17 +51,28 @@ extension AmountViewController: MerchantViewOutput {
         currentToken = token
     }
     
-    func showNetceteraLoaded() {
+    func showLoading(_ message: String) {
+        UI {
+            self.activityIndicator.addLoadingLabel()
+        }
+    }
+
+    func hideLoading() {
+        UI {
+            self.activityIndicator.removeLoadingLabel()
+        }
     }
     
     func displayError(_ error: Error) {
         let message = String(format: NSLocalizedString("globalpay.container.failure", comment: ""), error.localizedDescription)
         showAlert(message: message)
+        activityIndicator.removeLoadingLabel()
         activityIndicator.stopAnimating()
     }
     
     func requestError(_ error: Error) {
         UI {
+            self.activityIndicator.removeLoadingLabel()
             self.activityIndicator.stopAnimating()
             UI {
                 self.activityIndicator.stopAnimating()
@@ -80,6 +89,7 @@ extension AmountViewController: MerchantViewOutput {
         }
         
         UI {
+            self.activityIndicator.removeLoadingLabel()
             self.activityIndicator.stopAnimating()
         }
     }
@@ -87,6 +97,7 @@ extension AmountViewController: MerchantViewOutput {
     //28. Display Outcome to CardHolder
     func showTransaction(_ transaction: TransactionResponse) {
         UI {
+            self.activityIndicator.removeLoadingLabel()
             self.activityIndicator.stopAnimating()
             let viewController = SuccessViewController.instantiate()
             viewController.modalPresentationStyle = .pageSheet

@@ -2,11 +2,12 @@ import Foundation
 
 class ApiSessionInfo {
     
-    static func checkEnrollment(_ cardToken: String, amount: Decimal, currency: String) -> ApiRequest {
+    static func checkEnrollment(_ cardToken: String, amount: Decimal, currency: String, decoupledAuth: Bool) -> ApiRequest {
         let request = JsonDoc()
             .set(for: "cardToken", value: cardToken)
             .set(for: "amount", value: amount)
             .set(for: "currency", value: currency)
+            .set(for: "preferredDecoupledAuth", value: decoupledAuth)
 
         return ApiRequest(
             endpoint: ApiRequest.Endpoints.checkEnrollment(),
@@ -15,7 +16,7 @@ class ApiSessionInfo {
         )
     }
     
-    static func sendAuthenticationParams(_ cardToken: String, amount: Decimal, currency: String, mobileData: MobileData, threeDSecure: ThreeDSecureRequest) -> ApiRequest{
+    static func sendAuthenticationParams(_ cardToken: String, amount: Decimal, currency: String, mobileData: MobileData, threeDSecure: ThreeDSecureRequest, decoupledAuth: Bool, decoupledTimeout: Int) -> ApiRequest{
         let request = JsonDoc()
             .set(for: "cardToken", value: cardToken)
             .set(for: "amount", value: "\(amount)")
@@ -23,6 +24,8 @@ class ApiSessionInfo {
             .set(for: "customerEmail", value: "abc@def.com")
             .set(for: "mobileData", doc: mapMobileData(mobileData))
             .set(for: "threeDsecure", doc: threeDSecure.toJson())
+            .set(for: "preferredDecoupledAuth", value: decoupledAuth)
+            .set(for: "decoupledFlowTimeout", value: decoupledTimeout)
         
         return ApiRequest(
             endpoint: ApiRequest.Endpoints.sendAuthenticationParams(),

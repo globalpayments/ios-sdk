@@ -1501,4 +1501,127 @@ class GpApi3DSecureTests: XCTestCase {
         XCTAssertNotNil(secureEcom?.sessionDataFieldName)
         XCTAssertEqual(secureEcom?.liabilityShift, "NO")
     }
+
+    func test_decoupled_auth() {
+        // GIVEN
+        card.number = GpApi3DSTestCards.cardAuthSuccessfulV21
+        let tokenizeExpectation = expectation(description: "Tokenize exception")
+        var tokenizedCard: CreditCardData?
+        var expectedError: Error?
+
+        // WHEN
+        card.tokenize { token, error in
+            let creditCardData = CreditCardData()
+            creditCardData.token = token
+            tokenizedCard = creditCardData
+            expectedError = error
+            tokenizeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [tokenizeExpectation], timeout: 10.0)
+        XCTAssertNil(expectedError)
+        XCTAssertNotNil(tokenizedCard?.token)
+
+        // GIVEN
+        tokenizedCard?.cardHolderName = "James Mason"
+        let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
+        var threeDSecureResult: ThreeDSecure?
+        var threeDSecureError: Error?
+
+        // WHEN
+        Secure3dService
+            .checkEnrollment(paymentMethod: tokenizedCard)
+            .withCurrency(currency)
+            .withAmount(amount)
+            .withDecoupledNotificationUrl("https://www.example.com/decoupledNotification")
+            .execute {
+                threeDSecureResult = $0
+                threeDSecureError = $1
+                checkEnrollmentExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [checkEnrollmentExpectation], timeout: 20.0)
+        XCTAssertNil(threeDSecureError)
+        XCTAssertNotNil(threeDSecureResult)
+        XCTAssertEqual(threeDSecureResult?.enrolled, ENROLLED)
+        XCTAssertEqual(threeDSecureResult?.version, Secure3dVersion.two)
+        XCTAssertEqual(threeDSecureResult?.status, AVAILABLE)
+
+        // GIVEN
+        let initiateAuthenticationExpectation = expectation(description: "Initiate Authentication Expectation")
+        var threeDSecureInitAuthResult: ThreeDSecure?
+        var threeDSecureInitAuthError: Error?
+
+        // WHEN
+        Secure3dService
+            .initiateAuthentication(paymentMethod: tokenizedCard, secureEcom: threeDSecureResult)
+            .withAmount(amount)
+            .withCurrency(currency)
+            .withAuthenticationSource(.browser)
+            .withMethodUrlCompletion(.yes)
+            .withOrderCreateDate(Date())
+            .withAddress(shippingAddress, .shipping)
+            .withBrowserData(browserData)
+            .withDecoupledFlowRequest(true)
+            .withDecoupledFlowTimeout(9001)
+            .withDecoupledNotificationUrl("https://www.example.com/decoupledNotification")
+            .execute {
+                threeDSecureInitAuthResult = $0
+                threeDSecureInitAuthError = $1
+                initiateAuthenticationExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [initiateAuthenticationExpectation], timeout: 20.0)
+        XCTAssertNil(threeDSecureInitAuthError)
+        XCTAssertNotNil(threeDSecureInitAuthResult)
+        XCTAssertEqual(threeDSecureInitAuthResult?.status, SUCCESS_AUTHENTICATED)
+        XCTAssertEqual(threeDSecureInitAuthResult?.liabilityShift, "YES")
+
+        // GIVEN
+        let getAuthenticationDataExpectation = expectation(description: "Get Authentication Data Expectation")
+        var authenticationThreeDSecure: ThreeDSecure?
+        var authenticationError: Error?
+
+        // WHEN
+        Secure3dService
+            .getAuthenticationData()
+            .withServerTransactionId(threeDSecureInitAuthResult?.serverTransactionId)
+            .execute {
+                authenticationThreeDSecure = $0
+                authenticationError = $1
+                getAuthenticationDataExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [getAuthenticationDataExpectation], timeout: 20)
+        XCTAssertNil(authenticationError)
+        XCTAssertNotNil(authenticationThreeDSecure)
+        XCTAssertEqual(authenticationThreeDSecure?.status, SUCCESS_AUTHENTICATED)
+        XCTAssertEqual(authenticationThreeDSecure?.liabilityShift, "YES")
+
+        // GIVEN
+        tokenizedCard?.threeDSecure = authenticationThreeDSecure
+        let chargeExpectation = expectation(description: "Charge Expectation")
+        var transactionResult: Transaction?
+        var transactionError: Error?
+
+        // WHEN
+        tokenizedCard?.charge(amount: amount)
+            .withCurrency(currency)
+            .execute {
+                transactionResult = $0
+                transactionError = $1
+                chargeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [chargeExpectation], timeout: 20.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.rawValue)
+        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+    }
 }

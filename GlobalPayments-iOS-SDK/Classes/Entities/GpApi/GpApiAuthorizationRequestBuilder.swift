@@ -97,6 +97,10 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             payload.set(for: "stored_credential", doc: storedCredential)
         }
 
+        if builder.paymentMethod is eCheck {
+            payload.set(for: "payer", doc: setPayerInformation(builder))
+        }
+
         return payload
     }
 
@@ -196,17 +200,15 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
     private func createPaymentMethodParam(for builder: Builder, channel: Channel?) -> JsonDoc {
         let paymentMethod = JsonDoc()
         paymentMethod.set(for: "entry_mode", value: entryMode(for: builder, channel: channel))
-        
-        switch(builder.paymentMethod){
+
+        switch builder.paymentMethod {
         case let creditCardData as CreditCardData:
             creditCardDataPaymentMethod(paymentMethod, modifier: builder.transactionModifier, creditCardData: creditCardData, builder: builder)
-            break
         case let encryptable as Encryptable:
             encryptablePaymentMethod(paymentMethod, encryptable: encryptable)
-            break
-        case .none, .some(_): break
+        case .none, .some: break
         }
-        
+
         if let tokenizable = builder.paymentMethod as? Tokenizable, builder.transactionModifier != .encryptedMobile, builder.transactionModifier != .decryptedMobile {
             if let token = tokenizable.token, !token.isEmpty {
                 paymentMethod.set(for: "id", value: token)
@@ -216,31 +218,59 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         if builder.requestMultiUseToken == true {
             paymentMethod.set(for: "storage_mode", value: "ON_SUCCESS")
         }
-        
-        if paymentMethod.getValue(key: "id") == nil {
-            paymentMethod.set(for: "card", doc: CardUtils.generateCard(builder: builder))
+
+        if let check = builder.paymentMethod as? eCheck {
+            paymentMethod.set(for: "name", value: check.checkHolderName)
+
+            let bankTransfer = JsonDoc()
+            bankTransfer.set(for: "account_number", value: check.accountNumber)
+            bankTransfer.set(for: "account_type", value: check.accountType?.rawValue)
+            bankTransfer.set(for: "check_reference", value: check.checkReference)
+            bankTransfer.set(for: "sec_code", value: check.secCode)
+            bankTransfer.set(for: "narrative", value: check.merchantNotes)
+
+            let bank = JsonDoc()
+            bank.set(for: "code", value: check.routingNumber)
+            bank.set(for: "name", value: check.bankName)
+
+            let address = JsonDoc()
+            address.set(for: "line_1", value: check.bankAddress?.streetAddress1)
+            address.set(for: "line_2", value: check.bankAddress?.streetAddress2)
+            address.set(for: "line_3", value: check.bankAddress?.streetAddress3)
+            address.set(for: "city", value: check.bankAddress?.city)
+            address.set(for: "postal_code", value: check.bankAddress?.postalCode)
+            address.set(for: "state", value: check.bankAddress?.state)
+            address.set(for: "country", value: check.bankAddress?.countryCode)
+
+            bank.set(for: "address", doc: address)
+            bankTransfer.set(for: "bank", doc: bank)
+            paymentMethod.set(for: "bank_transfer", doc: bankTransfer)
+        }else {
+            if paymentMethod.getValue(key: "id") == nil {
+                paymentMethod.set(for: "card", doc: CardUtils.generateCard(builder: builder))
+            }
         }
-        
+
         paymentMethod.set(for: "narrative", value: builder.dynamicDescriptor)
-        
+
         return paymentMethod
     }
-    
-    private func creditCardDataPaymentMethod(_ paymentMethod: JsonDoc, modifier: TransactionModifier, creditCardData: CreditCardData, builder: Builder){
+
+    private func creditCardDataPaymentMethod(_ paymentMethod: JsonDoc, modifier: TransactionModifier, creditCardData: CreditCardData, builder: Builder) {
         paymentMethod.set(for: "name", value: creditCardData.cardHolderName)
-        
+
         if let secureEcom = creditCardData.threeDSecure {
-            paymentMethod.set(for: "authentication.id",value: secureEcom.serverTransactionId)
+            paymentMethod.set(for: "authentication.id", value: secureEcom.serverTransactionId)
         }
-        
+
         paymentMethod.set(for: "fingerprint_mode", value: builder.customerData?.deviceFingerPrint)
-        
+
         if modifier == TransactionModifier.encryptedMobile || modifier == TransactionModifier.decryptedMobile {
             let digitalWallet = JsonDoc()
             if modifier == TransactionModifier.encryptedMobile {
                 let jsonToken = JsonDoc.parse(creditCardData.token ?? "{}")
                 digitalWallet.set(for: "payment_token", doc: jsonToken)
-            }else if modifier == TransactionModifier.decryptedMobile{
+            } else if modifier == TransactionModifier.decryptedMobile {
                 digitalWallet.set(for: "token", value: creditCardData.token)
                 digitalWallet.set(for: "token_format", value: DigitalWalletTokenFormat.CARD_NUMBER.rawValue)
                 digitalWallet.set(for: "expiry_month", value: CardUtils.getExpMonthFormat(creditCardData.expMonth))
@@ -252,8 +282,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             paymentMethod.set(for: "digital_wallet", doc: digitalWallet)
         }
     }
-    
-    private func encryptablePaymentMethod(_ paymentMethod: JsonDoc, encryptable: Encryptable){
+
+    private func encryptablePaymentMethod(_ paymentMethod: JsonDoc, encryptable: Encryptable) {
         if let encryptionData = encryptable.encryptionData {
             let encryption = JsonDoc()
                 .set(for: "version", value: encryptionData.version)
@@ -269,8 +299,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             }
         }
     }
-    
-    private func mapFraudManagement(_ builder: AuthorizationBuilder)-> [JsonDoc] {
+
+    private func mapFraudManagement(_ builder: AuthorizationBuilder) -> [JsonDoc] {
         var rules = [JsonDoc]()
         if let fraudRules = builder.fraudRules {
             fraudRules.rules.forEach { rule in
@@ -280,12 +310,36 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                 rules.append(doc)
             }
         }
-        
+
         var result = [JsonDoc]()
         let item = JsonDoc()
         item.set(for: "mode", value: builder.fraudFilterMode?.rawValue)
         item.set(for: "rules", values: rules)
         result.append(item)
         return result
+    }
+
+    private func setPayerInformation(_ builder: AuthorizationBuilder) -> JsonDoc {
+        let payer = JsonDoc()
+        payer.set(for: "reference", value: builder.customerId ?? builder.customerData?.id)
+
+        if builder.paymentMethod is eCheck {
+            let billingAddress = JsonDoc()
+            billingAddress.set(for: "line_1", value: builder.billingAddress?.streetAddress1)
+            billingAddress.set(for: "line_2", value: builder.billingAddress?.streetAddress2)
+            billingAddress.set(for: "city", value: builder.billingAddress?.city)
+            billingAddress.set(for: "postal_code", value: builder.billingAddress?.postalCode)
+            billingAddress.set(for: "state", value: builder.billingAddress?.state)
+            billingAddress.set(for: "country", value: builder.billingAddress?.countryCode)
+            payer.set(for: "billing_address", doc: billingAddress)
+
+            if let customer = builder.customerData {
+                payer.set(for: "name", value: "\(customer.firstName ?? "") \(customer.lastName ?? "")")
+                payer.set(for: "date_of_birth", value: customer.dateOfBirth)
+                payer.set(for: "landline_phone", value: customer.homePhone)
+                payer.set(for: "mobile_phone", value: customer.mobilePhone)
+            }
+        }
+        return payer
     }
 }

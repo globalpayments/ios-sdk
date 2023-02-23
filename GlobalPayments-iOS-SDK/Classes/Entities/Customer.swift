@@ -5,29 +5,29 @@ public class Customer: RecurringEntity<Customer> {
     /// Customer's title
     var title: String?
     /// Customer's first name
-    var firstName: String?
+    public var firstName: String?
     /// Customer's last name
-    var lastName: String?
+    public var lastName: String?
     /// Customer's company
     var company: String?
     /// Customer's password
     var customerPassword: String?
     /// Customer's date of birth
-    var dateOfBirth: String?
+    public var dateOfBirth: String?
     /// Customer's domain name
     var domainName: String?
     /// Customer's device finger print
     public var deviceFingerPrint: String?
     /// Customer's address
-    var address: Address?
+    public var address: Address?
     /// Customer's home phone number
-    var homePhone: String?
+    public var homePhone: String?
     /// Customer's work phone number
     var workPhone: String?
     /// Customer's fax phone number
     var fax: String?
     /// Customer's mobile phone number
-    var mobilePhone: String?
+    public var mobilePhone: String?
     /// Customer's email address
     var email: String?
     /// Customer comments

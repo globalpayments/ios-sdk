@@ -1,7 +1,7 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-protocol InitiateFormDelegate: class {
+protocol InitiateFormDelegate: AnyObject {
     func onSubmitForm(form: InitiateForm, flowType: FlowType)
 }
 

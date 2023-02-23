@@ -60,6 +60,8 @@ public struct GpApiMapping {
                     transaction.cardIssuerResponse = mapCardIssuerResponse(provider)
                 }
             }
+
+            transaction.paymentMethodType = paymentMethod.has(key: "bank_transfer") ? .ach : transaction.paymentMethodType
         }
 
         if let riskAssessments: [JsonDoc] = doc?.getValue(key: "risk_assessment") {

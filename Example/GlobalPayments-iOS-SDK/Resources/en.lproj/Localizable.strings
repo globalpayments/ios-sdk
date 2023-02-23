@@ -23,6 +23,7 @@
 
 "globalpay.digital.wallets" = "Digital Wallets";
 "globalpay.apple.pay" = "Apple Pay";
+"globalpay.ach" = "Ach";
 
 "access.token.title" = "Access Token";
 "access.token.create" = "Create Access Token";
@@ -398,3 +399,8 @@
 "initiate.form.window.size" = "Challenge window size:";
 "initiate.form.timezone" = "Timezone:";
 "initiate.form.user.agent" = "User agent:";
+
+"ach.title" = "ACH";
+"ach.charge" = "Charge";
+"ach.refund" = "Refund";
+

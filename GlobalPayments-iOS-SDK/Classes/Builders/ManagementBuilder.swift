@@ -24,6 +24,7 @@ import Foundation
     var currency: String?
     var customerId: String?
     var dccRateData: DccRateData?
+    var bankTransferDetails: eCheck?
     var managementBuilderDescription: String?
     /// Request gratuity
     var gratuity: NSDecimalNumber?
@@ -131,6 +132,15 @@ import Foundation
         return self
     }
 
+    /// Set the election check information
+    /// - Parameter eCheck: This value is sent during the authorization process and is displayed
+    /// in the consumer's account.
+    /// - Returns: ManagementBuilder
+    public func WithBankTransferData(_ value: eCheck) -> ManagementBuilder {
+        self.bankTransferDetails = value
+        return self
+    }
+
     /// Sets the gratuity amount; where applicable.
     /// - Parameter gratuity: This value is information only and does not affect the authorization amount.
     /// - Returns: ManagementBuilder
@@ -193,7 +203,7 @@ import Foundation
         self.lodgingData = lodgingData
         return self
     }
-    
+
     /// Sets the EMV tag data to be sent along with an EMV transaction.
     /// - Parameter tagData: the EMV tag data
     /// - Returns: ManagementBuilder
@@ -229,7 +239,7 @@ import Foundation
 
     public override func setupValidations() {
 
-        validations.of(transactionType: [.capture, .edit, .hold, .release])
+        validations.of(transactionType: [.capture, .edit, .hold, .release, .reauth])
             .check(propertyName: "transactionId")?.isNotNil()
 
         validations.of(transactionType: .refund)

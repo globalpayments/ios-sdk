@@ -21,6 +21,7 @@ import Foundation
     var customerId: String?
     var oneTimePayment: Bool?
     var customerData: Customer?
+    var customer: Customer?
     var customData: [String]?
     var customerIpAddress: String?
     var cvn: String?
@@ -219,6 +220,11 @@ import Foundation
 
     public func withCustomerData(_ customerData: Customer) -> AuthorizationBuilder {
         self.customerData = customerData
+        return self
+    }
+
+    public func withCustomer(_ customer: Customer) -> AuthorizationBuilder {
+        self.customer = customer
         return self
     }
 

@@ -61,6 +61,7 @@ public enum SearchCriteria: String {
     case riskAssessmentMode
     case riskAssessmentResult
     case riskAssessmentReasonCode
+    case paymentMethodName
 }
 
 public enum DataServiceCriteria: String {
@@ -89,7 +90,6 @@ public enum DataServiceCriteria: String {
     case endLastUpdatedDate
     case paymentMethodName
     case disputeDocumentId
-    case paymentMethod
 }
 
 @objcMembers public class SearchCriteriaBuilder<TResult>: NSObject {
@@ -148,6 +148,7 @@ public enum DataServiceCriteria: String {
     var paymentMethodKey: String?
     var paymentMethod: PaymentMethod?
     var paymentTypes: [PaymentMethodType]?
+    var paymentMethodName: PaymentMethodName?
     var referenceNumber: String?
     var transactionType: [TransactionType]?
     var settlementAmount: NSDecimalNumber?

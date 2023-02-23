@@ -29,6 +29,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             params["risk_assessment_mode"] = builder.searchCriteriaBuilder.riskAssessmentMode?.rawValue
             params["risk_assessment_result"] = builder.searchCriteriaBuilder.riskAssessmentResult?.rawValue
             params["risk_assessment_reason_code"] = builder.searchCriteriaBuilder.riskAssessmentReasonCode?.rawValue
+            params["payment_method"] = builder.searchCriteriaBuilder.paymentMethodName?.rawValue
 
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.transactions(),

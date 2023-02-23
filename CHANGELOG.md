@@ -4,6 +4,12 @@
 
 #### Enhancements
 
+- GP-API: Add ACH feature
+
+## 1.2.11 (01/02/2023)
+
+#### Enhancements
+
 - GP-API: Add new feature Decoupled Auth on SDK and 3ds demo app project
 
 ## 1.2.10 (17/01/2023)

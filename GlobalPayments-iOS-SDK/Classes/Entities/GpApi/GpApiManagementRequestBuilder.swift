@@ -1,7 +1,7 @@
 import Foundation
 
 struct GpApiManagementRequestBuilder: GpApiRequestData {
-    
+
     func generateRequest(for builder: ManagementBuilder, config: GpApiConfig) -> GpApiRequest? {
         let merchantUrl: String = !(config.merchantId?.isEmpty ?? true) ? "/merchants/\(config.merchantId ?? "")" : ""
         switch builder.transactionType {
@@ -66,6 +66,28 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
         case .reauth:
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+
+            if builder.paymentMethod?.paymentMethodType == .ach {
+                payload.set(for: "description", value: builder.description)
+                if let eCheck = builder.paymentMethod as? eCheck {
+
+                    let paymentMethod = JsonDoc()
+                    paymentMethod.set(for: "narrative", value: eCheck.merchantNotes)
+
+                    let bankTransfer = JsonDoc()
+                    bankTransfer.set(for: "account_number", value: eCheck.accountNumber)
+                    bankTransfer.set(for: "account_type", value: eCheck.accountType?.rawValue)
+                    bankTransfer.set(for: "check_reference", value: eCheck.checkReference)
+
+                    let bank = JsonDoc()
+                    bank.set(for: "code", value: eCheck.routingNumber)
+                    bank.set(for: "name", value: eCheck.bankName)
+
+                    bankTransfer.set(for: "bank", doc: bank)
+                    paymentMethod.set(for: "bank_transfer", doc: bankTransfer)
+                    payload.set(for: "payment_method", doc: paymentMethod)
+                }
+            }
 
             return GpApiRequest(
                 endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsReauthorization(transactionId: (builder.transactionId ?? .empty)),

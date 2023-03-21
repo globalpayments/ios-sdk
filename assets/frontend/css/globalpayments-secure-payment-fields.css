@@ -1,0 +1,27 @@
+.globalpayments iframe {
+	min-height: 3.6rem;
+	width: 100%;
+}
+
+div[id^="GlobalPayments-overlay-"] {
+	z-index: 1001 !important;
+}
+
+.woocommerce-globalpayments-validation-error, .woocommerce-globalpayments-sandbox-warning {
+	background-color:#e2401c;
+	margin-left:0;
+	border-radius:4px;
+	color:#fff;
+	clear:both;
+	border-left:.6180469716em solid rgba(0,0,0,.15);
+	padding:6px 12px;
+	position:relative;
+	list-style:none outside;
+	display:block;
+	width:100%;
+	font-size:14px;
+}
+
+.woocommerce-page #payment button.woocommerce-globalpayments-hidden {
+	display: none !important;
+}

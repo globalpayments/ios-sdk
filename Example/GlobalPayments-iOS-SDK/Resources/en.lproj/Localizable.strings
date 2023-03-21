@@ -1,0 +1,406 @@
+"generic.not.implemented" = "Not implemented";
+"generic.alert" = "Alert";
+"generic.close" = "Close";
+"generic.empty" = "Empty";
+"generic.idempotency.key.title" = "Idempotency Key:";
+"generic.optional" = "(optional)";
+"generic.submit" = "Submit";
+
+"gateways.title" = "GlobalPay Sample App";
+"gateways.gpapi.title" = "GP API";
+"gateways.portico.title" = "Portico";
+"gateways.realex.title" = "Realex";
+
+"globalpay.title" = "GP API";
+"globalpay.container.failure" = "Oops!, looks like there is an error setting up the container. Check the error below: \n%@";
+"globalpay.access.token.title" = "Access Token";
+"globalpay.transactions.title" = "Transactions";
+"globalpay.verifications.title" = "Verifications";
+"globalpay.payment.methods.title" = "Stored Payment Methods";
+"globalpay.deposits.title" = "Deposits";
+"globalpay.disputes.title" = "Disputes";
+"globalpay.disputes.authentications" = "Authentications";
+
+"globalpay.digital.wallets" = "Digital Wallets";
+"globalpay.apple.pay" = "Apple Pay";
+"globalpay.ach" = "Ach";
+
+"access.token.title" = "Access Token";
+"access.token.create" = "Create Access Token";
+
+"access.token.form.title" = "Access Token Parameters";
+"access.token.form.app.id" = "App ID:";
+"access.token.form.app.key" = "App Key:";
+"access.token.form.seconds" = "Seconds to expire:";
+"access.token.form.environment" = "Environment";
+"access.token.form.interval" = "Interval to expire";
+"access.token.form.submit" = "Submit";
+
+"transactions.title" = "Transactions";
+"transactions.report.title" = "Transaction Report";
+"transactions.operations.title" = "Transaction Operations";
+
+"transaction.report.title" = "Transaction Report";
+"transaction.report.get.list" = "Get transaction list";
+"transaction.report.get.by.id" = "Get transaction by ID";
+
+"transaction.report.by.id.form.title" = "Report Parameters";
+"transaction.report.by.id.form" = "Transaction ID:";
+"transaction.report.by.id.submit" = "Submit";
+"transaction.report.by.id.id" = "ID:";
+"transaction.report.by.id.time" = "Time Created:";
+"transaction.report.by.id.status" = "Status:";
+"transaction.report.by.id.type" = "Type:";
+"transaction.report.by.id.channel" = "Channel:";
+"transaction.report.by.id.amount" = "Amount:";
+"transaction.report.by.id.currency" = "Currency:";
+"transaction.report.by.id.reference" = "Reference:";
+"transaction.report.by.id.client.trans.id" = "Client Transaction ID:";
+"transaction.report.by.id.batch.id" = "Batch ID:";
+"transaction.report.by.id.country" = "Country:";
+"transaction.report.by.id.org.trans.id" = "Original Transaction ID:";
+"transaction.report.by.id.gateway.msg" = "Gateway Response Message:";
+"transaction.report.by.id.entry.mode" = "Entry Mode:";
+"transaction.report.by.id.card.type" = "Card Type:";
+"transaction.report.by.id.auth.code" = "Auth Code:";
+"transaction.report.by.id.arn" = "Aquirer Reference Number:";
+"transaction.report.by.id.masked.number" = "Masked Card Number:";
+
+"transaction.report.list.title" = "Report Parameters";
+"transaction.report.list.submit" = "Submit";
+"transaction.report.list.page" = "Page:";
+"transaction.report.list.page.size" = "Page Size:";
+"transaction.report.list.sort.by.property" = "Sort by Property:";
+"transaction.report.list.sort.order" = "Sort Order:";
+"transaction.report.list.transaction.id" = "Transaction ID:";
+"transaction.report.list.payment.type" = "Payment Type:";
+"transaction.report.list.channel" = "Channel:";
+"transaction.report.list.amount" = "Amount:";
+"transaction.report.list.currency" = "Currency:";
+"transaction.report.list.number.first.6" = "Number First 6:";
+"transaction.report.list.number.last.4" = "Number Last 4:";
+"transaction.report.list.token.first.6" = "Token First 6:";
+"transaction.report.list.token.last.4" = "Token Last 4:";
+"transaction.report.list.account.name" = "Account Name:";
+"transaction.report.list.card.brand" = "Card Brand:";
+"transaction.report.list.brand.reference" = "Brand Reference:";
+"transaction.report.list.auth.code" = "Auth Code:";
+"transaction.report.list.reference.number" = "Reference Number:";
+"transaction.report.list.transaction.status" = "Transaction Status:";
+"transaction.report.list.start.date" = "Start Date:";
+"transaction.report.list.end.date" = "End Date:";
+"transaction.report.list.country" = "Country:";
+"transaction.report.list.batch.id" = "Batch Reference:";
+"transaction.report.list.entry.mode" = "Entry Mode:";
+"transaction.report.list.name" = "Payment Method owner name:";
+"transaction.settlements" = "Get from settlements?";
+
+"transactoin.operations.title" = "Transaction Operations";
+"transactoin.operations.create.transaction" = "Create Transaction";
+
+"transactoin.operations.form.title" = "Enter details";
+"transactoin.operations.form.submit" = "Submit";
+"transactoin.operations.form.payment.card" = "Payment card";
+"transactoin.operations.form.card.number" = "Card Number:";
+"transactoin.operations.form.expiry.month" = "Expiry Month:";
+"transactoin.operations.form.expiry.year" = "Expiry Year:";
+"transactoin.operations.form.cvn.cvv" = "CVN/CVV:";
+"transactoin.operations.form.transaction.data" = "Transaction Data";
+"transactoin.operations.form.amount" = "Amount:";
+"transactoin.operations.form.currency" = "Currency:";
+"transactoin.operations.form.transaction.type" = "Transaction Type:";
+"transactoin.operations.idempotency.title" = "Idempotency";
+
+"transaction.view.transaction.id" = "Transaction ID:";
+"transaction.view.time.created" = "Time Created:";
+"transaction.view.status" = "Status:";
+"transaction.view.amount" = "Amount:";
+"transaction.view.reference" = "Reference:";
+"transaction.view.batch.id" = "Batch ID:";
+"transaction.view.result.code" = "Result Code:";
+
+"verifications.title" = "Verifications";
+"verifications.initiate.verification" = "Initiate Verification";
+
+"verifications.form.title" = "Verifications";
+"verifications.form.submit" = "Submit";
+"verifications.form.transaction.data" = "Transaction Data";
+"verifications.form.reference" = "Reference:";
+"verifications.form.currency" = "Currency:";
+"verifications.form.country" = "Country:";
+"verifications.form.payment.method" = "Payment Method";
+"verifications.form.id" = "ID:";
+"verifications.form.first.name" = "First Name:";
+"verifications.form.last.name" = "Last Name:";
+"verifications.form.payment.card" = "Payment Card";
+"verifications.form.card.number" = "Card Number:";
+"verifications.form.expiry.month" = "Expiry Month:";
+"verifications.form.expiry.year" = "Expiry Year:";
+"verifications.form.cvn" = "CVN/CVV:";
+"verifications.form.avs.address" = "AVS Address:";
+"verifications.form.avs.postal.code" = "AVS Postal Code:";
+"verificatoins.form.missing.country" = "Country field cannot be empty \n Example: US";
+
+"payment.methods.title" = "Stored Payment Methods";
+"payment.methods.report.title" = "Payment Method Report";
+"payment.methods.operations.title" = "Payment Method Operations";
+"payment.methods.not.implemented.title" = "Not implemented in SDK";
+
+"payment.methods.report.list" = "Get Payment Methods List";
+"payment.methods.report.id" = "Get Payment Method By ID";
+
+"payment.methods.report.id.title" = "Report Parameters";
+"payment.methods.report.id.payment.method" = "Payment Method ID:";
+"payment.methods.report.id.submit" = "Submit";
+
+"payment.method.view.method.id" = "Payment method ID:";
+"payment.method.view.time.created" = "Time Created:";
+"payment.method.view.status" = "Status:";
+"payment.method.view.reference" = "Reference:";
+"payment.method.view.result.code" = "Result Code:";
+"payment.method.view.card.type" = "Card Type:";
+"payment.method.view.card.expiry.month" = "Card Expiry Month:";
+"payment.method.view.card.expiry.year" = "Card Expiry Year:";
+
+"payment.method.operations.title" = "Payment Method Operations";
+"payment.method.operations.payment.operation" = "Initiate Payment Operation";
+"payment.method.operations.result.view.payment.method.id" = "Payment Method ID:";
+"payment.method.operations.result.view.result" = "Result:";
+"payment.method.operations.result.view.card.type" = "Card Type:";
+"payment.method.operations.result.view.card.number" = "Card Number:";
+"payment.method.operations.result.view.card.expiry.month" = "Card Expiry Month:";
+"payment.method.operations.result.view.card.expiry.year" = "Card Expiry Year:";
+
+"payment.operation.form.title" = "Payment Method Parameters";
+"payment.operation.form.submit" = "Submit";
+"payment.operation.form.payment.operation" = "Payment Operation:";
+"payment.operation.form.payment.method.id" = "Payment Method ID:";
+"payment.operation.form.payment.method.id.placeholder" = "Enter Payment Method ID";
+"payment.operation.form.payment.method.id.alert" = "Enter Payment Method ID obtained from tokenization step";
+"payment.operation.form.payment.card" = "Payment Card";
+"payment.operation.form.card.number" = "Card Number:";
+"payment.operation.form.expiry.month" = "Expiry Month:";
+"payment.operation.form.expiry.year" = "Expiry Year:";
+"payment.operation.form.cvn" = "CVN/CVV:";
+
+"deposits.title" = "Deposits";
+"deposits.get.deposits.list" = "Get Deposits List";
+"deposits.get.deposit.by.id" = "Get Deposit By ID";
+"deposits.id" = "ID:";
+"deposits.time.created" = "Time Created:";
+"deposits.status" = "Status:";
+"deposits.funding.type" = "Funding Type:";
+"deposits.amount" = "Amount:";
+"deposits.currency" = "Currency:";
+"deposits.mid" = "Merchant ID:";
+"deposits.hierarchy" = "Hierarchy:";
+"deposits.name" = "Name:";
+"deposits.dbo" = "Alternative Name:";
+"deposits.sales.count" = "Sales Count:";
+"deposits.sales.amount" = "Sales Amount:";
+"deposits.refunds.count" = "Refunds Count:";
+"deposits.refunds.amount" = "Refunds Amount:";
+"deposits.discounts.amount" = "Discounts Amount:";
+"deposits.discounts.count" = "Discounts Count:";
+"deposits.tax.amount" = "Tax Amount:";
+"deposits.tax.count" = "Tax Count:";
+"deposits.chargebacks.amount" = "Chargebacks Amount:";
+"deposits.chargebacks.count" = "Сhargebacks Сount:";
+"deposits.reversals.amount" = "Reversals Amount:";
+"deposits.reversals.count" = "Reversals Count:";
+"deposits.fees.amount" = "Fees Amount:";
+
+"deposits.deposit.by.id.form.title" = "Find Deposit By ID Form";
+"deposits.deposit.by.id.form.description" = "Report Parameters";
+"deposits.deposit.by.id.form.submit" = "Submit";
+
+"deposits.list.form.title" = "Find Deposits By Criteria";
+"deposits.list.form.submit" = "Submit";
+"deposits.list.form.page" = "Page:";
+"deposits.list.form.page.size" = "Page Size:";
+"deposits.list.form.order.by" = "Order By:";
+"deposits.list.form.order" = "Order:";
+"deposits.list.form.account.name" = "Account Name:";
+"deposits.list.form.from.time.created" = "From Time Created:";
+"deposits.list.form.id" = "ID:";
+"deposits.list.form.status" = "Status:";
+"deposits.list.form.to.time.created" = "To Time Created:";
+"deposits.list.form.amount" = "Amount:";
+"deposits.list.form.masked.number" = "Mascked Account Number Last 4:";
+"deposits.list.form.system.mid" = "System MID:";
+"deposits.list.form.system.hierarchy" = "System Hierarchy:";
+
+"disputes.title" = "Disputes";
+"disputes.report.title" = "Disputes Report";
+"disputes.operations.title" = "Disputes Operations";
+
+"disputes.report.dispute.list" = "Get Disputes List";
+"disputes.report.dispute.by.id" = "Get Dispute By ID";
+"disputes.report.document.by.id" = "Get Document By ID";
+"disputes.report.document.id" = "ID:";
+"disputes.report.document.time.created" = "Time Created:";
+"disputes.report.document.status" = "Status:";
+"disputes.report.document.stage" = "Stage:";
+"disputes.report.document.amount" = "Amount:";
+"disputes.report.document.currency" = "Currency:";
+"disputes.report.document.mid" = "Merchant ID:";
+"disputes.report.document.merchant.hierarchy" = "Merchant Hierarchy:";
+"disputes.report.document.arn" = "Tranasction ARN;";
+"disputes.report.document.reference.number" = "Transaction Reference Number:";
+"disputes.report.document.auth.code" = "Transaction Auth Code:";
+"disputes.report.document.card.type" = "Transaction Card Type:";
+"disputes.report.document.masked.number" = "Transaction Masked Card Number:";
+"disputes.report.document.reason" = "Reason:";
+"disputes.report.document.reason.code" = "Reason Code:";
+"disputes.report.document.time.end" = "Respond By Date:";
+"disputes.report.document.documents" = "Documents:";
+"disputes.report.document.more" = "more...";
+"disputes.report.document.last.adjustment.funding" = "Last Adjustment Funding:";
+"disputes.report.document.last.adjustment.amount" = "Last Adjustment Amount:";
+"disputes.report.document.last.adjustment.currency" = "Last Adjustment Currency:";
+"disputes.report.document.last.adjustment.time" = "Last Adjustment Time:";
+"disputes.report.document.result" = "Result:";
+
+"dispute.document.form.title" = "Document Parameters";
+"dispute.document.form.submit" = "Submit";
+"dispute.document.form.dispute.id" = "Dispute ID:";
+"dispute.document.form.document.id" = "Document ID:";
+
+"dispute.by.id.title" = "Report Parameters";
+"dispute.by.id" = "Dispute ID:";
+"dispute.by.id.settlements" = "Get from settlements ?";
+"dispute.by.id.submit" = "Submit";
+
+"dispute.document.title" = "Documents";
+
+"dispute.list.form.title" = "Disputes Parameters";
+"dispute.list.form.submit" = "Submit";
+"dispute.list.form.page" = "Page:";
+"dispute.list.form.page.size" = "Page Size:";
+"dispute.list.form.order.by" = "Order By:";
+"dispute.list.form.order" = "Order:";
+"dispute.list.form.arn" = "ARN:";
+"dispute.list.form.brand" = "Brand:";
+"dispute.list.form.status" = "Status:";
+"dispute.list.form.stage" = "Stage:";
+"dispute.list.form.from.stage.time.created" = "From Stage Time Created:";
+"dispute.list.form.to.stage.time.created" = "To Stage Time Created:";
+"dispute.list.form.adjustment.funding" = "Adjustment Funding:";
+"dispute.list.form.from.adjustment.time.created" = "From Adjustment Time Created:";
+"dispute.list.form.to.adjustment.time.created" = "To Adjustment Time Created:";
+"dispute.list.form.system.mid" = "System MID:";
+"dispute.list.form.system.hierarchy" = "System Hierarchy:";
+"dispute.list.form.settlements" = "Get from Settlements?";
+
+"disputes.operations.title" = "Dispute Operations";
+"disputes.operations.initiate.opearation" = "Initiate Dispute Operation";
+
+"disputes.operations.form.title" = "Operation Parameters";
+"disputes.operations.form.submit" = "Submit";
+"disputes.operations.form.operation.type" = "Operation Type:";
+"disputes.operations.form.dispute.id" = "Dispute ID:";
+"disputes.operations.form.image.not.selected" = "Please select an image!";
+
+"dispute.action.view.reference" = "Reference:";
+"dispute.action.view.status" = "Status:";
+"dispute.action.view.stage" = "Stage:";
+"dispute.action.view.amount" = "Amount:";
+"dispute.action.view.currency" = "Currency:";
+"dispute.action.view.reason.code" = "Reason Code:";
+"dispute.action.view.reason.description" = "Reason Description:";
+"dispute.action.view.reason.result" = "Result:";
+"dispute.action.view.documents" = "Documents:";
+
+"document.picker.view.title" = "Add Document File:";
+"document.picker.view.file" = "Document File:";
+"document.picker.view.select" = "Press to select a file";
+"document.picker.view.type" = "Document Type:";
+"document.picker.view.add" = "Add";
+"document.picker.view.add.document" = "Add Document";
+"document.picker.view.clear" = "Clear & Close";
+
+"configuration.title" = "GP API Configuration";
+"configuration.app.id" = "App ID (required)";
+"configuration.app.key" = "App Key (required)";
+"configuration.seconds.to.expire" = "Seconds To Expire (optional)";
+"configuration.interval.to.expire" = "Interval To Expire (optional)";
+"configuration.channel" = "Channel (required)";
+"configuration.language" = "Language (optional)";
+"configuration.country" = "Country (optional)";
+"configuration.save" = "Save Configuration";
+"configuration.app.id.message" = "Applicatoin ID field is required";
+"configuration.app.key.message" = "Applicatoin Key field is required";
+"configuration.channel.message" = "Channel field is required";
+"configuration.challenge.notification.url" = "Challenge Notification URL (optional)";
+"configuration.method.notification.url" = "Method Notification URL (optional)";
+"configuration.merchant.contact.url" = "Merchant Contact URL (optional)";
+"configuration.merchant.id" = "Acccount names are required";
+
+// MARK: - Authentications
+
+"authentications.title" = "Authentications";
+"authentications.check.availability" = "Check Availability";
+"authentications.initiate" = "Initiate";
+"authentications.get.result" = "Get Result";
+"authentications.full.flow" = "Full Flow";
+
+// MARK: - Check Availability Form
+
+"check.availability.form.title" = "Check Availability";
+"check.availability.form.payment.card" = "Payment card";
+"check.availability.form.card.number" = "Card number:";
+"check.availability.form.expiry.month" = "Expiry month;";
+"check.availability.form.expiry.year" = "Expiry year:";
+"check.availability.form.card.holder.name" = "Card holder name:";
+"check.availability.form.transaction.data" = "Transaction data";
+"check.availability.form.amount" = "Amount:";
+"check.availability.form.currency" = "Currency:";
+
+// MARK: - Authentication Data Form
+
+"authentication.data.form.title" = "Authentication Data Form";
+"authentication.data.form.transaction.id" = "Transaction ID:";
+"authentication.data.form.payer.response" = "Payer Authentication Response:";
+
+// MARK: - Initiate Form
+
+"initiate.form.title" = "Initiate Form";
+"initiate.form.full.title" = "Full Cycle Form";
+"initiate.form.payment.card" = "Payment Card";
+"initiate.form.card.number" = "Card number:";
+"initiate.form.exp.month" = "Expiry month:";
+"initiate.form.exp.year" = "Expiry year:";
+"initiate.form.cardholder.name" = "Cardholder name:";
+"initiate.form.amount" = "Amount:";
+"initiate.form.currency" = "Currency:";
+"initiate.form.method.url" = "Method URL completion:";
+"initiate.form.auth.source" = "Authentication source:";
+"initiate.form.order.date" = "Order create date:";
+"initiate.form.billing.address1" = "Street address 1:";
+"initiate.form.billing.address2" = "Street address 2:";
+"initiate.form.billing.address3" = "Street address 3:";
+"initiate.form.billing.city" = "City:";
+"initiate.form.billing.postal.code" = "Postal code:";
+"initiate.form.billing.country.code" = "Country code:";
+"initiate.form.shipping.address1" = "Street address 1:";
+"initiate.form.shipping.address2" = "Street address 2:";
+"initiate.form.shipping.address3" = "Street address 3:";
+"initiate.form.shipping.city" = "City:";
+"initiate.form.shipping.postal.code" = "Postal code:";
+"initiate.form.shipping.country.code" = "Country code:";
+"initiate.form.accept.header" = "Accept header:";
+"initiate.form.color.depth" = "Color depth:";
+"initiate.form.ip.address" = "IP address:";
+"initiate.form.java.enabled" = "Java enabled:";
+"initiate.form.js.enabled" = "JavaScript enabled:";
+"initiate.form.language" = "Language:";
+"initiate.form.screen.height" = "Screen height:";
+"initiate.form.screen.width" = "Screen width:";
+"initiate.form.window.size" = "Challenge window size:";
+"initiate.form.timezone" = "Timezone:";
+"initiate.form.user.agent" = "User agent:";
+
+"ach.title" = "ACH";
+"ach.charge" = "Charge";
+"ach.refund" = "Refund";
+

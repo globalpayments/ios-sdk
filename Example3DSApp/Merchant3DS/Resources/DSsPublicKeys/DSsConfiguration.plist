@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>visa</key>
+	<dict>
+		<key>dsPublicKey</key>
+		<string>visa_encryption.crt</string>
+		<key>IDs</key>
+		<array>
+			<string>A000000003</string>
+		</array>
+	</dict>
+	<key>amex</key>
+	<dict>
+		<key>logoImageName</key>
+		<string>logoAmex</string>
+		<key>IDs</key>
+		<array>
+			<string>A000000025</string>
+		</array>
+	</dict>
+	<key>diners</key>
+	<dict>
+		<key>logoImageName</key>
+		<string>logoDiners</string>
+		<key>IDs</key>
+		<array>
+			<string>A000000152</string>
+		</array>
+	</dict>
+	<key>jcb</key>
+	<dict>
+		<key>logoImageName</key>
+		<string>logoJcb</string>
+		<key>IDs</key>
+		<array>
+			<string>A000000065</string>
+		</array>
+	</dict>
+	<key>mir</key>
+	<dict>
+		<key>logoImageName</key>
+		<string>logoMir</string>
+		<key>IDs</key>
+		<array>
+			<string>A000000658</string>
+		</array>
+	</dict>
+	<key>union</key>
+	<dict>
+		<key>logoImageName</key>
+		<string>logoUnion</string>
+		<key>IDs</key>
+		<array>
+			<string>A000000333</string>
+		</array>
+	</dict>
+</dict>
+</plist>

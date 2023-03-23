@@ -6,40 +6,40 @@ import Foundation
 /// interactions. The configured gateway/device objects are handled
 /// internally by exposed APIs throughout the SDK.
 public class ServicesContainer {
-
+    
     public static let shared = ServicesContainer()
-
+    
     private var configurations = [String: ConfiguredServices]()
-
+    
     /// Configure the SDK's various gateway/device interactions
     public static func configure(config: ServicesConfig,
                                  configName: String = "default") throws {
         try config.validate()
         try configureService(config: config.gatewayConfig, configName: configName)
     }
-
+    
     public static func configureService<T: Configuration>(config: T?,
                                                           configName: String = "default") throws {
         if let config = config {
             if !config.validated {
                 try config.validate()
             }
-
+            
             let configuredService = shared.configuration(for: configName)
             config.configureContainer(services: configuredService)
-
+            
             shared.addConfiguration(configName: configName, config: configuredService)
         }
     }
-
+    
     private func configuration(for configName: String) -> ConfiguredServices {
         return configurations[configName] ?? ConfiguredServices()
     }
-
+    
     private func addConfiguration(configName: String, config: ConfiguredServices) {
         configurations[configName] = config
     }
-
+    
     func secure3DProvider(configName: String,
                           version: Secure3dVersion) throws -> Secure3dProvider {
         guard let configuredService = configurations[configName] else {
@@ -54,7 +54,7 @@ public class ServicesContainer {
         }
         return provider
     }
-
+    
     func reportingClient(configName: String) throws -> ReportingServiceType {
         guard let reportingService = configurations[configName]?.reportingService else {
             throw ApiException(
@@ -63,7 +63,7 @@ public class ServicesContainer {
         }
         return reportingService
     }
-
+    
     func client(configName: String) throws -> PaymentGateway {
         guard let gatewayConnector = configurations[configName]?.gatewayConnector else {
             throw ApiException(
@@ -72,7 +72,7 @@ public class ServicesContainer {
         }
         return gatewayConnector
     }
-
+    
     func recurringClient(configName: String) throws -> RecurringServiceType {
         guard let recurringConnector = configurations[configName]?.recurringConnector else {
             throw ApiException(
@@ -80,5 +80,14 @@ public class ServicesContainer {
             )
         }
         return recurringConnector
+    }
+    
+    func payFacClient(configName: String) throws -> PayFacServiceType {
+        guard let payFacProvider = configurations[configName]?.payFacProvider else {
+            throw ApiException(
+                message: "The specified configuration has not been configured for pay fac."
+            )
+        }
+        return payFacProvider
     }
 }

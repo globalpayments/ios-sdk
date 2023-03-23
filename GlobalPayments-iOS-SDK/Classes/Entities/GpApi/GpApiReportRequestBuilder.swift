@@ -2,7 +2,30 @@ import Foundation
 
 struct GpApiReportRequestBuilder<T>: GpApiRequestData {
 
-    func generateRequest(for builder: TransactionReportBuilder<T>, config: GpApiConfig?) -> GpApiRequest? {
+    func generateRequest(for builder: ReportBuilder<T>, config: GpApiConfig?) -> GpApiRequest? {
+        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : ""
+        
+        if let builder = builder as? TransactionReportBuilder {
+            return handleTransationReportCases(builder, config: config)
+        }else if let builder = builder as? UserReportBuilder {
+            switch builder.reportType {
+            case .findMerchantsPaged:
+                var params = [String: String]()
+                addPageParams(&params, builder)
+                return GpApiRequest(
+                    endpoint: merchantUrl + GpApiRequest.Endpoints.merchant(),
+                    method: .get,
+                    queryParams: sanitize(params: params)
+                )
+            default:
+                return nil
+            }
+        }else {
+            return nil
+        }
+    }
+    
+    private func handleTransationReportCases(_ builder: TransactionReportBuilder<T>, config: GpApiConfig?) -> GpApiRequest? {
         switch builder.reportType {
         case .transactionDetail:
             return GpApiRequest(
@@ -192,7 +215,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
         }
     }
 
-    private func addPageParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {
+    private func addPageParams(_ params: inout [String: String], _ builder: ReportBuilder<T>) {
         if let page = builder.page {
             params["page"] = "\(page)"
         }

@@ -1,6 +1,6 @@
 import Foundation
 
-public enum TransactionModifier {
+public enum TransactionModifier: String {
     case none
     case incremental
     case additional
@@ -17,4 +17,11 @@ public enum TransactionModifier {
     case secure3D
     case alternativePaymentMethod
     case decryptedMobile
+    case merchant
+    
+    public init?(value: String?) {
+        guard let value = value,
+              let status = TransactionModifier(rawValue: value) else { return nil }
+        self = status
+    }
 }

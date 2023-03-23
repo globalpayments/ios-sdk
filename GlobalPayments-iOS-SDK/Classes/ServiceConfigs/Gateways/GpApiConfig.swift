@@ -78,6 +78,7 @@ public class GpApiConfig: GatewayConfig {
 
         services.gatewayConnector = gateway
         services.reportingService = gateway
+        services.payFacProvider = gateway
         services.setSecure3dProvider(provider: gateway, version: .one)
         services.setSecure3dProvider(provider: gateway, version: .two)
     }

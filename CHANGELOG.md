@@ -4,6 +4,12 @@
 
 #### Enhancements
 
+- GP-API: Add Merchant Onboarding
+
+## 1.2.12 (27/02/2023)
+
+#### Enhancements
+
 - GP-API: Add ACH feature
 
 ## 1.2.11 (01/02/2023)

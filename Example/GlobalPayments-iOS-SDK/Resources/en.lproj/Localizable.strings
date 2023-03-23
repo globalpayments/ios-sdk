@@ -404,3 +404,17 @@
 "ach.charge" = "Charge";
 "ach.refund" = "Refund";
 
+"merchant.title" = "Merchant Onboarding";
+"merchant.title.menu" = "Merchant";
+"merchant.id.label" = "Merchant ID";
+"merchant.search.label" = "Search";
+"merchant.create.title" = "Create Merchant";
+"merchant.label.add" = "Create merchant";
+"merchant.data.title" = "Merchant data";
+"merchant.address.title" = "Merchant Address";
+"merchant.create.address.label" = "Create Address";
+"merchant.create.payment.statistics.label" = "Create Payment Statistics";
+"merchant.create.payment.products.label" = "Create Products";
+"merchant.create.payment.products.add.label" = "Add Product";
+"merchant.create.payment.statistics.title" = "Payment Statistics";
+

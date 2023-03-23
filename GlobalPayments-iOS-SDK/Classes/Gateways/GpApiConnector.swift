@@ -280,7 +280,6 @@ extension GpApiConnector: ReportingServiceType {
             }
 
             if let builder = builder as? TransactionReportBuilder<T> {
-
                 let requestBuilder = GpApiReportRequestBuilder<T>()
                 guard let request = requestBuilder.generateRequest(for: builder, config: self?.gpApiConfig) else {
                     completion?(nil, ApiException(message: "Operation not supported"))
@@ -304,6 +303,29 @@ extension GpApiConnector: ReportingServiceType {
 
                     completion?(GpApiMapping.mapReportResponse(response, builder.reportType), nil)
                 }
+            } else if let builder = builder as? UserReportBuilder<T> {
+                let requestBuilder = GpApiReportRequestBuilder<T>()
+                guard let request = requestBuilder.generateRequest(for: builder, config: self?.gpApiConfig) else {
+                    completion?(nil, ApiException(message: "Operation not supported"))
+                    return
+                }
+                
+                self?.doTransaction(
+                    method: request.method,
+                    endpoint: request.endpoint,
+                    data: request.requestBody,
+                    queryStringParams: request.queryParams) { response, error in
+                        if let error = error {
+                            completion?(nil, error)
+                            return
+                        }
+                        guard let response = response else {
+                            completion?(nil, error)
+                            return
+                        }
+                        
+                        completion?(GpApiMapping.mapUserReportResponse(response, builder.reportType), nil)
+                    }
             } else {
                 completion?(nil, ApiException(message: "Operation not supported"))
             }
@@ -344,6 +366,60 @@ extension GpApiConnector: Secure3dProvider {
                 let doc = JsonDoc.parse(response)
                 let transaction = GpApiMapping.mapThreeDSecure(doc)
                 completion(transaction, nil)
+            }
+        }
+    }
+}
+
+extension GpApiConnector: PayFacServiceType {
+    
+    func processPayFac<T>(builder: PayFacBuilder<T>, completion: ((T?, Error?) -> Void)?) {
+        verifyAuthentication { [weak self] error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            
+            let request: GpApiRequest? = GpApiPayFacRequestBuilder<T>().buildRequest(for: builder, config: self?.gpApiConfig)
+            
+            if let request = request {
+                self?.doTransaction(
+                    method: request.method,
+                    endpoint: request.endpoint,
+                    data: request.requestBody,
+                    idempotencyKey: builder.idempotencyKey) { response, error in
+                    guard let response = response else {
+                        completion?(nil, error)
+                        return
+                    }
+                    completion?(GpApiMapping.mapMerchantResponse(response), nil)
+                }
+            }
+        }
+    }
+    
+    func processBoardingUser<T>(builder: PayFacBuilder<T>, completion: ((T?, Error?) -> Void)?) {
+        
+        verifyAuthentication { [weak self] error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            
+            let request: GpApiRequest? = GpApiPayFacRequestBuilder<T>().buildRequest(for: builder, config: self?.gpApiConfig)
+            
+            if let request = request {
+                self?.doTransaction(
+                    method: request.method,
+                    endpoint: request.endpoint,
+                    data: request.requestBody,
+                    idempotencyKey: builder.idempotencyKey) { response, error in
+                    guard let response = response else {
+                        completion?(nil, error)
+                        return
+                    }
+                    completion?(GpApiMapping.mapMerchantResponse(response), nil)
+                }
             }
         }
     }

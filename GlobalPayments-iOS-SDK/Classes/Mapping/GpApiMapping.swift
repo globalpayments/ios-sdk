@@ -495,6 +495,55 @@ public struct GpApiMapping {
 
         return result as? T
     }
+    
+    public static func mapUserReportResponse<T>(_ rawResponse: String, _ reportType: ReportType) -> T? {
+        var result: Any?
+        let json = JsonDoc.parse(rawResponse)
+        if reportType == .findMerchantsPaged {
+            var pagedResult: PagedResult<MerchantSummary>? = getPagedResult(json)
+            if let merchants: [JsonDoc] = json?.getValue(key: "merchants") {
+                let mapped = merchants.map { GpApiMapping.mapMerchantSummary($0) }
+                pagedResult?.results = mapped
+            }
+            result = pagedResult
+        }
+        
+        return result as? T
+    }
+    
+    public static func mapMerchantSummary(_ doc: JsonDoc?) -> MerchantSummary {
+        let merchantSummary = MerchantSummary()
+        merchantSummary.id = doc?.getValue(key: "id")
+        merchantSummary.name = doc?.getValue(key: "name")
+        if let status: String = doc?.getValue(key: "status") {
+            merchantSummary.status = UserStatus(rawValue: status)
+        }
+        return merchantSummary
+    }
+    
+    public static func mapMerchantResponse<T>(_ rawResponse: String) -> T? {
+        var result: Any?
+        let json = JsonDoc.parse(rawResponse)
+        result = GpApiMapping.mapUser(json)
+        return result as? T
+    }
+    
+    public static func mapUser(_ doc: JsonDoc?) -> User {
+        let user = User()
+        let userReference = UserReference()
+        userReference.userId = doc?.getValue(key: "id")
+        userReference.userStatus = UserStatus(value: doc?.getValue(key: "status"))
+        userReference.userType = UserType(value: doc?.getValue(key: "type"))
+        user.userReference = userReference
+        user.responseCode = doc?.get(valueFor: "action")?.getValue(key: "result_code")
+        user.name = doc?.getValue(key: "name")
+        user.statusDescription = doc?.getValue(key: "status_description")
+        
+        if let createdTime: String = doc?.getValue(key: "time_created") {
+            user.timeCreated = createdTime
+        }
+        return user
+    }
 
     private static func getPagedResult<T>(_ doc: JsonDoc?) -> PagedResult<T>? {
         guard let doc = doc else { return nil }

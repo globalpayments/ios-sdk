@@ -4,6 +4,7 @@ public class ConfiguredServices {
     var gatewayConnector: PaymentGateway?
     var reportingService: ReportingServiceType?
     var recurringConnector: RecurringServiceType?
+    var payFacProvider: PayFacServiceType?
 
     public init() {
         self.secure3dProviders = [Secure3dVersion: Secure3dProvider]()

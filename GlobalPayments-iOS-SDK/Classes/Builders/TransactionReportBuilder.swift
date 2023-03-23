@@ -11,8 +11,6 @@ import Foundation
     var startDate: Date? { return searchCriteriaBuilder.startDate }
     var transactionId: String?
     var idempotencyKey: String?
-    var page: Int?
-    var pageSize: Int?
     var order: SortDirection?
     var transactionOrderBy: TransactionSortProperty?
     var depositOrderBy: DepositSortProperty?

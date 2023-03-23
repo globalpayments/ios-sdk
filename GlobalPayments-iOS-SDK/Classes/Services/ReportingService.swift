@@ -125,4 +125,10 @@ public class ReportingService {
     public static func activity() -> TransactionReportBuilder<[TransactionSummary]> {
         TransactionReportBuilder<[TransactionSummary]>(reportType: .activity)
     }
+    
+    public static func findMerchants(_ page: Int, pageSize: Int) -> UserReportBuilder<PagedResult<MerchantSummary>> {
+        return UserReportBuilder<PagedResult<MerchantSummary>>(reportType: .findMerchantsPaged)
+            .withModifier(.merchant)
+            .withPaging(page, pageSize)
+    }
 }

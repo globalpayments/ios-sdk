@@ -65,6 +65,7 @@ import Foundation
     var firstName: String?
     var lastName: String?
     var id: String?
+    var cardBrandTransactionId: String?
 
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
@@ -468,6 +469,11 @@ import Foundation
 
     public func withStoredCredential(_ storedCredential: StoredCredential?) -> AuthorizationBuilder {
         self.storedCredential = storedCredential
+        return self
+    }
+    
+    public func withCardBrandStorage(_ value: String?) -> AuthorizationBuilder {
+        cardBrandTransactionId = value
         return self
     }
 

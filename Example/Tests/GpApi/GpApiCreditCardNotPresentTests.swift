@@ -2222,4 +2222,76 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertEqual(transactionResponse?.responseCode, "SUCCESS")
         XCTAssertEqual(transactionStatusResponse, TransactionStatus.captured)
     }
+    
+    func test_credit_sale_with_card_brand_storage_recurring_payment() {
+        // GIVEN
+        let tokenizeExpectation = expectation(description: "Tokenize Exception")
+        var token: String?
+        var tokenError: Error?
+
+        // WHEN
+        card.tokenize {
+            token = $0
+            tokenError = $1
+            tokenizeExpectation.fulfill()
+        }
+        
+        //THEN
+        wait(for: [tokenizeExpectation], timeout: 10.0)
+        XCTAssertNotNil(token)
+        XCTAssertNil(tokenError)
+        
+        //GIVEN
+        let cardTokenizedExpectation = expectation(description: "Card Updated Expectation")
+        var cardTokenizedResult: Transaction?
+        var cardTokenizedError: Error?
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = token
+        
+        //WHEN
+        tokenizedCard.charge(amount: 10.01)
+            .withCurrency("GBP")
+            .execute {
+                cardTokenizedResult = $0
+                cardTokenizedError = $1
+                cardTokenizedExpectation.fulfill()
+            }
+        
+        //THEN
+        wait(for: [cardTokenizedExpectation], timeout: 10.0)
+        XCTAssertNil(cardTokenizedError)
+        assertTransactionResponse(transaction: cardTokenizedResult, status: .captured)
+        // GIVEN
+        let chargeExpectation = expectation(description: "Charge Expectation")
+        let storedCredentials = StoredCredential(type: .recurring,
+                                                 initiator: .merchant,
+                                                 sequence: .subsequent,
+                                                 reason: .incremental)
+        var chargeResult: Transaction?
+        var chargeResultError: Error?
+
+        // WHEN
+        tokenizedCard
+            .charge(amount: 10.01)
+            .withCurrency("GBP")
+            .withStoredCredential(storedCredentials)
+            .withCardBrandStorage(cardTokenizedResult?.cardBrandTransactionId)
+            .execute {
+                chargeResult = $0
+                chargeResultError = $1
+                chargeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [chargeExpectation], timeout: 10.0)
+        XCTAssertNil(chargeResultError)
+        assertTransactionResponse(transaction: chargeResult, status: .captured)
+        XCTAssertNotNil(chargeResult?.cardBrandTransactionId)
+    }
+    
+    private func assertTransactionResponse(transaction: Transaction?, status: TransactionStatus) {
+        XCTAssertNotNil(transaction)
+        XCTAssertEqual(transaction?.responseCode, "SUCCESS")
+        XCTAssertEqual(transaction?.responseMessage, status.mapped(for: .gpApi))
+    }
 }

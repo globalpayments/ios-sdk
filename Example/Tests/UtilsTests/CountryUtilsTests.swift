@@ -309,6 +309,39 @@ class CountryUtilsTests: XCTestCase {
         // THEN
         XCTAssertFalse(address.isCountry("GB"))
     }
+    
+    func test_get_phone_by_country() {
+        // GIVEN
+        let utils = CountryUtils.shared
+        
+        // WHEN
+        let resultCodeByName = utils.getPhoneCodesByCountry("United States of America")
+        
+        // THEN
+        XCTAssertNotNil(resultCodeByName)
+        XCTAssertEqual("1", resultCodeByName)
+        
+        // WHEN
+        let resultCodeByNumeric = utils.getPhoneCodesByCountry("840")
+        
+        // THEN
+        XCTAssertNotNil(resultCodeByNumeric)
+        XCTAssertEqual("1", resultCodeByNumeric)
+        
+        // WHEN
+        let resultCodeByAlpha2 = utils.getPhoneCodesByCountry("US")
+        
+        // THEN
+        XCTAssertNotNil(resultCodeByAlpha2)
+        XCTAssertEqual("1", resultCodeByAlpha2)
+        
+        // WHEN
+        let resultCodeByAlpha3 = utils.getPhoneCodesByCountry("USA")
+        
+        // THEN
+        XCTAssertNotNil(resultCodeByAlpha3)
+        XCTAssertEqual("1", resultCodeByAlpha3)
+    }
 
     func test_country_is_GB_no_street_address1() throws {
         // GIVEN

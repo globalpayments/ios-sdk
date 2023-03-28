@@ -101,6 +101,11 @@ private struct HMAC {
         }
         return hexString
     }
+    
+    static func XGPSignature(_ toHash: String, appKey: String) -> String {
+        let newToHash = toHash + appKey
+        return hash(newToHash, algorithm: .SHA512)
+    }
 }
 
 private enum HMACAlgorithm {

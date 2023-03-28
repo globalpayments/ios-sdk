@@ -208,10 +208,13 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             encryptablePaymentMethod(paymentMethod, encryptable: encryptable)
         case .none, .some: break
         }
+        
+        var hasToken = false
 
         if let tokenizable = builder.paymentMethod as? Tokenizable, builder.transactionModifier != .encryptedMobile, builder.transactionModifier != .decryptedMobile {
             if let token = tokenizable.token, !token.isEmpty {
                 paymentMethod.set(for: "id", value: token)
+                hasToken = true
             }
         }
 
@@ -246,9 +249,13 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             bankTransfer.set(for: "bank", doc: bank)
             paymentMethod.set(for: "bank_transfer", doc: bankTransfer)
         }else {
-            if paymentMethod.getValue(key: "id") == nil {
+            if !hasToken {
                 paymentMethod.set(for: "card", doc: CardUtils.generateCard(builder: builder))
             }
+            
+            let brandReferenceDoc = JsonDoc()
+            brandReferenceDoc.set(for: "brand_reference", value: builder.cardBrandTransactionId)
+            paymentMethod.set(for: "card", doc: brandReferenceDoc)
         }
 
         paymentMethod.set(for: "narrative", value: builder.dynamicDescriptor)

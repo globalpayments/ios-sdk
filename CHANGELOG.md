@@ -4,6 +4,14 @@
 
 #### Enhancements
 
+- GP-API: Add Brand reference in recurring transaction
+- GP-API: Add XGP validation function
+- GP-API: Add phone country code function into utils class
+
+## 1.2.13 (22/03/2023)
+
+#### Enhancements
+
 - GP-API: Add Merchant Onboarding
 
 ## 1.2.12 (27/02/2023)

@@ -21,38 +21,46 @@ class GpApiConnector: RestGateway {
 
     func signIn(completion: @escaping ((Bool, Error?) -> Void)) {
         getAccessToken { [weak self] response, error in
-            guard let response = response, let token = response.token else {
-                completion(false, error)
-                return
-            }
-            self?.headers[GpApiConnector.Header.Key.authorization] = "Bearer \(token)"
-            self?.accessToken = token
             
             var accessTokenInfo = self?.gpApiConfig.accessTokenInfo
+            if let accessTokenInfo = accessTokenInfo, let token = accessTokenInfo.token, !token.isEmpty {
+                self?.headers[GpApiConnector.Header.Key.authorization] = "Bearer \(token)"
+                return
+            }
+            
+            guard let response = response else { return }
+            
+            let token = response.token ?? .empty
+            
+            self?.accessToken = token
+            self?.headers[GpApiConnector.Header.Key.authorization] = "Bearer \(token)"
             
             if accessTokenInfo == nil {
                 accessTokenInfo = AccessTokenInfo()
             }
             
-            if accessTokenInfo?.token.isNilOrEmpty ?? true {
+            if accessTokenInfo?.token.isNilOrEmpty ??  true {
                 accessTokenInfo?.token = token
             }
             
-            if accessTokenInfo?.dataAccountName.isNilOrEmpty ?? true {
-                accessTokenInfo?.dataAccountName = response.dataAccountName
+            if let dataAccountId = accessTokenInfo?.dataAccountID, dataAccountId.isEmpty {
+                accessTokenInfo?.dataAccountID = response.dataAccountID
             }
             
-            if accessTokenInfo?.tokenizationAccountName.isNilOrEmpty ?? true {
-                accessTokenInfo?.tokenizationAccountName = response.tokenizationAccountName
+            if accessTokenInfo?.tokenizationAccountName?.isEmpty ?? true, accessTokenInfo?.tokenizationAccountID?.isEmpty ?? true {
+                accessTokenInfo?.tokenizationAccountID = response.tokenizationAccountID
             }
             
-            
-            if accessTokenInfo?.transactionProcessingAccountName.isNilOrEmpty ?? true {
-                accessTokenInfo?.transactionProcessingAccountName = response.transactionProcessingAccountName
+            if accessTokenInfo?.transactionProcessingAccountName?.isEmpty ?? true, accessTokenInfo?.transactionProcessingAccountID?.isEmpty ?? true {
+                accessTokenInfo?.transactionProcessingAccountID = response.TransactionProcessingAccountID
             }
              
-            if accessTokenInfo?.disputeManagementAccountName.isNilOrEmpty ?? true {
-                accessTokenInfo?.disputeManagementAccountName = response.disputeManagementAccountName
+            if accessTokenInfo?.disputeManagementAccountName?.isEmpty ?? true, accessTokenInfo?.disputeManagementAccountID?.isEmpty ?? true {
+                accessTokenInfo?.disputeManagementAccountID = response.disputeManagementAccountID
+            }
+            
+            if accessTokenInfo?.riskAssessmentAccountName?.isEmpty ?? true, accessTokenInfo?.riskAssessmentAccountID?.isEmpty ?? true {
+                accessTokenInfo?.riskAssessmentAccountID = response.riskAssessmentAccountID
             }
             
             self?.gpApiConfig.accessTokenInfo = accessTokenInfo

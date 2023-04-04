@@ -1,6 +1,12 @@
 import Foundation
 
 class GpApiTokenResponse {
+    let DATA_ACCOUNT_NAME_PREFIX = "DAA_"
+    let DISPUTE_MANAGEMENT_ACCOUNT_NAME_PREFIX = "DIA_"
+    let TOKENIZATION_ACCOUNT_NAME_PREFIX = "TKA_"
+    let TRANSACTION_PROCESSING_ACCOUNT_NAME_PREFIX = "TRA_"
+    let RIKS_ASSESSMENT_ACCOUNT_NAME_PREFIX = "RAA_"
+    
     var token: String?
     var type: String?
     var appId: String?
@@ -11,17 +17,37 @@ class GpApiTokenResponse {
     var merchantId: String?
     var merchantName: String?
     var accounts = [GpApiAccount]()
+    
     var dataAccountName: String? {
-        return accountName(with: "DAA_")
+        return accountName(with: DATA_ACCOUNT_NAME_PREFIX)
     }
     var disputeManagementAccountName: String? {
-        return accountName(with: "DIA_")
+        return accountName(with: DISPUTE_MANAGEMENT_ACCOUNT_NAME_PREFIX)
     }
     var tokenizationAccountName: String? {
-        return accountName(with: "TKA_")
+        return accountName(with: TOKENIZATION_ACCOUNT_NAME_PREFIX)
     }
     var transactionProcessingAccountName: String? {
-        return accountName(with: "TRA_")
+        return accountName(with: TRANSACTION_PROCESSING_ACCOUNT_NAME_PREFIX)
+    }
+    var riskAssessmentAccountName: String? {
+        return accountName(with: RIKS_ASSESSMENT_ACCOUNT_NAME_PREFIX)
+    }
+    
+    var dataAccountID: String? {
+        return getAccountID(with: DATA_ACCOUNT_NAME_PREFIX)
+    }
+    var disputeManagementAccountID: String? {
+        return getAccountID(with: DISPUTE_MANAGEMENT_ACCOUNT_NAME_PREFIX)
+    }
+    var tokenizationAccountID: String? {
+        return getAccountID(with: TOKENIZATION_ACCOUNT_NAME_PREFIX)
+    }
+    var TransactionProcessingAccountID: String? {
+        return getAccountID(with: TRANSACTION_PROCESSING_ACCOUNT_NAME_PREFIX)
+    }
+    var riskAssessmentAccountID: String? {
+        return getAccountID(with: RIKS_ASSESSMENT_ACCOUNT_NAME_PREFIX)
     }
 
     init(_ jsonString: String) {
@@ -54,6 +80,10 @@ class GpApiTokenResponse {
                 }
             }
         }
+    }
+    
+    private func  getAccountID(with prefix: String) -> String {
+        return accounts.first(where: { ($0.id ?? .empty).hasPrefix(prefix) })?.id ?? .empty
     }
 
     private func accountName(with prefix: String) -> String? {

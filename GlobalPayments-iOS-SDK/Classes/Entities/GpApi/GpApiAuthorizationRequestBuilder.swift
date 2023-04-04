@@ -3,7 +3,7 @@ import Foundation
 struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
 
     func generateRequest(for builder: AuthorizationBuilder, config: GpApiConfig?) -> GpApiRequest? {
-        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : ""
+        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : .empty
         switch builder.transactionType {
         case .sale, .refund, .auth:
             let payload = createFromAuthorizationBuilder(builder, config)
@@ -21,6 +21,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
 
             let payload = JsonDoc()
             payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
+            payload.set(for: "account_id", value: config?.accessTokenInfo?.transactionProcessingAccountID)
             payload.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
             payload.set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
             payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
@@ -57,6 +58,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
     private func createFromAuthorizationBuilder(_ builder: AuthorizationBuilder, _ config: GpApiConfig?) -> JsonDoc {
         let payload = JsonDoc()
             .set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
+            .set(for: "account_id", value: config?.accessTokenInfo?.transactionProcessingAccountID)
             .set(for: "channel", value: config?.channel.mapped(for: .gpApi))
             .set(for: "country", value: config?.country)
             .set(for: "type", value: builder.transactionType == .refund ? "REFUND" : "SALE")
@@ -107,6 +109,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
     private func createForVerify(_ builder: AuthorizationBuilder, _ config: GpApiConfig?) -> JsonDoc {
         let payload = JsonDoc()
             .set(for: "account_name", value: config?.accessTokenInfo?.tokenizationAccountName)
+            .set(for: "account_id", value: config?.accessTokenInfo?.tokenizationAccountID)
             .set(for: "name", value: builder.requestDescription)
             .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
             .set(for: "usage_mode", value: builder.paymentMethodUsageMode?.mapped(for: .gpApi))
@@ -126,6 +129,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
     private func generateVerificationRequest(_ builder: AuthorizationBuilder, _ config: GpApiConfig?) -> JsonDoc {
         let payload = JsonDoc()
             .set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
+            .set(for: "account_id", value: config?.accessTokenInfo?.transactionProcessingAccountID)
             .set(for: "channel", value: config?.channel.mapped(for: .gpApi))
             .set(for: "country", value: config?.country)
             .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)

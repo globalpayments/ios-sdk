@@ -32,7 +32,12 @@ public class GpApiService {
             accessTokenInfo.disputeManagementAccountName = tokenResponse?.disputeManagementAccountName
             accessTokenInfo.tokenizationAccountName = tokenResponse?.tokenizationAccountName
             accessTokenInfo.transactionProcessingAccountName = tokenResponse?.transactionProcessingAccountName
-
+            
+            accessTokenInfo.dataAccountID = tokenResponse?.dataAccountID
+            accessTokenInfo.disputeManagementAccountID = tokenResponse?.disputeManagementAccountID
+            accessTokenInfo.tokenizationAccountID = tokenResponse?.tokenizationAccountID
+            accessTokenInfo.transactionProcessingAccountID = tokenResponse?.TransactionProcessingAccountID
+            accessTokenInfo.riskAssessmentAccountID = tokenResponse?.riskAssessmentAccountID
             completion(accessTokenInfo, nil)
         }
     }

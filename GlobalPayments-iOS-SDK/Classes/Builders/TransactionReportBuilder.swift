@@ -20,6 +20,8 @@ import Foundation
     var actionOrderBy: ActionSortProperty?
     var disputeDocuments: [DocumentInfo]?
     var disputeDocumentId: String?
+    var payLinkOrderBy: PayLinkSortProperty?
+    var payLinkId: String?
 
     /// Sets the device ID as criteria for the report.
     /// - Parameter deviceId: The device ID
@@ -232,6 +234,18 @@ import Foundation
         disputeDocumentId = documentId
         return self
     }
+    
+    public func orderBy(_ orderBy: PayLinkSortProperty, direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
+        self.payLinkOrderBy = orderBy
+        self.order = direction
+        return self
+    }
+    
+    public func withPayLinkId(_ payLinkId: String?) -> TransactionReportBuilder<TResult> {
+        self.searchCriteriaBuilder.payLinkId = payLinkId
+        self.payLinkId = payLinkId
+        return self
+    }
 
     public func `where`<T>(_ searchCriteria: SearchCriteria, _ value: T) -> SearchCriteriaBuilder<TResult> {
         return searchCriteriaBuilder.and(searchCriteria: searchCriteria, value: value)
@@ -280,6 +294,9 @@ import Foundation
     public override func setupValidations() {
         validations.of(reportType: .transactionDetail)
             .check(propertyName: "transactionId")?.isNotNil()
+        
+        validations.of(reportType: .payLinkDetail)
+            .check(propertyName: "payLinkId")?.isNotNil()
 
         validations.of(reportType: .activity)
             .check(propertyName: "transactionId")?.isNil()

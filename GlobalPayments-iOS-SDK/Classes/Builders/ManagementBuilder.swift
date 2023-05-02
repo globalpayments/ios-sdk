@@ -57,6 +57,9 @@ import Foundation
         return paymentMethod.transactionId
     }
     var voidReason: VoidReason?
+    var usageMode: PaymentMethodUsageMode?
+    var usageLimit: String?
+    var type: PayLinkType?
 
     /// Sets the current transaction's amount.
     /// - Parameter amount: The amount
@@ -216,6 +219,19 @@ import Foundation
         self.voidReason = voidReason
         return self
     }
+    
+    public func withPayLinkData(_ payLinkData: PayLinkData) -> ManagementBuilder {
+        self.payLinkData = payLinkData
+        self.usageMode = payLinkData.usageMode
+        self.usageLimit = payLinkData.usageLimit
+        self.type = payLinkData.type
+        return self
+    }
+    
+    public func withPaymentLink(_ paymentLinkId: String?) -> ManagementBuilder {
+        self.paymentLinkId = paymentLinkId
+        return self
+    }
 
     public override func execute(configName: String = "default",
                                  completion: ((Transaction?, Error?) -> Void)?) {
@@ -260,6 +276,10 @@ import Foundation
 
         validations.of(transactionType: [.capture, .edit, .hold, .release, .tokenUpdate, .tokenDelete, .verifySignature, .refund])
             .check(propertyName: "voidReason")?.isNil()
+        
+        validations.of(transactionType: .payLinkUpdate)
+            .check(propertyName: "paymentLinkId")?.isNotNil()?
+            .check(propertyName: "payLinkData")?.isNotNil()
     }
 }
 

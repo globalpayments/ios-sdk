@@ -4,9 +4,15 @@
 
 #### Enhancements
 
+- GP-API: Add PayLink feature
+
+## 1.2.15 (03/04/2023)
+
+#### Enhancements
+
 - GP-API: Add account id into requests
 
-## 1.2.13 (28/03/2023)
+## 1.2.14 (28/03/2023)
 
 #### Enhancements
 

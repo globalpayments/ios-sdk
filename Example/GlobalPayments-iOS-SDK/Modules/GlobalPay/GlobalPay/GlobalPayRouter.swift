@@ -35,6 +35,8 @@ struct GlobalPayRouter: Router {
             return DigitalWalletsBuilder.build()
         case .ach:
             return AchBuilder.build()
+        case .payLink:
+            return PayLinkBuilder.build()
         }
     }
 }

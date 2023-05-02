@@ -31,6 +31,17 @@ public struct GpApiMapping {
         if let token: String = doc?.getValue(key: "id"), token.starts(with: "PMT_") {
             transaction.token = token
         }
+        
+        if let type: String = doc?.get(valueFor: "action")?.getValue(key: "type"), let actionType = ActionType(value: type) {
+            switch actionType {
+            case .linkCreate, .linkEdit:
+                transaction.payLinkResponse = mapPayLinkResponse(doc)
+                if let transactions: JsonDoc = doc?.getValue(key: "transactions"), let amount: String = transactions.getValue(key: "amount") {
+                    transaction.balanceAmount = NSDecimalNumber(string: amount).amount
+                }
+                break
+            }
+        }
 
         if let paymentMethod: JsonDoc = doc?.get(valueFor: "payment_method") {
 
@@ -491,8 +502,16 @@ public struct GpApiMapping {
             result = GpApiMapping.mapDocumentMetadata(json)
         } else if reportType == .documentDisputeDetail {
             result = GpApiMapping.mapDisputeDocument(json)
+        } else if reportType == .findPayLinkPaged {
+            var pagedResult: PagedResult<PayLinkSummary>? = getPagedResult(json)
+            if let links: [JsonDoc] = json?.getValue(key: "links") {
+                let mapped = links.map { PayLinkSummary.mapFromJson($0) }
+                pagedResult?.results = mapped
+            }
+            result = pagedResult
+        } else if reportType == .payLinkDetail {
+            result = PayLinkSummary.mapFromJson(json)
         }
-
         return result as? T
     }
     
@@ -555,5 +574,38 @@ public struct GpApiMapping {
             order: doc.get(valueFor: "paging")?.getValue(key: "order"),
             orderBy: doc.get(valueFor: "paging")?.getValue(key: "order_by")
         )
+    }
+    
+    private static func mapPayLinkResponse(_ doc: JsonDoc?) -> PayLinkResponse {
+        let payLinkResponse = PayLinkResponse()
+        payLinkResponse.id = doc?.getValue(key: "id")
+        payLinkResponse.accountName = doc?.getValue(key: "account_name")
+        payLinkResponse.url = doc?.getValue(key: "url")
+        payLinkResponse.status = PayLinkStatus(value: doc?.getValue(key: "status"))
+        payLinkResponse.type = PayLinkType(value: doc?.getValue(key: "type"))
+        payLinkResponse.usageMode = PaymentMethodUsageMode(value: doc?.getValue(key: "usage_mode"))
+        
+        if let usageLimit: String = doc?.getValue(key: "usage_limit") {
+            payLinkResponse.usageLimit = Int(usageLimit)
+        }
+        payLinkResponse.reference = doc?.getValue(key: "reference")
+        payLinkResponse.name = doc?.getValue(key: "name")
+        payLinkResponse.descriptionPayLink = doc?.getValue(key: "description")
+        payLinkResponse.viewedCount = doc?.getValue(key: "viewed_count")
+        payLinkResponse.expirationDate = doc?.getValue(key: "expiration_date")
+        let shippable: String = doc?.getValue(key: "shippable") ?? "NO"
+        payLinkResponse.isShippable = shippable.uppercased() == "YES"
+        payLinkResponse.allowedPaymentMethods = getAllowedPaymentMethods(doc)
+        return payLinkResponse
+    }
+    
+    private static func getAllowedPaymentMethods(_ doc: JsonDoc?) -> [PaymentMethodName]? {
+        var list: [PaymentMethodName]?
+        
+        if let transactions: JsonDoc = doc?.getValue(key: "transactions"), let listPaymentMethods: [String] = transactions.getValue(key: "allowed_payment_methods") {
+            
+            list = listPaymentMethods.map{ PaymentMethodName(value: $0) ?? .card }
+        }
+        return list
     }
 }

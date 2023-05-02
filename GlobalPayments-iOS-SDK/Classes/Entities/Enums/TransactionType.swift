@@ -85,4 +85,6 @@ public struct TransactionType: OptionSet, Hashable {
     public static let reauth                 = TransactionType(rawValue: 1 << 39)
     /// Indicates a Dispute Document Details report.
     public static let documentDisputeDetail  = TransactionType(rawValue: 1 << 40)
+    
+    public static let payLinkUpdate          = TransactionType(rawValue: 1 << 41)
 }

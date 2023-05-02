@@ -404,6 +404,8 @@
 "ach.charge" = "Charge";
 "ach.refund" = "Refund";
 
+"payLink.title" = "PayLink";
+
 "merchant.title" = "Merchant Onboarding";
 "merchant.title.menu" = "Merchant";
 "merchant.id.label" = "Merchant ID";

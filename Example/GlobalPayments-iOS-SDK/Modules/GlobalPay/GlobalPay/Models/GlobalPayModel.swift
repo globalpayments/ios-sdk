@@ -15,6 +15,7 @@ struct GlobalPayModel {
         case digitalWallets
         case ach
         case merchant
+        case payLink
     }
 }
 
@@ -31,7 +32,8 @@ extension GlobalPayModel {
             GlobalPayModel(name: "globalpay.disputes.authentications".localized(), path: .authentications),
             GlobalPayModel(name: "merchant.title.menu".localized(), path: .merchant),
             GlobalPayModel(name: "globalpay.digital.wallets".localized(), path: .digitalWallets),
-            GlobalPayModel(name: "globalpay.ach".localized(), path: .ach)
+            GlobalPayModel(name: "globalpay.ach".localized(), path: .ach),
+            GlobalPayModel(name: "payLink.title".localized(), path: .payLink)
         ]
     }
 }

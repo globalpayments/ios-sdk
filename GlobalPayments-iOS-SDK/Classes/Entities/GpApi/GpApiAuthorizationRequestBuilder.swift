@@ -50,6 +50,44 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                     requestBody: payload.toString()
                 )
             }
+        case .create:
+            let payload = JsonDoc()
+            if let payLinkData = builder.payLinkData {
+                payload.set(for: "usage_limit", value: payLinkData.usageLimit)
+                payload.set(for: "usage_mode", value: payLinkData.usageMode?.mapped(for: .gpApi))
+                payload.set(for: "images", value: payLinkData.images)
+                payload.set(for: "description", value: builder.requestDescription)
+                payload.set(for: "type", value: payLinkData.type?.mapped(for: .gpApi))
+                payload.set(for: "expiration_date", value: payLinkData.expirationDate?.format("yyyy-MM-dd"))
+                
+                let transaction = JsonDoc()
+                transaction.set(for: "country", value: config?.country)
+                transaction.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                transaction.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
+                transaction.set(for: "currency", value: builder.currency)
+                transaction.set(for: "allowed_payment_methods", value: mapAllowedPaymentMethod(payLinkData.allowedPaymentMethods))
+                
+                payload.set(for: "transactions", doc: transaction)
+                payload.set(for: "reference", value: builder.clientTransactionId)
+                payload.set(for: "shipping_amount", value: payLinkData.shippingAmount?.toNumericCurrencyString())
+                payload.set(for: "shippable", value: payLinkData.isShippable ?? false ? "YES" : "NO")
+                payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
+                payload.set(for: "name", value: payLinkData.name)
+                
+                let notification = JsonDoc()
+                notification.set(for: "cancel_url", value: payLinkData.cancelUrl)
+                notification.set(for: "return_url", value: payLinkData.returnUrl)
+                notification.set(for: "status_url", value: payLinkData.statusUpdateUrl)
+
+                payload.set(for: "notifications", doc: notification)
+                payload.set(for: "status", value: payLinkData.status?.mapped(for: .gpApi))
+            }
+            
+            return GpApiRequest(
+                endpoint: merchantUrl + "/links",
+                method: .post,
+                requestBody: payload.toString()
+            )
         default:
             return nil
         }
@@ -328,6 +366,12 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         item.set(for: "rules", values: rules)
         result.append(item)
         return result
+    }
+    
+    private func mapAllowedPaymentMethod(_ paymentMethods: [PaymentMethodName]?) -> [String?]? {
+        return paymentMethods?.map {
+            $0.mapped(for: .gpApi)
+        }
     }
 
     private func setPayerInformation(_ builder: AuthorizationBuilder) -> JsonDoc {

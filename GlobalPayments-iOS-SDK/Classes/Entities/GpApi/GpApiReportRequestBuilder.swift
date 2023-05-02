@@ -3,10 +3,10 @@ import Foundation
 struct GpApiReportRequestBuilder<T>: GpApiRequestData {
 
     func generateRequest(for builder: ReportBuilder<T>, config: GpApiConfig?) -> GpApiRequest? {
-        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : ""
+        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : .empty
         
         if let builder = builder as? TransactionReportBuilder {
-            return handleTransationReportCases(builder, config: config)
+            return handleTransationReportCases(builder, config: config, merchantUrl: merchantUrl)
         }else if let builder = builder as? UserReportBuilder {
             switch builder.reportType {
             case .findMerchantsPaged:
@@ -25,7 +25,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
         }
     }
     
-    private func handleTransationReportCases(_ builder: TransactionReportBuilder<T>, config: GpApiConfig?) -> GpApiRequest? {
+    private func handleTransationReportCases(_ builder: TransactionReportBuilder<T>, config: GpApiConfig?, merchantUrl: String) -> GpApiRequest? {
         switch builder.reportType {
         case .transactionDetail:
             return GpApiRequest(
@@ -209,6 +209,33 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.document(id: documentId, disputeId: disputeId),
                 method: .get
+            )
+            
+        case .payLinkDetail:
+            return GpApiRequest(
+                endpoint: merchantUrl + "/links/\(builder.searchCriteriaBuilder.payLinkId ?? .empty)",
+                method: .get
+            )
+        case .findPayLinkPaged:
+            var params = [String: String]()
+            addPageParams(&params, builder)
+            params["from_time_created"] = builder.searchCriteriaBuilder.startDate?.format("yyyy-MM-dd")
+            params["to_time_created"] = builder.searchCriteriaBuilder.endDate?.format("yyyy-MM-dd")
+            params["order"] = builder.order?.mapped(for: .gpApi)
+            params["order_by"] = builder.actionOrderBy?.mapped(for: .gpApi)
+            params["status"] = builder.searchCriteriaBuilder.payLinkStatus?.mapped(for: .gpApi)
+            params["usage_mode"] = builder.searchCriteriaBuilder.paymentMethodUsageMode?.mapped(for: .gpApi)
+            params["name"] = builder.searchCriteriaBuilder.displayName
+            params["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString()
+            params["description"] = builder.searchCriteriaBuilder.searchDescription
+            params["reference"] = builder.searchCriteriaBuilder.referenceNumber
+            params["country"] = builder.searchCriteriaBuilder.country
+            params["currency"] = builder.searchCriteriaBuilder.currency
+            params["expiration_date"] = builder.searchCriteriaBuilder.expirationDate?.format("yyyy-MM-dd")
+            return GpApiRequest(
+                endpoint: merchantUrl + "/links",
+                method: .get,
+                queryParams: sanitize(params: params)
             )
         default:
             return nil

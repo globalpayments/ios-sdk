@@ -173,5 +173,11 @@ extension GpApiRequest {
         static func merchant() -> String {
             "/merchants"
         }
+        
+        // MARK: - PayLink
+        
+        static func payLinkWithId(id: String) -> String {
+            "/links/\(id)"
+        }
     }
 }

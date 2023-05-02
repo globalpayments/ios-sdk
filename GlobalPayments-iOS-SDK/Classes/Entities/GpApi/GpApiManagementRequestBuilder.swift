@@ -152,6 +152,33 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 method: .post,
                 requestBody: payload.toString()
             )
+        case .payLinkUpdate:
+            
+            let payLinkData = builder.payLinkData
+            
+            let payLoad = JsonDoc()
+            
+            payLoad.set(for: "usage_mode", value: payLinkData?.usageMode?.mapped(for: .gpApi))
+            payLoad.set(for: "usage_limit", value: payLinkData?.usageLimit)
+            payLoad.set(for: "name", value: payLinkData?.name)
+            payLoad.set(for: "description", value: builder.description)
+            payLoad.set(for: "type", value: payLinkData?.type?.mapped(for: .gpApi))
+            payLoad.set(for: "status", value: payLinkData?.status?.mapped(for: .gpApi))
+            payLoad.set(for: "shippable", value: payLinkData?.isShippable ?? false ? "YES" : "NO")
+            payLoad.set(for: "shipping_amount", value:  payLinkData?.shippingAmount?.toNumericCurrencyString())
+
+            let transaction = JsonDoc()
+            transaction.set(for:"amount", value: builder.amount?.toNumericCurrencyString())
+
+            payLoad.set(for:"transactions", doc: transaction)
+            payLoad.set(for:"expiration_date", value: payLinkData?.expirationDate)
+            payLoad.set(for:"images", value: payLinkData?.images)
+
+            return GpApiRequest(
+                endpoint: merchantUrl + GpApiRequest.Endpoints.payLinkWithId(id: builder.paymentLinkId ?? .empty),
+                method: .patch,
+                requestBody: payLoad.toString()
+            )
         default:
             return nil
         }

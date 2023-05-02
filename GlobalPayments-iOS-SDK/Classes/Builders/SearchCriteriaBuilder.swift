@@ -62,6 +62,10 @@ public enum SearchCriteria: String {
     case riskAssessmentResult
     case riskAssessmentReasonCode
     case paymentMethodName
+    case payLinkStatus
+    case paymentMethodUsageMode
+    case expirationDate
+    case searchDescription
 }
 
 public enum DataServiceCriteria: String {
@@ -191,6 +195,11 @@ public enum DataServiceCriteria: String {
     var riskAssessmentMode: FraudFilterMode?
     var riskAssessmentResult: FraudFilterResult?
     var riskAssessmentReasonCode: ReasonCode?
+    var payLinkId: String?
+    var payLinkStatus: PayLinkStatus?
+    var paymentMethodUsageMode: PaymentMethodUsageMode?
+    var expirationDate: Date?
+    var searchDescription: String?
 
     init(reportBuilder: TransactionReportBuilder<TResult>?) {
         self.reportBuilder = reportBuilder
@@ -243,6 +252,11 @@ public enum DataServiceCriteria: String {
 
     public func and(paymentType: PaymentType?) -> SearchCriteriaBuilder<TResult> {
         self.paymentType = paymentType
+        return self
+    }
+    
+    public func and(payLinkStatus: PayLinkStatus) -> SearchCriteriaBuilder<TResult> {
+        self.payLinkStatus = payLinkStatus
         return self
     }
 

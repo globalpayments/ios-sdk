@@ -159,6 +159,7 @@ public class Transaction: NSObject {
     
     var giftCard: GiftCard?
     var transactionReference: TransactionReference?
+    public var payLinkResponse: PayLinkResponse?
 
     /// Creates a `Transaction` object from a stored transaction ID.
     /// Used to expose management requests on the original transaction at a later date/time.

@@ -118,4 +118,6 @@ public class TransactionSummary {
     public var amountDue: NSDecimalNumber?
     public var hostTimeout: Bool?
     public var country: String?
+    public var fingerprint: String?
+    public var fingerprintIndicator: String?
 }

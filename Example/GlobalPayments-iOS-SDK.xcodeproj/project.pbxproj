@@ -248,6 +248,12 @@
 		A57EB62929C9DBBE001C4AD9 /* MerchantProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57EB62829C9DBBE001C4AD9 /* MerchantProductsViewController.swift */; };
 		A57EB62C29C9F52C001C4AD9 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57EB62B29C9F52C001C4AD9 /* UserView.swift */; };
 		A57EB63029C9F647001C4AD9 /* UserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A57EB62F29C9F647001C4AD9 /* UserView.xib */; };
+		A59667E329EE200A00EE816D /* GpApiPayLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667E229EE200A00EE816D /* GpApiPayLinkTest.swift */; };
+		A59667EA29F6AD2D00EE816D /* PayLinkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667E929F6AD2D00EE816D /* PayLinkBuilder.swift */; };
+		A59667EC29F6AD4C00EE816D /* PayLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667EB29F6AD4C00EE816D /* PayLinkViewController.swift */; };
+		A59667EE29F6ADB900EE816D /* PayLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667ED29F6ADB900EE816D /* PayLinkViewModel.swift */; };
+		A59667F029F8B5B000EE816D /* PayLink.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59667EF29F8B5B000EE816D /* PayLink.storyboard */; };
+		A59667F429F8C7F900EE816D /* PayLinkForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667F329F8C7F900EE816D /* PayLinkForm.swift */; };
 		B3C3C7004F930D956F772A64 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -515,6 +521,12 @@
 		A57EB62829C9DBBE001C4AD9 /* MerchantProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantProductsViewController.swift; sourceTree = "<group>"; };
 		A57EB62B29C9F52C001C4AD9 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		A57EB62F29C9F647001C4AD9 /* UserView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserView.xib; sourceTree = "<group>"; };
+		A59667E229EE200A00EE816D /* GpApiPayLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayLinkTest.swift; sourceTree = "<group>"; };
+		A59667E929F6AD2D00EE816D /* PayLinkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkBuilder.swift; sourceTree = "<group>"; };
+		A59667EB29F6AD4C00EE816D /* PayLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkViewController.swift; sourceTree = "<group>"; };
+		A59667ED29F6ADB900EE816D /* PayLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkViewModel.swift; sourceTree = "<group>"; };
+		A59667EF29F8B5B000EE816D /* PayLink.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PayLink.storyboard; sourceTree = "<group>"; };
+		A59667F329F8C7F900EE816D /* PayLinkForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkForm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -996,6 +1008,7 @@
 		8258B115255C1B4100D02721 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				A59667E829F6ACD300EE816D /* PayLink */,
 				A57EB60229C3B47F001C4AD9 /* Merchant */,
 				30B3DE5D299D29E000FCEF48 /* Ach */,
 				308E27C12829F552001441D0 /* DigitalWallets */,
@@ -1158,6 +1171,7 @@
 				304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */,
 				30B3DE59299BEA9500FCEF48 /* GpApiAchTests.swift */,
 				A506E86B29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift */,
+				A59667E229EE200A00EE816D /* GpApiPayLinkTest.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -1437,6 +1451,18 @@
 			path = UserView;
 			sourceTree = "<group>";
 		};
+		A59667E829F6ACD300EE816D /* PayLink */ = {
+			isa = PBXGroup;
+			children = (
+				A59667E929F6AD2D00EE816D /* PayLinkBuilder.swift */,
+				A59667EB29F6AD4C00EE816D /* PayLinkViewController.swift */,
+				A59667ED29F6ADB900EE816D /* PayLinkViewModel.swift */,
+				A59667EF29F8B5B000EE816D /* PayLink.storyboard */,
+				A59667F329F8C7F900EE816D /* PayLinkForm.swift */,
+			);
+			path = PayLink;
+			sourceTree = "<group>";
+		};
 		D96F282A842265BC4AB41241 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1562,6 +1588,7 @@
 				A57EB63029C9F647001C4AD9 /* UserView.xib in Resources */,
 				8253FBB02563DB5B00FBDCC9 /* ErrorView.xib in Resources */,
 				822FBF0425810C3900D12353 /* DepositTableViewCell.xib in Resources */,
+				A59667F029F8B5B000EE816D /* PayLink.storyboard in Resources */,
 				8200B19E25939DA600042357 /* Configuration.storyboard in Resources */,
 				8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */,
 				82B49403256FAF74009C2CBD /* TransactionView.xib in Resources */,
@@ -1744,6 +1771,7 @@
 				82B49417256FF1CB009C2CBD /* VerificationsFormViewController.swift in Sources */,
 				8200B19A25939D6B00042357 /* ConfigurationViewController.swift in Sources */,
 				82B82F05263AC9F0008B448D /* CheckAvailabilityForm.swift in Sources */,
+				A59667F429F8C7F900EE816D /* PayLinkForm.swift in Sources */,
 				30B3DE61299D2D0200FCEF48 /* AchViewController.swift in Sources */,
 				8253FBFE25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift in Sources */,
 				8214207525924CBD003EA8DF /* DisputesOperationsForm.swift in Sources */,
@@ -1777,9 +1805,11 @@
 				8258B164255C36DD00D02721 /* CellIdentifiable.swift in Sources */,
 				8214207B25924D3D003EA8DF /* DisputesOperationsFormBuilder.swift in Sources */,
 				8264A019258BBF2400E1144F /* DisputeReportViewController.swift in Sources */,
+				A59667EC29F6AD4C00EE816D /* PayLinkViewController.swift in Sources */,
 				8264A004258BA44B00E1144F /* DisputesBuilder.swift in Sources */,
 				8253FC0B256531E000FBDCC9 /* TransactionSummaryTableViewCell.swift in Sources */,
 				82A5183D256593FF00E14F76 /* DateExtensions.swift in Sources */,
+				A59667EE29F6ADB900EE816D /* PayLinkViewModel.swift in Sources */,
 				A57EB60B29C3B5D4001C4AD9 /* CreateMerchantViewModel.swift in Sources */,
 				82E6BDBA258CE39D00908C36 /* DisputeByIDForm.swift in Sources */,
 				82BE179E25DD3B36005F85C1 /* Utils.swift in Sources */,
@@ -1809,6 +1839,7 @@
 				A57EB61F29C62D46001C4AD9 /* MerchantDataViewModel.swift in Sources */,
 				82B82EE3263ABD7B008B448D /* AuthenticationsViewController.swift in Sources */,
 				30B3DE63299D2D0E00FCEF48 /* AchBuilder.swift in Sources */,
+				A59667EA29F6AD2D00EE816D /* PayLinkBuilder.swift in Sources */,
 				822FBF1A258263BB00D12353 /* DepositsListFormBuilder.swift in Sources */,
 				823EDC12256D5165009DED23 /* TransactionOperationsFormBuilder.swift in Sources */,
 				82C8D0FB25AC62F900F6704E /* DefaultsKey+Discovery.swift in Sources */,
@@ -1883,6 +1914,7 @@
 				8224884525E5381B001EAF3D /* GpApiCreditCardPresentTests.swift in Sources */,
 				824451BC24E150410080D06B /* GpApiReportingDisputesTests.swift in Sources */,
 				A506E86C29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift in Sources */,
+				A59667E329EE200A00EE816D /* GpApiPayLinkTest.swift in Sources */,
 				8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */,
 				82613EBC24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift in Sources */,
 				30B3DE5A299BEA9500FCEF48 /* GpApiAchTests.swift in Sources */,

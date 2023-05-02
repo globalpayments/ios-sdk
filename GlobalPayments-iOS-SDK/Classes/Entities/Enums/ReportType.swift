@@ -65,4 +65,8 @@ public struct ReportType: OptionSet, Hashable {
     public static let documentDisputeDetail           = ReportType(rawValue: 1 << 27)
     ///
     public static let findMerchantsPaged              = ReportType(rawValue: 1 << 28)
+    
+    public static let payLinkDetail                   = ReportType(rawValue: 1 << 29)
+
+    public static let findPayLinkPaged                = ReportType(rawValue: 1 << 30)
 }

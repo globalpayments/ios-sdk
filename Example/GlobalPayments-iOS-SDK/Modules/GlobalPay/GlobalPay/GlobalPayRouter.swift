@@ -37,6 +37,8 @@ struct GlobalPayRouter: Router {
             return AchBuilder.build()
         case .payLink:
             return PayLinkBuilder.build()
+        case .paypal:
+            return PaypalBuilder.build()
         }
     }
 }

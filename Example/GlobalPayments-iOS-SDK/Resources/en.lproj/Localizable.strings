@@ -405,6 +405,9 @@
 "ach.refund" = "Refund";
 
 "payLink.title" = "PayLink";
+"paypal.title" = "Paypal";
+"paypal.title.button" = "pay with Paypal";
+
 
 "merchant.title" = "Merchant Onboarding";
 "merchant.title.menu" = "Merchant";

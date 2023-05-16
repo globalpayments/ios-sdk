@@ -179,6 +179,27 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 method: .patch,
                 requestBody: payLoad.toString()
             )
+            
+        case .confirm:
+            if let transactionReference = builder.paymentMethod as? TransactionReference, builder.paymentMethod?.paymentMethodType == .apm {
+                let apmResponse = transactionReference.alternativePaymentResponse
+                let apm = JsonDoc()
+                apm.set(for: "provider", value: apmResponse?.providerName)
+                apm.set(for: "provider_payer_reference", value: apmResponse?.providerReference);
+
+                let paymentMethod = JsonDoc()
+                paymentMethod.set(for: "apm", doc: apm)
+
+                let payLoad = JsonDoc()
+                payLoad.set(for: "payment_method", doc: paymentMethod)
+                
+                return GpApiRequest(
+                    endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsConfirmation(transactionId: builder.transactionId ?? .empty),
+                    method: .post,
+                    requestBody: payLoad.toString()
+                )
+            }
+            return nil
         default:
             return nil
         }

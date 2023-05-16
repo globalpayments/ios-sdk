@@ -1,6 +1,6 @@
 import Foundation
 
-public enum AlternativePaymentMethodType {
+public enum AlternativePaymentMethodType: String, Mappable {
     case ASTROPAY_DIRECT
     case AURA
     case BALOTO_CASH
@@ -92,6 +92,7 @@ public enum AlternativePaymentMethodType {
     case OSUUSPANKKI
     case OXXO
     case PAGO_FACIL
+    case PAYPAL
     case PAYPOST_LIETUVOS_PASTAS
     case PAYSAFECARD
     case PAYSBUY_CASH
@@ -137,4 +138,13 @@ public enum AlternativePaymentMethodType {
     case WECHAT_PAY
     case ZIMPLER
     case UK_DIRECT_DEBIT
+    
+    public func mapped(for target: Target) -> String? {
+        switch target {
+        case .gpApi:
+            return self.rawValue.lowercased()
+        default:
+            return nil
+        }
+    }
 }

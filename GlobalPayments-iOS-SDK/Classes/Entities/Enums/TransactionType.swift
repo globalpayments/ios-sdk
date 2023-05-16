@@ -87,4 +87,6 @@ public struct TransactionType: OptionSet, Hashable {
     public static let documentDisputeDetail  = TransactionType(rawValue: 1 << 40)
     
     public static let payLinkUpdate          = TransactionType(rawValue: 1 << 41)
+    
+    public static let confirm                = TransactionType(rawValue: 1 << 42)
 }

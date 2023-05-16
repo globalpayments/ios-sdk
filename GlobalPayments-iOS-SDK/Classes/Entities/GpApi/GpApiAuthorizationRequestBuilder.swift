@@ -140,7 +140,11 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         if builder.paymentMethod is eCheck {
             payload.set(for: "payer", doc: setPayerInformation(builder))
         }
-
+        
+        if let alternatePayment = builder.paymentMethod as? AlternatePaymentMethod {
+            payload.set(for:"notifications", doc: setNotificationUrls(alternatePayment))
+        }
+        
         return payload
     }
 
@@ -248,6 +252,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             creditCardDataPaymentMethod(paymentMethod, modifier: builder.transactionModifier, creditCardData: creditCardData, builder: builder)
         case let encryptable as Encryptable:
             encryptablePaymentMethod(paymentMethod, encryptable: encryptable)
+        case let alternatePayment as AlternatePaymentMethod:
+            alternatePaymentMethod(paymentMethod, alternatePayment: alternatePayment)
         case .none, .some: break
         }
         
@@ -348,6 +354,15 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             }
         }
     }
+    
+    private func alternatePaymentMethod(_ paymentMethod: JsonDoc, alternatePayment: AlternatePaymentMethod){
+        paymentMethod.set(for: "name", value: alternatePayment.accountHolderName)
+
+        let apm = JsonDoc()
+        apm.set(for: "provider", value: alternatePayment.alternativePaymentMethodType?.mapped(for: .gpApi))
+        apm.set(for: "address_override_mode", value: alternatePayment.addressOverrideMode)
+        paymentMethod.set(for: "apm", doc: apm)
+    }
 
     private func mapFraudManagement(_ builder: AuthorizationBuilder) -> [JsonDoc] {
         var rules = [JsonDoc]()
@@ -396,5 +411,13 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             }
         }
         return payer
+    }
+    
+    private func setNotificationUrls(_ paymentMethod: AlternatePaymentMethod) -> JsonDoc {
+        let notifications = JsonDoc()
+        notifications.set(for: "return_url", value: paymentMethod.returnUrl)
+        notifications.set(for: "status_url", value: paymentMethod.statusUpdateUrl)
+        notifications.set(for: "cancel_url", value: paymentMethod.cancelUrl)
+        return notifications
     }
 }

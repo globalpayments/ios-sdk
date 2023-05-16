@@ -3,6 +3,20 @@ import Foundation
 /// Transaction response.
 public class Transaction: NSObject {
 
+    public var alternativePaymentResponse: AlternativePaymentResponse? {
+        get {
+            if transactionReference != nil {
+                return transactionReference?.alternativePaymentResponse
+            }
+            return nil
+        }
+        set(newValue) {
+            if transactionReference == nil {
+                transactionReference = TransactionReference()
+            }
+            transactionReference?.alternativePaymentResponse = newValue
+        }
+    }
     /// The authorized amount.
     public var authorizedAmount: NSDecimalNumber?
     public var autoSettleFlag: String?
@@ -226,6 +240,14 @@ public class Transaction: NSObject {
             )
         }
         return builder
+    }
+    
+    /// Confirm an original transaction. For now it is used for the APM transactions with PayPal
+    /// - Returns: ManagementBuilder
+    public func confirm(_ amount: NSDecimalNumber? = nil) -> ManagementBuilder {
+        return ManagementBuilder(transactionType: .confirm)
+            .withPaymentMethod(self.transactionReference)
+            .withAmount(amount)
     }
 
     /// Edits the original transaction.

@@ -73,6 +73,10 @@ public struct GpApiMapping {
             }
 
             transaction.paymentMethodType = paymentMethod.has(key: "bank_transfer") ? .ach : transaction.paymentMethodType
+            
+            if paymentMethod.has(key: "apm") {
+                transaction.alternativePaymentResponse = AlternativePaymentResponse.mapToObject(paymentMethod)
+            }
         }
 
         if let riskAssessments: [JsonDoc] = doc?.getValue(key: "risk_assessment") {
@@ -138,6 +142,10 @@ public struct GpApiMapping {
         summary.merchantHierarchy = doc?.get(valueFor: "system")?.getValue(key: "hierarchy")
         summary.merchantName = doc?.get(valueFor: "system")?.getValue(key: "name")
         summary.merchantDbaName = doc?.get(valueFor: "system")?.getValue(key: "dba")
+        
+        if let paymentMethod = paymentMethod, paymentMethod.has(key: "apm") {
+            summary.alternativePaymentResponse = AlternativePaymentResponse.mapToObject(paymentMethod)
+        }
 
         return summary
     }

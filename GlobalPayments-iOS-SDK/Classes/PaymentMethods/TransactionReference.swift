@@ -1,6 +1,7 @@
 import Foundation
 
 public class TransactionReference: NSObject, PaymentMethod {
+    public var alternativePaymentResponse: AlternativePaymentResponse?
     public var paymentMethodType: PaymentMethodType
     public var authCode: String?
     public var batchNumber: String?

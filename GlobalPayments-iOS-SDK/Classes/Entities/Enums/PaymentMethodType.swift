@@ -30,4 +30,8 @@ public struct PaymentMethodType: OptionSet, Hashable {
     /// Indicates a recurring payment method.
     /// - Description: Should be accompanied by a payment method key.
     public static let recurring = PaymentMethodType(rawValue: 1 << 7)
+    
+    public static let paypal    = PaymentMethodType(rawValue: 1 << 8)
+    
+    public static let apm       = PaymentMethodType(rawValue: 1 << 9)
 }

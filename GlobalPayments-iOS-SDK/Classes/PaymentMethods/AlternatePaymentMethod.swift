@@ -14,12 +14,24 @@ public class AlternatePaymentMethod: NSObject, PaymentMethod, Chargeable {
     /// A Country value representing the Country.
     public var country: String?
     public var accountHolderName: String?
+    public var cancelUrl: String?
+    /// Accepted values ENABLE/DISABLE
+    public var addressOverrideMode: String?
 
     /// Creates a charge (sale) against the payment method.
     /// - Parameter amount: The amount of the transaction
     /// - Returns: AuthorizationBuilder
     public func charge(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .sale, paymentMethod: self)
+            .withAmount(amount)
+    }
+    
+    /// Authorizes the payment method
+    /// - Parameter amount: The amount of the transaction
+    /// - Returns: AuthorizationBuilder
+    public func authorize(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder{
+        return AuthorizationBuilder(transactionType: .auth, paymentMethod: self)
+            .withModifier(.alternativePaymentMethod)
             .withAmount(amount)
     }
 }

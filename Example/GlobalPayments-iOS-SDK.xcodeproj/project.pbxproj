@@ -254,6 +254,11 @@
 		A59667EE29F6ADB900EE816D /* PayLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667ED29F6ADB900EE816D /* PayLinkViewModel.swift */; };
 		A59667F029F8B5B000EE816D /* PayLink.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59667EF29F8B5B000EE816D /* PayLink.storyboard */; };
 		A59667F429F8C7F900EE816D /* PayLinkForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667F329F8C7F900EE816D /* PayLinkForm.swift */; };
+		A59667FA29FB43D700EE816D /* GpApiApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667F929FB43D700EE816D /* GpApiApmTest.swift */; };
+		A59668012A0BB45800EE816D /* PaypalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59668002A0BB45800EE816D /* PaypalBuilder.swift */; };
+		A59668032A0BB46700EE816D /* PaypalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59668022A0BB46700EE816D /* PaypalViewController.swift */; };
+		A59668052A0BB47200EE816D /* PaypalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59668042A0BB47200EE816D /* PaypalViewModel.swift */; };
+		A59668072A0BB65900EE816D /* Paypal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59668062A0BB65900EE816D /* Paypal.storyboard */; };
 		B3C3C7004F930D956F772A64 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -527,6 +532,11 @@
 		A59667ED29F6ADB900EE816D /* PayLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkViewModel.swift; sourceTree = "<group>"; };
 		A59667EF29F8B5B000EE816D /* PayLink.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PayLink.storyboard; sourceTree = "<group>"; };
 		A59667F329F8C7F900EE816D /* PayLinkForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkForm.swift; sourceTree = "<group>"; };
+		A59667F929FB43D700EE816D /* GpApiApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiApmTest.swift; sourceTree = "<group>"; };
+		A59668002A0BB45800EE816D /* PaypalBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalBuilder.swift; sourceTree = "<group>"; };
+		A59668022A0BB46700EE816D /* PaypalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalViewController.swift; sourceTree = "<group>"; };
+		A59668042A0BB47200EE816D /* PaypalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalViewModel.swift; sourceTree = "<group>"; };
+		A59668062A0BB65900EE816D /* Paypal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Paypal.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1008,6 +1018,7 @@
 		8258B115255C1B4100D02721 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				A59667FF2A0BB44100EE816D /* Paypal */,
 				A59667E829F6ACD300EE816D /* PayLink */,
 				A57EB60229C3B47F001C4AD9 /* Merchant */,
 				30B3DE5D299D29E000FCEF48 /* Ach */,
@@ -1172,6 +1183,7 @@
 				30B3DE59299BEA9500FCEF48 /* GpApiAchTests.swift */,
 				A506E86B29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift */,
 				A59667E229EE200A00EE816D /* GpApiPayLinkTest.swift */,
+				A59667F929FB43D700EE816D /* GpApiApmTest.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -1463,6 +1475,17 @@
 			path = PayLink;
 			sourceTree = "<group>";
 		};
+		A59667FF2A0BB44100EE816D /* Paypal */ = {
+			isa = PBXGroup;
+			children = (
+				A59668002A0BB45800EE816D /* PaypalBuilder.swift */,
+				A59668022A0BB46700EE816D /* PaypalViewController.swift */,
+				A59668042A0BB47200EE816D /* PaypalViewModel.swift */,
+				A59668062A0BB65900EE816D /* Paypal.storyboard */,
+			);
+			path = Paypal;
+			sourceTree = "<group>";
+		};
 		D96F282A842265BC4AB41241 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1577,6 +1600,7 @@
 				A57EB61129C3B6A6001C4AD9 /* Merchant.storyboard in Resources */,
 				8253FBBD2563E9D900FBDCC9 /* Transactions.storyboard in Resources */,
 				8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */,
+				A59668072A0BB65900EE816D /* Paypal.storyboard in Resources */,
 				823EDBEF256D13BC009DED23 /* EmptyView.xib in Resources */,
 				82EC191725766E5B00A93A3C /* PaymentMethodView.xib in Resources */,
 				82A9F79C2578F2FD00B8962D /* PaymentMethodResultView.xib in Resources */,
@@ -1811,9 +1835,11 @@
 				82A5183D256593FF00E14F76 /* DateExtensions.swift in Sources */,
 				A59667EE29F6ADB900EE816D /* PayLinkViewModel.swift in Sources */,
 				A57EB60B29C3B5D4001C4AD9 /* CreateMerchantViewModel.swift in Sources */,
+				A59668052A0BB47200EE816D /* PaypalViewModel.swift in Sources */,
 				82E6BDBA258CE39D00908C36 /* DisputeByIDForm.swift in Sources */,
 				82BE179E25DD3B36005F85C1 /* Utils.swift in Sources */,
 				82A9F7872577B73600B8962D /* PaymentMethodOperationType.swift in Sources */,
+				A59668012A0BB45800EE816D /* PaypalBuilder.swift in Sources */,
 				8244D6C7255E99C200739364 /* AccessTokenBuilder.swift in Sources */,
 				8264A008258BA45400E1144F /* DisputesRouter.swift in Sources */,
 				82EC191B25766E7200A93A3C /* PaymentMethodView.swift in Sources */,
@@ -1869,6 +1895,7 @@
 				82142068259249DD003EA8DF /* DisputesOperationsBuilder.swift in Sources */,
 				826695EC2566CEFB003D6FFE /* TransactionListForm.swift in Sources */,
 				82EC190E25765C3200A93A3C /* PaymentMethodByIDBuilder.swift in Sources */,
+				A59668032A0BB46700EE816D /* PaypalViewController.swift in Sources */,
 				82E6BDB2258CE38400908C36 /* DisputeByIDFormBuilder.swift in Sources */,
 				82883A782580E65100914499 /* DepositsBuilder.swift in Sources */,
 				A57EB60F29C3B5F6001C4AD9 /* MerchantViewController.swift in Sources */,
@@ -1906,6 +1933,7 @@
 				82CF9A81257A60C400B7CC18 /* GpApiMappingTests.swift in Sources */,
 				82883A63257E450D00914499 /* GpApiSdkCertification.swift in Sources */,
 				82B0485824AF367600FC32EC /* CardUtilsTests.swift in Sources */,
+				A59667FA29FB43D700EE816D /* GpApiApmTest.swift in Sources */,
 				824BB68625D549C9002DE472 /* GpApi3DSecureAcsClient.swift in Sources */,
 				82F20D08262EF4A100A08543 /* GpApi3DSecure2Tests.swift in Sources */,
 				82883A69257E482000914499 /* DateExtensions.swift in Sources */,

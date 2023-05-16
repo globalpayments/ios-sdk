@@ -2,6 +2,7 @@ import Foundation
 
 /// Transaction-level report data
 public class TransactionSummary {
+    public var alternativePaymentResponse: AlternativePaymentResponse?
     public var accountDataSource: String?
     public var adjustmentAmount: NSDecimalNumber?
     public var adjustmentCurrency: String?

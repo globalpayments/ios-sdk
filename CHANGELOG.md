@@ -4,6 +4,12 @@
 
 #### Enhancements
 
+- GP-API: Add APM Paypal feature
+
+## 1.2.16 (01/05/2023)
+
+#### Enhancements
+
 - GP-API: Add PayLink feature
 
 ## 1.2.15 (03/04/2023)

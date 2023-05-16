@@ -178,6 +178,9 @@
 		A59667E729EE2CE300EE816D /* PayLinkSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667E629EE2CE300EE816D /* PayLinkSummary.swift */; };
 		A59667F629F94EDC00EE816D /* PayLinkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667F529F94EDC00EE816D /* PayLinkResponse.swift */; };
 		A59667F829F95CFF00EE816D /* ActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667F729F95CFE00EE816D /* ActionType.swift */; };
+		A59667FC2A034C8D00EE816D /* AlternativePaymentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667FB2A034C8D00EE816D /* AlternativePaymentResponse.swift */; };
+		A59667FE2A0356C600EE816D /* JsonToObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667FD2A0356C600EE816D /* JsonToObject.swift */; };
+		A59668092A0BBB3C00EE816D /* PaypalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59668082A0BBB3C00EE816D /* PaypalType.swift */; };
 		A7AE9477E8513C74A23B416E033BF699 /* PriorAuthenticationMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE9BE63B915C4C157B8C7FF7CE0E7E4 /* PriorAuthenticationMethod.swift */; };
 		A7CC6ED8E1357B497004FE0895CE9613 /* RecurringService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A24C190678E63939DC49FCBC380531 /* RecurringService.swift */; };
 		A81DAE1CA88D5649F0346F8BE099E8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
@@ -490,6 +493,9 @@
 		A59667E629EE2CE300EE816D /* PayLinkSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkSummary.swift; sourceTree = "<group>"; };
 		A59667F529F94EDC00EE816D /* PayLinkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkResponse.swift; sourceTree = "<group>"; };
 		A59667F729F95CFE00EE816D /* ActionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionType.swift; sourceTree = "<group>"; };
+		A59667FB2A034C8D00EE816D /* AlternativePaymentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternativePaymentResponse.swift; sourceTree = "<group>"; };
+		A59667FD2A0356C600EE816D /* JsonToObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonToObject.swift; sourceTree = "<group>"; };
+		A59668082A0BBB3C00EE816D /* PaypalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalType.swift; sourceTree = "<group>"; };
 		A60542D270765E2928C1BE1F37500DFF /* FraudRule.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FraudRule.swift; sourceTree = "<group>"; };
 		A7D2F3221E351FBC52D3FA84CBAE253D /* PrestigiousPropertyLimit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PrestigiousPropertyLimit.swift; sourceTree = "<group>"; };
 		A8B2C79BC079C97D61418861A2DB160D /* DeliveryTimeFrame.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeliveryTimeFrame.swift; sourceTree = "<group>"; };
@@ -684,6 +690,8 @@
 				A506E87929BF8FC3006787CE /* MerchantSummary.swift */,
 				A59667DA29EE088100EE816D /* PayLinkData.swift */,
 				A59667F529F94EDC00EE816D /* PayLinkResponse.swift */,
+				A59667FB2A034C8D00EE816D /* AlternativePaymentResponse.swift */,
+				A59667FD2A0356C600EE816D /* JsonToObject.swift */,
 			);
 			name = Entities;
 			path = "GlobalPayments-iOS-SDK/Classes/Entities";
@@ -951,6 +959,7 @@
 				A59667DE29EE0B0700EE816D /* PayLinkStatus.swift */,
 				A59667E029EE1C4B00EE816D /* PayLinkSortProperty.swift */,
 				A59667F729F95CFE00EE816D /* ActionType.swift */,
+				A59668082A0BBB3C00EE816D /* PaypalType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1342,6 +1351,7 @@
 			files = (
 				2D6EE0B8368B08E18466CF2821118C3B /* AccessTokenInfo.swift in Sources */,
 				95EBEB0153B44890A47CB57C427A559A /* AccountType.swift in Sources */,
+				A59668092A0BBB3C00EE816D /* PaypalType.swift in Sources */,
 				37D09AFCF3B571BFFFEDC0A71780207A /* ActionSortProperty.swift in Sources */,
 				2F9DA508860FCFE076071C773C57C4BF /* ActionSummary.swift in Sources */,
 				F60A380EA26120060F527335584C8333 /* AdditionalTaxDetails.swift in Sources */,
@@ -1415,6 +1425,7 @@
 				B7C94D58902B8F9911168478B96D3A97 /* DisputeAction.swift in Sources */,
 				3E0BB8698CCF810F3129A57600DFDBE7 /* DisputeDocument.swift in Sources */,
 				69942E7E3A799CAEB1C4454843B077E7 /* DisputeResult.swift in Sources */,
+				A59667FE2A0356C600EE816D /* JsonToObject.swift in Sources */,
 				8B8B4226D6780EB9DDF819FE354D4B1F /* DisputeSortProperty.swift in Sources */,
 				EB9DF458160A71C267604F3C1431A3D9 /* DisputeStage.swift in Sources */,
 				BEB0FA0E0659F34703755577CCAAFCC7 /* DisputeStatus.swift in Sources */,
@@ -1507,6 +1518,7 @@
 				A8F70631228AB1356EF3E759C4E9BA31 /* PaymentGateway.swift in Sources */,
 				5DFE95A58E1F28C6B308C3504C6B65DD /* PaymentMethod.swift in Sources */,
 				A09B114C00BD56B4454CAA757966A5CF /* PaymentMethodFunction.swift in Sources */,
+				A59667FC2A034C8D00EE816D /* AlternativePaymentResponse.swift in Sources */,
 				CD413FA795223C5F346C3501277BFF02 /* PaymentMethodName.swift in Sources */,
 				7A13DB61506495092EBBA69816189DAA /* PaymentMethodProgram.swift in Sources */,
 				E420E049CDB6CB7804BA3B80010F8251 /* PaymentMethodType.swift in Sources */,

@@ -173,7 +173,7 @@ import Foundation
         return self
     }
 
-    func withPaymentMethod(_ paymentMethod: PaymentMethod) -> ManagementBuilder {
+    func withPaymentMethod(_ paymentMethod: PaymentMethod?) -> ManagementBuilder {
         self.paymentMethod = paymentMethod
         return self
     }

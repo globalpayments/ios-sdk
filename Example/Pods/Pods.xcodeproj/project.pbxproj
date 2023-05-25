@@ -181,6 +181,8 @@
 		A59667FC2A034C8D00EE816D /* AlternativePaymentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667FB2A034C8D00EE816D /* AlternativePaymentResponse.swift */; };
 		A59667FE2A0356C600EE816D /* JsonToObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667FD2A0356C600EE816D /* JsonToObject.swift */; };
 		A59668092A0BBB3C00EE816D /* PaypalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59668082A0BBB3C00EE816D /* PaypalType.swift */; };
+		A596680B2A1CF55200EE816D /* PayerDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A596680A2A1CF55200EE816D /* PayerDetails.swift */; };
+		A596680D2A1D019700EE816D /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A596680C2A1D019700EE816D /* Card.swift */; };
 		A7AE9477E8513C74A23B416E033BF699 /* PriorAuthenticationMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE9BE63B915C4C157B8C7FF7CE0E7E4 /* PriorAuthenticationMethod.swift */; };
 		A7CC6ED8E1357B497004FE0895CE9613 /* RecurringService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A24C190678E63939DC49FCBC380531 /* RecurringService.swift */; };
 		A81DAE1CA88D5649F0346F8BE099E8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
@@ -496,6 +498,8 @@
 		A59667FB2A034C8D00EE816D /* AlternativePaymentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternativePaymentResponse.swift; sourceTree = "<group>"; };
 		A59667FD2A0356C600EE816D /* JsonToObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonToObject.swift; sourceTree = "<group>"; };
 		A59668082A0BBB3C00EE816D /* PaypalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalType.swift; sourceTree = "<group>"; };
+		A596680A2A1CF55200EE816D /* PayerDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayerDetails.swift; sourceTree = "<group>"; };
+		A596680C2A1D019700EE816D /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		A60542D270765E2928C1BE1F37500DFF /* FraudRule.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FraudRule.swift; sourceTree = "<group>"; };
 		A7D2F3221E351FBC52D3FA84CBAE253D /* PrestigiousPropertyLimit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PrestigiousPropertyLimit.swift; sourceTree = "<group>"; };
 		A8B2C79BC079C97D61418861A2DB160D /* DeliveryTimeFrame.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeliveryTimeFrame.swift; sourceTree = "<group>"; };
@@ -692,6 +696,8 @@
 				A59667F529F94EDC00EE816D /* PayLinkResponse.swift */,
 				A59667FB2A034C8D00EE816D /* AlternativePaymentResponse.swift */,
 				A59667FD2A0356C600EE816D /* JsonToObject.swift */,
+				A596680A2A1CF55200EE816D /* PayerDetails.swift */,
+				A596680C2A1D019700EE816D /* Card.swift */,
 			);
 			name = Entities;
 			path = "GlobalPayments-iOS-SDK/Classes/Entities";
@@ -1349,6 +1355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A596680B2A1CF55200EE816D /* PayerDetails.swift in Sources */,
 				2D6EE0B8368B08E18466CF2821118C3B /* AccessTokenInfo.swift in Sources */,
 				95EBEB0153B44890A47CB57C427A559A /* AccountType.swift in Sources */,
 				A59668092A0BBB3C00EE816D /* PaypalType.swift in Sources */,
@@ -1577,6 +1584,7 @@
 				2C9533BBAAB45FFE6919C7BA92125272 /* SortDirection.swift in Sources */,
 				7DE38549EC1C2B5ABC95F38AF249856A /* StatusChangeReason.swift in Sources */,
 				27F1C51294ADD33086007B1AF5314A9F /* StoredCredential.swift in Sources */,
+				A596680D2A1D019700EE816D /* Card.swift in Sources */,
 				0A7E46A708B4808F542DEEC2E3466493 /* StoredCredentialInitiator.swift in Sources */,
 				BFF3A4580708F9972D30A5B045DE0CAA /* StoredCredentialReason.swift in Sources */,
 				5A009072BAAD5571D2584BE146F99BFB /* StoredCredentialSequence.swift in Sources */,

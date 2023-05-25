@@ -54,14 +54,20 @@ public class Transaction: NSObject {
     public var cardType: String?
     /// The last four digits of the card number used in the transaction.
     public var cardLast4: String?
+    
+    public var cardDetails: Card?
+    
+    @available(*, deprecated, message: "Will soon be replaced with cardDetails.cardNumber")
     /// The card number used in the transaction.
     public var cardNumber: String?
-    
-    public var cardIssuerResponse: CardIssuerResponse?
+    @available(*, deprecated, message: "Will soon be replaced with cardDetails.cardExpMonth")
     /// The card expiry month used in the transaction
     public var cardExpMonth: Int?
+    @available(*, deprecated, message: "Will soon be replaced with cardDetails.cardExpYear")
     /// The card expiry year used in the transaction
     public var cardExpYear: Int?
+    
+    public var cardIssuerResponse: CardIssuerResponse?
     /// The consumer authentication (3DSecure) verification value response code.
     public var cavvResponseCode: String?
     /// The client transaction ID supplied in the request.
@@ -129,6 +135,8 @@ public class Transaction: NSObject {
             transactionReference?.paymentMethodType = newValue
         }
     }
+    
+    public var payerDetails: PayerDetails?
     
     public var methodUsageMode: PaymentMethodUsageMode?
     

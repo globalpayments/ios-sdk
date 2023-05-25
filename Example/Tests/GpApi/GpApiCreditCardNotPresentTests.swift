@@ -657,6 +657,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertNil(transactionErrorResponse)
         XCTAssertEqual(transactionResponse?.responseCode, "SUCCESS")
         XCTAssertEqual(transactionStatusResponse, TransactionStatus.captured)
+        XCTAssertNil(transactionResponse?.payerDetails)
     }
 
     func test_credit_sale_with_stored_credentials() {

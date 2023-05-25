@@ -77,6 +77,25 @@ public struct GpApiMapping {
             if paymentMethod.has(key: "apm") {
                 transaction.alternativePaymentResponse = AlternativePaymentResponse.mapToObject(paymentMethod)
             }
+            
+            if paymentMethod.has(key: "shipping_address") || paymentMethod.has(key: "payer") {
+                let payerDetails = PayerDetails()
+                let payerData: JsonDoc? = paymentMethod.getValue(key: "payer")
+                payerDetails.email = payerData?.getValue(key: "email")
+                if let billingAddress: JsonDoc = payerData?.get(valueFor: "billing_address") {
+                    payerDetails.firstName = billingAddress.getValue(key: "first_name")
+                    payerDetails.lastName = billingAddress.getValue(key: "last_name")
+                    let billing = mapMerchantAddress(billingAddress)
+                    billing.type = .billing
+                    payerDetails.billingAddress = billing
+                }
+                
+                var shipping = mapMerchantAddress(paymentMethod.get(valueFor: "shipping_address"))
+                shipping.type = .shipping
+                
+                payerDetails.shippingAddress = shipping
+                transaction.payerDetails = payerDetails
+            }
         }
 
         if let riskAssessments: [JsonDoc] = doc?.getValue(key: "risk_assessment") {
@@ -88,11 +107,13 @@ public struct GpApiMapping {
         }
 
         if let card: JsonDoc = doc?.get(valueFor: "card") {
-            transaction.cardExpMonth = Int(card.getValue(key: "expiry_month") ?? .empty)
-            transaction.cardExpYear = Int(card.getValue(key: "expiry_year") ?? .empty)
-            transaction.cardNumber = card.getValue(key: "number")
-            transaction.cardType = card.getValue(key: "brand")
-            transaction.cardLast4 = card.getValue(key: "masked_number_last4")
+            let cardDetails = Card()
+            cardDetails.cardExpMonth = Int(card.getValue(key: "expiry_month") ?? .empty)
+            cardDetails.cardExpYear = Int(card.getValue(key: "expiry_year") ?? .empty)
+            cardDetails.cardNumber = card.getValue(key: "number")
+            cardDetails.brand = card.getValue(key: "brand")
+            cardDetails.maskedNumberLast4 = card.getValue(key: "masked_number_last4")
+            transaction.cardDetails = cardDetails
         }
 
         transaction.dccRateData = mapDccInfo(doc)
@@ -615,5 +636,17 @@ public struct GpApiMapping {
             list = listPaymentMethods.map{ PaymentMethodName(value: $0) ?? .card }
         }
         return list
+    }
+    
+    private static func mapMerchantAddress(_ address: JsonDoc?) -> Address {
+        let addressData = Address()
+        addressData.streetAddress1 = address?.getValue(key: "line_1")
+        addressData.streetAddress2 = address?.getValue(key: "line_2")
+        addressData.streetAddress3 = address?.getValue(key: "line_3")
+        addressData.city = address?.getValue(key: "city")
+        addressData.state = address?.getValue(key: "state")
+        addressData.postalCode = address?.getValue(key: "postal_code")
+        addressData.country = address?.getValue(key: "country")
+        return addressData
     }
 }

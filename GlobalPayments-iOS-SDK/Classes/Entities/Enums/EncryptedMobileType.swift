@@ -4,6 +4,7 @@ public enum EncryptedMobileType: String, Mappable, CaseIterable {
     
     case APPLE_PAY = "APPLEPAY"
     case GOOGLE_PAY = "PAY_BY_GOOGLE"
+    case CLICK_PAY = "CLICK_TO_PAY"
 
     public init?(value: String?) {
         guard let value = value,

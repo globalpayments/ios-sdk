@@ -41,6 +41,7 @@ import Foundation
     var invoiceNumber: String?
     var idempotencyKey: String?
     var lodgingData: LodgingData?
+    var maskedDataResponse: Bool?
     var messageAuthenticationCode: String?
     var miscProductData: [String]?
     var offlineAuthCode: String?
@@ -285,6 +286,11 @@ import Foundation
     /// - Returns: AuthorizationBuilder
     public func withEcommerceInfo(_ ecommerceInfo: EcommerceInfo) -> AuthorizationBuilder {
         self.ecommerceInfo = ecommerceInfo
+        return self
+    }
+    
+    public func withMaskedDataResponse(_ value: Bool) -> AuthorizationBuilder {
+        self.maskedDataResponse = value
         return self
     }
 

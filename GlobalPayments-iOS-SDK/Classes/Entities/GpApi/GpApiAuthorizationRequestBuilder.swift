@@ -120,6 +120,11 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             currencyDoc.set(for: "id", value: dccId)
             payload.set(for: "currency_conversion", doc: currencyDoc)
         }
+        
+        if let masked = builder.maskedDataResponse {
+            payload.set(for: "masked", value: masked ? "YES" : "NO")
+        }
+        
 
         // set order reference
         if !builder.orderId.isNilOrEmpty {
@@ -297,6 +302,11 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             bankTransfer.set(for: "bank", doc: bank)
             paymentMethod.set(for: "bank_transfer", doc: bankTransfer)
         }else {
+            
+            if let creditCard = builder.paymentMethod as? CreditCardData, let token = creditCard.token {
+                hasToken = !token.isEmpty
+            }
+            
             if !hasToken {
                 paymentMethod.set(for: "card", doc: CardUtils.generateCard(builder: builder))
             }
@@ -323,8 +333,9 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         if modifier == TransactionModifier.encryptedMobile || modifier == TransactionModifier.decryptedMobile {
             let digitalWallet = JsonDoc()
             if modifier == TransactionModifier.encryptedMobile {
-                let jsonToken = JsonDoc.parse(creditCardData.token ?? "{}")
-                digitalWallet.set(for: "payment_token", doc: jsonToken)
+                let cardData = JsonDoc()
+                cardData.set(for: "data", value: creditCardData.token)
+                digitalWallet.set(for: "payment_token", doc: cardData)
             } else if modifier == TransactionModifier.decryptedMobile {
                 digitalWallet.set(for: "token", value: creditCardData.token)
                 digitalWallet.set(for: "token_format", value: DigitalWalletTokenFormat.CARD_NUMBER.rawValue)

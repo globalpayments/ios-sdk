@@ -407,6 +407,13 @@
 "payLink.title" = "PayLink";
 "paypal.title" = "Paypal";
 "paypal.title.button" = "pay with Paypal";
+"buyNowPayLater.title" = "Buy now pay later";
+"customer.create.title.button" = "Create customer";
+"products.select.title.button" = "Select products";
+"buyNowPayLater.capture.title.button" = "Capture";
+"buyNowPayLater.reverse.title.button" = "Reverse";
+"buyNowPayLater.error.amount.message" = "Amount field cannot be empty";
+"buyNowPayLater.error.products.message" = "Products cannot be empty";
 
 
 "merchant.title" = "Merchant Onboarding";

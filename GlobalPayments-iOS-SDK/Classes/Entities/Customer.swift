@@ -29,13 +29,17 @@ public class Customer: RecurringEntity<Customer> {
     /// Customer's mobile phone number
     public var mobilePhone: String?
     /// Customer's email address
-    var email: String?
+    public var email: String?
     /// Customer comments
     var comments: String?
     /// Customer's department within its organization
     var department: String?
     /// Customer resource's status
     var status: String?
+    
+    public var phoneNumber: PhoneNumber?
+    
+    public var documents: [CustomerDocument]?
 
     /// Adds a payment method to the customer
     /// - Parameters:

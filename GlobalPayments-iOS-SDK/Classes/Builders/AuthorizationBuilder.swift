@@ -43,9 +43,10 @@ import Foundation
     var lodgingData: LodgingData?
     var maskedDataResponse: Bool?
     var messageAuthenticationCode: String?
-    var miscProductData: [String]?
+    var miscProductData: [Product]?
     var offlineAuthCode: String?
     var orderId: String?
+    var orderDetails: OrderDetails?
     var paymentApplicationVersion: String?
     var paymentMethodUsageMode: PaymentMethodUsageMode?
     var posSequenceNumber: String?
@@ -66,6 +67,11 @@ import Foundation
     var lastName: String?
     var id: String?
     var cardBrandTransactionId: String?
+    var homePhone: PhoneNumber?
+    var workPhone: PhoneNumber?
+    var shippingPhone: PhoneNumber?
+    var mobilePhone: PhoneNumber?
+    var bnplShippingMethod: BNPLShippingMethod?
 
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
@@ -356,9 +362,9 @@ import Foundation
         return self
     }
 
-    public func withMiscProductData(_ miscProductData: [String]) -> AuthorizationBuilder {
+    public func withMiscProductData(_ miscProductData: [Product]) -> AuthorizationBuilder {
         if self.miscProductData == nil {
-            self.miscProductData = [String]()
+            self.miscProductData = [Product]()
         }
         self.miscProductData?.append(contentsOf: miscProductData)
         return self
@@ -562,6 +568,34 @@ import Foundation
     
     public func withPaymentLink(_ paymentLinkId: String?) -> AuthorizationBuilder {
         self.paymentLinkId = paymentLinkId
+        return self
+    }
+    
+    public func withPhoneNumber(_ phoneCountryCode: String, number: String, type: PhoneNumberType) -> AuthorizationBuilder {
+        let phoneNumber = PhoneNumber()
+        phoneNumber.countryCode = phoneCountryCode
+        phoneNumber.number = number
+        
+        switch type {
+        case .Home:
+            homePhone = phoneNumber
+            break
+        case .Work:
+            workPhone = phoneNumber
+            break
+        case .Shipping:
+            shippingPhone = phoneNumber
+            break
+        case .Mobile:
+            mobilePhone = phoneNumber
+            break
+        }
+        return self
+    }
+    
+    public func withBNPLShippingMethod(_ value: BNPLShippingMethod) -> AuthorizationBuilder {
+        guard let paymentMethod = paymentMethod as? BNPL else { return self}
+        bnplShippingMethod = value
         return self
     }
 

@@ -40,7 +40,11 @@ final class GlobalPayViewModel: GlobalPayViewInput {
     private func configureContainer(with appConfig: Config) {
         do {
             let accessTokenInfo =  AccessTokenInfo()
-            accessTokenInfo.transactionProcessingAccountName = appConfig.transactionProcessing
+            
+            if let accountName = appConfig.transactionProcessing, !accountName.isEmpty {
+                accessTokenInfo.transactionProcessingAccountName = accountName
+            }
+           
             accessTokenInfo.tokenizationAccountName = appConfig.tokenization
             
             let config = GpApiConfig(

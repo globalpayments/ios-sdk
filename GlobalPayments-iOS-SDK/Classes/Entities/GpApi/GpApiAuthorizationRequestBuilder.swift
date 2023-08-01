@@ -20,6 +20,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             }
 
             let payload = JsonDoc()
+            
             payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
             payload.set(for: "account_id", value: config?.accessTokenInfo?.transactionProcessingAccountID)
             payload.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
@@ -142,12 +143,16 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             payload.set(for: "stored_credential", doc: storedCredential)
         }
 
-        if builder.paymentMethod is eCheck {
+        if builder.paymentMethod is eCheck || builder.paymentMethod is BNPL {
             payload.set(for: "payer", doc: setPayerInformation(builder))
         }
         
-        if let alternatePayment = builder.paymentMethod as? AlternatePaymentMethod {
-            payload.set(for:"notifications", doc: setNotificationUrls(alternatePayment))
+        if builder.paymentMethod is BNPL {
+            setOrderInformation(builder, requestBody: payload)
+        }
+        
+        if builder.paymentMethod is AlternatePaymentMethod || builder.paymentMethod is BNPL {
+            payload.set(for:"notifications", doc: setNotificationUrls(builder.paymentMethod))
         }
         
         return payload
@@ -259,6 +264,11 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             encryptablePaymentMethod(paymentMethod, encryptable: encryptable)
         case let alternatePayment as AlternatePaymentMethod:
             alternatePaymentMethod(paymentMethod, alternatePayment: alternatePayment)
+        case let bnplPayment as BNPL:
+            let dataName = "\(builder.customerData?.firstName ?? "") \(builder.customerData?.lastName ?? "")"
+            paymentMethod.set(for: "name", value: dataName)
+            paymentMethod.set(for: "bnpl", doc: bnplPaymentMethod(bnpl: bnplPayment, builder: builder))
+            return paymentMethod
         case .none, .some: break
         }
         
@@ -374,6 +384,12 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         apm.set(for: "address_override_mode", value: alternatePayment.addressOverrideMode)
         paymentMethod.set(for: "apm", doc: apm)
     }
+    
+    private func bnplPaymentMethod(bnpl: BNPL, builder: Builder) -> JsonDoc {
+        let bnplType = JsonDoc()
+        bnplType.set(for: "provider", value: bnpl.BNPLType?.mapped(for: .gpApi))
+        return bnplType
+    }
 
     private func mapFraudManagement(_ builder: AuthorizationBuilder) -> [JsonDoc] {
         var rules = [JsonDoc]()
@@ -405,14 +421,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         payer.set(for: "reference", value: builder.customerId ?? builder.customerData?.id)
 
         if builder.paymentMethod is eCheck {
-            let billingAddress = JsonDoc()
-            billingAddress.set(for: "line_1", value: builder.billingAddress?.streetAddress1)
-            billingAddress.set(for: "line_2", value: builder.billingAddress?.streetAddress2)
-            billingAddress.set(for: "city", value: builder.billingAddress?.city)
-            billingAddress.set(for: "postal_code", value: builder.billingAddress?.postalCode)
-            billingAddress.set(for: "state", value: builder.billingAddress?.state)
-            billingAddress.set(for: "country", value: builder.billingAddress?.countryCode)
-            payer.set(for: "billing_address", doc: billingAddress)
+            payer.set(for: "billing_address", doc: getBasicAddressInformation(builder.billingAddress))
 
             if let customer = builder.customerData {
                 payer.set(for: "name", value: "\(customer.firstName ?? "") \(customer.lastName ?? "")")
@@ -420,15 +429,124 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                 payer.set(for: "landline_phone", value: customer.homePhone)
                 payer.set(for: "mobile_phone", value: customer.mobilePhone)
             }
+        } else if builder.paymentMethod is BNPL, let customerData = builder.customerData {
+            payer.set(for: "email", value: customerData.email)
+            payer.set(for: "date_of_birth", value: customerData.dateOfBirth)
+
+            let billingAddress = getBasicAddressInformation(builder.billingAddress)
+            billingAddress.set(for: "first_name", value: customerData.firstName)
+            billingAddress.set(for: "last_name", value: customerData.lastName)
+
+            payer.set(for: "billing_address", doc: billingAddress)
+            
+            if let numberPhone = customerData.phoneNumber {
+                let homePhone = JsonDoc()
+                homePhone.set(for: "country_code", value: numberPhone.countryCode)
+                homePhone.set(for: "subscriber_number", value: numberPhone.number)
+                payer.set(for: "contact_phone", doc: homePhone)
+            }
+            
+            if let documents = customerData.documents {
+                var jsonDocuments: [JsonDoc] = []
+                
+                documents.forEach {
+                    let doc = JsonDoc()
+                    doc.set(for: "type", value: $0.type?.mapped(for: .gpApi))
+                    doc.set(for: "reference", value: $0.reference)
+                    doc.set(for: "issuer", value: $0.issuer)
+                    jsonDocuments.append(doc)
+                }
+                payer.set(for: "documents", values: jsonDocuments)
+            }
         }
         return payer
     }
     
-    private func setNotificationUrls(_ paymentMethod: AlternatePaymentMethod) -> JsonDoc {
+    private func setOrderInformation(_ builder: AuthorizationBuilder, requestBody: JsonDoc) {
+        var order = JsonDoc()
+        if let orderDoc = requestBody.get(valueFor: "order") {
+            order = orderDoc
+        }
+        
+        order.set(for: "description", value: builder.orderDetails?.description)
+
+        var shippingAddressDoc = JsonDoc()
+        if let shippingAddress = builder.shippingAddress {
+            shippingAddressDoc = getBasicAddressInformation(shippingAddress)
+        }
+
+        let shippingPhone = JsonDoc()
+        shippingPhone.set(for: "country_code", value: builder.shippingPhone?.countryCode)
+        shippingPhone.set(for: "subscriber_number", value: builder.shippingPhone?.number)
+        order.set(for: "shipping_phone", doc: shippingPhone)
+
+        order.set(for: "shipping_method", value: builder.bnplShippingMethod?.mapped(for: .gpApi))
+        
+        if let products = builder.miscProductData {
+            order.set(for: "items", values: setItemDetailsListForBNPL(products))
+        }
+
+        if let customerData = builder.customerData {
+            shippingAddressDoc.set(for: "first_name", value: customerData.firstName)
+            shippingAddressDoc.set(for: "last_name", value: customerData.lastName)
+        }
+
+        if !shippingAddressDoc.keys.isEmpty {
+            order.set(for: "shipping_address", doc: shippingAddressDoc)
+        }
+
+        if (!requestBody.has(key: "order") && !order.keys.isEmpty) {
+            requestBody.set(for: "order", doc: order)
+        }
+    }
+    
+    private func setItemDetailsListForBNPL(_ products: [Product]) -> [JsonDoc] {
+        var items: [JsonDoc] = []
+        products.forEach { product in
+            let item = JsonDoc()
+            let taxAmount = product.taxAmount ?? 0
+            let unitAmount = product.unitPrice ?? 0
+            let qty = product.quantity ?? 0
+            let totalAmount = NSDecimalNumber(value: Double(qty) * unitAmount.doubleValue)
+            let netUnitAmount = product.netUnitAmount ?? 0
+            let discountAmount = product.discountAmount ?? 0
+            item.set(for: "reference", value: product.productId)
+            item.set(for: "label", value: product.productName)
+            item.set(for: "description", value: product.descriptionProduct)
+            item.set(for: "quantity", value: "\(qty)")
+            item.set(for: "unit_amount", value: unitAmount.toNumericCurrencyString())
+            item.set(for: "total_amount", value: totalAmount.toNumericCurrencyString())
+            item.set(for: "tax_amount", value: taxAmount.toNumericCurrencyString())
+            item.set(for: "discount_amount", value: discountAmount.toNumericCurrencyString())
+            item.set(for: "tax_percentage", value: product.taxPercentage?.toNumericCurrencyString())
+            item.set(for: "net_unit_amount", value: netUnitAmount.toNumericCurrencyString())
+            item.set(for: "gift_card_currency", value: product.giftCardCurrency)
+            item.set(for: "url", value: product.url)
+            item.set(for: "image_url", value: product.imageUrl)
+            items.append(item)
+        }
+        return items
+    }
+    
+    private func getBasicAddressInformation(_ address: Address?) -> JsonDoc {
+        let basicAddress = JsonDoc()
+        basicAddress.set(for: "line_1", value: address?.streetAddress1)
+        basicAddress.set(for: "line_2", value: address?.streetAddress2)
+        basicAddress.set(for: "line_3", value: address?.streetAddress3)
+        basicAddress.set(for: "city", value: address?.city)
+        basicAddress.set(for: "postal_code", value: address?.postalCode)
+        basicAddress.set(for: "state", value: address?.state)
+        basicAddress.set(for: "country", value: address?.countryCode)
+        return basicAddress
+    }
+    
+    private func setNotificationUrls(_ paymentMethod: PaymentMethod?) -> JsonDoc {
         let notifications = JsonDoc()
-        notifications.set(for: "return_url", value: paymentMethod.returnUrl)
-        notifications.set(for: "status_url", value: paymentMethod.statusUpdateUrl)
-        notifications.set(for: "cancel_url", value: paymentMethod.cancelUrl)
+        if let paymentMethod = paymentMethod as? NotificationData {
+            notifications.set(for: "return_url", value: paymentMethod.returnUrl)
+            notifications.set(for: "status_url", value: paymentMethod.statusUpdateUrl)
+            notifications.set(for: "cancel_url", value: paymentMethod.cancelUrl)
+        }
         return notifications
     }
 }

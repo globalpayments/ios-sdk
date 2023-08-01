@@ -52,6 +52,12 @@ public struct GpApiMapping {
             if let fingerPrintIndicator: String = paymentMethod.getValue(key: "fingerprint_presence_indicator") {
                 transaction.fingerPrintIndicator = fingerPrintIndicator
             }
+            
+            if paymentMethod.has(key: "bnpl") {
+                transaction.paymentMethodType = .BPNL
+                transaction.bnplResponse = mapBNPLResponse(paymentMethod)
+                return transaction
+            }
 
             transaction.authorizationCode = paymentMethod.getValue(key: "result")
             if let token: String = paymentMethod.getValue(key: "id") {
@@ -166,6 +172,14 @@ public struct GpApiMapping {
         
         if let paymentMethod = paymentMethod, paymentMethod.has(key: "apm") {
             summary.alternativePaymentResponse = AlternativePaymentResponse.mapToObject(paymentMethod)
+        }
+        
+        if let paymentMethod = paymentMethod, paymentMethod.has(key: "bnpl") {
+            let bnpl = paymentMethod.get(valueFor: "bnpl")
+            let bnplResponse = BNPLResponse()
+            bnplResponse.providerName = bnpl?.getValue(key: "provider")
+            summary.bnplResponse = bnplResponse
+            summary.paymentType = PaymentMethodName.bnpl.mapped(for: .gpApi)
         }
 
         return summary
@@ -648,5 +662,12 @@ public struct GpApiMapping {
         addressData.postalCode = address?.getValue(key: "postal_code")
         addressData.country = address?.getValue(key: "country")
         return addressData
+    }
+    
+    private static func mapBNPLResponse(_ paymentMethod: JsonDoc) -> BNPLResponse {
+        let bnplResponse =  BNPLResponse()
+        bnplResponse.redirectUrl = paymentMethod.getValue(key: "redirect_url")
+        bnplResponse.providerName = paymentMethod.get(valueFor: "bnpl")?.getValue(key: "provider")
+        return bnplResponse
     }
 }

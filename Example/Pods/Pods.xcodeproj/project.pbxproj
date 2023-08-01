@@ -183,6 +183,15 @@
 		A59668092A0BBB3C00EE816D /* PaypalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59668082A0BBB3C00EE816D /* PaypalType.swift */; };
 		A596680B2A1CF55200EE816D /* PayerDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A596680A2A1CF55200EE816D /* PayerDetails.swift */; };
 		A596680D2A1D019700EE816D /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A596680C2A1D019700EE816D /* Card.swift */; };
+		A5A72F582A678059009CFCB4 /* BNPLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A72F572A678059009CFCB4 /* BNPLType.swift */; };
+		A5A72F5A2A678508009CFCB4 /* PhoneNumberType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A72F592A678508009CFCB4 /* PhoneNumberType.swift */; };
+		A5FC78262A6C9A0A00BBD524 /* CustomerDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78252A6C9A0A00BBD524 /* CustomerDocument.swift */; };
+		A5FC78282A6C9A6400BBD524 /* CustomerDocumentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78272A6C9A6400BBD524 /* CustomerDocumentType.swift */; };
+		A5FC78352A6DD6C600BBD524 /* BNPL.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78342A6DD6C600BBD524 /* BNPL.swift */; };
+		A5FC78372A6DE3A900BBD524 /* BNPLShippingMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78362A6DE3A900BBD524 /* BNPLShippingMethod.swift */; };
+		A5FC78392A6E25D800BBD524 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78382A6E25D800BBD524 /* NotificationData.swift */; };
+		A5FC783B2A6E2DEA00BBD524 /* BNPLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC783A2A6E2DEA00BBD524 /* BNPLResponse.swift */; };
+		A5FC783D2A713F3300BBD524 /* OrderDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC783C2A713F3300BBD524 /* OrderDetails.swift */; };
 		A7AE9477E8513C74A23B416E033BF699 /* PriorAuthenticationMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE9BE63B915C4C157B8C7FF7CE0E7E4 /* PriorAuthenticationMethod.swift */; };
 		A7CC6ED8E1357B497004FE0895CE9613 /* RecurringService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A24C190678E63939DC49FCBC380531 /* RecurringService.swift */; };
 		A81DAE1CA88D5649F0346F8BE099E8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
@@ -500,6 +509,15 @@
 		A59668082A0BBB3C00EE816D /* PaypalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalType.swift; sourceTree = "<group>"; };
 		A596680A2A1CF55200EE816D /* PayerDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayerDetails.swift; sourceTree = "<group>"; };
 		A596680C2A1D019700EE816D /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		A5A72F572A678059009CFCB4 /* BNPLType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNPLType.swift; sourceTree = "<group>"; };
+		A5A72F592A678508009CFCB4 /* PhoneNumberType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberType.swift; sourceTree = "<group>"; };
+		A5FC78252A6C9A0A00BBD524 /* CustomerDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDocument.swift; sourceTree = "<group>"; };
+		A5FC78272A6C9A6400BBD524 /* CustomerDocumentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDocumentType.swift; sourceTree = "<group>"; };
+		A5FC78342A6DD6C600BBD524 /* BNPL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNPL.swift; sourceTree = "<group>"; };
+		A5FC78362A6DE3A900BBD524 /* BNPLShippingMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNPLShippingMethod.swift; sourceTree = "<group>"; };
+		A5FC78382A6E25D800BBD524 /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
+		A5FC783A2A6E2DEA00BBD524 /* BNPLResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNPLResponse.swift; sourceTree = "<group>"; };
+		A5FC783C2A713F3300BBD524 /* OrderDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetails.swift; sourceTree = "<group>"; };
 		A60542D270765E2928C1BE1F37500DFF /* FraudRule.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FraudRule.swift; sourceTree = "<group>"; };
 		A7D2F3221E351FBC52D3FA84CBAE253D /* PrestigiousPropertyLimit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PrestigiousPropertyLimit.swift; sourceTree = "<group>"; };
 		A8B2C79BC079C97D61418861A2DB160D /* DeliveryTimeFrame.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeliveryTimeFrame.swift; sourceTree = "<group>"; };
@@ -698,6 +716,9 @@
 				A59667FD2A0356C600EE816D /* JsonToObject.swift */,
 				A596680A2A1CF55200EE816D /* PayerDetails.swift */,
 				A596680C2A1D019700EE816D /* Card.swift */,
+				A5FC78252A6C9A0A00BBD524 /* CustomerDocument.swift */,
+				A5FC783A2A6E2DEA00BBD524 /* BNPLResponse.swift */,
+				A5FC783C2A713F3300BBD524 /* OrderDetails.swift */,
 			);
 			name = Entities;
 			path = "GlobalPayments-iOS-SDK/Classes/Entities";
@@ -781,6 +802,7 @@
 				DD048D85AD1C6B6EE0A1E1FA7A518244 /* Tokenizable.swift */,
 				6EEC7E41AC9814C45D76DCE2EDF1EAFC /* TrackData.swift */,
 				CA1C7E911529792DC0A670CE094F3C27 /* Verifiable.swift */,
+				A5FC78382A6E25D800BBD524 /* NotificationData.swift */,
 			);
 			path = PaymentProtocols;
 			sourceTree = "<group>";
@@ -966,6 +988,10 @@
 				A59667E029EE1C4B00EE816D /* PayLinkSortProperty.swift */,
 				A59667F729F95CFE00EE816D /* ActionType.swift */,
 				A59668082A0BBB3C00EE816D /* PaypalType.swift */,
+				A5A72F572A678059009CFCB4 /* BNPLType.swift */,
+				A5A72F592A678508009CFCB4 /* PhoneNumberType.swift */,
+				A5FC78272A6C9A6400BBD524 /* CustomerDocumentType.swift */,
+				A5FC78362A6DE3A900BBD524 /* BNPLShippingMethod.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -988,6 +1014,7 @@
 				E5C3D8BBA96DBDAA7081B3B41C035923 /* RecurringPaymentMethod.swift */,
 				CAB2A8181CE6C514EBB08B5161565F15 /* TransactionReference.swift */,
 				1D93C44C54F205919338ED68EB194421 /* PaymentProtocols */,
+				A5FC78342A6DD6C600BBD524 /* BNPL.swift */,
 			);
 			name = PaymentMethods;
 			path = "GlobalPayments-iOS-SDK/Classes/PaymentMethods";
@@ -1360,6 +1387,7 @@
 				95EBEB0153B44890A47CB57C427A559A /* AccountType.swift in Sources */,
 				A59668092A0BBB3C00EE816D /* PaypalType.swift in Sources */,
 				37D09AFCF3B571BFFFEDC0A71780207A /* ActionSortProperty.swift in Sources */,
+				A5FC783D2A713F3300BBD524 /* OrderDetails.swift in Sources */,
 				2F9DA508860FCFE076071C773C57C4BF /* ActionSummary.swift in Sources */,
 				F60A380EA26120060F527335584C8333 /* AdditionalTaxDetails.swift in Sources */,
 				722452291B08CE36B081496D0F04E643 /* Address.swift in Sources */,
@@ -1423,6 +1451,7 @@
 				7A2232205DF81C129FDECBB5C48F555C /* DecisionManager.swift in Sources */,
 				A59667F629F94EDC00EE816D /* PayLinkResponse.swift in Sources */,
 				729795537EB9B3825CEA08B3DEF32441 /* DecoupledFlowRequest.swift in Sources */,
+				A5FC78372A6DE3A900BBD524 /* BNPLShippingMethod.swift in Sources */,
 				8523287EC757D34CB5453351BA244345 /* DeliveryTimeFrame.swift in Sources */,
 				4AC16864D22E10172883553614AA0792 /* DepositSortProperty.swift in Sources */,
 				FCC02B8B8A94F2558D7DEA23B8A37889 /* DepositStatus.swift in Sources */,
@@ -1584,26 +1613,33 @@
 				2C9533BBAAB45FFE6919C7BA92125272 /* SortDirection.swift in Sources */,
 				7DE38549EC1C2B5ABC95F38AF249856A /* StatusChangeReason.swift in Sources */,
 				27F1C51294ADD33086007B1AF5314A9F /* StoredCredential.swift in Sources */,
+				A5A72F582A678059009CFCB4 /* BNPLType.swift in Sources */,
 				A596680D2A1D019700EE816D /* Card.swift in Sources */,
 				0A7E46A708B4808F542DEEC2E3466493 /* StoredCredentialInitiator.swift in Sources */,
 				BFF3A4580708F9972D30A5B045DE0CAA /* StoredCredentialReason.swift in Sources */,
 				5A009072BAAD5571D2584BE146F99BFB /* StoredCredentialSequence.swift in Sources */,
 				E43120C5E251D736FEBE2AB508B0C5BA /* StoredCredentialType.swift in Sources */,
+				A5FC783B2A6E2DEA00BBD524 /* BNPLResponse.swift in Sources */,
+				A5FC78282A6C9A6400BBD524 /* CustomerDocumentType.swift in Sources */,
 				CFE25816292A9ED6616B48F207B96336 /* StoredPaymentMethodSortProperty.swift in Sources */,
 				4AC216236DAD45CB8CF3D1311C0010D6 /* StoredPaymentMethodStatus.swift in Sources */,
 				C411A97F47C2B85A607D85BB088328FF /* StoredPaymentMethodSummary.swift in Sources */,
 				5EA669869E5B95F570730C9B8C7FDDA2 /* StringExtensions.swift in Sources */,
 				4B282DB32C7B3E2CB203C246A4CE903F /* SwiftLang.swift in Sources */,
+				A5FC78352A6DD6C600BBD524 /* BNPL.swift in Sources */,
 				2C2F21BE6C5F815C782076ABE1BFBCA9 /* TaxCategory.swift in Sources */,
 				AFD029903EE72295652150AE4CFCE39E /* TaxType.swift in Sources */,
+				A5FC78262A6C9A0A00BBD524 /* CustomerDocument.swift in Sources */,
 				77A956B61DC1835E31ABF07617F52BA6 /* ThreeDSecure.swift in Sources */,
 				387B1A3E6AD6069F31AC7FEBF37031BE /* TimeZoneConversion.swift in Sources */,
 				2EA70D0847D7DCDB5FC336633EE377DA /* TlvData.swift in Sources */,
 				641662CFB928F98C8D9BC103A0B9BBFC /* Tokenizable.swift in Sources */,
+				A5FC78392A6E25D800BBD524 /* NotificationData.swift in Sources */,
 				43BF0699635A414C5EFA28274ADA85E8 /* TrackData.swift in Sources */,
 				A506E87229BB992E006787CE /* User.swift in Sources */,
 				753266584C77659A537BDD7EE00AC8D6 /* TrackNumber.swift in Sources */,
 				65FA9FDE4057EAC1F0786FCF05BF332D /* Transaction.swift in Sources */,
+				A5A72F5A2A678508009CFCB4 /* PhoneNumberType.swift in Sources */,
 				C10C637CF9724E7FDF16444BA6B4C328 /* TransactionBuilder.swift in Sources */,
 				6E81675BA60C6FC64A598B2BDFC33F88 /* TransactionModifier.swift in Sources */,
 				7212F547A260F1D3A4CB4D7BDE6AED7F /* TransactionReference.swift in Sources */,

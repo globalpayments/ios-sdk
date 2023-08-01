@@ -6,7 +6,7 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
     private weak var pickerTextField: UITextField?
     private var selectionHandler: ((String) -> Void)?
 
-    init(pickerData: [String], dropdownField: UITextField) {
+    init(pickerData: [String], dropdownField: UITextField, defaultValue: Int = 0) {
         self.pickerData = pickerData
         self.pickerTextField = dropdownField
 
@@ -16,7 +16,7 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
         dataSource = self
 
         if pickerData.count > 0 {
-            self.pickerTextField?.text = self.pickerData[0]
+            self.pickerTextField?.text = self.pickerData[defaultValue]
             self.pickerTextField?.isEnabled = true
         } else {
             self.pickerTextField?.text = nil
@@ -43,8 +43,8 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
         dropdownField.rightViewMode = .always
     }
 
-    convenience init(pickerData: [String], dropdownField: UITextField, onSelect: ((String) -> Void)?) {
-        self.init(pickerData: pickerData, dropdownField: dropdownField)
+    convenience init(pickerData: [String], dropdownField: UITextField, onSelect: ((String) -> Void)?, defaultValue: Int = 0) {
+        self.init(pickerData: pickerData, dropdownField: dropdownField, defaultValue: defaultValue)
         self.selectionHandler = onSelect
         if let text = pickerTextField?.text, !text.isEmpty,
            let handler = selectionHandler {

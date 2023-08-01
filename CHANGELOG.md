@@ -4,6 +4,12 @@
 
 #### Enhancements
 
+- GP-API: Add BNPL feature
+
+## 1.2.18 (24/05/2023)
+
+#### Enhancements
+
 - GP-API: Add Payer Details on Transaction response
 
 ## 1.2.17 (18/05/2023)

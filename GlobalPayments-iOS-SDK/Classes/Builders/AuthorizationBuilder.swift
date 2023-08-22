@@ -72,6 +72,8 @@ import Foundation
     var shippingPhone: PhoneNumber?
     var mobilePhone: PhoneNumber?
     var bnplShippingMethod: BNPLShippingMethod?
+    var remittanceReferenceType: RemittanceReferenceType?
+    var remittanceReferenceValue: String?
 
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
@@ -596,6 +598,12 @@ import Foundation
     public func withBNPLShippingMethod(_ value: BNPLShippingMethod) -> AuthorizationBuilder {
         guard let paymentMethod = paymentMethod as? BNPL else { return self}
         bnplShippingMethod = value
+        return self
+    }
+    
+    public func withRemittanceReference(_ type: RemittanceReferenceType, value: String?) -> AuthorizationBuilder {
+        remittanceReferenceType = type
+        remittanceReferenceValue = value
         return self
     }
 

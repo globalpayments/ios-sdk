@@ -20,14 +20,14 @@ final class DigitalWalletsViewController: UIViewController, StoryboardInstantiab
     @IBAction func onApplePayAction(_ sender: Any) {
         if (PKPaymentAuthorizationViewController.canMakePayments()) {
             let paymentRequest = PKPaymentRequest()
-            paymentRequest.merchantIdentifier = "merchant.com.gpapi.sandbox";
+            paymentRequest.merchantIdentifier = "merchant.com.gpapi.sandbox"
             paymentRequest.supportedNetworks = [PKPaymentNetwork.visa, PKPaymentNetwork.masterCard, PKPaymentNetwork.amex]
             paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
             paymentRequest.countryCode = "US"
             paymentRequest.currencyCode = "USD"
             
             let totalItem = PKPaymentSummaryItem(label:"Foobar", amount:NSDecimalNumber(string:"10.00"))
-            paymentRequest.paymentSummaryItems = [totalItem];
+            paymentRequest.paymentSummaryItems = [totalItem]
             
             
             // Show the Apple Pay controller

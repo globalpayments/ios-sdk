@@ -94,104 +94,38 @@ class GpApi3DSecureTests: XCTestCase {
     // MARK: - V1
 
     func test_card_holder_enrolled_challenge_required_authentication_successful_full_cycle_v1() {
-
-        // Check enrollment
-
         // GIVEN
         card.number = GpApi3DSTestCards.cardholderEnrolledV1
-        let soredCredentials = StoredCredential(type: .unscheduled, initiator: .cardHolder, sequence: .first, reason: .noShow)
-        let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
+        let storedCredentials = StoredCredential(type: .unscheduled, initiator: .cardHolder, sequence: .first, reason: .noShow)
+        let checkEnrollmentExpectation = expectation(description: "Check Enrollment enrolled challenge Expectation")
         var secureEcom: ThreeDSecure?
-        var secureEcomError: Error?
+        var secureEcomError: BuilderException?
 
         // WHEN
         Secure3dService
             .checkEnrollment(paymentMethod: card)
             .withCurrency(currency)
             .withAmount(amount)
-            .withStoredCredential(soredCredentials)
-            .execute {
+            .withAuthenticationSource(.browser)
+            .withChallengeRequestIndicator(.challengeMandated)
+            .withStoredCredential(storedCredentials)
+            .execute(version: .one) {
                 secureEcom = $0
-                secureEcomError = $1
+                
+                if let error = $1 as? BuilderException {
+                    secureEcomError = error
+                }
                 checkEnrollmentExpectation.fulfill()
             }
 
         // THEN
         wait(for: [checkEnrollmentExpectation], timeout: 20.0)
-        XCTAssertNil(secureEcomError)
-        assertCheckEnrollmentChallengeV1(secureEcom: secureEcom)
-
-        // Perform ACS authetication
-
-        // GIVEN
-        let authenticateExpectation = expectation(description: "Authenticate Expectation")
-        let acsClient = GpApi3DSecureAcsClient(redirectURL: secureEcom?.issuerAcsUrl)
-        var acsResponse: AcsResponse?
-
-        // WHEN
-        acsClient?.authenticateV1(secureEcom, .successful) {
-            acsResponse = $0
-            authenticateExpectation.fulfill()
-        }
-
-        // THEN
-        wait(for: [authenticateExpectation], timeout: 20.0)
-        XCTAssertNotNil(acsResponse)
-        XCTAssertNotNil(acsResponse?.authResponse)
-        XCTAssertNotNil(acsResponse?.merchantData)
-        XCTAssertEqual(acsResponse?.status, true)
-
-        // Get authentication data
-
-        // GIVEN
-        let getAuthenticationDataExpectation = expectation(description: "Get Authentication Data Expectation")
-
-        // WHEN
-        Secure3dService
-            .getAuthenticationData()
-            .withServerTransactionId(acsResponse?.merchantData)
-            .withPayerAuthenticationResponse(acsResponse?.authResponse)
-            .execute {
-                secureEcom = $0
-                secureEcomError = $1
-                getAuthenticationDataExpectation.fulfill()
-            }
-
-        // THEN
-        wait(for: [getAuthenticationDataExpectation], timeout: 20.0)
-        XCTAssertNil(secureEcomError)
-        XCTAssertNotNil(secureEcom)
-        XCTAssertEqual(secureEcom?.status, SUCCESS_AUTHENTICATED)
-
-        // Card charge
-
-        // GIVEN
-        card.threeDSecure = secureEcom
-        let chargeExpectation = expectation(description: "Charge Expectation")
-        var transactionResult: Transaction?
-        var transactionError: Error?
-
-        // WHEN
-        card.charge(amount: amount)
-            .withCurrency(currency)
-            .execute {
-                transactionResult = $0
-                transactionError = $1
-                chargeExpectation.fulfill()
-            }
-
-        // THEN
-        wait(for: [chargeExpectation], timeout: 20.0)
-        XCTAssertNil(transactionError)
-        XCTAssertNotNil(transactionResult)
-        XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.rawValue)
-        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+        XCTAssertNil(secureEcom)
+        XCTAssertNotNil(secureEcomError)
+        XCTAssertEqual("3D Secure One is no longer supported!", secureEcomError?.message)
     }
 
     func test_card_holder_enrolled_challenge_required_authentication_successful_full_cycle_v1_with_tokenized_payment_method() {
-
-        // Tokenize
-
         // GIVEN
         card.number = GpApi3DSTestCards.cardholderEnrolledV1
         let tokenizeExpectation = expectation(description: "Tokenize exception")
@@ -212,93 +146,32 @@ class GpApi3DSecureTests: XCTestCase {
         XCTAssertNil(expectedError)
         XCTAssertNotNil(tokenizedCard?.token)
 
-        // Check enrollment
-
-        let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
+        // GIVEN
+        let enrollmentExpectation = expectation(description: "Check Enrollment Required Expectation")
+        enrollmentExpectation.assertForOverFulfill = true
         var secureEcom: ThreeDSecure?
-        var secureEcomError: Error?
+        var secureEcomError: BuilderException?
 
         // WHEN
         Secure3dService
             .checkEnrollment(paymentMethod: tokenizedCard)
             .withCurrency(currency)
             .withAmount(amount)
-            .execute {
+            .execute(version: .one) {
                 secureEcom = $0
-                secureEcomError = $1
-                checkEnrollmentExpectation.fulfill()
+                
+                if let error = $1 as? BuilderException {
+                    secureEcomError = error
+                }
+                
+                enrollmentExpectation.fulfill()
             }
 
         // THEN
-        wait(for: [checkEnrollmentExpectation], timeout: 20.0)
-        XCTAssertNil(secureEcomError)
-        assertCheckEnrollmentChallengeV1(secureEcom: secureEcom)
-
-        // Perform ACS authetication
-
-        // GIVEN
-        let authenticateExpectation = expectation(description: "Authenticate Expectation")
-        let acsClient = GpApi3DSecureAcsClient(redirectURL: secureEcom?.issuerAcsUrl)
-        var acsResponse: AcsResponse?
-
-        // WHEN
-        acsClient?.authenticateV1(secureEcom, .successful) {
-            acsResponse = $0
-            authenticateExpectation.fulfill()
-        }
-
-        // THEN
-        wait(for: [authenticateExpectation], timeout: 20.0)
-        XCTAssertNotNil(acsResponse)
-        XCTAssertNotNil(acsResponse?.authResponse)
-        XCTAssertNotNil(acsResponse?.merchantData)
-        XCTAssertEqual(acsResponse?.status, true)
-
-        // Get authentication data
-
-        // GIVEN
-        let getAuthenticationDataExpectation = expectation(description: "Get Authentication Data Expectation")
-
-        // WHEN
-        Secure3dService
-            .getAuthenticationData()
-            .withServerTransactionId(acsResponse?.merchantData)
-            .withPayerAuthenticationResponse(acsResponse?.authResponse)
-            .execute {
-                secureEcom = $0
-                secureEcomError = $1
-                getAuthenticationDataExpectation.fulfill()
-            }
-
-        // THEN
-        wait(for: [getAuthenticationDataExpectation], timeout: 20.0)
-        XCTAssertNil(secureEcomError)
-        XCTAssertNotNil(secureEcom)
-        XCTAssertEqual(secureEcom?.status, SUCCESS_AUTHENTICATED)
-
-        // Card charge
-
-        // GIVEN
-        tokenizedCard?.threeDSecure = secureEcom
-        let chargeExpectation = expectation(description: "Charge Expectation")
-        var transactionResult: Transaction?
-        var transactionError: Error?
-
-        // WHEN
-        tokenizedCard?.charge(amount: amount)
-            .withCurrency(currency)
-            .execute {
-                transactionResult = $0
-                transactionError = $1
-                chargeExpectation.fulfill()
-            }
-
-        // THEN
-        wait(for: [chargeExpectation], timeout: 20.0)
-        XCTAssertNil(transactionError)
-        XCTAssertNotNil(transactionResult)
-        XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.rawValue)
-        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+        wait(for: [enrollmentExpectation], timeout: 20.0)
+        XCTAssertNil(secureEcom)
+        XCTAssertNotNil(secureEcomError)
+        XCTAssertEqual("3D Secure One is no longer supported!", secureEcomError?.message)
     }
 
     func test_card_holder_enrolled_challenge_required_V1() {
@@ -306,29 +179,27 @@ class GpApi3DSecureTests: XCTestCase {
         card.number = GpApi3DSTestCards.cardholderNotEnrolledV1
         let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
         var threeDSecureResult: ThreeDSecure?
-        var threeDSecureError: Error?
+        var threeDSecureError: BuilderException?
 
         // WHEN
         Secure3dService
             .checkEnrollment(paymentMethod: card)
             .withCurrency(currency)
             .withAmount(amount)
-            .execute {
+            .execute(version: .one) {
                 threeDSecureResult = $0
-                threeDSecureError = $1
+                
+                if let error = $1 as? BuilderException {
+                    threeDSecureError = error
+                }
                 checkEnrollmentExpectation.fulfill()
             }
 
         // THEN
-        wait(for: [checkEnrollmentExpectation], timeout: 10.0)
-        XCTAssertNil(threeDSecureError)
-        XCTAssertNotNil(threeDSecureResult)
-        XCTAssertEqual(threeDSecureResult?.version, .one)
-        XCTAssertEqual(threeDSecureResult?.enrolled, NOT_ENROLLED)
-        XCTAssertEqual(threeDSecureResult?.status, NOT_ENROLLED)
-        XCTAssertNotNil(threeDSecureResult?.challengeReturnUrl)
-        XCTAssertNotNil(threeDSecureResult?.messageType)
-        XCTAssertNotNil(threeDSecureResult?.sessionDataFieldName)
+        wait(for: [checkEnrollmentExpectation], timeout: 20.0)
+        XCTAssertNil(threeDSecureResult)
+        XCTAssertNotNil(threeDSecureError)
+        XCTAssertEqual("3D Secure One is no longer supported!", threeDSecureError?.message)
     }
 
     func test_card_holder_enrolled_challenge_required_authetication_unavailable_V1() {
@@ -336,67 +207,27 @@ class GpApi3DSecureTests: XCTestCase {
         card.number = GpApi3DSTestCards.cardholderEnrolledV1
         let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
         var threeDSecureResult: ThreeDSecure?
-        var threeDSecureError: Error?
+        var threeDSecureError: BuilderException?
 
         // WHEN
         Secure3dService
             .checkEnrollment(paymentMethod: card)
             .withCurrency(currency)
             .withAmount(amount)
-            .execute {
+            .execute(version: .one) {
                 threeDSecureResult = $0
-                threeDSecureError = $1
+                
+                if let error = $1 as? BuilderException {
+                    threeDSecureError = error
+                }
                 checkEnrollmentExpectation.fulfill()
             }
 
         // THEN
-        wait(for: [checkEnrollmentExpectation], timeout: 10.0)
-        XCTAssertNil(threeDSecureError)
-        assertCheckEnrollmentChallengeV1(secureEcom: threeDSecureResult)
-
-        // Perform ACS authetication
-
-        // GIVEN
-        let acsClient = GpApi3DSecureAcsClient(redirectURL: threeDSecureResult?.issuerAcsUrl)
-        let authenticateExpectation = expectation(description: "Authenticate Expectation")
-        var acsResponse: AcsResponse?
-
-        // WHEN
-        acsClient?.authenticateV1(threeDSecureResult, .unavailable) {
-            acsResponse = $0
-            authenticateExpectation.fulfill()
-        }
-
-        // THEN
-        wait(for: [authenticateExpectation], timeout: 200.0)
-        XCTAssertNotNil(acsResponse)
-        XCTAssertNotNil(acsResponse?.authResponse)
-        XCTAssertNotNil(acsResponse?.merchantData)
-        XCTAssertEqual(acsResponse?.status, true)
-
-        // Get authentication data
-
-        // GIVEN
-        let getAuthenticationDataExpectation = expectation(description: "Get Authentication Data Expectation")
-        var authenticationThreeDSecure: ThreeDSecure?
-        var authenticationError: Error?
-
-        // WHEN
-        Secure3dService
-            .getAuthenticationData()
-            .withServerTransactionId(acsResponse?.merchantData)
-            .withPayerAuthenticationResponse(acsResponse?.authResponse)
-            .execute {
-                authenticationThreeDSecure = $0
-                authenticationError = $1
-                getAuthenticationDataExpectation.fulfill()
-            }
-
-        // THEN
-        wait(for: [getAuthenticationDataExpectation], timeout: 20)
-        XCTAssertNil(authenticationError)
-        XCTAssertNotNil(authenticationThreeDSecure)
-        XCTAssertEqual(authenticationThreeDSecure?.status, FAILED)
+        wait(for: [checkEnrollmentExpectation], timeout: 20.0)
+        XCTAssertNil(threeDSecureResult)
+        XCTAssertNotNil(threeDSecureError)
+        XCTAssertEqual("3D Secure One is no longer supported!", threeDSecureError?.message)
     }
 
     func test_card_holder_enrolled_challenge_required_authentication_attempt_acknowledge_V1() {
@@ -404,67 +235,27 @@ class GpApi3DSecureTests: XCTestCase {
         card.number = GpApi3DSTestCards.cardholderEnrolledV1
         let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
         var threeDSecureResult: ThreeDSecure?
-        var threeDSecureError: Error?
+        var threeDSecureError: BuilderException?
 
         // WHEN
         Secure3dService
             .checkEnrollment(paymentMethod: card)
             .withCurrency(currency)
             .withAmount(amount)
-            .execute {
+            .execute(version: .one) {
                 threeDSecureResult = $0
-                threeDSecureError = $1
+                
+                if let error = $1 as? BuilderException {
+                    threeDSecureError = error
+                }
                 checkEnrollmentExpectation.fulfill()
             }
 
         // THEN
         wait(for: [checkEnrollmentExpectation], timeout: 20.0)
-        XCTAssertNil(threeDSecureError)
-        assertCheckEnrollmentChallengeV1(secureEcom: threeDSecureResult)
-
-        // Perform ACS authetication
-
-        // GIVEN
-        let acsClient = GpApi3DSecureAcsClient(redirectURL: threeDSecureResult?.issuerAcsUrl)
-        let authenticateExpectation = expectation(description: "Authenticate Expectation")
-        var acsResponse: AcsResponse?
-
-        // WHEN
-        acsClient?.authenticateV1(threeDSecureResult, .attemptAcknowledge) {
-            acsResponse = $0
-            authenticateExpectation.fulfill()
-        }
-
-        // THEN
-        wait(for: [authenticateExpectation], timeout: 20.0)
-        XCTAssertNotNil(acsResponse)
-        XCTAssertNotNil(acsResponse?.authResponse)
-        XCTAssertNotNil(acsResponse?.merchantData)
-        XCTAssertEqual(acsResponse?.status, true)
-
-        // Get authentication data
-
-        // GIVEN
-        let getAuthenticationDataExpectation = expectation(description: "Get Authentication Data Expectation")
-        var authenticationThreeDSecure: ThreeDSecure?
-        var authenticationError: Error?
-
-        // WHEN
-        Secure3dService
-            .getAuthenticationData()
-            .withServerTransactionId(acsResponse?.merchantData)
-            .withPayerAuthenticationResponse(acsResponse?.authResponse)
-            .execute {
-                authenticationThreeDSecure = $0
-                authenticationError = $1
-                getAuthenticationDataExpectation.fulfill()
-            }
-
-        // THEN
-        wait(for: [getAuthenticationDataExpectation], timeout: 20)
-        XCTAssertNil(authenticationError)
-        XCTAssertNotNil(authenticationThreeDSecure)
-        XCTAssertEqual(authenticationThreeDSecure?.status, SUCCESS_ATTEMPT_MADE)
+        XCTAssertNil(threeDSecureResult)
+        XCTAssertNotNil(threeDSecureError)
+        XCTAssertEqual("3D Secure One is no longer supported!", threeDSecureError?.message)
     }
 
     func test_card_holder_enrolled_challenge_required_authentication_failed_V1() {
@@ -472,73 +263,30 @@ class GpApi3DSecureTests: XCTestCase {
         card.number = GpApi3DSTestCards.cardholderEnrolledV1
         let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
         var threeDSecureResult: ThreeDSecure?
-        var threeDSecureError: Error?
+        var threeDSecureError: BuilderException?
 
         // WHEN
         Secure3dService
             .checkEnrollment(paymentMethod: card)
             .withCurrency(currency)
             .withAmount(amount)
-            .execute {
+            .execute(version: .one) {
                 threeDSecureResult = $0
-                threeDSecureError = $1
+                
+                if let error = $1 as? BuilderException {
+                    threeDSecureError = error
+                }
                 checkEnrollmentExpectation.fulfill()
             }
 
         // THEN
         wait(for: [checkEnrollmentExpectation], timeout: 20.0)
-        XCTAssertNil(threeDSecureError)
-        assertCheckEnrollmentChallengeV1(secureEcom: threeDSecureResult)
-
-        // Perform ACS authetication
-
-        // GIVEN
-        let acsClient = GpApi3DSecureAcsClient(redirectURL: threeDSecureResult?.issuerAcsUrl)
-        let authenticateExpectation = expectation(description: "Authenticate Expectation")
-        var acsResponse: AcsResponse?
-
-        // WHEN
-        acsClient?.authenticateV1(threeDSecureResult, .failed) {
-            acsResponse = $0
-            authenticateExpectation.fulfill()
-        }
-
-        // THEN
-        wait(for: [authenticateExpectation], timeout: 20.0)
-        XCTAssertNotNil(acsResponse)
-        XCTAssertNotNil(acsResponse?.authResponse)
-        XCTAssertNotNil(acsResponse?.merchantData)
-        XCTAssertEqual(acsResponse?.status, true)
-
-        // Get authentication data
-
-        // GIVEN
-        let getAuthenticationDataExpectation = expectation(description: "Get Authentication Data Expectation")
-        var authenticationThreeDSecure: ThreeDSecure?
-        var authenticationError: Error?
-
-        // WHEN
-        Secure3dService
-            .getAuthenticationData()
-            .withServerTransactionId(acsResponse?.merchantData)
-            .withPayerAuthenticationResponse(acsResponse?.authResponse)
-            .execute {
-                authenticationThreeDSecure = $0
-                authenticationError = $1
-                getAuthenticationDataExpectation.fulfill()
-            }
-
-        // THEN
-        wait(for: [getAuthenticationDataExpectation], timeout: 20)
-        XCTAssertNil(authenticationError)
-        XCTAssertNotNil(authenticationThreeDSecure)
-        XCTAssertEqual(authenticationThreeDSecure?.status, NOT_AUTHENTICATED)
+        XCTAssertNil(threeDSecureResult)
+        XCTAssertNotNil(threeDSecureError)
+        XCTAssertEqual("3D Secure One is no longer supported!", threeDSecureError?.message)
     }
 
     func test_card_holder_not_enrolled_with_tokenized_payment_method_V1() {
-
-        // Tokenize
-
         // GIVEN
         card.number = GpApi3DSTestCards.cardholderNotEnrolledV1
         let tokenizeExpectation = expectation(description: "Tokenize exception")
@@ -581,7 +329,7 @@ class GpApi3DSecureTests: XCTestCase {
         wait(for: [checkEnrollmentExpectation], timeout: 10.0)
         XCTAssertNil(threeDSecureError)
         XCTAssertNotNil(threeDSecureResult)
-        XCTAssertEqual(threeDSecureResult?.version, .one)
+        XCTAssertEqual(threeDSecureResult?.version, .any)
         XCTAssertEqual(threeDSecureResult?.enrolled, NOT_ENROLLED)
         XCTAssertEqual(threeDSecureResult?.status, NOT_ENROLLED)
         XCTAssertNotNil(threeDSecureResult?.challengeReturnUrl)
@@ -614,11 +362,11 @@ class GpApi3DSecureTests: XCTestCase {
         wait(for: [checkEnrollmentExpectation], timeout: 10.0)
         XCTAssertNil(checkEnrollmentError)
         XCTAssertNotNil(checkEnrollmentResult)
-        XCTAssertEqual(checkEnrollmentResult?.version, .one)
+        XCTAssertEqual(checkEnrollmentResult?.version, .any)
         XCTAssertEqual(checkEnrollmentResult?.enrolled, NOT_ENROLLED)
         XCTAssertEqual(checkEnrollmentResult?.status, NOT_ENROLLED)
         XCTAssertNil(checkEnrollmentResult?.eci)
-        XCTAssertEqual(checkEnrollmentResult?.messageVersion, "1.0.0")
+        XCTAssertEqual(checkEnrollmentResult?.messageVersion, "")
         XCTAssertEqual(checkEnrollmentResult?.challengeMandated, false)
 
         // Charge
@@ -654,68 +402,27 @@ class GpApi3DSecureTests: XCTestCase {
         card.number = GpApi3DSTestCards.cardholderEnrolledV1
         let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
         var checkEnrollmentThreeDSecureResult: ThreeDSecure?
-        var checkEnrollmentThreeDSecureError: Error?
+        var checkEnrollmentThreeDSecureError: BuilderException?
 
         // WHEN
         Secure3dService
             .checkEnrollment(paymentMethod: card)
             .withCurrency(currency)
             .withAmount(amount)
-            .execute {
+            .execute(version: .one) {
                 checkEnrollmentThreeDSecureResult = $0
-                checkEnrollmentThreeDSecureError = $1
+                
+                if let error = $1 as? BuilderException {
+                    checkEnrollmentThreeDSecureError = error
+                }
                 checkEnrollmentExpectation.fulfill()
             }
 
         // THEN
-        wait(for: [checkEnrollmentExpectation], timeout: 10.0)
-        XCTAssertNil(checkEnrollmentThreeDSecureError)
-        assertCheckEnrollmentChallengeV1(secureEcom: checkEnrollmentThreeDSecureResult)
-
-        // Perform ACS authetication
-
-        // GIVEN
-        let authenticateExpectation = expectation(description: "Authenticate Expectation")
-        let acsClient = GpApi3DSecureAcsClient(redirectURL: checkEnrollmentThreeDSecureResult?.issuerAcsUrl)
-        var acsResponse: AcsResponse?
-
-        // WHEN
-        acsClient?.authenticateV1(checkEnrollmentThreeDSecureResult, .successful) {
-            acsResponse = $0
-            authenticateExpectation.fulfill()
-        }
-
-        // THEN
-        wait(for: [authenticateExpectation], timeout: 20.0)
-        XCTAssertNotNil(acsResponse)
-        XCTAssertNotNil(acsResponse?.merchantData)
-        XCTAssertEqual(acsResponse?.status, true)
-
-        // Get Authentication Data
-
-        // GIVEN
-        let getAuthenticationDataExpectation = expectation(description: "Get Authentication Data Expectation")
-        var getAuthenticationDataThreeDSecureResult: ThreeDSecure?
-        var getAuthenticationDataThreeDSecureError: GatewayException?
-
-        // WHEN
-        Secure3dService
-            .getAuthenticationData()
-            .withServerTransactionId(acsResponse?.merchantData)
-            .execute {
-                getAuthenticationDataThreeDSecureResult = $0
-                if let error = $1 as? GatewayException {
-                    getAuthenticationDataThreeDSecureError = error
-                }
-                getAuthenticationDataExpectation.fulfill()
-            }
-
-        // THEN
-        wait(for: [getAuthenticationDataExpectation], timeout: 10.0)
-        XCTAssertNil(getAuthenticationDataThreeDSecureResult)
-        XCTAssertNotNil(getAuthenticationDataThreeDSecureError)
-        XCTAssertEqual(getAuthenticationDataThreeDSecureError?.responseCode, "INVALID_REQUEST_DATA")
-        XCTAssertEqual(getAuthenticationDataThreeDSecureError?.responseMessage, "50027")
+        wait(for: [checkEnrollmentExpectation], timeout: 20.0)
+        XCTAssertNil(checkEnrollmentThreeDSecureResult)
+        XCTAssertNotNil(checkEnrollmentThreeDSecureError)
+        XCTAssertEqual("3D Secure One is no longer supported!", checkEnrollmentThreeDSecureError?.message)
     }
 
     // MARK: - V2
@@ -1487,16 +1194,16 @@ class GpApi3DSecureTests: XCTestCase {
 
     private func assertCheckEnrollmentChallengeV1(secureEcom: ThreeDSecure?) {
         XCTAssertNotNil(secureEcom)
-        XCTAssertEqual(secureEcom?.enrolled, ENROLLED)
-        XCTAssertEqual(secureEcom?.version, .one)
-        XCTAssertEqual(secureEcom?.status, CHALLENGE_REQUIRED)
-        XCTAssertEqual(secureEcom?.challengeMandated, true)
+        XCTAssertEqual(secureEcom?.enrolled, NOT_ENROLLED)
+        XCTAssertEqual(secureEcom?.version, .any)
+        XCTAssertEqual(secureEcom?.status, NOT_ENROLLED)
+        XCTAssertEqual(secureEcom?.challengeMandated, false)
         XCTAssertNotNil(secureEcom?.issuerAcsUrl)
         XCTAssertNotNil(secureEcom?.payerAuthenticationRequest)
         XCTAssertNotNil(secureEcom?.challengeReturnUrl)
         XCTAssertNotNil(secureEcom?.challengeValue)
         XCTAssertNil(secureEcom?.eci)
-        XCTAssertEqual(secureEcom?.messageVersion, "1.0.0")
+        XCTAssertEqual(secureEcom?.messageVersion, "")
         XCTAssertNotNil(secureEcom?.messageType)
         XCTAssertNotNil(secureEcom?.sessionDataFieldName)
         XCTAssertEqual(secureEcom?.liabilityShift, "NO")

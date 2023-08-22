@@ -151,7 +151,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             setOrderInformation(builder, requestBody: payload)
         }
         
-        if builder.paymentMethod is AlternatePaymentMethod || builder.paymentMethod is BNPL {
+        if builder.paymentMethod is AlternatePaymentMethod || builder.paymentMethod is BNPL || builder.paymentMethod is BankPayment {
             payload.set(for:"notifications", doc: setNotificationUrls(builder.paymentMethod))
         }
         
@@ -267,7 +267,10 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         case let bnplPayment as BNPL:
             let dataName = "\(builder.customerData?.firstName ?? "") \(builder.customerData?.lastName ?? "")"
             paymentMethod.set(for: "name", value: dataName)
-            paymentMethod.set(for: "bnpl", doc: bnplPaymentMethod(bnpl: bnplPayment, builder: builder))
+            paymentMethod.set(for: "bnpl", doc: bnplPaymentMethod(bnpl: bnplPayment))
+            return paymentMethod
+        case let openBankingPayment as BankPayment:
+            openBankingPaymentMethod(openBankingPayment, builder: builder, paymentMethod: paymentMethod)
             return paymentMethod
         case .none, .some: break
         }
@@ -385,10 +388,34 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         paymentMethod.set(for: "apm", doc: apm)
     }
     
-    private func bnplPaymentMethod(bnpl: BNPL, builder: Builder) -> JsonDoc {
+    private func bnplPaymentMethod(bnpl: BNPL) -> JsonDoc {
         let bnplType = JsonDoc()
         bnplType.set(for: "provider", value: bnpl.BNPLType?.mapped(for: .gpApi))
         return bnplType
+    }
+    
+    private func openBankingPaymentMethod(_ bankPaymentMethod: BankPayment, builder: Builder, paymentMethod: JsonDoc) {
+        let apm = JsonDoc()
+        apm.set(for: "provider", value: PaymentProvider.OPEN_BANKING.rawValue)
+        apm.set(for: "countries", value: bankPaymentMethod.countries)
+        paymentMethod.set(for: "apm", doc: apm)
+
+        let bankPaymentType = bankPaymentMethod.bankPaymentType ?? CurrencyUtils.shared.getBankPaymentType(builder.currency ?? "")
+        let bankTransfer = JsonDoc()
+        bankTransfer.set(for: "account_number", value: bankPaymentType == .FASTERPAYMENTS ? bankPaymentMethod.accountNumber : "")
+        bankTransfer.set(for: "iban", value: bankPaymentType == .SEPA ? bankPaymentMethod.iban : "")
+
+        let bank = JsonDoc()
+        bank.set(for: "code", value: bankPaymentMethod.sortCode)
+        bank.set(for: "name", value: bankPaymentMethod.accountName)
+        bankTransfer.set(for: "bank", doc: bank)
+
+        let remittance = JsonDoc()
+        remittance.set(for: "type", value: builder.remittanceReferenceType?.rawValue)
+        remittance.set(for: "value", value: builder.remittanceReferenceValue)
+        bankTransfer.set(for: "remittance_reference", doc: remittance)
+        
+        paymentMethod.set(for: "bank_transfer", doc: bankTransfer)
     }
 
     private func mapFraudManagement(_ builder: AuthorizationBuilder) -> [JsonDoc] {

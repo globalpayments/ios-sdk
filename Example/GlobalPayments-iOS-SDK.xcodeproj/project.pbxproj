@@ -263,6 +263,13 @@
 		A59668032A0BB46700EE816D /* PaypalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59668022A0BB46700EE816D /* PaypalViewController.swift */; };
 		A59668052A0BB47200EE816D /* PaypalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59668042A0BB47200EE816D /* PaypalViewModel.swift */; };
 		A59668072A0BB65900EE816D /* Paypal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59668062A0BB65900EE816D /* Paypal.storyboard */; };
+		A59A6D9F2A892CFF008DB43C /* OpenBanking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A59A6D9E2A892CFF008DB43C /* OpenBanking.storyboard */; };
+		A59A6DA12A892D0F008DB43C /* OpenBankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A6DA02A892D0F008DB43C /* OpenBankingViewModel.swift */; };
+		A59A6DA32A892D1C008DB43C /* OpenBankingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A6DA22A892D1C008DB43C /* OpenBankingViewController.swift */; };
+		A59A6DA52A892D28008DB43C /* OpenBankingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A6DA42A892D28008DB43C /* OpenBankingBuilder.swift */; };
+		A59A6DA72A893B3A008DB43C /* FasterPaymentsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A6DA62A893B3A008DB43C /* FasterPaymentsFormViewController.swift */; };
+		A59A6DA92A893FCF008DB43C /* SepaFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A6DA82A893FCF008DB43C /* SepaFormViewController.swift */; };
+		A59A6DAB2A8A549C008DB43C /* OpenBankingPaymentProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59A6DAA2A8A549C008DB43C /* OpenBankingPaymentProcessingViewController.swift */; };
 		A5FC78152A6C784E00BBD524 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78142A6C784E00BBD524 /* ProductsViewController.swift */; };
 		A5FC78172A6C786100BBD524 /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78162A6C786100BBD524 /* ProductsViewModel.swift */; };
 		A5FC78192A6C787200BBD524 /* ProductsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78182A6C787200BBD524 /* ProductsBuilder.swift */; };
@@ -280,6 +287,7 @@
 		A5FC78422A72BA7000BBD524 /* CaptureBnplViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78412A72BA7000BBD524 /* CaptureBnplViewModel.swift */; };
 		A5FC78442A72BA8100BBD524 /* CaptureBnplBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78432A72BA8100BBD524 /* CaptureBnplBuilder.swift */; };
 		A5FC78462A72BA9100BBD524 /* CaptureBnpl.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5FC78452A72BA9100BBD524 /* CaptureBnpl.storyboard */; };
+		A5FC78482A82722100BBD524 /* GpApiOpenBankingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */; };
 		B3C3C7004F930D956F772A64 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -562,6 +570,14 @@
 		A59668022A0BB46700EE816D /* PaypalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalViewController.swift; sourceTree = "<group>"; };
 		A59668042A0BB47200EE816D /* PaypalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalViewModel.swift; sourceTree = "<group>"; };
 		A59668062A0BB65900EE816D /* Paypal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Paypal.storyboard; sourceTree = "<group>"; };
+		A59A6D9E2A892CFF008DB43C /* OpenBanking.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OpenBanking.storyboard; sourceTree = "<group>"; };
+		A59A6DA02A892D0F008DB43C /* OpenBankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBankingViewModel.swift; sourceTree = "<group>"; };
+		A59A6DA22A892D1C008DB43C /* OpenBankingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBankingViewController.swift; sourceTree = "<group>"; };
+		A59A6DA42A892D28008DB43C /* OpenBankingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBankingBuilder.swift; sourceTree = "<group>"; };
+		A59A6DA62A893B3A008DB43C /* FasterPaymentsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FasterPaymentsFormViewController.swift; sourceTree = "<group>"; };
+		A59A6DA82A893FCF008DB43C /* SepaFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepaFormViewController.swift; sourceTree = "<group>"; };
+		A59A6DAA2A8A549C008DB43C /* OpenBankingPaymentProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBankingPaymentProcessingViewController.swift; sourceTree = "<group>"; };
+		A59A6DAC2A8E7EB4008DB43C /* GlobalPayments-iOS-SDK_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "GlobalPayments-iOS-SDK_Example.entitlements"; sourceTree = "<group>"; };
 		A5FC78142A6C784E00BBD524 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
 		A5FC78162A6C786100BBD524 /* ProductsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModel.swift; sourceTree = "<group>"; };
 		A5FC78182A6C787200BBD524 /* ProductsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsBuilder.swift; sourceTree = "<group>"; };
@@ -579,6 +595,7 @@
 		A5FC78412A72BA7000BBD524 /* CaptureBnplViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureBnplViewModel.swift; sourceTree = "<group>"; };
 		A5FC78432A72BA8100BBD524 /* CaptureBnplBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureBnplBuilder.swift; sourceTree = "<group>"; };
 		A5FC78452A72BA9100BBD524 /* CaptureBnpl.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CaptureBnpl.storyboard; sourceTree = "<group>"; };
+		A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiOpenBankingTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -648,6 +665,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				A59A6DAC2A8E7EB4008DB43C /* GlobalPayments-iOS-SDK_Example.entitlements */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for GlobalPayments-iOS-SDK */,
 				607FACE81AFB9204008FA782 /* Tests */,
@@ -1060,6 +1078,7 @@
 		8258B115255C1B4100D02721 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				A59A6D9D2A892CEB008DB43C /* OpenBanking */,
 				A56FEFFD2A42A4E600AE8E7E /* BuyNowPayLater */,
 				A59667FF2A0BB44100EE816D /* Paypal */,
 				A59667E829F6ACD300EE816D /* PayLink */,
@@ -1229,6 +1248,7 @@
 				A59667E229EE200A00EE816D /* GpApiPayLinkTest.swift */,
 				A59667F929FB43D700EE816D /* GpApiApmTest.swift */,
 				A5FC78322A6DD5AC00BBD524 /* GpApiBNPLTest.swift */,
+				A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -1545,6 +1565,20 @@
 			path = Paypal;
 			sourceTree = "<group>";
 		};
+		A59A6D9D2A892CEB008DB43C /* OpenBanking */ = {
+			isa = PBXGroup;
+			children = (
+				A59A6D9E2A892CFF008DB43C /* OpenBanking.storyboard */,
+				A59A6DA02A892D0F008DB43C /* OpenBankingViewModel.swift */,
+				A59A6DA22A892D1C008DB43C /* OpenBankingViewController.swift */,
+				A59A6DA42A892D28008DB43C /* OpenBankingBuilder.swift */,
+				A59A6DA62A893B3A008DB43C /* FasterPaymentsFormViewController.swift */,
+				A59A6DA82A893FCF008DB43C /* SepaFormViewController.swift */,
+				A59A6DAA2A8A549C008DB43C /* OpenBankingPaymentProcessingViewController.swift */,
+			);
+			path = OpenBanking;
+			sourceTree = "<group>";
+		};
 		A5FC78132A6C783600BBD524 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1713,6 +1747,7 @@
 				A5FC781E2A6C84A600BBD524 /* Customer.storyboard in Resources */,
 				8253FBB72563E90C00FBDCC9 /* AccessToken.storyboard in Resources */,
 				A56FF00A2A42A52B00AE8E7E /* BuyNowPayLater.storyboard in Resources */,
+				A59A6D9F2A892CFF008DB43C /* OpenBanking.storyboard in Resources */,
 				821420A225935CFA003EA8DF /* DocumentPickerView.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				308E27C72829F67E001441D0 /* DigitalWallets.storyboard in Resources */,
@@ -1884,6 +1919,7 @@
 				8214208325925492003EA8DF /* OperationType.swift in Sources */,
 				A57EB61D29C629DC001C4AD9 /* MerchantAddressPath.swift in Sources */,
 				822FBF202582799F00D12353 /* DepositsListForm.swift in Sources */,
+				A59A6DA32A892D1C008DB43C /* OpenBankingViewController.swift in Sources */,
 				8244D692255D74F400739364 /* UIViewControllerExtensions.swift in Sources */,
 				A57EB61729C3C9A8001C4AD9 /* MerchantDataBuilder.swift in Sources */,
 				A57EB61529C3C990001C4AD9 /* MerchantDataViewController.swift in Sources */,
@@ -1935,6 +1971,7 @@
 				823EDC1A256D740C009DED23 /* PaymentCardModel.swift in Sources */,
 				829CA94B2641761E003A292C /* AuthenticationDataFormBuilder.swift in Sources */,
 				822FBF14258263B200D12353 /* DepositsListFormViewController.swift in Sources */,
+				A59A6DA92A893FCF008DB43C /* SepaFormViewController.swift in Sources */,
 				82A9F7A02578F8E300B8962D /* PaymentMethodResultModel.swift in Sources */,
 				A57EB60D29C3B5E8001C4AD9 /* CreateMerchantViewController.swift in Sources */,
 				82A9F7702577A32E00B8962D /* PaymentMethodOperationsBuilder.swift in Sources */,
@@ -1956,6 +1993,8 @@
 				A57EB60B29C3B5D4001C4AD9 /* CreateMerchantViewModel.swift in Sources */,
 				A59668052A0BB47200EE816D /* PaypalViewModel.swift in Sources */,
 				82E6BDBA258CE39D00908C36 /* DisputeByIDForm.swift in Sources */,
+				A59A6DAB2A8A549C008DB43C /* OpenBankingPaymentProcessingViewController.swift in Sources */,
+				A59A6DA72A893B3A008DB43C /* FasterPaymentsFormViewController.swift in Sources */,
 				82BE179E25DD3B36005F85C1 /* Utils.swift in Sources */,
 				82A9F7872577B73600B8962D /* PaymentMethodOperationType.swift in Sources */,
 				A59668012A0BB45800EE816D /* PaypalBuilder.swift in Sources */,
@@ -1997,6 +2036,7 @@
 				823EDC0C256D50B4009DED23 /* TransactionOperationsForm.swift in Sources */,
 				82B82EE7263ABD84008B448D /* AuthenticationsViewModel.swift in Sources */,
 				8249189A2590F2EE00A7566E /* DocumentTableViewCell.swift in Sources */,
+				A59A6DA12A892D0F008DB43C /* OpenBankingViewModel.swift in Sources */,
 				82EC18BF25750AD800A93A3C /* VerificationsViewModel.swift in Sources */,
 				8264A00C258BA45F00E1144F /* DisputesViewController.swift in Sources */,
 				8253FBC12563E9EA00FBDCC9 /* TransactionsViewController.swift in Sources */,
@@ -2011,6 +2051,7 @@
 				A57EB61B29C49C38001C4AD9 /* MerchantAddressViewController.swift in Sources */,
 				8214205725921C3F003EA8DF /* CardBrand.swift in Sources */,
 				A57EB62929C9DBBE001C4AD9 /* MerchantProductsViewController.swift in Sources */,
+				A59A6DA52A892D28008DB43C /* OpenBankingBuilder.swift in Sources */,
 				A5FC78242A6C851E00BBD524 /* CustomerViewModel.swift in Sources */,
 				82A9F7682577A0A100B8962D /* GlobalPayViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
@@ -2080,6 +2121,7 @@
 				82F9A57F25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift in Sources */,
 				82447E9125BAE2ED003F816D /* GpApi3DSecureTests.swift in Sources */,
 				8270C0CD26303B0700464B75 /* GpApiStoredPaymentMethodReportingTests.swift in Sources */,
+				A5FC78482A82722100BBD524 /* GpApiOpenBankingTest.swift in Sources */,
 				8241F6C0264C202E00FE514D /* AcsResponse.swift in Sources */,
 				30A5668829108B78004C8E6C /* GpApiCreditWithMerchantIdTests.swift in Sources */,
 				82F20CFF262EC03600A08543 /* GpApi3DSecure1Tests.swift in Sources */,
@@ -2230,12 +2272,13 @@
 			baseConfigurationReference = 3D967F781B7EDA086B664CC6 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "GlobalPayments-iOS-SDK_Example.entitlements";
 				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				INFOPLIST_FILE = "GlobalPayments-iOS-SDK/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gpapi.sandbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
@@ -2247,12 +2290,13 @@
 			baseConfigurationReference = 25872CCBB9B9D3BAA3E1C009 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "GlobalPayments-iOS-SDK_Example.entitlements";
 				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				INFOPLIST_FILE = "GlobalPayments-iOS-SDK/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gpapi.sandbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;

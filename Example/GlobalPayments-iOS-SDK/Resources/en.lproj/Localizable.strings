@@ -430,3 +430,9 @@
 "merchant.create.payment.products.add.label" = "Add Product";
 "merchant.create.payment.statistics.title" = "Payment Statistics";
 
+"openBanking.title" = "Open Banking";
+"openBanking.fasterPayments.title.button" = "Pay";
+"openBanking.error.fields.empty" = "Fields cannot be empty";
+
+"text.mock" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non scelerisque sapien. Etiam nisi sem, tempus at ligula a, porta lacinia tortor. Quisque suscipit tortor id tellus lobortis suscipit.";
+

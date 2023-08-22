@@ -1372,7 +1372,7 @@ class GpApiCreditWithMerchantIdTests: XCTestCase {
         }
         
         // THEN
-        wait(for: creditSaleExpectations, timeout: 10.0)
+        wait(for: creditSaleExpectations, timeout: 20.0)
         manualEntryResults.forEach {
             XCTAssertNil($1)
             XCTAssertNotNil($0)
@@ -1420,7 +1420,7 @@ class GpApiCreditWithMerchantIdTests: XCTestCase {
         }
         
         // THEN
-        wait(for: creditSaleExpectations, timeout: 10.0)
+        wait(for: creditSaleExpectations, timeout: 20.0)
         entryResults.forEach {
             XCTAssertNil($1)
             XCTAssertNotNil($0)

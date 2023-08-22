@@ -18,6 +18,7 @@ struct GlobalPayModel {
         case payLink
         case paypal
         case buyNowPayLater
+        case openBanking
     }
 }
 
@@ -37,7 +38,8 @@ extension GlobalPayModel {
             GlobalPayModel(name: "globalpay.ach".localized(), path: .ach),
             GlobalPayModel(name: "payLink.title".localized(), path: .payLink),
             GlobalPayModel(name: "paypal.title".localized(), path: .paypal),
-            GlobalPayModel(name: "buyNowPayLater.title".localized(), path: .buyNowPayLater)
+            GlobalPayModel(name: "buyNowPayLater.title".localized(), path: .buyNowPayLater),
+            GlobalPayModel(name: "openBanking.title".localized(), path: .openBanking)
         ]
     }
 }

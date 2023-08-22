@@ -64,10 +64,10 @@ class GpApiMappingTests: XCTestCase {
         XCTAssertEqual(transaction.referenceNumber, expectedReferenceNumber)
         XCTAssertEqual(transaction.responseCode, expectedResponseCode)
         XCTAssertEqual(transaction.token, expectedToken)
-        XCTAssertEqual(transaction.cardLast4, expectedMaskedNumberLast4)
-        XCTAssertEqual(transaction.cardType, expectedBrand)
-        XCTAssertEqual(transaction.cardExpMonth, expectedCardExpMonth)
-        XCTAssertEqual(transaction.cardExpYear, expectedCardExpYear)
+        XCTAssertEqual(transaction.cardDetails?.maskedNumberLast4, expectedMaskedNumberLast4)
+        XCTAssertEqual(transaction.cardDetails?.brand, expectedBrand)
+        XCTAssertEqual(transaction.cardDetails?.cardExpMonth, expectedCardExpMonth)
+        XCTAssertEqual(transaction.cardDetails?.cardExpYear, expectedCardExpYear)
     }
 
     func test_map_transaction_summary() {

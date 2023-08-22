@@ -19,6 +19,7 @@ public enum TransactionModifier: String {
     case decryptedMobile
     case merchant
     case buyNowPayLater
+    case bankPayment
     
     public init?(value: String?) {
         guard let value = value,

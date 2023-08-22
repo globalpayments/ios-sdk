@@ -192,6 +192,12 @@
 		A5FC78392A6E25D800BBD524 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78382A6E25D800BBD524 /* NotificationData.swift */; };
 		A5FC783B2A6E2DEA00BBD524 /* BNPLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC783A2A6E2DEA00BBD524 /* BNPLResponse.swift */; };
 		A5FC783D2A713F3300BBD524 /* OrderDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC783C2A713F3300BBD524 /* OrderDetails.swift */; };
+		A5FC784A2A8272D100BBD524 /* BankPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78492A8272D100BBD524 /* BankPayment.swift */; };
+		A5FC784C2A82742500BBD524 /* BankPaymentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC784B2A82742500BBD524 /* BankPaymentType.swift */; };
+		A5FC784E2A82754700BBD524 /* RemittanceReferenceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC784D2A82754700BBD524 /* RemittanceReferenceType.swift */; };
+		A5FC78502A8276EF00BBD524 /* BankPaymentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC784F2A8276EF00BBD524 /* BankPaymentResponse.swift */; };
+		A5FC78522A82A87800BBD524 /* PaymentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78512A82A87800BBD524 /* PaymentProvider.swift */; };
+		A5FC78542A83B07800BBD524 /* CurrencyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78532A83B07700BBD524 /* CurrencyUtils.swift */; };
 		A7AE9477E8513C74A23B416E033BF699 /* PriorAuthenticationMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE9BE63B915C4C157B8C7FF7CE0E7E4 /* PriorAuthenticationMethod.swift */; };
 		A7CC6ED8E1357B497004FE0895CE9613 /* RecurringService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A24C190678E63939DC49FCBC380531 /* RecurringService.swift */; };
 		A81DAE1CA88D5649F0346F8BE099E8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
@@ -518,6 +524,12 @@
 		A5FC78382A6E25D800BBD524 /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		A5FC783A2A6E2DEA00BBD524 /* BNPLResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNPLResponse.swift; sourceTree = "<group>"; };
 		A5FC783C2A713F3300BBD524 /* OrderDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetails.swift; sourceTree = "<group>"; };
+		A5FC78492A8272D100BBD524 /* BankPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankPayment.swift; sourceTree = "<group>"; };
+		A5FC784B2A82742500BBD524 /* BankPaymentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankPaymentType.swift; sourceTree = "<group>"; };
+		A5FC784D2A82754700BBD524 /* RemittanceReferenceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemittanceReferenceType.swift; sourceTree = "<group>"; };
+		A5FC784F2A8276EF00BBD524 /* BankPaymentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankPaymentResponse.swift; sourceTree = "<group>"; };
+		A5FC78512A82A87800BBD524 /* PaymentProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentProvider.swift; sourceTree = "<group>"; };
+		A5FC78532A83B07700BBD524 /* CurrencyUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUtils.swift; sourceTree = "<group>"; };
 		A60542D270765E2928C1BE1F37500DFF /* FraudRule.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FraudRule.swift; sourceTree = "<group>"; };
 		A7D2F3221E351FBC52D3FA84CBAE253D /* PrestigiousPropertyLimit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PrestigiousPropertyLimit.swift; sourceTree = "<group>"; };
 		A8B2C79BC079C97D61418861A2DB160D /* DeliveryTimeFrame.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeliveryTimeFrame.swift; sourceTree = "<group>"; };
@@ -719,6 +731,7 @@
 				A5FC78252A6C9A0A00BBD524 /* CustomerDocument.swift */,
 				A5FC783A2A6E2DEA00BBD524 /* BNPLResponse.swift */,
 				A5FC783C2A713F3300BBD524 /* OrderDetails.swift */,
+				A5FC784F2A8276EF00BBD524 /* BankPaymentResponse.swift */,
 			);
 			name = Entities;
 			path = "GlobalPayments-iOS-SDK/Classes/Entities";
@@ -992,6 +1005,9 @@
 				A5A72F592A678508009CFCB4 /* PhoneNumberType.swift */,
 				A5FC78272A6C9A6400BBD524 /* CustomerDocumentType.swift */,
 				A5FC78362A6DE3A900BBD524 /* BNPLShippingMethod.swift */,
+				A5FC784B2A82742500BBD524 /* BankPaymentType.swift */,
+				A5FC784D2A82754700BBD524 /* RemittanceReferenceType.swift */,
+				A5FC78512A82A87800BBD524 /* PaymentProvider.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1015,6 +1031,7 @@
 				CAB2A8181CE6C514EBB08B5161565F15 /* TransactionReference.swift */,
 				1D93C44C54F205919338ED68EB194421 /* PaymentProtocols */,
 				A5FC78342A6DD6C600BBD524 /* BNPL.swift */,
+				A5FC78492A8272D100BBD524 /* BankPayment.swift */,
 			);
 			name = PaymentMethods;
 			path = "GlobalPayments-iOS-SDK/Classes/PaymentMethods";
@@ -1203,6 +1220,7 @@
 				3F21612665FC75C44A2861BD3038D24B /* OptionalExtensions.swift */,
 				D8B6EC403E149CE9836C3B6182499BA6 /* StringExtensions.swift */,
 				7147252DF2D9F48D6B3B8102F690D5DE /* SwiftLang.swift */,
+				A5FC78532A83B07700BBD524 /* CurrencyUtils.swift */,
 			);
 			name = Utils;
 			path = "GlobalPayments-iOS-SDK/Classes/Utils";
@@ -1498,6 +1516,7 @@
 				FCFC63C21AB8B4A25D9C693F1E231939 /* FraudRuleCollection.swift in Sources */,
 				A03716ED9A36805000DA4B438D04FE47 /* Gateway.swift in Sources */,
 				8EC5AD2620289316152933264CAAC327 /* GatewayConfig.swift in Sources */,
+				A5FC784C2A82742500BBD524 /* BankPaymentType.swift in Sources */,
 				1E416EF13C9A7F6BF173A83E39BA97AA /* GatewayException.swift in Sources */,
 				7686077E6ABCE96F4570051D599B06AA /* GatewayProvider.swift in Sources */,
 				6B7D061933EA64A7CEAAAFBEB5C00910 /* GatewayResponse.swift in Sources */,
@@ -1537,6 +1556,7 @@
 				3163DABB6A56607A735F7160774D3CA8 /* MerchantDataEncoder.swift in Sources */,
 				6E5516D81A7BC5E7E3740C2A3C311632 /* MerchantKVP.swift in Sources */,
 				E1902A2C4337D21FE20151C16E7C596A /* MessageCategory.swift in Sources */,
+				A5FC784A2A8272D100BBD524 /* BankPayment.swift in Sources */,
 				0570138F0A32CFB118AF81F24104A4CD /* MethodUrlCompletion.swift in Sources */,
 				BB44548D476BC7B4B1A5AC5A942E7BE7 /* MobileData.swift in Sources */,
 				D9A541DE50D2CE207AE9270077EFE351 /* NetGrossIndicator.swift in Sources */,
@@ -1545,6 +1565,7 @@
 				3DC0EF42E3F58A13694E51F54010E691 /* NSRegularExpressionExtensions.swift in Sources */,
 				5185611360DFA09D539228BAFA7BAF84 /* OptionalExtensions.swift in Sources */,
 				F183D65DA0FE442D413E1C083D00C813 /* OrderTransactionType.swift in Sources */,
+				A5FC78502A8276EF00BBD524 /* BankPaymentResponse.swift in Sources */,
 				D2514D983C363A079B93C5DF72603D76 /* PagedResult.swift in Sources */,
 				9592D51E3114DD8056921340ABD32801 /* PayFacBuilder.swift in Sources */,
 				A506E87429BB9B86006787CE /* PaymentMethodList.swift in Sources */,
@@ -1591,6 +1612,7 @@
 				2FD47FE258153165B4E154DFE72FD6AF /* RequestLogger.swift in Sources */,
 				F93FBF9BB25D8182E52E925F5C31FCE1 /* RestGateway.swift in Sources */,
 				51C841CC7B93638D8706DE5486F2A7BB /* Reversable.swift in Sources */,
+				A5FC784E2A82754700BBD524 /* RemittanceReferenceType.swift in Sources */,
 				54C833D823A9BC2294CF50648381DCAD /* ReversalReasonCode.swift in Sources */,
 				16AA7588F26BB3A2AF75A1871E849E59 /* Risk.swift in Sources */,
 				A506E87A29BF8FC3006787CE /* MerchantSummary.swift in Sources */,
@@ -1656,9 +1678,11 @@
 				D6C49862FE2C7FD2C8E6813AA3B85033 /* UserType.swift in Sources */,
 				AD0FBBAF4EBF6AA171F3148B1ACBA338 /* ValidationClause.swift in Sources */,
 				379538BCA23873D4C6FAAA8C59B9352D /* Validations.swift in Sources */,
+				A5FC78542A83B07800BBD524 /* CurrencyUtils.swift in Sources */,
 				9DC52E8ECB338B3217D7C6DB52F9F7BA /* ValidationTarget.swift in Sources */,
 				A3C08E80094C705B7308607C6C14A123 /* Verifiable.swift in Sources */,
 				EADB614BBE65F393881D7A5CE729AD16 /* VoidReason.swift in Sources */,
+				A5FC78522A82A87800BBD524 /* PaymentProvider.swift in Sources */,
 				345396CB0003D923B72C1B3D610B5777 /* XmlGateway.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

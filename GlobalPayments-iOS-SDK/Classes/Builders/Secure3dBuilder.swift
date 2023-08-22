@@ -584,6 +584,13 @@ import Foundation
         do {
             let provider = try ServicesContainer.shared.secure3DProvider(configName: configName, version: version)
             var canDowngrade = false
+            
+            if version == .one && provider is GpApiConnector {
+                let error =  BuilderException(message: "3D Secure One is no longer supported!")
+                completion?(nil, error)
+                return
+            }
+            
             if provider.version == .two && version == .any {
                 do {
                     _ = try ServicesContainer.shared.secure3DProvider(

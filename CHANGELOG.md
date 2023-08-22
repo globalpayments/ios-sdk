@@ -4,6 +4,12 @@
 
 #### Enhancements
 
+- GP-API: Add OpenBanking feature
+
+## 1.2.19 (31/07/2023)
+
+#### Enhancements
+
 - GP-API: Add BNPL feature
 
 ## 1.2.18 (24/05/2023)

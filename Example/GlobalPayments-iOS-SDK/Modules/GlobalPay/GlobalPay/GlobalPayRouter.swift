@@ -41,6 +41,8 @@ struct GlobalPayRouter: Router {
             return PaypalBuilder.build()
         case .buyNowPayLater:
             return BuyNowPayLaterBuilder.build()
+        case .openBanking:
+            return OpenBankingBuilder.build()
         }
     }
 }

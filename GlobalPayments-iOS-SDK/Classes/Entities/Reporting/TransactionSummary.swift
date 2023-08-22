@@ -122,4 +122,5 @@ public class TransactionSummary {
     public var fingerprint: String?
     public var fingerprintIndicator: String?
     public var bnplResponse: BNPLResponse?
+    public var bankPaymentResponse: BankPaymentResponse?
 }

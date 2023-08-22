@@ -36,4 +36,6 @@ public struct PaymentMethodType: OptionSet, Hashable {
     public static let apm       = PaymentMethodType(rawValue: 1 << 9)
     
     public static let BPNL      = PaymentMethodType(rawValue: 1 << 10)
+    
+    public static let bankPayment     = PaymentMethodType(rawValue: 1 << 11)
 }

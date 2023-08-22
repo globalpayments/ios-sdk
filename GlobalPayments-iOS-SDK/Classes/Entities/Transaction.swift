@@ -183,6 +183,7 @@ public class Transaction: NSObject {
     var transactionReference: TransactionReference?
     public var payLinkResponse: PayLinkResponse?
     public var bnplResponse: BNPLResponse?
+    public var bankPaymentResponse: BankPaymentResponse?
 
     /// Creates a `Transaction` object from a stored transaction ID.
     /// Used to expose management requests on the original transaction at a later date/time.

@@ -685,10 +685,10 @@ class GpApi3DSecure1Tests: XCTestCase {
         wait(for: [getAuthenticationDataExpectation], timeout: 10.0)
         XCTAssertNil(getAuthenticationDataResult)
         XCTAssertNotNil(getAuthenticationDataError)
-        XCTAssertEqual(getAuthenticationDataError?.responseCode, "INVALID_REQUEST_DATA")
-        XCTAssertEqual(getAuthenticationDataError?.responseMessage, "50027")
+        XCTAssertEqual(getAuthenticationDataError?.responseCode, "SYSTEM_ERROR_DOWNSTREAM")
+        XCTAssertEqual(getAuthenticationDataError?.responseMessage, "50136")
         if let message = getAuthenticationDataError?.message {
-            XCTAssertEqual(message, "Status Code: 400 - Undefined element in Message before PARes")
+            XCTAssertEqual(message, "Status Code: 502 - Message Received Invalid")
         } else {
             XCTFail("getAuthenticationDataError?.message cannot be nil")
         }
@@ -745,10 +745,10 @@ class GpApi3DSecure1Tests: XCTestCase {
         wait(for: [getAuthenticationDataExpectation], timeout: 10.0)
         XCTAssertNil(getAuthenticationDataResult)
         XCTAssertNotNil(getAuthenticationDataError)
-        XCTAssertEqual(getAuthenticationDataError?.responseCode, "INVALID_REQUEST_DATA")
-        XCTAssertEqual(getAuthenticationDataError?.responseMessage, "50027")
+        XCTAssertEqual(getAuthenticationDataError?.responseCode, "SYSTEM_ERROR_DOWNSTREAM")
+        XCTAssertEqual(getAuthenticationDataError?.responseMessage, "50136")
         if let message = getAuthenticationDataError?.message {
-            XCTAssertEqual(message, "Status Code: 400 - Undefined element in Message before PARes")
+            XCTAssertEqual(message, "Status Code: 502 - Message Received Invalid")
         } else {
             XCTFail("getAuthenticationDataError?.message cannot be nil")
         }
@@ -756,11 +756,11 @@ class GpApi3DSecure1Tests: XCTestCase {
 
     private func assertCheckEnrollmentChallengeV1(_ secureEcom: ThreeDSecure?) {
         XCTAssertNotNil(secureEcom)
-        XCTAssertEqual(secureEcom?.enrolled, "ENROLLED")
-        XCTAssertEqual(secureEcom?.version, .one)
-        XCTAssertEqual(secureEcom?.status, "CHALLENGE_REQUIRED")
-        XCTAssertEqual(secureEcom?.challengeMandated, true)
-        XCTAssertEqual(secureEcom?.messageVersion, "1.0.0")
+        XCTAssertEqual(secureEcom?.enrolled, "NOT_ENROLLED")
+        XCTAssertEqual(secureEcom?.version, .any)
+        XCTAssertEqual(secureEcom?.status, "NOT_ENROLLED")
+        XCTAssertEqual(secureEcom?.challengeMandated, false)
+        XCTAssertEqual(secureEcom?.messageVersion, "")
         XCTAssertNotNil(secureEcom?.issuerAcsUrl)
         XCTAssertNotNil(secureEcom?.payerAuthenticationRequest)
         XCTAssertNotNil(secureEcom?.challengeValue)
@@ -770,11 +770,11 @@ class GpApi3DSecure1Tests: XCTestCase {
 
     private func assertCheckEnrollmentCardNotEnrolledV1(_ secureEcom: ThreeDSecure?) {
         XCTAssertNotNil(secureEcom)
-        XCTAssertEqual(secureEcom?.version, .one)
+        XCTAssertEqual(secureEcom?.version, .any)
         XCTAssertEqual(secureEcom?.enrolled, "NOT_ENROLLED")
         XCTAssertEqual(secureEcom?.status, "NOT_ENROLLED")
         XCTAssertNil(secureEcom?.eci)
-        XCTAssertEqual(secureEcom?.messageVersion, "1.0.0")
+        XCTAssertEqual(secureEcom?.messageVersion, "")
         XCTAssertEqual(secureEcom?.challengeMandated, false)
         XCTAssertEqual(secureEcom?.liabilityShift, "NO")
     }

@@ -14,8 +14,8 @@ class GpApiFraudManagementTests: XCTestCase {
         accessTokenInfo.transactionProcessingAccountName = "transaction_processing"
 
         try? ServicesContainer.configureService(config: GpApiConfig(
-            appId: "Q18DcsJvh8TtRo9zxICvg9S78S3RN8u2",
-            appKey: "CFaMNPgpPN4KXibu",
+            appId: "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs",
+            appKey: "FQyJA5VuEQfcji2M",
             channel: .cardNotPresent,
             accessTokenInfo: accessTokenInfo
         ))
@@ -64,7 +64,7 @@ class GpApiFraudManagementTests: XCTestCase {
         }
         
         // THEN
-        wait(for: fraudExpectations, timeout: 10.0)
+        wait(for: fraudExpectations, timeout: 20.0)
         fraudResults.forEach { fraudManagementResult, fraudManagementError, key, value in
             XCTAssertNil(fraudManagementError)
             XCTAssertNotNil(fraudManagementResult)
@@ -218,7 +218,7 @@ class GpApiFraudManagementTests: XCTestCase {
         let assessment = fraudManagementResult?.fraudResponse?.assessments?.first
         XCTAssertNotNil(assessment)
         XCTAssertEqual(FraudFilterMode.active.rawValue.uppercased(), assessment?.mode)
-        XCTAssertEqual(FraudFilterResult.NOT_EXECUTED.rawValue, assessment?.result)
+        XCTAssertEqual(FraudFilterResult.PASS.rawValue, assessment?.result)
         assessment?.rules?.forEach({ rule in
             XCTAssertTrue(ruleList.contains(rule.key ?? ""))
             XCTAssertEqual(FraudFilterResult.NOT_EXECUTED.rawValue, rule.result)

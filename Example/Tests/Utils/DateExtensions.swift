@@ -46,6 +46,7 @@ extension Date {
 
     func format(_ format: String = "yyyy-MM-dd") -> String {
         let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         dateFormatter.dateFormat = format
         return dateFormatter.string(from: self)
     }

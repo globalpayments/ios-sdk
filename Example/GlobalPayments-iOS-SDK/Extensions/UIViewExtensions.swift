@@ -18,4 +18,17 @@ extension UIView {
         self.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: .zero).isActive = true
         self.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: .zero).isActive = true
     }
+    
+    @IBInspectable
+    public var cornerRadius: CGFloat
+    {
+        set (radius) {
+            self.layer.cornerRadius = radius
+            self.layer.masksToBounds = radius > 0
+        }
+        
+        get {
+            return self.layer.cornerRadius
+        }
+    }
 }

@@ -434,5 +434,7 @@
 "openBanking.fasterPayments.title.button" = "Pay";
 "openBanking.error.fields.empty" = "Fields cannot be empty";
 
+"globalpay.hosted.fields.title" = "Hosted fields";
+
 "text.mock" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non scelerisque sapien. Etiam nisi sem, tempus at ligula a, porta lacinia tortor. Quisque suscipit tortor id tellus lobortis suscipit.";
 

@@ -183,6 +183,7 @@ public class CardUtils {
         card.set(for: "avs_address", value: builder.billingAddress?.streetAddress1)
         card.set(for: "avs_postal_code", value: builder.billingAddress?.postalCode)
         card.set(for: "authcode", value: builder.offlineAuthCode)
+        card.set(for: "brand_reference", value: builder.cardBrandTransactionId)
 
         return card
     }

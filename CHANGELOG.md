@@ -4,6 +4,13 @@
 
 #### Enhancements
 
+- GP-API: Add recurring payments feature
+- [DemoApp]: Recurring payments with Hosted Fields library and 3DS flow
+
+## 1.2.20 (20/08/2023)
+
+#### Enhancements
+
 - GP-API: Add OpenBanking feature
 
 ## 1.2.19 (31/07/2023)

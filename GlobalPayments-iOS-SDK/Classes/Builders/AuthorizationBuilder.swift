@@ -74,6 +74,7 @@ import Foundation
     var bnplShippingMethod: BNPLShippingMethod?
     var remittanceReferenceType: RemittanceReferenceType?
     var remittanceReferenceValue: String?
+    var transactionInitiator: StoredCredentialInitiator?
 
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
@@ -485,7 +486,8 @@ import Foundation
         return self
     }
     
-    public func withCardBrandStorage(_ value: String?) -> AuthorizationBuilder {
+    public func withCardBrandStorage(_ credentialInitiator: StoredCredentialInitiator, value: String?) -> AuthorizationBuilder {
+        transactionInitiator = credentialInitiator
         cardBrandTransactionId = value
         return self
     }
@@ -596,7 +598,7 @@ import Foundation
     }
     
     public func withBNPLShippingMethod(_ value: BNPLShippingMethod) -> AuthorizationBuilder {
-        guard let paymentMethod = paymentMethod as? BNPL else { return self}
+        guard paymentMethod is BNPL else { return self}
         bnplShippingMethod = value
         return self
     }

@@ -43,6 +43,8 @@ struct GlobalPayRouter: Router {
             return BuyNowPayLaterBuilder.build()
         case .openBanking:
             return OpenBankingBuilder.build()
+        case .hostedFields:
+            return HostedFieldsBuilder.build()
         }
     }
 }

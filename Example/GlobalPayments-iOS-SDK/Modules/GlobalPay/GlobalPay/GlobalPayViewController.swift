@@ -38,7 +38,7 @@ final class GlobalPayViewController: UIViewController, StoryboardInstantiable {
     }
 
     private func showConfigurationModule(_ modalPresentationStyle: UIModalPresentationStyle) {
-        let module = ConfigurationBuilder.build(with: self)
+        let module = ConfigurationGBBuilder.build(with: self)
         module.modalPresentationStyle = modalPresentationStyle
         navigationController?.present(module, animated: true, completion: nil)
     }

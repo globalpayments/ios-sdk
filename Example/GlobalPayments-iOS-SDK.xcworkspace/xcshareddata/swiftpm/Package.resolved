@@ -1,0 +1,50 @@
+{
+  "pins" : [
+    {
+      "identity" : "girdersswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/netceteragroup/GirdersSwift",
+      "state" : {
+        "revision" : "1e0526689a8db0a1d501e915a2b48dcd30c9bbc5",
+        "version" : "0.7.1"
+      }
+    },
+    {
+      "identity" : "keychainaccess",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kishikawakatsumi/KeychainAccess.git",
+      "state" : {
+        "revision" : "84e546727d66f1adc5439debad16270d0fdd04e7",
+        "version" : "4.2.2"
+      }
+    },
+    {
+      "identity" : "promisekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mxcl/PromiseKit.git",
+      "state" : {
+        "revision" : "c946b7561fbe11379a874e59faa2c5f8077ae0e1",
+        "version" : "6.17.1"
+      }
+    },
+    {
+      "identity" : "spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ios-3ds-sdk/SPM.git",
+      "state" : {
+        "revision" : "1ba85e40625efcbcf81c524b326d4e4a59a90a64",
+        "version" : "2.3.74"
+      }
+    },
+    {
+      "identity" : "swiftybeaver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
+      "state" : {
+        "revision" : "2c039501d6eeb4d4cd4aec4a8d884ad28862e044",
+        "version" : "1.9.5"
+      }
+    }
+  ],
+  "version" : 2
+}

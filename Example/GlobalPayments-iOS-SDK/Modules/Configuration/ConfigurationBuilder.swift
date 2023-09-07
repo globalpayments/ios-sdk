@@ -1,6 +1,6 @@
 import UIKit
 
-struct ConfigurationBuilder {
+struct ConfigurationGBBuilder {
 
     static func build(with delegate: ConfigurationViewDelegate) -> UIViewController {
         let module = ConfigurationViewController.instantiate()

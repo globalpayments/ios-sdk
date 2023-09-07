@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Hosted Fields Web View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="HostedFieldsWebViewController" id="Y6W-OH-hqX" customClass="HostedFieldsWebViewController" customModule="GlobalPayments_iOS_SDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LSn-g2-wPm">
+                                <rect key="frame" x="10" y="70" width="355" height="723"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <activityIndicatorView opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Dt6-pg-b9h">
+                                <rect key="frame" x="0.0" y="50" width="375" height="728"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Dt6-pg-b9h" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="2qn-pV-J0p"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="top" secondItem="LSn-g2-wPm" secondAttribute="top" constant="-20" id="6j8-H6-ezw"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="top" secondItem="Dt6-pg-b9h" secondAttribute="top" id="GHn-md-O0e"/>
+                            <constraint firstItem="Dt6-pg-b9h" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="Gmy-km-Nqs"/>
+                            <constraint firstItem="LSn-g2-wPm" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" constant="-10" id="ilX-p3-1yH"/>
+                            <constraint firstItem="LSn-g2-wPm" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" constant="15" id="pSQ-xu-l3L"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="leading" secondItem="Dt6-pg-b9h" secondAttribute="leading" id="xCh-4r-Fn5"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="leading" secondItem="LSn-g2-wPm" secondAttribute="leading" constant="-10" id="yyV-Ux-ayH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="Dt6-pg-b9h" id="9t5-Zu-eML"/>
+                        <outlet property="supportView" destination="LSn-g2-wPm" id="DpY-g6-zax"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="56" y="5"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

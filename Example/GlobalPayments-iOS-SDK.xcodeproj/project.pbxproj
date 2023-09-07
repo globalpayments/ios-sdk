@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		06C80B851E55AD27D8857B82 /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */; };
 		302D583D28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */; };
 		304226FB29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */; };
 		308E27C32829F56F001441D0 /* DigitalWalletsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308E27C22829F56F001441D0 /* DigitalWalletsBuilder.swift */; };
@@ -27,6 +26,7 @@
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		7ACDC46D124D93FE2139B2E1 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC5C2F96F3C66EEBD9C2B72 /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
 		8200B17625937A8B00042357 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B17525937A8B00042357 /* ImagePicker.swift */; };
 		8200B18925938E6500042357 /* DisputeDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */; };
 		8200B18A25938E6500042357 /* DisputeDocumentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8200B18825938E6500042357 /* DisputeDocumentTableViewCell.xib */; };
@@ -229,6 +229,25 @@
 		82FAF8DF2535B16E00B10401 /* gp_logo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 82FAF8DD2535B16E00B10401 /* gp_logo.pdf */; };
 		82FAF8E42535B2B500B10401 /* ResouceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FAF8E32535B2B500B10401 /* ResouceLoader.swift */; };
 		A506E86C29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A506E86B29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift */; };
+		A50B0CFC2A9E140E00C1A88E /* HostedFields.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A50B0CFB2A9E140E00C1A88E /* HostedFields.storyboard */; };
+		A50B0CFE2A9E142000C1A88E /* HostedFieldsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B0CFD2A9E142000C1A88E /* HostedFieldsViewController.swift */; };
+		A50B0D002A9E142E00C1A88E /* HostedFieldsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B0CFF2A9E142E00C1A88E /* HostedFieldsBuilder.swift */; };
+		A50B0D022A9E143D00C1A88E /* HostedFieldsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B0D012A9E143D00C1A88E /* HostedFieldsViewModel.swift */; };
+		A50B0D042A9E1C8D00C1A88E /* HostedFieldsWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B0D032A9E1C8D00C1A88E /* HostedFieldsWebView.swift */; };
+		A50B0D072A9E215D00C1A88E /* HostedFieldsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A50B0D062A9E215D00C1A88E /* HostedFieldsView.xib */; };
+		A50B0D0E2A9E227000C1A88E /* script.js in Resources */ = {isa = PBXBuildFile; fileRef = A50B0D0C2A9E227000C1A88E /* script.js */; };
+		A50B0D0F2A9E227000C1A88E /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = A50B0D0D2A9E227000C1A88E /* index.html */; };
+		A50B0D112A9E256E00C1A88E /* HostedFieldsWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B0D102A9E256E00C1A88E /* HostedFieldsWebViewController.swift */; };
+		A50B0D132A9E264B00C1A88E /* HostedFieldsWebView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A50B0D122A9E264B00C1A88E /* HostedFieldsWebView.storyboard */; };
+		A50B0D152A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B0D142A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift */; };
+		A559488C2AA3610D00E447DF /* ThreeDS_SDK in Frameworks */ = {isa = PBXBuildFile; productRef = A559488B2AA3610D00E447DF /* ThreeDS_SDK */; };
+		A559488F2AA361E800E447DF /* GirdersSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A559488E2AA361E800E447DF /* GirdersSwift */; };
+		A55948922AA362B200E447DF /* InitializationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948912AA362B200E447DF /* InitializationUseCase.swift */; };
+		A55948942AA362CE00E447DF /* InitializationUseCaseImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948932AA362CE00E447DF /* InitializationUseCaseImplementation.swift */; };
+		A55948962AA3649400E447DF /* AppBootstraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948952AA3649400E447DF /* AppBootstraper.swift */; };
+		A55948A02AA36E6200E447DF /* AppChallengeStatusReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559489F2AA36E6200E447DF /* AppChallengeStatusReceiver.swift */; };
+		A55948A22AA36EDB00E447DF /* Transaction3dsStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948A12AA36EDB00E447DF /* Transaction3dsStatus.swift */; };
+		A55948A42AA36F2F00E447DF /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948A32AA36F2F00E447DF /* StatusView.swift */; };
 		A56FF00A2A42A52B00AE8E7E /* BuyNowPayLater.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A56FF0062A42A52B00AE8E7E /* BuyNowPayLater.storyboard */; };
 		A56FF00B2A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56FF0072A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift */; };
 		A56FF00C2A42A52B00AE8E7E /* BuyNowPayLaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56FF0082A42A52B00AE8E7E /* BuyNowPayLaterViewController.swift */; };
@@ -288,7 +307,7 @@
 		A5FC78442A72BA8100BBD524 /* CaptureBnplBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78432A72BA8100BBD524 /* CaptureBnplBuilder.swift */; };
 		A5FC78462A72BA9100BBD524 /* CaptureBnpl.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5FC78452A72BA9100BBD524 /* CaptureBnpl.storyboard */; };
 		A5FC78482A82722100BBD524 /* GpApiOpenBankingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */; };
-		B3C3C7004F930D956F772A64 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
+		E31041E409C877D9FDFEF96D /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D0D6CD4FB035B4211807F1 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -302,7 +321,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		25872CCBB9B9D3BAA3E1C009 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; sourceTree = "<group>"; };
+		12FCDF9A52C8E3AC5E0255D3 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; sourceTree = "<group>"; };
+		23CEF1A2AD2CCB5511559AF7 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		25E89B4C4C3BC69C6EA4BF0A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GpApiFraudManagementTests.swift; path = Tests/GpApi/GpApiFraudManagementTests.swift; sourceTree = SOURCE_ROOT; };
 		304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDccCardNotPresentTest.swift; sourceTree = "<group>"; };
@@ -320,8 +340,8 @@
 		30B3DE72299D456100FCEF48 /* AchChargeForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchChargeForm.swift; sourceTree = "<group>"; };
 		30B3DE74299D52A300FCEF48 /* AchPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchPath.swift; sourceTree = "<group>"; };
 		30EB561128201FC500AEA47B /* GpApiDigitalWalletsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDigitalWalletsTests.swift; sourceTree = "<group>"; };
-		37187487A0802F473CB34DD9 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		3D967F781B7EDA086B664CC6 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		4279CF811959CCC89A73264A /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		471334F4E4DE2B0B12868ED3 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		58FEA9F194AA0CFA78C12075 /* GlobalPayments-iOS-SDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "GlobalPayments-iOS-SDK.podspec"; path = "../GlobalPayments-iOS-SDK.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* GlobalPayments-iOS-SDK_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GlobalPayments-iOS-SDK_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -330,8 +350,7 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* GlobalPayments-iOS-SDK_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GlobalPayments-iOS-SDK_Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DC5C2F96F3C66EEBD9C2B72 /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8200B17525937A8B00042357 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeDocumentTableViewCell.swift; sourceTree = "<group>"; };
 		8200B18825938E6500042357 /* DisputeDocumentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisputeDocumentTableViewCell.xib; sourceTree = "<group>"; };
@@ -534,8 +553,25 @@
 		82FAF8DD2535B16E00B10401 /* gp_logo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = gp_logo.pdf; sourceTree = "<group>"; };
 		82FAF8E32535B2B500B10401 /* ResouceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResouceLoader.swift; sourceTree = "<group>"; };
 		866C760D426DC19D7E0BA8F6 /* LICENSE.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
-		A3321008DB1409EE8F482E4A /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		90D0D6CD4FB035B4211807F1 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A506E86B29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiMerchantsOnboardTest.swift; sourceTree = "<group>"; };
+		A50B0CFB2A9E140E00C1A88E /* HostedFields.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HostedFields.storyboard; sourceTree = "<group>"; };
+		A50B0CFD2A9E142000C1A88E /* HostedFieldsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedFieldsViewController.swift; sourceTree = "<group>"; };
+		A50B0CFF2A9E142E00C1A88E /* HostedFieldsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedFieldsBuilder.swift; sourceTree = "<group>"; };
+		A50B0D012A9E143D00C1A88E /* HostedFieldsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedFieldsViewModel.swift; sourceTree = "<group>"; };
+		A50B0D032A9E1C8D00C1A88E /* HostedFieldsWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedFieldsWebView.swift; sourceTree = "<group>"; };
+		A50B0D062A9E215D00C1A88E /* HostedFieldsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HostedFieldsView.xib; sourceTree = "<group>"; };
+		A50B0D0C2A9E227000C1A88E /* script.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = script.js; sourceTree = "<group>"; };
+		A50B0D0D2A9E227000C1A88E /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		A50B0D102A9E256E00C1A88E /* HostedFieldsWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedFieldsWebViewController.swift; sourceTree = "<group>"; };
+		A50B0D122A9E264B00C1A88E /* HostedFieldsWebView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HostedFieldsWebView.storyboard; sourceTree = "<group>"; };
+		A50B0D142A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedFieldsWebViewBuilder.swift; sourceTree = "<group>"; };
+		A55948912AA362B200E447DF /* InitializationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializationUseCase.swift; sourceTree = "<group>"; };
+		A55948932AA362CE00E447DF /* InitializationUseCaseImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializationUseCaseImplementation.swift; sourceTree = "<group>"; };
+		A55948952AA3649400E447DF /* AppBootstraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBootstraper.swift; sourceTree = "<group>"; };
+		A559489F2AA36E6200E447DF /* AppChallengeStatusReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppChallengeStatusReceiver.swift; sourceTree = "<group>"; };
+		A55948A12AA36EDB00E447DF /* Transaction3dsStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction3dsStatus.swift; sourceTree = "<group>"; };
+		A55948A32AA36F2F00E447DF /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
 		A56FF0062A42A52B00AE8E7E /* BuyNowPayLater.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BuyNowPayLater.storyboard; sourceTree = "<group>"; };
 		A56FF0072A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyNowPayLaterBuilder.swift; sourceTree = "<group>"; };
 		A56FF0082A42A52B00AE8E7E /* BuyNowPayLaterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyNowPayLaterViewController.swift; sourceTree = "<group>"; };
@@ -603,7 +639,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3C3C7004F930D956F772A64 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */,
+				7ACDC46D124D93FE2139B2E1 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */,
+				A559488F2AA361E800E447DF /* GirdersSwift in Frameworks */,
+				A559488C2AA3610D00E447DF /* ThreeDS_SDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,7 +649,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06C80B851E55AD27D8857B82 /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */,
+				E31041E409C877D9FDFEF96D /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,10 +659,10 @@
 		2919C221982D6B176F55C9C9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3D967F781B7EDA086B664CC6 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */,
-				25872CCBB9B9D3BAA3E1C009 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */,
-				37187487A0802F473CB34DD9 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */,
-				A3321008DB1409EE8F482E4A /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */,
+				471334F4E4DE2B0B12868ED3 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */,
+				12FCDF9A52C8E3AC5E0255D3 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */,
+				4279CF811959CCC89A73264A /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */,
+				23CEF1A2AD2CCB5511559AF7 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -671,7 +709,7 @@
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				2919C221982D6B176F55C9C9 /* Pods */,
-				D96F282A842265BC4AB41241 /* Frameworks */,
+				DA2CAD3E1CDBD52882CFFA05 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -779,6 +817,7 @@
 		8200B1AD25949BB100042357 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A55948902AA3629400E447DF /* Netcetera */,
 				8200B1B62594D33800042357 /* Configuration.swift */,
 			);
 			path = Services;
@@ -1078,6 +1117,7 @@
 		8258B115255C1B4100D02721 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				A50B0CFA2A9E139000C1A88E /* HostedFields */,
 				A59A6D9D2A892CEB008DB43C /* OpenBanking */,
 				A56FEFFD2A42A4E600AE8E7E /* BuyNowPayLater */,
 				A59667FF2A0BB44100EE816D /* Paypal */,
@@ -1123,6 +1163,8 @@
 		8258B13A255C251E00D02721 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A50B0D0D2A9E227000C1A88E /* index.html */,
+				A50B0D0C2A9E227000C1A88E /* script.js */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				8258B145255C27EE00D02721 /* Localizable.strings */,
@@ -1487,6 +1529,35 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		A50B0CFA2A9E139000C1A88E /* HostedFields */ = {
+			isa = PBXGroup;
+			children = (
+				A50B0CFB2A9E140E00C1A88E /* HostedFields.storyboard */,
+				A50B0CFD2A9E142000C1A88E /* HostedFieldsViewController.swift */,
+				A50B0CFF2A9E142E00C1A88E /* HostedFieldsBuilder.swift */,
+				A50B0D012A9E143D00C1A88E /* HostedFieldsViewModel.swift */,
+				A50B0D032A9E1C8D00C1A88E /* HostedFieldsWebView.swift */,
+				A50B0D062A9E215D00C1A88E /* HostedFieldsView.xib */,
+				A50B0D102A9E256E00C1A88E /* HostedFieldsWebViewController.swift */,
+				A50B0D122A9E264B00C1A88E /* HostedFieldsWebView.storyboard */,
+				A50B0D142A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift */,
+			);
+			path = HostedFields;
+			sourceTree = "<group>";
+		};
+		A55948902AA3629400E447DF /* Netcetera */ = {
+			isa = PBXGroup;
+			children = (
+				A55948912AA362B200E447DF /* InitializationUseCase.swift */,
+				A55948932AA362CE00E447DF /* InitializationUseCaseImplementation.swift */,
+				A55948952AA3649400E447DF /* AppBootstraper.swift */,
+				A559489F2AA36E6200E447DF /* AppChallengeStatusReceiver.swift */,
+				A55948A12AA36EDB00E447DF /* Transaction3dsStatus.swift */,
+				A55948A32AA36F2F00E447DF /* StatusView.swift */,
+			);
+			path = Netcetera;
+			sourceTree = "<group>";
+		};
 		A56FEFFD2A42A4E600AE8E7E /* BuyNowPayLater */ = {
 			isa = PBXGroup;
 			children = (
@@ -1623,11 +1694,11 @@
 			path = Capture;
 			sourceTree = "<group>";
 		};
-		D96F282A842265BC4AB41241 /* Frameworks */ = {
+		DA2CAD3E1CDBD52882CFFA05 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				650520B915FF8897EC1F1768 /* Pods_GlobalPayments_iOS_SDK_Example.framework */,
-				6553D79D618AA4E0206C383D /* Pods_GlobalPayments_iOS_SDK_Tests.framework */,
+				7DC5C2F96F3C66EEBD9C2B72 /* Pods_GlobalPayments_iOS_SDK_Example.framework */,
+				90D0D6CD4FB035B4211807F1 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1639,18 +1710,22 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GlobalPayments-iOS-SDK_Example" */;
 			buildPhases = (
-				65E0F4100E85FFC359FE2F30 /* [CP] Check Pods Manifest.lock */,
+				64471ED5EE95215166857336 /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
-				449BD73F4B949C25FBC635B4 /* [CP] Embed Pods Frameworks */,
 				8213E3EF25B868F40091C131 /* Swiftlint */,
+				11B5DEAA2BF91B50B825AE90 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "GlobalPayments-iOS-SDK_Example";
+			packageProductDependencies = (
+				A559488B2AA3610D00E447DF /* ThreeDS_SDK */,
+				A559488E2AA361E800E447DF /* GirdersSwift */,
+			);
 			productName = "GlobalPayments-iOS-SDK";
 			productReference = 607FACD01AFB9204008FA782 /* GlobalPayments-iOS-SDK_Example.app */;
 			productType = "com.apple.product-type.application";
@@ -1659,11 +1734,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GlobalPayments-iOS-SDK_Tests" */;
 			buildPhases = (
-				226AA0C242E4A6152953F835 /* [CP] Check Pods Manifest.lock */,
+				0F1B97E5F802D45D9CE09F57 /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
-				14A44943F109EC691F814D5A /* [CP] Embed Pods Frameworks */,
+				583321DD48F52CBBB24C2D0D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1707,6 +1782,10 @@
 				Base,
 			);
 			mainGroup = 607FACC71AFB9204008FA782;
+			packageReferences = (
+				A559488A2AA3610D00E447DF /* XCRemoteSwiftPackageReference "SPM" */,
+				A559488D2AA361E800E447DF /* XCRemoteSwiftPackageReference "GirdersSwift" */,
+			);
 			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1742,11 +1821,15 @@
 				82EC191725766E5B00A93A3C /* PaymentMethodView.xib in Resources */,
 				A5FC781B2A6C78C500BBD524 /* Products.storyboard in Resources */,
 				82A9F79C2578F2FD00B8962D /* PaymentMethodResultView.xib in Resources */,
+				A50B0D0F2A9E227000C1A88E /* index.html in Resources */,
+				A50B0D0E2A9E227000C1A88E /* script.js in Resources */,
 				8244D6A0255D76D800739364 /* GlobalPay.storyboard in Resources */,
 				A5FC782F2A6DB7C400BBD524 /* ProductTableViewCell.xib in Resources */,
 				A5FC781E2A6C84A600BBD524 /* Customer.storyboard in Resources */,
 				8253FBB72563E90C00FBDCC9 /* AccessToken.storyboard in Resources */,
 				A56FF00A2A42A52B00AE8E7E /* BuyNowPayLater.storyboard in Resources */,
+				A50B0CFC2A9E140E00C1A88E /* HostedFields.storyboard in Resources */,
+				A50B0D072A9E215D00C1A88E /* HostedFieldsView.xib in Resources */,
 				A59A6D9F2A892CFF008DB43C /* OpenBanking.storyboard in Resources */,
 				821420A225935CFA003EA8DF /* DocumentPickerView.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
@@ -1754,6 +1837,7 @@
 				A57EB63029C9F647001C4AD9 /* UserView.xib in Resources */,
 				8253FBB02563DB5B00FBDCC9 /* ErrorView.xib in Resources */,
 				822FBF0425810C3900D12353 /* DepositTableViewCell.xib in Resources */,
+				A50B0D132A9E264B00C1A88E /* HostedFieldsWebView.storyboard in Resources */,
 				A59667F029F8B5B000EE816D /* PayLink.storyboard in Resources */,
 				A5FC78462A72BA9100BBD524 /* CaptureBnpl.storyboard in Resources */,
 				8200B19E25939DA600042357 /* Configuration.storyboard in Resources */,
@@ -1777,25 +1861,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		14A44943F109EC691F814D5A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GlobalPayments-iOS-SDK/GlobalPayments_iOS_SDK.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GlobalPayments_iOS_SDK.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		226AA0C242E4A6152953F835 /* [CP] Check Pods Manifest.lock */ = {
+		0F1B97E5F802D45D9CE09F57 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1817,7 +1883,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		449BD73F4B949C25FBC635B4 /* [CP] Embed Pods Frameworks */ = {
+		11B5DEAA2BF91B50B825AE90 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1835,7 +1901,25 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		65E0F4100E85FFC359FE2F30 /* [CP] Check Pods Manifest.lock */ = {
+		583321DD48F52CBBB24C2D0D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GlobalPayments-iOS-SDK/GlobalPayments_iOS_SDK.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GlobalPayments_iOS_SDK.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		64471ED5EE95215166857336 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1909,6 +1993,7 @@
 				823EDBFF256D416D009DED23 /* TransactionOperationsBuilder.swift in Sources */,
 				826695E82566CA8E003D6FFE /* DatePicker.swift in Sources */,
 				82B82EEF263ABD9C008B448D /* AuthenticationsBuilder.swift in Sources */,
+				A50B0D112A9E256E00C1A88E /* HostedFieldsWebViewController.swift in Sources */,
 				821420532591FC3C003EA8DF /* DisputeListFormViewController.swift in Sources */,
 				823EDC26256D7C23009DED23 /* TransactionOperationType.swift in Sources */,
 				82A9F7832577ABB300B8962D /* PaymentOperationFormViewController.swift in Sources */,
@@ -1916,6 +2001,7 @@
 				82EC19092576467700A93A3C /* PaymentMethodReportViewModel.swift in Sources */,
 				8200B1AF2594D21100042357 /* GlobalPayViewModel.swift in Sources */,
 				8244D6F825629C0400739364 /* AccessTokenFormViewController.swift in Sources */,
+				A55948922AA362B200E447DF /* InitializationUseCase.swift in Sources */,
 				8214208325925492003EA8DF /* OperationType.swift in Sources */,
 				A57EB61D29C629DC001C4AD9 /* MerchantAddressPath.swift in Sources */,
 				822FBF202582799F00D12353 /* DepositsListForm.swift in Sources */,
@@ -1932,8 +2018,10 @@
 				8253FBCC2563EDDA00FBDCC9 /* TransactionModel.swift in Sources */,
 				8264A011258BBEDB00E1144F /* DisputeReportBuilder.swift in Sources */,
 				82EC191225765C3A00A93A3C /* PaymentMethodByIDViewController.swift in Sources */,
+				A50B0D022A9E143D00C1A88E /* HostedFieldsViewModel.swift in Sources */,
 				8264A01E258CAD6800E1144F /* DisputeDocumentFormBuilder.swift in Sources */,
 				82EC19012576466300A93A3C /* PaymentMethodReportBuilder.swift in Sources */,
+				A50B0D152A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift in Sources */,
 				A5FC78192A6C787200BBD524 /* ProductsBuilder.swift in Sources */,
 				A56FF00B2A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift in Sources */,
 				826695E42566CA71003D6FFE /* DropDown.swift in Sources */,
@@ -1952,6 +2040,7 @@
 				8253FBFE25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift in Sources */,
 				8214207525924CBD003EA8DF /* DisputesOperationsForm.swift in Sources */,
 				82A9F7962578F2F700B8962D /* PaymentMethodResultView.swift in Sources */,
+				A55948A42AA36F2F00E447DF /* StatusView.swift in Sources */,
 				82883A822580E66A00914499 /* DepositsViewModel.swift in Sources */,
 				8214207025924B51003EA8DF /* DisputesOperationsViewModel.swift in Sources */,
 				82EC18E82575319300A93A3C /* PaymentMethodsViewController.swift in Sources */,
@@ -1965,6 +2054,7 @@
 				82B82F07263AC9F0008B448D /* CheckAvailabilityFormViewController.swift in Sources */,
 				30B3DE68299D31DF00FCEF48 /* AchChargeFormViewController.swift in Sources */,
 				A5FC782C2A6DB57900BBD524 /* RadioButton.swift in Sources */,
+				A55948942AA362CE00E447DF /* InitializationUseCaseImplementation.swift in Sources */,
 				82649FFA258BA3BB00E1144F /* DisputesModel.swift in Sources */,
 				822FBEF92581059000D12353 /* DepositByIDForm.swift in Sources */,
 				82EC19052576466C00A93A3C /* PaymentMethodReportViewController.swift in Sources */,
@@ -1973,11 +2063,13 @@
 				822FBF14258263B200D12353 /* DepositsListFormViewController.swift in Sources */,
 				A59A6DA92A893FCF008DB43C /* SepaFormViewController.swift in Sources */,
 				82A9F7A02578F8E300B8962D /* PaymentMethodResultModel.swift in Sources */,
+				A55948A02AA36E6200E447DF /* AppChallengeStatusReceiver.swift in Sources */,
 				A57EB60D29C3B5E8001C4AD9 /* CreateMerchantViewController.swift in Sources */,
 				82A9F7702577A32E00B8962D /* PaymentMethodOperationsBuilder.swift in Sources */,
 				8259A3582562CB6C00652BB7 /* UITextFieldExtensions.swift in Sources */,
 				8253FBE325642B5600FBDCC9 /* TransactionListFormViewController.swift in Sources */,
 				A57EB62129C93CE9001C4AD9 /* MerchantStatisticsBuilder.swift in Sources */,
+				A55948962AA3649400E447DF /* AppBootstraper.swift in Sources */,
 				8244D6C3255E98D400739364 /* AccessTokenViewController.swift in Sources */,
 				8214207F25924D5E003EA8DF /* DisputesOperationsFormViewController.swift in Sources */,
 				A57EB62329C93CF6001C4AD9 /* MerchantStatisticsViewController.swift in Sources */,
@@ -1987,6 +2079,7 @@
 				8264A019258BBF2400E1144F /* DisputeReportViewController.swift in Sources */,
 				A59667EC29F6AD4C00EE816D /* PayLinkViewController.swift in Sources */,
 				8264A004258BA44B00E1144F /* DisputesBuilder.swift in Sources */,
+				A50B0D002A9E142E00C1A88E /* HostedFieldsBuilder.swift in Sources */,
 				8253FC0B256531E000FBDCC9 /* TransactionSummaryTableViewCell.swift in Sources */,
 				82A5183D256593FF00E14F76 /* DateExtensions.swift in Sources */,
 				A59667EE29F6ADB900EE816D /* PayLinkViewModel.swift in Sources */,
@@ -2034,6 +2127,7 @@
 				8249188C2590E55900A7566E /* DisputeDocumentViewController.swift in Sources */,
 				8214206C259249F3003EA8DF /* DisputesOperationsViewController.swift in Sources */,
 				823EDC0C256D50B4009DED23 /* TransactionOperationsForm.swift in Sources */,
+				A50B0CFE2A9E142000C1A88E /* HostedFieldsViewController.swift in Sources */,
 				82B82EE7263ABD84008B448D /* AuthenticationsViewModel.swift in Sources */,
 				8249189A2590F2EE00A7566E /* DocumentTableViewCell.swift in Sources */,
 				A59A6DA12A892D0F008DB43C /* OpenBankingViewModel.swift in Sources */,
@@ -2050,6 +2144,7 @@
 				8258B130255C1ECB00D02721 /* Theme.swift in Sources */,
 				A57EB61B29C49C38001C4AD9 /* MerchantAddressViewController.swift in Sources */,
 				8214205725921C3F003EA8DF /* CardBrand.swift in Sources */,
+				A50B0D042A9E1C8D00C1A88E /* HostedFieldsWebView.swift in Sources */,
 				A57EB62929C9DBBE001C4AD9 /* MerchantProductsViewController.swift in Sources */,
 				A59A6DA52A892D28008DB43C /* OpenBankingBuilder.swift in Sources */,
 				A5FC78242A6C851E00BBD524 /* CustomerViewModel.swift in Sources */,
@@ -2060,6 +2155,7 @@
 				826695EC2566CEFB003D6FFE /* TransactionListForm.swift in Sources */,
 				82EC190E25765C3200A93A3C /* PaymentMethodByIDBuilder.swift in Sources */,
 				A59668032A0BB46700EE816D /* PaypalViewController.swift in Sources */,
+				A55948A22AA36EDB00E447DF /* Transaction3dsStatus.swift in Sources */,
 				82E6BDB2258CE38400908C36 /* DisputeByIDFormBuilder.swift in Sources */,
 				82883A782580E65100914499 /* DepositsBuilder.swift in Sources */,
 				A57EB60F29C3B5F6001C4AD9 /* MerchantViewController.swift in Sources */,
@@ -2262,21 +2358,25 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D967F781B7EDA086B664CC6 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */;
+			baseConfigurationReference = 471334F4E4DE2B0B12868ED3 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "GlobalPayments-iOS-SDK_Example.entitlements";
 				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				INFOPLIST_FILE = "GlobalPayments-iOS-SDK/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gpapi.sandbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2287,14 +2387,17 @@
 		};
 		607FACF11AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25872CCBB9B9D3BAA3E1C009 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */;
+			baseConfigurationReference = 12FCDF9A52C8E3AC5E0255D3 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "GlobalPayments-iOS-SDK_Example.entitlements";
 				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				INFOPLIST_FILE = "GlobalPayments-iOS-SDK/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gpapi.sandbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2305,7 +2408,7 @@
 		};
 		607FACF31AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 37187487A0802F473CB34DD9 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */;
+			baseConfigurationReference = 4279CF811959CCC89A73264A /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2317,7 +2420,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -2328,7 +2435,7 @@
 		};
 		607FACF41AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A3321008DB1409EE8F482E4A /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */;
+			baseConfigurationReference = 23CEF1A2AD2CCB5511559AF7 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2336,7 +2443,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -2376,6 +2487,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A559488A2AA3610D00E447DF /* XCRemoteSwiftPackageReference "SPM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ios-3ds-sdk/SPM.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		A559488D2AA361E800E447DF /* XCRemoteSwiftPackageReference "GirdersSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/netceteragroup/GirdersSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A559488B2AA3610D00E447DF /* ThreeDS_SDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A559488A2AA3610D00E447DF /* XCRemoteSwiftPackageReference "SPM" */;
+			productName = ThreeDS_SDK;
+		};
+		A559488E2AA361E800E447DF /* GirdersSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A559488D2AA361E800E447DF /* XCRemoteSwiftPackageReference "GirdersSwift" */;
+			productName = GirdersSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 607FACC81AFB9204008FA782 /* Project object */;
 }

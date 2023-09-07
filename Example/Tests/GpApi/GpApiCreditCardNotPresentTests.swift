@@ -3,6 +3,8 @@ import GlobalPayments_iOS_SDK
 
 class GpApiCreditCardNotPresentTests: XCTestCase {
     var card: CreditCardData!
+    let amount: NSDecimalNumber = 7.8
+    let currency = "USD"
 
     override class func setUp() {
         super.setUp()
@@ -11,7 +13,10 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
             appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
             appKey: "DYcEE2GpSzblo0ib",
             channel: .cardNotPresent,
-            country: "GB"
+            country: "GB",
+            challengeNotificationUrl: "https://ensi808o85za.x.pipedream.net/",
+            methodNotificationUrl: "https://ensi808o85za.x.pipedream.net/",
+            merchantContactUrl: "https://enp4qhvjseljg.x.pipedream.net/"
             // DO NOT DELETE - usage example for some settings
             // dynamicHeaders : [
             //    "x-gp-platform" : "prestashop;version=1.7.2",
@@ -2276,7 +2281,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
             .charge(amount: 10.01)
             .withCurrency("GBP")
             .withStoredCredential(storedCredentials)
-            .withCardBrandStorage(cardTokenizedResult?.cardBrandTransactionId)
+            .withCardBrandStorage(.merchant, value: cardTokenizedResult?.cardBrandTransactionId)
             .execute {
                 chargeResult = $0
                 chargeResultError = $1
@@ -2288,6 +2293,153 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertNil(chargeResultError)
         assertTransactionResponse(transaction: chargeResult, status: .captured)
         XCTAssertNotNil(chargeResult?.cardBrandTransactionId)
+    }
+    
+    func test_credit_sale_with_stored_credentials_recurringPayment() {
+        // GIVEN
+        let tokenizeExpectation = expectation(description: "Tokenize Exception")
+        var token: String?
+        var tokenError: Error?
+
+        // WHEN
+        card.tokenize {
+            token = $0
+            tokenError = $1
+            tokenizeExpectation.fulfill()
+        }
+        
+        //THEN
+        wait(for: [tokenizeExpectation], timeout: 10.0)
+        XCTAssertNil(tokenError)
+        XCTAssertNotNil(token)
+        
+        // GIVEN
+        let secureEcomEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
+        var secureEcom: ThreeDSecure?
+        var secureEcomError: Error?
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = token
+
+        // WHEN
+        Secure3dService
+            .checkEnrollment(paymentMethod: tokenizedCard)
+            .withCurrency(currency)
+            .withAmount(amount)
+            .withAuthenticationSource(.browser)
+            .execute {
+                secureEcom = $0
+                secureEcomError = $1
+                secureEcomEnrollmentExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [secureEcomEnrollmentExpectation], timeout: 10.0)
+        XCTAssertNil(secureEcomError)
+        XCTAssertNotNil(secureEcom)
+        XCTAssertEqual("ENROLLED", secureEcom?.enrolled)
+        XCTAssertEqual(Secure3dVersion.two, secureEcom?.version)
+        XCTAssertEqual("AVAILABLE", secureEcom?.status)
+        XCTAssertNotNil(secureEcom?.issuerAcsUrl)
+        XCTAssertNotNil(secureEcom?.payerAuthenticationRequest)
+        XCTAssertNotNil(secureEcom?.challengeReturnUrl)
+        XCTAssertNotNil(secureEcom?.messageType)
+        XCTAssertNotNil(secureEcom?.sessionDataFieldName)
+        XCTAssertNil(secureEcom?.eci)
+        
+        // GIVEN
+        let initiateAuthenticationExpectation = expectation(description: "Initiate Authentication Expectation")
+        var threeDSecureInitAuthResult: ThreeDSecure?
+        var threeDSecureInitAuthError: Error?
+        let browserData = BrowserData()
+        browserData.acceptHeader = "text/html,application/xhtml+xml,application/xml;q=9,image/webp,img/apng,*/*;q=0.8"
+        browserData.colorDepth = .twentyFourBits
+        browserData.ipAddress = "123.123.123.123"
+        browserData.javaEnabled = true
+        browserData.javaScriptEnabled = true
+        browserData.language = "en"
+        browserData.screenHeight = 1920
+        browserData.screenWidth = 1080
+        browserData.challengeWindowSize = .fullScreen
+        browserData.timezone = "0"
+        browserData.userAgent = "Mozilla/5.0 (Windows NT 6.1; Win64, x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+
+        // WHEN
+        Secure3dService
+            .initiateAuthentication(paymentMethod: tokenizedCard, secureEcom: secureEcom)
+            .withAmount(amount)
+            .withCurrency(currency)
+            .withAuthenticationSource(.browser)
+            .withMethodUrlCompletion(.yes)
+            .withOrderCreateDate(Date())
+            .withBrowserData(browserData)
+            .execute {
+                threeDSecureInitAuthResult = $0
+                threeDSecureInitAuthError = $1
+                initiateAuthenticationExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [initiateAuthenticationExpectation], timeout: 200.0)
+        XCTAssertNil(threeDSecureInitAuthError)
+        XCTAssertNotNil(threeDSecureInitAuthResult)
+        XCTAssertEqual("ENROLLED", threeDSecureInitAuthResult?.enrolled)
+        XCTAssertEqual(Secure3dVersion.two, threeDSecureInitAuthResult?.version)
+        XCTAssertEqual("SUCCESS_AUTHENTICATED",threeDSecureInitAuthResult?.status)
+        XCTAssertNotNil(threeDSecureInitAuthResult?.issuerAcsUrl)
+        XCTAssertNotNil(threeDSecureInitAuthResult?.payerAuthenticationRequest)
+        XCTAssertNotNil(threeDSecureInitAuthResult?.challengeReturnUrl)
+        XCTAssertNotNil(threeDSecureInitAuthResult?.messageType)
+        XCTAssertNotNil(threeDSecureInitAuthResult?.sessionDataFieldName)
+        //GIVEN
+        let cardChargeExpectation = expectation(description: "Card Charge Expectaion")
+        var cardChargeResult: Transaction?
+        var cardChargeError: Error?
+        tokenizedCard.threeDSecure = threeDSecureInitAuthResult
+        
+        // WHEN
+        tokenizedCard.charge(amount: amount)
+            .withCurrency(currency)
+            .execute {
+                cardChargeResult = $0
+                cardChargeError = $1
+                cardChargeExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [cardChargeExpectation], timeout: 10.0)
+        XCTAssertNotNil(cardChargeResult)
+        XCTAssertNil(cardChargeError)
+        XCTAssertEqual(cardChargeResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(cardChargeResult?.responseMessage, TransactionStatus.captured.rawValue)
+        XCTAssertNotNil(cardChargeResult?.cardBrandTransactionId)
+        
+        // GIVEN
+        let chargeExpectation = expectation(description: "Charge Expectation")
+        let storedCredentials = StoredCredential(type: .recurring,
+                                                 initiator: .merchant,
+                                                 sequence: .subsequent,
+                                                 reason: .incremental)
+        var chargeResult: Transaction?
+        var chargeResultError: Error?
+
+        // WHEN
+        tokenizedCard
+            .charge(amount: amount)
+            .withCurrency(currency)
+            .withStoredCredential(storedCredentials)
+            .withCardBrandStorage(.merchant, value: cardChargeResult?.cardBrandTransactionId)
+            .execute {
+                chargeResult = $0
+                chargeResultError = $1
+                chargeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [chargeExpectation], timeout: 10.0)
+        XCTAssertNil(chargeResultError)
+        XCTAssertNotNil(chargeResult)
+        XCTAssertEqual(chargeResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(chargeResult?.responseMessage, TransactionStatus.captured.rawValue)
     }
     
     private func assertTransactionResponse(transaction: Transaction?, status: TransactionStatus) {

@@ -19,6 +19,7 @@ struct GlobalPayModel {
         case paypal
         case buyNowPayLater
         case openBanking
+        case hostedFields
     }
 }
 
@@ -34,6 +35,7 @@ extension GlobalPayModel {
             GlobalPayModel(name: "globalpay.disputes.title".localized(), path: .disputes),
             GlobalPayModel(name: "globalpay.disputes.authentications".localized(), path: .authentications),
             GlobalPayModel(name: "merchant.title.menu".localized(), path: .merchant),
+            GlobalPayModel(name: "globalpay.hosted.fields.title".localized(), path: .hostedFields),
             GlobalPayModel(name: "globalpay.digital.wallets".localized(), path: .digitalWallets),
             GlobalPayModel(name: "globalpay.ach".localized(), path: .ach),
             GlobalPayModel(name: "payLink.title".localized(), path: .payLink),

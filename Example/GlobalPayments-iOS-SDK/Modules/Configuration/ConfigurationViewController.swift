@@ -57,6 +57,9 @@ final class ConfigurationViewController: UIViewController, StoryboardInstantiabl
         challengeNotificationUrlTextField.placeholder = "configuration.challenge.notification.url".localized()
         methodNotificationUrlTextField.placeholder = "configuration.method.notification.url".localized()
         merchantContactUrlTextField.placeholder = "configuration.merchant.contact.url".localized()
+        
+        appIdTextField.text = "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs"
+        appKeyTextField.text = "FQyJA5VuEQfcji2M"
 
         hideKeyboardWhenTappedAround()
     }

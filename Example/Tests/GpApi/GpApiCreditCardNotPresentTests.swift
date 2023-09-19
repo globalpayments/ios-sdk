@@ -8,7 +8,13 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
 
     override class func setUp() {
         super.setUp()
-
+        let maskedItems = [
+            MaskedItem(value: "payment_method.card.expiry_month", start: 0, end: 0),
+            MaskedItem(value: "payment_method.card.number", start: 12, end: 0),
+            MaskedItem(value: "payment_method.card.expiry_year", start: 0, end: 0),
+            MaskedItem(value: "payment_method.card.cvv", start: 0, end: 0)
+        ]
+        
         try? ServicesContainer.configureService(config: GpApiConfig(
             appId: "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc",
             appKey: "DYcEE2GpSzblo0ib",
@@ -16,7 +22,8 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
             country: "GB",
             challengeNotificationUrl: "https://ensi808o85za.x.pipedream.net/",
             methodNotificationUrl: "https://ensi808o85za.x.pipedream.net/",
-            merchantContactUrl: "https://enp4qhvjseljg.x.pipedream.net/"
+            merchantContactUrl: "https://enp4qhvjseljg.x.pipedream.net/",
+            requestLogger: SampleRequestLogger(maskedItems: maskedItems)
             // DO NOT DELETE - usage example for some settings
             // dynamicHeaders : [
             //    "x-gp-platform" : "prestashop;version=1.7.2",

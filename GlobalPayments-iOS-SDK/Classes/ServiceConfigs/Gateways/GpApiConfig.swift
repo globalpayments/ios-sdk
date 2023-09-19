@@ -43,6 +43,7 @@ public class GpApiConfig: GatewayConfig {
                 merchantContactUrl: String? = nil,
                 permissions: [String]? = nil,
                 dynamicHeaders: [String: String]? = nil,
+                requestLogger: RequestLogger? = nil,
                 merchantId: String? = nil) {
 
         self.appId = appId
@@ -60,6 +61,7 @@ public class GpApiConfig: GatewayConfig {
         self.dynamicHeaders = dynamicHeaders
         self.merchantId = merchantId
         super.init(gatewayProvider: .gpAPI)
+        self.requestLogger = requestLogger
     }
 
     override func configureContainer(services: ConfiguredServices) {

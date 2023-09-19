@@ -17,6 +17,7 @@ class GpApiConnector: RestGateway {
         if let headers = gpApiConfig.dynamicHeaders {
             dynamicHeaders = headers
         }
+        self.requestLogger = gpApiConfig.requestLogger
     }
 
     func signIn(completion: @escaping ((Bool, Error?) -> Void)) {

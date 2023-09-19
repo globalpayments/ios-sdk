@@ -43,7 +43,7 @@ class Gateway {
         if method != .get && data != nil {
             request.httpBody = data?.data(using: .utf8)
             request.addValue(contentType ?? self.contentType, forHTTPHeaderField: "Content-Type")
-            requestLogger?.requestSent(request: data!)
+            requestLogger?.requestSent(request: data)
         }
 
         let task = session.dataTask(with: request,

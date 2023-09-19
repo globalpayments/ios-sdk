@@ -4,6 +4,12 @@
 
 #### Enhancements
 
+- GP-API: Add request logger sensitive data masked
+
+## 1.2.21 (7/09/2023)
+
+#### Enhancements
+
 - GP-API: Add recurring payments feature
 - [DemoApp]: Recurring payments with Hosted Fields library and 3DS flow
 

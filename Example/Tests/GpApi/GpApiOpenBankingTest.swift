@@ -8,11 +8,23 @@ final class GpApiOpenBankingTest: XCTestCase {
 
     override class func setUp() {
         super.setUp()
+        
+        let maskedItems = [
+            MaskedItem(value: "payment_method.bank_transfer.account_number", start: 0, end: 4),
+            MaskedItem(value: "payment_method.bank_transfer.iban", start: 0, end: 4),
+            MaskedItem(value: "payment_method.card.expiry_month", start: 0, end: 0),
+            MaskedItem(value: "payment_method.card.number", start: 12, end: 0),
+            MaskedItem(value: "payment_method.card.expiry_year", start: 0, end: 0),
+            MaskedItem(value: "payment_method.card.cvv", start: 0, end: 0),
+            MaskedItem(value: "payment_method.bank_transfer.bank.code", start: 0, end: 4),
+            MaskedItem(value: "payment_method.bank_transfer.account_number", start: 0, end: 4)
+        ]
 
         try? ServicesContainer.configureService(config: GpApiConfig(
             appId: "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs",
             appKey: "FQyJA5VuEQfcji2M",
-            channel: .cardNotPresent
+            channel: .cardNotPresent,
+            requestLogger: SampleRequestLogger(maskedItems: maskedItems)
         ))
     }
     

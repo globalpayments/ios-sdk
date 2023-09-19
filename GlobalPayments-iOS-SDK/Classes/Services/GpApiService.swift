@@ -9,9 +9,15 @@ public class GpApiService {
         secondsToExpire: Int? = nil,
         intervalToExpire: IntervalToExpire? = nil,
         permissions: [String]? = nil,
+        requestLogger: RequestLogger? = nil,
         completion: @escaping (AccessTokenInfo?, Error?) -> Void) {
 
-        let config = GpApiConfig(appId: appId, appKey: appKey, secondsToExpire: secondsToExpire, intervalToExpire: intervalToExpire, permissions: permissions)
+        let config = GpApiConfig(appId: appId,
+                                 appKey: appKey,
+                                 secondsToExpire: secondsToExpire,
+                                 intervalToExpire: intervalToExpire,
+                                 permissions: permissions)
+            
         let connector = GpApiConnector(gpApiConfig: config)
         connector.timeout = 10000
         switch environment {

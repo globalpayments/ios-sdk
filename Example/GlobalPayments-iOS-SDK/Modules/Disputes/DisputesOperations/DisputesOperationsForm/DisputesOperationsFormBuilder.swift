@@ -2,10 +2,9 @@ import UIKit
 
 struct DisputesOperationsFormBuilder {
 
-    static func build(with delegate: DisputesOperationsFormDelegate) -> UIViewController {
-        let module = DisputesOperationsFormViewController.instantiate()
-        module.delegate = delegate
-
-        return UINavigationController(rootViewController: module)
+    static func build() -> UIViewController {
+        let module = DisputesOperationsFormViewController()
+        module.viewModel = DisputesOperationsFormViewModel()
+        return module
     }
 }

@@ -4,8 +4,9 @@ final class DatePicker: UIDatePicker {
 
     private weak var pickerTextField: UITextField?
     private var selectionHandler: ((String) -> Void)?
+    private var dateFormatter: DateFormatter?
 
-    init(dropdownField: UITextField, inputDate: Date) {
+    init(dropdownField: UITextField, inputDate: Date, format: String? = nil) {
         self.pickerTextField = dropdownField
         super.init(frame: .zero)
         datePickerMode = .date
@@ -39,8 +40,16 @@ final class DatePicker: UIDatePicker {
         downArrow.widthAnchor.constraint(equalToConstant: 20).isActive = true
         dropdownField.rightView = downArrow
         dropdownField.rightViewMode = .always
+        
+        if let format = format {
+            dateFormatter = DateFormatter()
+            dateFormatter?.dateFormat = format
 
-        pickerTextField?.text = "\(self.date)"
+            let formattedDate = dateFormatter?.string(from: self.date)
+            pickerTextField?.text = formattedDate
+        }else {
+            pickerTextField?.text = "\(self.date)"
+        }
     }
 
     convenience init(dropdownField: UITextField, inputDate: Date, onSelect: ((String) -> Void)?) {
@@ -53,7 +62,7 @@ final class DatePicker: UIDatePicker {
     }
 
     @objc private func onDoneAction() {
-        pickerTextField?.text = "\(self.date)"
+        pickerTextField?.text = dateFormatter?.string(from: self.date) ?? "\(self.date)"
         pickerTextField?.resignFirstResponder()
     }
 
@@ -67,6 +76,6 @@ final class DatePicker: UIDatePicker {
     }
 
     @objc private func onDateChanged() {
-        pickerTextField?.text = "\(self.date)"
+        pickerTextField?.text = dateFormatter?.string(from: self.date) ?? "\(self.date)"
     }
 }

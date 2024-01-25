@@ -2,10 +2,9 @@ import UIKit
 
 struct TransactionListFormBuilder {
 
-    static func build(with delegate: TransactionListFormDelegate) -> UIViewController {
-        let module = TransactionListFormViewController.instantiate()
-        module.delegate = delegate
-
-        return UINavigationController(rootViewController: module)
+    static func build() -> UIViewController {
+        let module = TransactionListFormViewController()
+        module.viewModel = TransactionListFormViewModel()
+        return module
     }
 }

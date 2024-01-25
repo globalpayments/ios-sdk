@@ -7,4 +7,5 @@ struct AccessTokenForm {
     let secondsToExpire: Int?
     let environment: Environment
     let interval: IntervalToExpire
+    var permissions: [String]
 }

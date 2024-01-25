@@ -1,62 +1,49 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-final class AccessTokenViewController: UIViewController, StoryboardInstantiable {
+final class AccessTokenViewController: BaseViewController<AccessTokenViewModel> {
 
-    static let storyboardName = "AccessToken"
-
-    var viewModel: AccessTokenInput!
-
-    @IBOutlet private weak var createTokenButton: UIButton!
-    @IBOutlet private weak var supportView: UIView!
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupUI()
+    private lazy var customView = {
+        let view = AccessTokenDataView()
+        view.delegateView = self
+        view.delegate = self
+        return view
+    }()
+    
+    override func loadView() {
+        view = customView
     }
 
-    private func setupUI() {
-        title = "access.token.title".localized()
-        createTokenButton.apply(style: .globalPayStyle, title: "access.token.create".localized())
-        activityIndicator.stopAnimating()
-    }
-
-    @IBAction func onCreateToken() {
-        let form = AccessTokenFormBuilder.build(delegate: self)
-        navigationController?.present(form, animated: true, completion: nil)
-    }
-}
-
-// MARK: - AccessTokenOutput
-
-extension AccessTokenViewController: AccessTokenOutput {
-
-    func showTokenView(token: AccessTokenInfo) {
-        activityIndicator.stopAnimating()
-        let tokenView = AccessTokenView.instantiateFromNib()
-        tokenView.setTokenInfo(token)
-        supportView.addSubview(tokenView)
-        tokenView.bindFrameToSuperviewBounds()
-    }
-
-    func showErrorView(error: Error?) {
-        activityIndicator.stopAnimating()
-        let errorView = ErrorView.instantiateFromNib()
-        errorView.display(error)
-        supportView.addSubview(errorView)
-        errorView.bindFrameToSuperviewBounds()
+    override func fillUI() {
+        super.fillUI()
+        viewModel?.initPermissions.bind { [weak self] permissions in
+            self?.customView.setPermissions(permissions)
+        }
+        viewModel?.validateCreateAccessButton.bind { [weak self] enableButton in
+            self?.customView.enableCreateAccessButton(enableButton)
+        }
+        viewModel?.showLoading.bind { [weak self] in
+            self?.customView.showLoading(true)
+        }
+        viewModel?.hideLoading.bind { [weak self] in
+            self?.customView.showLoading(false)
+        }
+        
+        viewModel?.showDataResponse.bind { [weak self] type, data in
+            self?.customView.setResponseData(type, data: data)
+            self?.customView.toBottomView()
+        }
+        customView.setDefaultData()
     }
 }
 
-// MARK: - AccessTokenFormDelegate
-
-extension AccessTokenViewController: AccessTokenFormDelegate {
-
-    func onComletedForm(form: AccessTokenForm) {
-        activityIndicator.startAnimating()
-        viewModel.createToken(from: form)
-        supportView.clearSubviews()
+extension AccessTokenViewController: AccessTokenDataDelegate {
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        viewModel?.fieldDataChanged(value: value, type: type)
+    }
+    
+    func createAccessTokenAction() {
+        viewModel?.createToken()
     }
 }

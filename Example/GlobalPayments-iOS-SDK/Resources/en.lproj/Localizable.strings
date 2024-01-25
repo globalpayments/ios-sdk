@@ -24,6 +24,10 @@
 "globalpay.digital.wallets" = "Digital Wallets";
 "globalpay.apple.pay" = "Apple Pay";
 "globalpay.ach" = "Ach";
+"globalpay.paylink.title" = "Pay By Link";
+"globalpay.ach.title" = "ACH";
+"globalpay.ach.configuration.title" = "Configuration\nACH";
+"globalpay.ebt.title" = "EBT";
 
 "access.token.title" = "Access Token";
 "access.token.create" = "Create Access Token";
@@ -174,6 +178,7 @@
 "payment.operation.form.title" = "Payment Method Parameters";
 "payment.operation.form.submit" = "Submit";
 "payment.operation.form.payment.operation" = "Payment Operation:";
+"payment.operation.form.payment.token.usage.mode" = "Token usage mode:";
 "payment.operation.form.payment.method.id" = "Payment Method ID:";
 "payment.operation.form.payment.method.id.placeholder" = "Enter Payment Method ID";
 "payment.operation.form.payment.method.id.alert" = "Enter Payment Method ID obtained from tokenization step";
@@ -319,22 +324,24 @@
 "document.picker.view.add.document" = "Add Document";
 "document.picker.view.clear" = "Clear & Close";
 
-"configuration.title" = "GP API Configuration";
+"configuration.title" = "Configuration";
 "configuration.app.id" = "App ID (required)";
 "configuration.app.key" = "App Key (required)";
 "configuration.seconds.to.expire" = "Seconds To Expire (optional)";
 "configuration.interval.to.expire" = "Interval To Expire (optional)";
 "configuration.channel" = "Channel (required)";
-"configuration.language" = "Language (optional)";
-"configuration.country" = "Country (optional)";
+"configuration.language" = "Language:";
+"configuration.country" = "Country:";
 "configuration.save" = "Save Configuration";
 "configuration.app.id.message" = "Applicatoin ID field is required";
 "configuration.app.key.message" = "Applicatoin Key field is required";
 "configuration.channel.message" = "Channel field is required";
-"configuration.challenge.notification.url" = "Challenge Notification URL (optional)";
-"configuration.method.notification.url" = "Method Notification URL (optional)";
-"configuration.merchant.contact.url" = "Merchant Contact URL (optional)";
+"configuration.challenge.notification.url" = "Challenge Notification URL:";
+"configuration.method.notification.url" = "Method Notification URL:";
+"configuration.merchant.contact.url" = "Merchant Contact URL:";
 "configuration.merchant.id" = "Acccount names are required";
+"configuration.transaction.proccesing" = "Transaction Proccesing:";
+"configuration.tokenization" = "Tokenization:";
 
 // MARK: - Authentications
 
@@ -403,12 +410,14 @@
 "ach.title" = "ACH";
 "ach.charge" = "Charge";
 "ach.refund" = "Refund";
+"ach.authorize" = "Authorize";
 
 "payLink.title" = "PayLink";
 "paypal.title" = "Paypal";
 "paypal.title.button" = "pay with Paypal";
 "buyNowPayLater.title" = "Buy now pay later";
 "customer.create.title.button" = "Create customer";
+"customer.title" = "Customer";
 "products.select.title.button" = "Select products";
 "buyNowPayLater.capture.title.button" = "Capture";
 "buyNowPayLater.reverse.title.button" = "Reverse";
@@ -437,4 +446,103 @@
 "globalpay.hosted.fields.title" = "Hosted fields";
 
 "text.mock" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non scelerisque sapien. Etiam nisi sem, tempus at ligula a, porta lacinia tortor. Quisque suscipit tortor id tellus lobortis suscipit.";
+
+"home.title" = "Unified Payments\niOS Demo";
+"home.prefixSubTitle" = "Welcome!";
+"home.subTitle" = " Browse and interact with the demos below to see how payment processing is performed in an iOS app.";
+
+"home.process.payment.title" = "Process a Payment";
+"home.expand.integration.title" = "Expand Your Integration";
+"home.reporting.title" = "Reporting";
+"home.old.menu.title" = "Old Menu";
+
+"home.process.payment.description" = "Create a Transaction, Hosted Fields, Digital Wallets, ACH, EBT";
+"home.expand.integration.description" = "Store Cards, Verifications, Dispute Operations, Batches";
+"home.reporting.description" = "Transactions, Deposits, Disputes, Payment Methods and Actions";
+
+"home.create.token.description" = "Get started by first creating an access token.";
+"home.create.token.description.long" = "Using your app credentials, send a request to create a bearer access token that can be used to execute subsequent API actions. You create an app on the Dev Portal to get your credentials.";
+"home.create.token.permissions.label" = "Permissions";
+
+"payment.process.hosted.fields.description" = "Embed a hosted payment form.";
+
+"payment.process.unified.payments.title" = "Unified Payments API";
+"payment.process.unified.payments.description" = "Process payments through our API.";
+
+"payment.process.apple.pay.description" = "Process payments via ApplePay.";
+"payment.process.paypal.description" = "Process payments using PayPal.";
+"payment.process.paylink.description" = "Process payments using PayByLink.";
+"payment.process.ach.description" = "Send an electronic funds transfer.";
+"payment.process.ebt.description" = "Send an electronic benefits transfer.";
+"payment.process.bnpl.description" = "Provide a flexible payment option that can";
+
+"hosted.fields.payment.amount.title" = "Payment Amount";
+"hosted.fields.amount.authorize.title" = "Amount to authorize";
+"hosted.fields.description" = "Hosted Fields provides the most flexibility to the checkout experience while still adhering to the minimum PCI DSS requirements.";
+
+"unified.payments.card.expiration.date" = "Card Expiration Date:";
+
+"payment.process.paylink.button.tittle" = "GET LINK TO PAY";
+"payment.process.description.tittle" = "Description";
+"payment.process.expiration.date.tittle" = "Expiration Date";
+"payment.process.usage.mode.tittle" = "Usage Mode";
+"payment.process.usage.limit.tittle" = "Usage Limit";
+
+"ebt.pin.block.title" = "Pin Block";
+"bnpl.account.type.title" = "Account type";
+"bnpl.products.title" = "Products";
+"bnpl.billing.address.title" = "Billing Address:";
+"bnpl.shipping.address.title" = "Shipping Address:";
+"bnpl.shipping.phone.number.title" = "Phone Number:";
+
+"expand.stored.payment.methods.title" = "Stored Payment Methods";
+"expand.verifications.title" = "Verifications";
+"expand.dispute.operations.title" = "Dispute Operations";
+"expand.batches.title" = "Batches";
+"expand.edit.account.title" = "Edit Account";
+
+"expand.stored.payment.methods.description" = "Initiate a payment method operation.";
+"expand.verifications.description" = "Initiate a verification.";
+"expand.dispute.operations.description" = "Accept or challenge a dispute.";
+"expand.batches.description" = "Close a batch.";
+"expand.batches.close.button.title" = "Close batch";
+"expand.edit.account.description" = "Edit merchant's account configuration.";
+"expand.stored.payment.methods.enable.fingerprint" = "Enable fingerprint?";
+"expand.stored.payment.methods.fingerprint.mode" = "Fingerprint usage mode:";
+
+"reporting.payment.methods.title" = "Payment Methods";
+"reporting.actions.title" = "Actions";
+"reporting.disputes.title" = "Disputes";
+"reporting.accounts.title" = "Accounts";
+
+"reporting.transactions.description" = "Get a single or list of transactions.";
+"reporting.deposits.description" = "Get a single or list of deposits.";
+"reporting.payment.methods.description" = "Get a single or list of payment methods.";
+"reporting.actions.description" = "Get a single or list of actions.";
+"reporting.disputes.description" = "Get a single or list of disputes or documents.";
+"reporting.accounts.description" = "Get a single or list of accounts.";
+
+"reporting.transaction.view.title" = "Get transactions";
+"reporting.transaction.view.button.title" = "Get Transactions By Id";
+
+
+"reporting.deposits.view.title" = "Get Deposits";
+"reporting.deposits.view.id.title" = "Deposit ID:";
+"reporting.more.fields.button.title" = "More Fields";
+"reporting.fewer.fields.button.title" = "Fewer Fields";
+
+"reporting.payment.methods.from.time.last.updated" = "From Time Last Updated:";
+"reporting.payment.methods.to.time.last.updated" = "To Time Last Updated:";
+"reporting.payment.methods.button.title" = "Get Payment Methods";
+
+"reporting.actions.id.label" = "Action Id:";
+"reporting.actions.get.action.by.id.button" = "Get Action By Id";
+
+"reporting.disputes.view.title" = "Get Disputes";
+"reporting.disputes.id.label" = "Dispute Id:";
+"reporting.disputes.get.action.by.id.button" = "Get Dispute By Id";
+
+"reporting.account.id.label" = "Account Id:";
+"reporting.account.get.account.id.button" = "Get Account By Id";
+"reporting.account.get.accounts.list.button" = "Get Accounts";
 

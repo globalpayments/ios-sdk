@@ -8,6 +8,9 @@ class RadioButton: UIControl {
         }
     }
     
+    var unselectedImage: UIImage = #imageLiteral(resourceName: "ic_check_box_unselected")
+    var selectedImage: UIImage = #imageLiteral(resourceName: "ic_selected")
+    
     var borderColor: UIColor = .black {
         didSet {
             layer.borderColor = (isOn ? selectedColor : borderColor).cgColor

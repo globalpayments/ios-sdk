@@ -31,4 +31,32 @@ extension UIView {
             return self.layer.cornerRadius
         }
     }
+    
+    func setOnClickListener(action:@escaping () -> Void){
+        self.isUserInteractionEnabled = true
+        let tapRecogniser = ClickListener(target: self, action: #selector(onViewClicked(sender:)))
+        tapRecogniser.onClick = action
+        self.addGestureRecognizer(tapRecogniser)
+    }
+    
+    @objc func onViewClicked(sender: ClickListener) {
+        if let onClick = sender.onClick {
+            onClick()
+        }
+    }
+    
+    func cornersBorder(borderColor: UIColor = #colorLiteral(red: 0.8565762639, green: 0.8771021962, blue: 0.9055939317, alpha: 1)) {
+        layer.cornerRadius = 4
+        layer.borderWidth = 1
+        layer.borderColor = borderColor.cgColor
+        layer.masksToBounds = true
+    }
+    
+    func setCorners(_ radius: CGFloat) {
+        cornerRadius = radius
+    }
+}
+
+class ClickListener: UITapGestureRecognizer {
+    var onClick : (() -> Void)? = nil
 }

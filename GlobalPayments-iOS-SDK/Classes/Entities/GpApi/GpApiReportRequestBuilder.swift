@@ -12,6 +12,8 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             case .findMerchantsPaged:
                 var params = [String: String]()
                 addPageParams(&params, builder)
+                params["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
+                params["status"] = builder.merchantStatus?.mapped(for: .gpApi)
                 return GpApiRequest(
                     endpoint: merchantUrl + GpApiRequest.Endpoints.merchant(),
                     method: .get,

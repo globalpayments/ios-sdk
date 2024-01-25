@@ -2,7 +2,7 @@ import UIKit
 
 struct AchChargeFormBuilder {
 
-    static func build(with delegate: AchChargeFormDelegate, by path: AchPath) -> UIViewController {
+    static func build(with delegate: AchChargeFormDelegate, by path: TransactionTypePath) -> UIViewController {
         let module =  AchChargeFormViewController.instantiate()
         module.path = path
         module.delegate = delegate

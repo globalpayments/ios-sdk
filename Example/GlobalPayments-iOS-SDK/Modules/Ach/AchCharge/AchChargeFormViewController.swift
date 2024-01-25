@@ -2,7 +2,7 @@ import UIKit
 import GlobalPayments_iOS_SDK
 
 protocol AchChargeFormDelegate: AnyObject {
-    func onSubmitForm(form: AchChargeForm, path: AchPath)
+    func onSubmitForm(form: AchChargeForm, path: TransactionTypePath)
 }
 
 final class AchChargeFormViewController: UIViewController, StoryboardInstantiable {
@@ -11,7 +11,7 @@ final class AchChargeFormViewController: UIViewController, StoryboardInstantiabl
     weak var delegate: AchChargeFormDelegate?
     private let defaultAmount = "10.00"
 
-    var path: AchPath = .charge
+    var path: TransactionTypePath = .charge
 
     @IBOutlet weak var amountTexField: UITextField!
     @IBOutlet weak var currencyTextField: UITextField!

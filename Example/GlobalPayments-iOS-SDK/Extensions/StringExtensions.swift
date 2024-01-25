@@ -13,4 +13,8 @@ extension String {
         dateFormatter.dateFormat = dateFormat
         return dateFormatter.date(from: self)
     }
+    
+    func toInt() -> Int {
+        return Int(self) ?? 0
+    }
 }

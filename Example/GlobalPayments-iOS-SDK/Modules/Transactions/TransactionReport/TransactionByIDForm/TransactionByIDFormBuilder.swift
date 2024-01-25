@@ -2,10 +2,9 @@ import UIKit
 
 struct TransactionByIDFormBuilder {
 
-    static func build(with delegate: TransactionByIDFormDelegate) -> UIViewController {
-        let module = TransactionByIDFormViewController.instantiate()
-        module.delegate = delegate
-
-        return UINavigationController(rootViewController: module)
+    static func build() -> UIViewController {
+        let module = TransactionByIDFormViewController()
+        module.viewModel = TransactionByIdFormViewModel()
+        return module
     }
 }

@@ -1,89 +1,55 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-final class HostedFieldsViewController: UIViewController, StoryboardInstantiable {
-
-    static var storyboardName = "HostedFields"
-
-    var viewModel: HostedFieldsViewInput!
-    weak var delegate: TokenizedCardDataDelegate?
-
-    @IBOutlet private weak var payButton: UIButton!
-    @IBOutlet private weak var supportView: UIView!
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var paymentRecurringRadioButton: RadioButton!
+final class HostedFieldsViewController: BaseViewController<HostedFieldsViewModel> {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        viewModel.onViewDidLoad()
-    }
-
-    private func setupUI() {
-        title = "globalpay.hosted.fields.title".localized()
-        hideKeyboardWhenTappedAround()
-        payButton.apply(style: .globalPayStyle, title: "openBanking.fasterPayments.title.button".localized())
-        activityIndicator.stopAnimating()
+    private lazy var customView = {
+        let view = HostedFieldsView()
+        view.delegateView = self
+        view.delegate = self
+        return view
+    }()
+    
+    override func loadView() {
+        view = customView
     }
     
-    @IBAction func onPayAction(_ sender: Any) {
-        supportView.isHidden = true
-        activityIndicator.startAnimating()
-        viewModel.createToken(paymentRecurringRadioButton.isOn)
-    }
-    
-}
-
-extension HostedFieldsViewController: HostedFieldsViewOutput {
-    func showErrorView(error: Error?) {
-        supportView.isHidden = false
-        activityIndicator.stopAnimating()
-        let errorView = ErrorView.instantiateFromNib()
-        errorView.display(error)
-        supportView.addSubview(errorView)
-        errorView.bindFrameToSuperviewBounds()
-    }
-    
-    func showTransaction(_ transaction: Transaction) {
-        supportView.isHidden = false
-        activityIndicator.stopAnimating()
-        let transactionView = TransactionView.instantiateFromNib()
-        transactionView.display(transaction)
-        supportView.addSubview(transactionView)
-        transactionView.bindFrameToSuperviewBounds()
-    }
-    
-    func tokenGenerated(token: String) {
-        activityIndicator.stopAnimating()
-        let viewController = HostedFieldsWebViewBuilder.build(token, delegate: self)
-        navigationController?.present(viewController, animated: true, completion: nil)
+    override func fillUI() {
+        super.fillUI()
+        
+        viewModel?.showLoading.bind { [weak self] in
+            self?.customView.showLoading(true)
+        }
+        
+        viewModel?.hideLoading.bind { [weak self] in
+            self?.customView.showLoading(false)
+        }
+        
+        viewModel?.tokenGenerated.bind { [weak self] token in
+            self?.customView.showHostedFields(token)
+        }
+        viewModel?.showDataResponse.bind { [weak self] type, data in
+            self?.customView.setResponseData(type, data: data)
+            self?.customView.toBottomView()
+        }
     }
 }
 
-extension HostedFieldsViewController: HostedFieldsWebViewOutput {
-    func onTokenError() {
-        supportView.isHidden = false
-        activityIndicator.stopAnimating()
+extension HostedFieldsViewController: HostedFieldsViewDelegate {
+    
+    func onHostedFieldsTokenError(_ message: String) {
+        viewModel?.onHostedFieldsTokenError(message)
+    }
+    
+    func onSubmitAction() {
+        viewModel?.onSubmitAction()
     }
     
     func onTokenizedSuccess(token: String, cardBrand: String) {
-        delegate?.tokenizedCard(token: token, cardBrand: cardBrand)
-        supportView.isHidden = false
-        activityIndicator.stopAnimating()
-        dismiss(animated: true, completion: nil)
-    }
-    
-    
-    func onSubmitAction() {
-        supportView.isHidden = true
-        activityIndicator.startAnimating()
-    }
-}
-
-extension HostedFieldsViewController: TokenizedCardDataDelegate {
-    
-    func tokenizedCard(token: String, cardBrand: String) {
-        activityIndicator.startAnimating()
         viewModel?.checkEnrollment(token, brand: cardBrand)
+    }
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        viewModel?.fieldDataChanged(value: value, type: type)
     }
 }

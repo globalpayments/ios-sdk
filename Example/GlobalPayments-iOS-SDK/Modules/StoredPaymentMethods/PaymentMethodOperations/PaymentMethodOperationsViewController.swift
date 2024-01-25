@@ -28,19 +28,8 @@ final class PaymentMethodOperationsViewController: UIViewController, StoryboardI
     // MARK: - Actions
 
     @IBAction private func onInitiatePaymentAction() {
-        let form = PaymentOperationFormBuilder.build(with: self)
+        let form = PaymentOperationFormBuilder.build()
         present(form, animated: true, completion: nil)
-    }
-}
-
-// MARK: - PaymentOperationFormDelegate
-
-extension PaymentMethodOperationsViewController: PaymentOperationFormDelegate {
-
-    func onSubmitForm(_ form: PaymentOperationForm) {
-        activityIndicator.startAnimating()
-        viewModel.performOperation(from: form)
-        supportView.clearSubviews()
     }
 }
 

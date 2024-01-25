@@ -17,6 +17,8 @@ class GpApiActionsReportTests: XCTestCase {
             XCTFail("actionId cannot be nil")
             return
         }
+        
+        print(actionId)
 
         // GIVEN
         let executeExpectation = expectation(description: "Execute Expectation")

@@ -1,38 +1,32 @@
 import Foundation
 
-protocol ConfigurationViewInput {
-    func onViewDidLoad()
-    func saveConfig(_ config: Config)
-}
-
-protocol ConfigurationViewOutput: class {
-    func displayConfig(_ config: Config)
-    func displayError(_ error: Error)
-    func closeModule()
-}
-
-final class ConfigurationViewModel: ConfigurationViewInput {
-
-    weak var view: ConfigurationViewOutput?
-
+final class ConfigurationViewModel: BaseViewModel {
+    
     private let configuration: Configuration
+    var initConfig: Dynamic<Config?> = Dynamic(nil)
+    var configUpdated: Dynamic<Void> = Dynamic(())
+    private lazy var useCase = ConfigurationUseCase()
 
     init(configuration: Configuration) {
         self.configuration = configuration
     }
 
-    func onViewDidLoad() {
+    override func viewDidLoad() {
         if let config = configuration.loadConfig() {
-            view?.displayConfig(config)
+            initConfig.value = config
         }
     }
-
-    func saveConfig(_ config: Config) {
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        useCase.fieldDataChanged(value: value, type: type)
+    }
+    
+    func saveConfiguration(){
         do {
+            let config = useCase.getConfig()
             try configuration.saveConfig(config)
-            view?.closeModule()
+            configUpdated.executer()
         } catch {
-            view?.displayError(error)
         }
     }
 }

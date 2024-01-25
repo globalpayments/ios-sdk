@@ -3,7 +3,7 @@ import WebKit
 
 protocol HostedFieldsWebViewOutput: NSObject {
     func onSubmitAction()
-    func onTokenError()
+    func onTokenError(_ message: String)
     func onTokenizedSuccess(token: String, cardBrand: String)
 }
 
@@ -76,7 +76,6 @@ final class HostedFieldsWebView: UIView {
         webViewConfig.userContentController = userContentController
         
         webView = WKWebView(frame: bounds, configuration: webViewConfig)
-        webView?.backgroundColor = .white
         webView?.navigationDelegate = self
         if #available(iOS 16.4, *) {
             webView?.isInspectable = true
@@ -124,11 +123,9 @@ extension HostedFieldsWebView: WKNavigationDelegate {
             return
         }
         
-        UI {
-            let exceptions = SecTrustCopyExceptions(serverTrust)
-            SecTrustSetExceptions(serverTrust, exceptions)
-            completionHandler(.useCredential, URLCredential(trust: serverTrust))
-        }
+        let exceptions = SecTrustCopyExceptions(serverTrust)
+        SecTrustSetExceptions(serverTrust, exceptions)
+        completionHandler(.useCredential, URLCredential(trust: serverTrust))
     }
     
     /// Allow all requests to be loaded
@@ -157,15 +154,15 @@ extension HostedFieldsWebView: WKScriptMessageHandler {
             case "onTokenizedSuccess":
                 let token = message.body as! [String: String]
                 guard let paymentReference = token["paymentReference"], let cardType = token["cardType"] else {
-                    self.delegate?.onTokenError()
+                    self.delegate?.onTokenError("Parameters can not be null")
                     return
                 }
                 print("PaymentReference:: \(paymentReference)")
                 self.delegate?.onTokenizedSuccess(token: paymentReference, cardBrand: cardType)
                 break
             case "onTokenError":
-                print("onTokenError:: \(message.body as? String)")
-                self.delegate?.onTokenError()
+                let message = message.body as? String ?? ""
+                self.delegate?.onTokenError(message)
                 break
             default:
                 break

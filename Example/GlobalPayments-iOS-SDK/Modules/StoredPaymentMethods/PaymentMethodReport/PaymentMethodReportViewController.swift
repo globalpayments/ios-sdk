@@ -1,70 +1,38 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-final class PaymentMethodReportViewController: UIViewController, StoryboardInstantiable {
-
-    static var storyboardName = "PaymentMethods"
-
-    var viewModel: PaymentMethodReportInput!
-
-    @IBOutlet private weak var paymentsListButton: UIButton!
-    @IBOutlet private weak var paymentByIdButton: UIButton!
-    @IBOutlet private weak var supportView: UIView!
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupUI()
+final class PaymentMethodReportViewController: BaseViewController<BaseViewModel> {
+    
+    private lazy var pageViewController = ReportingPageViewController()
+    
+    private lazy var customView = {
+        let view = GpBaseReportingView()
+        view.title = "globalpay.payment.methods.title".localized()
+        view.delegateView = self
+        view.delegate = self
+        return view
+    }()
+    
+    override func loadView() {
+        view = customView
+        viewModel = BaseViewModel()
     }
-
-    private func setupUI() {
-        title = "payment.methods.report.title".localized()
-        paymentsListButton.apply(style: .globalPayStyle, title: "payment.methods.report.list".localized())
-        paymentByIdButton.apply(style: .globalPayStyle, title: "payment.methods.report.id".localized())
-        activityIndicator.stopAnimating()
-    }
-
-    // MARK: - Actions
-
-    @IBAction private func getPaymentsListAction() {
-        showAlert(message: "payment.methods.not.implemented.title".localized())
-    }
-
-    @IBAction private func getPaymentByIdAction() {
-        let form = PaymentMethodByIDBuilder.build(with: self)
-        present(form, animated: true, completion: nil)
+    
+    override func fillUI() {
+        super.fillUI()
+        var pages: [UIViewController] = []
+        pages.append(PaymentMethodByIDBuilder.build())
+        pages.append(PaymentMethodsListBuilder.build())
+        pageViewController.setPages(pages)
+        addChild(pageViewController)
+        customView.setPageView(pageViewController.view)
+        pageViewController.didMove(toParent: self)
     }
 }
 
-// MARK: - PaymentMethodReportOutput
-
-extension PaymentMethodReportViewController: PaymentMethodReportOutput {
-
-    func showError(error: Error?) {
-        activityIndicator.stopAnimating()
-        let errorView = ErrorView.instantiateFromNib()
-        errorView.display(error)
-        supportView.addSubview(errorView)
-        errorView.bindFrameToSuperviewBounds()
-    }
-
-    func showTransaction(_ transaction: Transaction) {
-        activityIndicator.stopAnimating()
-        let transactionView = PaymentMethodView.instantiateFromNib()
-        transactionView.display(transaction)
-        supportView.addSubview(transactionView)
-        transactionView.bindFrameToSuperviewBounds()
-    }
-}
-
-// MARK: - PaymentMethodByIDDelegate
-
-extension PaymentMethodReportViewController: PaymentMethodByIDDelegate {
-
-    func onSubmitForm(paymentMethodId: String) {
-        activityIndicator.startAnimating()
-        viewModel.getPaymentMethodById(paymentMethodId)
-        supportView.clearSubviews()
+extension PaymentMethodReportViewController: ReportingControlDelegate {
+    
+    func didPageChange(_ index: PageIndex) {
+        pageViewController.currentIndex = index.rawValue
     }
 }

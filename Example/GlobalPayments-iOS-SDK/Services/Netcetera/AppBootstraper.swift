@@ -17,5 +17,9 @@ class AppBootstraper {
         Container.addPerRequest { () -> InitializationUseCase in
             InitializationUseCaseImplementation()
         }
+        
+        Container.addPerRequest{ () -> ConfigurationDataUseCase in
+            ConfigurationUseCaseImplementation()
+        }
     }
 }

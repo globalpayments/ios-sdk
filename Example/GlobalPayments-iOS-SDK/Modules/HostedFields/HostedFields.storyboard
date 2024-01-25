@@ -93,7 +93,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                                <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="rwf-WF-afL" firstAttribute="leading" secondItem="iMg-yi-jWm" secondAttribute="trailing" constant="13" id="0qN-S3-FfG"/>
                                     <constraint firstAttribute="height" constant="82" id="BKD-Sh-Wab"/>

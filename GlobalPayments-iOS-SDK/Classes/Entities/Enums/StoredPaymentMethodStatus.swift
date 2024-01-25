@@ -1,6 +1,6 @@
 import Foundation
 
-public enum StoredPaymentMethodStatus: String, Mappable {
+public enum StoredPaymentMethodStatus: String, Mappable, CaseIterable {
     case active = "ACTIVE"
 
     public init?(value: String?) {

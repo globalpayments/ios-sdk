@@ -1,22 +1,18 @@
 import Foundation
 import GlobalPayments_iOS_SDK
 
-protocol AchViewInput {
-    func doAchTransaction(from form: AchChargeForm, path: AchPath)
-}
+final class AchViewModel: BaseViewModel {
+    
+    private var useCase: AchChargeUseCase = AchChargeUseCase()
+    private var form: AchChargeForm = AchChargeForm()
+    var enableButton: Dynamic<Bool> = Dynamic(false)
 
-protocol AchViewOutput: AnyObject{
-    func showErrorView(error: Error?)
-    func showTransaction(_ transaction: Transaction)
-}
-
-final class AchViewModel: AchViewInput {
-
-    weak var view: AchViewOutput?
-
-    func doAchTransaction(from form: AchChargeForm, path: AchPath) {
+    func doAchTransaction(path: TransactionTypePath) {
+        showLoading.executer()
+        form = useCase.form
+        form.currency = "USD"
         let eCheckData = eCheck()
-
+        
         let billingAddress = Address()
         billingAddress.streetAddress1 = form.billingAddress.line1
         billingAddress.streetAddress2 = form.billingAddress.line2
@@ -57,10 +53,21 @@ final class AchViewModel: AchViewInput {
     private func showOutput(transaction: Transaction?, error: Error?) {
         UI {
             guard let transaction = transaction else {
-                self.view?.showErrorView(error: error)
+                if let error = error as? GatewayException {
+                    self.showDataResponse.value = (.error, error)
+                }
                 return
             }
-            self.view?.showTransaction(transaction)
+            self.showDataResponse.value = (.success, transaction)
         }
+    }
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        useCase.fieldDataChanged(value: value, type: type)
+        validateFields()
+    }
+    
+    private func validateFields() {
+        enableButton.value = useCase.validateFields()
     }
 }

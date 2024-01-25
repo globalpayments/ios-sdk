@@ -2,22 +2,22 @@ import Foundation
 import GlobalPayments_iOS_SDK
 
 struct DisputeListForm {
-    let page: Int
-    let pageSize: Int
-    let sortProperty: DisputeSortProperty
-    let sordOrder: SortDirection
-    let arn: String?
-    let brand: String?
-    let status: DisputeStatus?
-    let stage: DisputeStage
-    let fromStageTimeCreated: Date?
-    let toStageTimeCreated: Date?
-    let systemMID: String?
-    let systemHierarchy: String?
-    let disputeId: String?
-    let fromTimeCreated: Date?
-    let toTimeCreated: Date?
-    let source: Source
+    var page: Int = 0
+    var pageSize: Int = 0
+    var sortProperty: DisputeSortProperty?
+    var sortOrder: SortDirection?
+    var arn: String? = ""
+    var brand: String? = ""
+    var status: DisputeStatus?
+    var stage: DisputeStage?
+    var fromStageTimeCreated: Date? = Date()
+    var toStageTimeCreated: Date? = Date()
+    var systemMID: String? = ""
+    var systemHierarchy: String? = ""
+    var disputeId: String? = ""
+    var fromTimeCreated: Date? = Date()
+    var toTimeCreated: Date? = Date()
+    var source: Source = .regular
 
     enum Source {
         case settlement

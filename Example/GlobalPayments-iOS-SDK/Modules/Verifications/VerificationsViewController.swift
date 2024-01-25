@@ -26,19 +26,6 @@ final class VerificationsViewController: UIViewController, StoryboardInstantiabl
     // MARK: - Actions
 
     @IBAction private func onInitiatePaymentAction() {
-        let form = VerificationsFormBuilder.build(with: self)
-        present(form, animated: true, completion: nil)
-    }
-}
-
-// MARK: - VerificationsFormDelegate
-
-extension VerificationsViewController: VerificationsFormDelegate {
-
-    func onSubmitForm(_ form: VerificationsForm) {
-        activityIndicator.startAnimating()
-        viewModel.verifyTransaction(from: form)
-        supportView.clearSubviews()
     }
 }
 

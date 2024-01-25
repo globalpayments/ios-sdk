@@ -23,7 +23,7 @@ final class ProductsViewController: UIViewController, StoryboardInstantiable {
     
     private func setupUI() {
         hideKeyboardWhenTappedAround()
-        selectProductsButton.apply(style: .globalPayStyle, title: "products.select.title.button".localized())
+        selectProductsButton.applyFlat(style: .redesignStyle, title: "products.select.title.button".localized())
         setupTable()
         viewModel.initDataMock()
     }

@@ -25,7 +25,7 @@ final class HostedFieldsWebViewController: UIViewController, StoryboardInstantia
 
 extension HostedFieldsWebViewController: HostedFieldsWebViewOutput {
     
-    func onTokenError() {
+    func onTokenError(_ message: String) {
         supportView.isHidden = false
         activityIndicatorView.stopAnimating()
     }
@@ -36,7 +36,6 @@ extension HostedFieldsWebViewController: HostedFieldsWebViewOutput {
         activityIndicatorView.stopAnimating()
         dismiss(animated: true, completion: nil)
     }
-    
     
     func onSubmitAction() {
         supportView.isHidden = true

@@ -1,55 +1,61 @@
 # Changelog
 
-## Latest
+## Latest - v2.0.0 (01/23/2024)
+
+#### Enhancements
+
+- GP-API: Redesign Demo App and fixed minor issues
+
+## v1.2.21 (09/13/2023)
 
 #### Enhancements
 
 - GP-API: Add request logger sensitive data masked
 
-## 1.2.21 (7/09/2023)
+## v1.2.21 (09/07/2023)
 
 #### Enhancements
 
 - GP-API: Add recurring payments feature
 - [DemoApp]: Recurring payments with Hosted Fields library and 3DS flow
 
-## 1.2.20 (20/08/2023)
+## v1.2.20 (08/20/2023)
 
 #### Enhancements
 
 - GP-API: Add OpenBanking feature
 
-## 1.2.19 (31/07/2023)
+## v1.2.19 (07/31/2023)
 
 #### Enhancements
 
 - GP-API: Add BNPL feature
 
-## 1.2.18 (24/05/2023)
+## v1.2.18 (05/24/2023)
 
 #### Enhancements
 
 - GP-API: Add Payer Details on Transaction response
 
-## 1.2.17 (18/05/2023)
+## v1.2.17 (05/18/2023)
 
 #### Enhancements
 
 - GP-API: Add APM Paypal feature
 
-## 1.2.16 (01/05/2023)
+## v1.2.16 (05/01/2023)
 
 #### Enhancements
 
 - GP-API: Add PayLink feature
 
-## 1.2.15 (03/04/2023)
+## v1.2.15 (04/03/2023)
 
 #### Enhancements
 
 - GP-API: Add account id into requests
 
-## 1.2.14 (28/03/2023)
+## v1.2.14 (03/28/2023)
 
 #### Enhancements
 
@@ -57,32 +63,32 @@
 - GP-API: Add XGP validation function
 - GP-API: Add phone country code function into utils class
 
-## 1.2.13 (22/03/2023)
+## v1.2.13 (03/22/2023)
 
 #### Enhancements
 
 - GP-API: Add Merchant Onboarding
 
-## 1.2.12 (27/02/2023)
+## v1.2.12 (02/27/2023)
 
 #### Enhancements
 
 - GP-API: Add ACH feature
 
-## 1.2.11 (01/02/2023)
+## v1.2.11 (02/01/2023)
 
 #### Enhancements
 
 - GP-API: Add new feature Decoupled Auth on SDK and 3ds demo app project
 
-## 1.2.10 (17/01/2023)
+## v1.2.10 (01/17/2023)
 
 #### Enhancements
 
 - GP-API: Add new feature Currency Conversion DCC
 - GP-API: Add 3DS demo app using netcetera library
 
-## 1.2.9 (07/12/2022)
+## v1.2.9 (12/07/2022)
 
 #### Enhancements
 
@@ -90,39 +96,39 @@
 - GP-API: Add Stored Payment Methods Search Request
 - GP-API: Add get Dispute Document
 
-## 1.2.8 (06/11/2022)
+## v1.2.8 (11/06/2022)
 
 #### Enhancements
 
 - GP-API: Add partner functionality
 
-## 1.2.7 (01/11/2022)
+## v1.2.7 (11/01/2022)
 
 #### Enhancements
 
 - GP-API: Add incremental auth feature
 
-## 1.2.6 (22/10/2022)
+## v1.2.6 (10/22/2022)
 
 - GP-API: Add mapping for card issuer result codes
 - GP-API: Add GP-API Dynamic Descriptor
 - GP-API: Add Fraud Management flow
 - GP-API: Add mapping on missing fields in 3DS flow
 
-## 1.2.5 (17/07/2022)
+## v1.2.5 (07/17/2022)
 
 #### Enhancements
 
 - GP-API: Add update payment token
 
-## 1.2.4 (23/05/2022)
+## v1.2.4 (05/23/2022)
 
 #### Enhancements
 
 - GP-API: Add fingerprint mode
 - GP-API: Add functionality for Digital Wallet
 
-## 1.2.3 (17/04/2022)
+## v1.2.3 (04/17/2022)
 
 #### Enhancements
 
@@ -131,13 +137,13 @@
 - CardUtils MC regex updated
 - GP-API: Prepare "IN_APP" entry_mode when creating a transaction with digital wallets
 
-## 1.2.2 (11/04/2021)
+## v1.2.2 (04/11/2021)
 
 #### Enhancements
 
 - Add SDK and library versions on headers
 
-## 1.2.1
+## v1.2.1
 
 #### Enhancements
 
@@ -150,7 +156,7 @@
 
 ---
 
-## 1.2.0
+## v1.2.0
 
 #### Enhancements:
 

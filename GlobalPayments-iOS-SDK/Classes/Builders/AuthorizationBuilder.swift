@@ -228,7 +228,7 @@ import Foundation
         return self
     }
 
-    public func withCustomerData(_ customerData: Customer) -> AuthorizationBuilder {
+    public func withCustomerData(_ customerData: Customer?) -> AuthorizationBuilder {
         self.customerData = customerData
         return self
     }

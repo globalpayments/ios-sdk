@@ -21,6 +21,8 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     public var cryptogram: String?
     
     public var eci: String?
+    
+    public var customerData: Customer?
 
     public required override init() { }
 
@@ -88,12 +90,17 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     public func tokenize(configName: String = "default", paymentMethodUsageMode: PaymentMethodUsageMode = .multiple, completion: ((String?, Error?) -> Void)?) {
         tokenize(validateCard: true, configName: configName, paymentMethodUsageMode: paymentMethodUsageMode, completion: completion)
     }
+    
+    public func withCustomerData(_ value: Customer?) {
+        customerData = value
+    }
 
     public func tokenize(validateCard: Bool, configName: String = "default", paymentMethodUsageMode: PaymentMethodUsageMode = .multiple, completion: ((String?, Error?) -> Void)?) {
         let type: TransactionType = validateCard ? .verify : .tokenize
         AuthorizationBuilder(transactionType: type, paymentMethod: self)
             .withRequestMultiUseToken(validateCard)
             .withPaymentMethodUsageMode(paymentMethodUsageMode)
+            .withCustomerData(customerData)
             .execute(configName: configName, completion: { transaction, error in
                 completion?(transaction?.token, error)
             })

@@ -2,31 +2,32 @@ import Foundation
 import GlobalPayments_iOS_SDK
 
 struct TransactionListForm {
-    let page: Int
-    let pageSize: Int
-    let sortProperty: TransactionSortProperty
-    let sordOrder: SortDirection
-    let transactionId: String?
-    let type: PaymentType?
-    let channel: Channel?
-    let amount: NSDecimalNumber?
-    let currency: String?
-    let numberFirst6: String?
-    let numberLast4: String?
-    let tokenFirst6: String?
-    let tokenLast4: String?
-    let accountName: String?
-    let cardBrand: String?
-    let brandReference: String?
-    let authCode: String?
-    let referenceNumber: String?
-    let transactionStatus: TransactionStatus?
-    let startDate: Date?
-    let endDate: Date?
-    let country: String?
-    let batchId: String?
-    let entryMode: PaymentEntryMode?
-    let source: Source
+    var page: Int = 0
+    var pageSize: Int = 0
+    var sortProperty: TransactionSortProperty?
+    var sortOrder: SortDirection?
+    var transactionId: String?
+    var type: PaymentType?
+    var channel: Channel?
+    var amount: NSDecimalNumber? = 0.0
+    var currency: String? = ""
+    var numberFirst6: String? = ""
+    var numberLast4: String? = ""
+    var tokenFirst6: String? = ""
+    var tokenLast4: String? = ""
+    var accountName: String? = ""
+    var name: String? = ""
+    var cardBrand: String? = ""
+    var brandReference: String? = ""
+    var authCode: String? = ""
+    var referenceNumber: String? = ""
+    var transactionStatus: TransactionStatus?
+    var startDate: Date? = Date()
+    var endDate: Date? = Date()
+    var country: String? = ""
+    var batchId: String? = ""
+    var entryMode: PaymentEntryMode?
+    var source: Source? = .regular
 
     enum Source {
         case settlement

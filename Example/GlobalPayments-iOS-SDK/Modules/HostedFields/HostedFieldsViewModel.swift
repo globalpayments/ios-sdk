@@ -3,26 +3,14 @@ import GlobalPayments_iOS_SDK
 import ThreeDS_SDK
 import GirdersSwift
 
-protocol HostedFieldsViewInput {
-    func onViewDidLoad()
-    func createToken(_ isRecurring: Bool)
-    func checkEnrollment(_ token: String, brand: String)
-}
-
-protocol HostedFieldsViewOutput: AnyObject{
-    func showErrorView(error: Error?)
-    func showTransaction(_ transaction: GlobalPayments_iOS_SDK.Transaction)
-    func tokenGenerated(token: String)
-}
-
-final class HostedFieldsViewModel: HostedFieldsViewInput {
+final class HostedFieldsViewModel: BaseViewModel {
     
-    weak var view: HostedFieldsViewController?
+    var tokenGenerated: Dynamic<String> = Dynamic("")
     
     private let configuration: Configuration
     private var appConfig: Config?
     private let currency = "GBP"
-    private let amount: NSDecimalNumber = 100
+    private var amount: NSDecimalNumber?
     private var isPaymentRecurring = false
     private var cardBrand: String?
     
@@ -31,23 +19,34 @@ final class HostedFieldsViewModel: HostedFieldsViewInput {
     private let SUCCESS_AUTHENTICATED = "SUCCESS_AUTHENTICATED"
     private let SUCCESS = "SUCCESS"
     
-    lazy var initializationUseCase: InitializationUseCase = Container.resolve()
-    lazy var threeDS2Service: ThreeDS2Service = Container.resolve()
+    private lazy var initializationUseCase: InitializationUseCase = Container.resolve()
+    private lazy var threeDS2Service: ThreeDS2Service = Container.resolve()
     private var transaction: ThreeDS_SDK.Transaction?
     private var tokenizedCard: CreditCardData?
+    weak var viewController: UIViewController?
 
     init(configuration: Configuration) {
         self.configuration = configuration
     }
     
-    func onViewDidLoad() {
+    override func viewDidLoad() {
         guard let config = configuration.loadConfig() else {
             return
         }
         appConfig = config
+        createToken()
     }
     
-    func initThreeDS2Service() -> Bool {
+    func fieldDataChanged(value: String, type: GpFieldsEnum){
+        switch type {
+        case .amount:
+            amount = NSDecimalNumber(string: value)
+        default:
+            break
+        }
+    }
+    
+    private func initThreeDS2Service() -> Bool {
         var initializationStatus = false
         initializationUseCase.initializeSDK(succesHandler: {
             initializationStatus = true
@@ -57,21 +56,31 @@ final class HostedFieldsViewModel: HostedFieldsViewInput {
         return initializationStatus
     }
     
-    func createToken(_ isRecurring: Bool) {
-        isPaymentRecurring = isRecurring
+    func createToken() {
         guard let appConfig = appConfig else { return }
+        showLoading.executer()
         GpApiService.generateTransactionKey(
             environment: .test,
             appId: appConfig.appId,
             appKey: appConfig.appKey) { [weak self] accessTokenInfo, error in
             UI {
+                self?.hideLoading.executer()
                 guard let accessTokenInfo = accessTokenInfo, let token = accessTokenInfo.token else {
-                    self?.view?.showErrorView(error: error)
+                    self?.showDataResponse.value = (.error, error as Any)
                     return
                 }
-                self?.view?.tokenGenerated(token: token)
+                self?.tokenGenerated.value = token
             }
         }
+    }
+    
+    func onHostedFieldsTokenError(_ message: String) {
+        hideLoading.executer()
+        showDataResponse.value = (.error, ApiException(message: message))
+    }
+    
+    func onSubmitAction() {
+        showLoading.executer()
     }
     
     func checkEnrollment(_ token: String, brand: String) {
@@ -86,7 +95,7 @@ final class HostedFieldsViewModel: HostedFieldsViewInput {
             .execute { secureEcom, error in
                 UI {
                     guard let secureEcom = secureEcom else {
-                        self.view?.showErrorView(error: error)
+                        self.showDataResponse.value = (.error, error as Any)
                         return
                     }
                     self.initializationNetcetera(secureEcom: secureEcom)
@@ -99,13 +108,13 @@ final class HostedFieldsViewModel: HostedFieldsViewInput {
             let _ = initThreeDS2Service()
             createTransaction(secureEcom: secureEcom)
         }else {
-            self.view?.showErrorView(error: ApiException(message: "Validate Card with other flow"))
+            showDataResponse.value = (.error, ApiException(message: "Validate Card with other flow"))
         }
     }
     
     private func createTransaction(secureEcom: ThreeDSecure?) {
         guard let secureEcom = secureEcom else {
-            self.view?.showErrorView(error: ApiException(message: "SecureEcom is Nil"))
+            showDataResponse.value = (.error, ApiException(message: "SecureEcom is Nil"))
             return
         }
 
@@ -116,7 +125,7 @@ final class HostedFieldsViewModel: HostedFieldsViewInput {
                 authenticateTransaction(secureEcom, netceteraParams)
             }
         } catch {
-            self.view?.showErrorView(error: error)
+            self.showDataResponse.value = (.error, error as Any)
         }
     }
     
@@ -142,7 +151,7 @@ final class HostedFieldsViewModel: HostedFieldsViewInput {
             .execute { authResult, error in
                 UI {
                     guard let authResult = authResult else {
-                        self.view?.showErrorView(error: error)
+                        self.showDataResponse.value = (.error, error as Any)
                         return
                     }
                     self.startChallengeFlow(authResult)
@@ -155,12 +164,13 @@ final class HostedFieldsViewModel: HostedFieldsViewInput {
             let challengeStatusReceiver = AppChallengeStatusReceiver(view: self, dsTransId: secureEcom.acsTransactionId, secureEcom: secureEcom)
             let challengeParameters = self.prepareChallengeParameters(secureEcom)
             do {
+                guard let viewController = viewController else { return }
                 try self.transaction?.doChallenge(challengeParameters: challengeParameters,
                                                   challengeStatusReceiver: challengeStatusReceiver,
                                                   timeOut:10,
-                                                  inViewController: self.view!)
+                                                  inViewController: viewController)
             } catch {
-                self.view?.showErrorView(error: error)
+                showDataResponse.value = (.error, error as Any)
             }
         }else {
             if let transactionId = secureEcom.serverTransactionId {
@@ -184,7 +194,7 @@ final class HostedFieldsViewModel: HostedFieldsViewInput {
             .execute(version: .two) { secureEcom, error in
                 UI {
                     guard let secureEcom = secureEcom else {
-                        self.view?.showErrorView(error: error)
+                        self.showDataResponse.value = (.error, error as Any)
                         return
                     }
                     
@@ -200,14 +210,14 @@ final class HostedFieldsViewModel: HostedFieldsViewInput {
             .execute { chargeResult, error in
                 UI {
                     guard let chargeResult = chargeResult else {
-                        self.view?.showErrorView(error: error)
+                        self.showDataResponse.value = (.error, error as Any)
                         return
                     }
                     
                     if self.isPaymentRecurring {
                         self.recurringPayment(cardChargeResult: chargeResult)
                     } else {
-                        self.view?.showTransaction(chargeResult)
+                        self.showDataResponse.value = (.success, chargeResult)
                     }
                 }
             }
@@ -225,11 +235,10 @@ final class HostedFieldsViewModel: HostedFieldsViewInput {
             .execute { chargeResult, error in
                 UI {
                     guard let chargeResult = chargeResult else {
-                        self.view?.showErrorView(error: error)
+                        self.showDataResponse.value = (.error, error as Any)
                         return
                     }
-                    
-                    self.view?.showTransaction(chargeResult)
+                    self.showDataResponse.value = (.success, chargeResult)
                 }
             }
     }
@@ -248,12 +257,11 @@ extension HostedFieldsViewModel: StatusView {
     
     func showErrorScreen(with message: String) {
         UI {
-            self.view?.showErrorView(error: ApiException(message: message))
+            self.showDataResponse.value = (.error, ApiException(message: message))
         }
     }
     
     func showSuccessScreen(with message: String) {
-//        self.view?.requestSuccess(message)
     }
     
     func successChallenge(by secureEcom: ThreeDSecure) {

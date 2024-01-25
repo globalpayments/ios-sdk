@@ -321,6 +321,30 @@ final class GpApiMerchantsOnboardTest: XCTestCase {
         XCTAssertEqual("PENDING", userResponse?.responseCode)
     }
     
+    public func test_edit_merchant_by_active_status() {
+        // GIVEN
+        let expectationSearch = expectation(description: "Search Merchant Expectation")
+        let userReportService = ReportingService.findMerchants(1, pageSize: 10)
+        var merchantSummaryResult: PagedResult<MerchantSummary>?
+        var merchantSummaryError: Error?
+        
+        // WHEN
+        userReportService.orderBy(transactionSortProperty: .timeCreated)
+            .withMerchantStatus(.ACTIVE)
+            .execute {
+                merchantSummaryResult = $0
+                merchantSummaryError = $1
+                expectationSearch.fulfill()
+            }
+        
+        // THEN
+        wait(for: [expectationSearch], timeout: 5.0)
+        XCTAssertNil(merchantSummaryError)
+        XCTAssertNotNil(merchantSummaryResult)
+        XCTAssertTrue(merchantSummaryResult?.totalRecordCount ?? 0 > 0)
+        XCTAssertTrue(merchantSummaryResult?.results.count ?? 0 == 1)
+    }
+    
     public func test_edit_merchant_bussiness_information() {
         // GIVEN
         let expectationSearch = expectation(description: "Search Merchant Expectation")

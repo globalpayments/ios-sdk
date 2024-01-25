@@ -26,8 +26,6 @@ final class DisputesOperationsViewController: UIViewController, StoryboardInstan
     // MARK: - Actions
 
     @IBAction private func onInitiateDisputeOperation() {
-        let form = DisputesOperationsFormBuilder.build(with: self)
-        present(form, animated: true, completion: nil)
     }
 }
 
@@ -49,22 +47,5 @@ extension DisputesOperationsViewController: DisputesOperationsViewOutput {
         disputeActionView.display(disputeAction)
         supportView.addSubview(disputeActionView)
         disputeActionView.bindFrameToSuperviewBounds()
-    }
-}
-
-// MARK: - DisputesOperationsFormDelegate
-
-extension DisputesOperationsViewController: DisputesOperationsFormDelegate {
-
-    func onAcceptDispute(form: DisputesOperationsForm) {
-        activityIndicator.startAnimating()
-        viewModel.accceptDispute(form: form)
-        supportView.clearSubviews()
-    }
-
-    func onChallengeDispute(form: DisputesOperationsForm, documents: [DocumentInfo]) {
-        activityIndicator.startAnimating()
-        viewModel.challengeDispute(form: form, documents: documents)
-        supportView.clearSubviews()
     }
 }

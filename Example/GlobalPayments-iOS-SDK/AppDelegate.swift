@@ -8,7 +8,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         AppBootstraper.setupApp()
-        setupNavigationBarAppearance()
         setupWindow()
 
         return true
@@ -16,16 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func setupWindow() {
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = GlobalPayListBuilder.build()
+        window?.rootViewController = GlobalPayHomeBuilder.build()
         window?.makeKeyAndVisible()
-    }
-
-    private func setupNavigationBarAppearance() {
-        UINavigationBar.appearance().barTintColor = Theme.navigationBarColor
-        UINavigationBar.appearance().tintColor = Theme.titleColor
-        UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: Theme.titleColor
-        ]
     }
 }

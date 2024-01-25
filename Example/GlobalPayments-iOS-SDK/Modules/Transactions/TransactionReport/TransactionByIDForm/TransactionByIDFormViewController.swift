@@ -1,44 +1,45 @@
 import UIKit
 
-protocol TransactionByIDFormDelegate: class {
-    func onComletedForm(transactionID: String)
+
+final class TransactionByIDFormViewController: BaseViewController<TransactionByIdFormViewModel> {
+
+    private lazy var customView = {
+        let view = TransactionByIdFormView()
+        view.delegate = self
+        return view
+    }()
+    
+    override func loadView() {
+        view = customView
+    }
+    
+    override func fillUI() {
+        super.fillUI()
+        
+        viewModel?.showLoading.bind { [weak self] in
+            self?.customView.showLoading(true)
+        }
+        
+        viewModel?.hideLoading.bind { [weak self] in
+            self?.customView.showLoading(false)
+        }
+        
+        viewModel?.showDataResponse.bind { [weak self] type, data in
+            self?.customView.setResponseData(type, data: data)
+            self?.viewModel?.hideLoading.executer()
+        }
+        
+        customView.defaultValues()
+    }
 }
 
-final class TransactionByIDFormViewController: UIViewController, StoryboardInstantiable {
-
-    static var storyboardName = "Transactions"
-    private let transactionIdExample = "TRN_7g3faeVD43hkwAQ44k5vgTzl4tb1Ep"
-
-    weak var delegate: TransactionByIDFormDelegate?
-
-    @IBOutlet private weak var submitButton: UIButton!
-    @IBOutlet private weak var transactionIDLabel: UILabel!
-    @IBOutlet private weak var transactionIDTextView: UITextView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupUI()
+extension TransactionByIDFormViewController: TransactionByIdFormViewDelegate {
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        viewModel?.fieldDataChanged(value: value, type: type)
     }
-
-    private func setupUI() {
-        hideKeyboardWhenTappedAround()
-        title = "transaction.report.by.id.form.title".localized()
-        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
-        submitButton.apply(style: .globalPayStyle, title: "transaction.report.by.id.submit".localized())
-        transactionIDLabel.text = "transaction.report.by.id.form".localized()
-        transactionIDTextView.text = transactionIdExample
-    }
-
-    // MARK: - Actions
-
-    @objc private func onCancelAction() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @IBAction private func onSubmitAction() {
-        guard let transactionId = transactionIDTextView.text, !transactionId.isEmpty else { return }
-        delegate?.onComletedForm(transactionID: transactionId)
-        dismiss(animated: true, completion: nil)
+    
+    func onSubmitButtonPressed() {
+        viewModel?.getTransactionByID()
     }
 }

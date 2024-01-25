@@ -2,10 +2,9 @@ import UIKit
 
 struct VerificationsFormBuilder {
 
-    static func build(with delegate: VerificationsFormDelegate) -> UIViewController {
-        let module = VerificationsFormViewController.instantiate()
-        module.delegate = delegate
-
-        return UINavigationController(rootViewController: module) 
+    static func build() -> UIViewController {
+        let module = VerificationsFormViewController()
+        module.viewModel = VerificationsFormViewModel()
+        return module
     }
 }

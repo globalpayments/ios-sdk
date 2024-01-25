@@ -1,7 +1,7 @@
 import Foundation
 
 public class DocumentInfo: Encodable {
-    public let type: DocumentType
+    public var type: DocumentType
     public let b64Content: Data?
 
     enum CodingKeys: String, CodingKey {

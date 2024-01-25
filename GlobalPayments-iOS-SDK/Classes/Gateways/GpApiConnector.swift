@@ -26,6 +26,7 @@ class GpApiConnector: RestGateway {
             var accessTokenInfo = self?.gpApiConfig.accessTokenInfo
             if let accessTokenInfo = accessTokenInfo, let token = accessTokenInfo.token, !token.isEmpty {
                 self?.headers[GpApiConnector.Header.Key.authorization] = "Bearer \(token)"
+                completion(true, nil)
                 return
             }
             

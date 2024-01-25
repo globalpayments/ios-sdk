@@ -1,47 +1,74 @@
 import Foundation
 import GlobalPayments_iOS_SDK
 
-protocol PayLinkViewInput {
-    func doPayLinkTransaction(_ form: PayLinkForm)
-}
+final class PayLinkViewModel: BaseViewModel {
+    
+    var enableButton: Dynamic<Bool> = Dynamic(false)
+    private var amount: NSDecimalNumber = 0.0
+    private var description: String = ""
+    private var usageMode: PaymentMethodUsageMode = .single
+    private var usageLimit: String = "1"
+    private var expirationDate: String = Date().format("yyyy-MM-dd")
 
-protocol PayLinkViewOutput: AnyObject{
-    func showErrorView(error: Error?)
-    func showTransaction(_ transaction: Transaction)
-}
-
-final class PayLinkViewModel: PayLinkViewInput {
-
-    weak var view: PayLinkViewOutput?
-
-    func doPayLinkTransaction(_ form: PayLinkForm) {
+    func doPayLinkTransaction() {
+        showLoading.executer()
         let payLinkData = PayLinkData()
         payLinkData.type = .payment
-        payLinkData.usageMode = PaymentMethodUsageMode(value: form.usageMode)
+        payLinkData.usageMode = usageMode
         payLinkData.allowedPaymentMethods = [ PaymentMethodName.card ]
-        payLinkData.usageLimit = form.usageLimit
-        payLinkData.name = form.name
+        payLinkData.usageLimit = usageLimit
+        payLinkData.name = description
         payLinkData.isShippable = false
-        payLinkData.expirationDate = form.expirationDate.formattedDate("yyyy-MM-dd")
+        payLinkData.expirationDate = expirationDate.formattedDate("yyyy-MM-dd")
         payLinkData.images = []
         payLinkData.returnUrl = "https://www.example.com/returnUrl"
         payLinkData.statusUpdateUrl = "https://www.example.com/statusUrl"
         payLinkData.cancelUrl = "https://www.example.com/returnUrl"
         
-        PayLinkService.create(payLink: payLinkData, amount: form.amount)
+        PayLinkService.create(payLink: payLinkData, amount: amount)
             .withCurrency("GBP")
             .withClientTransactionId(UUID().uuidString)
-            .withDescription(form.name)
+            .withDescription(description)
             .execute(completion: showOutput)
     }
 
     private func showOutput(transaction: Transaction?, error: Error?) {
         UI {
             guard let transaction = transaction else {
-                self.view?.showErrorView(error: error)
+                if let error = error as? GatewayException {
+                    self.showDataResponse.value = (.error, error)
+                }
                 return
             }
-            self.view?.showTransaction(transaction)
+            self.showDataResponse.value = (.success, transaction)
         }
+    }
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        switch type {
+        case .amount:
+            amount = NSDecimalNumber(string: value)
+        case .usageMode:
+            usageMode = PaymentMethodUsageMode(value: value) ?? .single
+        case .usageLimit:
+            usageLimit = value
+        case .expirationDate:
+            expirationDate = value
+        case .description:
+            description = value
+        default:
+            break
+        }
+        validateFields()
+    }
+    
+    private func validateFields() {
+        guard amount.doubleValue > 0.0,
+              !description.isEmpty,
+              !expirationDate.isEmpty else {
+            enableButton.value = false
+            return
+        }
+        enableButton.value = true
     }
 }

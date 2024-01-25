@@ -1,45 +1,44 @@
 import UIKit
 
-protocol PaymentMethodByIDDelegate: class {
-    func onSubmitForm(paymentMethodId: String)
+final class PaymentMethodByIDViewController: BaseViewController<PaymentMethodByIDViewModel> {
+    
+    private lazy var customView = {
+        let view = PaymentMethodByIdView()
+        view.delegate = self
+        return view
+    }()
+    
+    override func loadView() {
+        view = customView
+    }
+    
+    override func fillUI() {
+        super.fillUI()
+        
+        viewModel?.showLoading.bind { [weak self] in
+            self?.customView.showLoading(true)
+        }
+        
+        viewModel?.hideLoading.bind { [weak self] in
+            self?.customView.showLoading(false)
+        }
+        
+        viewModel?.showDataResponse.bind { [weak self] type, data in
+            self?.customView.setResponseData(type, data: data)
+            self?.viewModel?.hideLoading.executer()
+        }
+        
+        customView.defaultValues()
+    }
 }
 
-final class PaymentMethodByIDViewController: UIViewController, StoryboardInstantiable {
-
-    static var storyboardName = "PaymentMethods"
-
-    private let defaultPaymentMethodId = "PMT_d312d131-0ef4-4c1a-aec9-f632fdf3da00"
-
-    weak var delegate: PaymentMethodByIDDelegate?
-
-    @IBOutlet private weak var submitButton: UIButton!
-    @IBOutlet private weak var descriptionLabel: UILabel!
-    @IBOutlet private weak var inputTextView: UITextView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupUI()
+extension PaymentMethodByIDViewController: PaymentMethodByIdViewDelegate {
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        viewModel?.fieldDataChanged(value: value, type: type)
     }
-
-    private func setupUI() {
-        hideKeyboardWhenTappedAround()
-        title = "payment.methods.report.id.title".localized()
-        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
-        submitButton.apply(style: .globalPayStyle, title: "payment.methods.report.id.submit".localized())
-        descriptionLabel.text = "payment.methods.report.id.payment.method".localized()
-        inputTextView.text = defaultPaymentMethodId
-    }
-
-    // MARK: - Actoins
-
-    @objc private func onCancelAction() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @IBAction private func onSubmitAction() {
-        guard let id = inputTextView.text else { return }
-        delegate?.onSubmitForm(paymentMethodId: id)
-        dismiss(animated: true, completion: nil)
+    
+    func onSubmitButtonPressed() {
+        viewModel?.getPaymentMethodById()
     }
 }

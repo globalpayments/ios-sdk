@@ -30,7 +30,7 @@ final class CustomerViewController: UIViewController, StoryboardInstantiable {
     
     private func setupUI() {
         hideKeyboardWhenTappedAround()
-        createCustomerButton.apply(style: .globalPayStyle, title: "customer.create.title.button".localized())
+        createCustomerButton.applyFlat(style: .redesignStyle, title: "customer.create.title.button".localized())
         
         typeNumberTextField.loadDropDownData(PhoneNumberType.allCases.map { $0.mapped(for: .gpApi) ?? .empty}, onSelectItem: onPhoneNumberType)
         documentTypeTextField.loadDropDownData(CustomerDocumentType.allCases.map { $0.mapped(for: .gpApi) ?? .empty}, onSelectItem: onDocumentType)

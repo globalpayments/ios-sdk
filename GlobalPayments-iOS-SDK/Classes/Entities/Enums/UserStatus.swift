@@ -1,6 +1,6 @@
 import Foundation
 
-public enum UserStatus: String, Mappable {
+public enum UserStatus: String, Mappable, CaseIterable {
     
     case ACTIVE
     case INACTIVE

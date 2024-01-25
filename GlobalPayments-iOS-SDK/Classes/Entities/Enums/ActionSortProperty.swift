@@ -1,6 +1,6 @@
 import Foundation
 
-public enum ActionSortProperty: String, Mappable {
+public enum ActionSortProperty: String, Mappable, CaseIterable {
     case timeCreated = "TIME_CREATED"
 
     public init?(value: String?) {

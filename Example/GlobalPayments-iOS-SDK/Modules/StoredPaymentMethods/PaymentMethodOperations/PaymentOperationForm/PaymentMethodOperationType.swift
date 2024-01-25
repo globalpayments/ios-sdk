@@ -7,7 +7,7 @@ enum PaymentMethodOperationType: String, CaseIterable {
 
     public init?(value: String?) {
         guard let value = value,
-              let operation = PaymentMethodOperationType(rawValue: value) else { return nil }
+              let operation = PaymentMethodOperationType(rawValue: value.lowercased()) else { return nil }
         self = operation
     }
 }

@@ -70,7 +70,8 @@ final class AccessTokenFormViewController: UIViewController, StoryboardInstantia
             appKey: appKeyTextField.text ?? .empty,
             secondsToExpire: Int(secondsTextField.text ?? .empty),
             environment: environment,
-            interval: interval
+            interval: interval,
+            permissions: []
         )
 
         delegate?.onComletedForm(form: form)

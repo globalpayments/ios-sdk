@@ -15,10 +15,12 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
         delegate = self
         dataSource = self
 
-        if pickerData.count > 0 {
+        if pickerData.count > 0 && defaultValue != -1 {
             self.pickerTextField?.text = self.pickerData[defaultValue]
             self.pickerTextField?.isEnabled = true
-        } else {
+        } else if pickerData.count > 0 {
+            self.pickerTextField?.isEnabled = true
+        }else {
             self.pickerTextField?.text = nil
             self.pickerTextField?.isEnabled = false
         }
@@ -38,7 +40,7 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
         downArrow.contentMode = .scaleAspectFit
         downArrow.translatesAutoresizingMaskIntoConstraints = false
         downArrow.heightAnchor.constraint(equalToConstant: 10).isActive = true
-        downArrow.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        downArrow.widthAnchor.constraint(equalToConstant: 30).isActive = true
         dropdownField.rightView = downArrow
         dropdownField.rightViewMode = .always
     }
@@ -74,6 +76,7 @@ final class DropDown: UIPickerView, UIPickerViewDataSource, UIPickerViewDelegate
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         pickerTextField?.text = pickerData[row]
+        pickerTextField?.sendActions(for: .editingChanged)
 
         guard let text = pickerTextField?.text, let handler = selectionHandler else { return }
         handler(text)

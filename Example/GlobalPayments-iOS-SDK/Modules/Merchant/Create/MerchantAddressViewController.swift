@@ -30,9 +30,7 @@ final class MerchantAddressViewController: UIViewController, StoryboardInstantia
     private func setupUI() {
         title = "merchant.address.title".localized()
         hideKeyboardWhenTappedAround()
-        
-        buttonCreateAddress.apply(style: .globalPayStyle, title: "merchant.create.address.label".localized())
-        
+        buttonCreateAddress.applyFlat(style: .redesignStyle, title: "merchant.create.address.label".localized())
         addMockData()
     }
     

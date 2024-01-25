@@ -4,6 +4,7 @@ public enum DisputeStatus: String, Mappable, CaseIterable {
     case underReview = "UNDER_REVIEW"
     case withMerchant = "WITH_MERCHANT"
     case closed = "CLOSED"
+    case funded = "FUNDED"
 
     public init?(value: String?) {
         guard let value = value,

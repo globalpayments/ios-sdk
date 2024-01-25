@@ -9,6 +9,6 @@ struct GlobalPayListBuilder {
         module.viewModel = viewModel
         viewModel.view = module
 
-        return UINavigationController(rootViewController: module)
+        return module //UINavigationController(rootViewController: module)
     }
 }

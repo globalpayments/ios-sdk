@@ -1,50 +1,48 @@
 import UIKit
 
-protocol DisputeByIDFormDelegate: class {
-    func onComletedForm(_ form: DisputeByIDForm)
+final class DisputeByIDFormViewController: BaseViewController<DisputeByIdFormViewModel> {
+    
+    private lazy var customView = {
+        let view = DisputeByIdFormView()
+        view.delegate = self
+        return view
+    }()
+    
+    override func loadView() {
+        view = customView
+    }
+    
+    override func fillUI() {
+        super.fillUI()
+        
+        viewModel?.showLoading.bind { [weak self] in
+            self?.customView.showLoading(true)
+        }
+        
+        viewModel?.hideLoading.bind { [weak self] in
+            self?.customView.showLoading(false)
+        }
+        
+        viewModel?.showDataResponse.bind { [weak self] type, data in
+            self?.customView.setResponseData(type, data: data)
+            self?.viewModel?.hideLoading.executer()
+        }
+        
+        customView.defaultValues()
+    }
 }
 
-final class DisputeByIDFormViewController: UIViewController, StoryboardInstantiable {
-
-    static var storyboardName = "Disputes"
-
-    private let defaultDisputeId = "DIS_SAND_abcd1235"
-
-    weak var delegate: DisputeByIDFormDelegate?
-
-    @IBOutlet private weak var disputeLabel: UILabel!
-    @IBOutlet private weak var disputeTextField: UITextField!
-    @IBOutlet private weak var settlementsLabel: UILabel!
-    @IBOutlet private weak var settlementSwitch: UISwitch!
-    @IBOutlet private weak var submitButton: UIButton!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupUI()
+extension DisputeByIDFormViewController: DisputeByIdFormViewDelegate {
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        viewModel?.fieldDataChanged(value: value, type: type)
     }
-
-    private func setupUI() {
-        title = "dispute.by.id.title".localized()
-        navigationItem.rightBarButtonItem = NavigationItems.cancel(self, #selector(onCancelAction)).button
-        disputeLabel.text = "dispute.by.id".localized()
-        disputeTextField.text = defaultDisputeId
-        settlementsLabel.text = "dispute.by.id.settlements".localized()
-        submitButton.apply(style: .globalPayStyle, title: "dispute.by.id.submit".localized())
-        hideKeyboardWhenTappedAround()
+    
+    func onSubmitButtonPressed() {
+        viewModel?.getDisputeDetails()
     }
-
-    // MARK: - Actions
-
-    @objc private func onCancelAction() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @IBAction private func onSubmitAction() {
-        guard let disputeId = disputeTextField.text, !disputeId.isEmpty else { return }
-        let source: DisputeByIDForm.Source = settlementSwitch.isOn ? .settlement : .regular
-        let form = DisputeByIDForm(disputeId: disputeId, source: source)
-        delegate?.onComletedForm(form)
-        dismiss(animated: true, completion: nil)
+    
+    func setFromSettlements(_ value: Bool) {
+        viewModel?.setFromSettlements(value)
     }
 }

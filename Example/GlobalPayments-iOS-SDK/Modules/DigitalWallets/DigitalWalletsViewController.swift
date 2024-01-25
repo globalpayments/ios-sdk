@@ -1,36 +1,35 @@
 import UIKit
 import PassKit
 
-final class DigitalWalletsViewController: UIViewController, StoryboardInstantiable {
+final class DigitalWalletsViewController: BaseViewController<DigitalWalletsViewModel> {
     
-    static let storyboardName = "DigitalWallets"
+    private lazy var customView = {
+        let view = DigitalWalletsView()
+        view.delegateView = self
+        view.delegate = self
+        return view
+    }()
     
-    @IBOutlet weak var applePayButton: UIButton!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-    }
-
-    private func setupUI() {
-        title = "globalpay.digital.wallets".localized()
-        applePayButton.apply(style: .globalPayStyle, title: "globalpay.apple.pay".localized())
+    override func loadView() {
+        view = customView
     }
     
-    @IBAction func onApplePayAction(_ sender: Any) {
-        if (PKPaymentAuthorizationViewController.canMakePayments()) {
-            let paymentRequest = PKPaymentRequest()
-            paymentRequest.merchantIdentifier = "merchant.com.gpapi.sandbox"
-            paymentRequest.supportedNetworks = [PKPaymentNetwork.visa, PKPaymentNetwork.masterCard, PKPaymentNetwork.amex]
-            paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
-            paymentRequest.countryCode = "US"
-            paymentRequest.currencyCode = "USD"
-            
-            let totalItem = PKPaymentSummaryItem(label:"Foobar", amount:NSDecimalNumber(string:"10.00"))
-            paymentRequest.paymentSummaryItems = [totalItem]
-            
-            
-            // Show the Apple Pay controller
+    override func fillUI() {
+        super.fillUI()
+        
+        viewModel?.paymentGenerated.bind { [weak self] paymentRquest in
+            self?.openApplePayView(paymentRquest)
+        }
+        viewModel?.defaultValues.bind { [weak self] in
+            self?.customView.defaultValues()
+        }
+        viewModel?.showDataResponse.bind { [weak self] type, data in
+            self?.customView.setResponseData(type, data: data)
+        }
+    }
+    
+    func openApplePayView(_ paymentRequest: PKPaymentRequest?) {
+        if PKPaymentAuthorizationViewController.canMakePayments(), let paymentRequest = paymentRequest {
             let payAuth = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest)
             payAuth?.delegate = self
             self.present(payAuth!, animated:true, completion: nil)
@@ -41,12 +40,23 @@ final class DigitalWalletsViewController: UIViewController, StoryboardInstantiab
 extension DigitalWalletsViewController: PKPaymentAuthorizationViewControllerDelegate{
 
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion:(@escaping (PKPaymentAuthorizationStatus) -> Void)) {
-        
-        print("Testing Pay: \(NSString(data:payment.token.paymentData, encoding:String.Encoding.utf8.rawValue)!)")
+        let tokenGenerated: String? = NSString(data:payment.token.paymentData, encoding:String.Encoding.utf8.rawValue) as? String
+        viewModel?.showTokenGenerated(tokenGenerated)
         completion(PKPaymentAuthorizationStatus.success)
     }
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
         controller.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension DigitalWalletsViewController: DigitalWalletsViewDelegate {
+    
+    func onApplePayButtonAction() {
+        viewModel?.generatePaymentRequest()
+    }
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        viewModel?.fieldDataChanged(value: value, type: type)
     }
 }

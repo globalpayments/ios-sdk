@@ -1,58 +1,67 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-final class PaypalViewController: UIViewController, StoryboardInstantiable {
+final class PaypalViewController: BaseViewController<PaypalViewModel> {
     
-    static var storyboardName = "Paypal"
+    private lazy var customView = {
+        let view = PaypalView()
+        view.delegateView = self
+        view.delegate = self
+        return view
+    }()
     
-    var viewModel: PaypalViewInput!
-
-    @IBOutlet weak var typeTextField: UITextField!
-    @IBOutlet weak var amountTextField: UITextField!
-    @IBOutlet weak var payButton: UIButton!
-    @IBOutlet weak var supportView: UIView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    override func loadView() {
+        view = customView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-        print("did load")
-    }
-
-    private func setupUI() {
-        title = "paypal.title".localized()
-        hideKeyboardWhenTappedAround()
-        payButton.apply(style: .globalPayStyle, title: "paypal.title.button".localized())
-        typeTextField.loadDropDownData(PaypalType.allCases.map { $0.mapped(for: .gpApi) ?? .empty}, onSelectItem: onChangeTypePayer)
-        activityIndicator.stopAnimating()
+        NotificationCenter.default.addObserver(self, selector: #selector(viewDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
-    private func onChangeTypePayer(_ typePayer: String) {
-        viewModel.setType(typePayer)
+    @objc func viewDidBecomeActive() {
+        viewModel?.validateTransaction()
     }
     
-    @IBAction func doTransactionAction(_ sender: Any) {
-        viewModel.doPaypalTransaction(amountTextField.text)
-        activityIndicator.startAnimating()
-        supportView.clearSubviews()
+    override func fillUI() {
+        super.fillUI()
+        
+        viewModel?.showLoading.bind { [weak self] in
+            self?.customView.showLoading(true)
+        }
+        
+        viewModel?.hideLoading.bind { [weak self] in
+            self?.customView.showLoading(false)
+        }
+        
+        viewModel?.enableButtons.bind { [weak self] enable in
+            self?.customView.enableButtons(enable)
+        }
+        
+        viewModel?.openWebView.bind { url in
+            UIApplication.shared.open(url)
+        }
+        
+        viewModel?.showDataResponse.bind { [weak self] type, data in
+            self?.customView.setResponseData(type, data: data)
+            self?.viewModel?.hideLoading.executer()
+        }
+        
+        customView.defaultValues()
     }
 }
 
-extension PaypalViewController: PaypalViewOutput {
+extension PaypalViewController: PaypalViewViewDelegate {
     
-    func showErrorView(error: Error?) {
-        activityIndicator.stopAnimating()
-        let errorView = ErrorView.instantiateFromNib()
-        errorView.display(error)
-        supportView.addSubview(errorView)
-        errorView.bindFrameToSuperviewBounds()
+    func onChargeButtonAction() {
+        viewModel?.chargeTrasaction()
     }
     
-    func showTransaction(_ transaction: Transaction) {
-        activityIndicator.stopAnimating()
-        let transactionView = TransactionView.instantiateFromNib()
-        transactionView.display(transaction)
-        supportView.addSubview(transactionView)
-        transactionView.bindFrameToSuperviewBounds()
+    func onAuthorizeButtonAction() {
+        viewModel?.authorizeTransaction()
+    }
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        viewModel?.fieldDataChanged(value: value, type: type)
     }
 }

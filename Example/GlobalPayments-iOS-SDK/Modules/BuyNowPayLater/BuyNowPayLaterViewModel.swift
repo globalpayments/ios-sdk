@@ -1,35 +1,20 @@
 import Foundation
 import GlobalPayments_iOS_SDK
 
-protocol BuyNowPayLaterViewInput {
-    func setAddress(_ address: Address, path: MerchantAddressPath)
-    func setMockData()
-    func setCustomerData(_ data: Customer?)
-    func setType(_ value: String)
-    func setTypeAddress(_ value: String)
-    func setProducts(_ value: [Product])
-    func showCustomerScreen()
-    func onBnplAction(_ amount: String)
-    var selectedProducts: [Product]? { get set }
-}
-
-protocol BuyNowPayLaterViewOutput: AnyObject{
-    func showErrorView(error: Error?)
-    func showUrlOpen(_ url: URL, transactionId: String)
-    func setShippingAddress(_ value: String)
-    func setBusinessAddress(_ value: String)
-    func setCountryCode(_ value: String)
-    func setPhoneNumber(_ value: String)
-    func setCustomer(_ value: String)
-    func setProducts(_ value: String)
-    func showCustomerScreen(_ data: Customer?)
-    func showProductsEmptyError(_ value: String)
-}
-
-final class BuyNowPayLaterViewModel: BuyNowPayLaterViewInput {
+final class BuyNowPayLaterViewModel: BaseViewModel {
+    
+    var showProductsScreen: Dynamic<[Product]?> = Dynamic(nil)
+    var setProductLabel: Dynamic<String> = Dynamic("")
+    var setBillingLabel: Dynamic<String> = Dynamic("")
+    var setShippingLabel: Dynamic<String> = Dynamic("")
+    var setCustomerLabel: Dynamic<String> = Dynamic("")
+    var showAddressScreen: Dynamic<MerchantAddressPath> = Dynamic(.business)
+    var showCustomerScreen: Dynamic<Customer> = Dynamic(Customer())
+    var openUrl: Dynamic<(URL, String)> = Dynamic((URL(fileURLWithPath: ""), ""))
+    var enableButton: Dynamic<Bool> = Dynamic(false)
     
     var selectedProducts: [Product]? = []
-    weak var view: BuyNowPayLaterViewOutput?
+    private var amount: NSDecimalNumber = 0.0
     private var shippingAddress: Address?
     private var businessAddress: Address?
     private var countryCode: String = "1"
@@ -65,10 +50,8 @@ final class BuyNowPayLaterViewModel: BuyNowPayLaterViewInput {
     func setMockData() {
         setAddress(createEmptyAddress(), path: .business)
         setAddress(createEmptyAddress(), path: .shipping)
-        view?.setCountryCode("\(countryCode)")
-        view?.setPhoneNumber(phoneNumber)
         let customerName = "\(customer.firstName ?? "") \(customer.lastName ?? "")"
-        view?.setCustomer(customerName)
+        setCustomerLabel.value = customerName
         setProducts(products)
     }
     
@@ -77,10 +60,10 @@ final class BuyNowPayLaterViewModel: BuyNowPayLaterViewInput {
         switch path {
         case .business:
             businessAddress = address
-            view?.setBusinessAddress(value)
+            setBillingLabel.value = value
         case .shipping:
             shippingAddress = address
-            view?.setShippingAddress(value)
+            setShippingLabel.value = value
         }
     }
     
@@ -96,24 +79,21 @@ final class BuyNowPayLaterViewModel: BuyNowPayLaterViewInput {
         products = value
         let labelProducts = products.count == 1 ? "product" : "products"
         let label = "\(products.count) \(labelProducts) selected"
-        view?.setProducts(label)
-    }
-    
-    func showCustomerScreen() {
-        view?.showCustomerScreen(customer)
+        setProductLabel.value = label
     }
     
     func setCustomerData(_ data: Customer?) {
         if let data = data {
             customer = data
             let customerName = "\(customer.firstName ?? "") \(customer.lastName ?? "")"
-            view?.setCustomer(customerName)
+            setCustomerLabel.value = customerName
         }
     }
     
-    func onBnplAction(_ amount: String) {
+    func onBnplAction() {
+        showLoading.executer()
         if products.isEmpty {
-            view?.showProductsEmptyError("buyNowPayLater.error.products.message")
+            self.showDataResponse.value = (.error, GatewayException(message: "buyNowPayLater.error.products.message".localized()))
             return
         }
         let paymentMethod = BNPL()
@@ -124,7 +104,7 @@ final class BuyNowPayLaterViewModel: BuyNowPayLaterViewInput {
         
         guard let shippingAddress = shippingAddress, let businessAddress = businessAddress else { return }
         
-        paymentMethod.authorize(amount: NSDecimalNumber(string: amount))
+        paymentMethod.authorize(amount: amount)
             .withCurrency(CURRENCY)
             .withMiscProductData(products)
             .withAddress(shippingAddress, type: .shipping)
@@ -150,13 +130,48 @@ final class BuyNowPayLaterViewModel: BuyNowPayLaterViewInput {
     private func showOutput(transaction: Transaction?, error: Error?) {
         UI {
             guard let transaction = transaction else {
-                self.view?.showErrorView(error: error)
+                if let error = error as? GatewayException {
+                    self.showDataResponse.value = (.error, error)
+                }
                 return
             }
             
             if let urlMerchant = transaction.bnplResponse?.redirectUrl, let url = URL(string: urlMerchant), let transactionId = transaction.transactionId {
-                self.view?.showUrlOpen(url, transactionId: transactionId)
+                self.openUrl.value = (url, transactionId)
             }
         }
+    }
+    
+    func fieldDataChanged(value: String, type: GpFieldsEnum) {
+        switch type {
+        case .amount:
+            amount = NSDecimalNumber(string: value)
+        case .accountType:
+            typeBnlpCustomer = BNPLType(value: value) ?? .AFFIRM
+        case .countryCode:
+            countryCode = value
+        case .phoneNumber:
+            phoneNumber = value
+        case .phoneType:
+            typeAddress = PhoneNumberType(value: value) ?? .Home
+        default:
+            break
+        }
+    }
+    
+    func onProductsPressed() {
+        showProductsScreen.value = selectedProducts
+    }
+    
+    func onBillingAddressPressed() {
+        showAddressScreen.value = .business
+    }
+    
+    func onShippingAddressPressed() {
+        showAddressScreen.value = .shipping
+    }
+    
+    func onCustomerPressed() {
+        showCustomerScreen.value = customer
     }
 }

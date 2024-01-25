@@ -18,6 +18,11 @@ final class GlobalPayViewController: UIViewController, StoryboardInstantiable {
         setupUI()
         viewModel.onViewDidLoad()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
 
     private func setupUI() {
         title = "globalpay.title".localized()
@@ -88,7 +93,7 @@ extension GlobalPayViewController: GlobalPayViewOutput {
 
 // MARK: - ConfigurationViewDelegate
 
-extension GlobalPayViewController: ConfigurationViewDelegate {
+extension GlobalPayViewController: ConfigurationDataViewDelegate {
 
     func onUpdateConfiguration() {
         viewModel.onUpdateConfig()

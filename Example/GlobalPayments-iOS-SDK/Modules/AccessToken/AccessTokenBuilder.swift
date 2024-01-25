@@ -3,11 +3,9 @@ import UIKit
 struct AccessTokenBuilder {
 
     static func build() -> UIViewController {
-        let module = AccessTokenViewController.instantiate()
+        let module = AccessTokenViewController()
         let viewModel = AccessTokenViewModel()
         module.viewModel = viewModel
-        viewModel.view = module
-
         return module
     }
 }

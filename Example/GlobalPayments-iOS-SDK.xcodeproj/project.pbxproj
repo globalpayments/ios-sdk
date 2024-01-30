@@ -251,6 +251,7 @@
 		A55CE4802AC45FE000480475 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55CE47F2AC45FE000480475 /* CheckBox.swift */; };
 		A55CE4842AC4B74A00480475 /* CodeExampleResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55CE4832AC4B74A00480475 /* CodeExampleResponseView.swift */; };
 		A55CE4862AC4B84D00480475 /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55CE4852AC4B84D00480475 /* SegmentedControlView.swift */; };
+		A5627C802B672E73007E0994 /* GpAccountsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5627C7F2B672E73007E0994 /* GpAccountsTest.swift */; };
 		A56FF00A2A42A52B00AE8E7E /* BuyNowPayLater.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A56FF0062A42A52B00AE8E7E /* BuyNowPayLater.storyboard */; };
 		A56FF00B2A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56FF0072A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift */; };
 		A56FF00C2A42A52B00AE8E7E /* BuyNowPayLaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56FF0082A42A52B00AE8E7E /* BuyNowPayLaterViewController.swift */; };
@@ -695,6 +696,7 @@
 		A55CE47F2AC45FE000480475 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		A55CE4832AC4B74A00480475 /* CodeExampleResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeExampleResponseView.swift; sourceTree = "<group>"; };
 		A55CE4852AC4B84D00480475 /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
+		A5627C7F2B672E73007E0994 /* GpAccountsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpAccountsTest.swift; sourceTree = "<group>"; };
 		A56FF0062A42A52B00AE8E7E /* BuyNowPayLater.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BuyNowPayLater.storyboard; sourceTree = "<group>"; };
 		A56FF0072A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyNowPayLaterBuilder.swift; sourceTree = "<group>"; };
 		A56FF0082A42A52B00AE8E7E /* BuyNowPayLaterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyNowPayLaterViewController.swift; sourceTree = "<group>"; };
@@ -1570,6 +1572,7 @@
 				A59667F929FB43D700EE816D /* GpApiApmTest.swift */,
 				A5FC78322A6DD5AC00BBD524 /* GpApiBNPLTest.swift */,
 				A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */,
+				A5627C7F2B672E73007E0994 /* GpAccountsTest.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -2886,6 +2889,7 @@
 				82F20CFF262EC03600A08543 /* GpApi3DSecure1Tests.swift in Sources */,
 				82256989262D85770023E6A1 /* GpApiBatchTests.swift in Sources */,
 				82F3270F260DD62100B49E80 /* GpApiTokenManagementErrorTests.swift in Sources */,
+				A5627C802B672E73007E0994 /* GpAccountsTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,6 +3,7 @@ import Foundation
 public enum UserType: String, Mappable {
     
     case merchant
+    case account
     
     public init?(value: String?) {
         guard let value = value,

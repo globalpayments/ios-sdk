@@ -189,6 +189,7 @@
 		A4DD02B25435D0F112743DDD1786EAD8 /* Pods-GlobalPayments-iOS-SDK_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B086236BC87F2FEB5D72AED14D9E55F4 /* Pods-GlobalPayments-iOS-SDK_Tests-dummy.m */; };
 		A55CE4702ABBAB0800480475 /* MaskSensitiveDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55CE46F2ABBAB0800480475 /* MaskSensitiveDataRepository.swift */; };
 		A55CE4822AC4615500480475 /* PermissionsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55CE4812AC4615500480475 /* PermissionsEnum.swift */; };
+		A5627C822B673015007E0994 /* AccountSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5627C812B673015007E0994 /* AccountSummary.swift */; };
 		A5B96C5FBC2F197AC5A8148899E91D26 /* CustomerAuthenticationMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5CB4B26808E01FA249E5A062AC92CF /* CustomerAuthenticationMethod.swift */; };
 		A60801B2A452F68E9DF1A0210ECE2419 /* XmlGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169D77D350BE664F95F6A468E0E7C204 /* XmlGateway.swift */; };
 		A6F53FE5792884E90FF9E5208B61CF35 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E755EBA0A50531637FE96D7710AFB3 /* Address.swift */; };
@@ -542,6 +543,7 @@
 		A46EFC501945D69498EAF676E14A990E /* TrackNumber.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TrackNumber.swift; sourceTree = "<group>"; };
 		A55CE46F2ABBAB0800480475 /* MaskSensitiveDataRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaskSensitiveDataRepository.swift; sourceTree = "<group>"; };
 		A55CE4812AC4615500480475 /* PermissionsEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsEnum.swift; sourceTree = "<group>"; };
+		A5627C812B673015007E0994 /* AccountSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSummary.swift; sourceTree = "<group>"; };
 		A571B3B6C371E3A0A90DA4BFA72FAC30 /* EmvChipCondition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EmvChipCondition.swift; sourceTree = "<group>"; };
 		A58A83DBC123B30B1627C0FB86EEA892 /* PrestigiousPropertyLimit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PrestigiousPropertyLimit.swift; sourceTree = "<group>"; };
 		A6AD8BD68A39D654CF6C8D6E3890F6B9 /* CustomerDocumentType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CustomerDocumentType.swift; sourceTree = "<group>"; };
@@ -1076,6 +1078,7 @@
 		F66E07F19B2F9FB32F805A88C0B69EBA /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				A5627C812B673015007E0994 /* AccountSummary.swift */,
 				96FCE8CAB150A70A3ABA14C1F480BEB4 /* AdditionalTaxDetails.swift */,
 				16E755EBA0A50531637FE96D7710AFB3 /* Address.swift */,
 				0CEB16168E745DC98BA3688AD480A197 /* AlternativePaymentResponse.swift */,
@@ -1643,6 +1646,7 @@
 				A3810F02D1ADB35C73DF3980CBC9986F /* SdkInterface.swift in Sources */,
 				7BEF305884125D9C2E21F2D4250FC313 /* SdkUiType.swift in Sources */,
 				A55CE4822AC4615500480475 /* PermissionsEnum.swift in Sources */,
+				A5627C822B673015007E0994 /* AccountSummary.swift in Sources */,
 				439FD6F3F508C98770617FC7ABBAFCEA /* SearchCriteriaBuilder.swift in Sources */,
 				C437FB8EE387622BF4B27699F20E6A07 /* SecCode.swift in Sources */,
 				7D22944B62647F0530EE54746F74F5C9 /* Secure3d.swift in Sources */,

@@ -131,4 +131,10 @@ public class ReportingService {
             .withModifier(.merchant)
             .withPaging(page, pageSize)
     }
+    
+    public static func findAccounts(_ page: Int, pageSize: Int) -> UserReportBuilder<PagedResult<AccountSummary>> {
+        return UserReportBuilder<PagedResult<AccountSummary>>(reportType: .findAccountsPaged)
+            .withModifier(.merchant)
+            .withPaging(page, pageSize)
+    }
 }

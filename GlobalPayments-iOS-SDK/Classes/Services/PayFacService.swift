@@ -14,4 +14,13 @@ public class PayFacService {
             .withModifier(.merchant)
             .withUserReference(userReference)
     }
+    
+    public static func getAccountById(_ accountId: String) -> PayFacBuilder<AccountSummary> {
+        let userReference = UserReference()
+        userReference.userId = accountId
+        userReference.userType = .account
+        return PayFacBuilder<AccountSummary>(transactionType: .fetch)
+            .withModifier(.account)
+            .withUserReference(userReference)
+    }
 }

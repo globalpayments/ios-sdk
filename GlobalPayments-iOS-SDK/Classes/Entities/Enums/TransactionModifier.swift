@@ -20,6 +20,7 @@ public enum TransactionModifier: String {
     case merchant
     case buyNowPayLater
     case bankPayment
+    case account
     
     public init?(value: String?) {
         guard let value = value,

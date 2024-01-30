@@ -19,6 +19,16 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                     method: .get,
                     queryParams: sanitize(params: params)
                 )
+            case .findAccountsPaged:
+                var params = [String: String]()
+                addPageParams(&params, builder)
+                params["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
+                params["status"] = builder.merchantStatus?.mapped(for: .gpApi)
+                return GpApiRequest(
+                    endpoint: merchantUrl + GpApiRequest.Endpoints.accounts(),
+                    method: .get,
+                    queryParams: sanitize(params: params)
+                )
             default:
                 return nil
             }

@@ -398,12 +398,12 @@ extension GpApiConnector: PayFacServiceType {
                     endpoint: request.endpoint,
                     data: request.requestBody,
                     idempotencyKey: builder.idempotencyKey) { response, error in
-                    guard let response = response else {
-                        completion?(nil, error)
-                        return
+                        guard let response = response else {
+                            completion?(nil, error)
+                            return
+                        }
+                        completion?(GpApiMapping.mapMerchantResponse(response, modifier: builder.transactionModifier), nil)
                     }
-                    completion?(GpApiMapping.mapMerchantResponse(response), nil)
-                }
             }
         }
     }
@@ -424,12 +424,12 @@ extension GpApiConnector: PayFacServiceType {
                     endpoint: request.endpoint,
                     data: request.requestBody,
                     idempotencyKey: builder.idempotencyKey) { response, error in
-                    guard let response = response else {
-                        completion?(nil, error)
-                        return
+                        guard let response = response else {
+                            completion?(nil, error)
+                            return
+                        }
+                        completion?(GpApiMapping.mapMerchantResponse(response, modifier: builder.transactionModifier), nil)
                     }
-                    completion?(GpApiMapping.mapMerchantResponse(response), nil)
-                }
             }
         }
     }

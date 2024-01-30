@@ -30,11 +30,20 @@ struct GpApiPayFacRequestBuilder<T> {
                 )
             }
         case .fetch:
-            if builder.transactionModifier == .merchant {
+            switch builder.transactionModifier {
+            case .merchant:
                 return GpApiRequest(
                     endpoint: merchantUrl + "/merchants/" + (builder.userReference?.userId ?? ""),
                     method: .get
                 )
+            case .account:
+                let accountId = builder.userReference?.userId ?? ""
+                return GpApiRequest(
+                    endpoint: merchantUrl + GpApiRequest.Endpoints.accountById(id: accountId),
+                    method: .get
+                )
+            default :
+                break
             }
         default:
             break

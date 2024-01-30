@@ -131,5 +131,9 @@ import Foundation
         validations.of(transactionType: [.fetch, .edit])
             .with(modifier: .merchant)
             .check(propertyName: "userId")?.isNotNil()
+        
+        validations.of(transactionType: [.fetch, .edit])
+            .with(modifier: .account)
+            .check(propertyName: "userId")?.isNotNil()
     }
 }

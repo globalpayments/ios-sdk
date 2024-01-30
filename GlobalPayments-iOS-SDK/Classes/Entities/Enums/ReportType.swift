@@ -69,4 +69,6 @@ public struct ReportType: OptionSet, Hashable {
     public static let payLinkDetail                   = ReportType(rawValue: 1 << 29)
 
     public static let findPayLinkPaged                = ReportType(rawValue: 1 << 30)
+    
+    public static let findAccountsPaged              = ReportType(rawValue: 1 << 31)
 }

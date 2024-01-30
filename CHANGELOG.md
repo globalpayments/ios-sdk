@@ -1,5 +1,11 @@
 # Changelog
 
+## Latest - v2.0.1 (01/30/2024)
+
+#### Enhancements
+
+- GP-API: Add Account Endpoints
+
 ## Latest - v2.0.0 (01/23/2024)
 
 #### Enhancements

@@ -183,5 +183,23 @@ extension GpApiRequest {
         static func payLinkWithId(id: String) -> String {
             "/links/\(id)"
         }
+        
+        // MARK: - Accounts
+        
+        static func accounts() -> String {
+            "/accounts"
+        }
+        
+        static func updateAccount(id: String) -> String {
+            "/accounts/\(id)"
+        }
+        
+        static func accountById(id: String) -> String {
+            "/accounts/\(id)"
+        }
+        
+        static func getFMAAccountDetails(_ merID: String, fmaId: String) -> String {
+            "/merchants/\(merID)/accounts/\(fmaId)"
+        }
     }
 }

@@ -570,13 +570,25 @@ public struct GpApiMapping {
     public static func mapUserReportResponse<T>(_ rawResponse: String, _ reportType: ReportType) -> T? {
         var result: Any?
         let json = JsonDoc.parse(rawResponse)
-        if reportType == .findMerchantsPaged {
+        
+        switch reportType {
+        case .findMerchantsPaged:
             var pagedResult: PagedResult<MerchantSummary>? = getPagedResult(json)
             if let merchants: [JsonDoc] = json?.getValue(key: "merchants") {
                 let mapped = merchants.map { GpApiMapping.mapMerchantSummary($0) }
                 pagedResult?.results = mapped
             }
             result = pagedResult
+        case .findAccountsPaged:
+            var pagedResult: PagedResult<AccountSummary>? = getPagedResult(json)
+            if let accounts: [JsonDoc] = json?.getValue(key: "accounts") {
+                let mapped: [AccountSummary] = accounts.map { AccountSummary.mapToObject($0)! }
+                pagedResult?.results = mapped
+            }
+            result = pagedResult
+        default:
+            result = nil
+            break
         }
         
         return result as? T
@@ -592,10 +604,17 @@ public struct GpApiMapping {
         return merchantSummary
     }
     
-    public static func mapMerchantResponse<T>(_ rawResponse: String) -> T? {
+    public static func mapMerchantResponse<T>(_ rawResponse: String, modifier: TransactionModifier?) -> T? {
         var result: Any?
-        let json = JsonDoc.parse(rawResponse)
-        result = GpApiMapping.mapUser(json)
+        let json = JsonDoc.parse(rawResponse) ?? JsonDoc()
+        switch modifier {
+        case .merchant:
+            result = GpApiMapping.mapUser(json)
+        case .account:
+            result = AccountSummary.mapToObject(json)
+        default:
+            break
+        }
         return result as? T
     }
     

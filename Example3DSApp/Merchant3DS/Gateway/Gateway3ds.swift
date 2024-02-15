@@ -44,7 +44,7 @@ public class Gateway3ds {
     private let session: URLSession
     private let contentType: String
 
-    init(session: URLSession = .init(configuration: .default),
+    init(session: URLSession,
          contentType: String) {
 
         self.session = session

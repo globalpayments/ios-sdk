@@ -1,5 +1,4 @@
 import Foundation
-import GirdersSwift
 import ThreeDS_SDK
 
 class AppBootstraper {

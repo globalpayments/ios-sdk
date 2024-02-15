@@ -1,5 +1,4 @@
 import Foundation
-import GirdersSwift
 
 /// Constants used in the api gateway
 struct ApiConstants {
@@ -14,5 +13,4 @@ struct ApiConstants {
     static let decoupledTimeout = 9001
     static let authTimeout: CGFloat = 5.0
     static let isDecoupledAuth = true
-    
 }

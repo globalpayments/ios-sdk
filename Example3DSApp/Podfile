@@ -10,7 +10,6 @@ target 'Merchant3DS' do
 
   # Pods for Merchant3DS
   pod 'ThreeDS_SDK'
-  pod 'GirdersSwift', '0.4.5'
 
   target 'Merchant3DSTests' do
     inherit! :search_paths

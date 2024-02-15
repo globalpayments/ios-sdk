@@ -1,5 +1,4 @@
 import Foundation
-import GirdersSwift
 
 extension Error {
     func authenticationErrorDescription() -> String {
@@ -31,6 +30,8 @@ extension ResponseError {
             return detailedDescripton(errorTitle: "Bad Gateway", response: response)
         case .Unknown(let response):
             return detailedDescripton(errorTitle: "Unknown", response: response)
+        default:
+            return ""
         }
     }
     

@@ -1,13 +1,12 @@
 import Foundation
 import ThreeDS_SDK
-import GirdersSwift
 
 typealias InitializationCompleteHandler = () -> Void
 typealias ErrorHandler = (_ errorMessage: String) -> Void
 
 class InitializationUseCaseImplementation: InitializationUseCase {
     
-    lazy var threeDS2Service: ThreeDS2Service = Container.resolve()
+    lazy var threeDS2Service: ThreeDS2Service = GpContainer.resolve()
     
     func initializeSDK(succesHandler: @escaping InitializationCompleteHandler,
                        errorHandler: @escaping ErrorHandler) {

@@ -1,5 +1,4 @@
 import Foundation
-import GirdersSwift
 import ThreeDS_SDK
 
 class AppBootstraper {
@@ -10,15 +9,15 @@ class AppBootstraper {
     
     private static func setupContainer() {
         
-        Container.addSingleton { () -> ThreeDS2Service in
+        GpContainer.addSingleton { () -> ThreeDS2Service in
             ThreeDS2ServiceSDK()
         }
         
-        Container.addPerRequest { () -> InitializationUseCase in
+        GpContainer.addPerRequest { () -> InitializationUseCase in
             InitializationUseCaseImplementation()
         }
         
-        Container.addPerRequest{ () -> ConfigurationDataUseCase in
+        GpContainer.addPerRequest{ () -> ConfigurationDataUseCase in
             ConfigurationUseCaseImplementation()
         }
     }

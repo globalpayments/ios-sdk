@@ -3,7 +3,7 @@ import Foundation
 class RestGateway3ds: Gateway3ds {
 
     init() {
-        super.init(contentType: "application/json")
+        super.init(session: .init(configuration: .default), contentType: "application/json")
     }
 
     func doRequest(method: HTTPMethod,

@@ -1,6 +1,5 @@
 import Foundation
 import ThreeDS_SDK
-import GirdersSwift
 
 typealias InitializationCompleteHandler = () -> Void
 typealias ErrorHandler = (_ errorMessage: String) -> Void

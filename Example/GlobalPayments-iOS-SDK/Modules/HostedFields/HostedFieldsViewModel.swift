@@ -1,7 +1,6 @@
 import Foundation
 import GlobalPayments_iOS_SDK
 import ThreeDS_SDK
-import GirdersSwift
 
 final class HostedFieldsViewModel: BaseViewModel {
     
@@ -19,8 +18,8 @@ final class HostedFieldsViewModel: BaseViewModel {
     private let SUCCESS_AUTHENTICATED = "SUCCESS_AUTHENTICATED"
     private let SUCCESS = "SUCCESS"
     
-    private lazy var initializationUseCase: InitializationUseCase = Container.resolve()
-    private lazy var threeDS2Service: ThreeDS2Service = Container.resolve()
+    private lazy var initializationUseCase: InitializationUseCase = GpContainer.resolve()
+    private lazy var threeDS2Service: ThreeDS2Service = GpContainer.resolve()
     private var transaction: ThreeDS_SDK.Transaction?
     private var tokenizedCard: CreditCardData?
     weak var viewController: UIViewController?

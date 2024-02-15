@@ -1,10 +1,9 @@
 import Foundation
 import GlobalPayments_iOS_SDK
-import GirdersSwift
 
 class BaseViewModel {
     
-    private lazy var configurationUseCase: ConfigurationDataUseCase = Container.resolve()
+    private lazy var configurationUseCase: ConfigurationDataUseCase = GpContainer.resolve()
     
     var showLoading: Dynamic<Void> = Dynamic(())
     var hideLoading: Dynamic<Void> = Dynamic(())

@@ -234,7 +234,6 @@
 		A50B0D132A9E264B00C1A88E /* HostedFieldsWebView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A50B0D122A9E264B00C1A88E /* HostedFieldsWebView.storyboard */; };
 		A50B0D152A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B0D142A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift */; };
 		A559488C2AA3610D00E447DF /* ThreeDS_SDK in Frameworks */ = {isa = PBXBuildFile; productRef = A559488B2AA3610D00E447DF /* ThreeDS_SDK */; };
-		A559488F2AA361E800E447DF /* GirdersSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A559488E2AA361E800E447DF /* GirdersSwift */; };
 		A55948922AA362B200E447DF /* InitializationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948912AA362B200E447DF /* InitializationUseCase.swift */; };
 		A55948942AA362CE00E447DF /* InitializationUseCaseImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948932AA362CE00E447DF /* InitializationUseCaseImplementation.swift */; };
 		A55948962AA3649400E447DF /* AppBootstraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948952AA3649400E447DF /* AppBootstraper.swift */; };
@@ -397,6 +396,7 @@
 		A59D63182B1FF546000AA7BA /* MerchantEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D63172B1FF546000AA7BA /* MerchantEditViewModel.swift */; };
 		A59D631A2B1FF552000AA7BA /* MerchantEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D63192B1FF552000AA7BA /* MerchantEditViewController.swift */; };
 		A59D631C2B1FF55E000AA7BA /* MerchantEditBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D631B2B1FF55E000AA7BA /* MerchantEditBuilder.swift */; };
+		A5D8494D2B7921030009F314 /* GpContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D8494C2B7921030009F314 /* GpContainer.swift */; };
 		A5E0E1B32B45A23000B546E8 /* ReportingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0E1B22B45A23000B546E8 /* ReportingView.swift */; };
 		A5E0E1B52B45A25F00B546E8 /* ReportingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0E1B42B45A25F00B546E8 /* ReportingViewModel.swift */; };
 		A5E0E1B72B45A2E100B546E8 /* ReportingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E0E1B62B45A2E100B546E8 /* ReportingBuilder.swift */; };
@@ -843,6 +843,7 @@
 		A59D63172B1FF546000AA7BA /* MerchantEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantEditViewModel.swift; sourceTree = "<group>"; };
 		A59D63192B1FF552000AA7BA /* MerchantEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantEditViewController.swift; sourceTree = "<group>"; };
 		A59D631B2B1FF55E000AA7BA /* MerchantEditBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantEditBuilder.swift; sourceTree = "<group>"; };
+		A5D8494C2B7921030009F314 /* GpContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpContainer.swift; sourceTree = "<group>"; };
 		A5E0E1B22B45A23000B546E8 /* ReportingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingView.swift; sourceTree = "<group>"; };
 		A5E0E1B42B45A25F00B546E8 /* ReportingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingViewModel.swift; sourceTree = "<group>"; };
 		A5E0E1B62B45A2E100B546E8 /* ReportingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingBuilder.swift; sourceTree = "<group>"; };
@@ -882,7 +883,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7ACDC46D124D93FE2139B2E1 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */,
-				A559488F2AA361E800E447DF /* GirdersSwift in Frameworks */,
 				A559488C2AA3610D00E447DF /* ThreeDS_SDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1838,6 +1838,7 @@
 		A55948902AA3629400E447DF /* Netcetera */ = {
 			isa = PBXGroup;
 			children = (
+				A5D8494B2B7920EC0009F314 /* Dependency */,
 				A55948912AA362B200E447DF /* InitializationUseCase.swift */,
 				A55948932AA362CE00E447DF /* InitializationUseCaseImplementation.swift */,
 				A55948952AA3649400E447DF /* AppBootstraper.swift */,
@@ -2185,6 +2186,14 @@
 			path = Edit;
 			sourceTree = "<group>";
 		};
+		A5D8494B2B7920EC0009F314 /* Dependency */ = {
+			isa = PBXGroup;
+			children = (
+				A5D8494C2B7921030009F314 /* GpContainer.swift */,
+			);
+			path = Dependency;
+			sourceTree = "<group>";
+		};
 		A5E0E1B12B45A21F00B546E8 /* Reporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -2271,7 +2280,6 @@
 			name = "GlobalPayments-iOS-SDK_Example";
 			packageProductDependencies = (
 				A559488B2AA3610D00E447DF /* ThreeDS_SDK */,
-				A559488E2AA361E800E447DF /* GirdersSwift */,
 			);
 			productName = "GlobalPayments-iOS-SDK";
 			productReference = 607FACD01AFB9204008FA782 /* GlobalPayments-iOS-SDK_Example.app */;
@@ -2330,7 +2338,6 @@
 			mainGroup = 607FACC71AFB9204008FA782;
 			packageReferences = (
 				A559488A2AA3610D00E447DF /* XCRemoteSwiftPackageReference "SPM" */,
-				A559488D2AA361E800E447DF /* XCRemoteSwiftPackageReference "GirdersSwift" */,
 			);
 			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
 			projectDirPath = "";
@@ -2728,6 +2735,7 @@
 				A59D631A2B1FF552000AA7BA /* MerchantEditViewController.swift in Sources */,
 				82A9F7782577A34700B8962D /* PaymentMethodOperationsViewModel.swift in Sources */,
 				A55CE4762ABBAFC500480475 /* GpBaseView.swift in Sources */,
+				A5D8494D2B7921030009F314 /* GpContainer.swift in Sources */,
 				A5FC78312A6DB86500BBD524 /* ProductTableViewCell.swift in Sources */,
 				8214204B2591FC29003EA8DF /* DisputeListForm.swift in Sources */,
 				A59D630F2B1FC65C000AA7BA /* BatchBuilder.swift in Sources */,
@@ -3170,14 +3178,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		A559488D2AA361E800E447DF /* XCRemoteSwiftPackageReference "GirdersSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/netceteragroup/GirdersSwift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.7.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -3185,11 +3185,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A559488A2AA3610D00E447DF /* XCRemoteSwiftPackageReference "SPM" */;
 			productName = ThreeDS_SDK;
-		};
-		A559488E2AA361E800E447DF /* GirdersSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A559488D2AA361E800E447DF /* XCRemoteSwiftPackageReference "GirdersSwift" */;
-			productName = GirdersSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

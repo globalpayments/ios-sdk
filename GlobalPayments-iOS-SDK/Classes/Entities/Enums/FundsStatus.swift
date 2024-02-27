@@ -1,15 +1,13 @@
 import Foundation
 
-public enum ActionType: String, Mappable {
-    
-    case linkCreate = "LINK_CREATE"
-    case linkEdit = "LINK_EDIT"
-    case split = "SPLIT"
-    case funds = "FUNDS"
-    
+public enum FundsStatus: String, Mappable, CaseIterable {
+
+    case captured = "CAPTURED"
+    case declined = "DECLINED"
+
     public init?(value: String?) {
         guard let value = value,
-              let status = ActionType(rawValue: value) else { return nil }
+              let status = FundsStatus(rawValue: value) else { return nil }
         self = status
     }
 

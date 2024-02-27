@@ -2,7 +2,7 @@ import Foundation
 
 public class BNPL: NSObject, PaymentMethod, Authable, NotificationData {
 
-    public var paymentMethodType: PaymentMethodType = .BPNL
+    public var paymentMethodType: PaymentMethodType = .BNPL
     public var BNPLType: BNPLType?
     public var returnUrl: String?
     public var statusUpdateUrl: String?

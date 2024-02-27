@@ -3,7 +3,9 @@ import Foundation
 class RestGateway3ds: Gateway3ds {
 
     init() {
-        super.init(session: .init(configuration: .default), contentType: "application/json")
+        let configuration = URLSessionConfiguration.default
+        configuration.tlsMaximumSupportedProtocolVersion = .TLSv12
+        super.init(session: .init(configuration: configuration), contentType: "application/json")
     }
 
     func doRequest(method: HTTPMethod,

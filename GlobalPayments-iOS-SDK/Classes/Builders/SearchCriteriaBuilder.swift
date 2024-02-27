@@ -98,7 +98,7 @@ public enum DataServiceCriteria: String {
 }
 
 @objcMembers public class SearchCriteriaBuilder<TResult>: NSObject {
-    private weak var reportBuilder: TransactionReportBuilder<TResult>?
+    private weak var reportBuilder: ReportBuilder<TResult>?
 
     var accountName: String?
     var accountNumberLastFour: String?
@@ -203,7 +203,7 @@ public enum DataServiceCriteria: String {
     var searchDescription: String?
     var paymentProvider: PaymentProvider?
 
-    init(reportBuilder: TransactionReportBuilder<TResult>?) {
+    init(reportBuilder: ReportBuilder<TResult>?) {
         self.reportBuilder = reportBuilder
     }
 
@@ -272,7 +272,7 @@ public enum DataServiceCriteria: String {
         return self
     }
 
-    public func execute(completion: ((TResult?, Error?) -> Void)?) {
-        reportBuilder?.execute(completion: completion)
+    public func execute(configName: String = "default", completion: ((TResult?, Error?) -> Void)?) {
+        reportBuilder?.execute(configName: configName, completion: completion)
     }
 }

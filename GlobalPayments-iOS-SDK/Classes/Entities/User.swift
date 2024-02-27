@@ -19,6 +19,8 @@ public class User: NSObject {
 
     public var paymentMethods: [PaymentMethodList]?
     
+    public var fundsAccountDetails: FundsAccountDetails?
+    
     /// Creates an `User` object from an existing user ID.
     /// - Parameters:
     ///   - userId: User id
@@ -34,6 +36,16 @@ public class User: NSObject {
 
     public func edit() -> PayFacBuilder<User> {
         var builder = PayFacBuilder<User>(transactionType: .edit)
+            .withUserReference(userReference)
+        
+        if let userType = userReference?.userType {
+            builder = builder.withModifier(TransactionModifier(value: userType.rawValue))
+        }
+        return builder
+    }
+    
+    public func addFunds() -> PayFacBuilder<User> {
+        var builder = PayFacBuilder<User>(transactionType: .addFunds)
             .withUserReference(userReference)
         
         if let userType = userReference?.userType {

@@ -28,13 +28,13 @@ final class CaptureBnplViewModel: CaptureBnplViewInput {
     }
     
     func onCaptureTransaction() {
-        let transaction = Transaction.fromId(transactionId: transactionId, paymentMethodType: .BPNL)
+        let transaction = Transaction.fromId(transactionId: transactionId, paymentMethodType: .BNPL)
         transaction.capture()
             .execute(completion: showOutput)
     }
     
     func onReverseTransaction() {
-        let transaction = Transaction.fromId(transactionId: transactionId, paymentMethodType: .BPNL)
+        let transaction = Transaction.fromId(transactionId: transactionId, paymentMethodType: .BNPL)
         transaction.reverse()
             .execute(completion: showOutput)
     }

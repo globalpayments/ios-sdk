@@ -1,6 +1,13 @@
 # Changelog
 
-## Latest - v2.0.2 (02/14/2024)
+## Latest - v2.0.3 (02/27/2024)
+
+#### Enhancements
+
+- GP-API: Add transfers, split and reverse endpoints
+- GP-API: Add Funds endpoint
+
+## v2.0.2 (02/14/2024)
 
 #### Enhancements
 

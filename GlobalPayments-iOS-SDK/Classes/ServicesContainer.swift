@@ -40,6 +40,10 @@ public class ServicesContainer {
         configurations[configName] = config
     }
     
+    public func removeConfiguration(configName: String) {
+        configurations.removeValue(forKey: configName)
+    }
+    
     func secure3DProvider(configName: String,
                           version: Secure3dVersion) throws -> Secure3dProvider {
         guard let configuredService = configurations[configName] else {

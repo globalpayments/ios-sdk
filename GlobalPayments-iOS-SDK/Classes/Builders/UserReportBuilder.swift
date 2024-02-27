@@ -2,12 +2,18 @@ import Foundation
 
 @objcMembers public class UserReportBuilder<TResult>: ReportBuilder<TResult> {
     
+    lazy var searchCriteriaBuilder: SearchCriteriaBuilder<TResult> = {
+        return SearchCriteriaBuilder<TResult>(reportBuilder: self)
+    }()
+    
     public var order: SortDirection?
     public var transactionType: TransactionType?
     public var transactionModifier: TransactionModifier = .none
     public var transactionOrderBy: TransactionSortProperty?
     public var merchantStatus: UserStatus?
     public var id: String?
+    var endDate: Date? { return searchCriteriaBuilder.endDate }
+    var startDate: Date? { return searchCriteriaBuilder.startDate }
 
     public func withModifier(_ transactionModifier: TransactionModifier) -> UserReportBuilder<TResult> {
         self.transactionModifier = transactionModifier
@@ -34,6 +40,21 @@ import Foundation
     
     public func withId(_ value: String?) -> UserReportBuilder<TResult> {
         self.id = value
+        return self
+    }
+    
+    public func withStartDate(_ startDate: Date?) -> UserReportBuilder<TResult> {
+        searchCriteriaBuilder.startDate = startDate
+        return self
+    }
+    
+    public func withEndDate(_ endDate: Date?) -> UserReportBuilder<TResult> {
+        searchCriteriaBuilder.endDate = endDate
+        return self
+    }
+    
+    public func withMerchantId(_ merchantId: String?) -> UserReportBuilder<TResult> {
+        searchCriteriaBuilder.merchantId = merchantId
         return self
     }
 }

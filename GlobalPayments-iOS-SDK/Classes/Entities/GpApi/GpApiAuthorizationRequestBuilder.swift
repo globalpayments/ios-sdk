@@ -89,6 +89,27 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                 method: .post,
                 requestBody: payload.toString()
             )
+        case .transferFunds:
+            if let fundsData = builder.paymentMethod as? AccountFunds {
+                let payload = JsonDoc()
+                payload.set(for: "account_id", value: fundsData.accountId)
+                payload.set(for: "account_name", value: fundsData.accountName)
+                payload.set(for: "recipient_account_id", value: fundsData.recipientAccountId)
+                payload.set(for: "reference", value: builder.clientTransactionId)
+                payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                payload.set(for: "description", value: builder.requestDescription)
+                payload.set(for: "usable_balance_mode", value: fundsData.usableBalanceMode?.rawValue)
+                
+                let url = !(fundsData.merchantId?.isEmpty ?? true) ? "/merchants/\(fundsData.merchantId ?? "")" : .empty
+                
+                return GpApiRequest(
+                    endpoint: url + GpApiRequest.Endpoints.transfers(),
+                    method: .post,
+                    requestBody: payload.toString()
+                )
+            } else {
+                return nil
+            }
         default:
             return nil
         }
@@ -296,7 +317,6 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             bankTransfer.set(for: "account_type", value: check.accountType?.rawValue)
             bankTransfer.set(for: "check_reference", value: check.checkReference)
             bankTransfer.set(for: "sec_code", value: check.secCode)
-            bankTransfer.set(for: "narrative", value: check.merchantNotes)
 
             let bank = JsonDoc()
             bank.set(for: "code", value: check.routingNumber)
@@ -314,6 +334,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             bank.set(for: "address", doc: address)
             bankTransfer.set(for: "bank", doc: bank)
             paymentMethod.set(for: "bank_transfer", doc: bankTransfer)
+            paymentMethod.set(for: "narrative", value: check.merchantNotes)
         }else {
             
             if let creditCard = builder.paymentMethod as? CreditCardData, let token = creditCard.token {

@@ -89,4 +89,10 @@ public struct TransactionType: OptionSet, Hashable {
     public static let payLinkUpdate          = TransactionType(rawValue: 1 << 41)
     
     public static let confirm                = TransactionType(rawValue: 1 << 42)
+    
+    public static let splitFunds             = TransactionType(rawValue: 1 << 43)
+    
+    public static let addFunds               = TransactionType(rawValue: 1 << 44)
+    
+    public static let transferFunds          = TransactionType(rawValue: 1 << 45)
 }

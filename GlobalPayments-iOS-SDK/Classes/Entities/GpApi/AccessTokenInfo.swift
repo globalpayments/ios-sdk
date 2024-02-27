@@ -17,12 +17,14 @@ public class AccessTokenInfo {
                 dataAccountName: String? = nil,
                 disputeManagementAccountName: String? = nil,
                 tokenizationAccountName: String? = nil,
-                transactionProcessingAccountName: String? = nil) {
+                transactionProcessingAccountName: String? = nil,
+                transactionProcessingAccountID: String? = nil ) {
 
         self.token = token
         self.dataAccountName = dataAccountName
         self.disputeManagementAccountName = disputeManagementAccountName
         self.tokenizationAccountName = tokenizationAccountName
         self.transactionProcessingAccountName = transactionProcessingAccountName
+        self.transactionProcessingAccountID = transactionProcessingAccountID
     }
 }

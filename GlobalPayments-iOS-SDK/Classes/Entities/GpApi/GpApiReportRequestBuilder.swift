@@ -3,7 +3,7 @@ import Foundation
 struct GpApiReportRequestBuilder<T>: GpApiRequestData {
 
     func generateRequest(for builder: ReportBuilder<T>, config: GpApiConfig?) -> GpApiRequest? {
-        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : .empty
+        var merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : .empty
         
         if let builder = builder as? TransactionReportBuilder {
             return handleTransationReportCases(builder, config: config, merchantUrl: merchantUrl)
@@ -12,8 +12,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             case .findMerchantsPaged:
                 var params = [String: String]()
                 addPageParams(&params, builder)
-                params["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
-                params["status"] = builder.merchantStatus?.mapped(for: .gpApi)
+                addOrderDateParams(&params, builder)
                 return GpApiRequest(
                     endpoint: merchantUrl + GpApiRequest.Endpoints.merchant(),
                     method: .get,
@@ -22,8 +21,12 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             case .findAccountsPaged:
                 var params = [String: String]()
                 addPageParams(&params, builder)
-                params["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
-                params["status"] = builder.merchantStatus?.mapped(for: .gpApi)
+                addOrderDateParams(&params, builder)
+                
+                if let merchantId = builder.searchCriteriaBuilder.merchantId {
+                    merchantUrl = !merchantId.isEmpty ? "/merchants/\(merchantId)" : .empty
+                }
+                
                 return GpApiRequest(
                     endpoint: merchantUrl + GpApiRequest.Endpoints.accounts(),
                     method: .get,
@@ -262,6 +265,14 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
         if let pageSize = builder.pageSize {
             params["page_size"] = "\(pageSize)"
         }
+    }
+    
+    private func addOrderDateParams(_ params: inout [String: String], _ builder: UserReportBuilder<T>) {
+        params["order"] = builder.order?.mapped(for: .gpApi)
+        params["order_by"] = builder.transactionOrderBy?.mapped(for: .gpApi)
+        params["status"] = builder.merchantStatus?.mapped(for: .gpApi)
+        params["from_time_created"] = builder.startDate?.format("yyyy-MM-dd")
+        params["to_time_created"] = builder.endDate?.format("yyyy-MM-dd")
     }
 
     private func addTransactionParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {

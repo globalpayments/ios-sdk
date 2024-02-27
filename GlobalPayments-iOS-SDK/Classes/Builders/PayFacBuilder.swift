@@ -20,6 +20,12 @@ import Foundation
     var paymentMethodsFunctions: [String:PaymentMethodFunction]?
     var idempotencyKey: String?
     var userId: String?
+    var amount: NSDecimalNumber?
+    var accountNumber: String?
+    var paymentMethodName: PaymentMethodName?
+    var paymentMethodType: PaymentMethodType?
+    var currency: String?
+    var clientTransactionId: String?
     
     public func withBankAccountData(_ bankAccountData: BankAccountData, paymentMethodFunction: PaymentMethodFunction? = nil) -> PayFacBuilder {
         self.bankAccountData = bankAccountData
@@ -99,6 +105,36 @@ import Foundation
             }
             paymentMethodsFunctions?[self.creditCardInformation?.theClassName ?? ""] = paymentMethodFunction
         }
+        return self
+    }
+    
+    public func withAmount(_ amount: NSDecimalNumber? = nil) -> PayFacBuilder {
+        self.amount = amount
+        return self
+    }
+    
+    public func withAccountNumber(_ accountNumber: String?) -> PayFacBuilder {
+        self.accountNumber = accountNumber
+        return self
+    }
+    
+    public func withPaymentMethodName(_ paymentMethodName: PaymentMethodName?) -> PayFacBuilder {
+        self.paymentMethodName = paymentMethodName
+        return self
+    }
+    
+    public func withPaymentMethodType(_ paymentMethodType: PaymentMethodType?) -> PayFacBuilder {
+        self.paymentMethodType = paymentMethodType
+        return self
+    }
+    
+    public func withCurrency(_ currency: String?) -> PayFacBuilder {
+        self.currency = currency
+        return self
+    }
+    
+    public func withClientTransactionId(_ clientTransactionId: String?) -> PayFacBuilder {
+        self.clientTransactionId = clientTransactionId
         return self
     }
 

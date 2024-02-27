@@ -60,6 +60,8 @@ import Foundation
     var usageMode: PaymentMethodUsageMode?
     var usageLimit: String?
     var type: PayLinkType?
+    var reference: String?
+    var fundsData: FundsData?
 
     /// Sets the current transaction's amount.
     /// - Parameter amount: The amount
@@ -132,6 +134,14 @@ import Foundation
     /// - Returns: ManagementBuilder
     public func withDescription(_ description: String) -> ManagementBuilder {
         self.managementBuilderDescription = description
+        return self
+    }
+    
+    /// Sets the transaction's reference.
+    /// - Parameter reference: This value is not guaranteed to be sent in the authorization or settlement process.
+    /// - Returns: ManagementBuilder
+    public func withReference(_ reference: String) -> ManagementBuilder {
+        self.reference = reference
         return self
     }
 
@@ -232,6 +242,11 @@ import Foundation
         self.paymentLinkId = paymentLinkId
         return self
     }
+    
+    public func withFundsData(_ data: FundsData?) -> ManagementBuilder {
+        self.fundsData = data
+        return self
+    }
 
     public override func execute(configName: String = "default",
                                  completion: ((Transaction?, Error?) -> Void)?) {
@@ -280,6 +295,10 @@ import Foundation
         validations.of(transactionType: .payLinkUpdate)
             .check(propertyName: "paymentLinkId")?.isNotNil()?
             .check(propertyName: "payLinkData")?.isNotNil()
+        
+        validations.of(transactionType: .splitFunds)
+            .check(propertyName: "amount")?.isNotNil()?
+            .check(propertyName: "fundsData")?.isNotNil()
     }
 }
 
@@ -290,7 +309,9 @@ extension ManagementBuilder: CustomReflectable {
             "authorizationCode": authorizationCode as Any,
             "clientTransactionId": transactionId as Any,
             "orderId": orderId as Any,
-            "transactionId": transactionId as Any
+            "transactionId": transactionId as Any,
+            "amount": amount as Any,
+            "fundsData": fundsData as Any
             ]
         )
     }

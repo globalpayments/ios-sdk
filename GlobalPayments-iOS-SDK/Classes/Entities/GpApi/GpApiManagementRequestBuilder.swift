@@ -3,7 +3,7 @@ import Foundation
 struct GpApiManagementRequestBuilder: GpApiRequestData {
 
     func generateRequest(for builder: ManagementBuilder, config: GpApiConfig) -> GpApiRequest? {
-        let merchantUrl: String = !(config.merchantId?.isEmpty ?? true) ? "/merchants/\(config.merchantId ?? "")" : ""
+        var merchantUrl: String = !(config.merchantId?.isEmpty ?? true) ? "/merchants/\(config.merchantId ?? "")" : ""
         switch builder.transactionType {
         case .tokenDelete:
             let token = getToken(from: builder)
@@ -43,8 +43,21 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
         case .reversal:
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                .set(for: "currency_conversion", value: builder.dccRateData?.dccId)
+            
+            var endpoint = merchantUrl
+            
+            if (builder.paymentMethod?.paymentMethodType == .accountFunds) {
+                if builder.fundsData?.merchantId?.isEmpty ?? true {
+                    endpoint = GpApiRequest.Endpoints.merchantWithID(config.merchantId ?? .empty)
+                }
+                endpoint += GpApiRequest.Endpoints.transfersReversal(transferId: (builder.transactionId ?? .empty))
+            } else {
+                endpoint += GpApiRequest.Endpoints.transactionsReversal(transactionId: (builder.transactionId ?? .empty))
+            }
+            
             return GpApiRequest(
-                endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsReversal(transactionId: (builder.transactionId ?? .empty)),
+                endpoint: endpoint,
                 method: .post,
                 requestBody: payload.toString()
             )
@@ -200,6 +213,28 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 )
             }
             return nil
+        case .splitFunds:
+            let payLoad = JsonDoc()
+            var split = [JsonDoc]()
+
+            let request = JsonDoc()
+            request.set(for: "recipient_account_id", value: builder.fundsData?.recipientAccountId)
+            request.set(for: "reference", value: builder.reference)
+            request.set(for: "description", value: builder.managementBuilderDescription)
+            request.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+            
+            if let merchantId = builder.fundsData?.merchantId, !merchantId.isEmpty {
+                merchantUrl = GpApiRequest.Endpoints.merchantWithID(merchantId)
+            }
+            
+            split.append(request)
+            payLoad.set(for: "transfers", values: split)
+            
+            return GpApiRequest(
+                endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsSplit(transactionId: builder.transactionId ?? .empty),
+                method: .post,
+                requestBody: payLoad.toString()
+            )
         default:
             return nil
         }

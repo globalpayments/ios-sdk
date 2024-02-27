@@ -40,6 +40,13 @@ public struct GpApiMapping {
                     transaction.balanceAmount = NSDecimalNumber(string: amount).amount
                 }
                 break
+            case .split:
+                if let transfers: [JsonDoc] = doc?.getValue(key: "transfers") {
+                    transaction.transfersFundsAccounts = mapTransferFundAccounts(transfers)
+                }
+                break
+            default:
+                break
             }
         }
         
@@ -54,7 +61,7 @@ public struct GpApiMapping {
             }
             
             if paymentMethod.has(key: "bnpl") {
-                transaction.paymentMethodType = .BPNL
+                transaction.paymentMethodType = .BNPL
                 transaction.bnplResponse = mapBNPLResponse(paymentMethod)
                 return transaction
             }
@@ -624,9 +631,38 @@ public struct GpApiMapping {
         userReference.userId = doc?.getValue(key: "id")
         userReference.userStatus = UserStatus(value: doc?.getValue(key: "status"))
         userReference.userType = UserType(value: doc?.getValue(key: "type"))
+        user.name = doc?.getValue(key: "name")
+        
+        if let actionType: String = doc?.get(valueFor: "action")?.getValue(key: "type"), let type = ActionType(value: actionType) {
+            switch type {
+            case .funds:
+                userReference.userId = doc?.getValue(key: "merchant_id")
+                user.name = doc?.getValue(key: "merchant_name")
+                
+                let funds = FundsAccountDetails()
+                funds.id = doc?.getValue(key: "id")
+                funds.timeCreated = doc?.getValue(key: "time_created")
+                funds.timeLastUpdated = doc?.getValue(key: "time_last_updated")
+                funds.paymentMethodType = doc?.getValue(key: "type")
+                funds.paymentMethodName = doc?.getValue(key: "payment_method")
+                funds.status = doc?.getValue(key: "status")
+                if let amount: String = doc?.getValue(key: "amount") {
+                    funds.amount = NSDecimalNumber(string: amount).amount
+                }
+                funds.currency = doc?.getValue(key: "currency")
+                let userAccount = UserAccount()
+                userAccount.id = doc?.getValue(key: "account_id")
+                userAccount.name = doc?.getValue(key: "account_name")
+                funds.account = userAccount
+                user.fundsAccountDetails = funds
+                break
+            default:
+                break
+            }
+        }
+        
         user.userReference = userReference
         user.responseCode = doc?.get(valueFor: "action")?.getValue(key: "result_code")
-        user.name = doc?.getValue(key: "name")
         user.statusDescription = doc?.getValue(key: "status_description")
         
         if let createdTime: String = doc?.getValue(key: "time_created") {
@@ -668,6 +704,10 @@ public struct GpApiMapping {
         payLinkResponse.isShippable = shippable.uppercased() == "YES"
         payLinkResponse.allowedPaymentMethods = getAllowedPaymentMethods(doc)
         return payLinkResponse
+    }
+    
+    private static func mapTransferFundAccounts(_ docs: [JsonDoc]) -> [FundsAccountDetails] {
+        return docs.map { FundsAccountDetails.mapToObject($0) ?? FundsAccountDetails() }
     }
     
     private static func getAllowedPaymentMethods(_ doc: JsonDoc?) -> [PaymentMethodName]? {

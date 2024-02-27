@@ -95,6 +95,10 @@ extension GpApiRequest {
         static func transactionsAdjusmentAuthorization(transactionId: String) -> String {
             "/transactions/\(transactionId)/adjustment"
         }
+        
+        static func transactionsSplit(transactionId: String) -> String {
+            "/transactions/\(transactionId)/split"
+        }
 
         // MARK: - Verifications
 
@@ -178,6 +182,18 @@ extension GpApiRequest {
             "/merchants"
         }
         
+        static func merchantWithID(_ merID: String) -> String {
+            "/merchants/\(merID)"
+        }
+        
+        static func getFMAAccountDetails(_ merID: String, fmaId: String) -> String {
+            "/merchants/\(merID)/accounts/\(fmaId)"
+        }
+        
+        static func merchantTransferFunds(_ merID: String) -> String {
+            "/merchants/\(merID)/settlement/funds"
+        }
+        
         // MARK: - PayLink
         
         static func payLinkWithId(id: String) -> String {
@@ -198,8 +214,14 @@ extension GpApiRequest {
             "/accounts/\(id)"
         }
         
-        static func getFMAAccountDetails(_ merID: String, fmaId: String) -> String {
-            "/merchants/\(merID)/accounts/\(fmaId)"
+        // MARK: - Transfer
+        
+        static func transfers() -> String {
+            "/transfers"
+        }
+        
+        static func transfersReversal(transferId: String) -> String {
+            "/transfers/\(transferId)/reversal"
         }
     }
 }

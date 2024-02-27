@@ -184,6 +184,7 @@ public class Transaction: NSObject {
     public var payLinkResponse: PayLinkResponse?
     public var bnplResponse: BNPLResponse?
     public var bankPaymentResponse: BankPaymentResponse?
+    public var transfersFundsAccounts: [FundsAccountDetails]?
 
     /// Creates a `Transaction` object from a stored transaction ID.
     /// Used to expose management requests on the original transaction at a later date/time.
@@ -333,5 +334,17 @@ public class Transaction: NSObject {
         return ManagementBuilder(transactionType: .reauth)
             .withPaymentMethod(transactionReference)
             .withAmount(amount ?? balanceAmount)
+    }
+    
+    /// Transfer part of transaction amount by a merchant to the partner account
+    /// - Parameter amount: The original authorization amount
+    /// - Returns: ManagementBuilder
+    public func split(amount: NSDecimalNumber? = nil) -> ManagementBuilder {
+        guard let transactionReference = transactionReference else {
+            fatalError("transactionReference cannot be nil!")
+        }
+        return  ManagementBuilder(transactionType: .splitFunds)
+            .withPaymentMethod(transactionReference)
+            .withAmount(amount)
     }
 }

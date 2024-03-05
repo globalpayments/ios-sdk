@@ -1,6 +1,13 @@
 # Changelog
 
-## Latest - v2.0.3 (02/27/2024)
+## Latest - v2.0.4 (03/05/2024)
+
+#### Enhancements
+
+- GP-API: Exemption Fields
+- GP-API: Add 3DS properties
+
+## v2.0.3 (02/27/2024)
 
 #### Enhancements
 

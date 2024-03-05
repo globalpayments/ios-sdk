@@ -1331,4 +1331,62 @@ class GpApi3DSecureTests: XCTestCase {
         XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.rawValue)
         XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
     }
+    
+    func test_exemption_sale_transaction() {
+        // GIVEN
+        card.number = GpApi3DSTestCards.cardChallengeRequiredV22
+        let threeDS = ThreeDSecure()
+        threeDS.exemptStatus = .lowValue
+        card.threeDSecure = threeDS
+        let transactionExpectation = expectation(description: "Exemption Sale Expectation")
+        var transactionResponse: Transaction?
+        var transactionError: Error?
+        
+        // WHEN
+        card.charge(amount: amount)
+            .withCurrency(currency)
+            .execute {
+                transactionResponse = $0
+                transactionError = $1
+                transactionExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [transactionExpectation], timeout: 5.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionResponse)
+        XCTAssertEqual("SUCCESS", transactionResponse?.responseCode)
+        XCTAssertEqual(TransactionStatus.captured.mapped(for: .gpApi), transactionResponse?.responseMessage)
+    }
+    
+    func test_charge_transaction_with_random_3DS_values() {
+        // GIVEN
+        card.number = GpApi3DSTestCards.cardChallengeRequiredV21
+        let threeDS = ThreeDSecure()
+        threeDS.authenticationValue = UUID().uuidString
+        threeDS.directoryServerTransactionId = UUID().uuidString
+        threeDS.serverTransactionId = UUID().uuidString
+        threeDS.eci = 1
+        threeDS.messageVersion = UUID().uuidString
+        card.threeDSecure = threeDS
+        let transactionExpectation = expectation(description: "Random 3DS values Expectation")
+        var transactionResponse: Transaction?
+        var transactionError: Error?
+        
+        // WHEN
+        card.charge(amount: amount)
+            .withCurrency(currency)
+            .execute {
+                transactionResponse = $0
+                transactionError = $1
+                transactionExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [transactionExpectation], timeout: 5.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionResponse)
+        XCTAssertEqual("SUCCESS", transactionResponse?.responseCode)
+        XCTAssertEqual(TransactionStatus.captured.mapped(for: .gpApi), transactionResponse?.responseMessage)
+    }
 }

@@ -359,7 +359,18 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         paymentMethod.set(for: "name", value: creditCardData.cardHolderName)
 
         if let secureEcom = creditCardData.threeDSecure {
-            paymentMethod.set(for: "authentication.id", value: secureEcom.serverTransactionId)
+            let authentication = JsonDoc()
+            authentication.set(for: "id", value: secureEcom.serverTransactionId)
+            let threeDs = JsonDoc()
+            threeDs.set(for: "exempt_status", value: secureEcom.exemptStatus?.mapped(for: .gpApi))
+            threeDs.set(for: "message_version", value: secureEcom.messageVersion)
+            threeDs.set(for: "eci", value: secureEcom.eci)
+            threeDs.set(for: "server_trans_reference", value: secureEcom.serverTransactionId)
+            threeDs.set(for: "ds_trans_reference", value: secureEcom.directoryServerTransactionId)
+            threeDs.set(for: "value", value: secureEcom.authenticationValue)
+            authentication.set(for: "three_ds", doc: threeDs)
+            
+            paymentMethod.set(for: "authentication", doc: authentication)
         }
 
         paymentMethod.set(for: "fingerprint_mode", value: builder.customerData?.deviceFingerPrint)

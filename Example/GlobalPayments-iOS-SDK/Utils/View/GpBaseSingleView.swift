@@ -8,6 +8,8 @@ class GpBaseSingleView: View {
         static let marginMedium: CGFloat = 15
         static let marginBig: CGFloat = 20
         static let buttonSize: CGFloat = 48.0
+        static let disabledButton: CGFloat = 0.3
+        static let enabledButton: CGFloat = 1.0
     }
     
     internal lazy var separatorLineView: UIView = {

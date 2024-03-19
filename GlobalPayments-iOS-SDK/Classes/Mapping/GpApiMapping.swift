@@ -670,6 +670,10 @@ public struct GpApiMapping {
         }
         return user
     }
+    public static func mapFileProcessingResponse<T>(_ rawResponse: String) -> T? {
+        let json = JsonDoc.parse(rawResponse) ?? JsonDoc()
+        return FileProcessor.mapToObject(json)
+    }
     
     private static func getPagedResult<T>(_ doc: JsonDoc?) -> PagedResult<T>? {
         guard let doc = doc else { return nil }

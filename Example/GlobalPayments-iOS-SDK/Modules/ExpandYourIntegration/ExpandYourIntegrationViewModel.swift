@@ -7,7 +7,8 @@ class ExpandYourIntegrationViewModel: BaseViewModel {
         "expand.verifications.title",
         "expand.dispute.operations.title",
         "expand.batches.title",
-        "expand.edit.account.title"
+        "expand.edit.account.title",
+        "file.proccessing.title.screen"
     ]
     
     private lazy var descriptions = [
@@ -15,7 +16,8 @@ class ExpandYourIntegrationViewModel: BaseViewModel {
         "expand.verifications.description",
         "expand.dispute.operations.description",
         "expand.batches.description",
-        "expand.edit.account.description"
+        "expand.edit.account.description",
+        "expand.file.processing.description"
     ]
     
     var loadSingleItems: Dynamic<[SingleItemEntity]> = Dynamic([])
@@ -49,6 +51,8 @@ class ExpandYourIntegrationViewModel: BaseViewModel {
             viewController = BatchBuilder.build()
         case .editAccount:
             viewController = MerchantEditBuilder.build()
+        case .fileProccessing:
+            viewController = FileProcessingBuilder.build()
         }
         paymentProcessItemAction.value = viewController
     }
@@ -61,5 +65,6 @@ enum ExpandYourIntegrationItemAction: String, CaseIterable {
     case disputeOperations
     case batches
     case editAccount
+    case fileProccessing
 }
 

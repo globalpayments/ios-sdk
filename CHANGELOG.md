@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v2.0.4 (03/05/2024)
+## Latest - v2.0.5 (03/19/2024)
+
+#### Enhancements
+
+- GP-API: Add File Processing
+
+## v2.0.4 (03/05/2024)
 
 #### Enhancements
 

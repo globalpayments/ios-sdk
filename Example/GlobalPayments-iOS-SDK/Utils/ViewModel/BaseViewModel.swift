@@ -51,7 +51,8 @@ class BaseViewModel {
                 challengeNotificationUrl: appConfig.challengeNotificationUrl,
                 methodNotificationUrl: appConfig.methodNotificationUrl,
                 merchantContactUrl: appConfig.merchantContactUrl,
-                merchantId: appConfig.merchantId
+                merchantId: appConfig.merchantId,
+                statusUrl: appConfig.statusUrl
             )
             config.environment = .test
             try ServicesContainer.configureService(

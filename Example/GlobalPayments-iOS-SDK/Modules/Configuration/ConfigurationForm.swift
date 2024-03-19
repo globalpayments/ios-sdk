@@ -12,6 +12,7 @@ struct ConfigurationForm {
     var challengeNotificationUrl: String?
     var methodNotificationUrl: String?
     var merchantContactUrl: String?
+    var statusUrl: String?
     var merchantId: String?
     var transactionProcessing: String?
     var tokenization: String?

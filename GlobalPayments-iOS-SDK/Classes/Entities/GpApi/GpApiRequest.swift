@@ -223,5 +223,8 @@ extension GpApiRequest {
         static func transfersReversal(transferId: String) -> String {
             "/transfers/\(transferId)/reversal"
         }
+        static func fileProcessing() -> String {
+            "/files"
+        }
     }
 }

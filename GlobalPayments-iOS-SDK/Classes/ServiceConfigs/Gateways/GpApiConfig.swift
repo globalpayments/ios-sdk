@@ -29,6 +29,8 @@ public class GpApiConfig: GatewayConfig {
     public var dynamicHeaders: [String: String]?
     
     public var merchantId: String?
+    
+    public var statusUrl: String?
 
     public init(appId: String,
                 appKey: String,
@@ -44,7 +46,8 @@ public class GpApiConfig: GatewayConfig {
                 permissions: [String]? = nil,
                 dynamicHeaders: [String: String]? = nil,
                 requestLogger: RequestLogger? = nil,
-                merchantId: String? = nil) {
+                merchantId: String? = nil,
+                statusUrl: String? = nil) {
 
         self.appId = appId
         self.appKey = appKey
@@ -62,6 +65,7 @@ public class GpApiConfig: GatewayConfig {
         self.merchantId = merchantId
         super.init(gatewayProvider: .gpAPI)
         self.requestLogger = requestLogger
+        self.statusUrl = statusUrl
     }
 
     override func configureContainer(services: ConfiguredServices) {
@@ -81,6 +85,7 @@ public class GpApiConfig: GatewayConfig {
         services.gatewayConnector = gateway
         services.reportingService = gateway
         services.payFacProvider = gateway
+        services.fileProcessingService = gateway
         services.setSecure3dProvider(provider: gateway, version: .one)
         services.setSecure3dProvider(provider: gateway, version: .two)
     }

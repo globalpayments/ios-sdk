@@ -339,6 +339,7 @@
 "configuration.challenge.notification.url" = "Challenge Notification URL:";
 "configuration.method.notification.url" = "Method Notification URL:";
 "configuration.merchant.contact.url" = "Merchant Contact URL:";
+"configuration.merchant.status.url" = "Status URL:";
 "configuration.merchant.id" = "Acccount names are required";
 "configuration.transaction.proccesing" = "Transaction Proccesing:";
 "configuration.tokenization" = "Tokenization:";
@@ -509,6 +510,7 @@
 "expand.edit.account.description" = "Edit merchant's account configuration.";
 "expand.stored.payment.methods.enable.fingerprint" = "Enable fingerprint?";
 "expand.stored.payment.methods.fingerprint.mode" = "Fingerprint usage mode:";
+"expand.file.processing.description" = "Processing large volumes of transactions in one file.";
 
 "reporting.payment.methods.title" = "Payment Methods";
 "reporting.actions.title" = "Actions";
@@ -546,3 +548,13 @@
 "reporting.account.get.account.id.button" = "Get Account By Id";
 "reporting.account.get.accounts.list.button" = "Get Accounts";
 
+"file.proccessing.title.screen" = "File Proccessing";
+"file.proccessing.add.document.button" = "Add Document";
+"file.proccessing.initiate.file.processing.button" = "Initiate file processing";
+"file.proccessing.retrieve.file.processing.button" = "Get file status";
+"file.proccessing.file.id.title" = "File id:";
+
+"tab.single" = "Single";
+"tab.list" = "List";
+"tab.upload" = "Upload";
+"tab.retrieve" = "Retrieve";

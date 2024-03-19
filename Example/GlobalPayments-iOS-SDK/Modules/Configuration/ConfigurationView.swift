@@ -183,6 +183,15 @@ final class ConfigurationView: View {
         return field
     }()
     
+    private lazy var statusUrlFieldView: GpTextFieldView = {
+        let field = GpTextFieldView()
+        field.title = "configuration.merchant.status.url".localized()
+        field.tagField = .statusUrl
+        field.delegate = self
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }()
+    
     private lazy var saveConfigurationButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -301,13 +310,15 @@ final class ConfigurationView: View {
         containerView.addSubview(challengeNotificationUrlFieldView)
         containerView.addSubview(methodNotificationUrlFieldView)
         containerView.addSubview(merchantContactUrlFieldView)
+        containerView.addSubview(statusUrlFieldView)
         
         NSLayoutConstraint.activating([
             challengeNotificationUrlFieldView.relativeTo(tokenizationFieldView, positioned: .belowWidth(spacing: DimensKeys.marginMedium)),
             methodNotificationUrlFieldView.relativeTo(challengeNotificationUrlFieldView, positioned: .belowWidth(spacing: DimensKeys.marginMedium)),
             merchantContactUrlFieldView.relativeTo(methodNotificationUrlFieldView, positioned: .belowWidth(spacing: DimensKeys.marginMedium)),
             merchantContactUrlFieldView.relativeTo(methodNotificationUrlFieldView, positioned: .belowWidth(spacing: DimensKeys.marginMedium)),
-            merchantContactUrlFieldView.relativeTo(containerView, positioned: .bottom(margin: DimensKeys.marginMedium))
+            statusUrlFieldView.relativeTo(merchantContactUrlFieldView, positioned: .belowWidth(spacing: DimensKeys.marginMedium)),
+            statusUrlFieldView.relativeTo(containerView, positioned: .bottom(margin: DimensKeys.marginMedium))
         ])
     }
     
@@ -344,6 +355,7 @@ final class ConfigurationView: View {
         challengeNotificationUrlFieldView.text = config.challengeNotificationUrl
         methodNotificationUrlFieldView.text = config.methodNotificationUrl
         merchantContactUrlFieldView.text = config.merchantContactUrl
+        statusUrlFieldView.text = config.statusUrl
     }
 }
 

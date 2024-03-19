@@ -99,6 +99,7 @@ enum GpFieldsEnum: Int {
     case challengeNotification
     case methodNotification
     case merchantContactUrl
+    case statusUrl
     case none
     
     public init?(value: Int?) {

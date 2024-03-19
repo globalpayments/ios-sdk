@@ -5,6 +5,7 @@ public class ConfiguredServices {
     var reportingService: ReportingServiceType?
     var recurringConnector: RecurringServiceType?
     var payFacProvider: PayFacServiceType?
+    var fileProcessingService: FileProcessingType?
 
     public init() {
         self.secure3dProviders = [Secure3dVersion: Secure3dProvider]()

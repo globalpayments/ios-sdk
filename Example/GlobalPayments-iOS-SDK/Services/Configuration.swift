@@ -15,6 +15,7 @@ struct Config: Codable {
     let merchantId: String?
     let transactionProcessing: String?
     let tokenization: String?
+    let statusUrl: String?
 }
 
 protocol Configuration {

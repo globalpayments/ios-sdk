@@ -65,6 +65,10 @@ class GpApiConnector: RestGateway {
                 accessTokenInfo?.riskAssessmentAccountID = response.riskAssessmentAccountID
             }
             
+            if accessTokenInfo?.fileProcessingAccountName?.isEmpty ?? true, accessTokenInfo?.fileProcessingAccountID?.isEmpty ?? true {
+                accessTokenInfo?.fileProcessingAccountID = response.fileProcessingAccountID
+            }
+            
             self?.gpApiConfig.accessTokenInfo = accessTokenInfo
 
             completion(true, nil)
@@ -429,6 +433,33 @@ extension GpApiConnector: PayFacServiceType {
                             return
                         }
                         completion?(GpApiMapping.mapMerchantResponse(response, modifier: builder.transactionModifier), nil)
+                    }
+            }
+        }
+    }
+}
+
+extension GpApiConnector: FileProcessingType {
+    
+    func processFileUpload<T>(builder: FileProcessingBuilder<T>, completion: ((T?, Error?) -> Void)?) {
+        verifyAuthentication { [weak self] error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            
+            let request: GpApiRequest? = GpApiFileProcessingRequestBuilder<T>().buildRequest(for: builder, config: self?.gpApiConfig)
+            
+            if let request = request {
+                self?.doTransaction(
+                    method: request.method,
+                    endpoint: request.endpoint,
+                    data: request.requestBody) { response, error in
+                        guard let response = response else {
+                            completion?(nil, error)
+                            return
+                        }
+                        completion?(GpApiMapping.mapFileProcessingResponse(response), nil)
                     }
             }
         }

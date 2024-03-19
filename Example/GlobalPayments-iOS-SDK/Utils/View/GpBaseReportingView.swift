@@ -65,8 +65,8 @@ class GpBaseReportingView: View {
     
     private lazy var segmentedControlView: SegmentedControlView = {
         let controlView = SegmentedControlView()
-        controlView.firstTabTitle = "Single"
-        controlView.secondTabTitle = "List"
+        controlView.firstTabTitle = "tab.single".localized()
+        controlView.secondTabTitle = "tab.list".localized()
         controlView.delegate = self
         controlView.translatesAutoresizingMaskIntoConstraints = false
         return controlView
@@ -147,6 +147,11 @@ class GpBaseReportingView: View {
         NSLayoutConstraint.activating([
             pageView.relativeTo(containerView, positioned: .allAnchors())
         ])
+    }
+    
+    func setTabsName(first: String, second: String) {
+        segmentedControlView.firstTabTitle = first.localized()
+        segmentedControlView.secondTabTitle = second.localized()
     }
 }
 

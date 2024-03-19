@@ -6,6 +6,7 @@ class GpApiTokenResponse {
     let TOKENIZATION_ACCOUNT_NAME_PREFIX = "TKA_"
     let TRANSACTION_PROCESSING_ACCOUNT_NAME_PREFIX = "TRA_"
     let RIKS_ASSESSMENT_ACCOUNT_NAME_PREFIX = "RAA_"
+    let FILE_PROCESSING_ACCOUNT_NAME_PREFIX = "FPA_"
     
     var token: String?
     var type: String?
@@ -33,6 +34,9 @@ class GpApiTokenResponse {
     var riskAssessmentAccountName: String? {
         return accountName(with: RIKS_ASSESSMENT_ACCOUNT_NAME_PREFIX)
     }
+    var fileProcessingAccountName: String? {
+        return accountName(with: FILE_PROCESSING_ACCOUNT_NAME_PREFIX)
+    }
     
     var dataAccountID: String? {
         return getAccountID(with: DATA_ACCOUNT_NAME_PREFIX)
@@ -48,6 +52,9 @@ class GpApiTokenResponse {
     }
     var riskAssessmentAccountID: String? {
         return getAccountID(with: RIKS_ASSESSMENT_ACCOUNT_NAME_PREFIX)
+    }
+    var fileProcessingAccountID: String? {
+        return getAccountID(with: FILE_PROCESSING_ACCOUNT_NAME_PREFIX)
     }
 
     init(_ jsonString: String) {

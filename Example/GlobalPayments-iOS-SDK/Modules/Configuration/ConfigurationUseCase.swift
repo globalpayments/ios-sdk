@@ -33,6 +33,8 @@ class ConfigurationUseCase {
             form.methodNotificationUrl = value
         case .merchantContactUrl:
             form.merchantContactUrl = value
+        case .statusUrl:
+            form.statusUrl = value
         default:
             break
         }
@@ -52,7 +54,8 @@ class ConfigurationUseCase {
             merchantContactUrl: form.merchantContactUrl,
             merchantId: form.merchantId,
             transactionProcessing: form.transactionProcessing,
-            tokenization: form.tokenization
+            tokenization: form.tokenization,
+            statusUrl: form.statusUrl
         )
         return config
     }

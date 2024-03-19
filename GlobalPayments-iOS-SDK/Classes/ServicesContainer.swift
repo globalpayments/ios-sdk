@@ -94,4 +94,13 @@ public class ServicesContainer {
         }
         return payFacProvider
     }
+    
+    func fileProcessingClient(configName: String) throws -> FileProcessingType {
+        guard let fileProcessingService = configurations[configName]?.fileProcessingService else {
+            throw ApiException(
+                message: "The specified configuration has not been configured for file processing."
+            )
+        }
+        return fileProcessingService
+    }
 }

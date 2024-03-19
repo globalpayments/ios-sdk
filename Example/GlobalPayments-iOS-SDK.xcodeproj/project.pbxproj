@@ -30,7 +30,6 @@
 		8200B18925938E6500042357 /* DisputeDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */; };
 		8200B18A25938E6500042357 /* DisputeDocumentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8200B18825938E6500042357 /* DisputeDocumentTableViewCell.xib */; };
 		8200B19A25939D6B00042357 /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B19925939D6B00042357 /* ConfigurationViewController.swift */; };
-		8200B19E25939DA600042357 /* Configuration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8200B19D25939DA600042357 /* Configuration.storyboard */; };
 		8200B1A425939FA400042357 /* ConfigurationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1A325939FA400042357 /* ConfigurationBuilder.swift */; };
 		8200B1AA2593A2F300042357 /* ConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1A92593A2F300042357 /* ConfigurationViewModel.swift */; };
 		8200B1AF2594D21100042357 /* GlobalPayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B1AE2594D21100042357 /* GlobalPayViewModel.swift */; };
@@ -233,6 +232,19 @@
 		A50B0D112A9E256E00C1A88E /* HostedFieldsWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B0D102A9E256E00C1A88E /* HostedFieldsWebViewController.swift */; };
 		A50B0D132A9E264B00C1A88E /* HostedFieldsWebView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A50B0D122A9E264B00C1A88E /* HostedFieldsWebView.storyboard */; };
 		A50B0D152A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B0D142A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift */; };
+		A514D1F72B9F5F6700009983 /* FileProcessingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D1F62B9F5F6700009983 /* FileProcessingViewController.swift */; };
+		A514D1F92B9F60B100009983 /* FileProcessingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D1F82B9F60B100009983 /* FileProcessingBuilder.swift */; };
+		A514D1FC2BA1166100009983 /* UploadFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D1FB2BA1166100009983 /* UploadFileView.swift */; };
+		A514D1FE2BA1181800009983 /* UploadFileBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D1FD2BA1181800009983 /* UploadFileBuilder.swift */; };
+		A514D2002BA1192800009983 /* UploadFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D1FF2BA1192800009983 /* UploadFileViewController.swift */; };
+		A514D2022BA1195000009983 /* UploadFileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D2012BA1195000009983 /* UploadFileViewModel.swift */; };
+		A514D2042BA11E6600009983 /* FileProcessingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D2032BA11E6600009983 /* FileProcessingTest.swift */; };
+		A514D2162BA1458000009983 /* TestFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = A514D2152BA1458000009983 /* TestFile.txt */; };
+		A514D21B2BA14E1600009983 /* GenericMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D21A2BA14E1600009983 /* GenericMessage.swift */; };
+		A514D21E2BA1516F00009983 /* RetrieveFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D21D2BA1516F00009983 /* RetrieveFileView.swift */; };
+		A514D2202BA1518200009983 /* RetrieveFileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D21F2BA1518200009983 /* RetrieveFileViewModel.swift */; };
+		A514D2222BA1519000009983 /* RetrieveFileBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D2212BA1519000009983 /* RetrieveFileBuilder.swift */; };
+		A514D2242BA151A100009983 /* RetrieveFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D2232BA151A100009983 /* RetrieveFileViewController.swift */; };
 		A559488C2AA3610D00E447DF /* ThreeDS_SDK in Frameworks */ = {isa = PBXBuildFile; productRef = A559488B2AA3610D00E447DF /* ThreeDS_SDK */; };
 		A55948922AA362B200E447DF /* InitializationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948912AA362B200E447DF /* InitializationUseCase.swift */; };
 		A55948942AA362CE00E447DF /* InitializationUseCaseImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948932AA362CE00E447DF /* InitializationUseCaseImplementation.swift */; };
@@ -475,7 +487,6 @@
 		8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeDocumentTableViewCell.swift; sourceTree = "<group>"; };
 		8200B18825938E6500042357 /* DisputeDocumentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisputeDocumentTableViewCell.xib; sourceTree = "<group>"; };
 		8200B19925939D6B00042357 /* ConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewController.swift; sourceTree = "<group>"; };
-		8200B19D25939DA600042357 /* Configuration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Configuration.storyboard; sourceTree = "<group>"; };
 		8200B1A325939FA400042357 /* ConfigurationBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationBuilder.swift; sourceTree = "<group>"; };
 		8200B1A92593A2F300042357 /* ConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewModel.swift; sourceTree = "<group>"; };
 		8200B1AE2594D21100042357 /* GlobalPayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalPayViewModel.swift; sourceTree = "<group>"; };
@@ -680,6 +691,19 @@
 		A50B0D102A9E256E00C1A88E /* HostedFieldsWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedFieldsWebViewController.swift; sourceTree = "<group>"; };
 		A50B0D122A9E264B00C1A88E /* HostedFieldsWebView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HostedFieldsWebView.storyboard; sourceTree = "<group>"; };
 		A50B0D142A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedFieldsWebViewBuilder.swift; sourceTree = "<group>"; };
+		A514D1F62B9F5F6700009983 /* FileProcessingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProcessingViewController.swift; sourceTree = "<group>"; };
+		A514D1F82B9F60B100009983 /* FileProcessingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProcessingBuilder.swift; sourceTree = "<group>"; };
+		A514D1FB2BA1166100009983 /* UploadFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileView.swift; sourceTree = "<group>"; };
+		A514D1FD2BA1181800009983 /* UploadFileBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileBuilder.swift; sourceTree = "<group>"; };
+		A514D1FF2BA1192800009983 /* UploadFileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileViewController.swift; sourceTree = "<group>"; };
+		A514D2012BA1195000009983 /* UploadFileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFileViewModel.swift; sourceTree = "<group>"; };
+		A514D2032BA11E6600009983 /* FileProcessingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProcessingTest.swift; sourceTree = "<group>"; };
+		A514D2152BA1458000009983 /* TestFile.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestFile.txt; sourceTree = "<group>"; };
+		A514D21A2BA14E1600009983 /* GenericMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericMessage.swift; sourceTree = "<group>"; };
+		A514D21D2BA1516F00009983 /* RetrieveFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrieveFileView.swift; sourceTree = "<group>"; };
+		A514D21F2BA1518200009983 /* RetrieveFileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrieveFileViewModel.swift; sourceTree = "<group>"; };
+		A514D2212BA1519000009983 /* RetrieveFileBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrieveFileBuilder.swift; sourceTree = "<group>"; };
+		A514D2232BA151A100009983 /* RetrieveFileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrieveFileViewController.swift; sourceTree = "<group>"; };
 		A55948912AA362B200E447DF /* InitializationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializationUseCase.swift; sourceTree = "<group>"; };
 		A55948932AA362CE00E447DF /* InitializationUseCaseImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializationUseCaseImplementation.swift; sourceTree = "<group>"; };
 		A55948952AA3649400E447DF /* AppBootstraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBootstraper.swift; sourceTree = "<group>"; };
@@ -1051,7 +1075,6 @@
 		8200B19825939D4700042357 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				8200B19D25939DA600042357 /* Configuration.storyboard */,
 				8200B1A325939FA400042357 /* ConfigurationBuilder.swift */,
 				8200B19925939D6B00042357 /* ConfigurationViewController.swift */,
 				8200B1A92593A2F300042357 /* ConfigurationViewModel.swift */,
@@ -1379,34 +1402,35 @@
 		8258B115255C1B4100D02721 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				8244D6C1255E98A800739364 /* AccessToken */,
 				A582C4E62B5EAF990081070A /* Accounts */,
-				A582C4C02B5E1AAB0081070A /* Actions */,
-				A5E0E1B12B45A21F00B546E8 /* Reporting */,
-				A59D630B2B1FC646000AA7BA /* Batch */,
-				A59D62F42B104066000AA7BA /* ExpandYourIntegration */,
-				A59D62E72B0B7857000AA7BA /* Ebt */,
-				A58577312AE2B4A800910EC9 /* UnifiedPayments */,
-				A585771B2ACC375600910EC9 /* PaymentProcess */,
-				A570F1032AB8B72300A821FE /* Generic */,
-				A570F0F82AB895F900A821FE /* Home */,
-				A50B0CFA2A9E139000C1A88E /* HostedFields */,
-				A59A6D9D2A892CEB008DB43C /* OpenBanking */,
-				A56FEFFD2A42A4E600AE8E7E /* BuyNowPayLater */,
-				A59667FF2A0BB44100EE816D /* Paypal */,
-				A59667E829F6ACD300EE816D /* PayLink */,
-				A57EB60229C3B47F001C4AD9 /* Merchant */,
 				30B3DE5D299D29E000FCEF48 /* Ach */,
-				308E27C12829F552001441D0 /* DigitalWallets */,
+				A582C4C02B5E1AAB0081070A /* Actions */,
+				82B82EDD263ABD4B008B448D /* Authentications */,
+				A59D630B2B1FC646000AA7BA /* Batch */,
+				A56FEFFD2A42A4E600AE8E7E /* BuyNowPayLater */,
 				8258B167255C38DB00D02721 /* Components */,
 				8200B19825939D4700042357 /* Configuration */,
-				8200B18D2593995500042357 /* GlobalPay */,
-				8244D6C1255E98A800739364 /* AccessToken */,
-				8253FBB32563E8C600FBDCC9 /* Transactions */,
-				82B49406256FDF21009C2CBD /* Verifications */,
-				82EC18E22575304500A93A3C /* StoredPaymentMethods */,
 				82883A762580E5AD00914499 /* Deposits */,
+				308E27C12829F552001441D0 /* DigitalWallets */,
 				82649FF7258BA38000E1144F /* Disputes */,
-				82B82EDD263ABD4B008B448D /* Authentications */,
+				A59D62E72B0B7857000AA7BA /* Ebt */,
+				A59D62F42B104066000AA7BA /* ExpandYourIntegration */,
+				A514D1F12B9F5E7000009983 /* FileProcessing */,
+				A570F1032AB8B72300A821FE /* Generic */,
+				8200B18D2593995500042357 /* GlobalPay */,
+				A570F0F82AB895F900A821FE /* Home */,
+				A50B0CFA2A9E139000C1A88E /* HostedFields */,
+				A57EB60229C3B47F001C4AD9 /* Merchant */,
+				A59A6D9D2A892CEB008DB43C /* OpenBanking */,
+				A59667E829F6ACD300EE816D /* PayLink */,
+				A585771B2ACC375600910EC9 /* PaymentProcess */,
+				A59667FF2A0BB44100EE816D /* Paypal */,
+				A5E0E1B12B45A21F00B546E8 /* Reporting */,
+				82EC18E22575304500A93A3C /* StoredPaymentMethods */,
+				8253FBB32563E8C600FBDCC9 /* Transactions */,
+				A58577312AE2B4A800910EC9 /* UnifiedPayments */,
+				82B49406256FDF21009C2CBD /* Verifications */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -1424,6 +1448,7 @@
 				8214205625921C3F003EA8DF /* CardBrand.swift */,
 				8200B17525937A8B00042357 /* ImagePicker.swift */,
 				82BE179D25DD3B36005F85C1 /* Utils.swift */,
+				A514D21A2BA14E1600009983 /* GenericMessage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1444,6 +1469,7 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				8258B145255C27EE00D02721 /* Localizable.strings */,
+				A514D2152BA1458000009983 /* TestFile.txt */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1573,6 +1599,7 @@
 				A5FC78322A6DD5AC00BBD524 /* GpApiBNPLTest.swift */,
 				A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */,
 				A5627C7F2B672E73007E0994 /* GpAccountsTest.swift */,
+				A514D2032BA11E6600009983 /* FileProcessingTest.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -1833,6 +1860,39 @@
 				A50B0D142A9E273400C1A88E /* HostedFieldsWebViewBuilder.swift */,
 			);
 			path = HostedFields;
+			sourceTree = "<group>";
+		};
+		A514D1F12B9F5E7000009983 /* FileProcessing */ = {
+			isa = PBXGroup;
+			children = (
+				A514D21C2BA1516000009983 /* RetrieveFile */,
+				A514D1FA2BA1164400009983 /* UploadFile */,
+				A514D1F62B9F5F6700009983 /* FileProcessingViewController.swift */,
+				A514D1F82B9F60B100009983 /* FileProcessingBuilder.swift */,
+			);
+			path = FileProcessing;
+			sourceTree = "<group>";
+		};
+		A514D1FA2BA1164400009983 /* UploadFile */ = {
+			isa = PBXGroup;
+			children = (
+				A514D1FB2BA1166100009983 /* UploadFileView.swift */,
+				A514D1FD2BA1181800009983 /* UploadFileBuilder.swift */,
+				A514D1FF2BA1192800009983 /* UploadFileViewController.swift */,
+				A514D2012BA1195000009983 /* UploadFileViewModel.swift */,
+			);
+			path = UploadFile;
+			sourceTree = "<group>";
+		};
+		A514D21C2BA1516000009983 /* RetrieveFile */ = {
+			isa = PBXGroup;
+			children = (
+				A514D21D2BA1516F00009983 /* RetrieveFileView.swift */,
+				A514D21F2BA1518200009983 /* RetrieveFileViewModel.swift */,
+				A514D2212BA1519000009983 /* RetrieveFileBuilder.swift */,
+				A514D2232BA151A100009983 /* RetrieveFileViewController.swift */,
+			);
+			path = RetrieveFile;
 			sourceTree = "<group>";
 		};
 		A55948902AA3629400E447DF /* Netcetera */ = {
@@ -2368,6 +2428,7 @@
 				A57EB61129C3B6A6001C4AD9 /* Merchant.storyboard in Resources */,
 				8253FBBD2563E9D900FBDCC9 /* Transactions.storyboard in Resources */,
 				8244D6F0255EBE4500739364 /* AccessTokenView.xib in Resources */,
+				A514D2162BA1458000009983 /* TestFile.txt in Resources */,
 				823EDBEF256D13BC009DED23 /* EmptyView.xib in Resources */,
 				82EC191725766E5B00A93A3C /* PaymentMethodView.xib in Resources */,
 				A5FC781B2A6C78C500BBD524 /* Products.storyboard in Resources */,
@@ -2389,7 +2450,6 @@
 				822FBF0425810C3900D12353 /* DepositTableViewCell.xib in Resources */,
 				A50B0D132A9E264B00C1A88E /* HostedFieldsWebView.storyboard in Resources */,
 				A5FC78462A72BA9100BBD524 /* CaptureBnpl.storyboard in Resources */,
-				8200B19E25939DA600042357 /* Configuration.storyboard in Resources */,
 				8258B16C255C390C00D02721 /* SelectableTableViewCell.xib in Resources */,
 				82B49403256FAF74009C2CBD /* TransactionView.xib in Resources */,
 				8249189B2590F2EE00A7566E /* DocumentTableViewCell.xib in Resources */,
@@ -2516,6 +2576,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5E0E1C32B46FD0200B546E8 /* GpBaseSingleView.swift in Sources */,
+				A514D1F72B9F5F6700009983 /* FileProcessingViewController.swift in Sources */,
 				8244D698255D766100739364 /* GlobalPayModel.swift in Sources */,
 				30B3DE75299D52A300FCEF48 /* TransactionTypePath.swift in Sources */,
 				822FBEF32580EE8100D12353 /* DepositByIDFormViewController.swift in Sources */,
@@ -2538,6 +2599,7 @@
 				8244D688255D692A00739364 /* Router.swift in Sources */,
 				82A9F77D2577ABA900B8962D /* PaymentOperationFormBuilder.swift in Sources */,
 				821158872644082F000D26ED /* URLRequestExtensions.swift in Sources */,
+				A514D1F92B9F60B100009983 /* FileProcessingBuilder.swift in Sources */,
 				82C8D0F225AC620C00F6704E /* KeyValueStore.swift in Sources */,
 				A5FC78172A6C786100BBD524 /* ProductsViewModel.swift in Sources */,
 				30B3DE6A299D31F700FCEF48 /* AchChargeFormBuilder.swift in Sources */,
@@ -2566,6 +2628,7 @@
 				82A9F7832577ABB300B8962D /* PaymentOperationFormViewController.swift in Sources */,
 				82B4940C256FE299009C2CBD /* VerificationsViewController.swift in Sources */,
 				82EC19092576467700A93A3C /* PaymentMethodReportViewModel.swift in Sources */,
+				A514D1FE2BA1181800009983 /* UploadFileBuilder.swift in Sources */,
 				A5E0E1B92B45A31700B546E8 /* ReportingViewController.swift in Sources */,
 				8200B1AF2594D21100042357 /* GlobalPayViewModel.swift in Sources */,
 				8244D6F825629C0400739364 /* AccessTokenFormViewController.swift in Sources */,
@@ -2611,6 +2674,7 @@
 				A56FF00B2A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift in Sources */,
 				826695E42566CA71003D6FFE /* DropDown.swift in Sources */,
 				82B49410256FE2A2009C2CBD /* VerificationsBuilder.swift in Sources */,
+				A514D2222BA1519000009983 /* RetrieveFileBuilder.swift in Sources */,
 				A570F0EE2AB883EA00A821FE /* View.swift in Sources */,
 				A582C5012B5EB6420081070A /* AccountsListFormViewModel.swift in Sources */,
 				A570F0F42AB8871200A821FE /* BaseViewModel.swift in Sources */,
@@ -2654,6 +2718,7 @@
 				A582C50D2B5ED6E80081070A /* ConfigurationForm.swift in Sources */,
 				A582C4A62B5C275E0081070A /* DepositByIdFormView.swift in Sources */,
 				A582C4FF2B5EB6370081070A /* AccountsListFormViewController.swift in Sources */,
+				A514D21E2BA1516F00009983 /* RetrieveFileView.swift in Sources */,
 				82649FFA258BA3BB00E1144F /* DisputesModel.swift in Sources */,
 				82EC19052576466C00A93A3C /* PaymentMethodReportViewController.swift in Sources */,
 				A58577212ACC388800910EC9 /* PaymentProcessViewModel.swift in Sources */,
@@ -2734,6 +2799,7 @@
 				8253FBD82563F20A00FBDCC9 /* TransactionReportBuilder.swift in Sources */,
 				A59D631A2B1FF552000AA7BA /* MerchantEditViewController.swift in Sources */,
 				82A9F7782577A34700B8962D /* PaymentMethodOperationsViewModel.swift in Sources */,
+				A514D1FC2BA1166100009983 /* UploadFileView.swift in Sources */,
 				A55CE4762ABBAFC500480475 /* GpBaseView.swift in Sources */,
 				A5D8494D2B7921030009F314 /* GpContainer.swift in Sources */,
 				A5FC78312A6DB86500BBD524 /* ProductTableViewCell.swift in Sources */,
@@ -2762,9 +2828,11 @@
 				8253FBAC2563DB5500FBDCC9 /* ErrorView.swift in Sources */,
 				A582C4E32B5EA8C10081070A /* DisputeListFormViewModel.swift in Sources */,
 				A582C4BB2B5DAEDD0081070A /* PaymentMethodsListViewController.swift in Sources */,
+				A514D2022BA1195000009983 /* UploadFileViewModel.swift in Sources */,
 				823EDC16256D5170009DED23 /* TransactionOperationsFormViewController.swift in Sources */,
 				8249188C2590E55900A7566E /* DisputeDocumentViewController.swift in Sources */,
 				8214206C259249F3003EA8DF /* DisputesOperationsViewController.swift in Sources */,
+				A514D2202BA1518200009983 /* RetrieveFileViewModel.swift in Sources */,
 				823EDC0C256D50B4009DED23 /* TransactionOperationsForm.swift in Sources */,
 				A50B0CFE2A9E142000C1A88E /* HostedFieldsViewController.swift in Sources */,
 				82B82EE7263ABD84008B448D /* AuthenticationsViewModel.swift in Sources */,
@@ -2772,6 +2840,7 @@
 				A582C4AE2B5D74F80081070A /* DepositsListFormUseCase.swift in Sources */,
 				8249189A2590F2EE00A7566E /* DocumentTableViewCell.swift in Sources */,
 				A59D63062B1E1154000AA7BA /* DisputesOperationsFormView.swift in Sources */,
+				A514D2002BA1192800009983 /* UploadFileViewController.swift in Sources */,
 				A59D62F82B10461F000AA7BA /* ExpandYourIntegrationBuilder.swift in Sources */,
 				A59A6DA12A892D0F008DB43C /* OpenBankingViewModel.swift in Sources */,
 				82EC18BF25750AD800A93A3C /* VerificationsViewModel.swift in Sources */,
@@ -2792,9 +2861,11 @@
 				A57EB61B29C49C38001C4AD9 /* MerchantAddressViewController.swift in Sources */,
 				8214205725921C3F003EA8DF /* CardBrand.swift in Sources */,
 				A50B0D042A9E1C8D00C1A88E /* HostedFieldsWebView.swift in Sources */,
+				A514D21B2BA14E1600009983 /* GenericMessage.swift in Sources */,
 				A582C4FB2B5EB6150081070A /* AccountsListFormView.swift in Sources */,
 				A57EB62929C9DBBE001C4AD9 /* MerchantProductsViewController.swift in Sources */,
 				A59A6DA52A892D28008DB43C /* OpenBankingBuilder.swift in Sources */,
+				A514D2242BA151A100009983 /* RetrieveFileViewController.swift in Sources */,
 				A582C4DF2B5EA4870081070A /* DisputeByIdFormViewModel.swift in Sources */,
 				A5FC78242A6C851E00BBD524 /* CustomerViewModel.swift in Sources */,
 				82A9F7682577A0A100B8962D /* GlobalPayViewController.swift in Sources */,
@@ -2857,6 +2928,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A514D2042BA11E6600009983 /* FileProcessingTest.swift in Sources */,
 				82F9A57325B723EB00B5E3E1 /* XCTestCaseExtensions.swift in Sources */,
 				30EB561228201FC500AEA47B /* GpApiDigitalWalletsTests.swift in Sources */,
 				8247931925D56C7B00989CD5 /* URLRequestExtensions.swift in Sources */,

@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v2.0.5 (03/19/2024)
+## Latest - v2.0.6 (04/04/2024)
+
+#### Enhancements
+
+- GP-API: Fix ApplePay Request
+
+## v2.0.5 (03/19/2024)
 
 #### Enhancements
 

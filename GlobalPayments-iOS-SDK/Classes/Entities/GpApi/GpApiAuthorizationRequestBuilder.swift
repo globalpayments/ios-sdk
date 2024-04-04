@@ -378,9 +378,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         if modifier == TransactionModifier.encryptedMobile || modifier == TransactionModifier.decryptedMobile {
             let digitalWallet = JsonDoc()
             if modifier == TransactionModifier.encryptedMobile {
-                let cardData = JsonDoc()
-                cardData.set(for: "data", value: creditCardData.token)
-                digitalWallet.set(for: "payment_token", doc: cardData)
+                let tokenDoc = JsonDoc.parse(creditCardData.token ?? "{}")
+                digitalWallet.set(for: "payment_token", doc: tokenDoc)
             } else if modifier == TransactionModifier.decryptedMobile {
                 digitalWallet.set(for: "token", value: creditCardData.token)
                 digitalWallet.set(for: "token_format", value: DigitalWalletTokenFormat.CARD_NUMBER.rawValue)

@@ -50,8 +50,7 @@ extension AlternativePaymentResponse: JsonToObject {
     public static func mapToObject<T>(_ json: JsonDoc) -> T? {
         let apm = AlternativePaymentResponse()
         if let paymentMethodApm: JsonDoc = json.get(valueFor: "apm") {
-            apm.redirectUrl = json.getValue(key: "redirect_url")
-            apm.providerName = paymentMethodApm.getValue(key: "provider")
+            apm.redirectUrl = paymentMethodApm.getValue(key: "redirect_url")
             apm.ack = paymentMethodApm.getValue(key: "ack")
             apm.sessionToken = paymentMethodApm.getValue(key: "session_token")
             apm.correlationReference = paymentMethodApm.getValue(key: "correlation_reference")
@@ -71,6 +70,14 @@ extension AlternativePaymentResponse: JsonToObject {
             
             apm.timeCreatedReference = paymentMethodApm.getValue(key: "time_created_reference")
             apm.paymentTimeReference = paymentMethodApm.getValue(key: "payment_time_reference")
+            
+            if let provider: JsonDoc = paymentMethodApm.get(valueFor: "provider") {
+                apm.providerName = provider.getValue(key: "name")
+                apm.providerReference = provider.getValue(key: "merchant_identifier")
+                apm.timeCreatedReference = provider.getValue(key: "time_created_reference")
+            } else {
+                apm.providerName = paymentMethodApm.getValue(key: "provider")
+            }
         }
         
         if let authorization: JsonDoc = json.get(valueFor: "authorization") {

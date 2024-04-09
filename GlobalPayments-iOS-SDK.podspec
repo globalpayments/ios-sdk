@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'GlobalPayments-iOS-SDK'
-  s.version          = '2.0.6'
+  s.version          = '2.0.7'
   s.summary          = 'The official Global Payments iOS SDK for GP-API.'
   s.swift_version    = '5.0'
 

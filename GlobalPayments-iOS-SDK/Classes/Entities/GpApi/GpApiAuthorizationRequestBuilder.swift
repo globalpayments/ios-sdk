@@ -143,6 +143,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             payload.set(for: "currency_conversion", doc: currencyDoc)
         }
         
+        payload.set(for: "merchant_category", value: builder.merchantCategory?.rawValue);
+        
         if let masked = builder.maskedDataResponse {
             payload.set(for: "masked", value: masked ? "YES" : "NO")
         }

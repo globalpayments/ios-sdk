@@ -138,6 +138,7 @@ public enum AlternativePaymentMethodType: String, Mappable {
     case WECHAT_PAY
     case ZIMPLER
     case UK_DIRECT_DEBIT
+    case ALIPAY
     
     public func mapped(for target: Target) -> String? {
         switch target {

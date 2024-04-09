@@ -21,8 +21,8 @@ class DigitalWalletsViewModel: BaseViewModel {
             PKPaymentNetwork.amex
         ]
         paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
-        paymentRequest.countryCode = "US"
-        paymentRequest.currencyCode = "USD"
+        paymentRequest.countryCode = "GB"
+        paymentRequest.currencyCode = "GBP"
 
         let totalItem = PKPaymentSummaryItem(label: "Foobar", amount: amount ?? 0.0)
         paymentRequest.paymentSummaryItems = [totalItem]
@@ -39,10 +39,39 @@ class DigitalWalletsViewModel: BaseViewModel {
     }
     
     func showTokenGenerated(_ tokenGenerated: String?) {
-        if let tokenGenerated = tokenGenerated, !tokenGenerated.isEmpty {
-            showDataResponse.value = (.success, MessageResponse(message: "Token Generated \(tokenGenerated)"))
+        if let tokenGenerated = tokenGenerated {
+            showLoading.executer()
+            chargeTokenApplePay(paymentToken: tokenGenerated)
         }else {
             showDataResponse.value = (.error, ApiException(message: "Run on Real Device To Generate Token"))
+        }
+    }
+    
+    func chargeTokenApplePay(paymentToken: String) {
+        let card = CreditCardData()
+        card.cardHolderName = "James Mason#"
+        card.mobileType = EncryptedMobileType.APPLE_PAY.rawValue
+        card.token = paymentToken
+        card.charge(amount: amount)
+            .withCurrency("GBP")
+            .withModifier(.encryptedMobile)
+            .execute(completion: showOutput)
+    }
+    
+    private func showOutput(transaction: Transaction?, error: Error?) {
+        UI {
+            self.hideLoading.executer()
+            guard let transaction = transaction else {
+                if let error = error as? GatewayException {
+                    self.showDataResponse.value = (.error, error)
+                } else if let error = error as? ApiException{
+                    self.showDataResponse.value = (.error, error.message ?? "Configuration Has not been")
+                } else {
+                    self.showDataResponse.value = (.error, "Data Error")
+                }
+                return
+            }
+            self.showDataResponse.value = (.success, transaction)
         }
     }
 }

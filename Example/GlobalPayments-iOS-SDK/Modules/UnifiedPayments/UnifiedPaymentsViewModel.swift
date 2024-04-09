@@ -7,7 +7,7 @@ class UnifiedPaymentsViewModel: BaseViewModel {
     var validateChargeButton: Dynamic<Bool> = Dynamic(false)
     
     private var amount: NSDecimalNumber = 0.0
-    private var currency: String = "GBP"
+    private var currency: String = "USD"
     private var recurringPayment: Bool  = false
     private var cardNumber: String = ""
     private var cardExpiration: String = ""

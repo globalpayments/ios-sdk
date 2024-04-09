@@ -17,6 +17,14 @@ final class DigitalWalletsViewController: BaseViewController<DigitalWalletsViewM
     override func fillUI() {
         super.fillUI()
         
+        viewModel?.showLoading.bind { [weak self] in
+            self?.customView.showLoading(true)
+        }
+        
+        viewModel?.hideLoading.bind { [weak self] in
+            self?.customView.showLoading(false)
+        }
+        
         viewModel?.paymentGenerated.bind { [weak self] paymentRquest in
             self?.openApplePayView(paymentRquest)
         }

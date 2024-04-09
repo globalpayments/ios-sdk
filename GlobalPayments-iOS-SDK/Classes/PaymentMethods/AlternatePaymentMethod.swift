@@ -22,6 +22,7 @@ public class AlternatePaymentMethod: NSObject, PaymentMethod, Chargeable, Notifi
     /// - Returns: AuthorizationBuilder
     public func charge(amount: NSDecimalNumber? = nil) -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .sale, paymentMethod: self)
+            .withModifier(.alternativePaymentMethod)
             .withAmount(amount)
     }
     

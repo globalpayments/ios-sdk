@@ -28,6 +28,7 @@
 "globalpay.ach.title" = "ACH";
 "globalpay.ach.configuration.title" = "Configuration\nACH";
 "globalpay.ebt.title" = "EBT";
+"globalpay.alipay.title" = "AliPay";
 
 "access.token.title" = "Access Token";
 "access.token.create" = "Create Access Token";
@@ -198,6 +199,7 @@
 "deposits.amount" = "Amount:";
 "deposits.currency" = "Currency:";
 "deposits.mid" = "Merchant ID:";
+"deposits.processing.account.id" = "Processing Account ID:";
 "deposits.hierarchy" = "Hierarchy:";
 "deposits.name" = "Name:";
 "deposits.dbo" = "Alternative Name:";
@@ -476,6 +478,7 @@
 "payment.process.ach.description" = "Send an electronic funds transfer.";
 "payment.process.ebt.description" = "Send an electronic benefits transfer.";
 "payment.process.bnpl.description" = "Provide a flexible payment option that can";
+"payment.process.ali.pay.description" = "Process payments via AliPay.";
 
 "hosted.fields.payment.amount.title" = "Payment Amount";
 "hosted.fields.amount.authorize.title" = "Amount to authorize";

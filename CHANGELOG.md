@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v2.0.6 (04/04/2024)
+## Latest - v2.0.7 (04/09/2024)
+
+#### Enhancements
+
+- GP-API: Add APM AliPay
+
+## v2.0.6 (04/04/2024)
 
 #### Enhancements
 

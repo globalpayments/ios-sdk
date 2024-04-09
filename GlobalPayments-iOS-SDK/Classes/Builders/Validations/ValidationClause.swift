@@ -38,7 +38,13 @@ class ValidationClause {
     /// - Returns: ValidationTarget
     @discardableResult func isNotNil(message: String? = nil) -> ValidationTarget? {
         callback = { [weak self] builder in
-            return builder.validateProperty(for: self?.propertyName) != nil
+            if let splitProperty = self?.propertyName.components(separatedBy: "."), splitProperty.count > 1 {
+                let parent = splitProperty[0]
+                let child = splitProperty[1]
+                return builder.validateInnerProperty(for: parent, to: child) != nil
+            }else {
+                return builder.validateProperty(for: self?.propertyName) != nil
+            }
         }
         self.message = message ?? "\(propertyName) cannot be nil for this rule"
 
@@ -144,6 +150,20 @@ extension NSObject {
         let mirror = Mirror(reflecting: self)
         let child = mirror.allChildren.filter { $0.label == property }.first
         return isNil(child?.value) ? nil : child?.value
+    }
+    
+    public func validateInnerProperty(for parent: String?, to child: String?) -> Any? {
+        guard let parent = parent else { return nil }
+        if let parentProperty = Mirror(reflecting: self)
+            .allChildren
+            .first(where: { $0.label == parent })
+            .map({ $0.value as AnyObject }){
+            let mirror = Mirror(reflecting: parentProperty)
+            let childProperty = mirror.allChildren.filter { $0.label == child }.first
+            return isNil(childProperty?.value) ? nil : childProperty?.value
+        } else {
+            return nil
+        }
     }
     
     public func isNil(_ child: Any?) -> Bool{

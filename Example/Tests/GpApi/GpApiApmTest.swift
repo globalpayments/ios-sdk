@@ -549,4 +549,186 @@ final class GpApiApmTest: XCTestCase {
             }
         }
     }
+    
+    func test_aliPay() {
+        // GIVEN
+        let expectationCharge = expectation(description: "AliPay charge Expectation")
+        let paymentMethod = AlternatePaymentMethod()
+        paymentMethod.alternativePaymentMethodType = .ALIPAY
+        paymentMethod.returnUrl = "https://example.com/returnUrl"
+        paymentMethod.statusUpdateUrl = "https://example.com/statusUrl"
+        paymentMethod.country = "US"
+        paymentMethod.accountHolderName = "Jane Doe"
+        var responseCharge: Transaction?
+        var errorCharge: Error?
+
+        // WHEN
+        paymentMethod.charge(amount: 19.99)
+            .withCurrency("HKD")
+            .withMerchantCategory(.OTHER)
+            .execute {
+                responseCharge = $0
+                errorCharge = $1
+                expectationCharge.fulfill()
+            }
+        
+        // THEN
+        wait(for: [expectationCharge], timeout: 8.0)
+        XCTAssertNil(errorCharge)
+        XCTAssertNotNil(responseCharge)
+        XCTAssertEqual("SUCCESS", responseCharge?.responseCode)
+        XCTAssertEqual(TransactionStatus.initiated.rawValue, responseCharge?.responseMessage)
+        XCTAssertNotNil(responseCharge?.alternativePaymentResponse?.redirectUrl)
+        XCTAssertEqual(AlternativePaymentMethodType.ALIPAY.mapped(for: .gpApi), responseCharge?.alternativePaymentResponse?.providerName?.lowercased())
+    }
+    
+    func test_alipay_missing_return_url() {
+        // GIVEN
+        let expectationCharge = expectation(description: "AliPay charge Expectation")
+        let paymentMethod = AlternatePaymentMethod()
+        paymentMethod.alternativePaymentMethodType = .ALIPAY
+        paymentMethod.statusUpdateUrl = "https://example.com/statusUrl"
+        paymentMethod.country = "US"
+        paymentMethod.accountHolderName = "Jane Doe"
+        var responseCharge: Transaction?
+        var errorCharge: BuilderException?
+
+        // WHEN
+        paymentMethod.charge(amount: 19.99)
+            .withCurrency("HKD")
+            .withMerchantCategory(.OTHER)
+            .execute {
+                responseCharge = $0
+                if let error = $1 as? BuilderException {
+                    errorCharge = error
+                }
+                expectationCharge.fulfill()
+            }
+        
+        // THEN
+        wait(for: [expectationCharge], timeout: 8.0)
+        XCTAssertNotNil(errorCharge)
+        XCTAssertNil(responseCharge)
+        XCTAssertEqual("paymentMethod.returnUrl cannot be nil for this rule", errorCharge?.message)
+    }
+    
+    func test_alipay_missing_status_update_url() {
+        // GIVEN
+        let expectationCharge = expectation(description: "AliPay charge Expectation")
+        let paymentMethod = AlternatePaymentMethod()
+        paymentMethod.alternativePaymentMethodType = .ALIPAY
+        paymentMethod.returnUrl = "https://example.com/returnUrl"
+        paymentMethod.country = "US"
+        paymentMethod.accountHolderName = "Jane Doe"
+        var responseCharge: Transaction?
+        var errorCharge: BuilderException?
+
+        // WHEN
+        paymentMethod.charge(amount: 19.99)
+            .withCurrency("HKD")
+            .withMerchantCategory(.OTHER)
+            .execute {
+                responseCharge = $0
+                if let error = $1 as? BuilderException {
+                    errorCharge = error
+                }
+                expectationCharge.fulfill()
+            }
+        
+        // THEN
+        wait(for: [expectationCharge], timeout: 8.0)
+        XCTAssertNotNil(errorCharge)
+        XCTAssertNil(responseCharge)
+        XCTAssertEqual("paymentMethod.statusUpdateUrl cannot be nil for this rule", errorCharge?.message)
+    }
+    
+    func test_alipay_missing_account_holderName() {
+        // GIVEN
+        let expectationCharge = expectation(description: "AliPay charge Expectation")
+        let paymentMethod = AlternatePaymentMethod()
+        paymentMethod.alternativePaymentMethodType = .ALIPAY
+        paymentMethod.returnUrl = "https://example.com/returnUrl"
+        paymentMethod.statusUpdateUrl = "https://example.com/statusUrl"
+        paymentMethod.country = "US"
+        var responseCharge: Transaction?
+        var errorCharge: BuilderException?
+
+        // WHEN
+        paymentMethod.charge(amount: 19.99)
+            .withCurrency("HKD")
+            .withMerchantCategory(.OTHER)
+            .execute {
+                responseCharge = $0
+                if let error = $1 as? BuilderException {
+                    errorCharge = error
+                }
+                expectationCharge.fulfill()
+            }
+        
+        // THEN
+        wait(for: [expectationCharge], timeout: 8.0)
+        XCTAssertNotNil(errorCharge)
+        XCTAssertNil(responseCharge)
+        XCTAssertEqual("paymentMethod.accountHolderName cannot be nil for this rule", errorCharge?.message)
+    }
+    
+    func test_alipay_missing_currency() {
+        // GIVEN
+        let expectationCharge = expectation(description: "AliPay charge Expectation")
+        let paymentMethod = AlternatePaymentMethod()
+        paymentMethod.alternativePaymentMethodType = .ALIPAY
+        paymentMethod.returnUrl = "https://example.com/returnUrl"
+        paymentMethod.statusUpdateUrl = "https://example.com/statusUrl"
+        paymentMethod.country = "US"
+        paymentMethod.accountHolderName = "Jane Doe"
+        var responseCharge: Transaction?
+        var errorCharge: BuilderException?
+
+        // WHEN
+        paymentMethod.charge(amount: 19.99)
+            .withMerchantCategory(.OTHER)
+            .execute {
+                responseCharge = $0
+                if let error = $1 as? BuilderException {
+                    errorCharge = error
+                }
+                expectationCharge.fulfill()
+            }
+        
+        // THEN
+        wait(for: [expectationCharge], timeout: 8.0)
+        XCTAssertNotNil(errorCharge)
+        XCTAssertNil(responseCharge)
+        XCTAssertEqual("currency cannot be nil for this rule", errorCharge?.message)
+    }
+    
+    func test_alipay_missing_merchant_category() {
+        // GIVEN
+        let expectationCharge = expectation(description: "AliPay charge Expectation")
+        let paymentMethod = AlternatePaymentMethod()
+        paymentMethod.alternativePaymentMethodType = .ALIPAY
+        paymentMethod.returnUrl = "https://example.com/returnUrl"
+        paymentMethod.statusUpdateUrl = "https://example.com/statusUrl"
+        paymentMethod.country = "US"
+        paymentMethod.accountHolderName = "Jane Doe"
+        var responseCharge: Transaction?
+        var errorCharge: GatewayException?
+
+        // WHEN
+        paymentMethod.charge(amount: 19.99)
+            .withCurrency("HKD")
+            .execute {
+                responseCharge = $0
+                if let error = $1 as? GatewayException {
+                    errorCharge = error
+                }
+                expectationCharge.fulfill()
+            }
+        
+        // THEN
+        wait(for: [expectationCharge], timeout: 8.0)
+        XCTAssertNotNil(errorCharge)
+        XCTAssertNil(responseCharge)
+        XCTAssertEqual("Status Code: 400 - Request expects the following fields merchant_category", errorCharge?.message)
+    }
 }

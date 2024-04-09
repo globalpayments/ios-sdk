@@ -16,4 +16,5 @@ struct ConfigurationForm {
     var merchantId: String?
     var transactionProcessing: String?
     var tokenization: String?
+    var processingAccountId: String?
 }

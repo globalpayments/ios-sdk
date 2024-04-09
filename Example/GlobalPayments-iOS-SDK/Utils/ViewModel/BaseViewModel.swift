@@ -36,6 +36,10 @@ class BaseViewModel {
             if let accountName = appConfig.transactionProcessing, !accountName.isEmpty {
                 accessTokenInfo.transactionProcessingAccountName = accountName
             }
+            
+            if let accountId = appConfig.processingAccountId, !accountId.isEmpty {
+                accessTokenInfo.transactionProcessingAccountID = accountId
+            }
            
             accessTokenInfo.tokenizationAccountName = appConfig.tokenization
             

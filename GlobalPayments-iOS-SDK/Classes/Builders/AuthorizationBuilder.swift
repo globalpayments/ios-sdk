@@ -75,6 +75,7 @@ import Foundation
     var remittanceReferenceType: RemittanceReferenceType?
     var remittanceReferenceValue: String?
     var transactionInitiator: StoredCredentialInitiator?
+    var merchantCategory: MerchantCategory?
 
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
@@ -648,6 +649,11 @@ import Foundation
         self.id = id
         return self
     }
+    
+    public func withMerchantCategory(_ value: MerchantCategory) -> AuthorizationBuilder {
+        self.merchantCategory = value
+        return self
+    }
 
     /// Executes the authorization builder against the gateway.
     /// - Returns: Transaction
@@ -738,5 +744,14 @@ import Foundation
 
         validations.of(paymentMethodType: .recurring)
             .check(propertyName: "shippingAmt")?.isNil()
+        
+        validations.of(transactionType: [.auth, .sale])
+            .with(modifier: .alternativePaymentMethod)
+            .check(propertyName: "paymentMethod")?.isNotNil()?
+            .check(propertyName: "amount")?.isNotNil()?
+            .check(propertyName: "currency")?.isNotNil()?
+            .check(propertyName: "paymentMethod.returnUrl")?.isNotNil()?
+            .check(propertyName: "paymentMethod.statusUpdateUrl")?.isNotNil()?
+            .check(propertyName: "paymentMethod.accountHolderName")?.isNotNil()
     }
 }

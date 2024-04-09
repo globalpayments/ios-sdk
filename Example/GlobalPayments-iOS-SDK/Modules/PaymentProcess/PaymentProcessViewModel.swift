@@ -10,7 +10,8 @@ class PaymentProcessViewModel: BaseViewModel {
         "globalpay.paylink.title",
         "globalpay.ach.title",
         "globalpay.ebt.title",
-        "buyNowPayLater.title"
+        "buyNowPayLater.title",
+        "globalpay.alipay.title"
     ]
     
     private lazy var descriptions = [
@@ -21,7 +22,8 @@ class PaymentProcessViewModel: BaseViewModel {
         "payment.process.paylink.description",
         "payment.process.ach.description",
         "payment.process.ebt.description",
-        "payment.process.bnpl.description"
+        "payment.process.bnpl.description",
+        "payment.process.ali.pay.description"
     ]
     
     var loadSingleItems: Dynamic<[SingleItemEntity]> = Dynamic([])
@@ -61,8 +63,8 @@ class PaymentProcessViewModel: BaseViewModel {
             viewController = EbtBuilder.build()
         case .bnpl:
             viewController = BuyNowPayLaterBuilder.build()
-        default:
-            viewController = PaymentMethodsBuilder.build()
+        case .aliPay:
+            viewController = AliPayBuilder.build()
         }
         paymentProcessItemAction.value = viewController
     }
@@ -78,5 +80,5 @@ enum PaymentItemAction: String, CaseIterable {
     case ach
     case ebt
     case bnpl
-    case ctp
+    case aliPay
 }

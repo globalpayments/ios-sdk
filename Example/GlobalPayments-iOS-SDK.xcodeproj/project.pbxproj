@@ -358,6 +358,10 @@
 		A58577352AE2B4CB00910EC9 /* UnifiedPaymentsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58577342AE2B4CB00910EC9 /* UnifiedPaymentsBuilder.swift */; };
 		A58577372AE2B4D800910EC9 /* UnifiedPaymentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58577362AE2B4D800910EC9 /* UnifiedPaymentsViewModel.swift */; };
 		A58577392AE2B4F300910EC9 /* UnifiedPaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58577382AE2B4F300910EC9 /* UnifiedPaymentsViewController.swift */; };
+		A594897E2BBCBA3A000CB27E /* AliPayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A594897D2BBCBA3A000CB27E /* AliPayView.swift */; };
+		A59489802BBCBA44000CB27E /* AliPayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A594897F2BBCBA44000CB27E /* AliPayViewModel.swift */; };
+		A59489822BBCBC89000CB27E /* AliPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59489812BBCBC89000CB27E /* AliPayViewController.swift */; };
+		A59489842BBCBD21000CB27E /* AliPayBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59489832BBCBD21000CB27E /* AliPayBuilder.swift */; };
 		A59667E329EE200A00EE816D /* GpApiPayLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667E229EE200A00EE816D /* GpApiPayLinkTest.swift */; };
 		A59667EA29F6AD2D00EE816D /* PayLinkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667E929F6AD2D00EE816D /* PayLinkBuilder.swift */; };
 		A59667EC29F6AD4C00EE816D /* PayLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667EB29F6AD4C00EE816D /* PayLinkViewController.swift */; };
@@ -816,6 +820,10 @@
 		A58577342AE2B4CB00910EC9 /* UnifiedPaymentsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedPaymentsBuilder.swift; sourceTree = "<group>"; };
 		A58577362AE2B4D800910EC9 /* UnifiedPaymentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedPaymentsViewModel.swift; sourceTree = "<group>"; };
 		A58577382AE2B4F300910EC9 /* UnifiedPaymentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedPaymentsViewController.swift; sourceTree = "<group>"; };
+		A594897D2BBCBA3A000CB27E /* AliPayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliPayView.swift; sourceTree = "<group>"; };
+		A594897F2BBCBA44000CB27E /* AliPayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliPayViewModel.swift; sourceTree = "<group>"; };
+		A59489812BBCBC89000CB27E /* AliPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliPayViewController.swift; sourceTree = "<group>"; };
+		A59489832BBCBD21000CB27E /* AliPayBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliPayBuilder.swift; sourceTree = "<group>"; };
 		A59667E229EE200A00EE816D /* GpApiPayLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayLinkTest.swift; sourceTree = "<group>"; };
 		A59667E929F6AD2D00EE816D /* PayLinkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkBuilder.swift; sourceTree = "<group>"; };
 		A59667EB29F6AD4C00EE816D /* PayLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkViewController.swift; sourceTree = "<group>"; };
@@ -1402,6 +1410,7 @@
 		8258B115255C1B4100D02721 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				A594897C2BBCBA2B000CB27E /* AliPay */,
 				8244D6C1255E98A800739364 /* AccessToken */,
 				A582C4E62B5EAF990081070A /* Accounts */,
 				30B3DE5D299D29E000FCEF48 /* Ach */,
@@ -2156,6 +2165,17 @@
 			path = UnifiedPayments;
 			sourceTree = "<group>";
 		};
+		A594897C2BBCBA2B000CB27E /* AliPay */ = {
+			isa = PBXGroup;
+			children = (
+				A594897D2BBCBA3A000CB27E /* AliPayView.swift */,
+				A594897F2BBCBA44000CB27E /* AliPayViewModel.swift */,
+				A59489812BBCBC89000CB27E /* AliPayViewController.swift */,
+				A59489832BBCBD21000CB27E /* AliPayBuilder.swift */,
+			);
+			path = AliPay;
+			sourceTree = "<group>";
+		};
 		A59667E829F6ACD300EE816D /* PayLink */ = {
 			isa = PBXGroup;
 			children = (
@@ -2575,6 +2595,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A59489802BBCBA44000CB27E /* AliPayViewModel.swift in Sources */,
 				A5E0E1C32B46FD0200B546E8 /* GpBaseSingleView.swift in Sources */,
 				A514D1F72B9F5F6700009983 /* FileProcessingViewController.swift in Sources */,
 				8244D698255D766100739364 /* GlobalPayModel.swift in Sources */,
@@ -2652,6 +2673,7 @@
 				8244D6D8255EAD5F00739364 /* AccessTokenViewModel.swift in Sources */,
 				823EDC07256D489A009DED23 /* TransactionOperationsViewModel.swift in Sources */,
 				A5FC78402A72BA5800BBD524 /* CaptureBnplViewController.swift in Sources */,
+				A59489822BBCBC89000CB27E /* AliPayViewController.swift in Sources */,
 				824918822590A00F00A7566E /* DisputeSummaryTableViewCell.swift in Sources */,
 				A582C4D92B5E9EFF0081070A /* ActionsListUseCase.swift in Sources */,
 				A570F0F02AB884CE00A821FE /* NsLayoutConstraint+KeyPath.swift in Sources */,
@@ -2766,6 +2788,7 @@
 				82A9F7872577B73600B8962D /* PaymentMethodOperationType.swift in Sources */,
 				A59668012A0BB45800EE816D /* PaypalBuilder.swift in Sources */,
 				A59D63082B1E132F000AA7BA /* DisputesOperationsFormViewModel.swift in Sources */,
+				A594897E2BBCBA3A000CB27E /* AliPayView.swift in Sources */,
 				A582C4C52B5E1B200081070A /* ActionsBuilder.swift in Sources */,
 				A5E0E1B32B45A23000B546E8 /* ReportingView.swift in Sources */,
 				A58577332AE2B4BE00910EC9 /* UnifiedPaymentsView.swift in Sources */,
@@ -2845,6 +2868,7 @@
 				A59A6DA12A892D0F008DB43C /* OpenBankingViewModel.swift in Sources */,
 				82EC18BF25750AD800A93A3C /* VerificationsViewModel.swift in Sources */,
 				8264A00C258BA45F00E1144F /* DisputesViewController.swift in Sources */,
+				A59489842BBCBD21000CB27E /* AliPayBuilder.swift in Sources */,
 				8253FBC12563E9EA00FBDCC9 /* TransactionsViewController.swift in Sources */,
 				A59D630A2B1ECEEE000AA7BA /* DocumentCell.swift in Sources */,
 				8200B18925938E6500042357 /* DisputeDocumentTableViewCell.swift in Sources */,

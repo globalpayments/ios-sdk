@@ -35,6 +35,8 @@ class ConfigurationUseCase {
             form.merchantContactUrl = value
         case .statusUrl:
             form.statusUrl = value
+        case .accountId:
+            form.processingAccountId = value
         default:
             break
         }
@@ -55,7 +57,8 @@ class ConfigurationUseCase {
             merchantId: form.merchantId,
             transactionProcessing: form.transactionProcessing,
             tokenization: form.tokenization,
-            statusUrl: form.statusUrl
+            statusUrl: form.statusUrl,
+            processingAccountId: form.processingAccountId
         )
         return config
     }

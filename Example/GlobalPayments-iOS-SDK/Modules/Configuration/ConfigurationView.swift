@@ -138,6 +138,15 @@ final class ConfigurationView: View {
         return field
     }()
     
+    private lazy var accountIdFieldView: GpTextFieldView = {
+        let field = GpTextFieldView()
+        field.title = "deposits.processing.account.id".localized()
+        field.tagField = .accountId
+        field.delegate = self
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }()
+    
     private lazy var transactionProccesingFieldView: GpTextFieldView = {
         let field = GpTextFieldView()
         field.title = "configuration.transaction.proccesing".localized()
@@ -296,12 +305,14 @@ final class ConfigurationView: View {
     
     private func setUpMerchantConfigFieldsConstraints() {
         containerView.addSubview(merchantIdFieldView)
+        containerView.addSubview(accountIdFieldView)
         containerView.addSubview(transactionProccesingFieldView)
         containerView.addSubview(tokenizationFieldView)
         
         NSLayoutConstraint.activating([
             merchantIdFieldView.relativeTo(languageCountryFieldsView, positioned: .belowWidth(spacing: DimensKeys.marginMedium)),
-            transactionProccesingFieldView.relativeTo(merchantIdFieldView, positioned: .belowWidth(spacing: DimensKeys.marginMedium)),
+            accountIdFieldView.relativeTo(merchantIdFieldView, positioned: .belowWidth(spacing: DimensKeys.marginMedium)),
+            transactionProccesingFieldView.relativeTo(accountIdFieldView, positioned: .belowWidth(spacing: DimensKeys.marginMedium)),
             tokenizationFieldView.relativeTo(transactionProccesingFieldView, positioned: .belowWidth(spacing: DimensKeys.marginMedium))
         ])
     }
@@ -350,6 +361,7 @@ final class ConfigurationView: View {
         languageCountryFieldsView.secondText = config.country
         
         merchantIdFieldView.text = config.merchantId
+        accountIdFieldView.text = config.processingAccountId
         transactionProccesingFieldView.text = config.transactionProcessing
         tokenizationFieldView.text = config.tokenization
         challengeNotificationUrlFieldView.text = config.challengeNotificationUrl

@@ -42,7 +42,6 @@
 		304CD96628B7BD67007A82E2 /* ApiConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CD96528B7BD67007A82E2 /* ApiConstants.swift */; };
 		304CD96E28BDACBC007A82E2 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CD96D28BDACBC007A82E2 /* StatusView.swift */; };
 		304CD97028BDACE2007A82E2 /* AppChallengeStatusReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CD96F28BDACE2007A82E2 /* AppChallengeStatusReceiver.swift */; };
-		304CD97228BE702F007A82E2 /* acs2021.pem in Resources */ = {isa = PBXBuildFile; fileRef = 304CD97128BE702F007A82E2 /* acs2021.pem */; };
 		305BAFB628D0276400A8D588 /* Gateway3ds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BAFB528D0276400A8D588 /* Gateway3ds.swift */; };
 		305BAFB828D02C5900A8D588 /* RestGateway3ds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BAFB728D02C5900A8D588 /* RestGateway3ds.swift */; };
 		305BAFBA28D02CC400A8D588 /* JsonUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BAFB928D02CC400A8D588 /* JsonUtils.swift */; };
@@ -61,7 +60,6 @@
 		3096EA132976D22A00E24B3A /* Error.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3096EA122976D22A00E24B3A /* Error.storyboard */; };
 		3096EA152976D37900E24B3A /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3096EA142976D37900E24B3A /* SuccessViewController.swift */; };
 		3096EA172976D3B000E24B3A /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3096EA162976D3B000E24B3A /* ErrorViewController.swift */; };
-		30BB37C828B703DA002E58FB /* license-key.txt in Resources */ = {isa = PBXBuildFile; fileRef = 30BB37C128B703DA002E58FB /* license-key.txt */; };
 		30BB37C928B703DA002E58FB /* nca_demo_visa_root.crt in Resources */ = {isa = PBXBuildFile; fileRef = 30BB37C328B703DA002E58FB /* nca_demo_visa_root.crt */; };
 		30BB37CA28B703DA002E58FB /* nca_demo_mastercard_root.crt in Resources */ = {isa = PBXBuildFile; fileRef = 30BB37C428B703DA002E58FB /* nca_demo_mastercard_root.crt */; };
 		30BB37CB28B703DA002E58FB /* DSsConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30BB37C528B703DA002E58FB /* DSsConfiguration.plist */; };
@@ -140,7 +138,6 @@
 		304CD96528B7BD67007A82E2 /* ApiConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiConstants.swift; sourceTree = "<group>"; };
 		304CD96D28BDACBC007A82E2 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
 		304CD96F28BDACE2007A82E2 /* AppChallengeStatusReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppChallengeStatusReceiver.swift; sourceTree = "<group>"; };
-		304CD97128BE702F007A82E2 /* acs2021.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acs2021.pem; sourceTree = "<group>"; };
 		305BAFB528D0276400A8D588 /* Gateway3ds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gateway3ds.swift; sourceTree = "<group>"; };
 		305BAFB728D02C5900A8D588 /* RestGateway3ds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestGateway3ds.swift; sourceTree = "<group>"; };
 		305BAFB928D02CC400A8D588 /* JsonUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonUtils.swift; sourceTree = "<group>"; };
@@ -159,7 +156,6 @@
 		3096EA122976D22A00E24B3A /* Error.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Error.storyboard; sourceTree = "<group>"; };
 		3096EA142976D37900E24B3A /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 		3096EA162976D3B000E24B3A /* ErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
-		30BB37C128B703DA002E58FB /* license-key.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "license-key.txt"; sourceTree = "<group>"; };
 		30BB37C328B703DA002E58FB /* nca_demo_visa_root.crt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nca_demo_visa_root.crt; sourceTree = "<group>"; };
 		30BB37C428B703DA002E58FB /* nca_demo_mastercard_root.crt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nca_demo_mastercard_root.crt; sourceTree = "<group>"; };
 		30BB37C528B703DA002E58FB /* DSsConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DSsConfiguration.plist; sourceTree = "<group>"; };
@@ -320,7 +316,6 @@
 			isa = PBXGroup;
 			children = (
 				3096EA0C296E02A400E24B3A /* artwork_product.jpeg */,
-				304CD97128BE702F007A82E2 /* acs2021.pem */,
 				30BB37C028B703DA002E58FB /* DSsPublicKeys */,
 				3068B39F28A68B7D004C7888 /* script.js */,
 				3046C363284916B100955E5A /* Assets.xcassets */,
@@ -450,7 +445,6 @@
 		30BB37C028B703DA002E58FB /* DSsPublicKeys */ = {
 			isa = PBXGroup;
 			children = (
-				30BB37C128B703DA002E58FB /* license-key.txt */,
 				30BB37C228B703DA002E58FB /* rootCertificates */,
 				30BB37C528B703DA002E58FB /* DSsConfiguration.plist */,
 				30BB37C628B703DA002E58FB /* nca_demo_mastercard_encryption.crt */,
@@ -610,14 +604,12 @@
 				3046C3D72852DF1800955E5A /* Localizable.strings in Resources */,
 				30BB37CB28B703DA002E58FB /* DSsConfiguration.plist in Resources */,
 				3096EA132976D22A00E24B3A /* Error.storyboard in Resources */,
-				304CD97228BE702F007A82E2 /* acs2021.pem in Resources */,
 				3068B3A528AEB865004C7888 /* Amount.storyboard in Resources */,
 				30BB37C928B703DA002E58FB /* nca_demo_visa_root.crt in Resources */,
 				3046C362284916B000955E5A /* Merchant.storyboard in Resources */,
 				303C9A8028BF8ADD005F24C2 /* TransactionView.xib in Resources */,
 				30BB37CC28B703DA002E58FB /* nca_demo_mastercard_encryption.crt in Resources */,
 				30BB37CA28B703DA002E58FB /* nca_demo_mastercard_root.crt in Resources */,
-				30BB37C828B703DA002E58FB /* license-key.txt in Resources */,
 				3046C3932849186300955E5A /* ACSWebView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

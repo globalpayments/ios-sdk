@@ -66,7 +66,12 @@ public struct GpApiMapping {
                 return transaction
             }
             
-            transaction.authorizationCode = paymentMethod.getValue(key: "result")
+            transaction.authorizationCode = paymentMethod.get(valueFor: "card")?.getValue(key: "authcode")
+            
+            if transaction.authorizationCode.isNilOrEmpty && paymentMethod.has(key: "digital_wallet") {
+                transaction.authorizationCode = paymentMethod.get(valueFor: "digital_wallet")?.getValue(key: "authcode")
+            }
+            
             if let token: String = paymentMethod.getValue(key: "id") {
                 transaction.token = token
             }
@@ -82,6 +87,10 @@ public struct GpApiMapping {
                 
                 if let provider: JsonDoc = card.get(valueFor: "provider") {
                     transaction.cardIssuerResponse = mapCardIssuerResponse(provider)
+                } else {
+                    let cardIssuer = CardIssuerResponse()
+                    cardIssuer.result = paymentMethod.getValue(key: "result")
+                    transaction.cardIssuerResponse = cardIssuer
                 }
             }
             

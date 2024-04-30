@@ -104,6 +104,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertNil(transactionErrorResponse)
         XCTAssertEqual(transactionResponse?.responseCode, "SUCCESS")
         XCTAssertEqual(transactionStatusResponse, TransactionStatus.preauthorized)
+        XCTAssertEqual("123456", transactionResponse?.authorizationCode)
 
         // GIVEN
         let transactionExecuteExpectation = expectation(description: "Transaction")
@@ -129,6 +130,7 @@ class GpApiCreditCardNotPresentTests: XCTestCase {
         XCTAssertNotNil(captureResponse)
         XCTAssertNil(captureErrorResponse)
         XCTAssertEqual(captureStatusResponse, TransactionStatus.captured)
+        XCTAssertEqual("000000", captureResponse?.authorizationCode)
     }
 
     func test_credit_authorization_then_capture_with_idempotency_key() {

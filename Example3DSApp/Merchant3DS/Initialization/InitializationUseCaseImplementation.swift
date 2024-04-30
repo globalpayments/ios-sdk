@@ -32,14 +32,14 @@ class InitializationUseCaseImplementation: InitializationUseCase {
     func configureWithBuilder() throws -> ConfigParameters {
         let configBuilder = ConfigurationBuilder()
         // License
-        try configBuilder.license(key: "eyJhbGciOiJSUzI1NiJ9.eyJ2ZXJzaW9uIjoyLCJ2YWxpZC11bnRpbCI6IjIwMjItMDctMzEiLCJuYW1lIjoiR2xvYmFsIFBheW1lbnRzIiwibW9kdWxlIjoiM0RTIn0.N_noTX0E37eVYOvEYIMgsr8EZwVeRG7_lB_w1GacD0hw9xnowPqo2Rev1kAK9M7iRAGV5H2WdHoOGd3UQYKCHWOUloerPH6FyR9iSUWQuqFb5UlxDlEhvwWeVd3voI75R49V0ijXaCboYZY5uYpu62yi8Ijdga6cBENC0jf4sdMdIoEdBRM6MYihBfrhboP75zRbX94hk_82E1lTtbusoViOzhkSJPXb00DMFnIx2B41xXDXvXBY0wENnxlSjVHtW43Rk51jFGzw5_O08KhoIyPnZ8vI_hMXJEBrkVwMC3tPOK-antcgEiwKPlI-letT0fzkfs8rzHSWYN6WYkidvA")
+        try configBuilder.license(key: "")
         
         // Schemes
         
         //Visa
         let visa = Scheme.visa()
-        visa.encryptionKeyValue = "acs2021.pem"
-        visa.rootCertificateValue = "acs2021.pem"
+        visa.encryptionKeyValue = "acs.pem"
+        visa.rootCertificateValue = "acs.pem"
         
         try configBuilder.add(visa)
         

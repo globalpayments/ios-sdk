@@ -4,6 +4,7 @@ import GlobalPayments_iOS_SDK
 class GpApiAuthenticationTests: XCTestCase {
 
     private var card: CreditCardData!
+    private let testDataTKN = "r1SzGAx2K9z5FNiMHkrapfRh8BC8"
 
     override func setUp() {
 
@@ -358,7 +359,7 @@ class GpApiAuthenticationTests: XCTestCase {
     func test_use_expired_access_token_info() {
         // GIVEN
         let accessTokenInfo = AccessTokenInfo(
-            token: "r1SzGAx2K9z5FNiMHkrapfRh8BC8",
+            token: testDataTKN,
             dataAccountName: "Settlement Reporting",
             disputeManagementAccountName: "Dispute Management",
             tokenizationAccountName: "Tokenization",

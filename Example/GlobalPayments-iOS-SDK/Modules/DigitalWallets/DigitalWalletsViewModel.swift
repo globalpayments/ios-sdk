@@ -7,6 +7,7 @@ class DigitalWalletsViewModel: BaseViewModel {
     var paymentGenerated: Dynamic<PKPaymentRequest?> = Dynamic(nil)
     var defaultValues: Dynamic<Void> = Dynamic(())
     private var amount: NSDecimalNumber?
+    private let currency = "USD"
     
     override func viewDidLoad() {
         defaultValues.executer()
@@ -21,8 +22,8 @@ class DigitalWalletsViewModel: BaseViewModel {
             PKPaymentNetwork.amex
         ]
         paymentRequest.merchantCapabilities = PKMerchantCapability.capability3DS
-        paymentRequest.countryCode = "GB"
-        paymentRequest.currencyCode = "GBP"
+        paymentRequest.countryCode = "US"
+        paymentRequest.currencyCode = currency
 
         let totalItem = PKPaymentSummaryItem(label: "Foobar", amount: amount ?? 0.0)
         paymentRequest.paymentSummaryItems = [totalItem]
@@ -53,7 +54,7 @@ class DigitalWalletsViewModel: BaseViewModel {
         card.mobileType = EncryptedMobileType.APPLE_PAY.rawValue
         card.token = paymentToken
         card.charge(amount: amount)
-            .withCurrency("GBP")
+            .withCurrency(currency)
             .withModifier(.encryptedMobile)
             .execute(completion: showOutput)
     }
@@ -65,7 +66,7 @@ class DigitalWalletsViewModel: BaseViewModel {
                 if let error = error as? GatewayException {
                     self.showDataResponse.value = (.error, error)
                 } else if let error = error as? ApiException{
-                    self.showDataResponse.value = (.error, error.message ?? "Configuration Has not been")
+                    self.showDataResponse.value = (.error, error)
                 } else {
                     self.showDataResponse.value = (.error, "Data Error")
                 }

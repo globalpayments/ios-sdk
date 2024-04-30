@@ -30,7 +30,10 @@ class GpApiConnector: RestGateway {
                 return
             }
             
-            guard let response = response else { return }
+            guard let response = response else {
+                completion(false, error)
+                return
+            }
             
             let token = response.token ?? .empty
             

@@ -15,9 +15,7 @@ class InitializationUseCaseImplementation: InitializationUseCase {
             
             // Change uicustomization to nil for default design.
             let uicustomization = try createUICustomization()
-            try threeDS2Service.initialize(configParameters,
-                                           locale: nil,
-                                           uiCustomization: uicustomization)
+            try threeDS2Service.initialize(configParameters, locale: nil, uiCustomization: uicustomization)
             succesHandler()
         }catch let error as NSError {
             print(error.localizedDescription)
@@ -31,22 +29,18 @@ class InitializationUseCaseImplementation: InitializationUseCase {
     
     func configureWithBuilder() throws -> ConfigParameters {
         let configBuilder = ConfigurationBuilder()
-        // License
-        if let filepath = Bundle.main.path(forResource: "license", ofType: "txt") {
-            do {
-                let contents = try String(contentsOfFile: filepath)
-                try configBuilder.license(key: contents)
-            } catch {
-                // contents could not be loaded
-            }
+        do {
+            try configBuilder.api(key: "API-KEY")
+        } catch {
+            // contents could not be loaded
         }
         
         // Schemes
         
         //Visa
         let visa = Scheme.visa()
-        visa.encryptionKeyValue = "acs2022.pem"
-        visa.rootCertificateValue = "acs2022.pem"
+        visa.encryptionKeyValue = "acs.pem"
+        visa.rootCertificateValues = ["acs.pem"]
         
         try configBuilder.add(visa)
         

@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v2.0.7 (04/09/2024)
+## Latest - v2.0.8 (04/30/2024)
+
+#### Enhancements
+
+- GP-API: Add Authorization Code Mapping
+
+## v2.0.7 (04/09/2024)
 
 #### Enhancements
 

@@ -25,7 +25,7 @@
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		7ACDC46D124D93FE2139B2E1 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC5C2F96F3C66EEBD9C2B72 /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
+		7B8CAD9F5506BBE1806C7B1B /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01691D0CD66B2865EC702F28 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */; };
 		8200B17625937A8B00042357 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B17525937A8B00042357 /* ImagePicker.swift */; };
 		8200B18925938E6500042357 /* DisputeDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */; };
 		8200B18A25938E6500042357 /* DisputeDocumentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8200B18825938E6500042357 /* DisputeDocumentTableViewCell.xib */; };
@@ -444,7 +444,7 @@
 		A5FC78442A72BA8100BBD524 /* CaptureBnplBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78432A72BA8100BBD524 /* CaptureBnplBuilder.swift */; };
 		A5FC78462A72BA9100BBD524 /* CaptureBnpl.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5FC78452A72BA9100BBD524 /* CaptureBnpl.storyboard */; };
 		A5FC78482A82722100BBD524 /* GpApiOpenBankingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */; };
-		E31041E409C877D9FDFEF96D /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D0D6CD4FB035B4211807F1 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */; };
+		B6899ACF9829B4A3CFD7B5DE /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACD782FBDE5DCC56D4DE51F /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -458,8 +458,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		12FCDF9A52C8E3AC5E0255D3 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; sourceTree = "<group>"; };
-		23CEF1A2AD2CCB5511559AF7 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		01691D0CD66B2865EC702F28 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25E89B4C4C3BC69C6EA4BF0A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GpApiFraudManagementTests.swift; path = Tests/GpApi/GpApiFraudManagementTests.swift; sourceTree = SOURCE_ROOT; };
 		304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDccCardNotPresentTest.swift; sourceTree = "<group>"; };
@@ -476,8 +475,7 @@
 		30B3DE72299D456100FCEF48 /* AchChargeForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchChargeForm.swift; sourceTree = "<group>"; };
 		30B3DE74299D52A300FCEF48 /* TransactionTypePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTypePath.swift; sourceTree = "<group>"; };
 		30EB561128201FC500AEA47B /* GpApiDigitalWalletsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDigitalWalletsTests.swift; sourceTree = "<group>"; };
-		4279CF811959CCC89A73264A /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		471334F4E4DE2B0B12868ED3 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		3A9A63FC06DACD2FFEC9CB2D /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig"; sourceTree = "<group>"; };
 		58FEA9F194AA0CFA78C12075 /* GlobalPayments-iOS-SDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "GlobalPayments-iOS-SDK.podspec"; path = "../GlobalPayments-iOS-SDK.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* GlobalPayments-iOS-SDK_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GlobalPayments-iOS-SDK_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -486,7 +484,6 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* GlobalPayments-iOS-SDK_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GlobalPayments-iOS-SDK_Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7DC5C2F96F3C66EEBD9C2B72 /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8200B17525937A8B00042357 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeDocumentTableViewCell.swift; sourceTree = "<group>"; };
 		8200B18825938E6500042357 /* DisputeDocumentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisputeDocumentTableViewCell.xib; sourceTree = "<group>"; };
@@ -682,7 +679,7 @@
 		82FAF8DD2535B16E00B10401 /* gp_logo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = gp_logo.pdf; sourceTree = "<group>"; };
 		82FAF8E32535B2B500B10401 /* ResouceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResouceLoader.swift; sourceTree = "<group>"; };
 		866C760D426DC19D7E0BA8F6 /* LICENSE.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
-		90D0D6CD4FB035B4211807F1 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		91ABE6513154F2259E6668F8 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A506E86B29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiMerchantsOnboardTest.swift; sourceTree = "<group>"; };
 		A50B0CFB2A9E140E00C1A88E /* HostedFields.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HostedFields.storyboard; sourceTree = "<group>"; };
 		A50B0CFD2A9E142000C1A88E /* HostedFieldsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedFieldsViewController.swift; sourceTree = "<group>"; };
@@ -907,6 +904,9 @@
 		A5FC78432A72BA8100BBD524 /* CaptureBnplBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureBnplBuilder.swift; sourceTree = "<group>"; };
 		A5FC78452A72BA9100BBD524 /* CaptureBnpl.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CaptureBnpl.storyboard; sourceTree = "<group>"; };
 		A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiOpenBankingTest.swift; sourceTree = "<group>"; };
+		AC8B497998CD394E59676785 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		EA2A9C3B93C8FC57EA38BAB1 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		FACD782FBDE5DCC56D4DE51F /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -914,8 +914,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7ACDC46D124D93FE2139B2E1 /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */,
 				A559488C2AA3610D00E447DF /* ThreeDS_SDK in Frameworks */,
+				B6899ACF9829B4A3CFD7B5DE /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -923,7 +923,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E31041E409C877D9FDFEF96D /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */,
+				7B8CAD9F5506BBE1806C7B1B /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -933,10 +933,10 @@
 		2919C221982D6B176F55C9C9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				471334F4E4DE2B0B12868ED3 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */,
-				12FCDF9A52C8E3AC5E0255D3 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */,
-				4279CF811959CCC89A73264A /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */,
-				23CEF1A2AD2CCB5511559AF7 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */,
+				91ABE6513154F2259E6668F8 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */,
+				3A9A63FC06DACD2FFEC9CB2D /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */,
+				AC8B497998CD394E59676785 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */,
+				EA2A9C3B93C8FC57EA38BAB1 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -985,7 +985,7 @@
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				2919C221982D6B176F55C9C9 /* Pods */,
-				DA2CAD3E1CDBD52882CFFA05 /* Frameworks */,
+				925625EBD08317545D61599B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1854,6 +1854,15 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		925625EBD08317545D61599B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FACD782FBDE5DCC56D4DE51F /* Pods_GlobalPayments_iOS_SDK_Example.framework */,
+				01691D0CD66B2865EC702F28 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A50B0CFA2A9E139000C1A88E /* HostedFields */ = {
 			isa = PBXGroup;
 			children = (
@@ -2330,15 +2339,6 @@
 			path = Capture;
 			sourceTree = "<group>";
 		};
-		DA2CAD3E1CDBD52882CFFA05 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				7DC5C2F96F3C66EEBD9C2B72 /* Pods_GlobalPayments_iOS_SDK_Example.framework */,
-				90D0D6CD4FB035B4211807F1 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2346,12 +2346,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GlobalPayments-iOS-SDK_Example" */;
 			buildPhases = (
-				64471ED5EE95215166857336 /* [CP] Check Pods Manifest.lock */,
+				098293A152DB9B9B8B595AF5 /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				8213E3EF25B868F40091C131 /* Swiftlint */,
-				11B5DEAA2BF91B50B825AE90 /* [CP] Embed Pods Frameworks */,
+				59051A7E194B4CD41D927FDA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2369,11 +2369,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GlobalPayments-iOS-SDK_Tests" */;
 			buildPhases = (
-				0F1B97E5F802D45D9CE09F57 /* [CP] Check Pods Manifest.lock */,
+				3991945D1B4BA1F0F73FE594 /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
-				583321DD48F52CBBB24C2D0D /* [CP] Embed Pods Frameworks */,
+				FCA92E2DC22D0FB82DF3EAC6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2490,65 +2490,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0F1B97E5F802D45D9CE09F57 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-GlobalPayments-iOS-SDK_Tests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		11B5DEAA2BF91B50B825AE90 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GlobalPayments-iOS-SDK/GlobalPayments_iOS_SDK.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GlobalPayments_iOS_SDK.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		583321DD48F52CBBB24C2D0D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GlobalPayments-iOS-SDK/GlobalPayments_iOS_SDK.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GlobalPayments_iOS_SDK.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		64471ED5EE95215166857336 /* [CP] Check Pods Manifest.lock */ = {
+		098293A152DB9B9B8B595AF5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2570,6 +2512,46 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		3991945D1B4BA1F0F73FE594 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GlobalPayments-iOS-SDK_Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		59051A7E194B4CD41D927FDA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GlobalPayments-iOS-SDK/GlobalPayments_iOS_SDK.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GlobalPayments_iOS_SDK.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8213E3EF25B868F40091C131 /* Swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2587,6 +2569,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+		};
+		FCA92E2DC22D0FB82DF3EAC6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GlobalPayments-iOS-SDK/GlobalPayments_iOS_SDK.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GlobalPayments_iOS_SDK.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3137,7 +3137,7 @@
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 471334F4E4DE2B0B12868ED3 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */;
+			baseConfigurationReference = 91ABE6513154F2259E6668F8 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "GlobalPayments-iOS-SDK_Example.entitlements";
@@ -3161,7 +3161,7 @@
 		};
 		607FACF11AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 12FCDF9A52C8E3AC5E0255D3 /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */;
+			baseConfigurationReference = 3A9A63FC06DACD2FFEC9CB2D /* Pods-GlobalPayments-iOS-SDK_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "GlobalPayments-iOS-SDK_Example.entitlements";
@@ -3185,7 +3185,7 @@
 		};
 		607FACF31AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4279CF811959CCC89A73264A /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */;
+			baseConfigurationReference = AC8B497998CD394E59676785 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3212,7 +3212,7 @@
 		};
 		607FACF41AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 23CEF1A2AD2CCB5511559AF7 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */;
+			baseConfigurationReference = EA2A9C3B93C8FC57EA38BAB1 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 4UCKY7Z4HC;
 				FRAMEWORK_SEARCH_PATHS = (

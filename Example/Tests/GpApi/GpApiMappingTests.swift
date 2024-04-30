@@ -2,6 +2,8 @@ import XCTest
 import GlobalPayments_iOS_SDK
 
 class GpApiMappingTests: XCTestCase {
+    
+    private let dataTest = "PMT_ImiKh03hpvpjJDPMLmCbpRMyv5v6Q7"
 
     func test_map_transaction_without_card() {
         // GIVEN
@@ -15,7 +17,7 @@ class GpApiMappingTests: XCTestCase {
         let expectedReferenceNumber = "My-TRANS-184398064"
         let expectedBatchSummary = "BAT_783464"
         let expectedResponseCode = "SUCCESS"
-        let expectedToken = "PMT_ImiKh03hpvpjJDPMLmCbpRMyv5v6Q7"
+        let expectedToken = dataTest
         let expectedAuthorizationCode = "00"
         let expectedAvsAddressResult = "MATCHED"
         let expectedAvsPostalCode = "MATCHED"

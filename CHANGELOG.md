@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v2.0.8 (04/30/2024)
+## Latest - v2.0.9 (05/21/2024)
+
+#### Enhancements
+
+- GP-API: Add support with SPM and SwiftUI
+
+## v2.0.8 (04/30/2024)
 
 #### Enhancements
 

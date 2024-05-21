@@ -1,7 +1,7 @@
 import Foundation
 
 /// Used to create charges, verifies, etc. for the supported payment method types.
-@objcMembers public class AuthorizationBuilder: TransactionBuilder<Transaction> {
+ public class AuthorizationBuilder: TransactionBuilder<Transaction> {
     var accountType: AccountType?
     var alias: String?
     var aliasAction: AliasAction?

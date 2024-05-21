@@ -97,7 +97,7 @@ public enum DataServiceCriteria: String {
     case disputeDocumentId
 }
 
-@objcMembers public class SearchCriteriaBuilder<TResult>: NSObject {
+ public class SearchCriteriaBuilder<TResult>: NSObject {
     private weak var reportBuilder: ReportBuilder<TResult>?
 
     var accountName: String?

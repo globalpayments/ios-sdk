@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class Secure3dBuilder: BaseBuilder<ThreeDSecure> {
+ public class Secure3dBuilder: BaseBuilder<ThreeDSecure> {
     var accountAgeIndicator: AgeIndicator?
     var accountChangeDate: Date?
     var accountCreateDate: Date?

@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class FileProcessingBuilder<TResult>: BaseBuilder<TResult> {
+ public class FileProcessingBuilder<TResult>: BaseBuilder<TResult> {
     
     var resourceId: String?
     let fileProcessingActionType: FileProcessingActionType

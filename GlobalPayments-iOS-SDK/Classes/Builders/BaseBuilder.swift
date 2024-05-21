@@ -1,6 +1,6 @@
 import Foundation
 
-@objcMembers public class BaseBuilder<TResult>: NSObject {
+ public class BaseBuilder<TResult>: NSObject {
 
     let validations: Validations
 

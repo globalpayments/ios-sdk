@@ -5,7 +5,6 @@ final class MerchantEditViewController: BaseViewController<MerchantEditViewModel
     
     private lazy var customView = {
         let view = MerchantEditView()
-        view.delegateView = self
         view.delegate = self
         return view
     }()
@@ -66,5 +65,3 @@ extension MerchantEditViewController: MerchantAddressDelegate {
         viewModel?.setAddress(address)
     }
 }
-
-

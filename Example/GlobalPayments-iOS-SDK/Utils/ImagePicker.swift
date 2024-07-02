@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ImagePickerDelegate: class {
+protocol ImagePickerDelegate: AnyObject {
     func didSelect(image: UIImage?)
 }
 

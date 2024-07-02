@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -279,6 +279,12 @@
 		A570F1022AB89F0700A821FE /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A570F1012AB89F0700A821FE /* UIApplicationExtension.swift */; };
 		A570F1052AB8B73600A821FE /* HomeItemViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A570F1042AB8B73600A821FE /* HomeItemViewCell.swift */; };
 		A570F1072AB8B7CD00A821FE /* HomeItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A570F1062AB8B7CD00A821FE /* HomeItemEntity.swift */; };
+		A571054A2BFD641300BE6B12 /* MerchantPagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57105492BFD641300BE6B12 /* MerchantPagesViewController.swift */; };
+		A571054C2BFD642600BE6B12 /* MerchantPagesBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571054B2BFD642600BE6B12 /* MerchantPagesBuilder.swift */; };
+		A571054F2BFD670800BE6B12 /* MerchantDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571054E2BFD670800BE6B12 /* MerchantDocumentViewController.swift */; };
+		A57105512BFD671C00BE6B12 /* MerchantDocumentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57105502BFD671C00BE6B12 /* MerchantDocumentBuilder.swift */; };
+		A57105532BFD672A00BE6B12 /* MerchantDocumentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57105522BFD672A00BE6B12 /* MerchantDocumentViewModel.swift */; };
+		A57105552BFD673800BE6B12 /* MerchantDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57105542BFD673800BE6B12 /* MerchantDocumentView.swift */; };
 		A57EB60429C3B506001C4AD9 /* MerchantBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57EB60329C3B506001C4AD9 /* MerchantBuilder.swift */; };
 		A57EB60629C3B52D001C4AD9 /* MerchantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57EB60529C3B52D001C4AD9 /* MerchantViewModel.swift */; };
 		A57EB60929C3B5C2001C4AD9 /* CreateMerchantBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57EB60829C3B5C2001C4AD9 /* CreateMerchantBuilder.swift */; };
@@ -738,6 +744,12 @@
 		A570F1012AB89F0700A821FE /* UIApplicationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
 		A570F1042AB8B73600A821FE /* HomeItemViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeItemViewCell.swift; sourceTree = "<group>"; };
 		A570F1062AB8B7CD00A821FE /* HomeItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeItemEntity.swift; sourceTree = "<group>"; };
+		A57105492BFD641300BE6B12 /* MerchantPagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantPagesViewController.swift; sourceTree = "<group>"; };
+		A571054B2BFD642600BE6B12 /* MerchantPagesBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantPagesBuilder.swift; sourceTree = "<group>"; };
+		A571054E2BFD670800BE6B12 /* MerchantDocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantDocumentViewController.swift; sourceTree = "<group>"; };
+		A57105502BFD671C00BE6B12 /* MerchantDocumentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantDocumentBuilder.swift; sourceTree = "<group>"; };
+		A57105522BFD672A00BE6B12 /* MerchantDocumentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantDocumentViewModel.swift; sourceTree = "<group>"; };
+		A57105542BFD673800BE6B12 /* MerchantDocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantDocumentView.swift; sourceTree = "<group>"; };
 		A57EB60329C3B506001C4AD9 /* MerchantBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantBuilder.swift; sourceTree = "<group>"; };
 		A57EB60529C3B52D001C4AD9 /* MerchantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantViewModel.swift; sourceTree = "<group>"; };
 		A57EB60829C3B5C2001C4AD9 /* CreateMerchantBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMerchantBuilder.swift; sourceTree = "<group>"; };
@@ -1992,9 +2004,31 @@
 			path = Generic;
 			sourceTree = "<group>";
 		};
+		A57105482BFD63FB00BE6B12 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				A57105492BFD641300BE6B12 /* MerchantPagesViewController.swift */,
+				A571054B2BFD642600BE6B12 /* MerchantPagesBuilder.swift */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		A571054D2BFD66F900BE6B12 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				A571054E2BFD670800BE6B12 /* MerchantDocumentViewController.swift */,
+				A57105502BFD671C00BE6B12 /* MerchantDocumentBuilder.swift */,
+				A57105522BFD672A00BE6B12 /* MerchantDocumentViewModel.swift */,
+				A57105542BFD673800BE6B12 /* MerchantDocumentView.swift */,
+			);
+			path = Document;
+			sourceTree = "<group>";
+		};
 		A57EB60229C3B47F001C4AD9 /* Merchant */ = {
 			isa = PBXGroup;
 			children = (
+				A571054D2BFD66F900BE6B12 /* Document */,
+				A57105482BFD63FB00BE6B12 /* Pages */,
 				A59D63142B1FF52D000AA7BA /* Edit */,
 				A57EB60729C3B5AE001C4AD9 /* Create */,
 				A57EB60329C3B506001C4AD9 /* MerchantBuilder.swift */,
@@ -2631,6 +2665,7 @@
 				82B4941B256FF490009C2CBD /* VerificationsFormBuilder.swift in Sources */,
 				822609A9258CCD240008B3F0 /* DisputeDocumentForm.swift in Sources */,
 				82EC18F02575347300A93A3C /* PaymentMethodsRouter.swift in Sources */,
+				A57105532BFD672A00BE6B12 /* MerchantDocumentViewModel.swift in Sources */,
 				8244D6CB255EA28300739364 /* UIButtonExtensions.swift in Sources */,
 				822FBF0325810C3900D12353 /* DepositTableViewCell.swift in Sources */,
 				A585772C2AD2EC9A00910EC9 /* GpFieldsEnum.swift in Sources */,
@@ -2721,6 +2756,7 @@
 				8214207025924B51003EA8DF /* DisputesOperationsViewModel.swift in Sources */,
 				82EC18E82575319300A93A3C /* PaymentMethodsViewController.swift in Sources */,
 				821420A325935CFA003EA8DF /* DocumentPickerView.swift in Sources */,
+				A571054C2BFD642600BE6B12 /* MerchantPagesBuilder.swift in Sources */,
 				8211586C26419782000D26ED /* InitiateFormBuilder.swift in Sources */,
 				A55CE4722ABBAC7400480475 /* GpTextFieldView.swift in Sources */,
 				8244D6EA255EBE3F00739364 /* AccessTokenView.swift in Sources */,
@@ -2794,6 +2830,7 @@
 				A58577332AE2B4BE00910EC9 /* UnifiedPaymentsView.swift in Sources */,
 				8244D6C7255E99C200739364 /* AccessTokenBuilder.swift in Sources */,
 				A59D62D42AE97D5C000AA7BA /* ConfigurationDataUseCase.swift in Sources */,
+				A57105552BFD673800BE6B12 /* MerchantDocumentView.swift in Sources */,
 				8264A008258BA45400E1144F /* DisputesRouter.swift in Sources */,
 				82EC191B25766E7200A93A3C /* PaymentMethodView.swift in Sources */,
 				82E6BDB6258CE38C00908C36 /* DisputeByIDFormViewController.swift in Sources */,
@@ -2816,6 +2853,7 @@
 				A58577272ACC3ACF00910EC9 /* PaymentProcessBuilder.swift in Sources */,
 				82A9F78F2577E8F100B8962D /* PaymentOperationForm.swift in Sources */,
 				A570F1072AB8B7CD00A821FE /* HomeItemEntity.swift in Sources */,
+				A57105512BFD671C00BE6B12 /* MerchantDocumentBuilder.swift in Sources */,
 				A5E0E1CD2B4ACED400B546E8 /* TransactionListFormUseCase.swift in Sources */,
 				823EDC20256D7B01009DED23 /* Currency.swift in Sources */,
 				A5E0E1CB2B48463100B546E8 /* TransactionListFormViewModel.swift in Sources */,
@@ -2866,6 +2904,7 @@
 				A514D2002BA1192800009983 /* UploadFileViewController.swift in Sources */,
 				A59D62F82B10461F000AA7BA /* ExpandYourIntegrationBuilder.swift in Sources */,
 				A59A6DA12A892D0F008DB43C /* OpenBankingViewModel.swift in Sources */,
+				A571054A2BFD641300BE6B12 /* MerchantPagesViewController.swift in Sources */,
 				82EC18BF25750AD800A93A3C /* VerificationsViewModel.swift in Sources */,
 				8264A00C258BA45F00E1144F /* DisputesViewController.swift in Sources */,
 				A59489842BBCBD21000CB27E /* AliPayBuilder.swift in Sources */,
@@ -2874,6 +2913,7 @@
 				8200B18925938E6500042357 /* DisputeDocumentTableViewCell.swift in Sources */,
 				A5FC78442A72BA8100BBD524 /* CaptureBnplBuilder.swift in Sources */,
 				A585771F2ACC381100910EC9 /* PaymentProcessViewController.swift in Sources */,
+				A571054F2BFD670800BE6B12 /* MerchantDocumentViewController.swift in Sources */,
 				A57EB60429C3B506001C4AD9 /* MerchantBuilder.swift in Sources */,
 				A585772E2AD6C72A00910EC9 /* TitleSubtitleCell.swift in Sources */,
 				82A9F7742577A33C00B8962D /* PaymentMethodOperationsViewController.swift in Sources */,

@@ -53,4 +53,15 @@ public class User: NSObject {
         }
         return builder
     }
+    
+    public func uploadDocument(data: DocumentUploadData) -> PayFacBuilder<User> {
+        var builder = PayFacBuilder<User>(transactionType: .uploadDocument)
+            .withUserReference(userReference)
+            .withDocumentUploadData(data)
+        
+        if let userType = userReference?.userType {
+            builder = builder.withModifier(TransactionModifier(value: userType.rawValue))
+        }
+        return builder
+    }
 }

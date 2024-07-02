@@ -194,6 +194,10 @@ extension GpApiRequest {
             "/merchants/\(merID)/settlement/funds"
         }
         
+        static func merchantUploadDocuments(_ merID: String) -> String {
+            "/merchants/\(merID)/documents"
+        }
+        
         // MARK: - PayLink
         
         static func payLinkWithId(id: String) -> String {

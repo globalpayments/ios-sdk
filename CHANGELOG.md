@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v2.0.9 (05/21/2024)
+## Latest - v2.0.10 (07/02/2024)
+
+#### Enhancements
+
+- GP-API: Add uploading of merchant supporting documentation
+
+## v2.0.9 (05/21/2024)
 
 #### Enhancements
 

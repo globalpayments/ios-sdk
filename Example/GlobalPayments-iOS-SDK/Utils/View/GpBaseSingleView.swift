@@ -105,9 +105,11 @@ class GpBaseSingleView: View {
     @objc func handleChange(sender: UIDatePicker){
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MMM-yyyy"
-        setDateFromPicker(date: dateFormatter.string(from: sender.date), field: GpFieldsEnum(value: sender.tag) ?? .amount)
+        setDateFromPicker(date: dateFormatter.string(from: sender.date), field: GpFieldsEnum(value: sender.tag) ?? .amount, datePicked: sender.date)
     }
-    
     func setDateFromPicker(date: String, field: GpFieldsEnum){}
+    func setDateFromPicker(date: String, field: GpFieldsEnum, datePicked: Date){
+        setDateFromPicker(date: date, field: field)
+    }
 }
 

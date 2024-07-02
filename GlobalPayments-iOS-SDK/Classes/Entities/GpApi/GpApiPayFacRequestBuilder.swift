@@ -59,6 +59,17 @@ struct GpApiPayFacRequestBuilder<T> {
                 method: .post,
                 requestBody: payload.toString()
             )
+        case .uploadDocument:
+            let payload = JsonDoc()
+            payload.set(for: "function", value: builder.data?.docCategory?.mapped(for: .gpApi))
+            payload.set(for: "b64_content", value: builder.data?.document)
+            payload.set(for: "format", value: builder.data?.docType?.mapped(for: .gpApi))
+            
+            return GpApiRequest(
+                endpoint: merchantUrl + GpApiRequest.Endpoints.merchantUploadDocuments(builder.userReference?.userId ?? ""),
+                method: .post,
+                requestBody: payload.toString()
+            )
         default:
             break
         }

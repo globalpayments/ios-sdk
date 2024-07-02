@@ -38,7 +38,7 @@ final class UploadFileViewModel: BaseViewModel {
                     }
                     return
                 }
-                self.showDataResponse.value = (.success, GenericMessage(message: "Uploaded file success"))
+                self.showDataResponse.value = (.success, GenericMessage(message: "File Uploaded Successfully"))
             }
         }
     }

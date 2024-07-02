@@ -7,7 +7,7 @@ class ExpandYourIntegrationViewModel: BaseViewModel {
         "expand.verifications.title",
         "expand.dispute.operations.title",
         "expand.batches.title",
-        "expand.edit.account.title",
+        "expand.merchants.account.title",
         "file.proccessing.title.screen"
     ]
     
@@ -50,7 +50,7 @@ class ExpandYourIntegrationViewModel: BaseViewModel {
         case .batches:
             viewController = BatchBuilder.build()
         case .editAccount:
-            viewController = MerchantEditBuilder.build()
+            viewController = MerchantPagesBuilder.build()
         case .fileProccessing:
             viewController = FileProcessingBuilder.build()
         }

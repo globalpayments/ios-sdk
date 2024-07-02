@@ -26,6 +26,7 @@ import Foundation
     var paymentMethodType: PaymentMethodType?
     var currency: String?
     var clientTransactionId: String?
+    var data: DocumentUploadData?
     
     public func withBankAccountData(_ bankAccountData: BankAccountData, paymentMethodFunction: PaymentMethodFunction? = nil) -> PayFacBuilder {
         self.bankAccountData = bankAccountData
@@ -58,6 +59,11 @@ import Foundation
         self.userId = userReference?.userId
         return self
     }
+     
+     public func withDocumentUploadData(_ data: DocumentUploadData?) -> PayFacBuilder {
+         self.data = data
+         return self
+     }
 
     public func withModifier(_ transactionModifier: TransactionModifier?) -> PayFacBuilder {
         self.transactionModifier = transactionModifier

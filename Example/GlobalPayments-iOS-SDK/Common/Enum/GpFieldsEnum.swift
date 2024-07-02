@@ -100,6 +100,8 @@ enum GpFieldsEnum: Int {
     case methodNotification
     case merchantContactUrl
     case statusUrl
+    case merchantDocumentType
+    case merchantDocumentCategory
     case none
     
     public init?(value: Int?) {

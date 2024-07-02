@@ -7,7 +7,7 @@ protocol MerchantEditViewDelegate: AnyObject {
     func fieldDataChanged(value: String, type: GpFieldsEnum)
 }
 
-class MerchantEditView: GpBaseView {
+class MerchantEditView: GpBaseSingleView {
     
     private let defaultBatch = "BAT_915858-767"
     
@@ -111,7 +111,6 @@ class MerchantEditView: GpBaseView {
     
     override init() {
         super.init()
-        title = "expand.edit.account.title".localized()
         setUpScrollContainerViewConstraints()
         setUpPaymentCardFieldConstraints()
         setUpCardNumberFieldConstraints()
@@ -219,30 +218,16 @@ class MerchantEditView: GpBaseView {
         scrollContainerView.setContentOffset(bottomOffset, animated: true)
     }
     
-    private func datePicker(_ type: GpFieldsEnum) -> UIDatePicker{
-        let datePickerView = UIDatePicker()
-        datePickerView.tag = type.rawValue
-        datePickerView.datePickerMode = .date
-        if #available(iOS 14, *) {
-            datePickerView.preferredDatePickerStyle = .inline
-        }
-        datePickerView.addTarget(self, action: #selector(handleChange(sender:)), for: .valueChanged)
-        return datePickerView
-    }
-    
-    @objc func handleChange(sender: UIDatePicker){
-        let dateFormatter = DateFormatter()
-        
-        switch sender.tag {
-        case GpFieldsEnum.fromTimeCreated.rawValue:
-            dateFormatter.dateFormat = "dd-MMM-yyyy"
-            fromToTimeCreatedFieldsView.firstText = dateFormatter.string(from: sender.date)
-        case GpFieldsEnum.toTimeCreated.rawValue:
-            dateFormatter.dateFormat = "dd-MMM-yyyy"
-            fromToTimeCreatedFieldsView.secondText = dateFormatter.string(from: sender.date)
-        case GpFieldsEnum.expirationDate.rawValue:
+    override func setDateFromPicker(date: String, field: GpFieldsEnum, datePicked: Date) {
+        switch field {
+        case GpFieldsEnum.fromTimeCreated:
+            fromToTimeCreatedFieldsView.firstText = date
+        case GpFieldsEnum.toTimeCreated:
+            fromToTimeCreatedFieldsView.secondText = date
+        case GpFieldsEnum.cardExpiryDate:
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MM/yyyy"
-            cardExpCardCvvFieldsView.firstText = dateFormatter.string(from: sender.date)
+            cardExpCardCvvFieldsView.firstText = dateFormatter.string(from: datePicked)
         default:
             break
         }

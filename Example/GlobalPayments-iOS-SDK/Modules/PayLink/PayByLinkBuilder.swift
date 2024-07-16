@@ -1,10 +1,10 @@
 import UIKit
 
-struct PayLinkBuilder {
+struct PayByLinkBuilder {
 
     static func build() -> UIViewController {
-        let module = PayLinkViewController()
-        let viewModel = PayLinkViewModel()
+        let module = PayByLinkViewController()
+        let viewModel = PayByLinkViewModel()
         module.viewModel = viewModel
         return module
     }

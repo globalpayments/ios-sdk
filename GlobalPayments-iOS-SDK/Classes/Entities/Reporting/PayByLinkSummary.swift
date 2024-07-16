@@ -1,6 +1,6 @@
 import Foundation
 
-public class PayLinkSummary: NSObject {
+public class PayByLinkSummary: NSObject {
     
     public var merchantId: String?
     public var merchantName: String?
@@ -8,8 +8,8 @@ public class PayLinkSummary: NSObject {
     public var accountName: String?
     public var id: String?
     public var url: String?
-    public var status: PayLinkStatus?
-    public var type: PayLinkType?
+    public var status: PayByLinkStatus?
+    public var type: PayByLinkType?
     public var allowedPaymentMethods: [PaymentMethodName]?
     public var usageMode: PaymentMethodUsageMode?
     public var usageCount: String?
@@ -27,14 +27,14 @@ public class PayLinkSummary: NSObject {
     public var transactions: [TransactionSummary]?
 }
 
-extension PayLinkSummary {
+extension PayByLinkSummary {
     
-    class func mapFromJson(_ doc: JsonDoc?) -> PayLinkSummary{
-        let summary = PayLinkSummary()
+    class func mapFromJson(_ doc: JsonDoc?) -> PayByLinkSummary{
+        let summary = PayByLinkSummary()
         summary.id = doc?.getValue(key: "id")
         summary.url = doc?.getValue(key: "url")
-        summary.status = PayLinkStatus(value: doc?.getValue(key: "status"))
-        summary.type = PayLinkType(value: doc?.getValue(key: "type"))
+        summary.status = PayByLinkStatus(value: doc?.getValue(key: "status"))
+        summary.type = PayByLinkType(value: doc?.getValue(key: "type"))
         summary.usageMode = PaymentMethodUsageMode(value: doc?.getValue(key: "usage_mode"))
         summary.usageLimit = doc?.getValue(key: "usage_limit")
         summary.reference = doc?.getValue(key: "reference")

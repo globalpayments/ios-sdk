@@ -368,11 +368,11 @@
 		A59489802BBCBA44000CB27E /* AliPayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A594897F2BBCBA44000CB27E /* AliPayViewModel.swift */; };
 		A59489822BBCBC89000CB27E /* AliPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59489812BBCBC89000CB27E /* AliPayViewController.swift */; };
 		A59489842BBCBD21000CB27E /* AliPayBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59489832BBCBD21000CB27E /* AliPayBuilder.swift */; };
-		A59667E329EE200A00EE816D /* GpApiPayLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667E229EE200A00EE816D /* GpApiPayLinkTest.swift */; };
-		A59667EA29F6AD2D00EE816D /* PayLinkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667E929F6AD2D00EE816D /* PayLinkBuilder.swift */; };
-		A59667EC29F6AD4C00EE816D /* PayLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667EB29F6AD4C00EE816D /* PayLinkViewController.swift */; };
-		A59667EE29F6ADB900EE816D /* PayLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667ED29F6ADB900EE816D /* PayLinkViewModel.swift */; };
-		A59667F429F8C7F900EE816D /* PayLinkForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667F329F8C7F900EE816D /* PayLinkForm.swift */; };
+		A59667E329EE200A00EE816D /* GpApiPayByLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667E229EE200A00EE816D /* GpApiPayByLinkTest.swift */; };
+		A59667EA29F6AD2D00EE816D /* PayByLinkBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667E929F6AD2D00EE816D /* PayByLinkBuilder.swift */; };
+		A59667EC29F6AD4C00EE816D /* PayByLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667EB29F6AD4C00EE816D /* PayByLinkViewController.swift */; };
+		A59667EE29F6ADB900EE816D /* PayByLinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667ED29F6ADB900EE816D /* PayByLinkViewModel.swift */; };
+		A59667F429F8C7F900EE816D /* PayByLinkForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667F329F8C7F900EE816D /* PayByLinkForm.swift */; };
 		A59667FA29FB43D700EE816D /* GpApiApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59667F929FB43D700EE816D /* GpApiApmTest.swift */; };
 		A59668012A0BB45800EE816D /* PaypalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59668002A0BB45800EE816D /* PaypalBuilder.swift */; };
 		A59668032A0BB46700EE816D /* PaypalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59668022A0BB46700EE816D /* PaypalViewController.swift */; };
@@ -390,7 +390,7 @@
 		A59D62DA2AE9DCD5000AA7BA /* DigitalWalletsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D62D92AE9DCD5000AA7BA /* DigitalWalletsViewModel.swift */; };
 		A59D62DC2AE9E559000AA7BA /* MessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D62DB2AE9E559000AA7BA /* MessageResponse.swift */; };
 		A59D62DE2AEFD004000AA7BA /* PaypalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D62DD2AEFD004000AA7BA /* PaypalView.swift */; };
-		A59D62E22AF2833E000AA7BA /* PayLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D62E12AF2833E000AA7BA /* PayLinkView.swift */; };
+		A59D62E22AF2833E000AA7BA /* PayByLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D62E12AF2833E000AA7BA /* PayByLinkView.swift */; };
 		A59D62E42AF50723000AA7BA /* AchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D62E32AF50723000AA7BA /* AchView.swift */; };
 		A59D62E62B050BA5000AA7BA /* AchChargeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D62E52B050BA5000AA7BA /* AchChargeUseCase.swift */; };
 		A59D62E92B0B7867000AA7BA /* EbtBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59D62E82B0B7866000AA7BA /* EbtBuilder.swift */; };
@@ -833,11 +833,11 @@
 		A594897F2BBCBA44000CB27E /* AliPayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliPayViewModel.swift; sourceTree = "<group>"; };
 		A59489812BBCBC89000CB27E /* AliPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliPayViewController.swift; sourceTree = "<group>"; };
 		A59489832BBCBD21000CB27E /* AliPayBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliPayBuilder.swift; sourceTree = "<group>"; };
-		A59667E229EE200A00EE816D /* GpApiPayLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayLinkTest.swift; sourceTree = "<group>"; };
-		A59667E929F6AD2D00EE816D /* PayLinkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkBuilder.swift; sourceTree = "<group>"; };
-		A59667EB29F6AD4C00EE816D /* PayLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkViewController.swift; sourceTree = "<group>"; };
-		A59667ED29F6ADB900EE816D /* PayLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkViewModel.swift; sourceTree = "<group>"; };
-		A59667F329F8C7F900EE816D /* PayLinkForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkForm.swift; sourceTree = "<group>"; };
+		A59667E229EE200A00EE816D /* GpApiPayByLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayByLinkTest.swift; sourceTree = "<group>"; };
+		A59667E929F6AD2D00EE816D /* PayByLinkBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayByLinkBuilder.swift; sourceTree = "<group>"; };
+		A59667EB29F6AD4C00EE816D /* PayByLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayByLinkViewController.swift; sourceTree = "<group>"; };
+		A59667ED29F6ADB900EE816D /* PayByLinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayByLinkViewModel.swift; sourceTree = "<group>"; };
+		A59667F329F8C7F900EE816D /* PayByLinkForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayByLinkForm.swift; sourceTree = "<group>"; };
 		A59667F929FB43D700EE816D /* GpApiApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiApmTest.swift; sourceTree = "<group>"; };
 		A59668002A0BB45800EE816D /* PaypalBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalBuilder.swift; sourceTree = "<group>"; };
 		A59668022A0BB46700EE816D /* PaypalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalViewController.swift; sourceTree = "<group>"; };
@@ -856,7 +856,7 @@
 		A59D62D92AE9DCD5000AA7BA /* DigitalWalletsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalWalletsViewModel.swift; sourceTree = "<group>"; };
 		A59D62DB2AE9E559000AA7BA /* MessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageResponse.swift; sourceTree = "<group>"; };
 		A59D62DD2AEFD004000AA7BA /* PaypalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaypalView.swift; sourceTree = "<group>"; };
-		A59D62E12AF2833E000AA7BA /* PayLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayLinkView.swift; sourceTree = "<group>"; };
+		A59D62E12AF2833E000AA7BA /* PayByLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayByLinkView.swift; sourceTree = "<group>"; };
 		A59D62E32AF50723000AA7BA /* AchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchView.swift; sourceTree = "<group>"; };
 		A59D62E52B050BA5000AA7BA /* AchChargeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchChargeUseCase.swift; sourceTree = "<group>"; };
 		A59D62E82B0B7866000AA7BA /* EbtBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EbtBuilder.swift; sourceTree = "<group>"; };
@@ -1615,7 +1615,7 @@
 				304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */,
 				30B3DE59299BEA9500FCEF48 /* GpApiAchTests.swift */,
 				A506E86B29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift */,
-				A59667E229EE200A00EE816D /* GpApiPayLinkTest.swift */,
+				A59667E229EE200A00EE816D /* GpApiPayByLinkTest.swift */,
 				A59667F929FB43D700EE816D /* GpApiApmTest.swift */,
 				A5FC78322A6DD5AC00BBD524 /* GpApiBNPLTest.swift */,
 				A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */,
@@ -2222,11 +2222,11 @@
 		A59667E829F6ACD300EE816D /* PayLink */ = {
 			isa = PBXGroup;
 			children = (
-				A59667E929F6AD2D00EE816D /* PayLinkBuilder.swift */,
-				A59667EB29F6AD4C00EE816D /* PayLinkViewController.swift */,
-				A59667ED29F6ADB900EE816D /* PayLinkViewModel.swift */,
-				A59667F329F8C7F900EE816D /* PayLinkForm.swift */,
-				A59D62E12AF2833E000AA7BA /* PayLinkView.swift */,
+				A59667E929F6AD2D00EE816D /* PayByLinkBuilder.swift */,
+				A59667EB29F6AD4C00EE816D /* PayByLinkViewController.swift */,
+				A59667ED29F6ADB900EE816D /* PayByLinkViewModel.swift */,
+				A59667F329F8C7F900EE816D /* PayByLinkForm.swift */,
+				A59D62E12AF2833E000AA7BA /* PayByLinkView.swift */,
 			);
 			path = PayLink;
 			sourceTree = "<group>";
@@ -2747,7 +2747,7 @@
 				A582C4CA2B5E1B7C0081070A /* ActionByIdView.swift in Sources */,
 				A5FC78152A6C784E00BBD524 /* ProductsViewController.swift in Sources */,
 				A585771D2ACC377200910EC9 /* PaymentProcessView.swift in Sources */,
-				A59667F429F8C7F900EE816D /* PayLinkForm.swift in Sources */,
+				A59667F429F8C7F900EE816D /* PayByLinkForm.swift in Sources */,
 				30B3DE61299D2D0200FCEF48 /* AchViewController.swift in Sources */,
 				8253FBFE25642F4D00FBDCC9 /* TransactionByIDFormViewController.swift in Sources */,
 				8214207525924CBD003EA8DF /* DisputesOperationsForm.swift in Sources */,
@@ -2805,14 +2805,14 @@
 				8258B164255C36DD00D02721 /* CellIdentifiable.swift in Sources */,
 				8214207B25924D3D003EA8DF /* DisputesOperationsFormBuilder.swift in Sources */,
 				8264A019258BBF2400E1144F /* DisputeReportViewController.swift in Sources */,
-				A59667EC29F6AD4C00EE816D /* PayLinkViewController.swift in Sources */,
+				A59667EC29F6AD4C00EE816D /* PayByLinkViewController.swift in Sources */,
 				A5E0E1B72B45A2E100B546E8 /* ReportingBuilder.swift in Sources */,
 				8264A004258BA44B00E1144F /* DisputesBuilder.swift in Sources */,
 				A582C4E52B5EACAD0081070A /* DisputeListFormUseCase.swift in Sources */,
 				A50B0D002A9E142E00C1A88E /* HostedFieldsBuilder.swift in Sources */,
 				8253FC0B256531E000FBDCC9 /* TransactionSummaryTableViewCell.swift in Sources */,
 				82A5183D256593FF00E14F76 /* DateExtensions.swift in Sources */,
-				A59667EE29F6ADB900EE816D /* PayLinkViewModel.swift in Sources */,
+				A59667EE29F6ADB900EE816D /* PayByLinkViewModel.swift in Sources */,
 				A570F1052AB8B73600A821FE /* HomeItemViewCell.swift in Sources */,
 				A57EB60B29C3B5D4001C4AD9 /* CreateMerchantViewModel.swift in Sources */,
 				A59668052A0BB47200EE816D /* PaypalViewModel.swift in Sources */,
@@ -2870,7 +2870,7 @@
 				82EC18EC257531FD00A93A3C /* PaymentMethodsBuilder.swift in Sources */,
 				A5E0E1C72B47533A00B546E8 /* TransactionListFormView.swift in Sources */,
 				A582C4B32B5DA9A60081070A /* PaymentMethodByIdView.swift in Sources */,
-				A59D62E22AF2833E000AA7BA /* PayLinkView.swift in Sources */,
+				A59D62E22AF2833E000AA7BA /* PayByLinkView.swift in Sources */,
 				8244D6AC255D76FE00739364 /* GlobalPayRouter.swift in Sources */,
 				A582C5052B5EB99E0081070A /* AccountsListForm.swift in Sources */,
 				A55CE4742ABBAF1500480475 /* AccessTokenDataView.swift in Sources */,
@@ -2878,7 +2878,7 @@
 				A59D62DA2AE9DCD5000AA7BA /* DigitalWalletsViewModel.swift in Sources */,
 				82B82EE3263ABD7B008B448D /* AuthenticationsViewController.swift in Sources */,
 				30B3DE63299D2D0E00FCEF48 /* AchBuilder.swift in Sources */,
-				A59667EA29F6AD2D00EE816D /* PayLinkBuilder.swift in Sources */,
+				A59667EA29F6AD2D00EE816D /* PayByLinkBuilder.swift in Sources */,
 				A5FC782A2A6CA22900BBD524 /* CustomerForm.swift in Sources */,
 				822FBF1A258263BB00D12353 /* DepositsListFormBuilder.swift in Sources */,
 				A59D63022B1E06C5000AA7BA /* VerificationsFormView.swift in Sources */,
@@ -3012,7 +3012,7 @@
 				8224884525E5381B001EAF3D /* GpApiCreditCardPresentTests.swift in Sources */,
 				824451BC24E150410080D06B /* GpApiReportingDisputesTests.swift in Sources */,
 				A506E86C29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift in Sources */,
-				A59667E329EE200A00EE816D /* GpApiPayLinkTest.swift in Sources */,
+				A59667E329EE200A00EE816D /* GpApiPayByLinkTest.swift in Sources */,
 				8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */,
 				82613EBC24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift in Sources */,
 				30B3DE5A299BEA9500FCEF48 /* GpApiAchTests.swift in Sources */,

@@ -566,8 +566,8 @@ import Foundation
         return self
     }
     
-    public func withPayLinkData(_ payLinkData: PayLinkData) -> AuthorizationBuilder {
-        self.payLinkData = payLinkData
+    public func withPayByLinkData(_ payByLinkData: PayByLinkData) -> AuthorizationBuilder {
+        self.payByLinkData = payByLinkData
         return self
     }
     

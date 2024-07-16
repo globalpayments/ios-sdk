@@ -1,7 +1,7 @@
 import Foundation
 import GlobalPayments_iOS_SDK
 
-final class PayLinkViewModel: BaseViewModel {
+final class PayByLinkViewModel: BaseViewModel {
     
     var enableButton: Dynamic<Bool> = Dynamic(false)
     private var amount: NSDecimalNumber = 0.0
@@ -10,22 +10,22 @@ final class PayLinkViewModel: BaseViewModel {
     private var usageLimit: String = "1"
     private var expirationDate: String = Date().format("yyyy-MM-dd")
 
-    func doPayLinkTransaction() {
+    func doPayByLinkTransaction() {
         showLoading.executer()
-        let payLinkData = PayLinkData()
-        payLinkData.type = .payment
-        payLinkData.usageMode = usageMode
-        payLinkData.allowedPaymentMethods = [ PaymentMethodName.card ]
-        payLinkData.usageLimit = usageLimit
-        payLinkData.name = description
-        payLinkData.isShippable = false
-        payLinkData.expirationDate = expirationDate.formattedDate("yyyy-MM-dd")
-        payLinkData.images = []
-        payLinkData.returnUrl = "https://www.example.com/returnUrl"
-        payLinkData.statusUpdateUrl = "https://www.example.com/statusUrl"
-        payLinkData.cancelUrl = "https://www.example.com/returnUrl"
+        let payByLinkData = PayByLinkData()
+        payByLinkData.type = .payment
+        payByLinkData.usageMode = usageMode
+        payByLinkData.allowedPaymentMethods = [ PaymentMethodName.card ]
+        payByLinkData.usageLimit = usageLimit
+        payByLinkData.name = description
+        payByLinkData.isShippable = false
+        payByLinkData.expirationDate = expirationDate.formattedDate("yyyy-MM-dd")
+        payByLinkData.images = []
+        payByLinkData.returnUrl = "https://www.example.com/returnUrl"
+        payByLinkData.statusUpdateUrl = "https://www.example.com/statusUrl"
+        payByLinkData.cancelUrl = "https://www.example.com/returnUrl"
         
-        PayLinkService.create(payLink: payLinkData, amount: amount)
+        PayByLinkService.create(payByLink: payByLinkData, amount: amount)
             .withCurrency("GBP")
             .withClientTransactionId(UUID().uuidString)
             .withDescription(description)

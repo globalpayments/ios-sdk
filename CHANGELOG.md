@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v2.0.10 (07/02/2024)
+## Latest - v3.0.0 (07/16/2024)
+
+#### Enhancements
+
+- GP-API: Add payer email support
+
+## v2.0.10 (07/02/2024)
 
 #### Enhancements
 

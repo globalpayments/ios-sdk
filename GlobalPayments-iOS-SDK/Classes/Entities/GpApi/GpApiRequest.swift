@@ -198,9 +198,9 @@ extension GpApiRequest {
             "/merchants/\(merID)/documents"
         }
         
-        // MARK: - PayLink
+        // MARK: - PayByLink
         
-        static func payLinkWithId(id: String) -> String {
+        static func payByLinkWithId(id: String) -> String {
             "/links/\(id)"
         }
         

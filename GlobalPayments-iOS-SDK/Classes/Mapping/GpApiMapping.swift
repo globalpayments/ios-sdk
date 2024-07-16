@@ -35,7 +35,7 @@ public struct GpApiMapping {
         if let type: String = doc?.get(valueFor: "action")?.getValue(key: "type"), let actionType = ActionType(value: type) {
             switch actionType {
             case .linkCreate, .linkEdit:
-                transaction.payLinkResponse = mapPayLinkResponse(doc)
+                transaction.payByLinkResponse = mapPayByLinkResponse(doc)
                 if let transactions: JsonDoc = doc?.getValue(key: "transactions"), let amount: String = transactions.getValue(key: "amount") {
                     transaction.balanceAmount = NSDecimalNumber(string: amount).amount
                 }
@@ -570,15 +570,15 @@ public struct GpApiMapping {
             result = GpApiMapping.mapDocumentMetadata(json)
         } else if reportType == .documentDisputeDetail {
             result = GpApiMapping.mapDisputeDocument(json)
-        } else if reportType == .findPayLinkPaged {
-            var pagedResult: PagedResult<PayLinkSummary>? = getPagedResult(json)
+        } else if reportType == .findPayByLinkPaged {
+            var pagedResult: PagedResult<PayByLinkSummary>? = getPagedResult(json)
             if let links: [JsonDoc] = json?.getValue(key: "links") {
-                let mapped = links.map { PayLinkSummary.mapFromJson($0) }
+                let mapped = links.map { PayByLinkSummary.mapFromJson($0) }
                 pagedResult?.results = mapped
             }
             result = pagedResult
-        } else if reportType == .payLinkDetail {
-            result = PayLinkSummary.mapFromJson(json)
+        } else if reportType == .payByLinkDetail {
+            result = PayByLinkSummary.mapFromJson(json)
         }
         return result as? T
     }
@@ -696,27 +696,27 @@ public struct GpApiMapping {
         )
     }
     
-    private static func mapPayLinkResponse(_ doc: JsonDoc?) -> PayLinkResponse {
-        let payLinkResponse = PayLinkResponse()
-        payLinkResponse.id = doc?.getValue(key: "id")
-        payLinkResponse.accountName = doc?.getValue(key: "account_name")
-        payLinkResponse.url = doc?.getValue(key: "url")
-        payLinkResponse.status = PayLinkStatus(value: doc?.getValue(key: "status"))
-        payLinkResponse.type = PayLinkType(value: doc?.getValue(key: "type"))
-        payLinkResponse.usageMode = PaymentMethodUsageMode(value: doc?.getValue(key: "usage_mode"))
+    private static func mapPayByLinkResponse(_ doc: JsonDoc?) -> PayByLinkResponse {
+        let payByLinkResponse = PayByLinkResponse()
+        payByLinkResponse.id = doc?.getValue(key: "id")
+        payByLinkResponse.accountName = doc?.getValue(key: "account_name")
+        payByLinkResponse.url = doc?.getValue(key: "url")
+        payByLinkResponse.status = PayByLinkStatus(value: doc?.getValue(key: "status"))
+        payByLinkResponse.type = PayByLinkType(value: doc?.getValue(key: "type"))
+        payByLinkResponse.usageMode = PaymentMethodUsageMode(value: doc?.getValue(key: "usage_mode"))
         
         if let usageLimit: String = doc?.getValue(key: "usage_limit") {
-            payLinkResponse.usageLimit = Int(usageLimit)
+            payByLinkResponse.usageLimit = Int(usageLimit)
         }
-        payLinkResponse.reference = doc?.getValue(key: "reference")
-        payLinkResponse.name = doc?.getValue(key: "name")
-        payLinkResponse.descriptionPayLink = doc?.getValue(key: "description")
-        payLinkResponse.viewedCount = doc?.getValue(key: "viewed_count")
-        payLinkResponse.expirationDate = doc?.getValue(key: "expiration_date")
+        payByLinkResponse.reference = doc?.getValue(key: "reference")
+        payByLinkResponse.name = doc?.getValue(key: "name")
+        payByLinkResponse.descriptionPayByLink = doc?.getValue(key: "description")
+        payByLinkResponse.viewedCount = doc?.getValue(key: "viewed_count")
+        payByLinkResponse.expirationDate = doc?.getValue(key: "expiration_date")
         let shippable: String = doc?.getValue(key: "shippable") ?? "NO"
-        payLinkResponse.isShippable = shippable.uppercased() == "YES"
-        payLinkResponse.allowedPaymentMethods = getAllowedPaymentMethods(doc)
-        return payLinkResponse
+        payByLinkResponse.isShippable = shippable.uppercased() == "YES"
+        payByLinkResponse.allowedPaymentMethods = getAllowedPaymentMethods(doc)
+        return payByLinkResponse
     }
     
     private static func mapTransferFundAccounts(_ docs: [JsonDoc]) -> [FundsAccountDetails] {

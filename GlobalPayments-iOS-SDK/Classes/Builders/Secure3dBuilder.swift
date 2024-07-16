@@ -57,7 +57,7 @@ import Foundation
     var paymentMethod: PaymentMethod?
     var preOrderAvailabilityDate: Date?
     var preOrderIndicator: PreOrderIndicator?
-    var previousSuspiciousActivity: Bool?
+    var suspiciousAccountActivity: SuspiciousAccountActivity?
     var priorAuthenticationData: String?
     var priorAuthenticationMethod: PriorAuthenticationMethod?
     var priorAuthenticationTransactionId: String?
@@ -388,8 +388,8 @@ import Foundation
         return self
     }
 
-    public func withPreviousSuspiciousActivity(_ previousSuspiciousActivity: Bool?) -> Secure3dBuilder {
-        self.previousSuspiciousActivity = previousSuspiciousActivity
+    public func withSuspiciousAccountActivity(_ suspiciousAccountActivity: SuspiciousAccountActivity?) -> Secure3dBuilder {
+        self.suspiciousAccountActivity = suspiciousAccountActivity
         return self
     }
 

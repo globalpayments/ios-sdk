@@ -486,6 +486,7 @@ class GpApi3DSecureTests: XCTestCase {
             .withAddress(billingAddress, .billing)
             .withAddress(shippingAddress, .shipping)
             .withBrowserData(browserData)
+            .withCustomerEmail("jason@globalpay.com")
             .withStoredCredential(storedCredential)
             .execute {
                 threeDSecureInitAuthResult = $0
@@ -1388,5 +1389,121 @@ class GpApi3DSecureTests: XCTestCase {
         XCTAssertNotNil(transactionResponse)
         XCTAssertEqual("SUCCESS", transactionResponse?.responseCode)
         XCTAssertEqual(TransactionStatus.captured.mapped(for: .gpApi), transactionResponse?.responseMessage)
+    }
+    
+    func test_full_cycle_with_payer_information() {
+        // GIVEN
+        card.number = GpApi3DSTestCards.cardAuthSuccessfulV21
+        let tokenizeExpectation = expectation(description: "Tokenize exception")
+        let tokenizedCard = CreditCardData()
+        var expectedError: Error?
+
+        // WHEN
+        card.tokenize { token, error in
+            tokenizedCard.token = token
+            expectedError = error
+            tokenizeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [tokenizeExpectation], timeout: 10.0)
+        XCTAssertNil(expectedError)
+        XCTAssertNotNil(tokenizedCard.token)
+        
+        // GIVEN
+        let enrollmentExpectation = expectation(description: "Check Enrollment Required Expectation")
+        enrollmentExpectation.assertForOverFulfill = true
+        var secureEcom: ThreeDSecure?
+        var secureEcomError: Error?
+
+        // WHEN
+        Secure3dService
+            .checkEnrollment(paymentMethod: tokenizedCard)
+            .withCurrency(currency)
+            .withAmount(amount)
+            .execute() {
+                secureEcom = $0
+                secureEcomError = $1
+                enrollmentExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [enrollmentExpectation], timeout: 20.0)
+        XCTAssertNil(secureEcomError)
+        XCTAssertNotNil(secureEcom)
+        XCTAssertEqual(ENROLLED, secureEcom?.enrolled)
+        XCTAssertEqual(Secure3dVersion.two, secureEcom?.version)
+        XCTAssertEqual(AVAILABLE, secureEcom?.status)
+        
+        // GIVEN
+        let initiateAuthenticationExpectation = expectation(description: "Initiate Authentication Expectation")
+        var threeDSecureInitAuthResult: ThreeDSecure?
+        var threeDSecureInitAuthError: Error?
+
+        // WHEN
+        Secure3dService
+            .initiateAuthentication(paymentMethod: card, secureEcom: secureEcom)
+            .withAmount(amount)
+            .withCurrency(currency)
+            .withAuthenticationSource(.browser)
+            .withMethodUrlCompletion(.yes)
+            .withOrderCreateDate(Date())
+            .withAddress(shippingAddress, .shipping)
+            .withBrowserData(browserData)
+        //Payer Information
+            .withCustomerAccountId("6dcb24f5-74a0-4da3-98da-4f0aa0e88db3")
+            .withAccountAgeIndicator(AgeIndicator.lessThanThirtyDays)
+            .withAccountCreateDate(Date().addYears(-2))
+            .withAccountChangeDate(Date().addYears(-2))
+            .withAccountChangeIndicator(AgeIndicator.thisTransaction)
+            .withPasswordChangeDate(Date())
+            .withPasswordChangeIndicator(AgeIndicator.lessThanThirtyDays)
+            .withHomeNumber("123456798", "44")
+            .withWorkNumber("1801555888", "44")
+            .withMobileNumber("7975556677", "44")
+            .withPaymentAccountCreateDate(Date())
+            .withPaymentAccountAgeIndicator(AgeIndicator.lessThanThirtyDays)
+            .withSuspiciousAccountActivity(SuspiciousAccountActivity.SUSPICIOUS_ACTIVITY)
+            .withNumberOfPurchasesInLastSixMonths(3)
+            .withNumberOfTransactionsInLast24Hours(1)
+            .withNumberOfTransactionsInLastYear(5)
+            .withNumberOfAddCardAttemptsInLast24Hours(1)
+            .withShippingAddressCreateDate(Date().addYears(-2))
+            .withShippingAddressUsageIndicator(AgeIndicator.thisTransaction)
+            .withCustomerEmail("james@globalpay.com")
+            .execute {
+                threeDSecureInitAuthResult = $0
+                threeDSecureInitAuthError = $1
+                initiateAuthenticationExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [initiateAuthenticationExpectation], timeout: 20.0)
+        XCTAssertNil(threeDSecureInitAuthError)
+        XCTAssertNotNil(threeDSecureInitAuthResult)
+        XCTAssertEqual(threeDSecureInitAuthResult?.status, SUCCESS_AUTHENTICATED)
+        XCTAssertEqual("YES", secureEcom?.liabilityShift)
+        
+        // GIVEN
+        let getAuthenticationDataExpectation = expectation(description: "Get Authentication Data Expectation")
+        var threeDSecureAuth: ThreeDSecure?
+        var authenticationError: Error?
+
+        // WHEN
+        Secure3dService
+            .getAuthenticationData()
+            .withServerTransactionId(secureEcom?.serverTransactionId)
+            .execute {
+                threeDSecureAuth = $0
+                authenticationError = $1
+                getAuthenticationDataExpectation.fulfill()
+            }
+        
+        // THEN
+        wait(for: [getAuthenticationDataExpectation], timeout: 10.0)
+        XCTAssertNil(authenticationError)
+        XCTAssertNotNil(threeDSecureAuth)
+        XCTAssertEqual(threeDSecureAuth?.status, SUCCESS_AUTHENTICATED)
+        XCTAssertEqual("YES", threeDSecureAuth?.liabilityShift)
     }
 }

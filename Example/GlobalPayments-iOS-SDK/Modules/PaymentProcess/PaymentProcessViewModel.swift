@@ -7,7 +7,7 @@ class PaymentProcessViewModel: BaseViewModel {
         "payment.process.unified.payments.title",
         "globalpay.apple.pay",
         "paypal.title",
-        "globalpay.paylink.title",
+        "globalpay.payByLink.title",
         "globalpay.ach.title",
         "globalpay.ebt.title",
         "buyNowPayLater.title",
@@ -19,7 +19,7 @@ class PaymentProcessViewModel: BaseViewModel {
         "payment.process.unified.payments.description",
         "payment.process.apple.pay.description",
         "payment.process.paypal.description",
-        "payment.process.paylink.description",
+        "payment.process.payByLink.description",
         "payment.process.ach.description",
         "payment.process.ebt.description",
         "payment.process.bnpl.description",
@@ -55,8 +55,8 @@ class PaymentProcessViewModel: BaseViewModel {
             viewController = DigitalWalletsBuilder.build()
         case .paypal:
             viewController = PaypalBuilder.build()
-        case .payLink:
-            viewController = PayLinkBuilder.build()
+        case .payByLink:
+            viewController = PayByLinkBuilder.build()
         case .ach:
             viewController = AchBuilder.build()
         case .ebt:
@@ -76,7 +76,7 @@ enum PaymentItemAction: String, CaseIterable {
     case unifiedPayments
     case applePay
     case paypal
-    case payLink
+    case payByLink
     case ach
     case ebt
     case bnpl

@@ -116,11 +116,8 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
             .set(for: "provision_attempt_last_24hours_count", value: builder.numberOfAddCardAttemptsInLast24Hours)
             .set(for: "shipping_address_time_created_reference", value: builder.shippingAddressCreateDate?.format("yyyy-MM-dd"))
             .set(for: "shipping_address_creation_indicator", value: builder.shippingAddressUsageIndicator?.mapped(for: .gpApi))
-
-        if let previousSuspiciousActivity = builder.previousSuspiciousActivity {
-            let value = previousSuspiciousActivity ? "SUSPICIOUS_ACTIVITY" : "NO_SUSPICIOUS_ACTIVITY"
-            payer.set(for: "suspicious_account_activity", value: value)
-        }
+            .set(for: "suspicious_account_activity", value: builder.suspiciousAccountActivity?.mapped(for: .gpApi))
+            .set(for: "email", value: builder.customerEmail)
 
         let payerPriorThreeDsAuthenticationData = JsonDoc()
             .set(for: "authentication_method", value: builder.priorAuthenticationMethod?.mapped(for: .gpApi))

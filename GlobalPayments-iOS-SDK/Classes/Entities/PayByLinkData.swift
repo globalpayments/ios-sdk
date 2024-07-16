@@ -1,9 +1,9 @@
 import Foundation
 
-public class PayLinkData: NSObject {
+public class PayByLinkData: NSObject {
     
     /// Describes the type of link that will be created.
-    public var type: PayLinkType?
+    public var type: PayByLinkType?
     /// Indicates whether the link can be used once or multiple times
     public var usageMode: PaymentMethodUsageMode?
 
@@ -11,7 +11,7 @@ public class PayLinkData: NSObject {
     /// The number of the times that the link can be used or paid.
     public var usageLimit: String?
 
-    public var status: PayLinkStatus?
+    public var status: PayByLinkStatus?
     /// A descriptive name for the link. This will be visible to the customer on the payment page.
     public var name: String?
     /// Indicates if you want to capture the customers shipping information on the hosted payment page.

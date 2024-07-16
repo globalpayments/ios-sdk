@@ -181,7 +181,7 @@ public class Transaction: NSObject {
     
     var giftCard: GiftCard?
     var transactionReference: TransactionReference?
-    public var payLinkResponse: PayLinkResponse?
+    public var payByLinkResponse: PayByLinkResponse?
     public var bnplResponse: BNPLResponse?
     public var bankPaymentResponse: BankPaymentResponse?
     public var transfersFundsAccounts: [FundsAccountDetails]?

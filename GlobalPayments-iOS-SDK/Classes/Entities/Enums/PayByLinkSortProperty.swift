@@ -1,6 +1,6 @@
 import Foundation
 
-public enum PayLinkSortProperty: String, Mappable {
+public enum PayByLinkSortProperty: String, Mappable {
     
     case timeCreated = "TIME_CREATED"
 

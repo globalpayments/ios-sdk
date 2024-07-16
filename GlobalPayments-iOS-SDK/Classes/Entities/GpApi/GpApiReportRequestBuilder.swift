@@ -227,19 +227,19 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                 method: .get
             )
             
-        case .payLinkDetail:
+        case .payByLinkDetail:
             return GpApiRequest(
-                endpoint: merchantUrl + "/links/\(builder.searchCriteriaBuilder.payLinkId ?? .empty)",
+                endpoint: merchantUrl + "/links/\(builder.searchCriteriaBuilder.payByLinkId ?? .empty)",
                 method: .get
             )
-        case .findPayLinkPaged:
+        case .findPayByLinkPaged:
             var params = [String: String]()
             addPageParams(&params, builder)
             params["from_time_created"] = builder.searchCriteriaBuilder.startDate?.format("yyyy-MM-dd")
             params["to_time_created"] = builder.searchCriteriaBuilder.endDate?.format("yyyy-MM-dd")
             params["order"] = builder.order?.mapped(for: .gpApi)
             params["order_by"] = builder.actionOrderBy?.mapped(for: .gpApi)
-            params["status"] = builder.searchCriteriaBuilder.payLinkStatus?.mapped(for: .gpApi)
+            params["status"] = builder.searchCriteriaBuilder.payByLinkStatus?.mapped(for: .gpApi)
             params["usage_mode"] = builder.searchCriteriaBuilder.paymentMethodUsageMode?.mapped(for: .gpApi)
             params["name"] = builder.searchCriteriaBuilder.displayName
             params["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString()

@@ -1,12 +1,12 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-protocol PayLinkViewDelegate: AnyObject {
-    func onPaylinkButtonAction()
+protocol PayByLinkViewDelegate: AnyObject {
+    func onPayBylinkButtonAction()
     func fieldDataChanged(value: String, type: GpFieldsEnum)
 }
 
-class PayLinkView: GpBaseView {
+class PayByLinkView: GpBaseView {
     
     private let defaultAmount = "10.00"
     
@@ -20,7 +20,7 @@ class PayLinkView: GpBaseView {
         static let buttonSize: CGFloat = 48.0
     }
     
-    weak var delegate: PayLinkViewDelegate?
+    weak var delegate: PayByLinkViewDelegate?
     
     private lazy var scrollContainerView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -77,11 +77,11 @@ class PayLinkView: GpBaseView {
         return field
     }()
     
-    private lazy var payLinkButton: UIButton = {
+    private lazy var payByLinkButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.applyWithImage(style: .redesignStyle, title: "payment.process.paylink.button.tittle".localized())
-        button.addTarget(self, action: #selector(paylinkButtonPressed), for: .touchUpInside)
+        button.applyWithImage(style: .redesignStyle, title: "payment.process.payByLink.button.tittle".localized())
+        button.addTarget(self, action: #selector(payByLinkButtonPressed), for: .touchUpInside)
         button.isEnabled = false
         button.alpha = DimensKeys.disabledButton
         return button
@@ -89,15 +89,15 @@ class PayLinkView: GpBaseView {
     
     override init() {
         super.init()
-        title = "payLink.title".localized()
+        title = "payByLink.title".localized()
         setUpScrollContainerViewConstraints()
         setUpAmountFieldConstraints()
         setUpDescriptionFieldConstraints()
         setUpExpirationDateFieldConstraints()
         setUpUsageModeFieldConstraints()
-        setUpPayLinkButtonConstraints()
+        setUpPayByLinkButtonConstraints()
         
-        setUpSeparatorBottomLineConstraints(containerView, belowView: payLinkButton)
+        setUpSeparatorBottomLineConstraints(containerView, belowView: payByLinkButton)
         setUpCodeResponseViewConstraints(containerView)
         setUpDataExampleCode()
         
@@ -105,10 +105,10 @@ class PayLinkView: GpBaseView {
     }
     
     private func setUpDataExampleCode() {
-        codeResponseView.locationLabel = "Modules/Paylink/"
-        codeResponseView.fileLabel = "PaylinkViewModel.swift"
-        codeResponseView.titleResponseDataView = "PaylinkInfo"
-        codeResponseView.exampleCodeImage = #imageLiteral(resourceName: "paylink_code")
+        codeResponseView.locationLabel = "Modules/PayBylink/"
+        codeResponseView.fileLabel = "PayByLinkViewModel.swift"
+        codeResponseView.titleResponseDataView = "PayByLinkInfo"
+//        codeResponseView.exampleCodeImage = #imageLiteral(resourceName: "pay_by_link_code")
     }
     
     private func setUpScrollContainerViewConstraints() {
@@ -149,11 +149,11 @@ class PayLinkView: GpBaseView {
         ])
     }
     
-    private func setUpPayLinkButtonConstraints() {
-        containerView.addSubview(payLinkButton)
+    private func setUpPayByLinkButtonConstraints() {
+        containerView.addSubview(payByLinkButton)
         NSLayoutConstraint.activating([
-            payLinkButton.relativeTo(usageModeFieldsView, positioned: .belowWidth(spacing: DimensKeys.marginMedium, margin: DimensKeys.marginSide)),
-            payLinkButton.constrainedBy(.constantHeight(DimensKeys.buttonSize))
+            payByLinkButton.relativeTo(usageModeFieldsView, positioned: .belowWidth(spacing: DimensKeys.marginMedium, margin: DimensKeys.marginSide)),
+            payByLinkButton.constrainedBy(.constantHeight(DimensKeys.buttonSize))
         ])
     }
     
@@ -165,13 +165,13 @@ class PayLinkView: GpBaseView {
         usageModeFieldsView.setDropDownBoth(usageModes, defaultFirstValue: 0)
     }
     
-    @objc func paylinkButtonPressed() {
-        delegate?.onPaylinkButtonAction()
+    @objc func payByLinkButtonPressed() {
+        delegate?.onPayBylinkButtonAction()
     }
     
     func enableButton(_ enable: Bool) {
-        payLinkButton.isEnabled = enable
-        payLinkButton.alpha = enable ? DimensKeys.enabledButton : DimensKeys.disabledButton
+        payByLinkButton.isEnabled = enable
+        payByLinkButton.alpha = enable ? DimensKeys.enabledButton : DimensKeys.disabledButton
     }
     
     func toBottomView() {
@@ -186,7 +186,7 @@ class PayLinkView: GpBaseView {
     }
 }
 
-extension PayLinkView: DoubleFieldViewDelegate {
+extension PayByLinkView: DoubleFieldViewDelegate {
     
     func onFirstFieldItemSelected(_ value: String) {
         guard let usageMode = PaymentMethodUsageMode(value: value) else {
@@ -202,7 +202,7 @@ extension PayLinkView: DoubleFieldViewDelegate {
     }
 }
 
-extension PayLinkView: GpTextFieldDelegate {
+extension PayByLinkView: GpTextFieldDelegate {
     
     func textChanged(value: String, type: GpFieldsEnum) {
         delegate?.fieldDataChanged(value: value, type: type)

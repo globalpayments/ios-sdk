@@ -59,7 +59,7 @@ import Foundation
     var voidReason: VoidReason?
     var usageMode: PaymentMethodUsageMode?
     var usageLimit: String?
-    var type: PayLinkType?
+    var type: PayByLinkType?
     var reference: String?
     var fundsData: FundsData?
 
@@ -230,11 +230,11 @@ import Foundation
         return self
     }
     
-    public func withPayLinkData(_ payLinkData: PayLinkData) -> ManagementBuilder {
-        self.payLinkData = payLinkData
-        self.usageMode = payLinkData.usageMode
-        self.usageLimit = payLinkData.usageLimit
-        self.type = payLinkData.type
+    public func withPayByLinkData(_ payByLinkData: PayByLinkData) -> ManagementBuilder {
+        self.payByLinkData = payByLinkData
+        self.usageMode = payByLinkData.usageMode
+        self.usageLimit = payByLinkData.usageLimit
+        self.type = payByLinkData.type
         return self
     }
     
@@ -292,9 +292,9 @@ import Foundation
         validations.of(transactionType: [.capture, .edit, .hold, .release, .tokenUpdate, .tokenDelete, .verifySignature, .refund])
             .check(propertyName: "voidReason")?.isNil()
         
-        validations.of(transactionType: .payLinkUpdate)
+        validations.of(transactionType: .payByLinkUpdate)
             .check(propertyName: "paymentLinkId")?.isNotNil()?
-            .check(propertyName: "payLinkData")?.isNotNil()
+            .check(propertyName: "payByLinkData")?.isNotNil()
         
         validations.of(transactionType: .splitFunds)
             .check(propertyName: "amount")?.isNotNil()?

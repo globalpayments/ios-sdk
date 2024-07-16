@@ -1,10 +1,10 @@
 import UIKit
 import GlobalPayments_iOS_SDK
 
-final class PayLinkViewController: BaseViewController<PayLinkViewModel> {
+final class PayByLinkViewController: BaseViewController<PayByLinkViewModel> {
     
     private lazy var customView = {
-        let view = PayLinkView()
+        let view = PayByLinkView()
         view.delegateView = self
         view.delegate = self
         return view
@@ -39,10 +39,10 @@ final class PayLinkViewController: BaseViewController<PayLinkViewModel> {
     }
 }
 
-extension PayLinkViewController: PayLinkViewDelegate {
+extension PayByLinkViewController: PayByLinkViewDelegate {
     
-    func onPaylinkButtonAction() {
-        viewModel?.doPayLinkTransaction()
+    func onPayBylinkButtonAction() {
+        viewModel?.doPayByLinkTransaction()
     }
     
     func fieldDataChanged(value: String, type: GpFieldsEnum) {

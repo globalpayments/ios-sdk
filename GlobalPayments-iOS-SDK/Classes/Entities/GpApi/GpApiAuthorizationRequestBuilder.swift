@@ -53,35 +53,35 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             }
         case .create:
             let payload = JsonDoc()
-            if let payLinkData = builder.payLinkData {
-                payload.set(for: "usage_limit", value: payLinkData.usageLimit)
-                payload.set(for: "usage_mode", value: payLinkData.usageMode?.mapped(for: .gpApi))
-                payload.set(for: "images", value: payLinkData.images)
+            if let payByLinkData = builder.payByLinkData {
+                payload.set(for: "usage_limit", value: payByLinkData.usageLimit)
+                payload.set(for: "usage_mode", value: payByLinkData.usageMode?.mapped(for: .gpApi))
+                payload.set(for: "images", value: payByLinkData.images)
                 payload.set(for: "description", value: builder.requestDescription)
-                payload.set(for: "type", value: payLinkData.type?.mapped(for: .gpApi))
-                payload.set(for: "expiration_date", value: payLinkData.expirationDate?.format("yyyy-MM-dd"))
+                payload.set(for: "type", value: payByLinkData.type?.mapped(for: .gpApi))
+                payload.set(for: "expiration_date", value: payByLinkData.expirationDate?.format("yyyy-MM-dd"))
                 
                 let transaction = JsonDoc()
                 transaction.set(for: "country", value: config?.country)
                 transaction.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
                 transaction.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
                 transaction.set(for: "currency", value: builder.currency)
-                transaction.set(for: "allowed_payment_methods", value: mapAllowedPaymentMethod(payLinkData.allowedPaymentMethods))
+                transaction.set(for: "allowed_payment_methods", value: mapAllowedPaymentMethod(payByLinkData.allowedPaymentMethods))
                 
                 payload.set(for: "transactions", doc: transaction)
                 payload.set(for: "reference", value: builder.clientTransactionId)
-                payload.set(for: "shipping_amount", value: payLinkData.shippingAmount?.toNumericCurrencyString())
-                payload.set(for: "shippable", value: payLinkData.isShippable ?? false ? "YES" : "NO")
+                payload.set(for: "shipping_amount", value: payByLinkData.shippingAmount?.toNumericCurrencyString())
+                payload.set(for: "shippable", value: payByLinkData.isShippable ?? false ? "YES" : "NO")
                 payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
-                payload.set(for: "name", value: payLinkData.name)
+                payload.set(for: "name", value: payByLinkData.name)
                 
                 let notification = JsonDoc()
-                notification.set(for: "cancel_url", value: payLinkData.cancelUrl)
-                notification.set(for: "return_url", value: payLinkData.returnUrl)
-                notification.set(for: "status_url", value: payLinkData.statusUpdateUrl)
+                notification.set(for: "cancel_url", value: payByLinkData.cancelUrl)
+                notification.set(for: "return_url", value: payByLinkData.returnUrl)
+                notification.set(for: "status_url", value: payByLinkData.statusUpdateUrl)
 
                 payload.set(for: "notifications", doc: notification)
-                payload.set(for: "status", value: payLinkData.status?.mapped(for: .gpApi))
+                payload.set(for: "status", value: payByLinkData.status?.mapped(for: .gpApi))
             }
             
             return GpApiRequest(

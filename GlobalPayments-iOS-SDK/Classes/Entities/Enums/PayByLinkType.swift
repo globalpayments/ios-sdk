@@ -1,23 +1,19 @@
 import Foundation
 
-public enum PayLinkStatus: String, Mappable {
+public enum PayByLinkType: String, Mappable {
     
-    case ACTIVE
-    case INACTIVE
-    case CLOSED
-    case EXPIRED
-    case PAID
+    case payment
     
     public init?(value: String?) {
         guard let value = value,
-              let status = PayLinkStatus(rawValue: value) else { return nil }
-        self = status
+              let type = PayByLinkType(rawValue: value) else { return nil }
+        self = type
     }
 
     public func mapped(for target: Target) -> String? {
         switch target {
         case .gpApi:
-            return self.rawValue
+            return self.rawValue.uppercased()
         default:
             return nil
         }

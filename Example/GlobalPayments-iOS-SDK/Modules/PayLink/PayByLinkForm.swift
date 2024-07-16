@@ -1,7 +1,7 @@
 import Foundation
 import GlobalPayments_iOS_SDK
 
-struct PayLinkForm {
+struct PayByLinkForm {
     let usageMode: String
     let usageLimit: String
     let name: String

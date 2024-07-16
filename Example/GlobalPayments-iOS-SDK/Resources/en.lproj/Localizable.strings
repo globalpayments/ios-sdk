@@ -24,7 +24,7 @@
 "globalpay.digital.wallets" = "Digital Wallets";
 "globalpay.apple.pay" = "Apple Pay";
 "globalpay.ach" = "Ach";
-"globalpay.paylink.title" = "Pay By Link";
+"globalpay.payByLink.title" = "Pay By Link";
 "globalpay.ach.title" = "ACH";
 "globalpay.ach.configuration.title" = "Configuration\nACH";
 "globalpay.ebt.title" = "EBT";
@@ -416,7 +416,7 @@
 "ach.refund" = "Refund";
 "ach.authorize" = "Authorize";
 
-"payLink.title" = "PayLink";
+"payByLink.title" = "PayByLink";
 "paypal.title" = "Paypal";
 "paypal.title.button" = "pay with Paypal";
 "buyNowPayLater.title" = "Buy now pay later";
@@ -475,7 +475,7 @@
 
 "payment.process.apple.pay.description" = "Process payments via ApplePay.";
 "payment.process.paypal.description" = "Process payments using PayPal.";
-"payment.process.paylink.description" = "Process payments using PayByLink.";
+"payment.process.payByLink.description" = "Process payments using PayByLink.";
 "payment.process.ach.description" = "Send an electronic funds transfer.";
 "payment.process.ebt.description" = "Send an electronic benefits transfer.";
 "payment.process.bnpl.description" = "Provide a flexible payment option that can";
@@ -487,7 +487,7 @@
 
 "unified.payments.card.expiration.date" = "Card Expiration Date:";
 
-"payment.process.paylink.button.tittle" = "GET LINK TO PAY";
+"payment.process.payByLink.button.tittle" = "GET LINK TO PAY";
 "payment.process.description.tittle" = "Description";
 "payment.process.expiration.date.tittle" = "Expiration Date";
 "payment.process.usage.mode.tittle" = "Usage Mode";

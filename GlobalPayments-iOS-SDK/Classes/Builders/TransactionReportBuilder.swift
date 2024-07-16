@@ -20,8 +20,8 @@ import Foundation
     var actionOrderBy: ActionSortProperty?
     var disputeDocuments: [DocumentInfo]?
     var disputeDocumentId: String?
-    var payLinkOrderBy: PayLinkSortProperty?
-    var payLinkId: String?
+    var payByLinkOrderBy: PayByLinkSortProperty?
+    var payByLinkId: String?
 
     /// Sets the device ID as criteria for the report.
     /// - Parameter deviceId: The device ID
@@ -235,15 +235,15 @@ import Foundation
         return self
     }
     
-    public func orderBy(_ orderBy: PayLinkSortProperty, direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
-        self.payLinkOrderBy = orderBy
+    public func orderBy(_ orderBy: PayByLinkSortProperty, direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
+        self.payByLinkOrderBy = orderBy
         self.order = direction
         return self
     }
     
-    public func withPayLinkId(_ payLinkId: String?) -> TransactionReportBuilder<TResult> {
-        self.searchCriteriaBuilder.payLinkId = payLinkId
-        self.payLinkId = payLinkId
+    public func withPayByLinkId(_ payByLinkId: String?) -> TransactionReportBuilder<TResult> {
+        self.searchCriteriaBuilder.payByLinkId = payByLinkId
+        self.payByLinkId = payByLinkId
         return self
     }
 
@@ -295,8 +295,8 @@ import Foundation
         validations.of(reportType: .transactionDetail)
             .check(propertyName: "transactionId")?.isNotNil()
         
-        validations.of(reportType: .payLinkDetail)
-            .check(propertyName: "payLinkId")?.isNotNil()
+        validations.of(reportType: .payByLinkDetail)
+            .check(propertyName: "payByLinkId")?.isNotNil()
 
         validations.of(reportType: .activity)
             .check(propertyName: "transactionId")?.isNil()

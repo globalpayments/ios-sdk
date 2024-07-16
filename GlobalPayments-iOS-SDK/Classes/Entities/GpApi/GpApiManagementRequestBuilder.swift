@@ -165,30 +165,30 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 method: .post,
                 requestBody: payload.toString()
             )
-        case .payLinkUpdate:
+        case .payByLinkUpdate:
             
-            let payLinkData = builder.payLinkData
+            let payByLinkData = builder.payByLinkData
             
             let payLoad = JsonDoc()
             
-            payLoad.set(for: "usage_mode", value: payLinkData?.usageMode?.mapped(for: .gpApi))
-            payLoad.set(for: "usage_limit", value: payLinkData?.usageLimit)
-            payLoad.set(for: "name", value: payLinkData?.name)
+            payLoad.set(for: "usage_mode", value: payByLinkData?.usageMode?.mapped(for: .gpApi))
+            payLoad.set(for: "usage_limit", value: payByLinkData?.usageLimit)
+            payLoad.set(for: "name", value: payByLinkData?.name)
             payLoad.set(for: "description", value: builder.description)
-            payLoad.set(for: "type", value: payLinkData?.type?.mapped(for: .gpApi))
-            payLoad.set(for: "status", value: payLinkData?.status?.mapped(for: .gpApi))
-            payLoad.set(for: "shippable", value: payLinkData?.isShippable ?? false ? "YES" : "NO")
-            payLoad.set(for: "shipping_amount", value:  payLinkData?.shippingAmount?.toNumericCurrencyString())
+            payLoad.set(for: "type", value: payByLinkData?.type?.mapped(for: .gpApi))
+            payLoad.set(for: "status", value: payByLinkData?.status?.mapped(for: .gpApi))
+            payLoad.set(for: "shippable", value: payByLinkData?.isShippable ?? false ? "YES" : "NO")
+            payLoad.set(for: "shipping_amount", value:  payByLinkData?.shippingAmount?.toNumericCurrencyString())
 
             let transaction = JsonDoc()
             transaction.set(for:"amount", value: builder.amount?.toNumericCurrencyString())
 
             payLoad.set(for:"transactions", doc: transaction)
-            payLoad.set(for:"expiration_date", value: payLinkData?.expirationDate)
-            payLoad.set(for:"images", value: payLinkData?.images)
+            payLoad.set(for:"expiration_date", value: payByLinkData?.expirationDate)
+            payLoad.set(for:"images", value: payByLinkData?.images)
 
             return GpApiRequest(
-                endpoint: merchantUrl + GpApiRequest.Endpoints.payLinkWithId(id: builder.paymentLinkId ?? .empty),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.payByLinkWithId(id: builder.paymentLinkId ?? .empty),
                 method: .patch,
                 requestBody: payLoad.toString()
             )

@@ -86,7 +86,7 @@ public struct TransactionType: OptionSet, Hashable {
     /// Indicates a Dispute Document Details report.
     public static let documentDisputeDetail  = TransactionType(rawValue: 1 << 40)
     
-    public static let payLinkUpdate          = TransactionType(rawValue: 1 << 41)
+    public static let payByLinkUpdate          = TransactionType(rawValue: 1 << 41)
     
     public static let confirm                = TransactionType(rawValue: 1 << 42)
     

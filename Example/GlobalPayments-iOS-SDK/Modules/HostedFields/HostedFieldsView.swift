@@ -39,7 +39,6 @@ final class HostedFieldsView: GpBaseView {
         field.titleMandatory = "hosted.fields.payment.amount.title".localized()
         field.delegate = self
         field.tagField = .amount
-        field.text = defaultAmount
         field.inputMode = .decimalPad
         field.currency = "$"
         field.translatesAutoresizingMaskIntoConstraints = false
@@ -122,6 +121,10 @@ final class HostedFieldsView: GpBaseView {
     private func moveToBottomView() {
         let bottomOffset = CGPoint(x: 0, y: scrollContainerView.contentSize.height - scrollContainerView.bounds.height + scrollContainerView.contentInset.bottom)
         scrollContainerView.setContentOffset(bottomOffset, animated: true)
+    }
+    
+    func defaultData() {
+        amountFieldView.text = defaultAmount
     }
 }
 

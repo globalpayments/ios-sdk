@@ -170,6 +170,14 @@ extension CountryUtils {
         public let numeric: String
         public let alpha2: String
         public let alpha3: String
+        
+        public static func allCountriesSorted() -> [ISOCountryInfo] {
+            var list = allCountries.sorted(by: { $0.alpha2 < $1.alpha2 }).sorted(by: { $0.alpha2 == "US" || $1.alpha2 == "GB" })
+            guard let lastItem = list.last else { return list }
+            list.insert(lastItem, at: 0)
+            list.removeLast()
+            return list
+        }
 
         public static let allCountries: [ISOCountryInfo] = [
             ISOCountryInfo(name: "Afghanistan", numeric: "004", alpha2: "AF", alpha3: "AFG"),

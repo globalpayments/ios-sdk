@@ -8,7 +8,7 @@ final class HostedFieldsViewModel: BaseViewModel {
     
     private let configuration: Configuration
     private var appConfig: Config?
-    private let currency = "GBP"
+    private let currency = "USD"
     private var amount: NSDecimalNumber?
     private var isPaymentRecurring = false
     private var cardBrand: String?
@@ -58,19 +58,23 @@ final class HostedFieldsViewModel: BaseViewModel {
     func createToken() {
         guard let appConfig = appConfig else { return }
         showLoading.executer()
+        let permissions = ["PMT_POST_Create_Single", "ACC_GET_Single"]
         GpApiService.generateTransactionKey(
             environment: .test,
             appId: appConfig.appId,
-            appKey: appConfig.appKey) { [weak self] accessTokenInfo, error in
-            UI {
-                self?.hideLoading.executer()
-                guard let accessTokenInfo = accessTokenInfo, let token = accessTokenInfo.token else {
-                    self?.showDataResponse.value = (.error, error as Any)
-                    return
+            appKey: appConfig.appKey,
+            secondsToExpire: appConfig.secondsToExpire,
+            intervalToExpire: appConfig.intervalToExpire,
+            permissions: permissions) { [weak self] accessTokenInfo, error in
+                UI {
+                    self?.hideLoading.executer()
+                    guard let accessTokenInfo = accessTokenInfo, let token = accessTokenInfo.token else {
+                        self?.showDataResponse.value = (.error, error as Any)
+                        return
+                    }
+                    self?.tokenGenerated.value = token
                 }
-                self?.tokenGenerated.value = token
             }
-        }
     }
     
     func onHostedFieldsTokenError(_ message: String) {
@@ -90,14 +94,19 @@ final class HostedFieldsViewModel: BaseViewModel {
             .checkEnrollment(paymentMethod: tokenizedCard)
             .withCurrency(currency)
             .withAmount(amount)
-            .withAuthenticationSource(.browser)
+            .withAuthenticationSource(.mobileSDK)
             .execute { secureEcom, error in
                 UI {
                     guard let secureEcom = secureEcom else {
                         self.showDataResponse.value = (.error, error as Any)
                         return
                     }
-                    self.initializationNetcetera(secureEcom: secureEcom)
+                    
+                    if secureEcom.enrolled != self.ENROLLED {
+                        self.chargeCard(authResult: secureEcom)
+                    } else {
+                        self.initializationNetcetera(secureEcom: secureEcom)
+                    }
                 }
             }
     }
@@ -124,7 +133,7 @@ final class HostedFieldsViewModel: BaseViewModel {
                 authenticateTransaction(secureEcom, netceteraParams)
             }
         } catch {
-            self.showDataResponse.value = (.error, error as Any)
+            self.showDataResponse.value = (.error, GenericMessage(message: error.localizedDescription))
         }
     }
     

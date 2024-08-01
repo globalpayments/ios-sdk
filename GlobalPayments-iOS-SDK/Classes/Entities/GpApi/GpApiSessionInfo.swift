@@ -1,7 +1,6 @@
 import Foundation
 
-class GpApiSessionInfo {
-
+class GpApiSessionInfo: AccessTokenProvider {
     /// A unique string created using the nonce and app-key.
     /// This value is used to further authenticate the request.
     /// Created as follows - SHA512(NONCE + APP-KEY).
@@ -9,11 +8,11 @@ class GpApiSessionInfo {
     ///   - nonce: string to hash
     ///   - appKey: app key
     /// - Returns: hash of the input string
-    private static func generateSecret(_ nonce: String, _ appKey: String) -> String {
+    private func generateSecret(_ nonce: String, _ appKey: String) -> String {
         return (nonce + appKey).sha512.lowercased()
     }
 
-    static func signIn(appId: String,
+    func signIn(appId: String,
                        appKey: String,
                        secondsToExpire: Int? = nil,
                        intervalToExpire: IntervalToExpire? = nil,
@@ -35,5 +34,9 @@ class GpApiSessionInfo {
             method: .post,
             requestBody: request.toString()
         )
+    }
+    
+    func signOut() -> GpApiRequest? {
+        return nil
     }
 }

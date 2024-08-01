@@ -1,6 +1,13 @@
 # Changelog
 
-## Latest - v3.0.0 (07/16/2024)
+
+## Latest - v3.0.1 (08/01/2024)
+
+#### Enhancements
+
+- GP-API: Improvements on access token request
+
+## v3.0.0 (07/16/2024)
 
 #### Enhancements
 

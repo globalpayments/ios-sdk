@@ -18,6 +18,10 @@ public class GpApiService {
                                  intervalToExpire: intervalToExpire,
                                  permissions: permissions)
             
+        if (config.accessTokenProvider == nil) {
+            config.accessTokenProvider = GpApiSessionInfo()
+        }
+            
         let connector = GpApiConnector(gpApiConfig: config)
         connector.timeout = 10000
         switch environment {

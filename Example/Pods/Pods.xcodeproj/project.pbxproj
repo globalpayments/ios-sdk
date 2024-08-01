@@ -203,6 +203,7 @@
 		A2F377D6EE590FB8FE8846762896E0C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 		A473822E493A14B10EAA3F2B613A6C65 /* PaymentMethodList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A597ECBCE20D3C0F9D977F012CC43C7 /* PaymentMethodList.swift */; };
 		A4DD02B25435D0F112743DDD1786EAD8 /* Pods-GlobalPayments-iOS-SDK_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B086236BC87F2FEB5D72AED14D9E55F4 /* Pods-GlobalPayments-iOS-SDK_Tests-dummy.m */; };
+		A5E08F5F2C4E7B8C006B2171 /* AccessTokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E08F5E2C4E7B8C006B2171 /* AccessTokenProvider.swift */; };
 		A71563E97392D67FF7E97DD08546E245 /* TransactionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA555B4A80C597A47089FD19EC846DCB /* TransactionType.swift */; };
 		A7F005534973A6F2959D3874BCA41902 /* OptionalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9E83DF8F7F47AB191E455989819C90 /* OptionalExtensions.swift */; };
 		A81DAE1CA88D5649F0346F8BE099E8DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
@@ -566,6 +567,7 @@
 		A48CFE20DFC1586F3E91DBE59A19B197 /* BaseBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BaseBuilder.swift; sourceTree = "<group>"; };
 		A4D6650F2B81EF1BD7FC17E824C3EC94 /* UserReportBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserReportBuilder.swift; sourceTree = "<group>"; };
 		A4F37BD0CC96A8E621D586A9B73C478C /* NetworkError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		A5E08F5E2C4E7B8C006B2171 /* AccessTokenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenProvider.swift; sourceTree = "<group>"; };
 		A712EDBB5E695F97DE83EC651B59F763 /* CommercialLineItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CommercialLineItem.swift; sourceTree = "<group>"; };
 		A72FD1BA1A0EE7D03755EF4615555B48 /* MerchantKVP.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MerchantKVP.swift; sourceTree = "<group>"; };
 		A8783AF30B5E84884168D062FF396DB8 /* BNPLResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BNPLResponse.swift; sourceTree = "<group>"; };
@@ -746,6 +748,7 @@
 				D98EE8CCBCE65C514480AA79F78D8C1B /* RecurringServiceType.swift */,
 				1EB83F6395755DC57A9BC310BD829526 /* ReportingServiceType.swift */,
 				51F5D7F6F3FCAFFE468FA042C7553F01 /* Secure3dProvider.swift */,
+				A5E08F5E2C4E7B8C006B2171 /* AccessTokenProvider.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1706,6 +1709,7 @@
 				8EA3C5921D76289C7622633CF4839C21 /* RecurringPaymentMethod.swift in Sources */,
 				24212F72E50D3FF79E95477FAD8DEF9E /* RecurringSequence.swift in Sources */,
 				4570CDCDBB065577E47AAAA125BA4FE5 /* RecurringService.swift in Sources */,
+				A5E08F5F2C4E7B8C006B2171 /* AccessTokenProvider.swift in Sources */,
 				7062B09C4070A5CEE3B3B7207FC7AFD9 /* RecurringServiceType.swift in Sources */,
 				E1DEE0C169BE891645483752A9A46F6E /* RecurringType.swift in Sources */,
 				9DCB5FA7CDCE4132AC60CB589A61F758 /* Refundable.swift in Sources */,

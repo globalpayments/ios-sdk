@@ -25,6 +25,8 @@ public class GpApiConfig: GatewayConfig {
     public var merchantContactUrl: String?
     /// The list of the permissions the integrator want the access token to have.
     public var permissions: [String]?
+    
+    public var accessTokenProvider: AccessTokenProvider?
 
     public var dynamicHeaders: [String: String]?
     
@@ -47,7 +49,8 @@ public class GpApiConfig: GatewayConfig {
                 dynamicHeaders: [String: String]? = nil,
                 requestLogger: RequestLogger? = nil,
                 merchantId: String? = nil,
-                statusUrl: String? = nil) {
+                statusUrl: String? = nil,
+                accessTokenProvider: AccessTokenProvider? = nil) {
 
         self.appId = appId
         self.appKey = appKey
@@ -66,6 +69,7 @@ public class GpApiConfig: GatewayConfig {
         super.init(gatewayProvider: .gpAPI)
         self.requestLogger = requestLogger
         self.statusUrl = statusUrl
+        self.accessTokenProvider = accessTokenProvider
     }
 
     override func configureContainer(services: ConfiguredServices) {
@@ -75,6 +79,10 @@ public class GpApiConfig: GatewayConfig {
             } else {
                 serviceUrl = ServiceEndpoints.gpApiProduction.rawValue
             }
+        }
+        
+        if accessTokenProvider == nil {
+            accessTokenProvider = GpApiSessionInfo()
         }
 
         let gateway = GpApiConnector(gpApiConfig: self)

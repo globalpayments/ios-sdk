@@ -123,7 +123,7 @@ final class ConfigurationView: View {
         
 
         let languages = Language.allCases.map { $0.rawValue.uppercased() }
-        let countries =  CountryUtils.ISOCountryInfo.allCountries.map { $0.alpha2.uppercased() }
+        let countries =  CountryUtils.ISOCountryInfo.allCountriesSorted().map { $0.alpha2.uppercased() }
         
         fields.setDropDownBoth(languages, secondData: countries)
         return fields

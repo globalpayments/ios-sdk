@@ -23,6 +23,7 @@ class GlobalPayHomeViewModel: BaseViewModel {
     var homeItemAction: Dynamic<UIViewController?> = Dynamic(nil)
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         initHomeItems()
     }
     

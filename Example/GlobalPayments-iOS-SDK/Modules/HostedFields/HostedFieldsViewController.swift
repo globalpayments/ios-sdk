@@ -31,7 +31,10 @@ final class HostedFieldsViewController: BaseViewController<HostedFieldsViewModel
         viewModel?.showDataResponse.bind { [weak self] type, data in
             self?.customView.setResponseData(type, data: data)
             self?.customView.toBottomView()
+            self?.customView.showLoading(false)
         }
+        
+        self.customView.defaultData()
     }
 }
 

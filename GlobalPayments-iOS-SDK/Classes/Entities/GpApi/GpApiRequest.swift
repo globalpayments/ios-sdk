@@ -1,6 +1,6 @@
 import Foundation
 
-struct GpApiRequest {
+public struct GpApiRequest {
     var endpoint: String
     var method: HTTPMethod
     var requestBody: String?

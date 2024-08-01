@@ -84,13 +84,13 @@ class GpApiConnector: RestGateway {
         headers.removeValue(forKey: GpApiConnector.Header.Key.authorization)
         accessToken = nil
 
-        let request = GpApiSessionInfo.signIn(
+        guard let request = gpApiConfig.accessTokenProvider?.signIn(
             appId: gpApiConfig.appId,
             appKey: gpApiConfig.appKey,
             secondsToExpire: gpApiConfig.secondsToExpire,
             intervalToExpire: gpApiConfig.intervalToExpire,
             permissions: gpApiConfig.permissions
-        )
+        ) else { return completion(nil, ApiException(message: "Access token provider can't be nil!"))}
 
         super.doTransaction(method: request.method, endpoint: request.endpoint, data: request.requestBody) { response, error in
             guard let response = response else {

@@ -1,7 +1,14 @@
 # Changelog
 
+## Latest - v3.0.2 (08/13/2024)
 
-## Latest - v3.0.1 (08/01/2024)
+#### Enhancements
+
+- GP-API: Re-sign in after token expiration
+- GP-API: Add stage time to the DisputeSummary
+- GP-API: Remove logs messages
+
+## v3.0.1 (08/01/2024)
 
 #### Enhancements
 

@@ -42,7 +42,6 @@ extension UserDefaults: KeyValueStore {
         do {
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
-            print(error)
             return nil
         }
 

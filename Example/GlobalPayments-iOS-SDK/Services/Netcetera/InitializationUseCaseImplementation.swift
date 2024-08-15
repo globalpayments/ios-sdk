@@ -18,7 +18,6 @@ class InitializationUseCaseImplementation: InitializationUseCase {
             try threeDS2Service.initialize(configParameters, locale: nil, uiCustomization: uicustomization)
             succesHandler()
         }catch let error as NSError {
-            print(error.localizedDescription)
             errorHandler(error.localizedDescription)
         }
     }

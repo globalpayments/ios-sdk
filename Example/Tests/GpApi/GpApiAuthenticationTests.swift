@@ -394,4 +394,76 @@ class GpApiAuthenticationTests: XCTestCase {
             XCTFail("ransactionError?.message cannot be nil")
         }
     }
+    
+    func test_should_re_sign_in_after_token_expiration() {
+        // GIVEN
+        let keyExpectation = expectation(description: "Generate Transaction Key Expectation")
+        let environment = Environment.test
+        let appId = "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll"
+        let appKey = "QDsW1ETQKHX6Y4TA"
+        var infoResult: AccessTokenInfo?
+        var errorResult: Error?
+
+        // WHEN
+        GpApiService.generateTransactionKey(
+            environment: environment,
+            appId: appId,
+            appKey: appKey,
+            secondsToExpire: 60,
+            intervalToExpire: .fiveMinutes) { accessTokenInfo, error in
+            infoResult = accessTokenInfo
+            errorResult = error
+            keyExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [keyExpectation], timeout: 10.0)
+        XCTAssertNil(errorResult)
+        XCTAssertNotNil(infoResult)
+        
+        
+        // GIVEN
+        let verifyExpectation = expectation(description: "Verify Expectation")
+        var verifyTransactionResult: Transaction?
+        var transactionError: Error?
+
+        // WHEN
+        card.verify()
+            .withCurrency("USD")
+            .execute {
+                verifyTransactionResult = $0
+                transactionError = $1
+                verifyExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [verifyExpectation], timeout: 10.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(verifyTransactionResult)
+        XCTAssertEqual(verifyTransactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(verifyTransactionResult?.responseMessage, "VERIFIED")
+
+        sleep(61)
+
+        // GIVEN
+        let verifyExpiryExpectation = expectation(description: "Verify Expiry Expectation")
+        var verifyExpiryTransactionResult: Transaction?
+        var transactionExpiriedError: Error?
+
+        // WHEN
+        card.verify()
+            .withCurrency("USD")
+            .execute {
+                verifyExpiryTransactionResult = $0
+                transactionExpiriedError = $1
+                verifyExpiryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [verifyExpiryExpectation], timeout: 10.0)
+        XCTAssertNil(transactionExpiriedError)
+        XCTAssertNotNil(verifyExpiryTransactionResult)
+        XCTAssertEqual(verifyExpiryTransactionResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(verifyExpiryTransactionResult?.responseMessage, "VERIFIED")
+    }
 }

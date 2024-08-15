@@ -145,9 +145,14 @@ class GpApiConnector: RestGateway {
                 queryStringParams: queryStringParams) { response, error in
 
                 if let gatewayError = error as? GatewayException,
-                   gatewayError.responseCode == "NOT_AUTHENTICATED" &&
+                   gatewayError.responseCode == "NOT_AUTHENTICATED" ||
+                    gatewayError.responseCode == "401" &&
                     !self.gpApiConfig.appId.isEmpty &&
                     !self.gpApiConfig.appKey.isEmpty {
+                    
+                    if (self.gpApiConfig.accessTokenInfo?.token != nil) {
+                        self.gpApiConfig.accessTokenInfo?.token = nil
+                    }
 
                     self.signIn { _, _ in
 

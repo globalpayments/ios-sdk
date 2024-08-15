@@ -937,4 +937,26 @@ class GpApiReportingDisputesTests: XCTestCase {
         XCTAssertEqual(disputeDocumentId, disputeDocument?.id)
         XCTAssertNotNil(disputeDocument?.base64Content)
     }
+    
+    func test_report_dispute_detail_stage_time() {
+        // GIVEN
+        let disputeSummaryExpectation = expectation(description: "Dispute Summary Expectation")
+        let disputeId = "DIS_SAND_abcd1234"
+        let reportingService = ReportingService.disputeDetail(disputeId: disputeId)
+        var disputeSummary: DisputeSummary?
+        var disputeError: Error?
+        
+        // WHEN
+        reportingService.execute {
+            disputeSummary = $0
+            disputeError = $1
+            disputeSummaryExpectation.fulfill()
+        }
+        
+        // THEN
+        wait(for: [disputeSummaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummary)
+        XCTAssertNotNil(disputeSummary?.caseStageTime)
+    }
 }

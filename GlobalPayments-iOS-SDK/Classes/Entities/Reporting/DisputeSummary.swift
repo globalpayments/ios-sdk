@@ -15,6 +15,7 @@ public class DisputeSummary {
     public var caseStatus: String?
     public var caseDescription: String?
     public var caseStage: DisputeStage?
+    public var caseStageTime: Date?
     public var transactionOrderId: String?
     public var transactionLocalTime: Date?
     public var transactionTime: Date?

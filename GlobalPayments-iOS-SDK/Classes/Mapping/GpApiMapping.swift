@@ -265,6 +265,8 @@ public struct GpApiMapping {
         let timeCreated: String? = doc?.getValue(keys: "time_created", "stage_time_created")
         summary.caseIdTime = timeCreated?.format()
         summary.caseStage = DisputeStage(value: doc?.getValue(key: "stage"))
+        let caseStageTime: String? = doc?.getValue(key: "stage_time_created")
+        summary.caseStageTime = caseStageTime?.format()
         summary.caseAmount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount
         summary.caseCurrency = doc?.getValue(key: "currency")
         

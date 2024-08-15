@@ -111,7 +111,6 @@ extension HostedFieldsWebView: WKNavigationDelegate {
         let jsonString = String(data: jsonData, encoding: .utf8)!
         webView.evaluateJavaScript("initGlobalPayments(\(jsonString))") { result, error in
             guard error == nil else {
-                print(error ?? "")
                 return
             }
         }
@@ -157,7 +156,6 @@ extension HostedFieldsWebView: WKScriptMessageHandler {
                     self.delegate?.onTokenError("Parameters can not be null")
                     return
                 }
-                print("PaymentReference:: \(paymentReference)")
                 self.delegate?.onTokenizedSuccess(token: paymentReference, cardBrand: cardType)
                 break
             case "onTokenError":

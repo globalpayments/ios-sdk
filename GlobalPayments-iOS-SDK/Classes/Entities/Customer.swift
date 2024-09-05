@@ -40,13 +40,15 @@ public class Customer: RecurringEntity<Customer> {
     public var phoneNumber: PhoneNumber?
     
     public var documents: [CustomerDocument]?
+    
+    public var paymentMethods: [RecurringPaymentMethod]?
 
     /// Adds a payment method to the customer
     /// - Parameters:
     ///   - paymentId: An application derived ID for the payment method
     ///   - paymentMethod: The payment method
     /// - Returns: RecurringPaymentMethod
-    public func addPaymentMethod(paymentId: String,
+    public func addPaymentMethod(paymentId: String?,
                                  paymentMethod: PaymentMethod) -> RecurringPaymentMethod {
 
         var nameOnAccount = "\(firstName ?? .empty) \(lastName ?? .empty)"
@@ -54,6 +56,7 @@ public class Customer: RecurringEntity<Customer> {
         if nameOnAccount.isEmpty {
             nameOnAccount = company ?? .empty
         }
+        
         let payment = RecurringPaymentMethod()
         payment.address = address
         payment.customerKey = key
@@ -61,5 +64,37 @@ public class Customer: RecurringEntity<Customer> {
         payment.nameOnAccount = nameOnAccount
 
         return payment
+    }
+    
+    public func addRecurringPaymentMethod(paymentId: String?, paymentMethod: PaymentMethod) {
+        if paymentMethods.isNilOrEmpty {
+            paymentMethods = []
+        }
+        
+        let paymentMethod = RecurringPaymentMethod()
+        paymentMethod.id = paymentId
+        paymentMethod.paymentMethod = paymentMethod
+        paymentMethods?.append(paymentMethod)
+    }
+}
+
+extension Customer: JsonToObject {
+    
+    public static func mapToObject<T>(_ doc: JsonDoc) -> T? {
+        let payer = Customer()
+        payer.id = doc.getValue(key: "id")
+        payer.key = doc.getValue(key: "reference")
+        payer.firstName = doc.getValue(key: "first_name")
+        payer.lastName = doc.getValue(key: "last_name")
+        
+        if let payments: [JsonDoc?] = doc.getValue(key: "payment_methods") {
+            payer.paymentMethods = payments.map({
+                let paymentMethod = RecurringPaymentMethod()
+                paymentMethod.id = $0?.getValue(key: "id")
+                paymentMethod.key = $0?.getValue(key: "default")
+                return paymentMethod
+            })
+        }
+        return payer as? T
     }
 }

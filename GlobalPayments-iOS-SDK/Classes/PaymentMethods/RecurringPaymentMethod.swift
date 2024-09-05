@@ -14,7 +14,7 @@ public class RecurringPaymentMethod: RecurringEntity<RecurringPaymentMethod>, Pa
     public var expirationDate: String?
     /// The name on the payment method account.
     public var nameOnAccount: String?
-    private var paymentMethod: PaymentMethod?
+    public var paymentMethod: PaymentMethod?
     /// The payment method type, `Credit Card` vs `ACH`.
     /// Default value is `Credit Card`
     public var paymentType: String = "Credit Card"

@@ -67,7 +67,7 @@ final class GpApiAchTests: XCTestCase {
         eCheckData.bankAddress = bankAddress
 
         customer = Customer()
-        customer.id = "e193c21a-ce64-4820-b5b6-8f46715de931"
+        customer.key = "e193c21a-ce64-4820-b5b6-8f46715de931"
         customer.firstName = "James"
         customer.lastName = "Mason"
         customer.dateOfBirth = "1980-01-01"

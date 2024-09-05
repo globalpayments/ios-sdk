@@ -26,6 +26,18 @@ public class RecurringEntity<TResult>: NSObject, Recurring {
             completion?((recurring as? TResult), nil)
         }
     }
+    
+    /// Edit a resource
+    /// - Parameter completion: TResult
+    public func saveChanges(completion: ((TResult?, Error?) -> Void)?) {
+        RecurringService.edit(entity: self) { recurring, error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            completion?((recurring as? TResult), nil)
+        }
+    }
 
     /// Delete a record from the gateway.
     public func delete() {

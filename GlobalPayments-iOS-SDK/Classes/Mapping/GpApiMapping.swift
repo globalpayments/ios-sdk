@@ -686,6 +686,11 @@ public struct GpApiMapping {
         return FileProcessor.mapToObject(json)
     }
     
+    public static func mapRecurringEntity<T>(_ rawResponse: String) -> T? {
+        let json = JsonDoc.parse(rawResponse) ?? JsonDoc()
+        return Customer.mapToObject(json)
+    }
+    
     private static func getPagedResult<T>(_ doc: JsonDoc?) -> PagedResult<T>? {
         guard let doc = doc else { return nil }
         

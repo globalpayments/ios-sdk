@@ -268,7 +268,7 @@ final class GpApiBNPLTest: XCTestCase {
     
     private lazy var customer: Customer = {
         let customer = Customer()
-        customer.id = "12345678"
+        customer.key = "12345678"
         customer.firstName = "James"
         customer.lastName = "Mason"
         customer.email = "james.mason@example.com"

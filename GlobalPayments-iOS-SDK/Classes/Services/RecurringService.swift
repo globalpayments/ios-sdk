@@ -16,7 +16,7 @@ public class RecurringService {
 
     public static func edit<T: Recurring>(entity: T?,
                                           completion: ((T?, Error?) -> Void)?) {
-        let response = RecurringBuilder<T>(type: .delete, entity: entity)
+        let response = RecurringBuilder<T>(type: .edit, entity: entity)
         response.execute(completion: completion)
     }
 

@@ -189,6 +189,14 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
             .set(for: "usage_mode", value: builder.paymentMethodUsageMode?.mapped(for: .gpApi))
             .set(for: "fingerprint_mode", value: builder.customerData?.deviceFingerPrint)
+        
+        
+        if let customerId = builder.customerId {
+            let payer = JsonDoc()
+            payer.set(for: "id", value: customerId)
+            payload.set(for: "payer", doc: payer)
+        }
+        
         if let cardData = builder.paymentMethod as? CardData {
             let card = JsonDoc()
                 .set(for: "number", value: cardData.number)
@@ -478,7 +486,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
 
     private func setPayerInformation(_ builder: AuthorizationBuilder) -> JsonDoc {
         let payer = JsonDoc()
-        payer.set(for: "reference", value: builder.customerId ?? builder.customerData?.id)
+        payer.set(for: "id", value: builder.customerId ?? builder.customerData?.id)
+        payer.set(for: "reference", value: builder.customerData?.key)
 
         if builder.paymentMethod is eCheck {
             payer.set(for: "billing_address", doc: getBasicAddressInformation(builder.billingAddress))

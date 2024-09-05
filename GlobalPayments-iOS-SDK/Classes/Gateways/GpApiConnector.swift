@@ -474,6 +474,41 @@ extension GpApiConnector: FileProcessingType {
     }
 }
 
+extension GpApiConnector: RecurringServiceType {
+    
+    func processRecurring<T>(builder: RecurringBuilder<T>, completion: ((T?, (any Error)?) -> Void)?) {
+        verifyAuthentication { [weak self] error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            let request: GpApiRequest? = GpApiRecurringRequestBuilder<T>().buildRequest(for: builder, config: self?.gpApiConfig)
+            
+            if let request = request {
+                self?.doTransaction(
+                    method: request.method,
+                    endpoint: request.endpoint,
+                    data: request.requestBody) { response, error in
+                        guard let response = response else {
+                            completion?(nil, error)
+                            return
+                        }
+                        completion?(GpApiMapping.mapRecurringEntity(response), nil)
+                    }
+            }
+        }
+    }
+    
+    var supportsRetrieval: Bool {
+        return false
+    }
+    
+    var supportsUpdatePaymentDetails: Bool {
+        return false
+    }
+    
+}
+
 // MARK: - Constants
 
 extension GpApiConnector {

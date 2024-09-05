@@ -32,8 +32,8 @@ import Foundation
             }
             do {
                 let client = try ServicesContainer.shared.recurringClient(configName: configName)
-                client.processRecurring(builder: self, completion: { result in
-                    completion?(result, nil)
+                client.processRecurring(builder: self, completion: { result, error  in
+                    completion?(result, error)
                 })
             } catch {
                 completion?(nil, error)

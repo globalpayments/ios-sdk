@@ -230,5 +230,15 @@ extension GpApiRequest {
         static func fileProcessing() -> String {
             "/files"
         }
+        
+        // MARK: - Payer
+        
+        static func payers() -> String {
+            "/payers"
+        }
+        
+        static func editPayer(id: String?) -> String {
+            "/payers/\(id ?? "")"
+        }
     }
 }

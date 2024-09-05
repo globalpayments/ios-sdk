@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.0.2 (08/13/2024)
+## Latest - v3.0.3 (09/05/2024)
+
+#### Enhancements
+
+- GP-API: Add payer service
+
+## v3.0.2 (08/13/2024)
 
 #### Enhancements
 

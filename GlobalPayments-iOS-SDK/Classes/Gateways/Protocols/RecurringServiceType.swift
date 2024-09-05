@@ -4,5 +4,5 @@ public protocol RecurringServiceType {
     var supportsRetrieval: Bool { get }
     var supportsUpdatePaymentDetails: Bool { get }
     func processRecurring<T>(builder: RecurringBuilder<T>,
-                             completion: ((T) -> Void)?)
+                             completion: ((T?, Error?) -> Void)?)
 }

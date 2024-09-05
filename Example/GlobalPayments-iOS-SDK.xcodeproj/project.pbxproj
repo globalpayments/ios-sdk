@@ -263,6 +263,7 @@
 		A55CE4842AC4B74A00480475 /* CodeExampleResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55CE4832AC4B74A00480475 /* CodeExampleResponseView.swift */; };
 		A55CE4862AC4B84D00480475 /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55CE4852AC4B84D00480475 /* SegmentedControlView.swift */; };
 		A5627C802B672E73007E0994 /* GpAccountsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5627C7F2B672E73007E0994 /* GpAccountsTest.swift */; };
+		A56E7DDD2C78CA4C00CEF581 /* GpApiPayerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56E7DDC2C78CA4C00CEF581 /* GpApiPayerTest.swift */; };
 		A56FF00A2A42A52B00AE8E7E /* BuyNowPayLater.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A56FF0062A42A52B00AE8E7E /* BuyNowPayLater.storyboard */; };
 		A56FF00B2A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56FF0072A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift */; };
 		A56FF00C2A42A52B00AE8E7E /* BuyNowPayLaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56FF0082A42A52B00AE8E7E /* BuyNowPayLaterViewController.swift */; };
@@ -728,6 +729,7 @@
 		A55CE4832AC4B74A00480475 /* CodeExampleResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeExampleResponseView.swift; sourceTree = "<group>"; };
 		A55CE4852AC4B84D00480475 /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		A5627C7F2B672E73007E0994 /* GpAccountsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpAccountsTest.swift; sourceTree = "<group>"; };
+		A56E7DDC2C78CA4C00CEF581 /* GpApiPayerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayerTest.swift; sourceTree = "<group>"; };
 		A56FF0062A42A52B00AE8E7E /* BuyNowPayLater.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BuyNowPayLater.storyboard; sourceTree = "<group>"; };
 		A56FF0072A42A52B00AE8E7E /* BuyNowPayLaterBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyNowPayLaterBuilder.swift; sourceTree = "<group>"; };
 		A56FF0082A42A52B00AE8E7E /* BuyNowPayLaterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyNowPayLaterViewController.swift; sourceTree = "<group>"; };
@@ -1621,6 +1623,7 @@
 				A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */,
 				A5627C7F2B672E73007E0994 /* GpAccountsTest.swift */,
 				A514D2032BA11E6600009983 /* FileProcessingTest.swift */,
+				A56E7DDC2C78CA4C00CEF581 /* GpApiPayerTest.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -2992,6 +2995,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A56E7DDD2C78CA4C00CEF581 /* GpApiPayerTest.swift in Sources */,
 				A514D2042BA11E6600009983 /* FileProcessingTest.swift in Sources */,
 				82F9A57325B723EB00B5E3E1 /* XCTestCaseExtensions.swift in Sources */,
 				30EB561228201FC500AEA47B /* GpApiDigitalWalletsTests.swift in Sources */,

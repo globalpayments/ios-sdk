@@ -68,8 +68,16 @@ public struct GpApiMapping {
             
             transaction.authorizationCode = paymentMethod.get(valueFor: "card")?.getValue(key: "authcode")
             
-            if transaction.authorizationCode.isNilOrEmpty && paymentMethod.has(key: "digital_wallet") {
-                transaction.authorizationCode = paymentMethod.get(valueFor: "digital_wallet")?.getValue(key: "authcode")
+            if transaction.authorizationCode.isNilOrEmpty && paymentMethod.has(key: "digital_wallet"), let digitalWallet: JsonDoc = paymentMethod.get(valueFor: "digital_wallet") {
+                
+                let cardDetails = Card()
+                cardDetails.brand = digitalWallet.getValue(key: "brand")
+                cardDetails.maskedNumberLast4 = digitalWallet.getValue(key: "masked_number_last4")
+                
+                transaction.cardDetails = cardDetails
+                transaction.threeDSecure?.eci = digitalWallet.getValue(key: "eci")
+                transaction.authorizationCode = digitalWallet.getValue(key: "authcode")
+                transaction.cardBrandTransactionId = digitalWallet.getValue(key: "brand_reference")
             }
             
             if let token: String = paymentMethod.getValue(key: "id") {
@@ -169,6 +177,8 @@ public struct GpApiMapping {
         summary.batchCloseDate = batchTimeCreated?.format()
         summary.country = doc?.getValue(key: "country")
         summary.originalTransactionId = doc?.getValue(key: "parent_resource_id")
+        summary.gratuityAmount = doc?.getValue(key: "gratuity_amount")
+        summary.cashBackAmount = doc?.getValue(key: "cashback_amount")
         
         summary.gatewayResponseMessage = paymentMethod?.getValue(key: "message")
         summary.entryMode = paymentMethod?.getValue(key: "entry_mode")
@@ -179,16 +189,19 @@ public struct GpApiMapping {
         summary.brandReference = card?.getValue(key: "brand_reference")
         summary.aquirerReferenceNumber = card?.getValue(key: "arn")
         summary.maskedCardNumber = card?.getValue(key: "masked_number_first6last4")
+        summary.cardDetails = mapCardDetails(card)
         
         summary.depositReference = doc?.getValue(key: "deposit_id")
         let depositTimeCreated: String? = doc?.getValue(key: "deposit_time_created")
         summary.depositDate = depositTimeCreated?.format("YYYY-MM-dd")
         summary.depositStatus = DepositStatus(value: doc?.getValue(key: "deposit_status"))
         
-        summary.merchantId = doc?.get(valueFor: "system")?.getValue(key: "mid")
-        summary.merchantHierarchy = doc?.get(valueFor: "system")?.getValue(key: "hierarchy")
-        summary.merchantName = doc?.get(valueFor: "system")?.getValue(key: "name")
-        summary.merchantDbaName = doc?.get(valueFor: "system")?.getValue(key: "dba")
+        let system: JsonDoc? = doc?.get(valueFor: "system")
+        summary.merchantId = system?.getValue(key: "mid")
+        summary.merchantHierarchy = system?.getValue(key: "hierarchy")
+        summary.merchantName = system?.getValue(key: "name")
+        summary.merchantDbaName = system?.getValue(key: "dba")
+        summary.merchantDeviceIdentifier = system?.getValue(key: "tid")
         
         if let paymentMethod = paymentMethod, paymentMethod.has(key: "apm") {
             summary.alternativePaymentResponse = AlternativePaymentResponse.mapToObject(paymentMethod)
@@ -205,6 +218,10 @@ public struct GpApiMapping {
             bnplResponse.providerName = bnpl?.getValue(key: "provider")
             summary.bnplResponse = bnplResponse
             summary.paymentType = PaymentMethodName.bnpl.mapped(for: .gpApi)
+        }
+        
+        if let paymentMethod = paymentMethod, paymentMethod.has(key: "authentication") {
+            summary.threeDSecure = mapThreeDSInfo(paymentMethod.get(valueFor: "authentication"))
         }
         
         return summary
@@ -757,5 +774,37 @@ public struct GpApiMapping {
         bnplResponse.redirectUrl = paymentMethod.getValue(key: "redirect_url")
         bnplResponse.providerName = paymentMethod.get(valueFor: "bnpl")?.getValue(key: "provider")
         return bnplResponse
+    }
+    
+    private static func mapCardDetails(_ cardInfo: JsonDoc?) -> Card {
+        let cardDetails = Card()
+        cardDetails.maskedCardNumber = cardInfo?.getValue(key: "masked_number_first6last4")
+        cardDetails.funding = cardInfo?.getValue(key: "funding");
+        cardDetails.brand = cardInfo?.getValue(key: "brand");
+        cardDetails.issuer = cardInfo?.getValue(key: "issuer");
+        
+        return cardDetails
+    }
+    
+    private static func mapThreeDSInfo(_ response: JsonDoc?) -> ThreeDSecure {
+        let threeDSecure = ThreeDSecure()
+        threeDSecure.serverTransactionId = response?.getValue(key: "id")
+        if let threeDS: JsonDoc = response?.get(valueFor: "three_ds") {
+            threeDSecure.authenticationValue = threeDS.getValue(key: "value")
+            threeDSecure.providerServerTransRef = threeDS.getValue(key: "server_trans_ref")
+            threeDSecure.directoryServerTransactionId = threeDS.getValue(key: "ds_trans_ref")
+            if let exemptStatusString: String? = threeDS.getValue(key: "exempt_status"), !exemptStatusString.isNilOrEmpty {
+                if let exemptStatus = ExemptStatus(rawValue: exemptStatusString?.uppercased() ?? "") {
+                    threeDSecure.exemptStatus = exemptStatus
+                }
+            }
+            threeDSecure.cavv = threeDS.getValue(key: "cavv_result")
+            threeDSecure.messageVersion = threeDS.getValue(key: "message_version")
+            if let eci: String = threeDS.getValue(key: "eci"), let eciValue = Int(eci) {
+                threeDSecure.eci = eciValue
+            }            
+        }
+        
+        return threeDSecure
     }
 }

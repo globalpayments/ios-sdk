@@ -75,6 +75,7 @@ public class TransactionSummary {
     public var merchantDbaName: String?
     public var merchantHierarchy: String?
     public var merchantId: String?
+    public var merchantDeviceIdentifier: String?
     public var merchantName: String?
     public var merchantNumber: String?
     public var oneTimePayment: Bool?
@@ -123,4 +124,8 @@ public class TransactionSummary {
     public var fingerprintIndicator: String?
     public var bnplResponse: BNPLResponse?
     public var bankPaymentResponse: BankPaymentResponse?
+    
+    /// Card details
+    public var cardDetails: Card?
+    public var threeDSecure: ThreeDSecure?
 }

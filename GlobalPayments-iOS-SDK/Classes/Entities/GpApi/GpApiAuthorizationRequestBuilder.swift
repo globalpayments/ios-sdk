@@ -375,8 +375,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             threeDs.set(for: "exempt_status", value: secureEcom.exemptStatus?.mapped(for: .gpApi))
             threeDs.set(for: "message_version", value: secureEcom.messageVersion)
             threeDs.set(for: "eci", value: secureEcom.eci)
-            threeDs.set(for: "server_trans_reference", value: secureEcom.serverTransactionId)
-            threeDs.set(for: "ds_trans_reference", value: secureEcom.directoryServerTransactionId)
+            threeDs.set(for: "server_trans_ref", value: secureEcom.serverTransactionId)
+            threeDs.set(for: "ds_trans_ref", value: secureEcom.directoryServerTransactionId)
             threeDs.set(for: "value", value: secureEcom.authenticationValue)
             authentication.set(for: "three_ds", doc: threeDs)
             
@@ -426,6 +426,13 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         let apm = JsonDoc()
         apm.set(for: "provider", value: alternatePayment.alternativePaymentMethodType?.mapped(for: .gpApi))
         apm.set(for: "address_override_mode", value: alternatePayment.addressOverrideMode)
+        if alternatePayment.alternativePaymentMethodType == .OB {
+            let bank = JsonDoc()
+            bank.set(for: "name", value: alternatePayment.bank?.mapped(for: .gpApi))
+            let bankTransfer = JsonDoc()
+            bankTransfer.set(for: "bank", doc: bank)
+            paymentMethod.set(for: "bank_transfer", doc: bankTransfer)
+        }
         paymentMethod.set(for: "apm", doc: apm)
     }
     

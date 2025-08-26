@@ -96,6 +96,7 @@ public class ThreeDSecure: NSObject {
             )
         }
     }
+    public var providerServerTransRef: String?
     /// Consumer authentication (3DSecure) transaction ID.
     public var xid: String?
     public var sessionDataFieldName: String?
@@ -121,6 +122,7 @@ public class ThreeDSecure: NSObject {
         acsUiTemplate = mergeValue(acsUiTemplate, secureEcom.acsUiTemplate)
         acsReferenceNumber = mergeValue(acsReferenceNumber, secureEcom.acsReferenceNumber)
         algorithm = mergeValue(algorithm, secureEcom.algorithm)
+        providerServerTransRef = mergeValue(providerServerTransRef, secureEcom.providerServerTransRef)
         amount = mergeValue(amount, secureEcom.amount)
         authenticationSource = mergeValue(authenticationSource, secureEcom.authenticationSource)
         authenticationType = mergeValue(authenticationType, secureEcom.authenticationType)

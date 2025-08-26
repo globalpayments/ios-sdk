@@ -435,7 +435,7 @@ class GpApi3DSecureTests: XCTestCase {
         // Frictionless v2.2
         frictionless_full_cycle_v2(cardNumber: GpApi3DSTestCards.cardAuthSuccessfulV22)
         // Frictionless no method url v2.2
-        frictionless_full_cycle_v2(cardNumber: GpApi3DSTestCards.cardAuthSuccessfulV22)
+        frictionless_full_cycle_v2(cardNumber: GpApi3DSTestCards.cardAuthSuccessfulNoMethodUrlV22)
     }
 
     func frictionless_full_cycle_v2(cardNumber: String) {
@@ -546,6 +546,38 @@ class GpApi3DSecureTests: XCTestCase {
         XCTAssertNotNil(transactionResult)
         XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
         XCTAssertEqual(transactionResult?.responseMessage, TransactionStatus.captured.rawValue)
+        
+        // ADD a 2 second delay, wait for GP sandbox to sync systems
+        let delayExpectation = XCTestExpectation()
+        delayExpectation.isInverted = true
+        wait(for: [delayExpectation], timeout: 2)
+        
+        // GIVEN
+        let reportingExecuteExpectation = expectation(description: "Report transaction detail expectation")
+        var transactionSummaryResponse: TransactionSummary?
+        var transactionSummaryError: Error?
+        print("Transaction ID: " + (transactionResult?.transactionId ?? "none"))
+        
+        // WHEN
+        ReportingService
+            .transactionDetail(transactionId: transactionResult?.transactionId ?? "")
+            .execute {
+                transactionSummaryResponse = $0
+                transactionSummaryError = $1
+                reportingExecuteExpectation.fulfill()
+            }
+        
+        //THEN
+        wait(for: [reportingExecuteExpectation], timeout: 20.0)
+        XCTAssertNil(transactionSummaryError)
+        XCTAssertNotNil(transactionSummaryResponse)
+        let transactionSummaryResponseThreeDSecure = transactionSummaryResponse?.threeDSecure
+        XCTAssertEqual(threeDSecureAuth?.serverTransactionId, transactionSummaryResponseThreeDSecure?.serverTransactionId)
+        XCTAssertEqual(threeDSecureAuth?.eci, transactionSummaryResponseThreeDSecure?.eci)
+        XCTAssertEqual(threeDSecureAuth?.authenticationValue, transactionSummaryResponseThreeDSecure?.authenticationValue)
+        XCTAssertEqual(threeDSecureAuth?.directoryServerTransactionId, transactionSummaryResponseThreeDSecure?.directoryServerTransactionId)
+        XCTAssertEqual(threeDSecureAuth?.exemptStatus, transactionSummaryResponseThreeDSecure?.exemptStatus)
+        XCTAssertEqual(threeDSecureAuth?.enrolled, transactionSummaryResponseThreeDSecure?.enrolled)
     }
 
     func test_frictionless_failed_3ds_v2_card_tests() {

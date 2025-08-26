@@ -3,18 +3,24 @@ import Foundation
 struct GpApiRecurringRequestBuilder<T> {
     
     func buildRequest(for builder: RecurringBuilder<T>, config: GpApiConfig?) -> GpApiRequest?{
+        
+        var merchantUrl = ""
+        if let merchantId = config?.merchantId {
+            merchantUrl = "/merchants/" + merchantId
+        }
+        
         switch builder.transactionType {
         case .create:
             let payload = preparePayerRequest(builder: builder)
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.payers(),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.payers(),
                 method: .post,
                 requestBody: payload.toString()
             )
         case .edit:
             let payload = preparePayerRequest(builder: builder)
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.editPayer(id: builder.entity?.id),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.editPayer(id: builder.entity?.id),
                 method: .patch,
                 requestBody: payload.toString()
             )

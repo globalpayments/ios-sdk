@@ -11,6 +11,8 @@ public class AlternatePaymentMethod: NSObject, PaymentMethod, Chargeable, Notifi
     /// A Country value representing the Country.
     public var country: String?
     public var accountHolderName: String?
+    /// The name of the bank associated with the alternative payment method
+    public var bank: BankList?
     /// Accepted values ENABLE/DISABLE
     public var addressOverrideMode: String?
     public var returnUrl: String?

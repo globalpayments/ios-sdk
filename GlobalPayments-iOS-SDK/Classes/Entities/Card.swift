@@ -24,4 +24,5 @@ public class Card: NSObject {
     public var accountType: String?
     /// The label of the issuing bank or financial institution of the bin.
     public var issuer: String?
+    public var funding: String?
 }

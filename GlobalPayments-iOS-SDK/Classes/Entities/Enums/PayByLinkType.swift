@@ -3,6 +3,8 @@ import Foundation
 public enum PayByLinkType: String, Mappable {
     
     case payment
+    case hosted_payment_page
+    case third_party_page
     
     public init?(value: String?) {
         guard let value = value,

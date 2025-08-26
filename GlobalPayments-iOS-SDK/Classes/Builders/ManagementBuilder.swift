@@ -311,6 +311,7 @@ extension ManagementBuilder: CustomReflectable {
             "orderId": orderId as Any,
             "transactionId": transactionId as Any,
             "amount": amount as Any,
+            "currency": currency as Any,
             "fundsData": fundsData as Any
             ]
         )

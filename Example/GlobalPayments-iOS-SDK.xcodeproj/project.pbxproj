@@ -452,6 +452,9 @@
 		A5FC78462A72BA9100BBD524 /* CaptureBnpl.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5FC78452A72BA9100BBD524 /* CaptureBnpl.storyboard */; };
 		A5FC78482A82722100BBD524 /* GpApiOpenBankingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */; };
 		B6899ACF9829B4A3CFD7B5DE /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACD782FBDE5DCC56D4DE51F /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
+		C75FE6512E5C556800E56004 /* GpApiBlikPayuCertification.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */; };
+		C77085892E4A6F76009EF348 /* GpApiPayUApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */; };
+		C7C0B8A82E40A31A002D6766 /* GpApiBlikApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -919,6 +922,9 @@
 		A5FC78452A72BA9100BBD524 /* CaptureBnpl.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CaptureBnpl.storyboard; sourceTree = "<group>"; };
 		A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiOpenBankingTest.swift; sourceTree = "<group>"; };
 		AC8B497998CD394E59676785 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBlikPayuCertification.swift; sourceTree = "<group>"; };
+		C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayUApmTest.swift; sourceTree = "<group>"; };
+		C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBlikApmTest.swift; sourceTree = "<group>"; };
 		EA2A9C3B93C8FC57EA38BAB1 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		FACD782FBDE5DCC56D4DE51F /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1624,6 +1630,8 @@
 				A5627C7F2B672E73007E0994 /* GpAccountsTest.swift */,
 				A514D2032BA11E6600009983 /* FileProcessingTest.swift */,
 				A56E7DDC2C78CA4C00CEF581 /* GpApiPayerTest.swift */,
+				C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */,
+				C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -1632,6 +1640,7 @@
 			isa = PBXGroup;
 			children = (
 				82883A62257E450D00914499 /* GpApiSdkCertification.swift */,
+				C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */,
 			);
 			path = Certification;
 			sourceTree = "<group>";
@@ -3017,6 +3026,7 @@
 				824451BC24E150410080D06B /* GpApiReportingDisputesTests.swift in Sources */,
 				A506E86C29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift in Sources */,
 				A59667E329EE200A00EE816D /* GpApiPayByLinkTest.swift in Sources */,
+				C7C0B8A82E40A31A002D6766 /* GpApiBlikApmTest.swift in Sources */,
 				8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */,
 				82613EBC24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift in Sources */,
 				30B3DE5A299BEA9500FCEF48 /* GpApiAchTests.swift in Sources */,
@@ -3026,10 +3036,12 @@
 				A5FC78332A6DD5AC00BBD524 /* GpApiBNPLTest.swift in Sources */,
 				8267BC9824DAB5F100AF64D2 /* GpApiCreditCardNotPresentTests.swift in Sources */,
 				82F9A57B25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift in Sources */,
+				C75FE6512E5C556800E56004 /* GpApiBlikPayuCertification.swift in Sources */,
 				82B8FE83263317120023BA5E /* GpApiActionsReportTests.swift in Sources */,
 				8225699C262DA4400023E6A1 /* GpApi3DSTestCards.swift in Sources */,
 				82F9A57F25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift in Sources */,
 				82447E9125BAE2ED003F816D /* GpApi3DSecureTests.swift in Sources */,
+				C77085892E4A6F76009EF348 /* GpApiPayUApmTest.swift in Sources */,
 				8270C0CD26303B0700464B75 /* GpApiStoredPaymentMethodReportingTests.swift in Sources */,
 				A5FC78482A82722100BBD524 /* GpApiOpenBankingTest.swift in Sources */,
 				8241F6C0264C202E00FE514D /* AcsResponse.swift in Sources */,

@@ -43,6 +43,7 @@ public class AlternativePaymentResponse: NSObject {
     public var authProtectionEligibilityType: String?
     public var authReference: String?
     public var feeAmount: NSDecimalNumber?
+    public var bank: BankResponse?
 }
 
 extension AlternativePaymentResponse: JsonToObject {

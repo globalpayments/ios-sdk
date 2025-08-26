@@ -35,6 +35,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
         case .refund:
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                .set(for: "currency_conversion", value: builder.dccRateData?.dccId)
             return GpApiRequest(
                 endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsRefund(transactionId: (builder.transactionId ?? .empty)),
                 method: .post,

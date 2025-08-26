@@ -1,6 +1,18 @@
 # Changelog
 
-## Latest - v3.0.3 (09/05/2024)
+## Latest - v3.0.4 (08/26/2025)
+
+#### Enhancements
+
+- GP-API: Add new mappings on GET /transaction response: funding, tid, masked_number_first6last4, issuer, gratuity_amount, cashback_amount, authentication
+- GP-API: Add new enum value for payByLinkType: HOSTED_PAYMENT_PAGE, THIRD_PARTY_PAGE
+- GP-API: Add new mapping fields on digital wallet transaction response: masked_number_last4, brand, brand_reference
+- GP-API: Update 3DS Object fields in transaction endpoint ("server_trans_ref" and "ds_trans_ref")
+- GP-API: Added SDK support for Blik as a payment APM
+- GP-API: Added SDK support for Open Banking PayU as a payment APM
+- GP-API: Added merchant ID support for all recurring operations
+
+## v3.0.3 (09/05/2024)
 
 #### Enhancements
 

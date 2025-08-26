@@ -277,8 +277,8 @@ final class GpApiPayerTest: XCTestCase {
         wait(for: [editPayerExpectation], timeout: 10.0)
         XCTAssertNil(payer)
         XCTAssertNotNil(editPayerError)
-        XCTAssertEqual(editPayerError?.message, "Status Code: 502 - Unable to process your request due to an error with a system down stream.")
-        XCTAssertEqual(editPayerError?.responseMessage, "50046")
+        XCTAssertEqual(editPayerError?.message, "Status Code: 400 - Validation failed for object=\'terminalConfigPartner\'. Error count: 2")
+        XCTAssertEqual(editPayerError?.responseMessage, "40041")
     }
     
     func test_edit_payer_with_random_id() {
@@ -326,5 +326,95 @@ final class GpApiPayerTest: XCTestCase {
         XCTAssertEqual(editPayerError?.message, "Status Code: 404 - Payer \(newCustomer.id ?? "") not found at this location")
         XCTAssertEqual(editPayerError?.responseMessage, "40008")
     }
+    
+    func gpApiPayerInitialize() {
+        let config = GpApiConfig(
+            appId: "DgRZQ6DAwWtwl6tVGBS6EgnsfVG5SiXh",
+            appKey: "cayFg03gE0Ei7TLB",
+            channel: .cardNotPresent
+        )
+        
+        config.merchantId = "MER_7e3e2c7df34f42819b3edee31022ee3f"
+        let accessTokenInfo =  AccessTokenInfo()
+        accessTokenInfo.transactionProcessingAccountName = "transaction_processing"
+        config.accessTokenInfo = accessTokenInfo
+        try? ServicesContainer.configureService(config: config)
+    }
+    
+    func test_Create_Payer_With_MerchantId() {
+        gpApiPayerInitialize()
+        // GIVEN
+        let tokenizedCardExpectation = expectation(description: "Tokenized Card Expectation")
+        var token: String!
+        var tokenizedError: Error?
+        
+        // WHEN
+        card.tokenize {
+            token = $0
+            self.card.token = $0
+            tokenizedError = $1
+            tokenizedCardExpectation.fulfill()
+        }
+        
+        //THEN
+        wait(for: [tokenizedCardExpectation], timeout: 10.0)
+        XCTAssertNil(tokenizedError)
+        XCTAssertNotNil(token)
+        newCustomer.addRecurringPaymentMethod(paymentId: token, paymentMethod: card)
+        
+        // GIVEN
+        let tokenizedCard2Expectation = expectation(description: "Tokenized Card 2 Expectation")
+        var token2: String!
+        var tokenized2Error: Error?
+        
+        let card2 = CreditCardData()
+        card2.number = "4012001038488884"
+        card2.expMonth = Date().currentMonth
+        card2.expYear = Date().currentYear + 1
+        card2.cvn = "131"
+        card2.cardHolderName = "James Mason"
+        
+        // WHEN
+        card2.tokenize {
+            token2 = $0
+            card2.token = $0
+            tokenized2Error = $1
+            tokenizedCard2Expectation.fulfill()
+        }
+        
+        //THEN
+        wait(for: [tokenizedCard2Expectation], timeout: 10.0)
+        XCTAssertNil(tokenized2Error)
+        XCTAssertNotNil(token2)
+        
+        // GIVEN
+        let createPayerExpectation = expectation(description: "Create Payer Expectation")
+        var payer: Customer?
+        var createPayerError: Error?
+        newCustomer.addRecurringPaymentMethod(paymentId: token2, paymentMethod: card2)
+        
+        // WHEN
+        newCustomer.create {
+            payer = $0
+            createPayerError = $1
+            createPayerExpectation.fulfill()
+        }
+        
+        //THEN
+        wait(for: [createPayerExpectation], timeout: 10.0)
+        XCTAssertNil(createPayerError)
+        XCTAssertNotNil(payer)
+        XCTAssertNotNil(payer?.paymentMethods)
+        XCTAssertNotNil(payer?.id)
+        XCTAssertEqual(newCustomer.firstName?.first, payer?.firstName?.first)
+        XCTAssertEqual(newCustomer.lastName?.first, payer?.lastName?.first)
+        
+        if let paymentMethods = payer?.paymentMethods {
+            for pm in paymentMethods {
+                let tokensArray: [String?] = [card2.token, card.token]
+                let tokensList = tokensArray
+                XCTAssertTrue(tokensList.contains(pm.id))
+            }
+        }
+    }
 }
-

@@ -163,7 +163,15 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                 .set(for: "model", value: storedCredential.type.mapped(for: .gpApi))
                 .set(for: "reason", value: storedCredential.reason.mapped(for: .gpApi))
                 .set(for: "sequence", value: storedCredential.sequence.mapped(for: .gpApi))
+                .set(for: "contract_reference", value: storedCredential.contractReferenc)
             payload.set(for: "stored_credential", doc: storedCredential)
+            
+            //set installment data
+            if builder.installmentData != nil && builder.storedCredential?.type == .installment {
+                if let installmentData = builder.installmentData {
+                    payload.set(for: "installment", doc: setInstallmentData(installmentData))
+                }
+            }
         }
 
         if builder.paymentMethod is eCheck || builder.paymentMethod is BNPL {
@@ -375,6 +383,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             threeDs.set(for: "exempt_status", value: secureEcom.exemptStatus?.mapped(for: .gpApi))
             threeDs.set(for: "message_version", value: secureEcom.messageVersion)
             threeDs.set(for: "eci", value: secureEcom.eci)
+            threeDs.set(for: "status", value: secureEcom.status)
             threeDs.set(for: "server_trans_ref", value: secureEcom.serverTransactionId)
             threeDs.set(for: "ds_trans_ref", value: secureEcom.directoryServerTransactionId)
             threeDs.set(for: "value", value: secureEcom.authenticationValue)
@@ -624,5 +633,14 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             notifications.set(for: "cancel_url", value: paymentMethod.cancelUrl)
         }
         return notifications
+    }
+    
+    private func setInstallmentData(_ installmentData: InstallmentData) -> JsonDoc? {
+        let installment = JsonDoc()
+        installment.set(for: "program", value: installmentData.program)
+        installment.set(for: "mode", value: installmentData.mode)
+        installment.set(for: "count", value: installmentData.count)
+        installment.set(for: "grace_period_count", value: installmentData.gracePeriodCount)
+        return installment
     }
 }

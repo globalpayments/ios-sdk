@@ -76,6 +76,7 @@ import Foundation
     var remittanceReferenceValue: String?
     var transactionInitiator: StoredCredentialInitiator?
     var merchantCategory: MerchantCategory?
+    var installmentData: InstallmentData?
 
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
@@ -83,6 +84,14 @@ import Foundation
             !paymentApplicationVersion.isNilOrEmpty
     }
 
+     /// Set the installment data
+     /// - Parameter installmentData: InstallmentData
+     /// - Returns: AuthorizationBuilder
+     public func withInstallmentData(_ installmentData: InstallmentData) -> AuthorizationBuilder {
+         self.installmentData = installmentData
+         return self
+     }
+     
     /// Set the request amount
     /// - Parameter amount: Request amount
     /// - Returns: AuthorizationBuilder

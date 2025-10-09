@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.0.4 (08/26/2025)
+## Latest - v3.0.5 (10/09/2025)
+
+#### Enhancements
+
+- GP-API: Mexico GP API Sale and Reporting for Installment
+
+## v3.0.4 (08/26/2025)
 
 #### Enhancements
 

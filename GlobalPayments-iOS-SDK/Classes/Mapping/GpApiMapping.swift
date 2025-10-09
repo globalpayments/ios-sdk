@@ -74,6 +74,10 @@ public struct GpApiMapping {
                 cardDetails.brand = digitalWallet.getValue(key: "brand")
                 cardDetails.maskedNumberLast4 = digitalWallet.getValue(key: "masked_number_last4")
                 
+                cardDetails.issuer = digitalWallet.getValue(key: "issuer")
+                cardDetails.funding = digitalWallet.getValue(key: "funding")
+                cardDetails.binCountry = digitalWallet.getValue(key: "country")
+                
                 transaction.cardDetails = cardDetails
                 transaction.threeDSecure?.eci = digitalWallet.getValue(key: "eci")
                 transaction.authorizationCode = digitalWallet.getValue(key: "authcode")
@@ -149,6 +153,12 @@ public struct GpApiMapping {
             cardDetails.maskedNumberLast4 = card.getValue(key: "masked_number_last4")
             transaction.cardDetails = cardDetails
         }
+            
+        if (doc?.has(key: "installment")) != nil {
+            if let installmentJson: JsonDoc  = doc?.getValue(key: "installment") {
+                transaction.installmentData = InstallmentData(json: installmentJson)
+            }
+        }
         
         transaction.dccRateData = mapDccInfo(doc)
         
@@ -223,7 +233,11 @@ public struct GpApiMapping {
         if let paymentMethod = paymentMethod, paymentMethod.has(key: "authentication") {
             summary.threeDSecure = mapThreeDSInfo(paymentMethod.get(valueFor: "authentication"))
         }
-        
+        if (doc?.has(key: "installment")) != nil {
+            if let installmentJson: JsonDoc  = doc?.getValue(key: "installment") {
+                summary.installmentData = InstallmentData(json: installmentJson)
+            }
+        }
         return summary
     }
     
@@ -782,6 +796,7 @@ public struct GpApiMapping {
         cardDetails.funding = cardInfo?.getValue(key: "funding");
         cardDetails.brand = cardInfo?.getValue(key: "brand");
         cardDetails.issuer = cardInfo?.getValue(key: "issuer");
+        cardDetails.country = cardInfo?.getValue(key: "country");
         
         return cardDetails
     }
@@ -802,9 +817,19 @@ public struct GpApiMapping {
             threeDSecure.messageVersion = threeDS.getValue(key: "message_version")
             if let eci: String = threeDS.getValue(key: "eci"), let eciValue = Int(eci) {
                 threeDSecure.eci = eciValue
-            }            
+            }
+            threeDSecure.status = threeDS.getValue(key: "status")
         }
         
         return threeDSecure
+    }
+    
+    private static func setInstallmentData(_ installment: JsonDoc) -> InstallmentData {
+        let installmentData = InstallmentData()
+        installmentData.program = installment.getValue(key: "program")
+        installmentData.mode = installment.getValue(key: "mode")
+        installmentData.count = installment.getValue(key: "count")
+        installmentData.gracePeriodCount = installment.getValue(key: "grace_period_count")
+        return installmentData
     }
 }

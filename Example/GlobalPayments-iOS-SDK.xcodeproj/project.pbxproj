@@ -455,6 +455,7 @@
 		C75FE6512E5C556800E56004 /* GpApiBlikPayuCertification.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */; };
 		C77085892E4A6F76009EF348 /* GpApiPayUApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */; };
 		C7C0B8A82E40A31A002D6766 /* GpApiBlikApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */; };
+		C7C6114B2E81941900473FE6 /* GpApiInstallmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C6114A2E81941900473FE6 /* GpApiInstallmentTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -925,6 +926,7 @@
 		C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBlikPayuCertification.swift; sourceTree = "<group>"; };
 		C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayUApmTest.swift; sourceTree = "<group>"; };
 		C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBlikApmTest.swift; sourceTree = "<group>"; };
+		C7C6114A2E81941900473FE6 /* GpApiInstallmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiInstallmentTests.swift; sourceTree = "<group>"; };
 		EA2A9C3B93C8FC57EA38BAB1 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		FACD782FBDE5DCC56D4DE51F /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1632,6 +1634,7 @@
 				A56E7DDC2C78CA4C00CEF581 /* GpApiPayerTest.swift */,
 				C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */,
 				C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */,
+				C7C6114A2E81941900473FE6 /* GpApiInstallmentTests.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -3021,6 +3024,7 @@
 				82F20D08262EF4A100A08543 /* GpApi3DSecure2Tests.swift in Sources */,
 				82883A69257E482000914499 /* DateExtensions.swift in Sources */,
 				302D583D28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift in Sources */,
+				C7C6114B2E81941900473FE6 /* GpApiInstallmentTests.swift in Sources */,
 				82F9A57725B72BAD00B5E3E1 /* OptionalsExtension.swift in Sources */,
 				8224884525E5381B001EAF3D /* GpApiCreditCardPresentTests.swift in Sources */,
 				824451BC24E150410080D06B /* GpApiReportingDisputesTests.swift in Sources */,

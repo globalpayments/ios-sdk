@@ -19,4 +19,12 @@ extension Date {
         dateFormatter.dateFormat = format
         return dateFormatter.string(from: self)
     }
+    
+    func stringFromDateWithMilliseconds(_ formate: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = formate
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter.string(from: self)
+    }
 }

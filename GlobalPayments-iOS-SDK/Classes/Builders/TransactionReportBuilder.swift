@@ -47,6 +47,14 @@ import Foundation
         return self
     }
 
+    /// Sets the start date ID as criteria for the report.
+    /// - Parameter startDate: The start date ID
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withStartDate(_ startDate: Date?) -> TransactionReportBuilder<TResult> {
+          searchCriteriaBuilder.startDate = startDate
+          return self
+    }
+     
     public func withTimeZoneConversion(_ timeZoneConversion: TimeZoneConversion?) -> TransactionReportBuilder<TResult> {
         self.timeZoneConversion = timeZoneConversion
         return self

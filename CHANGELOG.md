@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.0.5 (10/09/2025)
+## Latest - v3.0.6 (11/06/2025)
+
+#### Enhancements
+
+- PORTICO: Added support Find Transaction Reporting with startDate and endDate parameters.
+
+## v3.0.5 (10/09/2025)
 
 #### Enhancements
 

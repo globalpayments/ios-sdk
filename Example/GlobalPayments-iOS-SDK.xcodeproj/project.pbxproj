@@ -456,6 +456,7 @@
 		C77085892E4A6F76009EF348 /* GpApiPayUApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */; };
 		C7C0B8A82E40A31A002D6766 /* GpApiBlikApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */; };
 		C7C6114B2E81941900473FE6 /* GpApiInstallmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C6114A2E81941900473FE6 /* GpApiInstallmentTests.swift */; };
+		C7D8C73A2E8D2E2E007735E0 /* PorticoReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8C7392E8D2E2E007735E0 /* PorticoReportingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -927,6 +928,7 @@
 		C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayUApmTest.swift; sourceTree = "<group>"; };
 		C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBlikApmTest.swift; sourceTree = "<group>"; };
 		C7C6114A2E81941900473FE6 /* GpApiInstallmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiInstallmentTests.swift; sourceTree = "<group>"; };
+		C7D8C7392E8D2E2E007735E0 /* PorticoReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoReportingTests.swift; sourceTree = "<group>"; };
 		EA2A9C3B93C8FC57EA38BAB1 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		FACD782FBDE5DCC56D4DE51F /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1050,6 +1052,7 @@
 			isa = PBXGroup;
 			children = (
 				824A16EB24E3EA230060944B /* BuilderValidationTests.swift */,
+				C7D8C7382E8D2E11007735E0 /* Portico */,
 				82256993262DA3050023E6A1 /* Data */,
 				8267BC9624DAB5B700AF64D2 /* GpApi */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
@@ -2388,6 +2391,14 @@
 			path = Capture;
 			sourceTree = "<group>";
 		};
+		C7D8C7382E8D2E11007735E0 /* Portico */ = {
+			isa = PBXGroup;
+			children = (
+				C7D8C7392E8D2E2E007735E0 /* PorticoReportingTests.swift */,
+			);
+			path = Portico;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3040,6 +3051,7 @@
 				A5FC78332A6DD5AC00BBD524 /* GpApiBNPLTest.swift in Sources */,
 				8267BC9824DAB5F100AF64D2 /* GpApiCreditCardNotPresentTests.swift in Sources */,
 				82F9A57B25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift in Sources */,
+				C7D8C73A2E8D2E2E007735E0 /* PorticoReportingTests.swift in Sources */,
 				C75FE6512E5C556800E56004 /* GpApiBlikPayuCertification.swift in Sources */,
 				82B8FE83263317120023BA5E /* GpApiActionsReportTests.swift in Sources */,
 				8225699C262DA4400023E6A1 /* GpApi3DSTestCards.swift in Sources */,

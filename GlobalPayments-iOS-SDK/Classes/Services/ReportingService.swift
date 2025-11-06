@@ -27,6 +27,11 @@ public class ReportingService {
         TransactionReportBuilder<TransactionSummary>(reportType: .transactionDetail)
             .withTransactionId(transactionId)
     }
+    
+    public static func findTransactions(transactionId: String? = nil) -> TransactionReportBuilder<[TransactionSummary]> {
+        return TransactionReportBuilder<[TransactionSummary]>(reportType: .findTransactions)
+            .withTransactionId(transactionId)
+    }
 
     // MARK: - Deposits
 

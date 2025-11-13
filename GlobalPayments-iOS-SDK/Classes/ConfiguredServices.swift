@@ -6,6 +6,7 @@ public class ConfiguredServices {
     var recurringConnector: RecurringServiceType?
     var payFacProvider: PayFacServiceType?
     var fileProcessingService: FileProcessingType?
+    var installmentService: InstallmentServiceProtocol?
 
     public init() {
         self.secure3dProviders = [Secure3dVersion: Secure3dProvider]()

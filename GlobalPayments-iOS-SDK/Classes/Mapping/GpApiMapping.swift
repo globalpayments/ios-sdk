@@ -832,4 +832,82 @@ public struct GpApiMapping {
         installmentData.gracePeriodCount = installment.getValue(key: "grace_period_count")
         return installmentData
     }
+    
+    public static func MapInstallmentResponse<T>(_ rawResponse: String) -> T? {
+        if !rawResponse.isEmpty {
+            
+            let json = JsonDoc.parse(rawResponse)
+            
+            let installment = Installment()
+            installment.Id = json?.getValue(key: "id")
+            let timeCreated: String? = json?.getValue(key: "time_created")
+            installment.TimeCreated = timeCreated?.format() ?? timeCreated?.format("yyyy-MM-dd'T'HH:mm:ss")
+            installment.Type = json?.getValue(key: "type")
+            installment.Status = json?.getValue(key: "status")
+            installment.Channel = json?.getValue(key: "channel")
+            if let amount: String = json?.getValue(key: "amount") {
+                installment.Amount =  Double(amount)
+            }
+            installment.Currency = json?.getValue(key: "currency")
+            installment.Country = json?.getValue(key: "country")
+            installment.MerchantId = json?.getValue(key: "merchant_id")
+            installment.MerchantName = json?.getValue(key: "merchant_name")
+            installment.AccountId = json?.getValue(key: "account_id")
+            installment.AccountName = json?.getValue(key: "account_name")
+            installment.Reference = json?.getValue(key: "reference")
+            installment.Program = json?.getValue(key: "program")
+            
+            
+            if ((json?.has(key: "payment_method")) != nil) {
+                if let paymentMethodJson: JsonDoc = json?.get(valueFor: "payment_method") {
+                    installment.Result = paymentMethodJson.getValue(key: "result")
+                    installment.EntryMode = paymentMethodJson.getValue(key: "entry_mode")
+                    installment.Message = paymentMethodJson.getValue(key: "message")
+                    
+                    if paymentMethodJson.has(key: "card") {
+                        if let cardJson: JsonDoc = paymentMethodJson.getValue(key: "card") {
+                            let card = Card()
+                            card.brand = cardJson.getValue(key: "brand")
+                            card.maskedCardNumber = cardJson.getValue(key: "masked_number_last4")
+                            card.brandReference = cardJson.getValue(key: "brand_reference")
+                            installment.Card = card
+                            installment.AuthCode = cardJson.getValue(key: "authcode")
+                        }
+                    }
+                    
+                    if ((json?.has(key: "action")) != nil) {
+                        if let actionJson: JsonDoc = json?.getValue(key: "action") {
+                            let action = Action()
+                            action.Type = actionJson.getValue(key: "type")
+                            action.Id = actionJson.getValue(key: "id")
+                            action.TimeCreated = actionJson.getValue(key: "time_created")
+                            action.AppId = actionJson.getValue(key: "app_id")
+                            action.AppName = actionJson.getValue(key: "app_name")
+                            action.ResultCode = actionJson.getValue(key: "result_code")
+                            installment.Action = action
+                        }
+                    }
+                    
+                    if ((json?.has(key: "terms")) != nil) {
+                        installment.terms = [Terms]()
+                        let termItemList: [JsonDoc] = json?.getValue(key: "terms") ?? []
+                        for terms in termItemList {
+                            let installmentTerm =  Terms()
+                            installmentTerm.Id = terms.getValue(key: "id")
+                            installmentTerm.TimeUnit = terms.getValue(key: "time_unit")
+                            installmentTerm.timeUnitNumbers = terms.getValue(key: "time_unit_numbers")
+                            installmentTerm.reference = terms.getValue(key: "reference")
+                            installmentTerm.name = terms.getValue(key: "name")
+                            installmentTerm.mode = terms.getValue(key: "mode")
+                            installmentTerm.count = terms.getValue(key: "count")
+                            installmentTerm.gracePeriodCount = terms.getValue(key: "grace_period_count")
+                            installment.terms?.append(installmentTerm)
+                        }
+                    }
+                }
+            }
+            return installment as? T
+        }
+        return Installment() as? T
+    }
 }

@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.0.6 (11/06/2025)
+## Latest - v3.1.0 (11/13/2025)
+
+#### Enhancements
+
+- GP-API: Mexico GP API Create Installment
+
+## v3.0.6 (11/06/2025)
 
 #### Enhancements
 

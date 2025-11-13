@@ -452,6 +452,7 @@
 		A5FC78462A72BA9100BBD524 /* CaptureBnpl.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5FC78452A72BA9100BBD524 /* CaptureBnpl.storyboard */; };
 		A5FC78482A82722100BBD524 /* GpApiOpenBankingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */; };
 		B6899ACF9829B4A3CFD7B5DE /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACD782FBDE5DCC56D4DE51F /* Pods_GlobalPayments_iOS_SDK_Example.framework */; };
+		C756FC1C2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C756FC1B2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift */; };
 		C75FE6512E5C556800E56004 /* GpApiBlikPayuCertification.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */; };
 		C77085892E4A6F76009EF348 /* GpApiPayUApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */; };
 		C7C0B8A82E40A31A002D6766 /* GpApiBlikApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */; };
@@ -924,6 +925,7 @@
 		A5FC78452A72BA9100BBD524 /* CaptureBnpl.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CaptureBnpl.storyboard; sourceTree = "<group>"; };
 		A5FC78472A82722100BBD524 /* GpApiOpenBankingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiOpenBankingTest.swift; sourceTree = "<group>"; };
 		AC8B497998CD394E59676785 /* Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		C756FC1B2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreateInstallmentTest.swift; sourceTree = "<group>"; };
 		C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBlikPayuCertification.swift; sourceTree = "<group>"; };
 		C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayUApmTest.swift; sourceTree = "<group>"; };
 		C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBlikApmTest.swift; sourceTree = "<group>"; };
@@ -1638,6 +1640,7 @@
 				C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */,
 				C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */,
 				C7C6114A2E81941900473FE6 /* GpApiInstallmentTests.swift */,
+				C756FC1B2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -3057,6 +3060,7 @@
 				8225699C262DA4400023E6A1 /* GpApi3DSTestCards.swift in Sources */,
 				82F9A57F25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift in Sources */,
 				82447E9125BAE2ED003F816D /* GpApi3DSecureTests.swift in Sources */,
+				C756FC1C2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift in Sources */,
 				C77085892E4A6F76009EF348 /* GpApiPayUApmTest.swift in Sources */,
 				8270C0CD26303B0700464B75 /* GpApiStoredPaymentMethodReportingTests.swift in Sources */,
 				A5FC78482A82722100BBD524 /* GpApiOpenBankingTest.swift in Sources */,

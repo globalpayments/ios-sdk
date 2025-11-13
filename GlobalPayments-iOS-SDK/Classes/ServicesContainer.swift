@@ -103,4 +103,13 @@ public class ServicesContainer {
         }
         return fileProcessingService
     }
+    
+    func getInstallmentClient(configName: String) throws -> InstallmentServiceProtocol {
+        guard let installmentService = configurations[configName]?.installmentService else {
+            throw ApiException(
+                message: "The specified configuration has not been configured for file processing."
+            )
+        }
+        return installmentService
+    }
 }

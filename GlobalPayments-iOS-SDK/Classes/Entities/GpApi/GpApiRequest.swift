@@ -240,5 +240,10 @@ extension GpApiRequest {
         static func editPayer(id: String?) -> String {
             "/payers/\(id ?? "")"
         }
+        
+        // MARK: - Installment
+        static func INSTALLMENT_ENDPOINT() -> String {
+            "/installments"
+        }
     }
 }

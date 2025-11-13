@@ -94,6 +94,7 @@ public class GpApiConfig: GatewayConfig {
         services.reportingService = gateway
         services.payFacProvider = gateway
         services.fileProcessingService = gateway
+        services.installmentService = gateway
         services.recurringConnector =  gateway
         services.setSecure3dProvider(provider: gateway, version: .one)
         services.setSecure3dProvider(provider: gateway, version: .two)

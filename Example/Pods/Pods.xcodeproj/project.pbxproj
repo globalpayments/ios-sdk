@@ -269,6 +269,16 @@
 		C7A546F42EB22B220004A5B3 /* InstallmentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546F32EB22B220004A5B3 /* InstallmentData.swift */; };
 		C7A546F62EB22B830004A5B3 /* PorticoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546F52EB22B830004A5B3 /* PorticoConfig.swift */; };
 		C7A546F82EB22BE90004A5B3 /* XMLElementTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546F72EB22BE90004A5B3 /* XMLElementTree.swift */; };
+		C7A546C92EB220180004A5B3 /* InstallmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546C82EB220180004A5B3 /* InstallmentBuilder.swift */; };
+		C7A546CB2EB220670004A5B3 /* GpApiInstallmentRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546CA2EB220670004A5B3 /* GpApiInstallmentRequestBuilder.swift */; };
+		C7A546CF2EB221060004A5B3 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546CE2EB221060004A5B3 /* Action.swift */; };
+		C7A546D12EB221390004A5B3 /* InstallmentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546D02EB221390004A5B3 /* InstallmentEntity.swift */; };
+		C7A546D32EB221590004A5B3 /* IRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546D22EB221590004A5B3 /* IRequestBuilder.swift */; };
+		C7A546D52EB2218A0004A5B3 /* Terms.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546D42EB2218A0004A5B3 /* Terms.swift */; };
+		C7A546D72EB222130004A5B3 /* InstallmentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546D62EB222130004A5B3 /* InstallmentServiceProtocol.swift */; };
+		C7A546D92EB223910004A5B3 /* Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546D82EB223910004A5B3 /* Encryption.swift */; };
+		C7A546DB2EB223B90004A5B3 /* Installment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546DA2EB223B90004A5B3 /* Installment.swift */; };
+		C7A546DD2EB226100004A5B3 /* InstallmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546DC2EB226100004A5B3 /* InstallmentService.swift */; };
 		C84FFF13668DAC61FDE04592118C59D2 /* DccRateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258ECC17A7C0A8C9FD254F62287D9678 /* DccRateType.swift */; };
 		C8C404E3A76EF639AA02A4417A9F6B72 /* StoredPaymentMethodStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89E5ADFF790D6DD6E910347EC1CD461 /* StoredPaymentMethodStatus.swift */; };
 		CA9A3449A73ED738452734793CE365F8 /* MerchantDataCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3CADA360321E05171DBEDAC0241A32 /* MerchantDataCollection.swift */; };
@@ -631,6 +641,16 @@
 		C7A546F32EB22B220004A5B3 /* InstallmentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallmentData.swift; sourceTree = "<group>"; };
 		C7A546F52EB22B830004A5B3 /* PorticoConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoConfig.swift; sourceTree = "<group>"; };
 		C7A546F72EB22BE90004A5B3 /* XMLElementTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLElementTree.swift; sourceTree = "<group>"; };
+		C7A546C82EB220180004A5B3 /* InstallmentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallmentBuilder.swift; sourceTree = "<group>"; };
+		C7A546CA2EB220670004A5B3 /* GpApiInstallmentRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiInstallmentRequestBuilder.swift; sourceTree = "<group>"; };
+		C7A546CE2EB221060004A5B3 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		C7A546D02EB221390004A5B3 /* InstallmentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallmentEntity.swift; sourceTree = "<group>"; };
+		C7A546D22EB221590004A5B3 /* IRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRequestBuilder.swift; sourceTree = "<group>"; };
+		C7A546D42EB2218A0004A5B3 /* Terms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Terms.swift; sourceTree = "<group>"; };
+		C7A546D62EB222130004A5B3 /* InstallmentServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallmentServiceProtocol.swift; sourceTree = "<group>"; };
+		C7A546D82EB223910004A5B3 /* Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryption.swift; sourceTree = "<group>"; };
+		C7A546DA2EB223B90004A5B3 /* Installment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Installment.swift; sourceTree = "<group>"; };
+		C7A546DC2EB226100004A5B3 /* InstallmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallmentService.swift; sourceTree = "<group>"; };
 		C82A0093F773BA60818DDF7E425B4842 /* SearchCriteriaBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SearchCriteriaBuilder.swift; sourceTree = "<group>"; };
 		C85B51D82EEBDBA36F49DCFCBA964F2B /* RecurringBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RecurringBuilder.swift; sourceTree = "<group>"; };
 		C85C51668E5CA376169725E1FE1C7F5C /* AdditionalTaxDetails.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AdditionalTaxDetails.swift; sourceTree = "<group>"; };
@@ -841,6 +861,8 @@
 				D4579A15F3CBBA2922A69140BA1C85B1 /* TransactionReference.swift */,
 				E31018964B31A7C7E80E1670FEE6503B /* PaymentProtocols */,
 				C7A546F32EB22B220004A5B3 /* InstallmentData.swift */,
+				C7A546D82EB223910004A5B3 /* Encryption.swift */,
+				C7A546DA2EB223B90004A5B3 /* Installment.swift */,
 			);
 			name = PaymentMethods;
 			path = "GlobalPayments-iOS-SDK/Classes/PaymentMethods";
@@ -1058,6 +1080,10 @@
 				028D93162CE7D78AD892B5ACB1212632 /* Transaction.swift */,
 				B8B784CF009DBAF62A389CABB1D63DB4 /* User.swift */,
 				85B6316F27E29AEC671A3B3AF3D2355E /* UserAccount.swift */,
+				C7A546CE2EB221060004A5B3 /* Action.swift */,
+				C7A546D02EB221390004A5B3 /* InstallmentEntity.swift */,
+				C7A546D22EB221590004A5B3 /* IRequestBuilder.swift */,
+				C7A546D42EB2218A0004A5B3 /* Terms.swift */,
 				5ECA0345FA052F4AB945F75D799D6F39 /* Enums */,
 				45F42C396FD933A57AE9C03A46AD23A6 /* Exceptions */,
 				881FE418EED17DD3E4107A5867C0E38D /* GpApi */,
@@ -1099,6 +1125,7 @@
 				B5AFB51011D07B2E43433148C41AD1B9 /* GpApiSessionInfo.swift */,
 				1E56E74B052DF9845CE7BA433886E133 /* GpApiTokenResponse.swift */,
 				3478FF0776304C69109FFC50D277D445 /* PagedResult.swift */,
+				C7A546CA2EB220670004A5B3 /* GpApiInstallmentRequestBuilder.swift */,
 			);
 			path = GpApi;
 			sourceTree = "<group>";
@@ -1186,6 +1213,7 @@
 				07A4AFE0619A2A9939FAAB970705BBD5 /* RecurringServiceType.swift */,
 				9C5F72B9C91049F2195343A2401813F7 /* ReportingServiceType.swift */,
 				8019A1900C48B4BC1B3226B8FF56DBA0 /* Secure3dProvider.swift */,
+				C7A546D62EB222130004A5B3 /* InstallmentServiceProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1239,6 +1267,7 @@
 				E8B4BAB3BCCF7E20D79D5C52449D552D /* RecurringService.swift */,
 				ED5E4806416873579EB8A2D5DB0A68C1 /* ReportingService.swift */,
 				3AF2B98C3344CF2996390E06B93DB1EA /* Secure3dService.swift */,
+				C7A546DC2EB226100004A5B3 /* InstallmentService.swift */,
 			);
 			name = Services;
 			path = "GlobalPayments-iOS-SDK/Classes/Services";
@@ -1312,6 +1341,7 @@
 				C98357DFA1A3FC9EDF0EC8BFF65B3771 /* TransactionReportBuilder.swift */,
 				A4D6650F2B81EF1BD7FC17E824C3EC94 /* UserReportBuilder.swift */,
 				3BBE3BC1F837C2FD490D55E46B954AD6 /* Validations */,
+				C7A546C82EB220180004A5B3 /* InstallmentBuilder.swift */,
 			);
 			name = Builders;
 			path = "GlobalPayments-iOS-SDK/Classes/Builders";
@@ -1543,6 +1573,7 @@
 				06644F0580CF989991610EADAF69F68E /* AuthenticationSource.swift in Sources */,
 				ABC123C0AD933ECA74F3CB7716C8EFBA /* AuthorizationBuilder.swift in Sources */,
 				4F9B015AEC688B4C8E2F586F7EBD15B8 /* AutoSubstantiation.swift in Sources */,
+				C7A546D72EB222130004A5B3 /* InstallmentServiceProtocol.swift in Sources */,
 				4973A90C41E8946F626C51D203105E8C /* Balanceable.swift in Sources */,
 				98B2CC14866390F0F71371FF9C857809 /* BankAccountData.swift in Sources */,
 				4B6541CF4ECA1DD463674DC03308CD00 /* BankPayment.swift in Sources */,
@@ -1620,6 +1651,7 @@
 				3073AFD202552CD22590288EFA4AE402 /* DocumentType.swift in Sources */,
 				783FDFF265FF652E6B7C295A275BC082 /* DocumentUploadData.swift in Sources */,
 				4CE19FFFDB143A4F09E68CC58CA9F9D2 /* EBT.swift in Sources */,
+				C7A546C92EB220180004A5B3 /* InstallmentBuilder.swift in Sources */,
 				F27D644AB9C4BF4D37BC176E5C286F2E /* EBTCardData.swift in Sources */,
 				196828D5EF1C0A69A1161DEF9E08CF45 /* EBTTrackData.swift in Sources */,
 				2969D0A78C6737231ADADD8F4D6E5329 /* eCheck.swift in Sources */,
@@ -1730,6 +1762,7 @@
 				6FD5994E07CD544CF2B6696B52B0AEF1 /* PayFacService.swift in Sources */,
 				F27CD74D88CA8F4EFE69C3813BDA0B91 /* PayFacServiceType.swift in Sources */,
 				A85980019F409387AC3DF26B6CD5D005 /* PaymentEntryMode.swift in Sources */,
+				C7A546D12EB221390004A5B3 /* InstallmentEntity.swift in Sources */,
 				B191B5CF99EC6DB31750EBB1D3674DBE /* PaymentGateway.swift in Sources */,
 				7E3EF586120AE3ED7B0225762B98597C /* PaymentMethod.swift in Sources */,
 				AA0CFF7101C6C884AFA35E6493EBAE9C /* PaymentMethodFunction.swift in Sources */,
@@ -1738,6 +1771,7 @@
 				E6C96BDE3D2310095DA3EE6569C09C4A /* PaymentMethodProgram.swift in Sources */,
 				8D76AD60FFB2B518078BA1F4526DF395 /* PaymentMethodType.swift in Sources */,
 				CAB327E0C5FAA552FCEC60FB0D02A567 /* PaymentMethodUsageMode.swift in Sources */,
+				C7A546D52EB2218A0004A5B3 /* Terms.swift in Sources */,
 				5026039BDC3D6F172E386F99D62033A8 /* PaymentProvider.swift in Sources */,
 				B7A15551C19085946ADEFC4077EC178F /* PaymentSchedule.swift in Sources */,
 				0A5F951894CFC18EFA5C98F32B73F5F8 /* PaymentStatistics.swift in Sources */,
@@ -1748,6 +1782,7 @@
 				6FACF866125840A64568B4BB3EBABE2F /* PersonFunctions.swift in Sources */,
 				41C1F24453B007D9BB18693754713C99 /* PhoneNumber.swift in Sources */,
 				0FCCA27AB1456CA4B6BAD8692F1ACA4B /* PhoneNumberType.swift in Sources */,
+				C7A546CF2EB221060004A5B3 /* Action.swift in Sources */,
 				BA0D5DA329E072624F55A01A5E0F87CB /* PinProtected.swift in Sources */,
 				E1C10569D90006A318807008A82D451A /* PorticoConnector.swift in Sources */,
 				B085C162871D79E9FD5222FC9C611392 /* PreOrderIndicator.swift in Sources */,
@@ -1781,6 +1816,7 @@
 				0CE702323AC20CB758AEFB67428E1975 /* Schedule.swift in Sources */,
 				B0D7FFF98E76B4A00645165CABCD6F3C /* ScheduleFrequency.swift in Sources */,
 				6C547A4D12B02D395EA9F6B3E951F12A /* SdkInterface.swift in Sources */,
+				C7A546D92EB223910004A5B3 /* Encryption.swift in Sources */,
 				62B1BC2E3FA944BEA82A5F3B864E4728 /* SdkUiType.swift in Sources */,
 				9294E71B769191276D18992C9526C719 /* SearchCriteriaBuilder.swift in Sources */,
 				100DA707C835DE602B80AC1F6B1D6DD8 /* SecCode.swift in Sources */,
@@ -1794,10 +1830,12 @@
 				F69A006E357E18D7706F290C00389E69 /* ServicesContainer.swift in Sources */,
 				C7A546ED2EB22A530004A5B3 /* TransactionReportSummary.swift in Sources */,
 				9B5E53CB9CBF066B4D32C66C2A711705 /* ShippingMethod.swift in Sources */,
+				C7A546DD2EB226100004A5B3 /* InstallmentService.swift in Sources */,
 				0D01F36636E9716534138403E31100FA /* SortDirection.swift in Sources */,
 				5DDA5DAB72B756C746CB02368D023A74 /* StatusChangeReason.swift in Sources */,
 				8CFBBDD1E664E3EFE5D914BD4E323A77 /* StoredCredential.swift in Sources */,
 				0FA95C2491921439B7893CD0614C1373 /* StoredCredentialInitiator.swift in Sources */,
+				C7A546D32EB221590004A5B3 /* IRequestBuilder.swift in Sources */,
 				4C0BBBB131B812180994C50929264518 /* StoredCredentialReason.swift in Sources */,
 				C1199843FF208AFE069A2E61E899EA34 /* StoredCredentialSequence.swift in Sources */,
 				8D2544D05C93AB22811A509BEBC86AE6 /* StoredCredentialType.swift in Sources */,
@@ -1823,11 +1861,13 @@
 				A41F34A01219C1782EB21002C711BA4A /* TransactionReportBuilder.swift in Sources */,
 				FEBBFED7D6B6BB4CAC479EDFAC6AF8D3 /* TransactionSortProperty.swift in Sources */,
 				0EB3786088DD1B408D6D722D5DC12C2A /* TransactionStatus.swift in Sources */,
+				C7A546DB2EB223B90004A5B3 /* Installment.swift in Sources */,
 				D2411F5CABE16CAC874CEF360B629F83 /* TransactionSummary.swift in Sources */,
 				952EC47B84D1BD545F7901EF3E7AEEAD /* TransactionType.swift in Sources */,
 				B3C17A0BE7EA0B33A01196706DA1260E /* UnsupportedTransactionException.swift in Sources */,
 				766560BDE3497606BCA97C27CBBE8132 /* UsableBalanceMode.swift in Sources */,
 				372B98CA1CBB864E00EC1FF1DC4F4D48 /* User.swift in Sources */,
+				C7A546CB2EB220670004A5B3 /* GpApiInstallmentRequestBuilder.swift in Sources */,
 				0E6BF5D2C6074FBDCA68BC5244880BE6 /* UserAccount.swift in Sources */,
 				F53813335E796FEB4A9E3BEE9501FBA6 /* UserPersonalData.swift in Sources */,
 				F88B9F9B57249ACD0EF7BFBCC8DD3B93 /* UserReference.swift in Sources */,

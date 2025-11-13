@@ -509,6 +509,32 @@ extension GpApiConnector: RecurringServiceType {
     
 }
 
+extension GpApiConnector: InstallmentServiceProtocol {
+    func ProcessInstallment<T>(builder: InstallmentBuilder<T>, completion: ((T?, Error?) -> Void)?) {
+        verifyAuthentication { [weak self] error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            
+            let request: GpApiRequest? = GpApiInstallmentRequestBuilder<T>().buildRequest(for: builder, config: self?.gpApiConfig)
+            
+            if let request = request {
+                self?.doTransaction(
+                    method: request.method,
+                    endpoint: request.endpoint,
+                    data: request.requestBody) { response, error in
+                        guard let response = response else {
+                            completion?(nil, error)
+                            return
+                        }
+                        completion?(GpApiMapping.MapInstallmentResponse(response), nil)
+                    }
+            }
+        }
+    }
+}
+
 // MARK: - Constants
 
 extension GpApiConnector {

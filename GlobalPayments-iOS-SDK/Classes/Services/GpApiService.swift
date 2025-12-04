@@ -10,13 +10,15 @@ public class GpApiService {
         intervalToExpire: IntervalToExpire? = nil,
         permissions: [String]? = nil,
         requestLogger: RequestLogger? = nil,
+        porticoTokenConfig: PorticoTokenConfig? = nil,
         completion: @escaping (AccessTokenInfo?, Error?) -> Void) {
 
         let config = GpApiConfig(appId: appId,
                                  appKey: appKey,
                                  secondsToExpire: secondsToExpire,
                                  intervalToExpire: intervalToExpire,
-                                 permissions: permissions)
+                                 permissions: permissions,
+                                 porticoTokenConfig: porticoTokenConfig)
             
         if (config.accessTokenProvider == nil) {
             config.accessTokenProvider = GpApiSessionInfo()

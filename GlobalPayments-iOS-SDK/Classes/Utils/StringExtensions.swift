@@ -131,3 +131,10 @@ extension StringProtocol {
     var data: Data { .init(utf8) }
     var bytes: [UInt8] { .init(utf8) }
 }
+
+/// Returns a String representation of any value conforming to CustomStringConvertible, non-optional version.
+extension CustomStringConvertible {
+    var toString: String {
+        return String(describing: self)
+    }
+}

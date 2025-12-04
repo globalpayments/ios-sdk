@@ -89,7 +89,8 @@ class GpApiConnector: RestGateway {
             appKey: gpApiConfig.appKey,
             secondsToExpire: gpApiConfig.secondsToExpire,
             intervalToExpire: gpApiConfig.intervalToExpire,
-            permissions: gpApiConfig.permissions
+            permissions: gpApiConfig.permissions,
+            porticoTokenConfig: gpApiConfig.porticoTokenConfig
         ) else { return completion(nil, ApiException(message: "Access token provider can't be nil!"))}
 
         super.doTransaction(method: request.method, endpoint: request.endpoint, data: request.requestBody) { response, error in
@@ -144,28 +145,30 @@ class GpApiConnector: RestGateway {
                 idempotencyKey: idempotencyKey,
                 queryStringParams: queryStringParams) { response, error in
 
-                if let gatewayError = error as? GatewayException,
-                   gatewayError.responseCode == "NOT_AUTHENTICATED" ||
-                    gatewayError.responseCode == "401" &&
-                    !self.gpApiConfig.appId.isEmpty &&
-                    !self.gpApiConfig.appKey.isEmpty {
-                    
-                    if (self.gpApiConfig.accessTokenInfo?.token != nil) {
-                        self.gpApiConfig.accessTokenInfo?.token = nil
-                    }
+                if let appId = self.gpApiConfig.appId, let appKey = self.gpApiConfig.appKey {
+                    if let gatewayError = error as? GatewayException,
+                       gatewayError.responseCode == "NOT_AUTHENTICATED" ||
+                        gatewayError.responseCode == "401" &&
+                        !appId.isEmpty &&
+                        !appKey.isEmpty {
+                        
+                        if (self.gpApiConfig.accessTokenInfo?.token != nil) {
+                            self.gpApiConfig.accessTokenInfo?.token = nil
+                        }
 
-                    self.signIn { _, _ in
+                        self.signIn { _, _ in
 
-                        self.doTransactionWithIdempotencyKey(
-                            method: method,
-                            endpoint: endpoint,
-                            data: data,
-                            idempotencyKey: idempotencyKey,
-                            queryStringParams: queryStringParams,
-                            completion: completion
-                        )
+                            self.doTransactionWithIdempotencyKey(
+                                method: method,
+                                endpoint: endpoint,
+                                data: data,
+                                idempotencyKey: idempotencyKey,
+                                queryStringParams: queryStringParams,
+                                completion: completion
+                            )
+                        }
+                        return
                     }
-                    return
                 }
 
                 completion(response, error)

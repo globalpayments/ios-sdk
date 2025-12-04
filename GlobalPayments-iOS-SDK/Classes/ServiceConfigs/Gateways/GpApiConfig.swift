@@ -2,9 +2,9 @@ import Foundation
 
 public class GpApiConfig: GatewayConfig {
     /// GP API app id
-    public let appId: String
+    public let appId: String?
     /// GP API app key
-    public let appKey: String
+    public let appKey: String?
     /// The time left in seconds before the token expires
     public var secondsToExpire: Int?
     /// The time interval set for when the token will expire
@@ -33,9 +33,11 @@ public class GpApiConfig: GatewayConfig {
     public var merchantId: String?
     
     public var statusUrl: String?
-
-    public init(appId: String,
-                appKey: String,
+    
+    public var porticoTokenConfig: PorticoTokenConfig?
+    
+    public init(appId: String? = nil,
+                appKey: String? = nil,
                 secondsToExpire: Int? = nil,
                 intervalToExpire: IntervalToExpire? = nil,
                 channel: Channel = .cardNotPresent,
@@ -50,7 +52,8 @@ public class GpApiConfig: GatewayConfig {
                 requestLogger: RequestLogger? = nil,
                 merchantId: String? = nil,
                 statusUrl: String? = nil,
-                accessTokenProvider: AccessTokenProvider? = nil) {
+                accessTokenProvider: AccessTokenProvider? = nil,
+                porticoTokenConfig: PorticoTokenConfig? = nil) {
 
         self.appId = appId
         self.appKey = appKey
@@ -70,6 +73,7 @@ public class GpApiConfig: GatewayConfig {
         self.requestLogger = requestLogger
         self.statusUrl = statusUrl
         self.accessTokenProvider = accessTokenProvider
+        self.porticoTokenConfig = porticoTokenConfig
     }
 
     override func configureContainer(services: ConfiguredServices) {
@@ -102,11 +106,12 @@ public class GpApiConfig: GatewayConfig {
 
     override func validate() throws {
         try super.validate()
-
-        if accessTokenInfo == nil && (appId.isEmpty || appKey.isEmpty) {
-            throw ConfigurationException(
-                message: "accessTokenInfo or appId and appKey cannot be nil or empty"
-            )
+        if let appId = appId, let appKey = appKey {
+            if accessTokenInfo == nil && (appId.isEmpty || appKey.isEmpty) {
+                throw ConfigurationException(
+                    message: "accessTokenInfo or appId and appKey cannot be nil or empty"
+                )
+            }
         }
     }
 }

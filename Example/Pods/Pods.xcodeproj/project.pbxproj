@@ -279,6 +279,7 @@
 		C7A546D92EB223910004A5B3 /* Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546D82EB223910004A5B3 /* Encryption.swift */; };
 		C7A546DB2EB223B90004A5B3 /* Installment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546DA2EB223B90004A5B3 /* Installment.swift */; };
 		C7A546DD2EB226100004A5B3 /* InstallmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546DC2EB226100004A5B3 /* InstallmentService.swift */; };
+		C7B7C2B92EC7409900606350 /* PorticoTokenConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B7C2B82EC7409900606350 /* PorticoTokenConfig.swift */; };
 		C84FFF13668DAC61FDE04592118C59D2 /* DccRateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258ECC17A7C0A8C9FD254F62287D9678 /* DccRateType.swift */; };
 		C8C404E3A76EF639AA02A4417A9F6B72 /* StoredPaymentMethodStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89E5ADFF790D6DD6E910347EC1CD461 /* StoredPaymentMethodStatus.swift */; };
 		CA9A3449A73ED738452734793CE365F8 /* MerchantDataCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3CADA360321E05171DBEDAC0241A32 /* MerchantDataCollection.swift */; };
@@ -651,6 +652,7 @@
 		C7A546D82EB223910004A5B3 /* Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryption.swift; sourceTree = "<group>"; };
 		C7A546DA2EB223B90004A5B3 /* Installment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Installment.swift; sourceTree = "<group>"; };
 		C7A546DC2EB226100004A5B3 /* InstallmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallmentService.swift; sourceTree = "<group>"; };
+		C7B7C2B82EC7409900606350 /* PorticoTokenConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoTokenConfig.swift; sourceTree = "<group>"; };
 		C82A0093F773BA60818DDF7E425B4842 /* SearchCriteriaBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SearchCriteriaBuilder.swift; sourceTree = "<group>"; };
 		C85B51D82EEBDBA36F49DCFCBA964F2B /* RecurringBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RecurringBuilder.swift; sourceTree = "<group>"; };
 		C85C51668E5CA376169725E1FE1C7F5C /* AdditionalTaxDetails.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AdditionalTaxDetails.swift; sourceTree = "<group>"; };
@@ -1091,6 +1093,7 @@
 				790B3EC1FD72FA1D157277AD571F8319 /* PayFac */,
 				53A1F0D35FCFDC5F0B18B88A617851D4 /* Reporting */,
 				C7A546E12EB228F20004A5B3 /* BankResponse.swift */,
+				C7B7C2B82EC7409900606350 /* PorticoTokenConfig.swift */,
 			);
 			name = Entities;
 			path = "GlobalPayments-iOS-SDK/Classes/Entities";
@@ -1790,6 +1793,7 @@
 				BBB34DF052C297AF2FD8BE22FD48345F /* PrePayable.swift in Sources */,
 				440FA77DDA36CB700787BC0A58C7487F /* PrestigiousPropertyLimit.swift in Sources */,
 				273487B58310B9AFF9E45B995433E288 /* PriorAuthenticationMethod.swift in Sources */,
+				C7B7C2B92EC7409900606350 /* PorticoTokenConfig.swift in Sources */,
 				C55FCA02FEE96125F2B97543DEA48ABF /* Product.swift in Sources */,
 				439CA58BD4542244AE0767D61C22F655 /* RealexConnector.swift in Sources */,
 				9F1DCE4F224E7F3F07998E248F1AF910 /* ReasonCode.swift in Sources */,

@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.1.0 (11/13/2025)
+## Latest - v3.1.1 (12/04/2025)
+
+#### Enhancements
+
+- GP-API: Added support to enable authentication with Portico credentials in GPAPI
+
+## v3.1.0 (11/13/2025)
 
 #### Enhancements
 

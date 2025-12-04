@@ -2,7 +2,7 @@ import Foundation
 
 // <summary>
 /// Represents the Installment Service to create the installment
-/// </summary>/Users/YaPatil/Documents/Development/AH-1577 Devlopment/ios-sdk/GlobalPayments-iOS-SDK/Classes/PaymentMethods/DebitTrackData.swift
+/// </summary>
 public class InstallmentService {
     
     /// <summary>

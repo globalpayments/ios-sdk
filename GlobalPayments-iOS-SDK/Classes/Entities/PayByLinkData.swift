@@ -29,4 +29,9 @@ public class PayByLinkData: NSObject {
     public var statusUpdateUrl: String?
     /// The merchant URL that the customer will be redirected to if they chose to cancel
     public var cancelUrl: String?
+    ///Determines whether Dynamic Currency Conversion (DCC) is activated for the transaction.
+    public var isDccEnabled: Bool?
+    /// Gets or sets the configuration options for the payment method, such as address requirements,
+    /// challenge request indicators, exemption status, and storage mode.
+    public var configuration: PaymentMethodConfiguration?
 }

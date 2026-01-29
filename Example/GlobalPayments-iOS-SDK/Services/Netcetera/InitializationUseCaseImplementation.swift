@@ -15,7 +15,8 @@ class InitializationUseCaseImplementation: InitializationUseCase {
             
             // Change uicustomization to nil for default design.
             let uicustomization = try createUICustomization()
-            try threeDS2Service.initialize(configParameters, locale: nil, uiCustomization: uicustomization)
+            let uiCustomizationMap = ["default": uicustomization]
+            try threeDS2Service.initialize(configParameters, locale: nil, uiCustomizationMap: uiCustomizationMap)
             succesHandler()
         }catch let error as NSError {
             errorHandler(error.localizedDescription)

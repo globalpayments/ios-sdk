@@ -54,34 +54,96 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         case .create:
             let payload = JsonDoc()
             if let payByLinkData = builder.payByLinkData {
-                payload.set(for: "usage_limit", value: payByLinkData.usageLimit)
-                payload.set(for: "usage_mode", value: payByLinkData.usageMode?.mapped(for: .gpApi))
-                payload.set(for: "images", value: payByLinkData.images)
-                payload.set(for: "description", value: builder.requestDescription)
-                payload.set(for: "type", value: payByLinkData.type?.mapped(for: .gpApi))
-                payload.set(for: "expiration_date", value: payByLinkData.expirationDate?.format("yyyy-MM-dd"))
-                
-                let transaction = JsonDoc()
-                transaction.set(for: "country", value: config?.country)
-                transaction.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
-                transaction.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
-                transaction.set(for: "currency", value: builder.currency)
-                transaction.set(for: "allowed_payment_methods", value: mapAllowedPaymentMethod(payByLinkData.allowedPaymentMethods))
-                
-                payload.set(for: "transactions", doc: transaction)
-                payload.set(for: "reference", value: builder.clientTransactionId)
-                payload.set(for: "shipping_amount", value: payByLinkData.shippingAmount?.toNumericCurrencyString())
-                payload.set(for: "shippable", value: payByLinkData.isShippable ?? false ? "YES" : "NO")
-                payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
-                payload.set(for: "name", value: payByLinkData.name)
-                
-                let notification = JsonDoc()
-                notification.set(for: "cancel_url", value: payByLinkData.cancelUrl)
-                notification.set(for: "return_url", value: payByLinkData.returnUrl)
-                notification.set(for: "status_url", value: payByLinkData.statusUpdateUrl)
+                if payByLinkData.type == .hosted_payment_page {
+                    payload.set(for: "usage_limit", value: payByLinkData.usageLimit)
+                    payload.set(for: "usage_mode", value: payByLinkData.usageMode?.mapped(for: .gpApi))
+                    payload.set(for: "description", value: builder.requestDescription)
+                    payload.set(for: "type", value: payByLinkData.type?.mapped(for: .gpApi))
+                    payload.set(for: "expiration_date", value: payByLinkData.expirationDate?.format("yyyy-MM-dd"))
+                    
+                    payload.set(for: "reference", value: builder.clientTransactionId)
+                    payload.set(for: "shipping_amount", value: payByLinkData.shippingAmount?.toNumericCurrencyString())
+                    payload.set(for: "shippable", value: payByLinkData.isShippable ?? false ? "YES" : "NO")
+                    payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
+                    payload.set(for: "name", value: payByLinkData.name)
+                    
+                    payload.set(for: "payer", doc: setPayerInformation(builder))
+                    
+                    let order = JsonDoc()
+                        .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                        .set(for: "currency", value: builder.currency)
+                        .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
+                    
+                    let transactionConfiguration = JsonDoc()
+                        .set(for: "channel", value: config?.channel.mapped(for: .gpApi))
+                        .set(for: "country", value: config?.country)
+                        .set(for: "capture_mode", value: captureMode(for: builder))
+                        .set(for: "curreny_conversion_mode", value: payByLinkData.isDccEnabled == true ? "YES" : "NO")
+                        .set(for: "allowed_payment_methods", value: mapAllowedPaymentMethod(payByLinkData.allowedPaymentMethods))
+                    
+                    let paymentMethodConfiguration = JsonDoc()
+                    paymentMethodConfiguration.set(for: "storage_mode", value: payByLinkData.configuration?.storageMode?.mapped(for: .gpApi))
+                    
+                    let authentication = JsonDoc()
+                        .set(for: "preference", value:  payByLinkData.configuration?.challengeRequestIndicator?.mapped(for: .gpApi))
+                        .set(for: "exempt_status", value: payByLinkData.configuration?.exemptStatus?.mapped(for: .gpApi))
+                        .set(for: "billing_address_required", value: payByLinkData.configuration?.isBillingAddressRequired == true ? "YES" : "NO")
+                    paymentMethodConfiguration.set(for: "authentication", doc: authentication)
+                    
+                    let apm = JsonDoc()
+                        .set(for: "shipping_address_enabled", value: payByLinkData.configuration?.isShippingAddressEnabled == true ? "YES" : "NO")
+                        .set(for: "address_override", value: payByLinkData.configuration?.isAddressOverrideAllowed == true ? "YES" : "NO")
+                    paymentMethodConfiguration.set(for: "apm", doc: apm)
+                    
+                    let shippingAddress = getBasicAddressInformation(builder.billingAddress)
+                    order.set(for: "shipping_address", doc: shippingAddress)
+                    
+                    let shippingPhone = JsonDoc()
+                    shippingPhone.set(for: "country_code", value: builder.shippingPhone?.countryCode)
+                    shippingPhone.set(for: "subscriber_number", value: builder.shippingPhone?.number)
+                    order.set(for: "shipping_phone", doc: shippingPhone)
+                    
+                    order.set(for: "transaction_configuration", doc: transactionConfiguration)
+                        .set(for: "payment_method_configuration", doc: paymentMethodConfiguration)
+                    payload.set(for: "order", doc: order)
+                    
+                    let notification = JsonDoc()
+                    notification.set(for: "cancel_url", value: payByLinkData.cancelUrl)
+                    notification.set(for: "return_url", value: payByLinkData.returnUrl)
+                    notification.set(for: "status_url", value: payByLinkData.statusUpdateUrl)
 
-                payload.set(for: "notifications", doc: notification)
-                payload.set(for: "status", value: payByLinkData.status?.mapped(for: .gpApi))
+                    payload.set(for: "notifications", doc: notification)
+                    payload.set(for: "status", value: builder.customerData?.status)
+                } else {
+                    payload.set(for: "usage_limit", value: payByLinkData.usageLimit)
+                    payload.set(for: "usage_mode", value: payByLinkData.usageMode?.mapped(for: .gpApi))
+                    payload.set(for: "images", value: payByLinkData.images)
+                    payload.set(for: "description", value: builder.requestDescription)
+                    payload.set(for: "type", value: payByLinkData.type?.mapped(for: .gpApi))
+                    payload.set(for: "expiration_date", value: payByLinkData.expirationDate?.format("yyyy-MM-dd"))
+                    
+                    let transaction = JsonDoc()
+                    transaction.set(for: "country", value: config?.country)
+                    transaction.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                    transaction.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
+                    transaction.set(for: "currency", value: builder.currency)
+                    transaction.set(for: "allowed_payment_methods", value: mapAllowedPaymentMethod(payByLinkData.allowedPaymentMethods))
+                    
+                    payload.set(for: "transactions", doc: transaction)
+                    payload.set(for: "reference", value: builder.clientTransactionId)
+                    payload.set(for: "shipping_amount", value: payByLinkData.shippingAmount?.toNumericCurrencyString())
+                    payload.set(for: "shippable", value: payByLinkData.isShippable ?? false ? "YES" : "NO")
+                    payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
+                    payload.set(for: "name", value: payByLinkData.name)
+                    
+                    let notification = JsonDoc()
+                    notification.set(for: "cancel_url", value: payByLinkData.cancelUrl)
+                    notification.set(for: "return_url", value: payByLinkData.returnUrl)
+                    notification.set(for: "status_url", value: payByLinkData.statusUpdateUrl)
+
+                    payload.set(for: "notifications", doc: notification)
+                    payload.set(for: "status", value: payByLinkData.status?.mapped(for: .gpApi))
+                }
             }
             
             return GpApiRequest(
@@ -543,6 +605,22 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                 }
                 payer.set(for: "documents", values: jsonDocuments)
             }
+        } else if builder.payByLinkData?.type == .hosted_payment_page {
+            payer.set(for: "email", value: builder.customerData?.email)
+                .set(for: "language", value: builder.customerData?.language)
+                .set(for: "status", value: builder.customerData?.status)
+                 let dataName = "\(builder.customerData?.firstName ?? "") \(builder.customerData?.lastName ?? "")"
+            payer.set(for: "name", value: dataName)
+                .set(for: "first_name", value: builder.customerData?.firstName)
+                .set(for: "last_name", value: builder.customerData?.lastName)
+                .set(for: "address_match_indicator", value: builder.customerData?.isShippingAddressSameAsBilling == true ? "YES" : "NO")
+            
+            payer.set(for: "billing_address", doc: getBasicAddressInformation(builder.billingAddress))
+            
+            if let phoneNumber = builder.customerData?.phoneNumber {
+                let homePhone = setPhoneInformation(phoneNumber)
+                payer.set(for: "mobile_phone", doc: homePhone)
+            }
         }
         return payer
     }
@@ -642,5 +720,12 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         installment.set(for: "count", value: installmentData.count)
         installment.set(for: "grace_period_count", value: installmentData.gracePeriodCount)
         return installment
+    }
+    
+    private func setPhoneInformation(_ phoneNumber: PhoneNumber) -> JsonDoc {
+        let phoneInfo = JsonDoc()
+            .set(for: "country_code", value: phoneNumber.countryCode)
+            .set(for: "subscriber_number", value: phoneNumber.number)
+        return phoneInfo
     }
 }

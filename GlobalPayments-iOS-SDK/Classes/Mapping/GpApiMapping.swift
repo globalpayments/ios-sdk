@@ -396,7 +396,7 @@ public struct GpApiMapping {
         summary.accountId = doc?.getValue(key: "account_id")
         summary.accountName = doc?.getValue(key: "account_name")
         summary.merchantName = doc?.getValue(key: "merchant_name")
-        
+        summary.resultCode = doc?.getValue(key: "result_code")
         return summary
     }
     
@@ -754,6 +754,13 @@ public struct GpApiMapping {
         let shippable: String = doc?.getValue(key: "shippable") ?? "NO"
         payByLinkResponse.isShippable = shippable.uppercased() == "YES"
         payByLinkResponse.allowedPaymentMethods = getAllowedPaymentMethods(doc)
+        
+        let order = doc?.get(valueFor: "order")
+        payByLinkResponse.payByLinkOrder = GpApiMapping.payByLinkOrder(order)
+        
+        let actionSummury = doc?.get(valueFor: "action")
+        payByLinkResponse.actionSummary = GpApiMapping.mapActionSummary(actionSummury)
+        
         return payByLinkResponse
     }
     
@@ -909,5 +916,16 @@ public struct GpApiMapping {
             return installment as? T
         }
         return Installment() as? T
+    }
+    
+    public static func payByLinkOrder(_ doc: JsonDoc?) -> PayByLinkOrder {
+        let order = PayByLinkOrder()
+        order.amount = doc?.getValue(key: "amount")
+        order.currency = doc?.getValue(key: "currency")
+        order.reference = doc?.getValue(key: "reference")
+        let transactionConfiguration =  doc?.get(valueFor: "transaction_configuration")
+        order.country = transactionConfiguration?.getValue(key: "country")
+        order.channel = transactionConfiguration?.getValue(key: "channel")
+        return order
     }
 }

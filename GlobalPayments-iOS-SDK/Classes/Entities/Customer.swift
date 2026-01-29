@@ -35,13 +35,17 @@ public class Customer: RecurringEntity<Customer> {
     /// Customer's department within its organization
     var department: String?
     /// Customer resource's status
-    var status: String?
-    
+    public var status: String?
+    /// Customer's primary phone number
     public var phoneNumber: PhoneNumber?
-    
+    /// List of documents associated with the customer (e.g., ID, proof of address).
     public var documents: [CustomerDocument]?
-    
+    /// Customer's existing payment methods
     public var paymentMethods: [RecurringPaymentMethod]?
+    ///Customer's preferred language code (e.g., "en-US", "fr-FR").
+    public var language: String?
+    /// Indicates if the shipping address is the same as the billing address
+    public var isShippingAddressSameAsBilling: Bool?
 
     /// Adds a payment method to the customer
     /// - Parameters:

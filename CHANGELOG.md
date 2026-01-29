@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.1.1 (12/04/2025)
+## Latest - v3.1.2 (01/29/2026)
+
+#### Enhancements
+
+- GP-API: Added support for generating Hosted Payment Page (HPP) links via Pay By Link
+
+## v3.1.1 (12/04/2025)
 
 #### Enhancements
 

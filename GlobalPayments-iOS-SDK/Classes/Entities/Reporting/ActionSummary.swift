@@ -15,4 +15,5 @@ public class ActionSummary {
     public var accountId: String?
     public var accountName: String?
     public var merchantName: String?
+    public var resultCode: String?
 }

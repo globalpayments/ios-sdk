@@ -30,6 +30,10 @@ public class PayByLinkResponse: NSObject {
     public var expirationDate: Date?
     /// Images that will be displayed to the customer on the payment page.
     public var images: [String]?
-    
+    /// The list of allowed payment methods for this Pay By Link.
     public var allowedPaymentMethods: [PaymentMethodName]?
+    /// The order details associated with this Pay By Link transaction.
+    public var payByLinkOrder: PayByLinkOrder?
+    /// A summary of the action performed, including metadata about the transaction.
+    public var actionSummary: ActionSummary?
 }

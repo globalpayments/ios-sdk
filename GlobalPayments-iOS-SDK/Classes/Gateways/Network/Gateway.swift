@@ -29,7 +29,6 @@ class Gateway {
             completion(nil, NetworkError.canNotGenerateURL)
             return
         }
-        
         var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: timeout)
 
         request.httpMethod = method.rawValue

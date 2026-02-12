@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.1.2 (01/29/2026)
+## Latest - v3.1.3 (02/12/2026)
+
+#### Enhancements
+
+- GP-API: Added all required fields for getting level2 data from GP-API
+
+## v3.1.2 (01/29/2026)
 
 #### Enhancements
 

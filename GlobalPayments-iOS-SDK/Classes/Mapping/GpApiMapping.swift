@@ -96,6 +96,7 @@ public struct GpApiMapping {
                 transaction.avsResponseCode = card.getValue(key: "avs_postal_code_result") ?? .empty
                 transaction.avsAddressResponse = card.getValue(key: "avs_address_result") ?? .empty
                 transaction.avsResponseMessage = card.getValue(key: "avs_action") ?? .empty
+                transaction.commercialLevel = card.getValue(key: "commercial_level") ?? .empty
                 
                 if let provider: JsonDoc = card.get(valueFor: "provider") {
                     transaction.cardIssuerResponse = mapCardIssuerResponse(provider)

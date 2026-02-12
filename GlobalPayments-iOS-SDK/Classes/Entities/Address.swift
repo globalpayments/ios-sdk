@@ -48,4 +48,14 @@ public class Address: NSObject {
     public func isCountry(_ code: String?) -> Bool {
         return CountryUtils.shared.isCountry(self, code)
     }
+    
+    public init(streetAddress1: String? = nil, streetAddress2: String? = nil, city: String? = nil, name: String? = nil, province: String? = nil, postalCode: String? = nil, country: String? = nil) {
+        self.streetAddress1 = streetAddress1
+        self.streetAddress2 = streetAddress2
+        self.city = city
+        self.name = name
+        self.province = province
+        self.postalCode = postalCode
+        self.country = country
+    }
 }

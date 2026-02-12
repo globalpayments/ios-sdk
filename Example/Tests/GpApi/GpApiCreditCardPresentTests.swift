@@ -735,7 +735,121 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertEqual(TransactionStatus.declined.mapped(for: .gpApi), trackDataChargeResponse?.responseMessage)
         XCTAssertEqual("14", trackDataChargeResponse?.cardIssuerResponse?.result)
     }
+    
+    func testShouldReturnLevel2CommercialLevel_WhenLevelIIDataProvided() {
+        
+        setupLevelIIConfig()
+        let expectationCreditSaleForInstallment = expectation(description: " Commercial LEVEL_2 ")
+        var responseCharge: Transaction?
+        let orderDetails =  OrderDetails()
+        let payerDetails = PayerDetails()
+        var errorResponse: Error?
+        let card = CreditTrackData()
+        card.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        card.entryMethod = .swipe
+        card.category = "CORPORATE"
+        card.avsPostalcode = "75024"
 
+        let commercialData = CommercialData(taxType: TaxType.salesTax, commercialIndicator: CommercialIndicator.level_II)
+        commercialData.poNumber = "67098765"
+        commercialData.taxAmounts = NSDecimalNumber(string: "100")
+        commercialData.merchantId = "MER_df9b8b21f7b74caabc804ceea35e611f"
+        // add extra fields for commercial payload
+        commercialData.taxMode = "SALES_TAX"
+        // payment method details
+        let pmCard = CommercialCard(category: "CORPORATE", avsPostalCode: "75024")
+        let pm = CommercialPaymentMethod(firstName: "Jane", lastName: "Doe", card: pmCard)
+        commercialData.paymentMethod = pm as? any PaymentMethod
+        
+        // order details
+        let taxes = [
+            Tax(type: "GST", amount: "10"),
+            Tax(type: "HST", amount: "10"),
+            Tax(type: "PST", amount: "10"),
+            Tax(type: "QST", amount: "10")
+        ]
+        
+        orderDetails.taxes = taxes
+        orderDetails.localTaxPercentage = "10"
+        orderDetails.buyerRecipientName = "john john"
+        orderDetails.stateTaxIdReference = "12344"
+        orderDetails.merchantTaxIdReference = "122345"
+        
+        // payer details
+        let addr = Address(streetAddress1: "3550", streetAddress2: "Lenox Road", city: "Atlanta", province: "GA", postalCode: "30326", country: "USA")
+        
+        payerDetails.taxIdReference = "12345"
+        payerDetails.name = "Sushant Deshmukh"
+        payerDetails.landlinePhone = "7708298755"
+        payerDetails.country = "US"
+        payerDetails.email = "sushantd@gp.com"
+        payerDetails.billingAddress = addr
+        payerDetails.mobilePhone = "7708298755"
+        
+        card.charge(amount: 10.0)
+            .withCurrency("USD")
+            .withCommercialRequest(true)
+            .withCommercialData(commercialData)
+            .withPayerDetails(payerDetails: payerDetails)
+            .withOrderDetails(orderDetails: orderDetails)
+            .execute {transactionResult, error in
+                responseCharge = transactionResult
+                errorResponse = error
+                expectationCreditSaleForInstallment.fulfill()
+            }
+
+        wait(for: [expectationCreditSaleForInstallment], timeout: 10.0)
+        
+        XCTAssertNotNil(responseCharge)
+        XCTAssertNil(errorResponse)
+        XCTAssertEqual(responseCharge?.commercialLevel, "LEVEL_2")
+    }
+    
+    func testShouldReturnLevel1CommercialLevel_WhenNoCommercialLevelDataProvided() {
+        setupLevelIIConfig()
+        let expectationCreditSaleForInstallment = expectation(description: " Commercial LEVEL_1 ")
+        var responseCharge: Transaction?
+        var errorResponse: Error?
+        let card = CreditTrackData()
+        card.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        card.entryMethod = .swipe
+        card.category = "CORPORATE"
+        card.avsPostalcode = "75024"
+
+        
+        
+        card.charge(amount: 10.0)
+            .withCurrency("USD")
+            .withCommercialRequest(true)
+            .execute {transactionResult, error in
+                responseCharge = transactionResult
+                errorResponse = error
+                expectationCreditSaleForInstallment.fulfill()
+            }
+
+        wait(for: [expectationCreditSaleForInstallment], timeout: 10.0)
+        
+        XCTAssertNotNil(responseCharge)
+        XCTAssertNil(errorResponse)
+        XCTAssertEqual(responseCharge?.commercialLevel, "LEVEL_1")
+    }
+    
+    private func setupLevelIIConfig() {
+        let appIdLevelII = "inWHoqkWgfSz7AxYmq1FhijeiAHanlx2"
+        let appKeyLevelII = "oDDqEZre9pn5TUgZ"
+        let gpApiConfig = GpApiConfig(
+            appId: appIdLevelII,
+            appKey: appKeyLevelII,
+            channel: .cardPresent
+        )
+        
+        let accessTokenInfo = AccessTokenInfo()
+        accessTokenInfo.transactionProcessingAccountName = "GP API Exchange Retail"
+        accessTokenInfo.riskAssessmentAccountName = "EOS_RiskAssessment"
+        gpApiConfig.accessTokenInfo = accessTokenInfo
+        try? ServicesContainer.configureService(config: gpApiConfig)
+    }
+    
     private func initCreditTrackData(_ entryMethod: EntryMethod? = .swipe) {
         creditTrackData = CreditTrackData()
         creditTrackData?.value =

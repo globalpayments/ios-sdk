@@ -17,9 +17,20 @@ public class CommercialData {
     public var poNumber: String?
     public var supplierReferenceNumber: String?
     public var summaryCommodityCode: String?
-    public var taxAmount: NSDecimalNumber?
+    public var taxAmounts: NSDecimalNumber?
     public var taxType: TaxType
     public var vatInvoiceNumber: String?
+    public var merchantId: String?
+    public var accountId: String?
+    public var type: String?
+    public var channel: String?
+    public var amount: NSDecimalNumber?
+    public var currency: String?
+    public var country: String?
+    public var captureMode: String?
+    public var reference: String?
+    public var taxMode: String?
+    public var paymentMethod: PaymentMethod?
 
     public init(taxType: TaxType, commercialIndicator: CommercialIndicator = .level_III) {
         self.taxType = taxType

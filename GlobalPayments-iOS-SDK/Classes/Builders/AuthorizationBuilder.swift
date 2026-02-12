@@ -17,6 +17,7 @@ import Foundation
     var clientTransactionId: String?
     var convenienceAmount: NSDecimalNumber?
     var commercialRequest: Bool?
+    var commercialData: CommercialData?
     var currency: String?
     var customerId: String?
     var oneTimePayment: Bool?
@@ -47,6 +48,7 @@ import Foundation
     var offlineAuthCode: String?
     var orderId: String?
     var orderDetails: OrderDetails?
+    var payerDetails: PayerDetails?
     var paymentApplicationVersion: String?
     var paymentMethodUsageMode: PaymentMethodUsageMode?
     var posSequenceNumber: String?
@@ -366,6 +368,26 @@ import Foundation
         self.commercialRequest = commercialRequest
         return self
     }
+     
+     public func withCommercialData(_ commercialData: CommercialData) -> AuthorizationBuilder {
+         self.commercialData = commercialData
+         if commercialData.commercialIndicator == .level_II {
+             transactionModifier = .levelII
+         } else {
+             transactionModifier = .levelIII
+         }
+         return self
+     }
+     
+     public func withPayerDetails(payerDetails: PayerDetails) -> AuthorizationBuilder {
+         self.payerDetails = payerDetails
+         return self
+     }
+     
+     public func withOrderDetails(orderDetails: OrderDetails) -> AuthorizationBuilder {
+         self.orderDetails = orderDetails
+         return self
+     }
 
     /// Sets the message authentication code; where applicable.
     /// - Parameter messageAuthenticationCode: A special block of encrypted data added to every transaction when it is sent from the payment terminal to the payment processor

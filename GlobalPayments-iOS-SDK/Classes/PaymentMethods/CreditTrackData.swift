@@ -23,6 +23,8 @@ public class CreditTrackData: Credit, TrackData {
             }
         }
     }
+    public var category: String?
+    public var avsPostalcode: String?
     public var entryMethod: EntryMethod?
     public var purchaseDeviceSequenceNumber: String?
 }

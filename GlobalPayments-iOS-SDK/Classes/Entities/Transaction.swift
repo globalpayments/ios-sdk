@@ -54,7 +54,7 @@ public class Transaction: NSObject {
     public var cardType: String?
     /// The last four digits of the card number used in the transaction.
     public var cardLast4: String?
-    
+    public var commercialLevel: String?
     public var cardDetails: Card?
     
     @available(*, deprecated, message: "Will soon be replaced with cardDetails.cardNumber")

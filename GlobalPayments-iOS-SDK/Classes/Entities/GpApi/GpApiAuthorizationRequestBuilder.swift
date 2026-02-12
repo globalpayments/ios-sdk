@@ -204,7 +204,69 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             currencyDoc.set(for: "id", value: dccId)
             payload.set(for: "currency_conversion", doc: currencyDoc)
         }
-        
+
+        if let commercialData = builder.commercialData {
+            payload.set(for: "merchant_id", value: commercialData.merchantId)
+            payload.set(for: "tax_amount", value: commercialData.taxAmounts?.toNumericCurrencyString())
+            payload.set(for: "tax_mode", value: commercialData.taxMode)
+            payload.set(for: "purchase_order_number", value: commercialData.poNumber)
+            
+            // payment_method
+            if let paymentMethod = commercialData.paymentMethod as? CommercialPaymentMethod {
+                let paymentMethodDoc = JsonDoc()
+                paymentMethodDoc.set(for: "first_name", value: paymentMethod.firstName)
+                paymentMethodDoc.set(for: "last_name", value: paymentMethod.lastName)
+                if let card = paymentMethod.card {
+                    let cardDoc = JsonDoc()
+                    cardDoc.set(for: "category", value: card.category)
+                    cardDoc.set(for: "avs_postal_code", value: card.avsPostalCode)
+                    paymentMethodDoc.set(for: "card", doc: cardDoc)
+                }
+                payload.set(for: "payment_method", doc: paymentMethodDoc)
+            }
+
+            // order
+            if let order = builder.orderDetails {
+                let orderDoc = JsonDoc()
+                if !order.taxes.isEmpty {
+                    var taxesArray: [JsonDoc] = []
+                    for tax in order.taxes {
+                        let taxDoc = JsonDoc()
+                        taxDoc.set(for: "type", value: tax.type)
+                        taxDoc.set(for: "amount", value: tax.amount)
+                        taxesArray.append(taxDoc)
+                    }
+                    orderDoc.set(for: "taxes", values: taxesArray)
+                }
+                orderDoc.set(for: "local_tax_percentage", value: order.localTaxPercentage)
+                orderDoc.set(for: "buyer_recipient_name", value: order.buyerRecipientName)
+                orderDoc.set(for: "state_tax_id_reference", value: order.stateTaxIdReference)
+                orderDoc.set(for: "merchant_tax_id_reference", value: order.merchantTaxIdReference)
+                payload.set(for: "order", doc: orderDoc)
+            }
+
+            // payer
+            if let payer = builder.payerDetails {
+                let payerDoc = JsonDoc()
+                payerDoc.set(for: "tax_id_reference", value: payer.taxIdReference)
+                payerDoc.set(for: "name", value: payer.name)
+                payerDoc.set(for: "email", value: payer.email)
+                payerDoc.set(for: "country", value: payer.country)
+                payerDoc.set(for: "landline_phone", value: payer.landlinePhone)
+                payerDoc.set(for: "mobile_phone", value: payer.mobilePhone)
+                let billingAddress = payer.billingAddress
+                let addressDoc = JsonDoc()
+                addressDoc.set(for: "line_1", value: billingAddress?.streetAddress1)
+                addressDoc.set(for: "line_2", value: billingAddress?.streetAddress2)
+                addressDoc.set(for: "city", value: billingAddress?.city)
+                addressDoc.set(for: "state", value: billingAddress?.state)
+                addressDoc.set(for: "postal_code", value: billingAddress?.postalCode)
+                addressDoc.set(for: "country", value: billingAddress?.country)
+                payerDoc.set(for: "billing_address", doc: addressDoc)
+                payload.set(for: "payer", doc: payerDoc)
+            }
+        }
+
         payload.set(for: "merchant_category", value: builder.merchantCategory?.rawValue);
         
         if let masked = builder.maskedDataResponse {

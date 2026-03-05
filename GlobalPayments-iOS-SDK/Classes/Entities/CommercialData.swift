@@ -30,7 +30,7 @@ public class CommercialData {
     public var captureMode: String?
     public var reference: String?
     public var taxMode: String?
-    public var paymentMethod: PaymentMethod?
+    public var paymentMethod: CommercialPaymentMethod?
 
     public init(taxType: TaxType, commercialIndicator: CommercialIndicator = .level_III) {
         self.taxType = taxType

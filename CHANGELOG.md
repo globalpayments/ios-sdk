@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.1.3 (02/12/2026)
+## Latest - v3.1.4 (03/05/2026)
+
+#### Enhancements
+
+- GP-API: Added category and avs postal code level2 data from GP-API
+
+## v3.1.3 (02/12/2026)
 
 #### Enhancements
 

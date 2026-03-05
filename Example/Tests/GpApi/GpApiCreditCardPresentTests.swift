@@ -744,22 +744,25 @@ class GpApiCreditCardPresentTests: XCTestCase {
         let orderDetails =  OrderDetails()
         let payerDetails = PayerDetails()
         var errorResponse: Error?
-        let card = CreditTrackData()
-        card.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
-        card.entryMethod = .swipe
-        card.category = "CORPORATE"
-        card.avsPostalcode = "75024"
-
+        
         let commercialData = CommercialData(taxType: TaxType.salesTax, commercialIndicator: CommercialIndicator.level_II)
         commercialData.poNumber = "67098765"
+        commercialData.accountId = "TRA_57d6a551d9fa418193acb94e194600bb"
+        commercialData.type = "SALE"
+        commercialData.channel = "CP"
+        commercialData.amount =  NSDecimalNumber(string: "11234")
+        commercialData.currency = "USD"
+        commercialData.country = "US"
+        commercialData.captureMode = "AUTO"
+        commercialData.reference = "TRANS-2024082721424800059"
         commercialData.taxAmounts = NSDecimalNumber(string: "100")
         commercialData.merchantId = "MER_df9b8b21f7b74caabc804ceea35e611f"
         // add extra fields for commercial payload
         commercialData.taxMode = "SALES_TAX"
         // payment method details
-        let pmCard = CommercialCard(category: "CORPORATE", avsPostalCode: "75024")
-        let pm = CommercialPaymentMethod(firstName: "Jane", lastName: "Doe", card: pmCard)
-        commercialData.paymentMethod = pm as? any PaymentMethod
+        let pmCard = CommercialCard(category: "CORPORATE", avsPostalCode: "75024", track: "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?")
+        let pm = CommercialPaymentMethod(firstName: "Jane", lastName: "Doe", entryMethod: .swipe, card: pmCard)
+        commercialData.paymentMethod = pm
         
         // order details
         let taxes = [
@@ -786,7 +789,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
         payerDetails.billingAddress = addr
         payerDetails.mobilePhone = "7708298755"
         
-        card.charge(amount: 10.0)
+        card.charge(amount: 112.34)
             .withCurrency("USD")
             .withCommercialRequest(true)
             .withCommercialData(commercialData)
@@ -802,6 +805,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
         
         XCTAssertNotNil(responseCharge)
         XCTAssertNil(errorResponse)
+        XCTAssertEqual(responseCharge?.categoryType, "BUSINESS")
         XCTAssertEqual(responseCharge?.commercialLevel, "LEVEL_2")
     }
     

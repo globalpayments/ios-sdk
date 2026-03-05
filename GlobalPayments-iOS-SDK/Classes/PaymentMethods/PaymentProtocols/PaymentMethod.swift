@@ -7,21 +7,25 @@ public protocol PaymentMethod: NSObject {
 public class CommercialPaymentMethod: NSObject {
     public var firstName: String
     public var lastName: String
+    public var entryMethod: EntryMethod?
     public var card: CommercialCard?
 
-    public init(firstName: String, lastName: String, card: CommercialCard?) {
+    public init(firstName: String, lastName: String, entryMethod: EntryMethod?, card: CommercialCard?) {
         self.firstName = firstName
         self.lastName = lastName
         self.card = card
+        self.entryMethod = entryMethod
     }
 }
 
 public class CommercialCard: NSObject {
     public var category: String
     public var avsPostalCode: String
+    public var track: String?
 
-    public init(category: String, avsPostalCode: String) {
+    public init(category: String, avsPostalCode: String, track: String? = nil) {
         self.category = category
+        self.track = track
         self.avsPostalCode = avsPostalCode
     }
 }

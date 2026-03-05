@@ -92,11 +92,13 @@ public struct GpApiMapping {
                 transaction.cardLast4 = card.getValue(key: "masked_number_last4")
                 transaction.cardType = card.getValue(key: "brand")
                 transaction.cardBrandTransactionId = card.getValue(key: "brand_reference")
+                transaction.cardDetails?.avsPostalCode = card.getValue(key: "avs_postal_code")
                 transaction.cvnResponseMessage = card.getValue(key: "cvv_result")
                 transaction.avsResponseCode = card.getValue(key: "avs_postal_code_result") ?? .empty
                 transaction.avsAddressResponse = card.getValue(key: "avs_address_result") ?? .empty
                 transaction.avsResponseMessage = card.getValue(key: "avs_action") ?? .empty
                 transaction.commercialLevel = card.getValue(key: "commercial_level") ?? .empty
+                transaction.categoryType = card.getValue(key: "category")
                 
                 if let provider: JsonDoc = card.get(valueFor: "provider") {
                     transaction.cardIssuerResponse = mapCardIssuerResponse(provider)
@@ -878,6 +880,8 @@ public struct GpApiMapping {
                             card.brand = cardJson.getValue(key: "brand")
                             card.maskedCardNumber = cardJson.getValue(key: "masked_number_last4")
                             card.brandReference = cardJson.getValue(key: "brand_reference")
+                            card.category = cardJson.getValue(key: "category")
+                            card.avsPostalCode = cardJson.getValue(key: "avs_postal_code")
                             installment.Card = card
                             installment.AuthCode = cardJson.getValue(key: "authcode")
                         }

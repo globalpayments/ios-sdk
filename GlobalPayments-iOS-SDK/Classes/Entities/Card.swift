@@ -27,4 +27,6 @@ public class Card: NSObject {
     public var funding: String?
     public var country: String?
     public var commercialLevel: String?
+    public var category: String?
+    public var avsPostalCode: String?
 }

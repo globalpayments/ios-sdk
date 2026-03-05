@@ -212,13 +212,15 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             payload.set(for: "purchase_order_number", value: commercialData.poNumber)
             
             // payment_method
-            if let paymentMethod = commercialData.paymentMethod as? CommercialPaymentMethod {
+            if let paymentMethod = commercialData.paymentMethod {
                 let paymentMethodDoc = JsonDoc()
                 paymentMethodDoc.set(for: "first_name", value: paymentMethod.firstName)
                 paymentMethodDoc.set(for: "last_name", value: paymentMethod.lastName)
+                paymentMethodDoc.set(for: "entry_mode", value: paymentMethod.entryMethod?.rawValue)
                 if let card = paymentMethod.card {
                     let cardDoc = JsonDoc()
                     cardDoc.set(for: "category", value: card.category)
+                    cardDoc.set(for: "track", value: card.track)
                     cardDoc.set(for: "avs_postal_code", value: card.avsPostalCode)
                     paymentMethodDoc.set(for: "card", doc: cardDoc)
                 }

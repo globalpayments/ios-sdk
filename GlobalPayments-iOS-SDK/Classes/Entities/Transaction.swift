@@ -56,6 +56,7 @@ public class Transaction: NSObject {
     public var cardLast4: String?
     public var commercialLevel: String?
     public var cardDetails: Card?
+    public var categoryType: String?
     
     @available(*, deprecated, message: "Will soon be replaced with cardDetails.cardNumber")
     /// The card number used in the transaction.

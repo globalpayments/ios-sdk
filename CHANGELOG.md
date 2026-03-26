@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.1.4 (03/05/2026)
+## Latest - v3.1.5 (03/26/2026)
+
+#### Enhancements
+
+- GP-API: Added EU Data Residency Support
+
+## v3.1.4 (03/05/2026)
 
 #### Enhancements
 

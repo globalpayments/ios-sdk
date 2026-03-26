@@ -78,10 +78,14 @@ public class GpApiConfig: GatewayConfig {
 
     override func configureContainer(services: ConfiguredServices) {
         if serviceUrl.isNilOrEmpty {
-            if environment == .test {
-                serviceUrl = ServiceEndpoints.gpApiTest.rawValue
+            if dataResidency == .eu {
+                serviceUrl = environment == .test ? ServiceEndpoints.gpApiTestEU.rawValue : ServiceEndpoints.gpApiProduction.rawValue
             } else {
-                serviceUrl = ServiceEndpoints.gpApiProduction.rawValue
+                if environment == .test {
+                    serviceUrl = ServiceEndpoints.gpApiTest.rawValue
+                } else {
+                    serviceUrl = ServiceEndpoints.gpApiProduction.rawValue
+                }
             }
         }
         

@@ -8,6 +8,7 @@ public class Configuration {
     /// Gateway service URL
     public var serviceUrl: String?
     var validated: Bool = false
+    public var dataResidency = DataResidency.none
 
     func configureContainer(services: ConfiguredServices) { }
 

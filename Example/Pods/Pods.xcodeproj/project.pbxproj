@@ -283,6 +283,7 @@
 		C7A546F62EB22B830004A5B3 /* PorticoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546F52EB22B830004A5B3 /* PorticoConfig.swift */; };
 		C7A546F82EB22BE90004A5B3 /* XMLElementTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A546F72EB22BE90004A5B3 /* XMLElementTree.swift */; };
 		C7B7C2B92EC7409900606350 /* PorticoTokenConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B7C2B82EC7409900606350 /* PorticoTokenConfig.swift */; };
+		C7BC02742F641A9D00E86F39 /* DataResidency.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BC02732F641A9D00E86F39 /* DataResidency.swift */; };
 		C84FFF13668DAC61FDE04592118C59D2 /* DccRateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258ECC17A7C0A8C9FD254F62287D9678 /* DccRateType.swift */; };
 		C8C404E3A76EF639AA02A4417A9F6B72 /* StoredPaymentMethodStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89E5ADFF790D6DD6E910347EC1CD461 /* StoredPaymentMethodStatus.swift */; };
 		CA9A3449A73ED738452734793CE365F8 /* MerchantDataCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3CADA360321E05171DBEDAC0241A32 /* MerchantDataCollection.swift */; };
@@ -659,6 +660,7 @@
 		C7A546F52EB22B830004A5B3 /* PorticoConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoConfig.swift; sourceTree = "<group>"; };
 		C7A546F72EB22BE90004A5B3 /* XMLElementTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLElementTree.swift; sourceTree = "<group>"; };
 		C7B7C2B82EC7409900606350 /* PorticoTokenConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoTokenConfig.swift; sourceTree = "<group>"; };
+		C7BC02732F641A9D00E86F39 /* DataResidency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataResidency.swift; sourceTree = "<group>"; };
 		C82A0093F773BA60818DDF7E425B4842 /* SearchCriteriaBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SearchCriteriaBuilder.swift; sourceTree = "<group>"; };
 		C85B51D82EEBDBA36F49DCFCBA964F2B /* RecurringBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RecurringBuilder.swift; sourceTree = "<group>"; };
 		C85C51668E5CA376169725E1FE1C7F5C /* AdditionalTaxDetails.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AdditionalTaxDetails.swift; sourceTree = "<group>"; };
@@ -1022,6 +1024,7 @@
 				FD219A6838E815E8B80CE115E7F44237 /* UserType.swift */,
 				680465156FFEC0BB1AFF9C855D11B1E9 /* VoidReason.swift */,
 				C7A546E32EB2292F0004A5B3 /* BankList.swift */,
+				C7BC02732F641A9D00E86F39 /* DataResidency.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1671,6 +1674,7 @@
 				196828D5EF1C0A69A1161DEF9E08CF45 /* EBTTrackData.swift in Sources */,
 				2969D0A78C6737231ADADD8F4D6E5329 /* eCheck.swift in Sources */,
 				09380E6EEB82DF2DD25C6DA339DB3721 /* EcommerceInfo.swift in Sources */,
+				C7BC02742F641A9D00E86F39 /* DataResidency.swift in Sources */,
 				DD10C1F72847EEF8F0E78C89B27C5416 /* Editable.swift in Sources */,
 				5A9F0151F9DC983EA14FF6F4A5BBEBD8 /* EmailReceipt.swift in Sources */,
 				348484A9FE1DE1ED5E26C4ED806E791B /* EmvChipCondition.swift in Sources */,

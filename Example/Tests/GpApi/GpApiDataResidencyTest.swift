@@ -54,6 +54,23 @@ final class GpApiDataResidencyTest: XCTestCase {
         try? ServicesContainer.configureService(config: config)
     }
     
+    
+    func testDataResidencyEuQaRoutesToQaEuEndpoint() {
+        let config = GpApiConfig(
+            appId: EU_APP_ID,
+            appKey: EU_APP_KEY)
+        config.channel = .cardNotPresent
+        config.dataResidency = .eu
+        config.environment = .qa
+        
+        let accessTokenInfo =  AccessTokenInfo()
+        accessTokenInfo.transactionProcessingAccountName = "internet"
+        config.accessTokenInfo = accessTokenInfo
+        try? ServicesContainer.configureService(config: config)
+
+        XCTAssertEqual(ServiceEndpoints.gpApiQAEU.rawValue,config.serviceUrl )
+    }
+    
     func testDataResidencyEU() {
         configureDataResidency()
         

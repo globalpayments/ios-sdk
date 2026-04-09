@@ -21,4 +21,5 @@ public enum ServiceEndpoints: String {
     case gpApiTest                  = "https://apis.sandbox.globalpay.com/ucp"
     case gpApiTestEU                = "https://apis.sandbox.eu.globalpay.com/ucp"
     case gpApiProductionEU          = "https://apis.eu.globalpay.com/ucp"
+    case gpApiQAEU                  = "https://apis.qa.eu.globalpay.com/ucp"
 }

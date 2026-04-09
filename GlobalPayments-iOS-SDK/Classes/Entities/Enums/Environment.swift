@@ -3,6 +3,7 @@ import Foundation
 public enum Environment: String, CaseIterable {
     case test
     case production
+    case qa
     
     public init?(value: String?) {
         guard let value = value,

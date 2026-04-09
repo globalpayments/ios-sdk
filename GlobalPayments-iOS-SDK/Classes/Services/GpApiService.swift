@@ -31,6 +31,8 @@ public class GpApiService {
             connector.serviceUrl = ServiceEndpoints.gpApiProduction.rawValue
         case .test:
             connector.serviceUrl = ServiceEndpoints.gpApiTest.rawValue
+        case .qa:
+            connector.serviceUrl = ServiceEndpoints.gpApiQAEU.rawValue
         }
 
         connector.getAccessToken { tokenResponse, error in

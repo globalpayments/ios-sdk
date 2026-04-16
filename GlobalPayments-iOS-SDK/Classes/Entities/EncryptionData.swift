@@ -14,6 +14,7 @@ public class EncryptionData: NSObject {
     /// where applicable.
     public var ktb: String?
 
+    public var type: EncryptionType?
     public init(version: String,
                 trackNumber: String? = nil,
                 ksn: String? = nil,
@@ -42,4 +43,9 @@ public class EncryptionData: NSObject {
             ktb: ktb
         )
     }
+}
+
+public enum EncryptionType: String {
+    case binary = "BINARY"
+    case ascii = "ASCII"
 }

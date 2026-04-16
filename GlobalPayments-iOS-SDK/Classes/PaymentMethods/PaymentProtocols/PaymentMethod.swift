@@ -22,10 +22,12 @@ public class CommercialCard: NSObject {
     public var category: String
     public var avsPostalCode: String
     public var track: String?
+    public var trackNumber: String?
 
-    public init(category: String, avsPostalCode: String, track: String? = nil) {
+    public init(category: String, avsPostalCode: String, track: String?, trackNumber: String? = nil) {
         self.category = category
         self.track = track
         self.avsPostalCode = avsPostalCode
+        self.trackNumber = trackNumber
     }
 }

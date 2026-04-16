@@ -160,6 +160,21 @@ public class CardUtils {
         } else if let track = builder.paymentMethod as? TrackData {
             card.set(for: "track", value: track.value)
 
+            if let trackNumber = track.trackNumber {
+                let trackNumberString: String
+                switch trackNumber {
+                case .trackTwo:
+                    trackNumberString = "2"
+                case .trackOne:
+                    trackNumberString = "1"
+                case .bothOneAndTwo:
+                    trackNumberString = "BOTH"
+                case .unknown:
+                    trackNumberString = "UNKNOWN"
+                }
+                card.set(for: "track_number", value: trackNumberString)
+            }
+
             if builder.transactionType == .sale || builder.transactionType == .refund {
                 if track.value == nil {
                     card.set(for: "number", value: track.pan)

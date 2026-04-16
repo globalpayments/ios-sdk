@@ -736,6 +736,110 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertEqual("14", trackDataChargeResponse?.cardIssuerResponse?.result)
     }
     
+    func test_creditTrackData_saleSwipe_chipEMV_encryption_capture() throws {
+            // GIVEN
+            let exp = expectation(description: "Sale swipe + EMV tag + encryption should capture")
+            var response: Transaction?
+            var receivedError: Error?
+
+            let creditTrackData = CreditTrackData()
+            creditTrackData.value = "tfVZYYHsp4H1Pwb1u+qaZcQI+WqvTcuh"
+            creditTrackData.trackNumber = .trackTwo
+            creditTrackData.entryMethod = .swipe
+            
+
+        let encryptionData = EncryptionData(version: "05")
+            encryptionData.ksn = "//89P4EAKAADiA=="
+            encryptionData.type = .binary
+            creditTrackData.encryptionData = encryptionData
+
+            let tagData = "4F07A0000000031010500B56495341204352454449545F201A554154205553412F5465737420436172642030332020202020205F24033112315F280208405F2A0208405F34010182021C008407A00000000310108A025A31950580800080009A032604099B0268009C01009F02060000000100009F03060000000000009F0607A00000000310109F0702FF009F080200969F0902008C9F0D05B0508088009F0E0500000000009F0F05B0508098009F100706010A03A0B8009F120B56697361204372656469749F1A0208409F1C0831313232333334349F1E0831353030303037389F2608584C2C03E79708FD9F2701809F33036008C89F34031F00029F3501229F360201219F370462D358019F3901059F40057000A0A0019F410400000618"
+
+            // WHEN
+            creditTrackData
+                .charge(amount: 1.0)
+                .withCurrency("USD")
+                .withTagData(tagData)
+                .execute { txn, err in
+                    response = txn
+                    receivedError = err
+                    exp.fulfill()
+                }
+
+            // THEN
+            wait(for: [exp], timeout: 20.0)
+            try assertGatewayNotDown(receivedError)
+            XCTAssertNil(receivedError)
+            XCTAssertNotNil(response)
+
+            assertTransactionResponse(transaction: response, transactionStatus: .captured)
+    }
+    
+    func test_creditTrackData_saleSwipe_chipEMV_encryption_capture_zeroAmount() throws {
+        let exp = expectation(description: "Zero amount should fail")
+        var response: Transaction?
+        var receivedError: Error?
+
+        let creditTrackData = CreditTrackData()
+        creditTrackData.value = "tfVZYYHsp4H1Pwb1u+qaZcQI+WqvTcuh"
+        creditTrackData.trackNumber = .trackTwo
+        creditTrackData.entryMethod = .swipe
+
+        let encryptionData = EncryptionData(version: "05")
+        encryptionData.ksn = "//89P4EAKAADiA=="
+        encryptionData.type = .binary
+        creditTrackData.encryptionData = encryptionData
+
+        let tagData = "4F07A0000000031010"
+
+        creditTrackData
+            .charge(amount: 0.0)
+            .withCurrency("USD")
+            .withTagData(tagData)
+            .execute { txn, err in
+                response = txn
+                receivedError = err
+                exp.fulfill()
+            }
+
+        wait(for: [exp], timeout: 20.0)
+        XCTAssertNil(receivedError)
+        XCTAssertNotNil(response)
+        XCTAssertEqual("DECLINED", response?.responseCode)
+    }
+    
+    func test_creditTrackData_saleSwipe_chipEMV_encryption_No_Transaction() throws {
+        let exp = expectation(description: "Zero amount should fail")
+        var response: Transaction?
+        var receivedError: GatewayException?
+
+        let creditTrackData = CreditTrackData()
+        creditTrackData.value = "tfVZYYHsp4H1Pwb1u+qaZcQI+WqvTcuh"
+        creditTrackData.trackNumber = .trackTwo
+        creditTrackData.entryMethod = .swipe
+
+        let encryptionData = EncryptionData(version: "05")
+        encryptionData.ksn = "//89P4EAKAADiA=="
+        encryptionData.type = .binary
+        creditTrackData.encryptionData = encryptionData
+
+        creditTrackData
+            .charge(amount: 0.0)
+            .withCurrency("USD")
+            .execute { txn, err in
+                response = txn
+                receivedError = err as? GatewayException
+                exp.fulfill()
+            }
+
+        wait(for: [exp], timeout: 20.0)
+        XCTAssertNotNil(receivedError)
+        XCTAssertNil(response)
+        XCTAssertEqual("INVALID_REQUEST_DATA", receivedError?.responseCode)
+        XCTAssertEqual("40016", receivedError?.responseMessage)
+        XCTAssertEqual("Status Code: 400 - 8,Bad track data", receivedError?.message)
+    }
+    
     func testShouldReturnLevel2CommercialLevel_WhenLevelIIDataProvided() {
         
         setupLevelIIConfig()
@@ -865,5 +969,12 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertNotNil(transaction)
         XCTAssertEqual(expectedResponseCode, transaction?.responseCode)
         XCTAssertEqual(transactionStatus?.rawValue, transaction?.responseMessage)
+    }
+    
+    func assertGatewayNotDown(_ error: Error?) throws {
+        if let gatewayError = error as? GatewayException,
+           gatewayError.responseCode == "SYSTEM_ERROR_DOWNSTREAM" {
+            throw XCTSkip("Gateway is down: \(gatewayError.message ?? "")")
+        }
     }
 }

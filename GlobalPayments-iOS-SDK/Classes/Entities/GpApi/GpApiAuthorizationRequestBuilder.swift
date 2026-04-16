@@ -221,6 +221,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                     let cardDoc = JsonDoc()
                     cardDoc.set(for: "category", value: card.category)
                     cardDoc.set(for: "track", value: card.track)
+                    cardDoc.set(for: "track_number", value: card.trackNumber)
                     cardDoc.set(for: "avs_postal_code", value: card.avsPostalCode)
                     paymentMethodDoc.set(for: "card", doc: cardDoc)
                 }
@@ -304,14 +305,14 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             payload.set(for: "payer", doc: setPayerInformation(builder))
         }
         
-        if builder.paymentMethod is BNPL {
+        if builder.paymentMethod is BNPL || builder.paymentMethod is Credit {
             setOrderInformation(builder, requestBody: payload)
         }
         
         if builder.paymentMethod is AlternatePaymentMethod || builder.paymentMethod is BNPL || builder.paymentMethod is BankPayment {
             payload.set(for:"notifications", doc: setNotificationUrls(builder.paymentMethod))
         }
-        
+
         return payload
     }
 
@@ -542,6 +543,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         if let encryptionData = encryptable.encryptionData {
             let encryption = JsonDoc()
                 .set(for: "version", value: encryptionData.version)
+                .set(for: "type", value: encryptionData.type as? any Encodable)
             if !encryptionData.ktb.isNilOrEmpty {
                 encryption.set(for: "method", value: "KTB")
                 encryption.set(for: "info", value: encryptionData.ktb)
@@ -722,6 +724,18 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             order.set(for: "shipping_address", doc: shippingAddressDoc)
         }
 
+        if let supplementaryDataList = builder.orderSupplementaryData {
+            let supplementaryDataDocs = supplementaryDataList.map { item -> JsonDoc in
+                let doc = JsonDoc()
+                doc.set(for: "type", value: item.type)
+                doc.set(for: "fields", value: item.fields)
+                return doc
+            }
+            order.set(for: "supplementary_data", values: supplementaryDataDocs)
+        } else {
+            order.set(for: "supplementary_data", values: nil)
+        }
+        
         if (!requestBody.has(key: "order") && !order.keys.isEmpty) {
             requestBody.set(for: "order", doc: order)
         }

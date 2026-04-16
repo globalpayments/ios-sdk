@@ -198,29 +198,36 @@ class EmvUtils {
         guard let tagData = tagData?.uppercased() else {return nil}
 
         let rvalue = EmvData()
-
-        for var i in 1...tagData.count {
+        let tagDataCount = tagData.count
+        var i = 0
+        while i < tagDataCount {
+            // Tag name (2 or 4 chars)
+            guard i + 2 <= tagDataCount else { break }
             var tagName = tagData.substring(with: i..<(i+2))
             i += 2
             if ((UInt(tagName, radix: 16) ?? 0) & 0x1F) == 0x1F {
+                guard i + 2 <= tagDataCount else { break }
                 tagName += tagData.substring(with: i..<(i+2))
                 i += 2
             }
 
+            // Length (2 chars, possibly more)
+            guard i + 2 <= tagDataCount else { break }
             var lengthStr = tagData.substring(with: i..<(i+2))
             i += 2
             var length = Int(UInt(lengthStr, radix: 16) ?? 0)
             if length > 127 {
                 let bytesLength = length - 128
                 let limit = bytesLength * 2
+                guard i + limit <= tagDataCount else { break }
                 lengthStr = tagData.substring(with: i..<(i+limit))
-                i += (bytesLength * 2)
+                i += limit
                 length = Int(UInt(lengthStr, radix: 16) ?? 0)
             }
-            length *= 2
-
-            let value = tagData.substring(with: i..<(i+length))
-            i += length
+            let valueLen = length * 2
+            guard i + valueLen <= tagDataCount else { break }
+            let value = tagData.substring(with: i..<(i+valueLen))
+            i += valueLen
 
             if let blackTagName = blackList[tagName] {
                 rvalue.addRemovedTag(tag: tagName, length: lengthStr, value: value, description: blackTagName)
@@ -231,8 +238,7 @@ class EmvUtils {
                 } else if tagName == "95" {
                     let valueBuffer = value.bytes
                     let maskBuffer = "FC50FC2000".bytes
-
-                    for idx in 0...(valueBuffer.count-1) {
+                    for idx in 0..<(min(valueBuffer.count, maskBuffer.count)) {
                         if (valueBuffer[idx] & maskBuffer[idx]) != 0x00 {
                             rvalue.setStandInStatus(false, reason: "Invalid TVR status in byte \(idx + 1) of tag 95")
                         }
@@ -240,8 +246,7 @@ class EmvUtils {
                 } else if tagName == "9B" {
                     let valueBuffer = value.bytes
                     let maskBuffer = "E800".bytes
-
-                    for idx in 0...(valueBuffer.count - 1) {
+                    for idx in 0..<(min(valueBuffer.count, maskBuffer.count)) {
                         if (valueBuffer[idx] & maskBuffer[idx]) != maskBuffer[idx] {
                             rvalue.setStandInStatus(false, reason: "Invalid TSI status in byte \(idx + 1) of tag 9B")
                         }

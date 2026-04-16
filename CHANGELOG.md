@@ -1,6 +1,13 @@
 # Changelog
 
-## Latest - v3.1.6 (04/09/2026)
+## Latest - v3.1.7 (04/16/2026)
+
+#### Enhancements
+
+- GP-API: Added Visa AFTs supplementary data support
+- GP-API: Added EMV missing fields
+
+## v3.1.6 (04/09/2026)
 
 #### Enhancements
 

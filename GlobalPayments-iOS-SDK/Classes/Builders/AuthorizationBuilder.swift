@@ -79,6 +79,7 @@ import Foundation
     var transactionInitiator: StoredCredentialInitiator?
     var merchantCategory: MerchantCategory?
     var installmentData: InstallmentData?
+    var orderSupplementaryData: [OrderSupplementaryData]?
 
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
@@ -686,6 +687,11 @@ import Foundation
         return self
     }
 
+    public func withOrderSupplementaryData(_ orderSupplementaryData: [OrderSupplementaryData]?) -> AuthorizationBuilder {
+        self.orderSupplementaryData = orderSupplementaryData
+        return self
+    }
+     
     /// Executes the authorization builder against the gateway.
     /// - Returns: Transaction
     public override func execute(configName: String = "default",

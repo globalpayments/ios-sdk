@@ -112,4 +112,13 @@ public class ServicesContainer {
         }
         return installmentService
     }
+    
+    func getClient(_ name: String) throws -> PaymentGateway {
+        guard let gatewayConnector = configurations[name]?.gatewayConnector else {
+            throw ApiException(
+                message: "The specified configuration has not been configured for gateway processing."
+            )
+        }
+        return gatewayConnector
+    }
 }

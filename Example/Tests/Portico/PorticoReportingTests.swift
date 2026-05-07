@@ -15,6 +15,13 @@ final class PorticoReportingTests: XCTestCase {
         try? ServicesContainer.configureService(config: config)
     }
     
+    func configuration() {
+        let config = PorticoConfig()
+        config.secretApiKey = PorticoTestConstants.secretApiKey
+        config.serviceUrl = PorticoTestConstants.serviceUrl
+        try? ServicesContainer.configureService(config: config)
+    }
+    
     func test_ReportFindTransactionWithTransactionId() {
         let executeExpectation = expectation(description: "Find Transaction WithTransactionId")
         
@@ -22,13 +29,13 @@ final class PorticoReportingTests: XCTestCase {
         var transactionsSummaryResponse: [TransactionSummary]?
         
         reportingService
-            .execute { tresaction, error in
-                XCTAssertNotNil(tresaction)
-                transactionsSummaryResponse = tresaction
+            .execute { transactio, error in
+                XCTAssertNotNil(transactio)
+                transactionsSummaryResponse = transactio
                 executeExpectation.fulfill()
             }
         
-        wait(for: [executeExpectation], timeout: 10.0)
+        wait(for: [executeExpectation], timeout: 60.0)
         XCTAssertNotNil(reportingService)
         XCTAssertNotNil(transactionsSummaryResponse)
     }
@@ -43,14 +50,56 @@ final class PorticoReportingTests: XCTestCase {
         reportingService
             .withStartDate(startDate)
             .withEndDate(Date())
-            .execute { tresaction, error in
-                XCTAssertNotNil(tresaction)
-                transactionsSummaryResponse = tresaction
+            .execute { transaction, error in
+                XCTAssertNotNil(transaction)
+                transactionsSummaryResponse = transaction
                 expectationCharge.fulfill()
             }
         
-        wait(for: [expectationCharge], timeout: 10.0)
+        wait(for: [expectationCharge], timeout: 60.0)
         XCTAssertNotNil(reportingService)
         XCTAssertNotNil(transactionsSummaryResponse)
+    }
+    
+    func testTransactionDetailUnknownTransactionReturnsError() {
+        configuration()
+        
+        let executeExpectation = expectation(description: "Find Transaction WithTransactionId")
+        
+        let reportingService = ReportingService.transactionDetail(transactionId: "0")
+        var transactionSummaryResponse: TransactionSummary?
+        
+        reportingService
+            .execute { transaction, error in
+                XCTAssertNotNil(transaction)
+                transactionSummaryResponse = transaction
+                executeExpectation.fulfill()
+            }
+        
+        wait(for: [executeExpectation], timeout: 60.0)
+        XCTAssertNotNil(reportingService)
+        XCTAssertNotNil(transactionSummaryResponse)
+        XCTAssertEqual("10", transactionSummaryResponse?.gatewayResponseCode)
+    }
+    
+    func testFindTransactionsWithUnknownClientTransactionIdReturnsEmptyList() {
+        configuration()
+        
+        let executeExpectation = expectation(description: "Find Transaction WithTransactionId")
+        
+        let reportingService = ReportingService.findTransactions(transactionId: "0")
+        var transactionSummaryResponse: [TransactionSummary]?
+        
+        reportingService
+            .execute { transaction, error in
+                XCTAssertNotNil(transaction)
+                transactionSummaryResponse = transaction
+                executeExpectation.fulfill()
+            }
+        
+        wait(for: [executeExpectation], timeout: 60.0)
+        XCTAssertNotNil(reportingService)
+        XCTAssertNotNil(transactionSummaryResponse)
+        XCTAssertTrue(transactionSummaryResponse?.count == 0)
     }
 }

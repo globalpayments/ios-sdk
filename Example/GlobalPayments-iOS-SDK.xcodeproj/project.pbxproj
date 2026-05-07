@@ -25,6 +25,8 @@
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		65EDFBB32F766EEC0040265F /* PorticoGiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EDFBB22F766EEC0040265F /* PorticoGiftTests.swift */; };
+		65F198BD2F98FF1100411BCA /* PorticoBatchServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F198BB2F98FF1100411BCA /* PorticoBatchServiceTest.swift */; };
 		7B8CAD9F5506BBE1806C7B1B /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01691D0CD66B2865EC702F28 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */; };
 		8200B17625937A8B00042357 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B17525937A8B00042357 /* ImagePicker.swift */; };
 		8200B18925938E6500042357 /* DisputeDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */; };
@@ -457,11 +459,13 @@
 		C756FC1C2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C756FC1B2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift */; };
 		C75FE6512E5C556800E56004 /* GpApiBlikPayuCertification.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */; };
 		C77085892E4A6F76009EF348 /* GpApiPayUApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */; };
+		C7A5D9462F67FAA900EA23A7 /* PorticoCreditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A5D9452F67FAA900EA23A7 /* PorticoCreditTest.swift */; };
 		C7B7C2BB2EC7415F00606350 /* GpApiCreateTokenWithPorticoCredentialsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B7C2BA2EC7415F00606350 /* GpApiCreateTokenWithPorticoCredentialsTest.swift */; };
 		C7BC02722F641A3A00E86F39 /* GpApiDataResidencyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BC02712F641A3A00E86F39 /* GpApiDataResidencyTest.swift */; };
 		C7C0B8A82E40A31A002D6766 /* GpApiBlikApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */; };
 		C7C6114B2E81941900473FE6 /* GpApiInstallmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C6114A2E81941900473FE6 /* GpApiInstallmentTests.swift */; };
 		C7D8C73A2E8D2E2E007735E0 /* PorticoReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D8C7392E8D2E2E007735E0 /* PorticoReportingTests.swift */; };
+		C7E97DF02F6031A1003A7F7C /* PorticoSdkCertification.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E97DEF2F6031A1003A7F7C /* PorticoSdkCertification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -501,6 +505,8 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* GlobalPayments-iOS-SDK_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GlobalPayments-iOS-SDK_Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65EDFBB22F766EEC0040265F /* PorticoGiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoGiftTests.swift; sourceTree = "<group>"; };
+		65F198BB2F98FF1100411BCA /* PorticoBatchServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoBatchServiceTest.swift; sourceTree = "<group>"; };
 		8200B17525937A8B00042357 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeDocumentTableViewCell.swift; sourceTree = "<group>"; };
 		8200B18825938E6500042357 /* DisputeDocumentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisputeDocumentTableViewCell.xib; sourceTree = "<group>"; };
@@ -934,11 +940,13 @@
 		C756FC1B2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreateInstallmentTest.swift; sourceTree = "<group>"; };
 		C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBlikPayuCertification.swift; sourceTree = "<group>"; };
 		C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayUApmTest.swift; sourceTree = "<group>"; };
+		C7A5D9452F67FAA900EA23A7 /* PorticoCreditTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoCreditTest.swift; sourceTree = "<group>"; };
 		C7B7C2BA2EC7415F00606350 /* GpApiCreateTokenWithPorticoCredentialsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreateTokenWithPorticoCredentialsTest.swift; sourceTree = "<group>"; };
 		C7BC02712F641A3A00E86F39 /* GpApiDataResidencyTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDataResidencyTest.swift; sourceTree = "<group>"; };
 		C7C0B8A72E40A31A002D6766 /* GpApiBlikApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBlikApmTest.swift; sourceTree = "<group>"; };
 		C7C6114A2E81941900473FE6 /* GpApiInstallmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiInstallmentTests.swift; sourceTree = "<group>"; };
 		C7D8C7392E8D2E2E007735E0 /* PorticoReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoReportingTests.swift; sourceTree = "<group>"; };
+		C7E97DEF2F6031A1003A7F7C /* PorticoSdkCertification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoSdkCertification.swift; sourceTree = "<group>"; };
 		EA2A9C3B93C8FC57EA38BAB1 /* Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Tests/Pods-GlobalPayments-iOS-SDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		FACD782FBDE5DCC56D4DE51F /* Pods_GlobalPayments_iOS_SDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1089,6 +1097,14 @@
 				866C760D426DC19D7E0BA8F6 /* LICENSE.md */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		65F198BC2F98FF1100411BCA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				65F198BB2F98FF1100411BCA /* PorticoBatchServiceTest.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		8200B17925938D3700042357 /* Cells */ = {
@@ -2409,9 +2425,21 @@
 		C7D8C7382E8D2E11007735E0 /* Portico */ = {
 			isa = PBXGroup;
 			children = (
+				65F198BC2F98FF1100411BCA /* Services */,
 				C7D8C7392E8D2E2E007735E0 /* PorticoReportingTests.swift */,
+				C7A5D9452F67FAA900EA23A7 /* PorticoCreditTest.swift */,
+				C7E97DEE2F603187003A7F7C /* Certification */,
+				65EDFBB22F766EEC0040265F /* PorticoGiftTests.swift */,
 			);
 			path = Portico;
+			sourceTree = "<group>";
+		};
+		C7E97DEE2F603187003A7F7C /* Certification */ = {
+			isa = PBXGroup;
+			children = (
+				C7E97DEF2F6031A1003A7F7C /* PorticoSdkCertification.swift */,
+			);
+			path = Certification;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3041,6 +3069,7 @@
 				82CF9A88257A868C00B7CC18 /* StringExtensions.swift in Sources */,
 				824451C124E1801D0080D06B /* GpApiDebitTests.swift in Sources */,
 				82FAF8E42535B2B500B10401 /* ResouceLoader.swift in Sources */,
+				65F198BD2F98FF1100411BCA /* PorticoBatchServiceTest.swift in Sources */,
 				8252038C24E2A72000784248 /* GpApiEbtTests.swift in Sources */,
 				82CF9A81257A60C400B7CC18 /* GpApiMappingTests.swift in Sources */,
 				82883A63257E450D00914499 /* GpApiSdkCertification.swift in Sources */,
@@ -3055,6 +3084,7 @@
 				302D583D28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift in Sources */,
 				C7C6114B2E81941900473FE6 /* GpApiInstallmentTests.swift in Sources */,
 				82F9A57725B72BAD00B5E3E1 /* OptionalsExtension.swift in Sources */,
+				65EDFBB32F766EEC0040265F /* PorticoGiftTests.swift in Sources */,
 				8224884525E5381B001EAF3D /* GpApiCreditCardPresentTests.swift in Sources */,
 				824451BC24E150410080D06B /* GpApiReportingDisputesTests.swift in Sources */,
 				A506E86C29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift in Sources */,
@@ -3077,6 +3107,8 @@
 				82447E9125BAE2ED003F816D /* GpApi3DSecureTests.swift in Sources */,
 				C756FC1C2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift in Sources */,
 				C77085892E4A6F76009EF348 /* GpApiPayUApmTest.swift in Sources */,
+				C7E97DF02F6031A1003A7F7C /* PorticoSdkCertification.swift in Sources */,
+				C7A5D9462F67FAA900EA23A7 /* PorticoCreditTest.swift in Sources */,
 				8270C0CD26303B0700464B75 /* GpApiStoredPaymentMethodReportingTests.swift in Sources */,
 				A5FC78482A82722100BBD524 /* GpApiOpenBankingTest.swift in Sources */,
 				8241F6C0264C202E00FE514D /* AcsResponse.swift in Sources */,

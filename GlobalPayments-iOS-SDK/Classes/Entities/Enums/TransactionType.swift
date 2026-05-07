@@ -97,4 +97,6 @@ public struct TransactionType: OptionSet, Hashable {
     public static let transferFunds          = TransactionType(rawValue: 1 << 45)
     
     public static let uploadDocument         = TransactionType(rawValue: 1 << 46)
+    
+    public static let surcharge              = TransactionType(rawValue: 1 << 47)
 }

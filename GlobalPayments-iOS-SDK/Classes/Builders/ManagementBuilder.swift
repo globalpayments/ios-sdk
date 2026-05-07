@@ -62,6 +62,9 @@ import Foundation
     var type: PayByLinkType?
     var reference: String?
     var fundsData: FundsData?
+    var surchargeAmtInfo: String?
+    var gatewayTransactionId: String?
+    var transactionDescription: String?
 
     /// Sets the current transaction's amount.
     /// - Parameter amount: The amount
@@ -247,6 +250,39 @@ import Foundation
         self.fundsData = data
         return self
     }
+     
+     public func withSurchargeAmtInfo(_ value: String) -> ManagementBuilder {
+        self.surchargeAmtInfo = value
+        return self
+    }
+     
+     public func withGatewayTransactionId(_ value: String) -> ManagementBuilder {
+        self.gatewayTransactionId = value
+        return self
+    }
+     
+     public func withTransactionDescription(_ value: String) -> ManagementBuilder {
+        self.transactionDescription = value
+        return self
+    }
+     
+    public func withTaxType(_ value: TaxType) -> ManagementBuilder {
+        self.transactionModifier = .levelII
+        self.taxType = value
+        return self
+    }
+     
+    public func withTaxAmount(_ value: NSDecimalNumber) -> ManagementBuilder {
+        self.transactionModifier = .levelII
+        self.taxAmount = value
+        return self
+    }
+     
+    public func withPoNumber(_ value: String) -> ManagementBuilder {
+         self.transactionModifier = .levelII
+         self.poNumber = value
+         return self
+     }
 
     public override func execute(configName: String = "default",
                                  completion: ((Transaction?, Error?) -> Void)?) {
@@ -316,4 +352,9 @@ extension ManagementBuilder: CustomReflectable {
             ]
         )
     }
+}
+
+extension ManagementBuilder {
+    // TODO: - will proceed on next implementation
+    public func edit() {}
 }

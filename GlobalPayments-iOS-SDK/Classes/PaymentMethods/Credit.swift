@@ -86,7 +86,14 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     public func verify() -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .verify, paymentMethod: self)
     }
-
+    
+    /// Creates and returns a builder for performing surcharge eligibility lookup operations.
+    /// This builder is used to determine if a transaction is eligible for surcharge fees.
+    /// - Returns: A configured `SurchargeEligibilityLookupRequestBuilder` instance with surcharge transaction type.
+     func surcharge() -> SurchargeEligibilityLookupBuilder {
+         return SurchargeEligibilityLookupBuilder(transactionType: .surcharge, paymentMethod: self)
+    }
+   
     public func tokenize(configName: String = "default", paymentMethodUsageMode: PaymentMethodUsageMode = .multiple, completion: ((String?, Error?) -> Void)?) {
         tokenize(validateCard: true, configName: configName, paymentMethodUsageMode: paymentMethodUsageMode, completion: completion)
     }
@@ -104,6 +111,12 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
             .execute(configName: configName, completion: { transaction, error in
                 completion?(transaction?.token, error)
             })
+    }
+    
+    public func edit() -> ManagementBuilder {
+        let builder = ManagementBuilder(transactionType: TransactionType.edit)
+        builder.paymentMethod = self
+        return builder
     }
 
     /// Updates the token expiry date with the values proced to the card object

@@ -35,15 +35,12 @@ public class GiftCard: NSObject, PaymentMethod, PrePaid, Balanceable, Reversable
         }
     }
     /// The gift card's track data
-    public var trackData: String? {
-        didSet(newValue) {
-            self.trackData = newValue
-            self.valueType = "TrackData"
-        }
-    }
+    public var trackData: String?
     public var trackNumber: TrackNumber?
     public var value: String?
     public var valueType: String?
+    /// The card's encryption data; where applicable.
+    public var encryptionData: EncryptionData?
 
     /// Adds an alias to to an existing gift card.
     /// - Parameter phoneNumber: The phone number to add as an alias

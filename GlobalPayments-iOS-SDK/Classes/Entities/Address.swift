@@ -58,4 +58,8 @@ public class Address: NSObject {
         self.postalCode = postalCode
         self.country = country
     }
+    
+    public func setState(value: String) {
+        self.province = value
+    }
 }

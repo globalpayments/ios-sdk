@@ -223,6 +223,10 @@ class GpApiConnector: RestGateway {
 // MARK: - PaymentGateway
 
 extension GpApiConnector: PaymentGateway {
+    func processSurchargeEligibilityLookup(_ builder: SurchargeEligibilityLookupBuilder, completion: ((Transaction?, (any Error)?) -> Void)?) {
+       
+    }
+    
 
     func processAuthorization(_ builder: AuthorizationBuilder,
                               completion: ((Transaction?, Error?) -> Void)?) {

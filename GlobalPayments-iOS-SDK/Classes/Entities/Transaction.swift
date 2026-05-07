@@ -187,6 +187,14 @@ public class Transaction: NSObject {
     public var bankPaymentResponse: BankPaymentResponse?
     public var transfersFundsAccounts: [FundsAccountDetails]?
     public var installmentData: InstallmentData?
+    public var duplicateData: PorticoDuplicateData?
+    public var serviceName: String?
+    public var gatewayTransactionId: String?
+    public var isSurchargeable: String?
+    public var surchargeAmtInfo: String?
+    public var bankRespCode: String?
+    public var gatewayResponseMessage: String?
+    public var gatewayResponseCode: String?
 
     /// Creates a `Transaction` object from a stored transaction ID.
     /// Used to expose management requests on the original transaction at a later date/time.
@@ -293,6 +301,15 @@ public class Transaction: NSObject {
         return ManagementBuilder(transactionType: .refund)
             .withPaymentMethod(transactionReference)
             .withAmount(amount)
+    }
+    
+   public func voidTransaction(amount: NSDecimalNumber? = nil) -> ManagementBuilder {
+        guard let transactionReference = transactionReference else {
+            fatalError("transactionReference cannot be nil!")
+        }
+        return  ManagementBuilder(transactionType: .void)
+            .withPaymentMethod(transactionReference)
+
     }
 
     /// Releases the original transaction from a hold.

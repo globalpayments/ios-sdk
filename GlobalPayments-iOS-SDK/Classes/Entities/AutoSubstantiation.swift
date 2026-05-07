@@ -1,7 +1,7 @@
 import Foundation
 
 public class AutoSubstantiation: NSObject {
-    private var amounts: [String: NSDecimalNumber]
+    public private(set) var amounts: [String: NSDecimalNumber]
 
     public var clinicSubTotal: NSDecimalNumber {
         get {

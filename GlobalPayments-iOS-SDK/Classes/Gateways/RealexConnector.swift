@@ -1,6 +1,10 @@
 import Foundation
 
 public class RealexConnector: PaymentGateway, ReportingServiceType {
+    func processSurchargeEligibilityLookup(_ builder: SurchargeEligibilityLookupBuilder, completion: ((Transaction?, (any Error)?) -> Void)?) {
+      
+    }
+    
 
     var supportsHostedPayments: Bool = true
 

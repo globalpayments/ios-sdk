@@ -129,4 +129,6 @@ public class TransactionSummary {
     public var cardDetails: Card?
     public var threeDSecure: ThreeDSecure?
     public var installmentData: InstallmentData?
+    public var transactionDescription: String?
+    public var emvIssuerResponse: String?
 }

@@ -27,4 +27,25 @@ extension NSDecimalNumber {
         }
         return self.dividing(by: 100)
     }
+    
+    var toString: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 10
+        formatter.usesGroupingSeparator = false 
+        let string = formatter.string(from: self) ?? ""
+        return string
+    }
+}
+
+extension String {
+    var toNSDecimalNumber: NSDecimalNumber {
+            let decimal = NSDecimalNumber(string: self)
+            return decimal == NSDecimalNumber.notANumber ? NSDecimalNumber.zero : decimal
+        }
+    
+    var toInt: Int? {
+        return Int(self) ?? 0
+    }
 }

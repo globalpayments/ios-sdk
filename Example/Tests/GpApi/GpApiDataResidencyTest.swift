@@ -62,13 +62,60 @@ final class GpApiDataResidencyTest: XCTestCase {
         config.channel = .cardNotPresent
         config.dataResidency = .eu
         config.environment = .qa
-        
-        let accessTokenInfo =  AccessTokenInfo()
+
+        let accessTokenInfo = AccessTokenInfo()
         accessTokenInfo.transactionProcessingAccountName = "internet"
         config.accessTokenInfo = accessTokenInfo
+
         try? ServicesContainer.configureService(config: config)
 
-        XCTAssertEqual(ServiceEndpoints.gpApiQAEU.rawValue,config.serviceUrl )
+        XCTAssertEqual(DataResidency.eu, config.dataResidency)
+        XCTAssertEqual(ServiceEndpoints.gpApiQAEU.rawValue, config.serviceUrl)
+
+        
+        let expectation = expectation(description: "Charge expectation")
+
+        masterCard.charge(amount: amount)
+            .withCurrency(currency)
+            .execute { transaction, error in
+                XCTAssertNil(transaction)
+                XCTAssertNotNil(error)
+                expectation.fulfill()
+            }
+
+        wait(for: [expectation], timeout: 20.0)
+    }
+    
+    func testDataResidencyEuProductionRoutesToProductionEuEndpoint() {
+        let config = GpApiConfig(
+            appId: EU_APP_ID,
+            appKey: EU_APP_KEY)
+        config.channel = .cardNotPresent
+        config.dataResidency = .eu
+        config.environment = .production
+
+        let accessTokenInfo = AccessTokenInfo()
+        accessTokenInfo.transactionProcessingAccountName = "internet"
+        config.accessTokenInfo = accessTokenInfo
+
+        try? ServicesContainer.configureService(config: config)
+
+        XCTAssertEqual(DataResidency.eu, config.dataResidency)
+        XCTAssertEqual(ServiceEndpoints.gpApiProductionEU.rawValue, config.serviceUrl)
+
+        
+        let expectation = expectation(description: "Charge expectation")
+
+        masterCard.charge(amount: amount)
+            .withCurrency(currency)
+            .execute { transaction, error in
+                XCTAssertNil(transaction)
+                XCTAssertNotNil(error)
+                XCTAssertTrue(error is GatewayException)
+                expectation.fulfill()
+            }
+
+        wait(for: [expectation], timeout: 20.0)
     }
     
     func testDataResidencyEU() {

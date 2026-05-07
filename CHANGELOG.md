@@ -1,6 +1,13 @@
 # Changelog
 
-## Latest - v3.1.7 (04/16/2026)
+## Latest - v3.1.8 (05/07/2026)
+
+#### Enhancements
+
+- GP-API: Complete migration of the Portico payment gateway from GlobalPaymentApi repo to iOS-SDK repo
+- GP-API: Added test QA endpoint and Production endpoint
+
+## v3.1.7 (04/16/2026)
 
 #### Enhancements
 

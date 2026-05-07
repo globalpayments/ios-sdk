@@ -80,6 +80,11 @@ import Foundation
     var merchantCategory: MerchantCategory?
     var installmentData: InstallmentData?
     var orderSupplementaryData: [OrderSupplementaryData]?
+    var cpcReq: Bool = false
+    @available(*, deprecated, message: "Please, use cpcReq instead.")
+    var level2Request: Bool = false
+    var shippingAmount: NSDecimalNumber?
+    var transactionDescription: String?
 
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
@@ -367,6 +372,8 @@ import Foundation
 
     public func withCommercialRequest(_ commercialRequest: Bool) -> AuthorizationBuilder {
         self.commercialRequest = commercialRequest
+        self.level2Request = commercialRequest
+        self.cpcReq = commercialRequest
         return self
     }
      
@@ -684,6 +691,26 @@ import Foundation
     
     public func withMerchantCategory(_ value: MerchantCategory) -> AuthorizationBuilder {
         self.merchantCategory = value
+        return self
+    }
+     
+    public func withShippingAmount(_ shippingAmount: NSDecimalNumber?) -> AuthorizationBuilder {
+        self.shippingAmount = shippingAmount
+        return self
+    }
+     
+    public func withTransactionDescription(_ transactionDescription: String?) -> AuthorizationBuilder {
+        self.transactionDescription = transactionDescription
+        return self
+    }
+     
+    public func withTransactionType(_ value: TransactionType) -> AuthorizationBuilder {
+        self.transactionType = value
+        return self
+    }
+     
+    public func withTransactionModifier(_ value: TransactionModifier) -> AuthorizationBuilder {
+        self.transactionModifier = value
         return self
     }
 

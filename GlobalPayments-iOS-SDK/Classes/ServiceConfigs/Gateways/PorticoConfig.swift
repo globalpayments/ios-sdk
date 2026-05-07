@@ -91,18 +91,7 @@ public class PorticoConfig: GatewayConfig {
             }
         }
         
-        let porticoConfigData = PorticoConfigData()
-        porticoConfigData.siteId = siteId
-        porticoConfigData.licenseId = licenseId
-        porticoConfigData.developerId = developerId
-        porticoConfigData.username = username
-        porticoConfigData.password = password
-        porticoConfigData.versionNumber = versionNumber
-        porticoConfigData.secretApiKey = secretApiKey
-        porticoConfigData.uniqueDeviceId = uniqueDeviceId
-        porticoConfigData.sdkNameVersion = sdkNameVersion
-        
-        let gateway = PorticoConnector(porticoConfig: self, porticoConfigData: porticoConfigData)
+        let gateway = PorticoConnector(porticoConfig: self)
         gateway.serviceUrl = serviceUrl
         
         services.gatewayConnector = gateway

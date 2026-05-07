@@ -82,7 +82,7 @@ public class GpApiConfig: GatewayConfig {
         if dataResidency == .eu {
                 switch environment {
                 case .production:
-                    serviceUrl = ServiceEndpoints.gpApiProduction.rawValue
+                    serviceUrl = ServiceEndpoints.gpApiProductionEU.rawValue
                 case .qa:
                     serviceUrl = ServiceEndpoints.gpApiQAEU.rawValue
                 default:

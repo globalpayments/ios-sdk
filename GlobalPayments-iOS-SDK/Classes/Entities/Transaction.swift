@@ -195,6 +195,8 @@ public class Transaction: NSObject {
     public var bankRespCode: String?
     public var gatewayResponseMessage: String?
     public var gatewayResponseCode: String?
+    public var authorizationMode: String?
+    public var authorizationModeResult: String?
 
     /// Creates a `Transaction` object from a stored transaction ID.
     /// Used to expose management requests on the original transaction at a later date/time.

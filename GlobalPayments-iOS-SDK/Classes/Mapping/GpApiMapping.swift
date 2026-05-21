@@ -15,6 +15,8 @@ public struct GpApiMapping {
         transaction.responseMessage = doc?.getValue(key: "status")
         transaction.referenceNumber = doc?.getValue(key: "reference")
         transaction.clientTransactionId = doc?.getValue(key: "reference")
+        transaction.authorizationMode = doc?.getValue(key: "authorization_mode")
+        transaction.authorizationModeResult = doc?.getValue(key: "authorization_mode_result")
         let batchSummary = BatchSummary()
         batchSummary.batchReference = doc?.getValue(keys: "batch_id", "id")
         batchSummary.status = doc?.getValue(key: "status")

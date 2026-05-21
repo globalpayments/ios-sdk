@@ -35,6 +35,22 @@ class GpApiCreditCardPresentTests: XCTestCase {
         card = nil
     }
 
+    private func configurPartialAuth() {
+        let config = GpApiConfig(
+            appId: "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs",
+            appKey: "FQyJA5VuEQfcji2M")
+        config.channel = .cardPresent
+        
+        let accessTokenInfo =  AccessTokenInfo()
+        accessTokenInfo.transactionProcessingAccountName = "dcc_cp"
+        config.accessTokenInfo = accessTokenInfo
+        try? ServicesContainer.configureService(config: config)
+        
+        creditTrackData = CreditTrackData()
+        creditTrackData?.value = "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=25121011803939600000?"
+        creditTrackData?.entryMethod = .swipe
+    }
+    
     func test_credit_charge_with_chip() {
         // GIVEN
         let creditTrackData = CreditTrackData()
@@ -976,5 +992,58 @@ class GpApiCreditCardPresentTests: XCTestCase {
            gatewayError.responseCode == "SYSTEM_ERROR_DOWNSTREAM" {
             throw XCTSkip("Gateway is down: \(gatewayError.message ?? "")")
         }
+    }
+    
+    func testAuthorizeWithPartialAuth() {
+        configurPartialAuth()
+        
+        // GIVEN
+        let expectation = XCTestExpectation(description: "Wait for execution...")
+        var transactionResult: Transaction?
+        var transactionError: Error?
+
+        // WHEN
+        creditTrackData?.authorize()
+            .withAmount(amount)
+            .withCurrency("CAD")
+            .withAllowPartialAuth(true)
+            .execute(completion: {
+                transactionResult = $0
+                transactionError = $1
+                expectation.fulfill()
+            })
+
+        // THEN
+        wait(for: [expectation], timeout: 60.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertNotNil(transactionResult?.authorizationMode)
+        XCTAssertNotNil(transactionResult?.authorizationModeResult)
+    }
+    
+    func testAuthorizeWithoutPartialAuth() {
+        configurPartialAuth()
+        
+        // GIVEN
+        let expectation = XCTestExpectation(description: "Wait for execution...")
+        var transactionResult: Transaction?
+        var transactionError: Error?
+
+        // WHEN
+        creditTrackData?.authorize()
+            .withAmount(amount)
+            .withCurrency("CAD")
+            .execute(completion: {
+                transactionResult = $0
+                transactionError = $1
+                expectation.fulfill()
+            })
+
+        // THEN
+        wait(for: [expectation], timeout: 60.0)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertNil(transactionResult?.authorizationMode)
+        XCTAssertNil(transactionResult?.authorizationModeResult)
     }
 }

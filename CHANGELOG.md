@@ -1,5 +1,11 @@
 # Changelog
 
+## Latest - v3.1.9 (05/21/2026)
+
+#### Enhancements
+
+- GP-API: Added mapping for authorization mode result in response 
+
 ## Latest - v3.1.8 (05/07/2026)
 
 #### Enhancements

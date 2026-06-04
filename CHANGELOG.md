@@ -1,12 +1,19 @@
 # Changelog
 
-## Latest - v3.1.9 (05/21/2026)
+## Latest - v3.2.0 (06/04/2026)
+
+#### Enhancements
+
+- GP-API: Verify end-point connection of SDK with GPAPI
+- GP-API: Implement eRaty support in iOS SDK
+
+## v3.1.9 (05/21/2026)
 
 #### Enhancements
 
 - GP-API: Added mapping for authorization mode result in response 
 
-## Latest - v3.1.8 (05/07/2026)
+## v3.1.8 (05/07/2026)
 
 #### Enhancements
 

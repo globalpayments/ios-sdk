@@ -85,14 +85,13 @@ import Foundation
     var level2Request: Bool = false
     var shippingAmount: NSDecimalNumber?
     var transactionDescription: String?
-
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
             emvLastChipRead != nil ||
             !paymentApplicationVersion.isNilOrEmpty
     }
 
-     /// Set the installment data
+    /// Set the installment data
      /// - Parameter installmentData: InstallmentData
      /// - Returns: AuthorizationBuilder
      public func withInstallmentData(_ installmentData: InstallmentData) -> AuthorizationBuilder {

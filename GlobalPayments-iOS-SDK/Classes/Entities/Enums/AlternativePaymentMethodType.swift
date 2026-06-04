@@ -63,6 +63,7 @@ public enum AlternativePaymentMethodType: String, Mappable {
     case ENTERCASH
     case E_PAY_PETRONAS
     case EPS
+    case ERATY
     case ESTONIAN_ONLINE_BANK_TRANSFER
     case FINLAND_ONLINE_BANK_TRANSFER
     case GIROPAY

@@ -305,6 +305,11 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             payload.set(for: "payer", doc: setPayerInformation(builder))
         }
         
+        if let apm = builder.paymentMethod as? AlternatePaymentMethod,
+           apm.alternativePaymentMethodType == .ERATY {
+            payload.set(for: "payer", doc: setERatyPayerInformation(builder))
+        }
+        
         if builder.paymentMethod is BNPL || builder.paymentMethod is Credit {
             setOrderInformation(builder, requestBody: payload)
         }
@@ -563,6 +568,14 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         let apm = JsonDoc()
         apm.set(for: "provider", value: alternatePayment.alternativePaymentMethodType?.mapped(for: .gpApi))
         apm.set(for: "address_override_mode", value: alternatePayment.addressOverrideMode)
+        apm.set(for: "category", value: alternatePayment.category?.mapped(for: .gpApi))
+        if let terms = alternatePayment.terms {
+            let termsDoc = JsonDoc()
+            termsDoc.set(for: "time_unit", value: terms.TimeUnit)
+            termsDoc.set(for: "count", value: terms.count.map { "\($0)" })
+            termsDoc.set(for: "mode", value: terms.mode)
+            apm.set(for: "terms", doc: termsDoc)
+        }
         if alternatePayment.alternativePaymentMethodType == .OB {
             let bank = JsonDoc()
             bank.set(for: "name", value: alternatePayment.bank?.mapped(for: .gpApi))
@@ -781,6 +794,14 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         return basicAddress
     }
     
+    private func setERatyPayerInformation(_ builder: AuthorizationBuilder) -> JsonDoc {
+        let payer = JsonDoc()
+        payer.set(for: "reference", value: builder.customerId ?? builder.customerData?.key)
+        payer.set(for: "country", value: builder.payerDetails?.country ?? builder.billingAddress?.countryCode)
+        payer.set(for: "email", value: builder.payerDetails?.email ?? builder.customerData?.email)
+        return payer
+    }
+
     private func setNotificationUrls(_ paymentMethod: PaymentMethod?) -> JsonDoc {
         let notifications = JsonDoc()
         if let paymentMethod = paymentMethod as? NotificationData {

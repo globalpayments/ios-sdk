@@ -18,6 +18,10 @@ public class AlternatePaymentMethod: NSObject, PaymentMethod, Chargeable, Notifi
     public var returnUrl: String?
     public var statusUpdateUrl: String?
     public var cancelUrl: String?
+    /// The APM category (e.g. BNPL for eRaty).
+    public var category: ApmCategory?
+        /// Installment terms for eRaty (time_unit, count, mode).
+    public var terms: Terms?
 
     /// Creates a charge (sale) against the payment method.
     /// - Parameter amount: The amount of the transaction

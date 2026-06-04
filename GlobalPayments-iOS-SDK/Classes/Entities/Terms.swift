@@ -43,3 +43,17 @@ public class Terms {
     /// </summary>
     public var gracePeriodCount: Int?
 }
+
+/// Create a Terms instance with optional fields.
+/// This static factory is public so clients/tests can construct Terms even if
+/// the type's initializer was marked internal in the original source.
+public extension Terms {
+    static func make(timeUnit: String? = nil, count: Int? = nil, mode: String? = nil) -> Terms {
+        // Initialize using the default initializer available within the SDK module.
+        let result = Terms()
+        if let tu = timeUnit { result.TimeUnit = tu }
+        if let c = count { result.count = Int64(c) }
+        if let m = mode { result.mode = m }
+        return result
+    }
+}

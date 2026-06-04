@@ -27,6 +27,7 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		65EDFBB32F766EEC0040265F /* PorticoGiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EDFBB22F766EEC0040265F /* PorticoGiftTests.swift */; };
 		65F198BD2F98FF1100411BCA /* PorticoBatchServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F198BB2F98FF1100411BCA /* PorticoBatchServiceTest.swift */; };
+		65F6E0882FCD8F2100A8ECCE /* GpApiERatyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F6E0872FCD8F2100A8ECCE /* GpApiERatyTest.swift */; };
 		7B8CAD9F5506BBE1806C7B1B /* Pods_GlobalPayments_iOS_SDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01691D0CD66B2865EC702F28 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */; };
 		8200B17625937A8B00042357 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B17525937A8B00042357 /* ImagePicker.swift */; };
 		8200B18925938E6500042357 /* DisputeDocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */; };
@@ -507,6 +508,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65EDFBB22F766EEC0040265F /* PorticoGiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoGiftTests.swift; sourceTree = "<group>"; };
 		65F198BB2F98FF1100411BCA /* PorticoBatchServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoBatchServiceTest.swift; sourceTree = "<group>"; };
+		65F6E0872FCD8F2100A8ECCE /* GpApiERatyTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiERatyTest.swift; sourceTree = "<group>"; };
 		8200B17525937A8B00042357 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		8200B18725938E6500042357 /* DisputeDocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeDocumentTableViewCell.swift; sourceTree = "<group>"; };
 		8200B18825938E6500042357 /* DisputeDocumentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisputeDocumentTableViewCell.xib; sourceTree = "<group>"; };
@@ -1630,6 +1632,7 @@
 		8267BC9624DAB5B700AF64D2 /* GpApi */ = {
 			isa = PBXGroup;
 			children = (
+				65F6E0872FCD8F2100A8ECCE /* GpApiERatyTest.swift */,
 				302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */,
 				82883A61257E44E400914499 /* Certification */,
 				82F20CFE262EC03600A08543 /* GpApi3DSecure1Tests.swift */,
@@ -3118,6 +3121,7 @@
 				82F3270F260DD62100B49E80 /* GpApiTokenManagementErrorTests.swift in Sources */,
 				A5627C802B672E73007E0994 /* GpAccountsTest.swift in Sources */,
 				C74706FB2EFA98C5005C2DC1 /* GpApiHPPPayByLinksTests.swift in Sources */,
+				65F6E0882FCD8F2100A8ECCE /* GpApiERatyTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

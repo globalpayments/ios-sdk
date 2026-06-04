@@ -139,6 +139,15 @@ public struct GpApiMapping {
                 payerDetails.shippingAddress = shipping
                 transaction.payerDetails = payerDetails
             }
+
+            // eRaty returns payer at the top level of the response doc (not inside payment_method)
+            if let topLevelPayer: JsonDoc = doc?.get(valueFor: "payer") {
+                let payerDetails = transaction.payerDetails ?? PayerDetails()
+                payerDetails.reference = topLevelPayer.getValue(key: "reference")
+                payerDetails.email = payerDetails.email ?? topLevelPayer.getValue(key: "email")
+                payerDetails.country = payerDetails.country ?? topLevelPayer.getValue(key: "country")
+                transaction.payerDetails = payerDetails
+            }
         }
         
         if let riskAssessments: [JsonDoc] = doc?.getValue(key: "risk_assessment") {

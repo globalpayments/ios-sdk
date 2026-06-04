@@ -6,6 +6,7 @@ public class PayerDetails: NSObject {
     public var lastName: String?
     public var email: String?
     public var name : String?
+    public var reference: String?
     public var country: String?
     public var landlinePhone: String?
     public var mobilePhone: String?

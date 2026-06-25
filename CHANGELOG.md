@@ -1,6 +1,13 @@
 # Changelog
 
-## Latest - v3.2.0 (06/04/2026)
+
+## Latest - v3.2.1 (06/25/2026)
+
+#### Enhancements
+
+- GP-API: Added contactless-chip for entryMode
+
+## v3.2.0 (06/04/2026)
 
 #### Enhancements
 

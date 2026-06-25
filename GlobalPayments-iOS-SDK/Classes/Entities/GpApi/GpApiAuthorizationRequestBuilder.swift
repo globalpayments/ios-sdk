@@ -368,7 +368,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             if let track = builder.paymentMethod as? TrackData {
                 if builder.tagData != nil {
                     if track.entryMethod == .proximity {
-                        return PaymentEntryMode.contactlessSwipe.rawValue
+                        return PaymentEntryMode.contactlessChip.rawValue
                     }
                     if let emvData = EmvUtils.shared.parseTagData(builder.tagData) {
                         if emvData.isContactlessMsd() {
@@ -376,6 +376,9 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                         }
                         return PaymentEntryMode.chip.rawValue
                     }
+                }
+                if track.entryMethod == .swipe {
+                    return PaymentEntryMode.swipe.rawValue
                 }
             }
 
@@ -401,12 +404,12 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                         }
                     }
                 }
-            }
 
-            if builder.transactionModifier == .encryptedMobile,
-               let creditCard = builder.paymentMethod as? CreditCardData,
-               creditCard.hasInAppPaymentData() {
-                return PaymentEntryMode.inApp.rawValue
+                if builder.transactionModifier == .encryptedMobile,
+                   let creditCard = builder.paymentMethod as? CreditCardData,
+                   creditCard.hasInAppPaymentData() {
+                    return PaymentEntryMode.inApp.rawValue
+                }
             }
 
             return PaymentEntryMode.ecom.rawValue

@@ -1046,4 +1046,61 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertNil(transactionResult?.authorizationMode)
         XCTAssertNil(transactionResult?.authorizationModeResult)
     }
+
+    // MARK: - Entry Mode Tests (CardPresent channel)
+
+    /// TrackData + tagData + entryMethod == .proximity → entryMode = CONTACTLESS_CHIP
+    func test_entryMode_contactlessChip_proximity_withTagData() throws {
+        // GIVEN
+        let chargeExpectation = expectation(description: "Entry Mode ContactlessChip Charge Expectation")
+        var chargeResult: Transaction?
+        var chargeError: Error?
+
+        let trackData = CreditTrackData()
+        trackData.value = "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=30121011803939600000?"
+        trackData.entryMethod = .proximity
+
+        let tagData = "9F4005F000F0A0019F02060000000025009F03060000000000009F2608D90A06501B48564E82027C005F3401019F360200029F0702FF009F0802008C9F0902008C9F34030403029F2701809F0D05F0400088009F0E0508000000009F0F05F0400098005F280208409F390105FFC605DC4000A800FFC7050010000000FFC805DC4004F8009F3303E0B8C89F1A0208409F350122950500000080005F2A0208409A031409109B02E8009F21030811539C01009F37045EED3A8E4F07A00000000310109F0607A00000000310108407A00000000310109F100706010A03A400029F410400000001"
+
+        // WHEN
+        trackData
+            .charge(amount: 10.0)
+            .withCurrency("USD")
+            .withAllowDuplicates(true)
+            .withTagData(tagData)
+            .execute {
+                chargeResult = $0
+                chargeError = $1
+                chargeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [chargeExpectation], timeout: 10.0)
+        try assertGatewayNotDown(chargeError)
+        XCTAssertNil(chargeError)
+        XCTAssertNotNil(chargeResult)
+        XCTAssertEqual(chargeResult?.responseCode, expectedResponseCode)
+        XCTAssertEqual(chargeResult?.responseMessage, TransactionStatus.captured.rawValue)
+
+        guard let transactionId = chargeResult?.transactionId else {
+            XCTFail("transactionId cannot be nil")
+            return
+        }
+
+        let reportExpectation = expectation(description: "Entry Mode ContactlessChip Report Expectation")
+        var transactionSummary: TransactionSummary?
+        var reportError: Error?
+
+        ReportingService.transactionDetail(transactionId: transactionId)
+            .execute {
+                transactionSummary = $0
+                reportError = $1
+                reportExpectation.fulfill()
+            }
+
+        wait(for: [reportExpectation], timeout: 10.0)
+        XCTAssertNil(reportError)
+        XCTAssertNotNil(transactionSummary)
+        XCTAssertEqual(transactionSummary?.entryMode, PaymentEntryMode.contactlessChip.rawValue)
+    }
 }

@@ -155,6 +155,8 @@ public class Transaction: NSObject {
     public var responseValues: [String: String]?
     public var schemeId: String?
     public var threeDSecure: ThreeDSecure?
+    /// The gratuity (tip) amount decoded from the GP-API response using the transaction currency exponent.
+    public var gratuityAmount: NSDecimalNumber?
     /// The timestamp of the transaction.
     public var timestamp: String?
     /// The transaction descriptor.

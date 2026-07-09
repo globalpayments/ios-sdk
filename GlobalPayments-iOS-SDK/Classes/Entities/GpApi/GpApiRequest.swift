@@ -162,6 +162,10 @@ extension GpApiRequest {
 
         // MARK: - Batches
 
+        static func batches() -> String {
+            "/batches"
+        }
+
         static func batchClose(id: String) -> String {
             "/batches/\(id)"
         }

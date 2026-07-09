@@ -1,7 +1,14 @@
 # Changelog
 
 
-## Latest - v3.2.1 (06/25/2026)
+## Latest - v3.3.0 (07/09/2026)
+
+#### Enhancements
+
+- GP-API: Added APAC multi-currency support for the GP-API in iOS SDK
+- GP-API: Added GPAPI batch close without a batch ID
+
+## v3.2.1 (06/25/2026)
 
 #### Enhancements
 

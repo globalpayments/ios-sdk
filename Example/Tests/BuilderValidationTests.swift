@@ -260,4 +260,111 @@ class BuilderValidationTests: XCTestCase {
         XCTAssertNil(transactionResult)
         XCTAssertNotNil(transactionError)
     }
+
+    func test_batch_close_without_batch_reference_requires_account_name_or_id() {
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        var transactionResult: Transaction?
+        var transactionError: BuilderException?
+
+        // WHEN
+        ManagementBuilder(transactionType: .batchClose)
+            .execute { transaction, error in
+                transactionResult = transaction
+                transactionError = error as? BuilderException
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(transactionResult)
+        XCTAssertNotNil(transactionError)
+        XCTAssertEqual(
+            transactionError?.message,
+            "For batchClose without batchReference, accountName or accountId is required."
+        )
+    }
+
+    func test_batch_close_without_batch_reference_multi_platform_requires_account_name() {
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        var transactionResult: Transaction?
+        var transactionError: BuilderException?
+
+        // WHEN
+        ManagementBuilder(transactionType: .batchClose)
+            .withAccountId("TRA_123")
+            .withChannel(.cardNotPresent)
+            .withCurrency("USD")
+            .withCountry("US")
+            .withPaymentMethods([.card])
+            .execute { transaction, error in
+                transactionResult = transaction
+                transactionError = error as? BuilderException
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(transactionResult)
+        XCTAssertNotNil(transactionError)
+        XCTAssertEqual(
+            transactionError?.message,
+            "For batchClose without batchReference, multi-platform filters require accountName, channel, currency, country and paymentMethods."
+        )
+    }
+
+    func test_batch_close_without_batch_reference_multi_platform_requires_all_filters() {
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        var transactionResult: Transaction?
+        var transactionError: BuilderException?
+
+        // WHEN
+        ManagementBuilder(transactionType: .batchClose)
+            .withAccountName("Transit_Transaction_Processing")
+            .withCurrency("USD")
+            .withCountry("US")
+            .withPaymentMethods([.card])
+            .execute { transaction, error in
+                transactionResult = transaction
+                transactionError = error as? BuilderException
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(transactionResult)
+        XCTAssertNotNil(transactionError)
+        XCTAssertEqual(
+            transactionError?.message,
+            "For batchClose without batchReference, multi-platform filters require accountName, channel, currency, country and paymentMethods."
+        )
+    }
+
+    func test_batch_close_without_batch_reference_rejects_empty_payment_methods() {
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        var transactionResult: Transaction?
+        var transactionError: BuilderException?
+
+        // WHEN
+        ManagementBuilder(transactionType: .batchClose)
+            .withAccountName("Transit_Transaction_Processing")
+            .withPaymentMethods([])
+            .execute { transaction, error in
+                transactionResult = transaction
+                transactionError = error as? BuilderException
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(transactionResult)
+        XCTAssertNotNil(transactionError)
+        XCTAssertEqual(
+            transactionError?.message,
+            "For batchClose without batchReference, paymentMethods cannot be empty when provided."
+        )
+    }
 }

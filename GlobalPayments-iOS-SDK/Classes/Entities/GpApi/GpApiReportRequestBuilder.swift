@@ -54,7 +54,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             params["id"] = builder.transactionId
             params["type"] = builder.searchCriteriaBuilder.paymentType?.mapped(for: .gpApi)
             params["channel"] = builder.searchCriteriaBuilder.channel?.mapped(for: .gpApi)
-            params["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString()
+            params["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString(currency: builder.searchCriteriaBuilder.currency)
             params["currency"] = builder.searchCriteriaBuilder.currency
             params["token_first6"] = builder.searchCriteriaBuilder.tokenFirstSix
             params["token_last4"] = builder.searchCriteriaBuilder.tokenLastFour
@@ -104,7 +104,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             params["to_time_created"] = builder.endDate?.format("yyyy-MM-dd")
             params["id"] = builder.searchCriteriaBuilder.depositReference
             params["status"] = builder.depositStatus?.mapped(for: .gpApi)
-            params["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString()
+            params["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString(currency: builder.searchCriteriaBuilder.currency)
             params["masked_account_number_last4"] = builder.searchCriteriaBuilder.accountNumberLastFour
             params["system.mid"] = builder.searchCriteriaBuilder.merchantId
             params["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
@@ -242,7 +242,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             params["status"] = builder.searchCriteriaBuilder.payByLinkStatus?.mapped(for: .gpApi)
             params["usage_mode"] = builder.searchCriteriaBuilder.paymentMethodUsageMode?.mapped(for: .gpApi)
             params["name"] = builder.searchCriteriaBuilder.displayName
-            params["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString()
+            params["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString(currency: builder.searchCriteriaBuilder.currency)
             params["description"] = builder.searchCriteriaBuilder.searchDescription
             params["reference"] = builder.searchCriteriaBuilder.referenceNumber
             params["country"] = builder.searchCriteriaBuilder.country

@@ -19,6 +19,9 @@ import Foundation
         return paymentMethod.clientTransactionId
     }
     var batchReference: String?
+    var accountName: String?
+    var accountId: String?
+    var channel: Channel?
     var commercialData: CommercialData?
     /// Request currency
     var currency: String?
@@ -65,6 +68,8 @@ import Foundation
     var surchargeAmtInfo: String?
     var gatewayTransactionId: String?
     var transactionDescription: String?
+    var country: String?
+    var paymentMethods: [PaymentMethodName]?
 
     /// Sets the current transaction's amount.
     /// - Parameter amount: The amount
@@ -100,6 +105,30 @@ import Foundation
         return self
     }
 
+    /// Sets the account name used to close a GPAPI batch without batch id.
+    /// - Parameter accountName: The transaction processing account name.
+    /// - Returns: ManagementBuilder
+    public func withAccountName(_ accountName: String?) -> ManagementBuilder {
+        self.accountName = accountName
+        return self
+    }
+
+    /// Sets the account id used to close a GPAPI batch without batch id.
+    /// - Parameter accountId: The transaction processing account id.
+    /// - Returns: ManagementBuilder
+    public func withAccountId(_ accountId: String?) -> ManagementBuilder {
+        self.accountId = accountId
+        return self
+    }
+
+    /// Sets the channel used to close a GPAPI batch without batch id.
+    /// - Parameter channel: The processing channel.
+    /// - Returns: ManagementBuilder
+    public func withChannel(_ channel: Channel?) -> ManagementBuilder {
+        self.channel = channel
+        return self
+    }
+
     public func withDccRateData(_ value: DccRateData?) -> ManagementBuilder {
         self.dccRateData = value
         return self
@@ -121,6 +150,22 @@ import Foundation
     /// - Returns: ManagementBuilder
     public func withCurrency(_ currency: String?) -> ManagementBuilder {
         self.currency = currency
+        return self
+    }
+
+    /// Sets the country used to close a GPAPI batch without batch id.
+    /// - Parameter country: The transaction country.
+    /// - Returns: ManagementBuilder
+    public func withCountry(_ country: String?) -> ManagementBuilder {
+        self.country = country
+        return self
+    }
+
+    /// Sets payment methods used to close a GPAPI batch without batch id.
+    /// - Parameter paymentMethods: The transaction payment methods.
+    /// - Returns: ManagementBuilder
+    public func withPaymentMethods(_ paymentMethods: [PaymentMethodName]?) -> ManagementBuilder {
+        self.paymentMethods = paymentMethods
         return self
     }
 
@@ -287,6 +332,11 @@ import Foundation
     public override func execute(configName: String = "default",
                                  completion: ((Transaction?, Error?) -> Void)?) {
 
+        if let error = validateBatchCloseWithoutIdRequest() {
+            completion?(nil, error)
+            return
+        }
+
         super.execute(configName: configName) { _, error in
             if let error = error {
                 completion?(nil, error)
@@ -335,6 +385,61 @@ import Foundation
         validations.of(transactionType: .splitFunds)
             .check(propertyName: "amount")?.isNotNil()?
             .check(propertyName: "fundsData")?.isNotNil()
+    }
+
+    private func validateBatchCloseWithoutIdRequest() -> Error? {
+        guard transactionType == .batchClose else {
+            return nil
+        }
+
+        if hasText(batchReference) {
+            return nil
+        }
+
+        let hasAccountName = hasText(accountName)
+        let hasAccountId = hasText(accountId)
+        let hasBaseAccountInfo = hasAccountName || hasAccountId
+        if !hasBaseAccountInfo {
+            return BuilderException(
+                message: "For batchClose without batchReference, accountName or accountId is required."
+            )
+        }
+
+        if let paymentMethods = paymentMethods, paymentMethods.isEmpty {
+            return BuilderException(
+                message: "For batchClose without batchReference, paymentMethods cannot be empty when provided."
+            )
+        }
+
+        let hasAnyExtendedFilter = channel != nil
+            || hasText(currency)
+            || hasText(country)
+            || !(paymentMethods?.isEmpty ?? true)
+
+        guard hasAnyExtendedFilter else {
+            return nil
+        }
+
+        let isMultiPlatformPayloadValid = hasAccountName
+            && channel != nil
+            && hasText(currency)
+            && hasText(country)
+            && !(paymentMethods?.isEmpty ?? true)
+
+        guard isMultiPlatformPayloadValid else {
+            return BuilderException(
+                message: "For batchClose without batchReference, multi-platform filters require accountName, channel, currency, country and paymentMethods."
+            )
+        }
+
+        return nil
+    }
+
+    private func hasText(_ value: String?) -> Bool {
+        guard let value = value else {
+            return false
+        }
+        return !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }
 

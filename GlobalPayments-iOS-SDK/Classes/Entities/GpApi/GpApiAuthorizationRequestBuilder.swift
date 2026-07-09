@@ -25,7 +25,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             payload.set(for: "account_id", value: config?.accessTokenInfo?.transactionProcessingAccountID)
             payload.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
             payload.set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
-            payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+            .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
             payload.set(for: "currency", value: builder.currency)
             payload.set(for: "country", value: config?.country)
             payload.set(for: "payment_method", doc: paymentMethod)
@@ -62,7 +62,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                     payload.set(for: "expiration_date", value: payByLinkData.expirationDate?.format("yyyy-MM-dd"))
                     
                     payload.set(for: "reference", value: builder.clientTransactionId)
-                    payload.set(for: "shipping_amount", value: payByLinkData.shippingAmount?.toNumericCurrencyString())
+                    payload.set(for: "shipping_amount", value: payByLinkData.shippingAmount?.toNumericCurrencyString(currency: builder.currency))
                     payload.set(for: "shippable", value: payByLinkData.isShippable ?? false ? "YES" : "NO")
                     payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
                     payload.set(for: "name", value: payByLinkData.name)
@@ -70,7 +70,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                     payload.set(for: "payer", doc: setPayerInformation(builder))
                     
                     let order = JsonDoc()
-                        .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                        .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
                         .set(for: "currency", value: builder.currency)
                         .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
                     
@@ -124,14 +124,14 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                     
                     let transaction = JsonDoc()
                     transaction.set(for: "country", value: config?.country)
-                    transaction.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                    transaction.set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
                     transaction.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
                     transaction.set(for: "currency", value: builder.currency)
                     transaction.set(for: "allowed_payment_methods", value: mapAllowedPaymentMethod(payByLinkData.allowedPaymentMethods))
                     
                     payload.set(for: "transactions", doc: transaction)
                     payload.set(for: "reference", value: builder.clientTransactionId)
-                    payload.set(for: "shipping_amount", value: payByLinkData.shippingAmount?.toNumericCurrencyString())
+                    payload.set(for: "shipping_amount", value: payByLinkData.shippingAmount?.toNumericCurrencyString(currency: builder.currency))
                     payload.set(for: "shippable", value: payByLinkData.isShippable ?? false ? "YES" : "NO")
                     payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
                     payload.set(for: "name", value: payByLinkData.name)
@@ -158,7 +158,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                 payload.set(for: "account_name", value: fundsData.accountName)
                 payload.set(for: "recipient_account_id", value: fundsData.recipientAccountId)
                 payload.set(for: "reference", value: builder.clientTransactionId)
-                payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
                 payload.set(for: "description", value: builder.requestDescription)
                 payload.set(for: "usable_balance_mode", value: fundsData.usableBalanceMode?.rawValue)
                 
@@ -186,14 +186,14 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "type", value: builder.transactionType == .refund ? "REFUND" : "SALE")
             .set(for: "capture_mode", value: captureMode(for: builder))
             .set(for: "authorization_mode", value: builder.allowPartialAuth ? "PARTIAL" : nil)
-            .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+            .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
             .set(for: "currency", value: builder.currency)
             .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
             .set(for: "description", value: builder.requestDescription)
-            .set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString())
-            .set(for: "surcharge_amount", value: builder.surchargeAmount?.toNumericCurrencyString())
-            .set(for: "convenience_amount", value: builder.convenienceAmount?.toNumericCurrencyString())
-            .set(for: "cashback_amount", value: builder.cashBackAmount?.toNumericCurrencyString())
+            .set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString(currency: builder.currency))
+            .set(for: "surcharge_amount", value: builder.surchargeAmount?.toNumericCurrencyString(currency: builder.currency))
+            .set(for: "convenience_amount", value: builder.convenienceAmount?.toNumericCurrencyString(currency: builder.currency))
+            .set(for: "cashback_amount", value: builder.cashBackAmount?.toNumericCurrencyString(currency: builder.currency))
             .set(for: "ip_address", value: builder.customerIpAddress)
             .set(for: "payment_method", doc: createPaymentMethodParam(for: builder, channel: config?.channel))
             .set(for: "risk_assessment", values: builder.fraudFilterMode != nil ? mapFraudManagement(builder) : nil)
@@ -207,7 +207,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
 
         if let commercialData = builder.commercialData {
             payload.set(for: "merchant_id", value: commercialData.merchantId)
-            payload.set(for: "tax_amount", value: commercialData.taxAmounts?.toNumericCurrencyString())
+            payload.set(for: "tax_amount", value: commercialData.taxAmounts?.toNumericCurrencyString(currency: builder.currency))
             payload.set(for: "tax_mode", value: commercialData.taxMode)
             payload.set(for: "purchase_order_number", value: commercialData.poNumber)
             
@@ -728,7 +728,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         order.set(for: "shipping_method", value: builder.bnplShippingMethod?.mapped(for: .gpApi))
         
         if let products = builder.miscProductData {
-            order.set(for: "items", values: setItemDetailsListForBNPL(products))
+            order.set(for: "items", values: setItemDetailsListForBNPL(products, currency: builder.currency))
         }
 
         if let customerData = builder.customerData {
@@ -757,7 +757,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         }
     }
     
-    private func setItemDetailsListForBNPL(_ products: [Product]) -> [JsonDoc] {
+    private func setItemDetailsListForBNPL(_ products: [Product], currency: String? = nil) -> [JsonDoc] {
         var items: [JsonDoc] = []
         products.forEach { product in
             let item = JsonDoc()
@@ -771,12 +771,12 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             item.set(for: "label", value: product.productName)
             item.set(for: "description", value: product.descriptionProduct)
             item.set(for: "quantity", value: "\(qty)")
-            item.set(for: "unit_amount", value: unitAmount.toNumericCurrencyString())
-            item.set(for: "total_amount", value: totalAmount.toNumericCurrencyString())
-            item.set(for: "tax_amount", value: taxAmount.toNumericCurrencyString())
-            item.set(for: "discount_amount", value: discountAmount.toNumericCurrencyString())
-            item.set(for: "tax_percentage", value: product.taxPercentage?.toNumericCurrencyString())
-            item.set(for: "net_unit_amount", value: netUnitAmount.toNumericCurrencyString())
+            item.set(for: "unit_amount", value: unitAmount.toNumericCurrencyString(currency: currency))
+            item.set(for: "total_amount", value: totalAmount.toNumericCurrencyString(currency: currency))
+            item.set(for: "tax_amount", value: taxAmount.toNumericCurrencyString(currency: currency))
+            item.set(for: "discount_amount", value: discountAmount.toNumericCurrencyString(currency: currency))
+            item.set(for: "tax_percentage", value: product.taxPercentage?.toNumericCurrencyString(currency: currency))
+            item.set(for: "net_unit_amount", value: netUnitAmount.toNumericCurrencyString(currency: currency))
             item.set(for: "gift_card_currency", value: product.giftCardCurrency)
             item.set(for: "url", value: product.url)
             item.set(for: "image_url", value: product.imageUrl)

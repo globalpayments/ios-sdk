@@ -6,9 +6,12 @@ extension NSDecimalNumber {
         return (lhs ?? .zero).adding((rhs ?? .zero))
     }
 
-    func toNumericCurrencyString() -> String? {
+   
+    public func toNumericCurrencyString(currency: String? = nil) -> String? {
         guard self != NSDecimalNumber.notANumber else { return nil }
-        let input: NSDecimalNumber = self.multiplying(by: 100)
+        let exp = CurrencyUtils.shared.exponent(for: currency)
+        let multiplier = NSDecimalNumber(mantissa: 1, exponent: Int16(exp), isNegative: false)
+        let input: NSDecimalNumber = self.multiplying(by: multiplier)
         let behavior = NSDecimalNumberHandler(
             roundingMode: .plain,
             scale: 0,
@@ -19,6 +22,16 @@ extension NSDecimalNumber {
         )
         let output = input.rounding(accordingToBehavior: behavior)
         return String(describing: output)
+    }
+
+
+    public func amount(for currency: String? = nil) -> NSDecimalNumber? {
+        guard self != NSDecimalNumber.notANumber else {
+            return nil
+        }
+        let exp = CurrencyUtils.shared.exponent(for: currency)
+        let divisor = NSDecimalNumber(mantissa: 1, exponent: Int16(exp), isNegative: false)
+        return self.dividing(by: divisor)
     }
 
     var amount: NSDecimalNumber? {

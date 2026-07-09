@@ -49,7 +49,7 @@ struct GpApiPayFacRequestBuilder<T> {
             let payload = JsonDoc()
             payload.set(for: "account_id", value: builder.accountNumber)
             payload.set(for: "type", value: builder.paymentMethodType?.value)
-            payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+            payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
             payload.set(for: "currency", value: builder.currency)
             payload.set(for: "payment_method", value: builder.paymentMethodName?.rawValue)
             payload.set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)

@@ -4,6 +4,13 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
 
     func generateRequest(for builder: ManagementBuilder, config: GpApiConfig) -> GpApiRequest? {
         var merchantUrl: String = !(config.merchantId?.isEmpty ?? true) ? "/merchants/\(config.merchantId ?? "")" : ""
+
+        // Resolve the currency for amount encoding.
+        // Management calls (Capture, Reverse, Refund) typically omit .withCurrency()
+        // and rely on the original authorization's currency, which is carried on the
+        // TransactionReference produced by the gateway response mapper.
+        let amountCurrency = builder.currency ?? (builder.paymentMethod as? TransactionReference)?.currency
+
         switch builder.transactionType {
         case .tokenDelete:
             let token = getToken(from: builder)
@@ -34,7 +41,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             )
         case .refund:
             let payload = JsonDoc()
-                .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: amountCurrency))
                 .set(for: "currency_conversion", value: builder.dccRateData?.dccId)
             return GpApiRequest(
                 endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsRefund(transactionId: (builder.transactionId ?? .empty)),
@@ -43,7 +50,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             )
         case .reversal:
             let payload = JsonDoc()
-                .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: amountCurrency))
                 .set(for: "currency_conversion", value: builder.dccRateData?.dccId)
             
             var endpoint = merchantUrl
@@ -64,8 +71,8 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             )
         case .capture:
             let payload = JsonDoc()
-                .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
-                .set(for: "gratuity", value: builder.gratuity?.toNumericCurrencyString())
+                .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: amountCurrency))
+                .set(for: "gratuity", value: builder.gratuity?.toNumericCurrencyString(currency: amountCurrency))
                 .set(for: "currency_conversion", value: builder.dccRateData?.dccId)
             return GpApiRequest(
                 endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsCapture(transactionId: builder.transactionId ?? .empty),
@@ -73,13 +80,31 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 requestBody: payload.toString()
             )
         case .batchClose:
+            // Route to POST /batches/{id} when a batch reference is available (existing flow).
+            // Route to POST /batches with account-based body when no batch reference is set (new flow).
+            if hasText(builder.batchReference) {
+                return GpApiRequest(
+                    endpoint: merchantUrl + GpApiRequest.Endpoints.batchClose(id: builder.batchReference ?? .empty),
+                    method: .post
+                )
+            }
+
+            let payload = JsonDoc()
+                .set(for: "account_name", value: builder.accountName)
+                .set(for: "account_id", value: builder.accountId)
+                .set(for: "channel", value: builder.channel?.mapped(for: .gpApi))
+                .set(for: "currency", value: builder.currency)
+                .set(for: "country", value: builder.country)
+                .set(for: "payment_methods", value: builder.paymentMethods?.compactMap { $0.mapped(for: .gpApi) })
+
             return GpApiRequest(
-                endpoint: merchantUrl + GpApiRequest.Endpoints.batchClose(id: builder.batchReference ?? .empty),
-                method: .post
+                endpoint: merchantUrl + GpApiRequest.Endpoints.batches(),
+                method: .post,
+                requestBody: payload.toString()
             )
         case .reauth:
             let payload = JsonDoc()
-                .set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+                .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: amountCurrency))
 
             if builder.paymentMethod?.paymentMethodType == .ach {
                 payload.set(for: "description", value: builder.description)
@@ -157,8 +182,8 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             paymentMethod.set(for: "card", doc: card)
 
             let payload = JsonDoc()
-            payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
-            payload.set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString())
+            payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
+            payload.set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString(currency: builder.currency))
             payload.set(for: "payment_method", doc: paymentMethod)
 
             return GpApiRequest(
@@ -179,10 +204,10 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             payLoad.set(for: "type", value: payByLinkData?.type?.mapped(for: .gpApi))
             payLoad.set(for: "status", value: payByLinkData?.status?.mapped(for: .gpApi))
             payLoad.set(for: "shippable", value: payByLinkData?.isShippable ?? false ? "YES" : "NO")
-            payLoad.set(for: "shipping_amount", value:  payByLinkData?.shippingAmount?.toNumericCurrencyString())
+            payLoad.set(for: "shipping_amount", value:  payByLinkData?.shippingAmount?.toNumericCurrencyString(currency: builder.currency))
 
             let transaction = JsonDoc()
-            transaction.set(for:"amount", value: builder.amount?.toNumericCurrencyString())
+            transaction.set(for:"amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
 
             payLoad.set(for:"transactions", doc: transaction)
             payLoad.set(for:"expiration_date", value: payByLinkData?.expirationDate)
@@ -222,7 +247,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             request.set(for: "recipient_account_id", value: builder.fundsData?.recipientAccountId)
             request.set(for: "reference", value: builder.reference)
             request.set(for: "description", value: builder.managementBuilderDescription)
-            request.set(for: "amount", value: builder.amount?.toNumericCurrencyString())
+            request.set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
             
             if let merchantId = builder.fundsData?.merchantId, !merchantId.isEmpty {
                 merchantUrl = GpApiRequest.Endpoints.merchantWithID(merchantId)
@@ -247,5 +272,12 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                   return .empty
               }
         return token
+    }
+
+    private func hasText(_ value: String?) -> Bool {
+        guard let value = value else {
+            return false
+        }
+        return !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }

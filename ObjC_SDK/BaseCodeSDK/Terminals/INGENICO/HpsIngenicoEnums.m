@@ -1,0 +1,99 @@
+//
+//  HpsIngenicoEnums.m
+//  IOS_SDK_APP
+//
+//  Created by Macbook Air on 3/24/20.
+//  Copyright © 2020 igen. All rights reserved.
+//
+
+#import "HpsIngenicoEnums.h"
+
+
+@implementation HpsIngenicoEnums
+
+NSString * const HpsIngenico_BROADCAST = @"BROADCAST CODE";
+NSString * const HPS_INGENICO_TID_CODE = @"TID CODE";
+NSString * const HPS_INGENICO_XML_TAG = @"?xml";
+
+NSString * const HPS_INGENICO_REQ_CMD_CANCEL = @"CMD=CANCEL";
+NSString * const HPS_INGENICO_REQ_CMD_DUPLICATE = @"CMD=DUPLIC";
+NSString * const HPS_INGENICO_REQ_CMD_REVERSE = @"CMD=REVERSE";
+NSString * const HPS_INGENICO_REQ_CMD_REVERSE_WITH_ID = @"CMD=REV%@";
+NSString * const HPS_INGENICO_REQ_CMD_REPORT = @"0100000001100826EXT0100000A010B010CMD=%@";
+NSString * const HPS_INGENICO_REQ_CMD_RECEIPT = @"0100000001100826EXT0100000A010B010CMD=%@";
+NSString * const HPS_INGENICO_REQ_CMD_TERMINAL = @"0100000001100826EXT0100000A010B010CMD=%@";
+NSString * const HPS_INGENICO_REQ_CMD_REQUEST_MESSAGE = @"0100000001100826EXT0100000A010B010%@";
+
+NSString * const HPS_INGENICO_PAT_XML_TYPE_ADDITIONAL_MSG = @"ADDITIONAL_DATA";
+NSString * const HPS_INGENICO_PAT_XML_TYPE_TRANSFER_DATA_REQUEST = @"DATA_TRANSFER";
+NSString * const HPS_INGENICO_PAT_XML_TYPE_TRANSACTION_XML = @"CREDIT_CARD_RECEIPT";
+
+NSString * const HPS_INGENICO_PAT_STYPE_SPLIT_SALE = @"SPLITSALE REPORT";
+NSString * const HPS_INGENICO_PAT_STYPE_SPLIT_SALE_ROOT = @"Split_sale";
+NSString * const HPS_INGENICO_PAT_STYPE_TICKET_MERCHANT = @"MERCHANT";
+NSString * const HPS_INGENICO_PAT_STYPE_TICKET_CUSTOMER = @"CUSTOMER";
+NSString * const HPS_INGENICO_PAT_STYPE_EOD = @"EOD";
+NSString * const HPS_INGENICO_PAT_STYPE_STATE = @"STATE";
+
+
+NSString * const PaymentMode_toString[] = {
+    [HpsIngenicoPaymentMode_APPLICATION] = @"APPLICATION",
+    [HpsIngenicoPaymentMode_MAILORDER] = @"MAILORDER"
+};
+
+NSString * const PaymentMethod_toString[] = {
+    [HPS_INGENICO_KEYED] = @"KEYED",
+    [HPS_INGENICO_SWIPED] = @"SWIPED",
+    [HPS_INGENICO_CHIP] = @"CHIP",
+    [HPS_INGENICO_CONTACTLESS] = @"CONTACTLESS"
+};
+
+NSString * const TransactionStatus_toString[] = {
+    [HPS_INGENICO_TRANSACTION_STATUS_SUCCESS] = @"SUCCESS",
+    [HPS_INGENICO_TRANSACTION_STATUS_REFERRAL] = @"REFERRAL",
+    [HPS_INGENICO_TRANSACTION_STATUS_CANCELLED_BY_USER] = @"CANCELLED_BY_USER",
+    [HPS_INGENICO_TRANSACTION_STATUS_FAILED] = @"FAILED",
+    [HPS_INGENICO_TRANSACTION_STATUS_RECEIVED] = @"RECEIVED"
+};
+
+NSString * const ReportType_toString[] = {
+    [HPS_INGENICO_EOD] = @"EOD",
+    [HPS_INGENICO_BANKING] = @"BANKING",
+    [HPS_INGENICO_XBAL] = @"XBAL",
+    [HPS_INGENICO_ZBAL] = @"ZBAL"
+};
+
+NSString * const ReceiptType_toString[] = {
+    [HPS_INGENICO_TICKET] = @"TICKET",
+    [HPS_INGENICO_SPLITR] = @"SPLITR",
+    [HPS_INGENICO_TAXFREE] = @"TAXFREE",
+    [HPS_INGENICO_REPORT] = @"REPORT"
+};
+
+NSString * const TerminalCommandType_toString[] = {
+    [HPS_INGENICO_CALL_TMS] = @"CALLTMS",
+    [HPS_INGENICO_LOGON] = @"LOGON",
+    [HPS_INGENICO_RESET] = @"RESET",
+    [HPS_INGENICO_STATE] = @"STATE",
+    [HPS_INGENICO_PID] = @"PID"
+};
+
+NSString * const TerminalStatus_toString[] = {
+    [HPS_INGENICO_NOT_READY] = @"NOT READY",
+    [HPS_INGENICO_READY] = @"READY",
+};
+
+NSString * const SalesMode_toString[] = {
+    [HPS_INGENICO_STANDARD_SALE_MODE] = @"STANDARD SALE MODE",
+    [HPS_INGENICO_VENDING_MODE] = @"VENDING MODE",
+};
+
+#pragma mark -  Pay@Table
+
+NSString * const PATResponseType_toString[] = {
+    [HPS_INGENICO_PAT_RESPONSE_TYPE_CONF_NOK] = @"CONF_NOK",
+    [HPS_INGENICO_PAT_RESPONSE_TYPE_CONF_OK] = @"CONF_OK"
+};
+
+
+@end

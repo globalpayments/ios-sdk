@@ -3,6 +3,9 @@ import GlobalPayments_iOS_SDK
 
 class GpApiAuthenticationTests: XCTestCase {
 
+    private static let appId  = "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs"
+    private static let appKey = "FQyJA5VuEQfcji2M"
+
     private var card: CreditCardData!
     private let testDataTKN = "r1SzGAx2K9z5FNiMHkrapfRh8BC8"
 
@@ -23,8 +26,8 @@ class GpApiAuthenticationTests: XCTestCase {
         // GIVEN
         let keyExpectation = expectation(description: "Generate Transaction Key Expectation")
         let environment = Environment.test
-        let appId = "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll"
-        let appKey = "QDsW1ETQKHX6Y4TA"
+        let appId = Self.appId
+        let appKey = Self.appKey
         var infoResult: AccessTokenInfo?
         var errorResult: Error?
 
@@ -52,8 +55,8 @@ class GpApiAuthenticationTests: XCTestCase {
     func test_generate_access_token_manual_with_correct_permissions() {
         // GIVEN
         let environment = Environment.test
-        let appId = "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll"
-        let appKey = "QDsW1ETQKHX6Y4TA"
+        let appId = Self.appId
+        let appKey = Self.appKey
         let permissions = ["PMT_POST_Create", "PMT_POST_Detokenize"]
         let generateTransactionKeyExpectation = expectation(description: "Generate Transaction Key Expectation")
         var accessTokenInfoResult: AccessTokenInfo?
@@ -80,8 +83,8 @@ class GpApiAuthenticationTests: XCTestCase {
     func test_generate_access_token_manual_with_incorrect_permissions() {
         // GIVEN
         let environment = Environment.test
-        let appId = "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll"
-        let appKey = "QDsW1ETQKHX6Y4TA"
+        let appId = Self.appId
+        let appKey = Self.appKey
         let permissions = ["UNKNOWN", "TEST"]
         let generateTransactionKeyExpectation = expectation(description: "Generate Transaction Key Expectation")
         var accessTokenInfoResult: AccessTokenInfo?
@@ -112,8 +115,8 @@ class GpApiAuthenticationTests: XCTestCase {
     func test_generate_access_token_with_specific_seconds_to_expire() {
         // GIVEN
         let gpApiConfig = GpApiConfig(
-            appId: "JF2GQpeCrOivkBGsTRiqkpkdKp67Gxi0",
-            appKey: "y7vALnUtFulORlTV",
+            appId: Self.appId,
+            appKey: Self.appKey,
             secondsToExpire: 60
         )
         try? ServicesContainer.configureService(config: gpApiConfig)
@@ -141,8 +144,8 @@ class GpApiAuthenticationTests: XCTestCase {
     func test_generate_access_token_with_specific_interval_to_expire() {
         // GIVEN
         let gpApiConfig = GpApiConfig(
-            appId: "JF2GQpeCrOivkBGsTRiqkpkdKp67Gxi0",
-            appKey: "y7vALnUtFulORlTV",
+            appId: Self.appId,
+            appKey: Self.appKey,
             intervalToExpire: .fiveMinutes
         )
         try? ServicesContainer.configureService(config: gpApiConfig)
@@ -171,8 +174,8 @@ class GpApiAuthenticationTests: XCTestCase {
         // GIVEN
         let keyExpectation = expectation(description: "Generate Transaction Key Expectation")
         let environment = Environment.test
-        let appId = "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll"
-        let appKey = "QDsW1ETQKHX6Y4TA"
+        let appId = Self.appId
+        let appKey = Self.appKey
         var infoResult: AccessTokenInfo?
         var errorResult: Error?
 
@@ -197,6 +200,7 @@ class GpApiAuthenticationTests: XCTestCase {
         XCTAssertNotNil(infoResult?.disputeManagementAccountName)
         XCTAssertNotNil(infoResult?.tokenizationAccountName)
         XCTAssertNotNil(infoResult?.transactionProcessingAccountName)
+        XCTAssertNotNil(infoResult?.secondsToExpire)
     }
 
     func test_generate_access_token_wrong_app_id() {
@@ -204,7 +208,7 @@ class GpApiAuthenticationTests: XCTestCase {
         let keyExpectation = expectation(description: "Generate Transaction Key Expectation")
         let environment = Environment.test
         let appId = "WRONG"
-        let appKey = "QDsW1ETQKHX6Y4TA"
+        let appKey = Self.appKey
         var infoResult: AccessTokenInfo?
         var errorResult: GatewayException?
 
@@ -232,7 +236,7 @@ class GpApiAuthenticationTests: XCTestCase {
         // GIVEN
         let keyExpectation = expectation(description: "Generate Transaction Key Expectation")
         let environment = Environment.test
-        let appId = "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll"
+        let appId = Self.appId
         let appKey = "WRONG"
         var infoResult: AccessTokenInfo?
         var errorResult: GatewayException?
@@ -397,31 +401,14 @@ class GpApiAuthenticationTests: XCTestCase {
     
     func test_should_re_sign_in_after_token_expiration() {
         // GIVEN
-        let keyExpectation = expectation(description: "Generate Transaction Key Expectation")
-        let environment = Environment.test
-        let appId = "Uyq6PzRbkorv2D4RQGlldEtunEeGNZll"
-        let appKey = "QDsW1ETQKHX6Y4TA"
-        var infoResult: AccessTokenInfo?
-        var errorResult: Error?
-
-        // WHEN
-        GpApiService.generateTransactionKey(
-            environment: environment,
-            appId: appId,
-            appKey: appKey,
+        let gpApiConfig = GpApiConfig(
+            appId: Self.appId,
+            appKey: Self.appKey,
             secondsToExpire: 60,
-            intervalToExpire: .fiveMinutes) { accessTokenInfo, error in
-            infoResult = accessTokenInfo
-            errorResult = error
-            keyExpectation.fulfill()
-        }
+            intervalToExpire: .fiveMinutes
+        )
+        try? ServicesContainer.configureService(config: gpApiConfig)
 
-        // THEN
-        wait(for: [keyExpectation], timeout: 10.0)
-        XCTAssertNil(errorResult)
-        XCTAssertNotNil(infoResult)
-        
-        
         // GIVEN
         let verifyExpectation = expectation(description: "Verify Expectation")
         var verifyTransactionResult: Transaction?
@@ -466,4 +453,62 @@ class GpApiAuthenticationTests: XCTestCase {
         XCTAssertEqual(verifyExpiryTransactionResult?.responseCode, "SUCCESS")
         XCTAssertEqual(verifyExpiryTransactionResult?.responseMessage, "VERIFIED")
     }
+
+    func test_generate_access_token_with_restricted_token_yes() {
+        // GIVEN
+        // restricted_token = YES creates a restricted access token for Drop-in UI / Hosted Fields
+        let keyExpectation = expectation(description: "Generate Restricted Access Token Expectation")
+        let environment = Environment.test
+        let appId = Self.appId
+        let appKey = Self.appKey
+        var infoResult: AccessTokenInfo?
+        var errorResult: Error?
+
+        // WHEN
+        GpApiService.generateTransactionKey(
+            environment: environment,
+            appId: appId,
+            appKey: appKey,
+            restrictedToken: true) { accessTokenInfo, error in
+            infoResult = accessTokenInfo
+            errorResult = error
+            keyExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [keyExpectation], timeout: 10.0)
+        XCTAssertNil(errorResult)
+        XCTAssertNotNil(infoResult)
+        XCTAssertNotNil(infoResult?.token)
+    }
+
+    func test_generate_access_token_with_restricted_token_no() {
+        // GIVEN
+        // restricted_token = NO creates a standard (unrestricted) access token
+        let keyExpectation = expectation(description: "Generate Unrestricted Access Token Expectation")
+        let environment = Environment.test
+        let appId = Self.appId
+        let appKey = Self.appKey
+        var infoResult: AccessTokenInfo?
+        var errorResult: Error?
+
+        // WHEN
+        GpApiService.generateTransactionKey(
+            environment: environment,
+            appId: appId,
+            appKey: appKey,
+            restrictedToken: false) { accessTokenInfo, error in
+            infoResult = accessTokenInfo
+            errorResult = error
+            keyExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [keyExpectation], timeout: 10.0)
+        XCTAssertNil(errorResult)
+        XCTAssertNotNil(infoResult)
+        XCTAssertNotNil(infoResult?.token)
+        XCTAssertNotNil(infoResult?.transactionProcessingAccountName)
+    }
+
 }

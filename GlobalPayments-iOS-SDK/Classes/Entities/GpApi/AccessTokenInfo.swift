@@ -2,6 +2,8 @@ import Foundation
 
 public class AccessTokenInfo {
     public var token: String?
+    public var secondsToExpire: Int?
+    public var intervalToExpire: String?
     public var dataAccountName: String?
     public var disputeManagementAccountName: String?
     public var tokenizationAccountName: String?

@@ -35,6 +35,8 @@ public class GpApiConfig: GatewayConfig {
     public var statusUrl: String?
     
     public var porticoTokenConfig: PorticoTokenConfig?
+    /// Indicates whether the access token should be restricted
+    public var restrictedToken: Bool?
     
     public init(appId: String? = nil,
                 appKey: String? = nil,
@@ -53,7 +55,8 @@ public class GpApiConfig: GatewayConfig {
                 merchantId: String? = nil,
                 statusUrl: String? = nil,
                 accessTokenProvider: AccessTokenProvider? = nil,
-                porticoTokenConfig: PorticoTokenConfig? = nil) {
+                porticoTokenConfig: PorticoTokenConfig? = nil,
+                restrictedToken: Bool? = nil) {
 
         self.appId = appId
         self.appKey = appKey
@@ -74,6 +77,7 @@ public class GpApiConfig: GatewayConfig {
         self.statusUrl = statusUrl
         self.accessTokenProvider = accessTokenProvider
         self.porticoTokenConfig = porticoTokenConfig
+        self.restrictedToken = restrictedToken
     }
 
     override func configureContainer(services: ConfiguredServices) {

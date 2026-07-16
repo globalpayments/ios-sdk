@@ -90,7 +90,8 @@ class GpApiConnector: RestGateway {
             secondsToExpire: gpApiConfig.secondsToExpire,
             intervalToExpire: gpApiConfig.intervalToExpire,
             permissions: gpApiConfig.permissions,
-            porticoTokenConfig: gpApiConfig.porticoTokenConfig
+            porticoTokenConfig: gpApiConfig.porticoTokenConfig,
+            restrictedToken: gpApiConfig.restrictedToken
         ) else { return completion(nil, ApiException(message: "Access token provider can't be nil!"))}
 
         super.doTransaction(method: request.method, endpoint: request.endpoint, data: request.requestBody) { response, error in

@@ -17,7 +17,8 @@ class GpApiSessionInfo: AccessTokenProvider {
                        secondsToExpire: Int? = nil,
                        intervalToExpire: IntervalToExpire? = nil,
                        permissions: [String]? = nil,
-                       porticoTokenConfig: PorticoTokenConfig? = nil) -> GpApiRequest {
+                       porticoTokenConfig: PorticoTokenConfig? = nil,
+                       restrictedToken: Bool? = nil) -> GpApiRequest {
         let request = JsonDoc()
         
         if let porticoCredentials = porticoTokenConfig {
@@ -37,7 +38,10 @@ class GpApiSessionInfo: AccessTokenProvider {
             request.set(for: "interval_to_expire", value: intervalToExpire?.rawValue)
             request.set(for: "permissions", value: permissions)
             if let secondsToExpire = secondsToExpire {
-                request.set(for: "seconds_to_expire", value: String(secondsToExpire))
+                request.set(for: "seconds_to_expire", value: secondsToExpire)
+            }
+            if let restrictedToken = restrictedToken {
+                request.set(for: "restricted_token", value: BooleanValue(restrictedToken).rawValue)
             }
         }
 

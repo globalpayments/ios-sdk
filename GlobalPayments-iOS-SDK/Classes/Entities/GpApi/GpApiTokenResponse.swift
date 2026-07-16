@@ -14,6 +14,7 @@ class GpApiTokenResponse {
     var appName: String?
     var timeCreated: Date?
     var secondsToExpire: Int?
+    var intervalToExpire: String?
     var email: String?
     var merchantId: String?
     var merchantName: String?
@@ -71,6 +72,7 @@ class GpApiTokenResponse {
             timeCreated = createdTime.format()
         }
         secondsToExpire = doc?.getValue(key: "seconds_to_expire")
+        intervalToExpire = doc?.getValue(key: "interval_to_expire")
         email = doc?.getValue(key: "email")
         if let doc = doc, doc.has(key: "scope") {
             let scope = doc.get(valueFor: "scope")

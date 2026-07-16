@@ -1,7 +1,12 @@
 # Changelog
 
+## Latest - v3.3.1 (07/16/2026)
 
-## Latest - v3.3.0 (07/09/2026)
+#### Enhancements
+
+- GP-API: Added missing request/response field support for the GP-API Create Access Token endpoint
+
+## v3.3.0 (07/09/2026)
 
 #### Enhancements
 

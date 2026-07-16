@@ -11,6 +11,7 @@ public class GpApiService {
         permissions: [String]? = nil,
         requestLogger: RequestLogger? = nil,
         porticoTokenConfig: PorticoTokenConfig? = nil,
+        restrictedToken: Bool? = nil,
         completion: @escaping (AccessTokenInfo?, Error?) -> Void) {
 
         let config = GpApiConfig(appId: appId,
@@ -18,7 +19,8 @@ public class GpApiService {
                                  secondsToExpire: secondsToExpire,
                                  intervalToExpire: intervalToExpire,
                                  permissions: permissions,
-                                 porticoTokenConfig: porticoTokenConfig)
+                                 porticoTokenConfig: porticoTokenConfig,
+                                 restrictedToken: restrictedToken)
             
         if (config.accessTokenProvider == nil) {
             config.accessTokenProvider = GpApiSessionInfo()
@@ -42,6 +44,8 @@ public class GpApiService {
             }
             let accessTokenInfo = AccessTokenInfo()
             accessTokenInfo.token = tokenResponse?.token
+            accessTokenInfo.secondsToExpire = tokenResponse?.secondsToExpire
+            accessTokenInfo.intervalToExpire = tokenResponse?.intervalToExpire
             accessTokenInfo.dataAccountName = tokenResponse?.dataAccountName
             accessTokenInfo.disputeManagementAccountName = tokenResponse?.disputeManagementAccountName
             accessTokenInfo.tokenizationAccountName = tokenResponse?.tokenizationAccountName

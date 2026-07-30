@@ -7,6 +7,7 @@ public enum PaymentMethodName: String, Mappable {
     case bankTransfer = "BANK TRANSFER"
     case bnpl
     case bankPayment = "BANK_PAYMENT"
+    case paypal
     
     public init?(value: String?) {
         guard let value = value,

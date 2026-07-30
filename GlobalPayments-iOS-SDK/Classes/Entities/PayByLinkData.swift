@@ -34,4 +34,12 @@ public class PayByLinkData: NSObject {
     /// Gets or sets the configuration options for the payment method, such as address requirements,
     /// challenge request indicators, exemption status, and storage mode.
     public var configuration: PaymentMethodConfiguration?
+    /// Visa installment data (funding mode and terms) for the HPP payment link.
+    public var installmentData: InstallmentData?
+    /// The label shown on the submit button of the HPP (e.g. `"SUBMIT NOW"`).
+    public var submitButtonLabel: String?
+    /// Surcharge rules per card type to include in the HPP order.
+    public var surcharge: [Surcharge]?
+    /// Iframe display configuration for the HPP.
+    public var displayConfiguration: DisplayConfiguration?
 }

@@ -877,6 +877,7 @@ public struct GpApiMapping {
         payByLinkResponse.id = doc?.getValue(key: "id")
         payByLinkResponse.accountName = doc?.getValue(key: "account_name")
         payByLinkResponse.url = doc?.getValue(key: "url")
+        payByLinkResponse.redirectUrl = doc?.getValue(key: "redirect_url")
         payByLinkResponse.status = PayByLinkStatus(value: doc?.getValue(key: "status"))
         payByLinkResponse.type = PayByLinkType(value: doc?.getValue(key: "type"))
         payByLinkResponse.usageMode = PaymentMethodUsageMode(value: doc?.getValue(key: "usage_mode"))

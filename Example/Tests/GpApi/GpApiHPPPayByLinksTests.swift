@@ -8,8 +8,13 @@ import GlobalPayments_iOS_SDK
 
 final class GpApiHPPPayByLinksTests: XCTestCase {
 
-    private let APP_ID = "hkjrcsGDhWiDt8GEhoDMKy3pzFz5R0Bo"
-    private let APP_KEY = "cQOKHoAAvNIcEN8s"
+    // Standard sandbox credentials
+    private let APP_ID = "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs"
+    private let APP_KEY = "FQyJA5VuEQfcji2M"
+   
+    private let HPP_APP_ID = "hkjrcsGDhWiDt8GEhoDMKy3pzFz5R0Bo"
+    private let HPP_APP_KEY = "cQOKHoAAvNIcEN8s"
+    private let hppConfigName = "HPP_CONFIG"
     private let billingAddress = Address()
     private let shippingAddress = Address()
     private let newCustomer = Customer()
@@ -33,15 +38,26 @@ final class GpApiHPPPayByLinksTests: XCTestCase {
         let config = GpApiConfig(
             appId: APP_ID,
             appKey: APP_KEY)
-        config.country = "US"
-        
-        let accessTokenInfo =  AccessTokenInfo()
-        accessTokenInfo.transactionProcessingAccountName = "GPECOM_HPP_Transaction_Processing"
+        config.country = "GB"
+        let accessTokenInfo = AccessTokenInfo()
+        accessTokenInfo.transactionProcessingAccountName = "paylink"
         config.accessTokenInfo = accessTokenInfo
-        
         config.requestLogger = SampleRequestLogger(maskedItems: maskedItems)
         try? ServicesContainer.configureService(config: config)
+
         
+        // Used by testCreateHPPPayByLinkWithNewCustomerReturnsSuccess and
+        // testCreateHPPPayByLinkWithExistingActiveCustomerReturnsSuccess
+        let hppConfig = GpApiConfig(
+            appId: HPP_APP_ID,
+            appKey: HPP_APP_KEY)
+        hppConfig.country = "US"
+        let hppAccessTokenInfo = AccessTokenInfo()
+        hppAccessTokenInfo.transactionProcessingAccountName = "GPECOM_Transaction_Processing_CNP"
+        hppConfig.accessTokenInfo = hppAccessTokenInfo
+        hppConfig.requestLogger = SampleRequestLogger(maskedItems: maskedItems)
+        try? ServicesContainer.configureService(config: hppConfig, configName: hppConfigName)
+
         billingAddress.streetAddress1 = "Apartment 852"
         billingAddress.streetAddress2 = "Complex 741"
         billingAddress.streetAddress3 = "no"
@@ -103,12 +119,12 @@ final class GpApiHPPPayByLinksTests: XCTestCase {
             .withCustomerData(newCustomer)
             .withDescription("HPP_Links_Test")
             .withPhoneNumber("99", number: "1801555999", type: .Shipping)
-            .execute { transacation, error in
+            .execute(configName: hppConfigName) { transacation, error in
                 XCTAssertNil(error)
                 XCTAssertNotNil(transacation)
                 XCTAssertEqual(PayByLinkStatus.ACTIVE.rawValue, transacation?.payByLinkResponse?.status?.rawValue)
-                XCTAssertNotNil(transacation?.payByLinkResponse?.url)
                 XCTAssertNotNil(transacation?.payByLinkResponse?.id)
+                XCTAssertNotNil(transacation?.payByLinkResponse?.url)
                 expectation.fulfill()
             }
         
@@ -152,12 +168,12 @@ final class GpApiHPPPayByLinksTests: XCTestCase {
             .withCustomerData(newCustomer)
             .withDescription("HPP_Links_Test")
             .withPhoneNumber("99", number: "1801555999", type: .Shipping)
-            .execute { transacation, error in
+            .execute(configName: hppConfigName) { transacation, error in
                 XCTAssertNil(error)
                 XCTAssertNotNil(transacation)
                 XCTAssertEqual(PayByLinkStatus.ACTIVE.rawValue, transacation?.payByLinkResponse?.status?.rawValue)
-                XCTAssertNotNil(transacation?.payByLinkResponse?.url)
                 XCTAssertNotNil(transacation?.payByLinkResponse?.id)
+                XCTAssertNotNil(transacation?.payByLinkResponse?.url)
                 expectation.fulfill()
             }
         

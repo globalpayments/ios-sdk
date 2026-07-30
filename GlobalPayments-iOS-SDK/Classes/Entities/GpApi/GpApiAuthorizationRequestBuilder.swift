@@ -59,13 +59,14 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                     payload.set(for: "usage_mode", value: payByLinkData.usageMode?.mapped(for: .gpApi))
                     payload.set(for: "description", value: builder.requestDescription)
                     payload.set(for: "type", value: payByLinkData.type?.mapped(for: .gpApi))
-                    payload.set(for: "expiration_date", value: payByLinkData.expirationDate?.format("yyyy-MM-dd"))
+                    payload.set(for: "expiration_date", value: payByLinkData.expirationDate?.format("yyyy-MM-dd'T'HH:mm:ss'Z'"))
                     
                     payload.set(for: "reference", value: builder.clientTransactionId)
-                    payload.set(for: "shipping_amount", value: payByLinkData.shippingAmount?.toNumericCurrencyString(currency: builder.currency))
                     payload.set(for: "shippable", value: payByLinkData.isShippable ?? false ? "YES" : "NO")
                     payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
+                    payload.set(for: "account_id", value: config?.accessTokenInfo?.transactionProcessingAccountID)
                     payload.set(for: "name", value: payByLinkData.name)
+                    payload.set(for: "submit_button_label", value: payByLinkData.submitButtonLabel)
                     
                     payload.set(for: "payer", doc: setPayerInformation(builder))
                     
@@ -73,29 +74,47 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                         .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
                         .set(for: "currency", value: builder.currency)
                         .set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
+                        .set(for: "shipping_amount", value: payByLinkData.shippingAmount?.toNumericCurrencyString(currency: builder.currency))
+
+                    if let surcharges = payByLinkData.surcharge, !surcharges.isEmpty {
+                        let surchargeArray = surcharges.map { s -> JsonDoc in
+                            let entry = JsonDoc()
+                            entry.set(for: "card_type", value: s.cardType)
+                            entry.set(for: "amount", value: s.amount)
+                            return entry
+                        }
+                        order.set(for: "surcharge", values: surchargeArray)
+                    }
                     
                     let transactionConfiguration = JsonDoc()
                         .set(for: "channel", value: config?.channel.mapped(for: .gpApi))
                         .set(for: "country", value: config?.country)
                         .set(for: "capture_mode", value: captureMode(for: builder))
-                        .set(for: "curreny_conversion_mode", value: payByLinkData.isDccEnabled == true ? "YES" : "NO")
+                        .set(for: "currency_conversion_mode", value: payByLinkData.isDccEnabled == true ? "YES" : "NO")
                         .set(for: "allowed_payment_methods", value: mapAllowedPaymentMethod(payByLinkData.allowedPaymentMethods))
                     
                     let paymentMethodConfiguration = JsonDoc()
+                    paymentMethodConfiguration.set(for: "entry_mode", value: payByLinkData.configuration?.entryMode?.mapped(for: .gpApi))
                     paymentMethodConfiguration.set(for: "storage_mode", value: payByLinkData.configuration?.storageMode?.mapped(for: .gpApi))
-                    
-                    let authentication = JsonDoc()
+
+                    let authentications = JsonDoc()
                         .set(for: "preference", value:  payByLinkData.configuration?.challengeRequestIndicator?.mapped(for: .gpApi))
                         .set(for: "exempt_status", value: payByLinkData.configuration?.exemptStatus?.mapped(for: .gpApi))
                         .set(for: "billing_address_required", value: payByLinkData.configuration?.isBillingAddressRequired == true ? "YES" : "NO")
-                    paymentMethodConfiguration.set(for: "authentication", doc: authentication)
+                    paymentMethodConfiguration.set(for: "authentications", doc: authentications)
                     
                     let apm = JsonDoc()
                         .set(for: "shipping_address_enabled", value: payByLinkData.configuration?.isShippingAddressEnabled == true ? "YES" : "NO")
                         .set(for: "address_override", value: payByLinkData.configuration?.isAddressOverrideAllowed == true ? "YES" : "NO")
                     paymentMethodConfiguration.set(for: "apm", doc: apm)
-                    
-                    let shippingAddress = getBasicAddressInformation(builder.billingAddress)
+
+                    if let providers = payByLinkData.configuration?.digitalWalletProviders, !providers.isEmpty {
+                        let digitalWallets = JsonDoc()
+                        digitalWallets.set(for: "provider", value: providers.map { $0.rawValue })
+                        paymentMethodConfiguration.set(for: "digital_wallets", doc: digitalWallets)
+                    }
+
+                    let shippingAddress = getBasicAddressInformation(builder.shippingAddress)
                     order.set(for: "shipping_address", doc: shippingAddress)
                     
                     let shippingPhone = JsonDoc()
@@ -113,6 +132,29 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                     notification.set(for: "status_url", value: payByLinkData.statusUpdateUrl)
 
                     payload.set(for: "notifications", doc: notification)
+
+                    if let displayConfig = payByLinkData.displayConfiguration {
+                        let displayConfigDoc = JsonDoc()
+                        displayConfigDoc.set(for: "iframe_dimensions_domain", value: displayConfig.iframeDimensionsDomain)
+                        displayConfigDoc.set(for: "iframe_response_domain", value: displayConfig.iframeResponseDomain)
+                        payload.set(for: "display_configuration", doc: displayConfigDoc)
+                    }
+
+                    // Visa installments configuration for HPP
+                    if let installments = builder.installmentData {
+                        let installmentsData = JsonDoc()
+                        if let fundingMode = installments.fundingMode, !fundingMode.isEmpty {
+                            installmentsData.set(for: "funding_mode", value: fundingMode)
+                        }
+                        if let terms = installments.terms {
+                            let termsDoc = JsonDoc()
+                            termsDoc.set(for: "max_time_unit_number", value: terms.maxTimeUnitNumber)
+                            termsDoc.set(for: "max_amount", value: terms.maxAmount)
+                            installmentsData.set(for: "terms", doc: termsDoc)
+                        }
+                        payload.set(for: "installment", doc: installmentsData)
+                    }
+
                     payload.set(for: "status", value: builder.customerData?.status)
                 } else {
                     payload.set(for: "usage_limit", value: payByLinkData.usageLimit)
@@ -532,8 +574,16 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         if modifier == TransactionModifier.encryptedMobile || modifier == TransactionModifier.decryptedMobile {
             let digitalWallet = JsonDoc()
             if modifier == TransactionModifier.encryptedMobile {
-                let tokenDoc = JsonDoc.parse(creditCardData.token ?? "{}")
-                digitalWallet.set(for: "payment_token", doc: tokenDoc)
+                if creditCardData.mobileType == EncryptedMobileType.CLICK_PAY.rawValue {
+                    // CTP token is a plain numeric string wrapped in payment_token.data
+                    let paymentToken = JsonDoc()
+                    paymentToken.set(for: "data", value: creditCardData.token)
+                    digitalWallet.set(for: "payment_token", doc: paymentToken)
+                } else {
+                    // Apple Pay / Google Pay tokens are JSON objects encoded as strings
+                    let tokenDoc = JsonDoc.parse(creditCardData.token ?? "{}")
+                    digitalWallet.set(for: "payment_token", doc: tokenDoc)
+                }
             } else if modifier == TransactionModifier.decryptedMobile {
                 digitalWallet.set(for: "token", value: creditCardData.token)
                 digitalWallet.set(for: "token_format", value: DigitalWalletTokenFormat.CARD_NUMBER.rawValue)
@@ -541,6 +591,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                 digitalWallet.set(for: "expiry_year", value: CardUtils.getExpYearFormat(creditCardData.expYear))
                 digitalWallet.set(for: "cryptogram", value: creditCardData.cryptogram)
                 digitalWallet.set(for: "eci", value: creditCardData.eci)
+                digitalWallet.set(for: "avs_address", value: builder.billingAddress?.streetAddress1 ?? "")
+                digitalWallet.set(for: "avs_postal_code", value: builder.billingAddress?.postalCode ?? "")
             }
             digitalWallet.set(for: "provider", value: creditCardData.mobileType)
             paymentMethod.set(for: "digital_wallet", doc: digitalWallet)

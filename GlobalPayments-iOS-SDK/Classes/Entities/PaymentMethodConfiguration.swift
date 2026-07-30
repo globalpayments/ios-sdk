@@ -23,4 +23,11 @@ public class PaymentMethodConfiguration: NSObject {
     
     ///Indicates whether to store the card as part of a transaction.
     public var storageMode: StorageMode?
+
+    /// The digital-wallet providers to present on the Hosted Payment Page (e.g. Google Pay, Apple Pay, Click to Pay).
+    /// Maps to `payment_method_configuration.digital_wallets.provider` in the GP-API request.
+    public var digitalWalletProviders: [DigitalWalletProvider]?
+    /// The entry mode for the HPP (e.g. `.ecom`).
+    /// Maps to `payment_method_configuration.entry_mode` in the GP-API request.
+    public var entryMode: PaymentEntryMode?
 }

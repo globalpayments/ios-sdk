@@ -1,5 +1,17 @@
 import Foundation
 
+public class InstallmentTerms {
+    /// Max number of time units for the installment plan.
+    public var maxTimeUnitNumber: String?
+    /// Maximum amount for the installment plan.
+    public var maxAmount: String?
+
+    public init(maxTimeUnitNumber: String? = nil, maxAmount: String? = nil) {
+        self.maxTimeUnitNumber = maxTimeUnitNumber
+        self.maxAmount = maxAmount
+    }
+}
+
 public class InstallmentData {
     
     //Indicates the installment payment plan program.
@@ -13,7 +25,13 @@ public class InstallmentData {
     
     //Indicates the grace period before the first payment.
     public var gracePeriodCount: String?
-    
+
+    /// Visa installment funding mode (e.g. "MERCHANT_FUNDED", "ISSUER_FUNDED").
+    public var fundingMode: String?
+
+    /// Visa installment terms (max_time_unit_number, max_amount).
+    public var terms: InstallmentTerms?
+
     public init(program: String? = nil, mode: String? = nil, count: String? = nil, gracePeriodCount: String? = nil) {
         self.program = program
         self.mode = mode

@@ -7,6 +7,10 @@ public class PayByLinkResponse: NSObject {
     public var accountName: String?
     /// The URL that the customer should be redirected to in order to make their payment.
     public var url: String?
+    /// The redirect URL returned by the GP-API `/links` endpoint for Hosted Payment Page (HPP) flows.
+    /// This is the URL the merchant should redirect their customer to in order to display the HPP,
+    /// including any enabled digital-wallet options such as Click to Pay.
+    public var redirectUrl: String?
     /// Indicates where a link is in its lifecycle.
     public var status: PayByLinkStatus?
     /// Describes the type of link that will be created.

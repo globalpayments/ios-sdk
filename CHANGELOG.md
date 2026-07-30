@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.3.1 (07/16/2026)
+## Latest - v3.3.2 (07/30/2026)
+
+#### Enhancements
+
+- GP-API: Added Click-to-Pay(Visa SRC) support for Hosted Payment Pages via GP-API
+
+## v3.3.1 (07/16/2026)
 
 #### Enhancements
 

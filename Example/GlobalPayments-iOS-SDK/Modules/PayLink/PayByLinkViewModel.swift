@@ -32,6 +32,37 @@ final class PayByLinkViewModel: BaseViewModel {
             .execute(completion: showOutput)
     }
 
+    /// Creates an HPP link with Click to Pay as an available digital-wallet option.
+    /// This demonstrates the new `CLICK_TO_PAY` provider value inside
+    /// `payment_method_configuration.digital_wallets.provider`.
+    func doHPPPayByLinkWithClickToPayTransaction() {
+        showLoading.executer()
+
+        let payByLinkData = PayByLinkData()
+        payByLinkData.type = .hosted_payment_page
+        payByLinkData.usageMode = usageMode
+        payByLinkData.allowedPaymentMethods = [.card]
+        payByLinkData.usageLimit = usageLimit
+        payByLinkData.name = description
+        payByLinkData.isShippable = false
+        payByLinkData.expirationDate = expirationDate.formattedDate("yyyy-MM-dd")
+        payByLinkData.returnUrl = "https://www.example.com/returnUrl"
+        payByLinkData.statusUpdateUrl = "https://www.example.com/statusUrl"
+        payByLinkData.cancelUrl = "https://www.example.com/returnUrl"
+
+        let configuration = PaymentMethodConfiguration()
+        configuration.storageMode = .off
+        // Enable Click to Pay (along with Google Pay and Apple Pay) on the HPP.
+        configuration.digitalWalletProviders = [.googlePay, .applePay, .clickToPay]
+        payByLinkData.configuration = configuration
+
+        PayByLinkService.create(payByLink: payByLinkData, amount: amount)
+            .withCurrency("EUR")
+            .withClientTransactionId(UUID().uuidString)
+            .withDescription(description)
+            .execute(completion: showOutput)
+    }
+
     private func showOutput(transaction: Transaction?, error: Error?) {
         UI {
             guard let transaction = transaction else {

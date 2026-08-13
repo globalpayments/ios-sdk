@@ -99,4 +99,6 @@ public struct TransactionType: OptionSet, Hashable {
     public static let uploadDocument         = TransactionType(rawValue: 1 << 46)
     
     public static let surcharge              = TransactionType(rawValue: 1 << 47)
+    /// Indicates a Click to Pay token decryption via the /decrypt endpoint.
+    public static let decrypt                = TransactionType(rawValue: 1 << 48)
 }

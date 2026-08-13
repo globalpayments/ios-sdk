@@ -1,6 +1,13 @@
 # Changelog
 
-## Latest - v3.3.2 (07/30/2026)
+## Latest - v3.3.3 (08/13/2026)
+
+#### Enhancements
+
+- GP-API: Added Click to Pay (Visa SRC) token decryption support via GP-API /decrypt endpoint
+- Added a Makefile for automatically generating xcframework for ios-sdk project
+
+## v3.3.2 (07/30/2026)
 
 #### Enhancements
 

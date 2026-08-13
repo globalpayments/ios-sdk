@@ -152,6 +152,7 @@
 		63BDC452738D75B3FC4F58A2C9C8B565 /* BankAccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88AB6D3CA800B38B47D5253B6128729 /* BankAccountData.swift */; };
 		641C2933ED091F7AE3B6CEB8DC8C48C9 /* BatchSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B3003E346EF0882A435863A915F118 /* BatchSummary.swift */; };
 		648F2890B82F0C5AE4E6408B30D88800 /* InstallmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDAAFE0705F58FB7DC02F152538A35B /* InstallmentBuilder.swift */; };
+		6503239C302A37CC006F7491 /* BooleanValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6503239B302A37CC006F7491 /* BooleanValue.swift */; };
 		657F63FF300F5846000F3D71 /* DigitalWalletProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F63FE300F5846000F3D71 /* DigitalWalletProvider.swift */; };
 		657F64013017BC05000F3D71 /* DisplayConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F64003017BC05000F3D71 /* DisplayConfiguration.swift */; };
 		657F64033017BC26000F3D71 /* Surcharge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F64023017BC26000F3D71 /* Surcharge.swift */; };
@@ -541,6 +542,7 @@
 		63CFF5B4BEE5457385683C70D29DAE0A /* ManualEntryMethod.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ManualEntryMethod.swift; sourceTree = "<group>"; };
 		640FC11F2D25F69AF08638519075C190 /* Chargable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Chargable.swift; sourceTree = "<group>"; };
 		64ACF7C32278429B2BFB8295D324A424 /* GlobalPayments-iOS-SDK.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = "GlobalPayments-iOS-SDK.podspec"; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		6503239B302A37CC006F7491 /* BooleanValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanValue.swift; sourceTree = "<group>"; };
 		657F63FE300F5846000F3D71 /* DigitalWalletProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalWalletProvider.swift; sourceTree = "<group>"; };
 		657F64003017BC05000F3D71 /* DisplayConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayConfiguration.swift; sourceTree = "<group>"; };
 		657F64023017BC26000F3D71 /* Surcharge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surcharge.swift; sourceTree = "<group>"; };
@@ -1122,6 +1124,7 @@
 		9653FC3561D2A39E9C54C15F1B3E873E /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				6503239B302A37CC006F7491 /* BooleanValue.swift */,
 				657F63FE300F5846000F3D71 /* DigitalWalletProvider.swift */,
 				983B7B4C1DC989D015F1B3531A2756DE /* AccountType.swift */,
 				2BE0EF75C96C7888BD391E147B21339F /* ActionSortProperty.swift */,
@@ -1914,6 +1917,7 @@
 				1F84383A6850F32E1C68FB81915C3CAB /* Product.swift in Sources */,
 				E93CB1E520B9AE2CB8B2F3D982B9045A /* RealexConnector.swift in Sources */,
 				EA45B8C82D256723B24419E92CEAFF93 /* ReasonCode.swift in Sources */,
+				6503239C302A37CC006F7491 /* BooleanValue.swift in Sources */,
 				11CE52F5A18CCA0086FFD4AA557BBB58 /* RecurringBuilder.swift in Sources */,
 				D8813B0CB56EF97C0457FDFD9A837EAA /* RecurringEntity.swift in Sources */,
 				7DCD1BF9386A78CBC31457B1742F14C5 /* RecurringPaymentMethod.swift in Sources */,

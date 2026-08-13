@@ -5,6 +5,13 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
     func generateRequest(for builder: AuthorizationBuilder, config: GpApiConfig?) -> GpApiRequest? {
         let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : .empty
         switch builder.transactionType {
+        case .decrypt:
+            let payload = createForDecrypt(builder, config)
+            return GpApiRequest(
+                endpoint: merchantUrl + GpApiRequest.Endpoints.decrypt(),
+                method: .post,
+                requestBody: payload.toString()
+            )
         case .sale, .refund, .auth:
             let payload = createFromAuthorizationBuilder(builder, config)
             return GpApiRequest(
@@ -363,6 +370,38 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         return payload
     }
 
+    private func createForDecrypt(_ builder: AuthorizationBuilder, _ config: GpApiConfig?) -> JsonDoc {
+        let payload = JsonDoc()
+        payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
+        payload.set(for: "account_id", value: config?.accessTokenInfo?.transactionProcessingAccountID)
+        payload.set(for: "type", value: "DECrypt")
+        payload.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
+        payload.set(for: "country", value: config?.country)
+        payload.set(for: "currency", value: builder.currency)
+        payload.set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
+
+        let paymentMethod = JsonDoc()
+        if let creditCardData = builder.paymentMethod as? CreditCardData {
+            paymentMethod.set(for: "name", value: creditCardData.cardHolderName)
+            paymentMethod.set(for: "entry_mode", value: entryMode(for: builder, channel: config?.channel))
+
+            let digitalWallet = JsonDoc()
+            digitalWallet.set(for: "provider", value: creditCardData.mobileType)
+            if let brand = creditCardData.cardType, brand != "Unknown", !brand.isEmpty {
+                digitalWallet.set(for: "brand", value: brand.lowercased())
+            }
+            let tokenDoc = JsonDoc()
+            tokenDoc.set(for: "data", value: creditCardData.token)
+            tokenDoc.set(for: "dpa_reference", value: creditCardData.dpaReference)
+            tokenDoc.set(for: "data_type_indicator", value: creditCardData.dataTypeIndicator)
+            digitalWallet.set(for: "payment_token", doc: tokenDoc)
+            paymentMethod.set(for: "digital_wallet", doc: digitalWallet)
+        }
+        payload.set(for: "payment_method", doc: paymentMethod)
+
+        return payload
+    }
+
     private func createForVerify(_ builder: AuthorizationBuilder, _ config: GpApiConfig?) -> JsonDoc {
         let payload = JsonDoc()
             .set(for: "account_name", value: config?.accessTokenInfo?.tokenizationAccountName)
@@ -585,14 +624,27 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                     digitalWallet.set(for: "payment_token", doc: tokenDoc)
                 }
             } else if modifier == TransactionModifier.decryptedMobile {
-                digitalWallet.set(for: "token", value: creditCardData.token)
-                digitalWallet.set(for: "token_format", value: DigitalWalletTokenFormat.CARD_NUMBER.rawValue)
-                digitalWallet.set(for: "expiry_month", value: CardUtils.getExpMonthFormat(creditCardData.expMonth))
-                digitalWallet.set(for: "expiry_year", value: CardUtils.getExpYearFormat(creditCardData.expYear))
-                digitalWallet.set(for: "cryptogram", value: creditCardData.cryptogram)
-                digitalWallet.set(for: "eci", value: creditCardData.eci)
-                digitalWallet.set(for: "avs_address", value: builder.billingAddress?.streetAddress1 ?? "")
-                digitalWallet.set(for: "avs_postal_code", value: builder.billingAddress?.postalCode ?? "")
+                let authBuilder = builder as? AuthorizationBuilder
+                if let decryptionId = authBuilder?.decryptionId {
+                    // CTP decrypt flow: PMT_ID goes in payment_method.id, DEC_ID in digital_wallet.decrypt.id
+                    paymentMethod.set(for: "id", value: creditCardData.token)
+                    let decryptDoc = JsonDoc()
+                    decryptDoc.set(for: "id", value: decryptionId)
+                    digitalWallet.set(for: "decrypt", doc: decryptDoc)
+                    let paymentTokenDoc = JsonDoc()
+                    paymentTokenDoc.set(for: "dpa_reference", value: creditCardData.dpaReference)
+                    paymentTokenDoc.set(for: "data_type_indicator", value: creditCardData.dataTypeIndicator)
+                    digitalWallet.set(for: "payment_token", doc: paymentTokenDoc)
+                } else {
+                    digitalWallet.set(for: "token", value: creditCardData.token)
+                    digitalWallet.set(for: "token_format", value: DigitalWalletTokenFormat.CARD_NUMBER.rawValue)
+                    digitalWallet.set(for: "expiry_month", value: CardUtils.getExpMonthFormat(creditCardData.expMonth))
+                    digitalWallet.set(for: "expiry_year", value: CardUtils.getExpYearFormat(creditCardData.expYear))
+                    digitalWallet.set(for: "cryptogram", value: creditCardData.cryptogram)
+                    digitalWallet.set(for: "eci", value: creditCardData.eci)
+                    digitalWallet.set(for: "avs_address", value: builder.billingAddress?.streetAddress1 ?? "")
+                    digitalWallet.set(for: "avs_postal_code", value: builder.billingAddress?.postalCode ?? "")
+                }
             }
             digitalWallet.set(for: "provider", value: creditCardData.mobileType)
             paymentMethod.set(for: "digital_wallet", doc: digitalWallet)

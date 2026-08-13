@@ -86,6 +86,13 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     public func verify() -> AuthorizationBuilder {
         return AuthorizationBuilder(transactionType: .verify, paymentMethod: self)
     }
+
+    /// Decrypts an encrypted Click to Pay token via the GPAPI /decrypt endpoint.
+    /// - Returns: AuthorizationBuilder
+    public func decrypt() -> AuthorizationBuilder {
+        return AuthorizationBuilder(transactionType: .decrypt, paymentMethod: self)
+            .withModifier(.encryptedMobile)
+    }
     
     /// Creates and returns a builder for performing surcharge eligibility lookup operations.
     /// This builder is used to determine if a transaction is eligible for surcharge fees.

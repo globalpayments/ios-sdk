@@ -46,6 +46,12 @@ extension GpApiRequest {
             "/payment-methods/search"
         }
 
+        // MARK: - Decrypt
+
+        static func decrypt() -> String {
+            "/decrypt"
+        }
+
         static func currencyConversions() -> String {
             "/currency-conversions"
         }

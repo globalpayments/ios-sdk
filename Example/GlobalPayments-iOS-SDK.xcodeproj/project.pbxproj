@@ -25,6 +25,7 @@
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		6551742C2FFF8C5F0009520B /* GpApiClickToPayDecryptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6551742B2FFF8C5F0009520B /* GpApiClickToPayDecryptTests.swift */; };
 		655174272FF27C970009520B /* GpApiBatchCloseWithoutIdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655174262FF27C970009520B /* GpApiBatchCloseWithoutIdTest.swift */; };
 		65EDFBB32F766EEC0040265F /* PorticoGiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EDFBB22F766EEC0040265F /* PorticoGiftTests.swift */; };
 		65F198BD2F98FF1100411BCA /* PorticoBatchServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F198BB2F98FF1100411BCA /* PorticoBatchServiceTest.swift */; };
@@ -65,6 +66,7 @@
 		8224884525E5381B001EAF3D /* GpApiCreditCardPresentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8224884425E5381B001EAF3D /* GpApiCreditCardPresentTests.swift */; };
 		82256989262D85770023E6A1 /* GpApiBatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82256988262D85770023E6A1 /* GpApiBatchTests.swift */; };
 		8225699C262DA4400023E6A1 /* GpApi3DSTestCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82256994262DA30F0023E6A1 /* GpApi3DSTestCards.swift */; };
+		6551742E2FFF8C5F0009520B /* GpApiClickToPayTestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6551742D2FFF8C5F0009520B /* GpApiClickToPayTestData.swift */; };
 		822609A5258CB4300008B3F0 /* NavigationItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822609A4258CB4300008B3F0 /* NavigationItems.swift */; };
 		822609A9258CCD240008B3F0 /* DisputeDocumentForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822609A8258CCD240008B3F0 /* DisputeDocumentForm.swift */; };
 		822FBEED2580EE7400D12353 /* DepositByIDFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822FBEEC2580EE7400D12353 /* DepositByIDFormBuilder.swift */; };
@@ -514,6 +516,7 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* GlobalPayments-iOS-SDK_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GlobalPayments-iOS-SDK_Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6551742B2FFF8C5F0009520B /* GpApiClickToPayDecryptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiClickToPayDecryptTests.swift; sourceTree = "<group>"; };
 		655174262FF27C970009520B /* GpApiBatchCloseWithoutIdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBatchCloseWithoutIdTest.swift; sourceTree = "<group>"; };
 		65EDFBB22F766EEC0040265F /* PorticoGiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoGiftTests.swift; sourceTree = "<group>"; };
 		65F198BB2F98FF1100411BCA /* PorticoBatchServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoBatchServiceTest.swift; sourceTree = "<group>"; };
@@ -553,6 +556,7 @@
 		8224884425E5381B001EAF3D /* GpApiCreditCardPresentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreditCardPresentTests.swift; sourceTree = "<group>"; };
 		82256988262D85770023E6A1 /* GpApiBatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBatchTests.swift; sourceTree = "<group>"; };
 		82256994262DA30F0023E6A1 /* GpApi3DSTestCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApi3DSTestCards.swift; sourceTree = "<group>"; };
+		6551742D2FFF8C5F0009520B /* GpApiClickToPayTestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiClickToPayTestData.swift; sourceTree = "<group>"; };
 		822609A4258CB4300008B3F0 /* NavigationItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItems.swift; sourceTree = "<group>"; };
 		822609A8258CCD240008B3F0 /* DisputeDocumentForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisputeDocumentForm.swift; sourceTree = "<group>"; };
 		822FBEEC2580EE7400D12353 /* DepositByIDFormBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositByIDFormBuilder.swift; sourceTree = "<group>"; };
@@ -1254,6 +1258,7 @@
 			isa = PBXGroup;
 			children = (
 				82256994262DA30F0023E6A1 /* GpApi3DSTestCards.swift */,
+				6551742D2FFF8C5F0009520B /* GpApiClickToPayTestData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1648,9 +1653,10 @@
 		8267BC9624DAB5B700AF64D2 /* GpApi */ = {
 			isa = PBXGroup;
 			children = (
-                C7B111782FEC2753008B2020 /* GpApiApacTests */,
-                655174262FF27C970009520B /* GpApiBatchCloseWithoutIdTest.swift */,
-                65F6E0872FCD8F2100A8ECCE /* GpApiERatyTest.swift */,
+				6551742B2FFF8C5F0009520B /* GpApiClickToPayDecryptTests.swift */,
+                		C7B111782FEC2753008B2020 /* GpApiApacTests */,
+               			655174262FF27C970009520B /* GpApiBatchCloseWithoutIdTest.swift */,
+                		65F6E0872FCD8F2100A8ECCE /* GpApiERatyTest.swift */,
 				302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */,
 				82883A61257E44E400914499 /* Certification */,
 				82F20CFE262EC03600A08543 /* GpApi3DSecure1Tests.swift */,
@@ -3129,6 +3135,7 @@
 				8218B1E62521CFD6009DC67A /* GpApiAuthenticationTests.swift in Sources */,
 				82613EBC24FE5D4E006EF5BD /* GpApiTokenManagementTests.swift in Sources */,
 				30B3DE5A299BEA9500FCEF48 /* GpApiAchTests.swift in Sources */,
+				6551742C2FFF8C5F0009520B /* GpApiClickToPayDecryptTests.swift in Sources */,
 				8252038E24E2C15600784248 /* CountryUtilsTests.swift in Sources */,
 				C7B111792FEC2753008B2020 /* GpApiApacSGCreditTests.swift in Sources */,
 				C7B1117A2FEC2753008B2020 /* GpApiApacHKCreditTests.swift in Sources */,
@@ -3146,6 +3153,7 @@
 				C75FE6512E5C556800E56004 /* GpApiBlikPayuCertification.swift in Sources */,
 				82B8FE83263317120023BA5E /* GpApiActionsReportTests.swift in Sources */,
 				8225699C262DA4400023E6A1 /* GpApi3DSTestCards.swift in Sources */,
+				6551742E2FFF8C5F0009520B /* GpApiClickToPayTestData.swift in Sources */,
 				82F9A57F25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift in Sources */,
 				82447E9125BAE2ED003F816D /* GpApi3DSecureTests.swift in Sources */,
 				C756FC1C2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift in Sources */,

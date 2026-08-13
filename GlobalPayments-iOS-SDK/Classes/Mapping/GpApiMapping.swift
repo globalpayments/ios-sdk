@@ -152,8 +152,12 @@ public struct GpApiMapping {
 
         transaction.batchSummary = batchSummary
         transaction.responseCode = doc?.get(valueFor: "action")?.getValue(key: "result_code")
-        if let token: String = doc?.getValue(key: "id"), token.starts(with: "PMT_") {
-            transaction.token = token
+        if let id: String = doc?.getValue(key: "id") {
+            if id.starts(with: "PMT_") {
+                transaction.token = id
+            } else if id.starts(with: "DEC_") {
+                transaction.decryptId = id
+            }
         }
         
         if let type: String = doc?.get(valueFor: "action")?.getValue(key: "type"), let actionType = ActionType(value: type) {

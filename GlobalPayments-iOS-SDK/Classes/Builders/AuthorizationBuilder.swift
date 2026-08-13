@@ -78,6 +78,7 @@ import Foundation
     var remittanceReferenceValue: String?
     var transactionInitiator: StoredCredentialInitiator?
     var merchantCategory: MerchantCategory?
+    var decryptionId: String?
     var installmentData: InstallmentData?
     var orderSupplementaryData: [OrderSupplementaryData]?
     var cpcReq: Bool = false
@@ -601,6 +602,12 @@ import Foundation
 
     public func withModifier(_ transactionModifier: TransactionModifier) -> AuthorizationBuilder {
         self.transactionModifier = transactionModifier
+        return self
+    }
+
+    @discardableResult
+    public func withDecryptionId(_ decryptionId: String) -> AuthorizationBuilder {
+        self.decryptionId = decryptionId
         return self
     }
     

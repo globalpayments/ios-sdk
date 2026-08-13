@@ -38,6 +38,10 @@ public class CreditCardData: Credit, CardData {
 
     public var entryMethod: ManualEntryMethod?
     public var methodUsageMode: PaymentMethodUsageMode?
+    /// The DPA reference for Click to Pay decrypt flow.
+    public var dpaReference: String?
+    /// The data type indicator for Click to Pay decrypt flow.
+    public var dataTypeIndicator: String?
 
     @available(*, deprecated, message: "Please use CheckEnrollment  from Secure3dService")
     public func verifyEnrolled(amount: NSDecimalNumber,

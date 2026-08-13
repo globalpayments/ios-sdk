@@ -178,6 +178,8 @@ public class Transaction: NSObject {
     }
     /// The payment token returned in the transaction.
     public var token: String?
+    /// The decryption ID (DEC_ID) returned from the /decrypt endpoint.
+    public var decryptId: String?
     
     public var fingerPrint: String?
     public var fingerPrintIndicator: String?

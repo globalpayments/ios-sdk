@@ -12,4 +12,8 @@ public class DisplayConfiguration: NSObject {
     public var iframeDimensionsDomain: String?
     /// The domain for iframe response callbacks.
     public var iframeResponseDomain: String?
+    /// Whether to show the cardholder name field on the HPP ("YES"/"NO").
+    public var cardholderName: String?
+    /// Whether to show the CVV field on the HPP ("YES"/"NO").
+    public var cvv: String?
 }

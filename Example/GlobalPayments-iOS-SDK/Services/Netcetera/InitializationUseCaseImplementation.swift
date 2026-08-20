@@ -10,16 +10,22 @@ class InitializationUseCaseImplementation: InitializationUseCase {
     
     func initializeSDK(succesHandler: @escaping InitializationCompleteHandler,
                        errorHandler: @escaping ErrorHandler) {
-        do {
-            let configParameters = try configureSDK()
-            
-            // Change uicustomization to nil for default design.
-            let uicustomization = try createUICustomization()
-            let uiCustomizationMap = ["default": uicustomization]
-            try threeDS2Service.initialize(configParameters, locale: nil, uiCustomizationMap: uiCustomizationMap)
-            succesHandler()
-        }catch let error as NSError {
-            errorHandler(error.localizedDescription)
+        guard #available(iOS 13.0, *) else {
+            errorHandler("ThreeDS SDK 2.7.0 requires iOS 13.0 or later")
+            return
+        }
+        Task {
+            do {
+                let configParameters = try configureSDK()
+
+                // Change uicustomization to nil for default design.
+                let uicustomization = try createUICustomization()
+                let uiCustomizationMap: [UiCustomization.UICustomizationType: UiCustomization] = [.DEFAULT: uicustomization]
+                try await threeDS2Service.initialize(configParameters, locale: nil, uiCustomization: uiCustomizationMap)
+                succesHandler()
+            } catch let error as NSError {
+                errorHandler(error.localizedDescription)
+            }
         }
     }
     
@@ -52,26 +58,29 @@ class InitializationUseCaseImplementation: InitializationUseCase {
     
     
     func verifyWarnings(errorHandler: @escaping ErrorHandler) {
-        
-        var sdkWarnings: [Warning] = []
-        do {
-            sdkWarnings = try threeDS2Service.getWarnings()
-        } catch let error as NSError {
-            errorHandler(error.localizedDescription)
-        } catch {
-            errorHandler("ThreeDS SDK couldn't calculate warnings")
+        guard #available(iOS 13.0, *) else {
+            errorHandler("ThreeDS SDK 2.7.0 requires iOS 13.0 or later")
+            return
         }
-        
-        if sdkWarnings.count > 0 {
-            var message = ""
-            for warning in sdkWarnings {
-                message = message + warning.getMessage()
-                message = message + "\n"
+        Task {
+            var sdkWarnings: [Warning] = []
+            do {
+                sdkWarnings = try await threeDS2Service.getWarnings()
+            } catch let error as NSError {
+                errorHandler(error.localizedDescription)
+            } catch {
+                errorHandler("ThreeDS SDK couldn't calculate warnings")
             }
-            
-            errorHandler(message)
+
+            if sdkWarnings.count > 0 {
+                var message = ""
+                for warning in sdkWarnings {
+                    message = message + warning.getMessage()
+                    message = message + "\n"
+                }
+                errorHandler(message)
+            }
         }
-        
     }
     
     /// Sets the UiCustomization for the NDM.

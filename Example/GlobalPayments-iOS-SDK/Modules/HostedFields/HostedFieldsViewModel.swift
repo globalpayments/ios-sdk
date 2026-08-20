@@ -125,15 +125,19 @@ final class HostedFieldsViewModel: BaseViewModel {
             showDataResponse.value = (.error, ApiException(message: "SecureEcom is Nil"))
             return
         }
-
-        do {
-            transaction = try threeDS2Service.createTransaction(directoryServerId: getDsRidCard(), messageVersion: secureEcom.messageVersion
-            )
-            if let netceteraParams = try transaction?.getAuthenticationRequestParameters(){
-                authenticateTransaction(secureEcom, netceteraParams)
+        guard #available(iOS 13.0, *) else {
+            showDataResponse.value = (.error, ApiException(message: "ThreeDS SDK 2.7.0 requires iOS 13.0 or later"))
+            return
+        }
+        Task {
+            do {
+                transaction = try await threeDS2Service.createTransaction(directoryServerId: getDsRidCard(), messageVersion: secureEcom.messageVersion)
+                if let netceteraParams = try transaction?.getAuthenticationRequestParameters() {
+                    authenticateTransaction(secureEcom, netceteraParams)
+                }
+            } catch {
+                self.showDataResponse.value = (.error, GenericMessage(message: error.localizedDescription))
             }
-        } catch {
-            self.showDataResponse.value = (.error, GenericMessage(message: error.localizedDescription))
         }
     }
     
@@ -171,14 +175,20 @@ final class HostedFieldsViewModel: BaseViewModel {
         if(secureEcom.status == self.CHALLENGE_REQUIRED){
             let challengeStatusReceiver = AppChallengeStatusReceiver(view: self, dsTransId: secureEcom.acsTransactionId, secureEcom: secureEcom)
             let challengeParameters = self.prepareChallengeParameters(secureEcom)
-            do {
-                guard let viewController = viewController else { return }
-                try self.transaction?.doChallenge(challengeParameters: challengeParameters,
-                                                  challengeStatusReceiver: challengeStatusReceiver,
-                                                  timeOut:10,
-                                                  inViewController: viewController)
-            } catch {
-                showDataResponse.value = (.error, error as Any)
+            guard #available(iOS 13.0, *) else {
+                showDataResponse.value = (.error, ApiException(message: "ThreeDS SDK 2.7.0 requires iOS 13.0 or later"))
+                return
+            }
+            Task {
+                do {
+                    guard let viewController = viewController else { return }
+                    try await self.transaction?.doChallenge(challengeParameters: challengeParameters,
+                                                            challengeStatusReceiver: challengeStatusReceiver,
+                                                            timeOut: 10,
+                                                            inViewController: viewController)
+                } catch {
+                    showDataResponse.value = (.error, error as Any)
+                }
             }
         }else {
             if let transactionId = secureEcom.serverTransactionId {

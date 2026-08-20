@@ -142,6 +142,7 @@ public enum AlternativePaymentMethodType: String, Mappable {
     case ALIPAY
     case BLIK
     case OB
+    case CASHPRESSO
     
     public func mapped(for target: Target) -> String? {
         switch target {

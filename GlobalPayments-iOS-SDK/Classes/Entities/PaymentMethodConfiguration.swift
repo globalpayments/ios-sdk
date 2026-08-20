@@ -30,4 +30,7 @@ public class PaymentMethodConfiguration: NSObject {
     /// The entry mode for the HPP (e.g. `.ecom`).
     /// Maps to `payment_method_configuration.entry_mode` in the GP-API request.
     public var entryMode: PaymentEntryMode?
+    /// APM provider configurations for the HPP (e.g. Cashpresso with payment plans).
+    /// Maps to `payment_method_configuration.apm.configurations` in the GP-API /links request.
+    public var apmConfigurations: [ApmProviderConfiguration]?
 }

@@ -5,6 +5,10 @@ public enum BNPLShippingMethod: String, Mappable, CaseIterable {
     case DELIVERY
     case COLLECTION
     case EMAIL
+    // Cashpresso-specific shipping methods
+    case PICKUP
+    case PICKUP_BOX
+    case POSTOFFICE
     
     public init?(value: String?) {
         guard let value = value,

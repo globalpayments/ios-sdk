@@ -42,4 +42,15 @@ public class PayByLinkData: NSObject {
     public var surcharge: [Surcharge]?
     /// Iframe display configuration for the HPP.
     public var displayConfiguration: DisplayConfiguration?
+    /// Shipping date for the order. Mandatory for Cashpresso (ISO-8601 date, e.g. "2026-08-30").
+    /// Maps to `order.shipping_date` in the GP-API /links request.
+    public var shippingDate: String?
+    /// Shipping method for the order (e.g. DELIVERY, PICKUP, PICKUP_BOX, POSTOFFICE for Cashpresso).
+    /// Maps to `order.shipping_method` in the GP-API /links request.
+    public var shippingMethod: BNPLShippingMethod?
+    /// Tax amount for the order.
+    /// Maps to `order.tax_amount` in the GP-API /links request.
+    public var taxAmount: NSDecimalNumber?
+    /// Order line items for the HPP. Each item maps to `order.items[]` in the GP-API /links request.
+    public var orderItems: [Product]?
 }

@@ -16,6 +16,8 @@ public class AlternativePaymentResponse: NSObject {
     public var category: String?
     /// Provider payer name returned in the eRaty response (apm.provider_payer_name)
     public var providerPayerName: String?
+    /// Cashpresso payment plan returned in the APM response (apm.payment_plan / apm.mode)
+    public var paymentPlan: String?
     /// Installment terms returned for eRaty (apm.terms)
     public var responseTerms: Terms?
     /// This parameter reflects what the customer will see on the proof of payment
@@ -78,6 +80,8 @@ extension AlternativePaymentResponse: JsonToObject {
             apm.providerRedirectUrl = paymentMethodApm.getValue(key: "provider_redirect_url")
             apm.category = paymentMethodApm.getValue(key: "category")
             apm.providerPayerName = paymentMethodApm.getValue(key: "provider_payer_name")
+            // Map payment_plan (used by Cashpresso) — also check legacy "mode" field
+            apm.paymentPlan = paymentMethodApm.getValue(key: "payment_plan") ?? paymentMethodApm.getValue(key: "mode")
             if let termsDoc: JsonDoc = paymentMethodApm.get(valueFor: "terms") {
                 let terms = Terms()
                 terms.TimeUnit = termsDoc.getValue(key: "time_unit")

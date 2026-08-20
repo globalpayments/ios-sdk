@@ -232,13 +232,20 @@ extension GpApiConnector: PaymentGateway {
     func processAuthorization(_ builder: AuthorizationBuilder,
                               completion: ((Transaction?, Error?) -> Void)?) {
 
+        let requestBuilder = GpApiAuthorizationRequestBuilder()
+        do {
+            try requestBuilder.validateCashpresso(builder: builder, config: gpApiConfig)
+        } catch {
+            completion?(nil, error)
+            return
+        }
+
         verifyAuthentication { [weak self] error in
             if let error = error {
                 completion?(nil, error)
                 return
             }
 
-            let requestBuilder = GpApiAuthorizationRequestBuilder()
             guard let request = requestBuilder.generateRequest(for: builder, config: self?.gpApiConfig) else {
                 completion?(nil, ApiException(message: "Operation not supported"))
                 return

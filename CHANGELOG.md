@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.3.3 (08/13/2026)
+## Latest - v3.4.0 (08/20/2026)
+
+#### Enhancements
+
+- GP-API: Added Cashpresso BNPL payment method support via the GP-API
+
+## v3.3.3 (08/13/2026)
 
 #### Enhancements
 

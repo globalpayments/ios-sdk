@@ -19,6 +19,7 @@ public enum ServiceEndpoints: String {
     case transitMultipassTest       = "https://stagegw.transnox.com/servlets/TransNox_API_Server"
     case gpApiProduction            = "https://apis.globalpay.com/ucp"
     case gpApiTest                  = "https://apis.sandbox.globalpay.com/ucp"
+    case gpApiQA                    = "https://apis-qa.globalpay.com/ucp"
     case gpApiTestEU                = "https://apis.sandbox.eu.globalpay.com/ucp"
     case gpApiProductionEU          = "https://apis.eu.globalpay.com/ucp"
     case gpApiQAEU                  = "https://apis.qa.eu.globalpay.com/ucp"

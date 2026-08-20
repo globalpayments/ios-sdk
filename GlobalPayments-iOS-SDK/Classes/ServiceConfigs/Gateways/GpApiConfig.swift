@@ -93,9 +93,14 @@ public class GpApiConfig: GatewayConfig {
                     serviceUrl = ServiceEndpoints.gpApiTestEU.rawValue
                 }
             } else {
-                serviceUrl = (environment == .test)
-                ? ServiceEndpoints.gpApiTest.rawValue
-                : ServiceEndpoints.gpApiProduction.rawValue
+                switch environment {
+                case .production:
+                    serviceUrl = ServiceEndpoints.gpApiProduction.rawValue
+                case .qa:
+                    serviceUrl = ServiceEndpoints.gpApiQA.rawValue
+                default:
+                    serviceUrl = ServiceEndpoints.gpApiTest.rawValue
+                }
             }
         }
         

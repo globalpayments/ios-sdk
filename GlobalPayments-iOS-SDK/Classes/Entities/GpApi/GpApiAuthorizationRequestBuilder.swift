@@ -113,6 +113,19 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                     let apm = JsonDoc()
                         .set(for: "shipping_address_enabled", value: payByLinkData.configuration?.isShippingAddressEnabled == true ? "YES" : "NO")
                         .set(for: "address_override", value: payByLinkData.configuration?.isAddressOverrideAllowed == true ? "YES" : "NO")
+
+                    // Cashpresso (and future APMs): serialize apm.configurations array
+                    if let apmConfigurations = payByLinkData.configuration?.apmConfigurations, !apmConfigurations.isEmpty {
+                        let configDocs = apmConfigurations.map { apmConfiguration -> JsonDoc in
+                            let configDocument = JsonDoc()
+                            configDocument.set(for: "provider", value: apmConfiguration.provider?.rawValue)
+                            if let plans = apmConfiguration.paymentPlans, !plans.isEmpty {
+                                configDocument.set(for: "payment_plans", value: plans.map { $0.rawValue })
+                            }
+                            return configDocument
+                        }
+                        apm.set(for: "configurations", values: configDocs)
+                    }
                     paymentMethodConfiguration.set(for: "apm", doc: apm)
 
                     if let providers = payByLinkData.configuration?.digitalWalletProviders, !providers.isEmpty {
@@ -128,6 +141,16 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                     shippingPhone.set(for: "country_code", value: builder.shippingPhone?.countryCode)
                     shippingPhone.set(for: "subscriber_number", value: builder.shippingPhone?.number)
                     order.set(for: "shipping_phone", doc: shippingPhone)
+
+                    // Cashpresso order fields
+                    order.set(for: "shipping_date", value: payByLinkData.shippingDate)
+                    order.set(for: "shipping_method", value: payByLinkData.shippingMethod?.mapped(for: .gpApi))
+                    if let taxAmount = payByLinkData.taxAmount {
+                        order.set(for: "tax_amount", value: taxAmount.toNumericCurrencyString(currency: builder.currency))
+                    }
+                    if let orderItems = payByLinkData.orderItems, !orderItems.isEmpty {
+                        order.set(for: "items", values: setItemDetailsListForHPP(orderItems, currency: builder.currency))
+                    }
                     
                     order.set(for: "transaction_configuration", doc: transactionConfiguration)
                         .set(for: "payment_method_configuration", doc: paymentMethodConfiguration)
@@ -144,6 +167,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
                         let displayConfigDoc = JsonDoc()
                         displayConfigDoc.set(for: "iframe_dimensions_domain", value: displayConfig.iframeDimensionsDomain)
                         displayConfigDoc.set(for: "iframe_response_domain", value: displayConfig.iframeResponseDomain)
+                        displayConfigDoc.set(for: "cardholder_name", value: displayConfig.cardholderName)
+                        displayConfigDoc.set(for: "cvv", value: displayConfig.cvv)
                         payload.set(for: "display_configuration", doc: displayConfigDoc)
                     }
 
@@ -358,9 +383,19 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
            apm.alternativePaymentMethodType == .ERATY {
             payload.set(for: "payer", doc: setERatyPayerInformation(builder))
         }
-        
+
+        if let apm = builder.paymentMethod as? AlternatePaymentMethod,
+           apm.alternativePaymentMethodType == .CASHPRESSO {
+            payload.set(for: "payer", doc: setCashpressoPayerInformation(builder))
+        }
+
         if builder.paymentMethod is BNPL || builder.paymentMethod is Credit {
             setOrderInformation(builder, requestBody: payload)
+        }
+
+        if let apm = builder.paymentMethod as? AlternatePaymentMethod,
+           apm.alternativePaymentMethodType == .CASHPRESSO {
+            setCashpressoOrderInformation(builder, requestBody: payload)
         }
         
         if builder.paymentMethod is AlternatePaymentMethod || builder.paymentMethod is BNPL || builder.paymentMethod is BankPayment {
@@ -519,6 +554,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             encryptablePaymentMethod(paymentMethod, encryptable: encryptable)
         case let alternatePayment as AlternatePaymentMethod:
             alternatePaymentMethod(paymentMethod, alternatePayment: alternatePayment)
+            return paymentMethod
         case let bnplPayment as BNPL:
             let dataName = "\(builder.customerData?.firstName ?? "") \(builder.customerData?.lastName ?? "")"
             paymentMethod.set(for: "name", value: dataName)
@@ -676,6 +712,8 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         apm.set(for: "provider", value: alternatePayment.alternativePaymentMethodType?.mapped(for: .gpApi))
         apm.set(for: "address_override_mode", value: alternatePayment.addressOverrideMode)
         apm.set(for: "category", value: alternatePayment.category?.mapped(for: .gpApi))
+        // Cashpresso payment plan (PAY_IN_3_INSTALLMENTS, PAY_30_DAYS)
+        apm.set(for: "payment_plan", value: alternatePayment.paymentPlan?.mapped(for: .gpApi))
         if let terms = alternatePayment.terms {
             let termsDoc = JsonDoc()
             termsDoc.set(for: "time_unit", value: terms.TimeUnit)
@@ -860,7 +898,58 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             requestBody.set(for: "order", doc: order)
         }
     }
-    
+
+    /// Builds the `order` block for a Cashpresso /transactions request.
+    /// Includes: tax_amount, shipping_date (mandatory), shipping_method, shipping_address, items.
+    private func setCashpressoOrderInformation(_ builder: AuthorizationBuilder, requestBody: JsonDoc) {
+        let order = JsonDoc()
+        if let taxAmount = builder.orderTaxAmount {
+            order.set(for: "tax_amount", value: NSDecimalNumber(decimal: taxAmount).toNumericCurrencyString(currency: builder.currency))
+        }
+        order.set(for: "shipping_date", value: builder.shippingDate)
+        order.set(for: "shipping_method", value: builder.bnplShippingMethod?.mapped(for: .gpApi))
+
+        if let shippingAddress = builder.shippingAddress {
+            order.set(for: "shipping_address", doc: getBasicAddressInformation(shippingAddress))
+        }
+
+        if let products = builder.miscProductData, !products.isEmpty {
+            order.set(for: "items", values: setItemDetailsListForCashpresso(products, currency: builder.currency))
+        }
+
+        if !order.keys.isEmpty {
+            requestBody.set(for: "order", doc: order)
+        }
+    }
+
+    /// Serialises order items for a Cashpresso /transactions request.
+    /// Maps: description, reference, quantity, unit_amount, tax_amount.
+    private func setItemDetailsListForCashpresso(_ products: [Product], currency: String? = nil) -> [JsonDoc] {
+        return products.map { product in
+            let item = JsonDoc()
+            item.set(for: "description", value: product.descriptionProduct)
+            item.set(for: "reference", value: product.productId)
+            item.set(for: "quantity", value: "\(product.quantity ?? 0)")
+            item.set(for: "unit_amount", value: (product.unitPrice ?? 0).toNumericCurrencyString(currency: currency))
+            item.set(for: "tax_amount", value: (product.taxAmount ?? 0).toNumericCurrencyString(currency: currency))
+            return item
+        }
+    }
+
+    /// Serialises order items for a Cashpresso HPP /links request.
+    /// Maps: label (productName), product_code (productId), quantity, unit_amount, tax_amount.
+    private func setItemDetailsListForHPP(_ products: [Product], currency: String? = nil) -> [JsonDoc] {
+        return products.map { product in
+            let item = JsonDoc()
+            item.set(for: "label", value: product.productName)
+            item.set(for: "product_code", value: product.productId)
+            item.set(for: "quantity", value: "\(product.quantity ?? 0)")
+            item.set(for: "unit_amount", value: (product.unitPrice ?? 0).toNumericCurrencyString(currency: currency))
+            item.set(for: "tax_amount", value: (product.taxAmount ?? 0).toNumericCurrencyString(currency: currency))
+            return item
+        }
+    }
+
     private func setItemDetailsListForBNPL(_ products: [Product], currency: String? = nil) -> [JsonDoc] {
         var items: [JsonDoc] = []
         products.forEach { product in
@@ -909,6 +998,24 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         return payer
     }
 
+    /// Builds the `payer` object for a Cashpresso /transactions request.
+    /// Structure: email, billing_address (line_1..3, city, postal_code, state, country), home_phone.
+    private func setCashpressoPayerInformation(_ builder: AuthorizationBuilder) -> JsonDoc {
+        let payer = JsonDoc()
+        payer.set(for: "email", value: builder.payerDetails?.email ?? builder.customerData?.email)
+
+        let billingAddress = getBasicAddressInformation(builder.billingAddress)
+        payer.set(for: "billing_address", doc: billingAddress)
+
+        if let phone = builder.homePhone {
+            let homePhone = JsonDoc()
+            homePhone.set(for: "country_code", value: phone.countryCode)
+            homePhone.set(for: "subscriber_number", value: phone.number)
+            payer.set(for: "home_phone", doc: homePhone)
+        }
+        return payer
+    }
+
     private func setNotificationUrls(_ paymentMethod: PaymentMethod?) -> JsonDoc {
         let notifications = JsonDoc()
         if let paymentMethod = paymentMethod as? NotificationData {
@@ -933,5 +1040,38 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             .set(for: "country_code", value: phoneNumber.countryCode)
             .set(for: "subscriber_number", value: phoneNumber.number)
         return phoneInfo
+    }
+
+    /// Validates Cashpresso-specific constraints before the request is sent.
+    /// Throws `UnsupportedTransactionException` on any constraint violation.
+    func validateCashpresso(builder: AuthorizationBuilder, config: GpApiConfig?) throws {
+        guard let apm = builder.paymentMethod as? AlternatePaymentMethod,
+              apm.alternativePaymentMethodType == .CASHPRESSO else {
+            return
+        }
+
+        guard apm.paymentPlan != nil else {
+            throw UnsupportedTransactionException(message: "Cashpresso requires payment_plan.")
+        }
+
+        guard builder.bnplShippingMethod != nil else {
+            throw UnsupportedTransactionException(message: "Cashpresso requires shipping_method.")
+        }
+
+        guard builder.shippingDate != nil else {
+            throw UnsupportedTransactionException(message: "Cashpresso requires shipping_date.")
+        }
+
+        let country = config?.country?.uppercased() ?? ""
+        guard country == "DE" || country == "AT" else {
+            throw UnsupportedTransactionException(message: "Cashpresso is only supported for GPAPI country DE or AT.")
+        }
+
+        if apm.paymentPlan == .PAY_IN_3_INSTALLMENTS {
+            let amountMinorUnits = (builder.amount?.doubleValue ?? 0) * 100
+            guard amountMinorUnits >= 15000 else {
+                throw UnsupportedTransactionException(message: "Cashpresso PAY_IN_3_INSTALLMENTS requires amount of 15000 or more (minor units).")
+            }
+        }
     }
 }

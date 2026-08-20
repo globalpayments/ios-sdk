@@ -111,15 +111,19 @@ class UnifiedPaymentsViewModel: BaseViewModel {
             showDataResponse.value = (.error, ApiException(message: "SecureEcom is Nil"))
             return
         }
-
-        do {
-            transaction = try threeDS2Service.createTransaction(directoryServerId: getDsRidCard(), messageVersion: secureEcom.messageVersion
-            )
-            if let netceteraParams = try transaction?.getAuthenticationRequestParameters(){
-                authenticateTransaction(secureEcom, netceteraParams)
+        guard #available(iOS 13.0, *) else {
+            showDataResponse.value = (.error, ApiException(message: "ThreeDS SDK 2.7.0 requires iOS 13.0 or later"))
+            return
+        }
+        Task {
+            do {
+                transaction = try await threeDS2Service.createTransaction(directoryServerId: getDsRidCard(), messageVersion: secureEcom.messageVersion)
+                if let netceteraParams = try transaction?.getAuthenticationRequestParameters() {
+                    authenticateTransaction(secureEcom, netceteraParams)
+                }
+            } catch {
+                showDataResponse.value = (.error, ApiException(message: "Please check Netcetera 3DS SDK"))
             }
-        } catch {
-            showDataResponse.value = (.error, ApiException(message: "Please check Netcetera 3DS SDK"))
         }
     }
     
@@ -157,17 +161,23 @@ class UnifiedPaymentsViewModel: BaseViewModel {
         if(secureEcom.status == self.CHALLENGE_REQUIRED){
             let challengeStatusReceiver = AppChallengeStatusReceiver(view: self, dsTransId: secureEcom.acsTransactionId, secureEcom: secureEcom)
             let challengeParameters = self.prepareChallengeParameters(secureEcom)
-            do {
-                guard let viewController = viewController else {
-                    showDataResponse.value = (.error, ApiException(message: "No ViewController setted"))
-                    return
+            guard #available(iOS 13.0, *) else {
+                showDataResponse.value = (.error, ApiException(message: "ThreeDS SDK 2.7.0 requires iOS 13.0 or later"))
+                return
+            }
+            Task {
+                do {
+                    guard let viewController = viewController else {
+                        showDataResponse.value = (.error, ApiException(message: "No ViewController setted"))
+                        return
+                    }
+                    try await self.transaction?.doChallenge(challengeParameters: challengeParameters,
+                                                            challengeStatusReceiver: challengeStatusReceiver,
+                                                            timeOut: 60,
+                                                            inViewController: viewController)
+                } catch {
+                    showDataResponse.value = (.error, error as Any)
                 }
-                try self.transaction?.doChallenge(challengeParameters: challengeParameters,
-                                                  challengeStatusReceiver: challengeStatusReceiver,
-                                                  timeOut:60,
-                                                  inViewController: viewController)
-            } catch {
-                showDataResponse.value = (.error, error as Any)
             }
         }else {
             if let transactionId = secureEcom.serverTransactionId {

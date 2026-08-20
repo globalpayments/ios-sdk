@@ -25,6 +25,7 @@
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		650323963021FE11006F7491 /* GpApiCashpressoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650323953021FE11006F7491 /* GpApiCashpressoTest.swift */; };
 		6551742C2FFF8C5F0009520B /* GpApiClickToPayDecryptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6551742B2FFF8C5F0009520B /* GpApiClickToPayDecryptTests.swift */; };
 		655174272FF27C970009520B /* GpApiBatchCloseWithoutIdTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655174262FF27C970009520B /* GpApiBatchCloseWithoutIdTest.swift */; };
 		65EDFBB32F766EEC0040265F /* PorticoGiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EDFBB22F766EEC0040265F /* PorticoGiftTests.swift */; };
@@ -516,6 +517,7 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* GlobalPayments-iOS-SDK_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GlobalPayments-iOS-SDK_Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		650323953021FE11006F7491 /* GpApiCashpressoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCashpressoTest.swift; sourceTree = "<group>"; };
 		6551742B2FFF8C5F0009520B /* GpApiClickToPayDecryptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiClickToPayDecryptTests.swift; sourceTree = "<group>"; };
 		655174262FF27C970009520B /* GpApiBatchCloseWithoutIdTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBatchCloseWithoutIdTest.swift; sourceTree = "<group>"; };
 		65EDFBB22F766EEC0040265F /* PorticoGiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoGiftTests.swift; sourceTree = "<group>"; };
@@ -1653,6 +1655,7 @@
 		8267BC9624DAB5B700AF64D2 /* GpApi */ = {
 			isa = PBXGroup;
 			children = (
+				650323953021FE11006F7491 /* GpApiCashpressoTest.swift */,
 				6551742B2FFF8C5F0009520B /* GpApiClickToPayDecryptTests.swift */,
                 		C7B111782FEC2753008B2020 /* GpApiApacTests */,
                			655174262FF27C970009520B /* GpApiBatchCloseWithoutIdTest.swift */,
@@ -3147,6 +3150,7 @@
 				304226FB29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift in Sources */,
 				824A16EC24E3EA230060944B /* BuilderValidationTests.swift in Sources */,
 				A5FC78332A6DD5AC00BBD524 /* GpApiBNPLTest.swift in Sources */,
+				650323963021FE11006F7491 /* GpApiCashpressoTest.swift in Sources */,
 				8267BC9824DAB5F100AF64D2 /* GpApiCreditCardNotPresentTests.swift in Sources */,
 				82F9A57B25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift in Sources */,
 				C7D8C73A2E8D2E2E007735E0 /* PorticoReportingTests.swift in Sources */,

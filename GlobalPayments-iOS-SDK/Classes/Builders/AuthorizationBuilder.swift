@@ -86,6 +86,10 @@ import Foundation
     var level2Request: Bool = false
     var shippingAmount: NSDecimalNumber?
     var transactionDescription: String?
+    /// Shipping date for Cashpresso (ISO-8601 date string, e.g. "2026-08-30"). Maps to `order.shipping_date`.
+    var shippingDate: String?
+    /// Top-level order tax amount. Maps to `order.tax_amount` (used by Cashpresso).
+    var orderTaxAmount: Decimal?
     var hasEmvFallbackData: Bool {
         return emvFallbackCondition != nil ||
             emvLastChipRead != nil ||
@@ -648,6 +652,14 @@ import Foundation
         bnplShippingMethod = value
         return self
     }
+
+    /// Sets the APM shipping method for non-BNPL payment methods (e.g. Cashpresso).
+    /// - Parameter value: The shipping method (DELIVERY, PICKUP, PICKUP_BOX, POSTOFFICE)
+    /// - Returns: AuthorizationBuilder
+    public func withApmShippingMethod(_ value: BNPLShippingMethod) -> AuthorizationBuilder {
+        bnplShippingMethod = value
+        return self
+    }
     
     public func withRemittanceReference(_ type: RemittanceReferenceType, value: String?) -> AuthorizationBuilder {
         remittanceReferenceType = type
@@ -707,6 +719,23 @@ import Foundation
      
     public func withTransactionDescription(_ transactionDescription: String?) -> AuthorizationBuilder {
         self.transactionDescription = transactionDescription
+        return self
+    }
+
+    /// Sets the shipping date for the order. Mandatory for Cashpresso. ISO-8601 date (e.g. "2026-08-30").
+    /// Maps to `order.shipping_date` in the GP-API request.
+    /// - Parameter shippingDate: ISO-8601 date string
+    /// - Returns: AuthorizationBuilder
+    public func withShippingDate(_ shippingDate: String?) -> AuthorizationBuilder {
+        self.shippingDate = shippingDate
+        return self
+    }
+
+    /// Sets the top-level order tax amount. Maps to `order.tax_amount` in the GP-API request.
+    /// - Parameter orderTaxAmount: The tax amount
+    /// - Returns: AuthorizationBuilder
+    public func withOrderTaxAmount(_ orderTaxAmount: Decimal?) -> AuthorizationBuilder {
+        self.orderTaxAmount = orderTaxAmount
         return self
     }
      

@@ -174,7 +174,65 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 method: .post,
                 requestBody: payload.toString()
             )
+        case .detokenize:
+            let token = getToken(from: builder)
+            return GpApiRequest(
+                endpoint: merchantUrl + GpApiRequest.Endpoints.paymentMethodsDetokenize(id: token),
+                method: .post
+            )
+        case .generateCryptogram:
+            let payload = JsonDoc()
+            if let amount = builder.amount {
+                let transaction = JsonDoc()
+                transaction.set(for: "amount", value: amount.toNumericCurrencyString(currency: builder.currency))
+                payload.set(for: "transaction", doc: transaction)
+            }
+            // If a stored PMT_ token is present, use POST /payment-methods/{id}/cryptogram
+            if let tokenizable = builder.paymentMethod as? Tokenizable,
+               let pmtToken = tokenizable.token, pmtToken.starts(with: "PMT_") {
+                return GpApiRequest(
+                    endpoint: merchantUrl + GpApiRequest.Endpoints.paymentMethodsCryptogramFromStored(id: pmtToken),
+                    method: .post,
+                    requestBody: payload.toString()
+                )
+            }
+            // Otherwise use POST /payment-methods/cryptogram with card.network_token
+            if let creditCard = builder.paymentMethod as? Credit, let networkToken = creditCard.networkToken {
+                let card = JsonDoc()
+                card.set(for: "network_token", value: networkToken)
+                payload.set(for: "card", doc: card)
+            }
+            return GpApiRequest(
+                endpoint: merchantUrl + GpApiRequest.Endpoints.paymentMethodsCryptogram(),
+                method: .post,
+                requestBody: payload.toString()
+            )
         case .edit:
+            // If the payment method is a stored token (PMT_), route to PATCH /payment-methods/{id}
+            if let tokenizable = builder.paymentMethod as? Tokenizable,
+               let token = tokenizable.token, token.starts(with: "PMT_") {
+                let payload = JsonDoc()
+                payload.set(for: "name", value: builder.paymentMethodName)
+
+                // Only include card block when expiry was explicitly provided (non-zero values)
+                if let cardData = builder.paymentMethod as? CreditCardData {
+                    let expiryMonth = cardData.expMonth > .zero ? "\(cardData.expMonth)".leftPadding(toLength: 2, withPad: "0") : nil
+                    let expiryYear = cardData.expYear > .zero ? "\(cardData.expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : nil
+                    if let month = expiryMonth, let year = expiryYear {
+                        let card = JsonDoc()
+                        card.set(for: "expiry_month", value: month)
+                        card.set(for: "expiry_year", value: year)
+                        payload.set(for: "card", doc: card)
+                    }
+                }
+
+                return GpApiRequest(
+                    endpoint: merchantUrl + GpApiRequest.Endpoints.paymentMethodsWith(paymentMethodId: token),
+                    method: .patch,
+                    requestBody: payload.toString()
+                )
+            }
+
             let card = JsonDoc()
             card.set(for: "tag", value: builder.tagData)
 

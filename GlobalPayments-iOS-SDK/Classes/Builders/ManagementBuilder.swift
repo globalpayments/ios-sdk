@@ -70,6 +70,7 @@ import Foundation
     var transactionDescription: String?
     var country: String?
     var paymentMethods: [PaymentMethodName]?
+    var paymentMethodName: String?
 
     /// Sets the current transaction's amount.
     /// - Parameter amount: The amount
@@ -166,6 +167,14 @@ import Foundation
     /// - Returns: ManagementBuilder
     public func withPaymentMethods(_ paymentMethods: [PaymentMethodName]?) -> ManagementBuilder {
         self.paymentMethods = paymentMethods
+        return self
+    }
+
+    /// Sets the payment method name for a stored payment method edit (PATCH /payment-methods/{id}).
+    /// - Parameter paymentMethodName: The name to assign to the stored payment method.
+    /// - Returns: ManagementBuilder
+    public func withPaymentMethodName(_ paymentMethodName: String?) -> ManagementBuilder {
+        self.paymentMethodName = paymentMethodName
         return self
     }
 
@@ -334,6 +343,23 @@ import Foundation
 
         if let error = validateBatchCloseWithoutIdRequest() {
             completion?(nil, error)
+            return
+        }
+
+        // For .edit with a PMT_ token (stored payment method), transactionId is not
+        // required — skip the framework validation by fulfilling it inline.
+        if transactionType == .edit,
+           let tokenizable = paymentMethod as? Tokenizable,
+           let token = tokenizable.token, token.starts(with: "PMT_") {
+            do {
+                try ServicesContainer.shared
+                    .client(configName: configName)
+                    .manageTransaction(self, completion: { transaction, error in
+                        completion?(transaction, error)
+                    })
+            } catch {
+                completion?(nil, error)
+            }
             return
         }
 

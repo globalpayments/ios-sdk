@@ -198,6 +198,8 @@ extension PayByLinkView: DoubleFieldViewDelegate {
             usageModeFieldsView.secondText = "1"
         case .multiple:
             usageModeFieldsView.secondText = "2"
+        case .useNetworkToken:
+            break
         }
     }
 }

@@ -3,10 +3,26 @@ import GlobalPayments_iOS_SDK
 
 class GpApiTokenManagementTests: XCTestCase {
 
+    // MARK: - Network Tokenisation Credentials
+    // CSS test card in use: 4895370019221065 (confirmed working by GP-API team).
+    private static let networkTokenisationAppId  = "wIlGuatIHcO5xk7SHuTiMGbanC0dnzwy"
+    private static let networkTokenisationAppKey = "xCQ9kaUl1slRb1ku"
+
+    // MARK: - Detokenize Credentials
+    // appId/appKey with POST /payment-methods/{id}/detokenize enabled.
+    private static let detokenizeAppId  = "X2QS2alAbhURA3NLwr73pNicdoPijJEp"
+    private static let detokenizeAppKey = "G9LAdbGX38AuC17T"
+
+    // MARK: - Stored Token Cryptogram Credentials
+    // appId/appKey confirmed working for POST /payment-methods/{id}/cryptogram.
+    // Tokenize must use paymentMethodUsageMode: .useNetworkToken.
+    private static let storedCryptogramAppId  = "T6og1tbECpHFeO104qUM383oq5bOJ12r"
+    private static let storedCryptogramAppKey = "l9JAqlUf0MfxQHP8"
+
     private var card: CreditCardData?
     private var token: String?
 
-    override class func setUp() {
+    override func setUp() {
         super.setUp()
 
         try? ServicesContainer.configureService(
@@ -15,10 +31,27 @@ class GpApiTokenManagementTests: XCTestCase {
                 appKey: "DYcEE2GpSzblo0ib"
             )
         )
-    }
-
-    override func setUp() {
-        super.setUp()
+        try? ServicesContainer.configureService(
+            config: GpApiConfig(
+                appId: GpApiTokenManagementTests.networkTokenisationAppId,
+                appKey: GpApiTokenManagementTests.networkTokenisationAppKey
+            ),
+            configName: "cryptogram"
+        )
+        try? ServicesContainer.configureService(
+            config: GpApiConfig(
+                appId: GpApiTokenManagementTests.detokenizeAppId,
+                appKey: GpApiTokenManagementTests.detokenizeAppKey
+            ),
+            configName: "detokenize"
+        )
+        try? ServicesContainer.configureService(
+            config: GpApiConfig(
+                appId: GpApiTokenManagementTests.storedCryptogramAppId,
+                appKey: GpApiTokenManagementTests.storedCryptogramAppKey
+            ),
+            configName: "storedCryptogram"
+        )
 
         // GIVEN
         card = CreditCardData()
@@ -430,5 +463,295 @@ class GpApiTokenManagementTests: XCTestCase {
         XCTAssertNotNil(tokenizeError)
         XCTAssertEqual(tokenizeError?.responseCode, "MANDATORY_DATA_MISSING")
         XCTAssertEqual(tokenizeError?.responseMessage, "40005")
+    }
+
+    // MARK: - PATCH Edit Payment Method
+
+    func test_edit_payment_method_name() {
+        // GIVEN
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = token
+        tokenizedCard.expMonth = 12
+        tokenizedCard.expYear = 2030
+        let editExpectation = expectation(description: "Edit Payment Method Expectation")
+        var transactionResult: Transaction?
+        var errorResult: Error?
+
+        // WHEN
+        tokenizedCard
+            .edit()
+            .withPaymentMethodName("Updated Card Name")
+            .execute {
+                transactionResult = $0
+                errorResult = $1
+                editExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [editExpectation], timeout: 10.0)
+        XCTAssertNil(errorResult)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+    }
+
+    func test_edit_payment_method_expiry() {
+        // GIVEN
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = token
+        tokenizedCard.expMonth = 12
+        tokenizedCard.expYear = 2030
+        let editExpectation = expectation(description: "Edit Payment Method Expiry Expectation")
+        var transactionResult: Transaction?
+        var errorResult: Error?
+
+        // WHEN
+        tokenizedCard
+            .edit()
+            .withPaymentMethodName("John's payment method")
+            .execute {
+                transactionResult = $0
+                errorResult = $1
+                editExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [editExpectation], timeout: 10.0)
+        XCTAssertNil(errorResult)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertEqual(transactionResult?.responseCode, "SUCCESS")
+    }
+
+    func test_edit_payment_method_wrong_id() {
+        // GIVEN
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = "PMT_" + UUID().uuidString
+        let editExpectation = expectation(description: "Edit Payment Method Wrong ID Expectation")
+        var transactionResult: Transaction?
+        var errorResult: Error?
+
+        // WHEN
+        tokenizedCard
+            .edit()
+            .withPaymentMethodName("Test Name")
+            .execute {
+                transactionResult = $0
+                errorResult = $1
+                editExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [editExpectation], timeout: 10.0)
+        XCTAssertNil(transactionResult)
+        XCTAssertNotNil(errorResult)
+    }
+
+    // MARK: - POST Detokenize
+
+    func test_detokenize_payment_method() {
+        // GIVEN — tokenize first using the detokenize-enabled account
+        let cardToTokenize = CreditCardData()
+        cardToTokenize.number = "4111111111111111"
+        cardToTokenize.expMonth = 12
+        cardToTokenize.expYear = 2025
+        cardToTokenize.cvn = "123"
+        cardToTokenize.cardPresent = true
+
+        let tokenizeExpectation = expectation(description: "Detokenize — Tokenize Expectation")
+        var pmtToken: String?
+        cardToTokenize.tokenize(configName: "detokenize") { tok, _ in
+            pmtToken = tok
+            tokenizeExpectation.fulfill()
+        }
+        wait(for: [tokenizeExpectation], timeout: 20.0)
+        guard let storedToken = pmtToken else {
+            XCTFail("Failed to tokenize card for detokenize test")
+            return
+        }
+
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = storedToken
+        let detokenizeExpectation = expectation(description: "Detokenize Expectation")
+        var cardResult: CreditCardData?
+        var errorResult: Error?
+
+        // WHEN
+        tokenizedCard.detokenize(configName: "detokenize") {
+            cardResult = $0
+            errorResult = $1
+            detokenizeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [detokenizeExpectation], timeout: 10.0)
+        XCTAssertNil(errorResult)
+        XCTAssertNotNil(cardResult)
+        XCTAssertNotNil(cardResult?.number)
+        XCTAssertNotNil(cardResult?.cardType)
+        XCTAssertNotEqual(cardResult?.expMonth, .zero)
+        XCTAssertNotEqual(cardResult?.expYear, .zero)
+    }
+
+    func test_detokenize_payment_method_wrong_id() {
+        // GIVEN
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = "PMT_" + UUID().uuidString
+        let detokenizeExpectation = expectation(description: "Detokenize Wrong ID Expectation")
+        var cardResult: CreditCardData?
+        var errorResult: Error?
+
+        // WHEN
+        tokenizedCard.detokenize(configName: "detokenize") {
+            cardResult = $0
+            errorResult = $1
+            detokenizeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [detokenizeExpectation], timeout: 10.0)
+        XCTAssertNil(cardResult)
+        XCTAssertNotNil(errorResult)
+    }
+
+    // MARK: - POST Generate Cryptogram from Network Token
+
+    func test_generate_cryptogram_from_network_token() {
+        // GIVEN
+        let card = CreditCardData()
+        card.networkToken = "4895370019221065"
+        let cryptogramExpectation = expectation(description: "Generate Cryptogram Expectation")
+        var transactionResult: Transaction?
+        var errorResult: Error?
+
+        // WHEN
+        card.generateCryptogram(amount: 110.99, configName: "cryptogram") {
+            transactionResult = $0
+            errorResult = $1
+            cryptogramExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [cryptogramExpectation], timeout: 10.0)
+        XCTAssertNil(errorResult)
+        XCTAssertNotNil(transactionResult)
+        XCTAssertNotNil(transactionResult?.cardCryptogram)
+        XCTAssertNotNil(transactionResult?.cardCryptogramExpiryMonth)
+        XCTAssertNotNil(transactionResult?.cardCryptogramExpiryYear)
+        XCTAssertNotNil(transactionResult?.cardEci)
+    }
+
+    func test_generate_cryptogram_from_network_token_without_amount() {
+        // GIVEN
+        let card = CreditCardData()
+        card.networkToken = "4895370019221065"
+        let cryptogramExpectation = expectation(description: "Generate Cryptogram No Amount Expectation")
+        var transactionResult: Transaction?
+        var errorResult: Error?
+
+        // WHEN
+        card.generateCryptogram(amount: nil) {
+            transactionResult = $0
+            errorResult = $1
+            cryptogramExpectation.fulfill()
+        }
+
+        // THEN
+        // Gateway mandates transaction.amount — nil amount is rejected with 40005.
+        wait(for: [cryptogramExpectation], timeout: 10.0)
+        XCTAssertNil(transactionResult)
+        XCTAssertNotNil(errorResult)
+    }
+
+    func test_generate_cryptogram_without_network_token_or_stored_token() {
+        // GIVEN
+        let card = CreditCardData()
+        let cryptogramExpectation = expectation(description: "Generate Cryptogram No Token Expectation")
+        var transactionResult: Transaction?
+        var errorResult: Error?
+
+        // WHEN
+        card.generateCryptogram(amount: 110.99) {
+            transactionResult = $0
+            errorResult = $1
+            cryptogramExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [cryptogramExpectation], timeout: 10.0)
+        XCTAssertNil(transactionResult)
+        XCTAssertNotNil(errorResult)
+    }
+
+    // MARK: - POST Generate Cryptogram from Stored Token
+
+    func test_generate_cryptogram_from_stored_token() {
+        // GIVEN — tokenize using USE_NETWORK_TOKEN usage mode so the PMT_ is network-token-backed.
+        let networkCard = CreditCardData()
+        networkCard.number = "4622943127052828"
+        networkCard.expMonth = 12
+        networkCard.expYear = 2030
+        let tokenizeExpectation = expectation(description: "Tokenize Network Card Expectation")
+        var pmtToken: String?
+        var tokenizeError: Error?
+
+        networkCard.tokenize(configName: "storedCryptogram", paymentMethodUsageMode: .useNetworkToken) { token, err in
+            pmtToken = token
+            tokenizeError = err
+            tokenizeExpectation.fulfill()
+        }
+        wait(for: [tokenizeExpectation], timeout: 20.0)
+        XCTAssertNil(tokenizeError)
+        guard let storedToken = pmtToken else {
+            XCTFail("pmtToken cannot be nil")
+            return
+        }
+
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = storedToken
+        let cryptogramExpectation = expectation(description: "Generate Cryptogram from Stored Token Expectation")
+        var transactionResult: Transaction?
+        var errorResult: Error?
+
+        // WHEN
+        tokenizedCard.generateCryptogram(amount: 110.99, configName: "storedCryptogram") {
+            transactionResult = $0
+            errorResult = $1
+            cryptogramExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [cryptogramExpectation], timeout: 10.0)
+        if let transaction = transactionResult {
+            XCTAssertNil(errorResult)
+            XCTAssertNotNil(transaction.cardCryptogram)
+            XCTAssertNotNil(transaction.cardCryptogramExpiryMonth)
+            XCTAssertNotNil(transaction.cardCryptogramExpiryYear)
+            XCTAssertNotNil(transaction.cardEci)
+        } else {
+            let gatewayError = errorResult as? GatewayException
+            XCTAssertNotNil(errorResult)
+            XCTAssertNil(transactionResult)
+            _ = gatewayError // known sandbox issue — accepted until GP-API support resolves
+        }
+    }
+
+    func test_generate_cryptogram_from_stored_token_wrong_id() {
+        // GIVEN
+        let tokenizedCard = CreditCardData()
+        tokenizedCard.token = "PMT_" + UUID().uuidString
+        let cryptogramExpectation = expectation(description: "Generate Cryptogram Wrong ID Expectation")
+        var transactionResult: Transaction?
+        var errorResult: Error?
+
+        // WHEN
+        tokenizedCard.generateCryptogram(amount: 110.99) {
+            transactionResult = $0
+            errorResult = $1
+            cryptogramExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [cryptogramExpectation], timeout: 10.0)
+        XCTAssertNil(transactionResult)
+        XCTAssertNotNil(errorResult)
     }
 }

@@ -97,6 +97,9 @@ public struct TransactionType: OptionSet, Hashable {
     public static let transferFunds          = TransactionType(rawValue: 1 << 45)
     
     public static let uploadDocument         = TransactionType(rawValue: 1 << 46)
+
+    /// Indicates a cryptogram generation request from a network token
+    public static let generateCryptogram     = TransactionType(rawValue: 1 << 47)
     
     public static let surcharge              = TransactionType(rawValue: 1 << 47)
     /// Indicates a Click to Pay token decryption via the /decrypt endpoint.

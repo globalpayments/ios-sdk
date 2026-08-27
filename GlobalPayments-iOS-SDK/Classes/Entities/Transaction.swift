@@ -184,6 +184,15 @@ public class Transaction: NSObject {
     public var fingerPrint: String?
     public var fingerPrintIndicator: String?
     
+    /// Cryptogram value returned from a generate cryptogram request.
+    public var cardCryptogram: String?
+    /// Expiry month of the generated cryptogram.
+    public var cardCryptogramExpiryMonth: String?
+    /// Expiry year of the generated cryptogram.
+    public var cardCryptogramExpiryYear: String?
+    /// Electronic Commerce Indicator returned from a generate cryptogram request.
+    public var cardEci: String?
+    
     var giftCard: GiftCard?
     var transactionReference: TransactionReference?
     public var payByLinkResponse: PayByLinkResponse?

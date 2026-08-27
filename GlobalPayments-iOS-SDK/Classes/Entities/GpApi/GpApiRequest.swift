@@ -46,10 +46,23 @@ extension GpApiRequest {
             "/payment-methods/search"
         }
 
+        static func paymentMethodsDetokenize(id: String) -> String {
+            "/payment-methods/\(id)/detokenize"
+        }
+
+        static func paymentMethodsCryptogram() -> String {
+            "/payment-methods/cryptogram"
+        }
+
+        static func paymentMethodsCryptogramFromStored(id: String) -> String {
+            "/payment-methods/\(id)/cryptogram"
+        }
+        
         // MARK: - Decrypt
 
         static func decrypt() -> String {
             "/decrypt"
+
         }
 
         static func currencyConversions() -> String {

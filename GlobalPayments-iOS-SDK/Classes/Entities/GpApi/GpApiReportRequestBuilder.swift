@@ -182,10 +182,11 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             if let creditCard = builder.searchCriteriaBuilder.paymentMethod as? CreditCardData {
                 let card = JsonDoc()
                 card.set(for: "number", value: creditCard.number)
-                card.set(for: "expiry_month", value: String(creditCard.expMonth))
-                card.set(for: "expiry_year", value: String(creditCard.expYear).suffix(2).description)
+                card.set(for: "expiry_month", value: creditCard.expMonth > .zero ? "\(creditCard.expMonth)".leftPadding(toLength: 2, withPad: "0") : nil)
+                card.set(for: "expiry_year", value: creditCard.expYear > .zero ? "\(creditCard.expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : nil)
 
                 let payload = JsonDoc()
+                payload.set(for: "account_name", value: builder.searchCriteriaBuilder.accountName)
                 payload.set(for: "reference", value: builder.searchCriteriaBuilder.referenceNumber)
                 payload.set(for: "card", doc: card)
 

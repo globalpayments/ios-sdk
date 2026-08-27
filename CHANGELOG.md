@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.4.0 (08/20/2026)
+## Latest - v3.4.1 (08/27/2026)
+
+#### Enhancements
+
+- GP-API: Added GPAPI Payment Methods sync
+
+## v3.4.0 (08/20/2026)
 
 #### Enhancements
 

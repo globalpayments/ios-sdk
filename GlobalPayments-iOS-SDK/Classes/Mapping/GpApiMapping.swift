@@ -155,9 +155,27 @@ public struct GpApiMapping {
         if let id: String = doc?.getValue(key: "id") {
             if id.starts(with: "PMT_") {
                 transaction.token = id
+                // Root-level fingerprint fields are returned on PMT create/edit responses
+                if let fingerprint: String = doc?.getValue(key: "fingerprint") {
+                    transaction.fingerPrint = fingerprint
+                }
+                if let fingerprintIndicator: String = doc?.getValue(key: "fingerprint_presence_indicator") {
+                    transaction.fingerPrintIndicator = fingerprintIndicator
+                }
             } else if id.starts(with: "DEC_") {
                 transaction.decryptId = id
             }
+        }
+        // Root-level card node: returned on PMT detokenize and cryptogram generation responses
+        if let card: JsonDoc = doc?.get(valueFor: "card"), doc?.get(valueFor: "payment_method") == nil {
+            transaction.cardNumber = card.getValue(key: "number")
+            transaction.cardType = card.getValue(key: "brand")
+            transaction.cardExpMonth = Int(card.getValue(key: "expiry_month") ?? .empty)
+            transaction.cardExpYear = Int(card.getValue(key: "expiry_year") ?? .empty)
+            transaction.cardCryptogram = card.getValue(key: "cryptogram")
+            transaction.cardCryptogramExpiryMonth = card.getValue(key: "cryptogram_expiry_month")
+            transaction.cardCryptogramExpiryYear = card.getValue(key: "cryptogram_expiry_year")
+            transaction.cardEci = card.getValue(key: "eci")
         }
         
         if let type: String = doc?.get(valueFor: "action")?.getValue(key: "type"), let actionType = ActionType(value: type) {
@@ -509,15 +527,40 @@ public struct GpApiMapping {
         let timeCreated: String? = doc?.getValue(key: "time_created")
         summary.timeCreated = timeCreated?.format()
         summary.status = doc?.getValue(key: "status")
+        summary.merchantId = doc?.getValue(key: "merchant_id")
+        summary.merchantName = doc?.getValue(key: "merchant_name")
+        summary.accountId = doc?.getValue(key: "account_id")
+        summary.accountName = doc?.getValue(key: "account_name")
         summary.reference = doc?.getValue(key: "reference")
         summary.name = doc?.getValue(key: "name")
+        summary.usageMode = doc?.getValue(key: "usage_mode")
+        summary.autoUpdater = doc?.getValue(key: "auto_updater")
+        summary.fingerprint = doc?.getValue(key: "fingerprint")
+        summary.fingerprintPresenceIndicator = doc?.getValue(key: "fingerprint_presence_indicator")
+        if let payer: JsonDoc = doc?.get(valueFor: "payer") {
+            summary.payerId = payer.getValue(key: "id")
+        }
         if let card: JsonDoc = doc?.get(valueFor: "card") {
-            summary.cardLast4 = card.getValue(key: "number_last4")
+            // GET detail uses "number_last4"; POST create/PATCH uses "masked_number_last4"
+            summary.cardLast4 = card.getValue(key: "masked_number_last4") ?? card.getValue(key: "number_last4")
             summary.cardType = card.getValue(key: "brand")
             summary.cardExpMonth = card.getValue(key: "expiry_month")
             summary.cardExpYear = card.getValue(key: "expiry_year")
+            summary.cardBrandReference = card.getValue(key: "brand_reference")
+            summary.networkToken = card.getValue(key: "network_token")
+            summary.maskedNetworkTokenLast4 = card.getValue(key: "masked_network_token_last4")
+            summary.networkTokenExpiryMonth = card.getValue(key: "network_token_expiry_month")
+            summary.networkTokenExpiryYear = card.getValue(key: "network_token_expiry_year")
         }
-        
+        if let action: JsonDoc = doc?.get(valueFor: "action") {
+            summary.actionId = action.getValue(key: "id")
+            summary.actionType = action.getValue(key: "type")
+            let actionTimeCreated: String? = action.getValue(key: "time_created")
+            summary.actionTimeCreated = actionTimeCreated?.format()
+            summary.actionResultCode = action.getValue(key: "result_code")
+            summary.actionAppId = action.getValue(key: "app_id")
+            summary.actionAppName = action.getValue(key: "app_name")
+        }
         return summary
     }
     

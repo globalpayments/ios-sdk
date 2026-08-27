@@ -22,6 +22,9 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
     
     public var eci: String?
     
+    /// The network token value for a digitised card credential.
+    public var networkToken: String?
+    
     public var customerData: Customer?
 
     public required override init() { }
@@ -207,5 +210,23 @@ public class Credit: NSObject, PaymentMethod, Encryptable, Tokenizable, Chargeab
                     completion?(nil, nil)
                 }
             })
+    }
+
+    /// Generates a cryptogram from a network token.
+    /// - Parameters:
+    ///   - amount: The transaction amount to associate with the cryptogram.
+    ///   - configName: The config to use for the request.
+    ///   - completion: Callback returning the Transaction containing cryptogram fields, or an error.
+    public func generateCryptogram(amount: NSDecimalNumber?, configName: String = "default", completion: ((Transaction?, Error?) -> Void)?) {
+
+        if networkToken.isNilOrEmpty && token.isNilOrEmpty {
+            completion?(nil, BuilderException(message: "Either networkToken or token must be set to generate a cryptogram"))
+            return
+        }
+
+        ManagementBuilder(transactionType: .generateCryptogram)
+            .withPaymentMethod(self)
+            .withAmount(amount)
+            .execute(configName: configName, completion: completion)
     }
 }

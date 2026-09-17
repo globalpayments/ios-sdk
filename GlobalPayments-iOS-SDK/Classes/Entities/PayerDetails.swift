@@ -2,6 +2,7 @@ import Foundation
 
 public class PayerDetails: NSObject {
     
+    public var id: String?
     public var firstName: String?
     public var lastName: String?
     public var email: String?

@@ -12,8 +12,8 @@ final class GpApiHPPPayByLinksTests: XCTestCase {
     private let APP_ID = "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs"
     private let APP_KEY = "FQyJA5VuEQfcji2M"
    
-    private let HPP_APP_ID = "hkjrcsGDhWiDt8GEhoDMKy3pzFz5R0Bo"
-    private let HPP_APP_KEY = "cQOKHoAAvNIcEN8s"
+    private let HPP_APP_ID = ""
+    private let HPP_APP_KEY = ""
     private let hppConfigName = "HPP_CONFIG"
     private let billingAddress = Address()
     private let shippingAddress = Address()

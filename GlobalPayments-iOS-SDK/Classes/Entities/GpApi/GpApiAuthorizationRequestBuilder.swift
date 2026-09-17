@@ -605,19 +605,19 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             bankTransfer.set(for: "bank", doc: bank)
             paymentMethod.set(for: "bank_transfer", doc: bankTransfer)
             paymentMethod.set(for: "narrative", value: check.merchantNotes)
-        }else {
+        } else {
             
             if let creditCard = builder.paymentMethod as? CreditCardData, let token = creditCard.token {
                 hasToken = !token.isEmpty
             }
             
             if !hasToken {
-                paymentMethod.set(for: "card", doc: CardUtils.generateCard(builder: builder))
+                let cardDoc = CardUtils.generateCard(builder: builder)
+                if let brandReference = builder.cardBrandTransactionId, !brandReference.isEmpty {
+                    cardDoc.set(for: "brand_reference", value: brandReference)
+                }
+                paymentMethod.set(for: "card", doc: cardDoc)
             }
-            
-            let brandReferenceDoc = JsonDoc()
-            brandReferenceDoc.set(for: "brand_reference", value: builder.cardBrandTransactionId)
-            paymentMethod.set(for: "card", doc: brandReferenceDoc)
         }
 
         paymentMethod.set(for: "narrative", value: builder.dynamicDescriptor)

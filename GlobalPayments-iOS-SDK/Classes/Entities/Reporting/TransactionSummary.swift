@@ -131,4 +131,15 @@ public class TransactionSummary {
     public var installmentData: InstallmentData?
     public var transactionDescription: String?
     public var emvIssuerResponse: String?
+    public var timeLastUpdated: Date?
+    public var accountId: String?
+    public var accountName: String?
+    public var orderReference: String?
+    public var userReference: String?
+    public var initiator: String?
+    public var language: String?
+    public var ipAddress: String?
+    public var createActionId: String?
+    public var linkId: String?
+    public var action: ActionSummary?
 }

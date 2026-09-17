@@ -119,6 +119,10 @@ extension GpApiRequest {
             "/transactions/\(transactionId)/split"
         }
 
+        static func transactionsChallenge(transactionId: String) -> String {
+            "/transactions/\(transactionId)/challenge"
+        }
+
         // MARK: - Verifications
 
         static func verify() -> String {

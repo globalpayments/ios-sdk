@@ -15,8 +15,8 @@ final class GpApiBlikPayuCertification: XCTestCase {
 
     func blikAndPayuSetup() {
         let config = GpApiConfig(
-            appId: "ZbFY1jAz6sqq0GAyIPZe1raLCC7cUlpD",
-            appKey: "4NpIQJDCIDzfTKhA",
+            appId: "",
+            appKey: "",
             channel: .cardNotPresent,
         )
         config.country = "PL"

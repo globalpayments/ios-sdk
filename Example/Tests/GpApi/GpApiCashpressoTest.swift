@@ -10,8 +10,8 @@ final class GpApiCashpressoTest: XCTestCase {
 
     // MARK: - Test credentials (QA)
 
-    private let APP_ID = "hlZAokTftDazLlWDPe8E6VAz5g9rSDPg"
-    private let APP_KEY = "ThDO2fISzzWCgkCZ"
+    private let APP_ID = ""
+    private let APP_KEY = ""
     private let PAYER_ID = "PYR_992a3181a1bb493ead11474ce0fbd567"
 
     private let CASHPRESSO_ACCOUNT = "GPECOM_CASHPRESSO_APM_Transaction_Processing"

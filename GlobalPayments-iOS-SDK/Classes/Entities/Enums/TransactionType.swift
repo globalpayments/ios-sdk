@@ -104,4 +104,6 @@ public struct TransactionType: OptionSet, Hashable {
     public static let surcharge              = TransactionType(rawValue: 1 << 47)
     /// Indicates a Click to Pay token decryption via the /decrypt endpoint.
     public static let decrypt                = TransactionType(rawValue: 1 << 48)
+    /// Indicates a transaction challenge (POST /transactions/{id}/challenge).
+    public static let challenge              = TransactionType(rawValue: 1 << 49)
 }

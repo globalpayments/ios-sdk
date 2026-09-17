@@ -210,6 +210,44 @@ public class Transaction: NSObject {
     public var gatewayResponseCode: String?
     public var authorizationMode: String?
     public var authorizationModeResult: String?
+    /// The dispute status returned after a transaction challenge (e.g. "UNDER_REVIEW").
+    public var disputeStatus: String?
+    /// The document name returned after a transaction challenge upload.
+    public var documentName: String?
+    /// The document status returned after a transaction challenge upload (e.g. "UPLOADED").
+    public var documentStatus: String?
+    /// The reason code returned in a challenge dispute response (e.g. "FRAUD").
+    public var reasonCode: String?
+    /// The transaction sale type from the response (e.g. "SALE", "REFUND").
+    public var saleType: String?
+    /// The channel through which the transaction was processed.
+    public var channel: String?
+    /// The capture mode of the transaction (e.g. "AUTO", "LATER", "MULTIPLE").
+    public var captureMode: String?
+    /// The country in which the transaction was processed.
+    public var country: String?
+    /// The merchant ID associated with the transaction.
+    public var merchantId: String?
+    /// The merchant name associated with the transaction.
+    public var merchantName: String?
+    /// The account ID associated with the transaction.
+    public var accountId: String?
+    /// The account name associated with the transaction.
+    public var accountName: String?
+    /// The merchant benefits reference returned in the response.
+    public var merchantBenefitsReference: String?
+    /// The user reference returned in the response.
+    public var userReference: String?
+    /// The narrative text on the payment method.
+    public var paymentMethodNarrative: String?
+    /// The QR code data on the payment method.
+    public var paymentMethodQrCode: String?
+    /// Order details returned in the refund/capture response (shipping, duty, taxes).
+    public var orderDetails: OrderDetails?
+    /// The host response code returned by the acquirer/device (reversal response).
+    public var hostResponseCode: String?
+    /// The brand sequence number returned by the card scheme (reversal response).
+    public var brandSequenceNumber: String?
 
     /// Creates a `Transaction` object from a stored transaction ID.
     /// Used to expose management requests on the original transaction at a later date/time.
@@ -368,6 +406,7 @@ public class Transaction: NSObject {
         return ManagementBuilder(transactionType: .reauth)
             .withPaymentMethod(transactionReference)
             .withAmount(amount ?? balanceAmount)
+            .withDccRateData(dccRateData)
     }
     
     /// Transfer part of transaction amount by a merchant to the partner account
@@ -380,5 +419,17 @@ public class Transaction: NSObject {
         return  ManagementBuilder(transactionType: .splitFunds)
             .withPaymentMethod(transactionReference)
             .withAmount(amount)
+    }
+
+    /// Challenge a disputed transaction by uploading supporting documents.
+    /// - Parameter documents: Array of `DocumentInfo` objects with `b64Content` and `fileFormat`.
+    /// - Returns: ManagementBuilder
+    public func challenge(documents: [DocumentInfo]? = nil) -> ManagementBuilder {
+        guard let transactionReference = transactionReference else {
+            fatalError("transactionReference cannot be nil!")
+        }
+        return ManagementBuilder(transactionType: .challenge)
+            .withPaymentMethod(transactionReference)
+            .withDisputeDocuments(documents)
     }
 }

@@ -29,4 +29,16 @@ public class Card: NSObject {
     public var commercialLevel: String?
     public var category: String?
     public var avsPostalCode: String?
+    public var currency: String?
+    public var maskedNumberFirst6Last4: String?
+    public var tagResponse: String?
+    public var brandTimeReference: String?
+    public var maskedNetworkTokenLast4: String?
+    public var networkTokenExpiryMonth: String?
+    public var networkTokenExpiryYear: String?
+    public var paymentAccountReference: String?
+    public var cvvIndicator: String?
+    public var cvvResult: String?
+    public var avsAddressResult: String?
+    public var avsPostalCodeResult: String?
 }

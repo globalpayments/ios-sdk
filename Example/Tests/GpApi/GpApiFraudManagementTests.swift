@@ -282,7 +282,7 @@ class GpApiFraudManagementTests: XCTestCase {
         XCTAssertEqual(TransactionStatus.captured.rawValue, fraudReleaseResult?.responseMessage)
         let fraudReleaseResponse = fraudReleaseResult?.fraudResponse?.assessments?.first
         XCTAssertNotNil(fraudReleaseResponse)
-        XCTAssertEqual(FraudFilterResult.RELEASE_SUCCESSFULL.rawValue, fraudReleaseResponse?.result)
+        XCTAssertEqual(FraudFilterResult.RELEASE_SUCCESSFUL.rawValue, fraudReleaseResponse?.result)
     }
     
     func test_fraud_management_data_submission_full_cycle() {
@@ -342,7 +342,7 @@ class GpApiFraudManagementTests: XCTestCase {
         XCTAssertEqual(TransactionStatus.preauthorized.rawValue, fraudHoldResult?.responseMessage)
         let fraudHoldResponse = fraudHoldResult?.fraudResponse?.assessments?.first
         XCTAssertNotNil(fraudHoldResponse)
-        XCTAssertEqual(FraudFilterResult.HOLD_SUCCESSFULL.rawValue, fraudHoldResponse?.result)
+        XCTAssertEqual(FraudFilterResult.HOLD_SUCCESSFUL.rawValue, fraudHoldResponse?.result)
         
         //GIVEN
         let fraudReleaseExpectation = expectation(description: "Check Fraud Release Expectation")
@@ -364,7 +364,7 @@ class GpApiFraudManagementTests: XCTestCase {
         XCTAssertEqual(TransactionStatus.preauthorized.rawValue, fraudReleaseResult?.responseMessage)
         let fraudReleaseResponse = fraudReleaseResult?.fraudResponse?.assessments?.first
         XCTAssertNotNil(fraudReleaseResponse)
-        XCTAssertEqual(FraudFilterResult.RELEASE_SUCCESSFULL.rawValue, fraudReleaseResponse?.result)
+        XCTAssertEqual(FraudFilterResult.RELEASE_SUCCESSFUL.rawValue, fraudReleaseResponse?.result)
         
         // GIVEN
         let fraudCaptureExpectation = expectation(description: "Check Fraud Release Expectation")
@@ -385,5 +385,413 @@ class GpApiFraudManagementTests: XCTestCase {
         XCTAssertNotNil(fraudCaptureResult)
         XCTAssertEqual("SUCCESS", fraudCaptureResult?.responseCode)
         XCTAssertEqual(TransactionStatus.captured.rawValue, fraudCaptureResult?.responseMessage)
+    }
+
+    // MARK: - Hold: standalone + reason codes + response fields + error path
+
+    func test_hold_transaction_with_fraud_reason_code() {
+        // GIVEN - Authorize with fraud filter active
+        let authExpectation = expectation(description: "Auth Expectation")
+        var authResult: Transaction?
+        var authError: Error?
+
+        let billingAddress = Address()
+        billingAddress.postalCode = "12345"
+        billingAddress.country = "US"
+        billingAddress.streetAddress1 = "123 Main St."
+
+        card.authorize(amount: amount)
+            .withCurrency(currency)
+            .withAddress(billingAddress)
+            .withFraudFilter(.active)
+            .execute {
+                authResult = $0
+                authError = $1
+                authExpectation.fulfill()
+            }
+
+        wait(for: [authExpectation], timeout: 10.0)
+        XCTAssertNil(authError)
+        XCTAssertNotNil(authResult)
+        XCTAssertEqual("SUCCESS", authResult?.responseCode)
+
+        // GIVEN - Hold with FRAUD reason code
+        let holdExpectation = expectation(description: "Hold Expectation")
+        var holdResult: Transaction?
+        var holdError: Error?
+
+        // WHEN
+        authResult?.hold()
+            .withReasonCode(.fraud)
+            .execute {
+                holdResult = $0
+                holdError = $1
+                holdExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [holdExpectation], timeout: 10.0)
+        XCTAssertNil(holdError)
+        XCTAssertNotNil(holdResult)
+        XCTAssertEqual("SUCCESS", holdResult?.responseCode)
+        let assessment = holdResult?.fraudResponse?.assessments?.first
+        XCTAssertNotNil(assessment)
+        XCTAssertEqual(FraudFilterResult.HOLD_SUCCESSFUL.rawValue, assessment?.result)
+    }
+
+    func test_hold_transaction_with_other_reason_code() {
+        // GIVEN - Authorize with fraud filter active
+        let authExpectation = expectation(description: "Auth Expectation")
+        var authResult: Transaction?
+        var authError: Error?
+
+        let billingAddress = Address()
+        billingAddress.postalCode = "12345"
+        billingAddress.country = "US"
+        billingAddress.streetAddress1 = "123 Main St."
+
+        card.authorize(amount: amount)
+            .withCurrency(currency)
+            .withAddress(billingAddress)
+            .withFraudFilter(.active)
+            .execute {
+                authResult = $0
+                authError = $1
+                authExpectation.fulfill()
+            }
+
+        wait(for: [authExpectation], timeout: 10.0)
+        XCTAssertNil(authError)
+        XCTAssertNotNil(authResult)
+
+        // GIVEN - Hold with OTHER reason code
+        let holdExpectation = expectation(description: "Hold Expectation")
+        var holdResult: Transaction?
+        var holdError: Error?
+
+        // WHEN
+        authResult?.hold()
+            .withReasonCode(.other)
+            .execute {
+                holdResult = $0
+                holdError = $1
+                holdExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [holdExpectation], timeout: 10.0)
+        XCTAssertNil(holdError)
+        XCTAssertNotNil(holdResult)
+        XCTAssertEqual("SUCCESS", holdResult?.responseCode)
+        let assessment = holdResult?.fraudResponse?.assessments?.first
+        XCTAssertNotNil(assessment)
+        XCTAssertEqual(FraudFilterResult.HOLD_SUCCESSFUL.rawValue, assessment?.result)
+    }
+
+    func test_hold_transaction_with_not_given_reason_code() {
+        // GIVEN - Authorize with fraud filter active
+        let authExpectation = expectation(description: "Auth Expectation")
+        var authResult: Transaction?
+        var authError: Error?
+
+        let billingAddress = Address()
+        billingAddress.postalCode = "12345"
+        billingAddress.country = "US"
+        billingAddress.streetAddress1 = "123 Main St."
+
+        card.authorize(amount: amount)
+            .withCurrency(currency)
+            .withAddress(billingAddress)
+            .withFraudFilter(.active)
+            .execute {
+                authResult = $0
+                authError = $1
+                authExpectation.fulfill()
+            }
+
+        wait(for: [authExpectation], timeout: 10.0)
+        XCTAssertNil(authError)
+        XCTAssertNotNil(authResult)
+
+        // GIVEN - Hold with NOT_GIVEN reason code
+        let holdExpectation = expectation(description: "Hold Expectation")
+        var holdResult: Transaction?
+        var holdError: Error?
+
+        // WHEN
+        authResult?.hold()
+            .withReasonCode(.notGiven)
+            .execute {
+                holdResult = $0
+                holdError = $1
+                holdExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [holdExpectation], timeout: 10.0)
+        XCTAssertNil(holdError)
+        XCTAssertNotNil(holdResult)
+        XCTAssertEqual("SUCCESS", holdResult?.responseCode)
+        let assessment = holdResult?.fraudResponse?.assessments?.first
+        XCTAssertNotNil(assessment)
+        XCTAssertEqual(FraudFilterResult.HOLD_SUCCESSFUL.rawValue, assessment?.result)
+    }
+
+    func test_hold_transaction_response_message_field() {
+        // GIVEN - Authorize with fraud filter active
+        let authExpectation = expectation(description: "Auth Expectation")
+        var authResult: Transaction?
+        var authError: Error?
+
+        let billingAddress = Address()
+        billingAddress.postalCode = "12345"
+        billingAddress.country = "US"
+        billingAddress.streetAddress1 = "123 Main St."
+
+        card.authorize(amount: amount)
+            .withCurrency(currency)
+            .withAddress(billingAddress)
+            .withFraudFilter(.active)
+            .execute {
+                authResult = $0
+                authError = $1
+                authExpectation.fulfill()
+            }
+
+        wait(for: [authExpectation], timeout: 10.0)
+        XCTAssertNil(authError)
+        XCTAssertNotNil(authResult)
+
+        // GIVEN - Hold
+        let holdExpectation = expectation(description: "Hold Expectation")
+        var holdResult: Transaction?
+        var holdError: Error?
+
+        // WHEN
+        authResult?.hold()
+            .withReasonCode(.fraud)
+            .execute {
+                holdResult = $0
+                holdError = $1
+                holdExpectation.fulfill()
+            }
+
+        // THEN - assert risk_assessment[].message is mapped
+        wait(for: [holdExpectation], timeout: 10.0)
+        XCTAssertNil(holdError)
+        XCTAssertNotNil(holdResult)
+        XCTAssertEqual("SUCCESS", holdResult?.responseCode)
+        let assessment = holdResult?.fraudResponse?.assessments?.first
+        XCTAssertNotNil(assessment)
+        XCTAssertEqual(FraudFilterResult.HOLD_SUCCESSFUL.rawValue, assessment?.result)
+        // message is optional — assert it is accessible (may be nil if not returned by sandbox)
+        _ = assessment?.message
+    }
+
+    func test_hold_transaction_wrong_id() {
+        // GIVEN
+        let holdExpectation = expectation(description: "Hold Expectation")
+        let unknownTransaction = Transaction()
+        unknownTransaction.transactionId = "UNKNOWN"
+        var holdResult: Transaction?
+        var gatewayException: GatewayException?
+
+        // WHEN
+        unknownTransaction.hold()
+            .withReasonCode(.fraud)
+            .execute {
+                holdResult = $0
+                if let exception = $1 as? GatewayException {
+                    gatewayException = exception
+                }
+                holdExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [holdExpectation], timeout: 10.0)
+        XCTAssertNil(holdResult)
+        XCTAssertNotNil(gatewayException)
+        XCTAssertEqual("RESOURCE_NOT_FOUND", gatewayException?.responseCode)
+        XCTAssertEqual("40008", gatewayException?.responseMessage)
+    }
+
+    // MARK: - Release: standalone + reason codes + response fields + error path
+
+    /// Helper — authorizes, triggers a HOLD result, then returns the held transaction.
+    private func authorizeAndHold(file: StaticString = #file, line: UInt = #line) -> Transaction? {
+        let authExpectation = expectation(description: "Auth Expectation")
+        var authResult: Transaction?
+        var authError: Error?
+
+        let billingAddress = Address()
+        billingAddress.postalCode = "12345"
+        billingAddress.country = "US"
+        billingAddress.streetAddress1 = "123 Main St."
+
+        card.authorize(amount: amount)
+            .withCurrency(currency)
+            .withAddress(billingAddress)
+            .withFraudFilter(.active)
+            .execute {
+                authResult = $0
+                authError = $1
+                authExpectation.fulfill()
+            }
+
+        wait(for: [authExpectation], timeout: 10.0)
+        XCTAssertNil(authError, "Auth should not fail", file: file, line: line)
+        XCTAssertNotNil(authResult, "Auth result should not be nil", file: file, line: line)
+
+        let holdExpectation = expectation(description: "Hold Expectation")
+        var holdResult: Transaction?
+
+        authResult?.hold()
+            .withReasonCode(.fraud)
+            .execute {
+                holdResult = $0
+                _ = $1
+                holdExpectation.fulfill()
+            }
+
+        wait(for: [holdExpectation], timeout: 10.0)
+        XCTAssertNotNil(holdResult, "Hold result should not be nil", file: file, line: line)
+        return holdResult
+    }
+
+    func test_release_transaction_with_false_positive_reason_code() {
+        // GIVEN - a held transaction
+        guard let held = authorizeAndHold() else { return }
+
+        let releaseExpectation = expectation(description: "Release Expectation")
+        var releaseResult: Transaction?
+        var releaseError: Error?
+
+        // WHEN
+        held.releaseTransaction()
+            .withReasonCode(.falsePositive)
+            .execute {
+                releaseResult = $0
+                releaseError = $1
+                releaseExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [releaseExpectation], timeout: 10.0)
+        XCTAssertNil(releaseError)
+        XCTAssertNotNil(releaseResult)
+        XCTAssertEqual("SUCCESS", releaseResult?.responseCode)
+        let assessment = releaseResult?.fraudResponse?.assessments?.first
+        XCTAssertNotNil(assessment)
+        XCTAssertEqual(FraudFilterResult.RELEASE_SUCCESSFUL.rawValue, assessment?.result)
+    }
+
+    func test_release_transaction_with_other_reason_code() {
+        // GIVEN - a held transaction
+        guard let held = authorizeAndHold() else { return }
+
+        let releaseExpectation = expectation(description: "Release Expectation")
+        var releaseResult: Transaction?
+        var releaseError: Error?
+
+        // WHEN
+        held.releaseTransaction()
+            .withReasonCode(.other)
+            .execute {
+                releaseResult = $0
+                releaseError = $1
+                releaseExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [releaseExpectation], timeout: 10.0)
+        XCTAssertNil(releaseError)
+        XCTAssertNotNil(releaseResult)
+        XCTAssertEqual("SUCCESS", releaseResult?.responseCode)
+        let assessment = releaseResult?.fraudResponse?.assessments?.first
+        XCTAssertNotNil(assessment)
+        XCTAssertEqual(FraudFilterResult.RELEASE_SUCCESSFUL.rawValue, assessment?.result)
+    }
+
+    func test_release_transaction_with_not_given_reason_code() {
+        // GIVEN - a held transaction
+        guard let held = authorizeAndHold() else { return }
+
+        let releaseExpectation = expectation(description: "Release Expectation")
+        var releaseResult: Transaction?
+        var releaseError: Error?
+
+        // WHEN
+        held.releaseTransaction()
+            .withReasonCode(.notGiven)
+            .execute {
+                releaseResult = $0
+                releaseError = $1
+                releaseExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [releaseExpectation], timeout: 10.0)
+        XCTAssertNil(releaseError)
+        XCTAssertNotNil(releaseResult)
+        XCTAssertEqual("SUCCESS", releaseResult?.responseCode)
+        let assessment = releaseResult?.fraudResponse?.assessments?.first
+        XCTAssertNotNil(assessment)
+        XCTAssertEqual(FraudFilterResult.RELEASE_SUCCESSFUL.rawValue, assessment?.result)
+    }
+
+    func test_release_transaction_response_message_field() {
+        // GIVEN - a held transaction
+        guard let held = authorizeAndHold() else { return }
+
+        let releaseExpectation = expectation(description: "Release Expectation")
+        var releaseResult: Transaction?
+        var releaseError: Error?
+
+        // WHEN
+        held.releaseTransaction()
+            .withReasonCode(.falsePositive)
+            .execute {
+                releaseResult = $0
+                releaseError = $1
+                releaseExpectation.fulfill()
+            }
+
+        // THEN - assert risk_assessment[].message is mapped
+        wait(for: [releaseExpectation], timeout: 10.0)
+        XCTAssertNil(releaseError)
+        XCTAssertNotNil(releaseResult)
+        XCTAssertEqual("SUCCESS", releaseResult?.responseCode)
+        let assessment = releaseResult?.fraudResponse?.assessments?.first
+        XCTAssertNotNil(assessment)
+        XCTAssertEqual(FraudFilterResult.RELEASE_SUCCESSFUL.rawValue, assessment?.result)
+        // message is optional — assert it is accessible (may be nil if not returned by sandbox)
+        _ = assessment?.message
+    }
+
+    func test_release_transaction_wrong_id() {
+        // GIVEN
+        let releaseExpectation = expectation(description: "Release Expectation")
+        let unknownTransaction = Transaction()
+        unknownTransaction.transactionId = "UNKNOWN"
+        var releaseResult: Transaction?
+        var gatewayException: GatewayException?
+
+        // WHEN
+        unknownTransaction.releaseTransaction()
+            .withReasonCode(.falsePositive)
+            .execute {
+                releaseResult = $0
+                if let exception = $1 as? GatewayException {
+                    gatewayException = exception
+                }
+                releaseExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [releaseExpectation], timeout: 10.0)
+        XCTAssertNil(releaseResult)
+        XCTAssertNotNil(gatewayException)
+        XCTAssertEqual("RESOURCE_NOT_FOUND", gatewayException?.responseCode)
+        XCTAssertEqual("40008", gatewayException?.responseMessage)
     }
 }

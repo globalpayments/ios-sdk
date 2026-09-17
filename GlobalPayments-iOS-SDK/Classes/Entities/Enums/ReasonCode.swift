@@ -15,4 +15,8 @@ public enum ReasonCode: String {
     case other = "OTHER"
     /// Indicates reason was not given.
     case notGiven = "NOT_GIVEN"
+    /// Indicates goods were not delivered.
+    case nonDelivery = "NON_DELIVERY"
+    /// Indicates goods were received broken or damaged.
+    case goodsBroken = "GOODS_BROKEN"
 }

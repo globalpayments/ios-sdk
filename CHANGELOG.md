@@ -1,6 +1,12 @@
 # Changelog
 
-## Latest - v3.4.1 (08/27/2026)
+## Latest - v3.4.2 (09/17/2026)
+
+#### Enhancements
+
+- GP-API: Added GPAPI Transactions sync
+
+## v3.4.1 (08/27/2026)
 
 #### Enhancements
 

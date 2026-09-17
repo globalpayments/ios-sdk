@@ -54,6 +54,8 @@ public class AlternativePaymentResponse: NSObject {
     public var authReference: String?
     public var feeAmount: NSDecimalNumber?
     public var bank: BankResponse?
+    /// apm.provider_payer_reference — returned in confirm_response (e.g. PayPal payer reference)
+    public var providerPayerReference: String?
     /// apm.provider.confirmed_account_holder — returned in CAPTURED eRaty response
     public var confirmedAccountHolder: String?
     /// apm.provider.wait_notification — only set when non-empty
@@ -115,6 +117,7 @@ extension AlternativePaymentResponse: JsonToObject {
             apm.protectionEligibility = paymentMethodApm.getValue(key: "protection_eligibilty")
             apm.feeAmount = paymentMethodApm.getValue(key: "fee_amount")
             apm.providerReference = paymentMethodApm.getValue(key: "provider_reference")
+            apm.providerPayerReference = paymentMethodApm.getValue(key: "provider_payer_reference")
             
             apm.timeCreatedReference = paymentMethodApm.getValue(key: "time_created_reference")
             apm.paymentTimeReference = paymentMethodApm.getValue(key: "payment_time_reference")

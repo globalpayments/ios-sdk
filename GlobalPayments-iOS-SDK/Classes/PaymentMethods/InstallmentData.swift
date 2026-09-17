@@ -14,6 +14,9 @@ public class InstallmentTerms {
 
 public class InstallmentData {
     
+    /// The installment ID returned in the response.
+    public var id: String?
+    
     //Indicates the installment payment plan program.
     public var program: String?
     
@@ -40,6 +43,7 @@ public class InstallmentData {
     }
     
     init(json: JsonDoc) {
+        self.id = json.getValue(key: "id")
         self.program = json.getValue(key: "program")
         self.mode = json.getValue(key: "mode")
         self.count = json.getValue(key: "count")

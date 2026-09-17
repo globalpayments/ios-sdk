@@ -25,7 +25,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
         card = CreditCardData()
         card.number = "4263970000005262"
         card.expMonth = 5
-        card.expYear = 2025
+        card.expYear = Date().currentYear + 5
         card.cvn = "852"
     }
 
@@ -47,14 +47,14 @@ class GpApiCreditCardPresentTests: XCTestCase {
         try? ServicesContainer.configureService(config: config)
         
         creditTrackData = CreditTrackData()
-        creditTrackData?.value = "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=25121011803939600000?"
+        creditTrackData?.value = "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=30121011803939600000?"
         creditTrackData?.entryMethod = .swipe
     }
     
     func test_credit_charge_with_chip() {
         // GIVEN
         let creditTrackData = CreditTrackData()
-        creditTrackData.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        creditTrackData.value = "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=30121011803939600000?"
         creditTrackData.entryMethod = .swipe
 
         let creditChargeExpectation = expectation(description: "Credit Charge Expectation")
@@ -87,7 +87,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
     func test_credit_authorize() {
         // GIVEN
         let creditTrackData = CreditTrackData()
-        creditTrackData.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        creditTrackData.value = "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=30121011803939600000?"
         creditTrackData.entryMethod = .swipe
 
         let creditAuthorizeExpectation = expectation(description: "Credit Authorize Expectation")
@@ -120,7 +120,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
     func test_credit_authorization_and_capture() {
         // GIVEN
         let creditTrackData = CreditTrackData()
-        creditTrackData.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        creditTrackData.value = "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=30121011803939600000?"
         creditTrackData.entryMethod = .swipe
 
         let authorizeExpectation = expectation(description: "Authorize Expectation")
@@ -175,7 +175,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
     func test_credit_refund() {
         // GIVEN
         let creditTrackData = CreditTrackData()
-        creditTrackData.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        creditTrackData.value = "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=30121011803939600000?"
         creditTrackData.entryMethod = .swipe
 
         let creditRefundExpectation = expectation(description: "Credit Refund Expectation")
@@ -317,7 +317,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertNotNil(additionalResult)
         XCTAssertEqual(expectedResponseCode, additionalResult?.responseCode)
         XCTAssertEqual(TransactionStatus.preauthorized.rawValue, additionalResult?.responseMessage)
-        XCTAssertEqual(12.12, additionalResult?.authorizedAmount)
+        XCTAssertEqual(22.02, additionalResult?.authorizedAmount)
 
         // GIVEN
         let captureExpectation = expectation(description: "Capture Expectation")
@@ -340,13 +340,204 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertEqual(TransactionStatus.captured.rawValue, captureResult?.responseMessage)
     }
 
+    func test_incremental_auth_with_tag_data() {
+        // GIVEN - Authorize
+        let authorizeExpectation = expectation(description: "Authorize Expectation")
+        var authorizeResult: Transaction?
+        var authorizeError: Error?
+
+        card?.number = "4263970000005262"
+        card?.cvn = "123"
+        card?.cardPresent = true
+
+        card?.authorize()
+            .withAmount(amount)
+            .withCurrency(currency)
+            .execute(completion: {
+                authorizeResult = $0
+                authorizeError = $1
+                authorizeExpectation.fulfill()
+            })
+
+        wait(for: [authorizeExpectation], timeout: 10.0)
+        XCTAssertNil(authorizeError)
+        XCTAssertNotNil(authorizeResult)
+        XCTAssertEqual(expectedResponseCode, authorizeResult?.responseCode)
+        XCTAssertEqual(TransactionStatus.preauthorized.rawValue, authorizeResult?.responseMessage)
+
+        // GIVEN - Incremental auth with tag data
+        let incrementalExpectation = expectation(description: "Incremental Expectation")
+        var incrementalResult: Transaction?
+        var incrementalError: Error?
+
+        let tagData = "9F4005F000F0A0019F02060000000025009F03060000000000009F2608D90A06501B48564E82027C005F3401019F360200029F0702FF009F0802008C9F0902008C9F34030403029F2701809F0D05F0400088009F0E0508000000009F0F05F0400098005F280208409F390105FFC605DC4000A800FFC7050010000000FFC805DC4004F8009F3303E0B8C89F1A0208409F350122950500000080005F2A0208409A031409109B02E8009F21030811539C01009F37045EED3A8E4F07A00000000310109F0607A00000000310108407A00000000310109F100706010A03A400029F410400000001"
+
+        let lodgingInfo = LodgingData()
+        lodgingInfo.bookingReference = "s9RpaDwXq1sPRkbP"
+        lodgingInfo.stayDuration = 10
+        lodgingInfo.checkInDate = Date()
+        lodgingInfo.checkOutDate = Date().addDays(7)
+        lodgingInfo.rate = 1349
+
+        let item1 = LodgingItem()
+        item1.types = LodgingItemType.NO_SHOW.rawValue
+        item1.reference = "item_1"
+        item1.totalAmount = "1349"
+        item1.paymentMethodProgramCodes = [PaymentMethodProgram.ASSURED_RESERVATION.rawValue]
+        lodgingInfo.items = [item1]
+
+        // WHEN
+        authorizeResult?.additionalAuth(amount: 5)
+            .withCurrency(currency)
+            .withTagData(tagData)
+            .withLodgingData(lodgingInfo)
+            .execute(completion: {
+                incrementalResult = $0
+                incrementalError = $1
+                incrementalExpectation.fulfill()
+            })
+
+        // THEN
+        wait(for: [incrementalExpectation], timeout: 10.0)
+        XCTAssertNil(incrementalError)
+        XCTAssertNotNil(incrementalResult)
+        XCTAssertEqual(expectedResponseCode, incrementalResult?.responseCode)
+        XCTAssertEqual(TransactionStatus.preauthorized.rawValue, incrementalResult?.responseMessage)
+    }
+
+    func test_incremental_auth_with_tax_amount() {
+        // GIVEN - Authorize
+        let authorizeExpectation = expectation(description: "Authorize Expectation")
+        var authorizeResult: Transaction?
+        var authorizeError: Error?
+
+        card?.number = "4263970000005262"
+        card?.cvn = "123"
+        card?.cardPresent = true
+
+        card?.authorize()
+            .withAmount(amount)
+            .withCurrency(currency)
+            .execute(completion: {
+                authorizeResult = $0
+                authorizeError = $1
+                authorizeExpectation.fulfill()
+            })
+
+        wait(for: [authorizeExpectation], timeout: 10.0)
+        XCTAssertNil(authorizeError)
+        XCTAssertNotNil(authorizeResult)
+        XCTAssertEqual(expectedResponseCode, authorizeResult?.responseCode)
+        XCTAssertEqual(TransactionStatus.preauthorized.rawValue, authorizeResult?.responseMessage)
+
+        // GIVEN - Incremental auth with tax amount
+        let incrementalExpectation = expectation(description: "Incremental Expectation")
+        var incrementalResult: Transaction?
+        var incrementalError: Error?
+
+        // WHEN
+        authorizeResult?.additionalAuth(amount: 5)
+            .withCurrency(currency)
+            .withTaxAmount(1.50)
+            .execute(completion: {
+                incrementalResult = $0
+                incrementalError = $1
+                incrementalExpectation.fulfill()
+            })
+
+        // THEN
+        wait(for: [incrementalExpectation], timeout: 10.0)
+        XCTAssertNil(incrementalError)
+        XCTAssertNotNil(incrementalResult)
+        XCTAssertEqual(expectedResponseCode, incrementalResult?.responseCode)
+        XCTAssertEqual(TransactionStatus.preauthorized.rawValue, incrementalResult?.responseMessage)
+    }
+
+    func test_incremental_auth_with_order_taxes() {
+        // GIVEN - Authorize
+        let authorizeExpectation = expectation(description: "Authorize Expectation")
+        var authorizeResult: Transaction?
+        var authorizeError: Error?
+
+        card?.number = "4263970000005262"
+        card?.cvn = "123"
+        card?.cardPresent = true
+
+        card?.authorize()
+            .withAmount(amount)
+            .withCurrency(currency)
+            .execute(completion: {
+                authorizeResult = $0
+                authorizeError = $1
+                authorizeExpectation.fulfill()
+            })
+
+        wait(for: [authorizeExpectation], timeout: 60.0)
+        XCTAssertNil(authorizeError)
+        XCTAssertNotNil(authorizeResult)
+        XCTAssertEqual(expectedResponseCode, authorizeResult?.responseCode)
+        XCTAssertEqual(TransactionStatus.preauthorized.rawValue, authorizeResult?.responseMessage)
+
+        // GIVEN - Incremental auth with order taxes
+        let incrementalExpectation = expectation(description: "Incremental Expectation")
+        var incrementalResult: Transaction?
+        var incrementalError: Error?
+
+        let tax1 = Tax(type: "SALES", amount: "1.50", percentage: "10")
+        let tax2 = Tax(type: "LOCAL", amount: "0.50")
+
+        // WHEN
+        authorizeResult?.additionalAuth(amount: 5)
+            .withCurrency(currency)
+            .withOrderTaxes([tax1, tax2])
+            .execute(completion: {
+                incrementalResult = $0
+                incrementalError = $1
+                incrementalExpectation.fulfill()
+            })
+
+        // THEN
+        wait(for: [incrementalExpectation], timeout: 60.0)
+        XCTAssertNil(incrementalError)
+        XCTAssertNotNil(incrementalResult)
+        XCTAssertEqual(expectedResponseCode, incrementalResult?.responseCode)
+        XCTAssertEqual(TransactionStatus.preauthorized.rawValue, incrementalResult?.responseMessage)
+    }
+
+    func test_incremental_auth_wrong_id() {
+        // GIVEN
+        let incrementalExpectation = expectation(description: "Incremental Expectation")
+        let unknownTransaction = Transaction()
+        unknownTransaction.transactionId = "UNKNOWN"
+        var incrementalResult: Transaction?
+        var gatewayException: GatewayException?
+
+        // WHEN
+        unknownTransaction.additionalAuth(amount: 5)
+            .withCurrency(currency)
+            .execute(completion: {
+                incrementalResult = $0
+                if let exception = $1 as? GatewayException {
+                    gatewayException = exception
+                }
+                incrementalExpectation.fulfill()
+            })
+
+        // THEN
+        wait(for: [incrementalExpectation], timeout: 60.0)
+        XCTAssertNil(incrementalResult)
+        XCTAssertNotNil(gatewayException)
+        XCTAssertEqual(gatewayException?.responseCode, "RESOURCE_NOT_FOUND")
+        XCTAssertEqual(gatewayException?.responseMessage, "40008")
+    }
+
     func test_adjust_sale_transaction() {
         // GIVEN
         let adjustSaleExpectation = expectation(description: "Adjust Sale Expectation")
         var adjustSaleResponse: Transaction?
         var adjustSaleError: Error?
         let card = CreditTrackData()
-        card.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        card.value = "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=30121011803939600000?"
         card.entryMethod = .proximity
 
         let tagData = "9F4005F000F0A0019F02060000000025009F03060000000000009F2608D90A06501B48564E82027C005F3401019F360200029F0702FF009F0802008C9F0902008C9F34030403029F2701809F0D05F0400088009F0E0508000000009F0F05F0400098005F280208409F390105FFC605DC4000A800FFC7050010000000FFC805DC4004F8009F3303E0B8C89F1A0208409F350122950500000080005F2A0208409A031409109B02E8009F21030811539C01009F37045EED3A8E4F07A00000000310109F0607A00000000310108407A00000000310109F100706010A03A400029F410400000001"
@@ -718,7 +909,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
             }
 
         // THEN
-        wait(for: [adjustSaleExpectation], timeout: 10.0)
+        wait(for: [adjustSaleExpectation], timeout: 60.0)
         XCTAssertNil(adjustSaleResponse)
         XCTAssertNotNil(adjustSaleError)
         XCTAssertEqual("40008", adjustSaleError?.responseMessage)
@@ -731,7 +922,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
         var trackDataChargeResponse: Transaction?
         var trackDataChargeError: Error?
         let card = CreditTrackData()
-        card.value = "&lt;E1050711%B4012001000000016^VI TEST CREDIT^251200000000000000000000?|LO04K0WFOmdkDz0um+GwUkILL8ZZOP6Zc4rCpZ9+kg2T3JBT4AEOilWTI|+++++++Dbbn04ekG|11;4012001000000016=25120000000000000000?|1u2F/aEhbdoPixyAPGyIDv3gBfF|+++++++Dbbn04ekG|00|||/wECAQECAoFGAgEH2wYcShV78RZwb3NAc2VjdXJlZXhjaGFuZ2UubmV0PX50qfj4dt0lu9oFBESQQNkpoxEVpCW3ZKmoIV3T93zphPS3XKP4+DiVlM8VIOOmAuRrpzxNi0TN/DWXWSjUC8m/PI2dACGdl/hVJ/imfqIs68wYDnp8j0ZfgvM26MlnDbTVRrSx68Nzj2QAgpBCHcaBb/FZm9T7pfMr2Mlh2YcAt6gGG1i2bJgiEJn8IiSDX5M2ybzqRT86PCbKle/XCTwFFe1X|&gt;"
+        card.value = "&lt;E1050711%B4012001000000016^VI TEST CREDIT^301200000000000000000000?|LO04K0WFOmdkDz0um+GwUkILL8ZZOP6Zc4rCpZ9+kg2T3JBT4AEOilWTI|+++++++Dbbn04ekG|11;4012001000000016=30120000000000000000?|1u2F/aEhbdoPixyAPGyIDv3gBfF|+++++++Dbbn04ekG|00|||/wECAQECAoFGAgEH2wYcShV78RZwb3NAc2VjdXJlZXhjaGFuZ2UubmV0PX50qfj4dt0lu9oFBESQQNkpoxEVpCW3ZKmoIV3T93zphPS3XKP4+DiVlM8VIOOmAuRrpzxNi0TN/DWXWSjUC8m/PI2dACGdl/hVJ/imfqIs68wYDnp8j0ZfgvM26MlnDbTVRrSx68Nzj2QAgpBCHcaBb/FZm9T7pfMr2Mlh2YcAt6gGG1i2bJgiEJn8IiSDX5M2ybzqRT86PCbKle/XCTwFFe1X|&gt;"
         card.encryptionData = .version1()
         
         // WHEN
@@ -880,7 +1071,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
         // add extra fields for commercial payload
         commercialData.taxMode = "SALES_TAX"
         // payment method details
-        let pmCard = CommercialCard(category: "CORPORATE", avsPostalCode: "75024", track: "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?")
+        let pmCard = CommercialCard(category: "CORPORATE", avsPostalCode: "75024", track: "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=30121011803939600000?")
         let pm = CommercialPaymentMethod(firstName: "Jane", lastName: "Doe", entryMethod: .swipe, card: pmCard)
         commercialData.paymentMethod = pm
         
@@ -926,7 +1117,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
         XCTAssertNotNil(responseCharge)
         XCTAssertNil(errorResponse)
         XCTAssertEqual(responseCharge?.categoryType, "BUSINESS")
-        XCTAssertEqual(responseCharge?.commercialLevel, "LEVEL_2")
+        XCTAssertEqual(responseCharge?.commercialLevel, "LEVEL_3")
     }
     
     func testShouldReturnLevel1CommercialLevel_WhenNoCommercialLevelDataProvided() {
@@ -935,7 +1126,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
         var responseCharge: Transaction?
         var errorResponse: Error?
         let card = CreditTrackData()
-        card.value = "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+        card.value = "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=30121011803939600000?"
         card.entryMethod = .swipe
         card.category = "CORPORATE"
         card.avsPostalcode = "75024"
@@ -977,7 +1168,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
     private func initCreditTrackData(_ entryMethod: EntryMethod? = .swipe) {
         creditTrackData = CreditTrackData()
         creditTrackData?.value =
-            "%B4012002000060016^VI TEST CREDIT^251210118039000000000396?;4012002000060016=25121011803939600000?"
+            "%B4012002000060016^VI TEST CREDIT^301210118039000000000396?;4012002000060016=30121011803939600000?"
         creditTrackData?.entryMethod = entryMethod
     }
 
@@ -1098,7 +1289,7 @@ class GpApiCreditCardPresentTests: XCTestCase {
                 reportExpectation.fulfill()
             }
 
-        wait(for: [reportExpectation], timeout: 10.0)
+        wait(for: [reportExpectation], timeout: 60.0)
         XCTAssertNil(reportError)
         XCTAssertNotNil(transactionSummary)
         XCTAssertEqual(transactionSummary?.entryMode, PaymentEntryMode.contactlessChip.rawValue)

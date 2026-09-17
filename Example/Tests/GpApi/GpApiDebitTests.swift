@@ -426,4 +426,136 @@ class GpApiDebitTests: XCTestCase {
         XCTAssertEqual(reauthorizeTransactionResult?.responseCode, "SUCCESS")
         XCTAssertEqual(reauthorizeTransactionResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
     }
+
+    func test_reauthorize_transaction_with_gratuity() {
+        // GIVEN - Charge
+        let card = CreditCardData()
+        card.number = "5425230000004415"
+        card.expMonth = Date().currentMonth
+        card.expYear = Date().currentYear + 1
+        card.cvn = "123"
+        card.cardHolderName = "John Smith"
+        card.cardPresent = true
+        let chargeExpectation = expectation(description: "Charge Expectation")
+        var chargeResult: Transaction?
+        var chargeError: Error?
+
+        card.charge(amount: 1.25)
+            .withCurrency("USD")
+            .execute {
+                chargeResult = $0
+                chargeError = $1
+                chargeExpectation.fulfill()
+            }
+
+        wait(for: [chargeExpectation], timeout: 10.0)
+        XCTAssertNil(chargeError)
+        XCTAssertNotNil(chargeResult)
+
+        // GIVEN - Reverse
+        let reverseExpectation = expectation(description: "Reverse Expectation")
+        chargeResult?.reverse(amount: 1.25)
+            .execute { _, _ in reverseExpectation.fulfill() }
+        wait(for: [reverseExpectation], timeout: 10.0)
+
+        // GIVEN - Reauth with gratuity
+        let reauthExpectation = expectation(description: "Reauth Expectation")
+        var reauthResult: Transaction?
+        var reauthError: Error?
+
+        // WHEN
+        chargeResult?.reauthorize()
+            .withGratuity(0.50)
+            .execute {
+                reauthResult = $0
+                reauthError = $1
+                reauthExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [reauthExpectation], timeout: 10.0)
+        XCTAssertNil(reauthError)
+        XCTAssertNotNil(reauthResult)
+        XCTAssertEqual(reauthResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(reauthResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
+    }
+
+    func test_reauthorize_transaction_with_amount() {
+        // GIVEN - Charge
+        let card = CreditCardData()
+        card.number = "5425230000004415"
+        card.expMonth = Date().currentMonth
+        card.expYear = Date().currentYear + 1
+        card.cvn = "123"
+        card.cardHolderName = "John Smith"
+        card.cardPresent = true
+        let chargeExpectation = expectation(description: "Charge Expectation")
+        var chargeResult: Transaction?
+        var chargeError: Error?
+
+        card.charge(amount: 1.25)
+            .withCurrency("USD")
+            .execute {
+                chargeResult = $0
+                chargeError = $1
+                chargeExpectation.fulfill()
+            }
+
+        wait(for: [chargeExpectation], timeout: 10.0)
+        XCTAssertNil(chargeError)
+        XCTAssertNotNil(chargeResult)
+
+        // GIVEN - Reverse
+        let reverseExpectation = expectation(description: "Reverse Expectation")
+        chargeResult?.reverse(amount: 1.25)
+            .execute { _, _ in reverseExpectation.fulfill() }
+        wait(for: [reverseExpectation], timeout: 10.0)
+
+        // GIVEN - Reauth with explicit amount
+        let reauthExpectation = expectation(description: "Reauth Expectation")
+        var reauthResult: Transaction?
+        var reauthError: Error?
+
+        // WHEN
+        chargeResult?.reauthorize()
+            .withAmount(1.25)
+            .execute {
+                reauthResult = $0
+                reauthError = $1
+                reauthExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [reauthExpectation], timeout: 10.0)
+        XCTAssertNil(reauthError)
+        XCTAssertNotNil(reauthResult)
+        XCTAssertEqual(reauthResult?.responseCode, "SUCCESS")
+        XCTAssertEqual(reauthResult?.responseMessage, TransactionStatus.captured.mapped(for: .gpApi))
+    }
+
+    func test_reauthorize_transaction_wrong_id() {
+        // GIVEN
+        let reauthExpectation = expectation(description: "Reauth Expectation")
+        let unknownTransaction = Transaction()
+        unknownTransaction.transactionId = "UNKNOWN"
+        var reauthResult: Transaction?
+        var gatewayException: GatewayException?
+
+        // WHEN
+        unknownTransaction.reauthorize()
+            .execute {
+                reauthResult = $0
+                if let exception = $1 as? GatewayException {
+                    gatewayException = exception
+                }
+                reauthExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [reauthExpectation], timeout: 10.0)
+        XCTAssertNil(reauthResult)
+        XCTAssertNotNil(gatewayException)
+        XCTAssertEqual(gatewayException?.responseCode, "RESOURCE_NOT_FOUND")
+        XCTAssertEqual(gatewayException?.responseMessage, "40008")
+    }
 }

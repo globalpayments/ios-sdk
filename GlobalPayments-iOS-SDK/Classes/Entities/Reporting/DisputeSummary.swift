@@ -29,6 +29,7 @@ public class DisputeSummary {
     public var caseMerchantId: String?
     public var caseTerminalId: String?
     public var transactionARN: String?
+    public var transactionId: String?
     public var transactionReferenceNumber: String?
     public var transactionSRD: String?
     public var transactionAuthCode: String?

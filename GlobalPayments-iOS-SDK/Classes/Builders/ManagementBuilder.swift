@@ -60,6 +60,7 @@ import Foundation
         return paymentMethod.transactionId
     }
     var voidReason: VoidReason?
+    var reversalReason: ReversalReasonCode?
     var usageMode: PaymentMethodUsageMode?
     var usageLimit: String?
     var type: PayByLinkType?
@@ -70,6 +71,14 @@ import Foundation
     var transactionDescription: String?
     var country: String?
     var paymentMethods: [PaymentMethodName]?
+    var disputeDocuments: [DocumentInfo]?
+    /// Order-level shipping amount (refund/capture)
+    var shippingAmount: NSDecimalNumber?
+    /// Order-level duty/import amount (refund)
+    var dutyAmount: NSDecimalNumber?
+    /// Order-level taxes (refund)
+    var orderTaxes: [Tax]?
+
     var paymentMethodName: String?
 
     /// Sets the current transaction's amount.
@@ -286,6 +295,11 @@ import Foundation
         self.voidReason = voidReason
         return self
     }
+
+    public func withReversalReason(_ reversalReason: ReversalReasonCode?) -> ManagementBuilder {
+        self.reversalReason = reversalReason
+        return self
+    }
     
     public func withPayByLinkData(_ payByLinkData: PayByLinkData) -> ManagementBuilder {
         self.payByLinkData = payByLinkData
@@ -337,6 +351,32 @@ import Foundation
          self.poNumber = value
          return self
      }
+
+    /// Sets the dispute documents to be submitted with a transaction challenge.
+    /// - Parameter documents: Array of `DocumentInfo` objects (type + base64 content)
+    /// - Returns: ManagementBuilder
+    public func withDisputeDocuments(_ documents: [DocumentInfo]?) -> ManagementBuilder {
+        self.disputeDocuments = documents
+        return self
+    }
+
+    /// Sets the order shipping amount for a refund.
+    public func withShippingAmount(_ shippingAmount: NSDecimalNumber?) -> ManagementBuilder {
+        self.shippingAmount = shippingAmount
+        return self
+    }
+
+    /// Sets the order duty amount for a refund.
+    public func withDutyAmount(_ dutyAmount: NSDecimalNumber?) -> ManagementBuilder {
+        self.dutyAmount = dutyAmount
+        return self
+    }
+
+    /// Sets the order taxes for a refund.
+    public func withOrderTaxes(_ taxes: [Tax]?) -> ManagementBuilder {
+        self.orderTaxes = taxes
+        return self
+    }
 
     public override func execute(configName: String = "default",
                                  completion: ((Transaction?, Error?) -> Void)?) {

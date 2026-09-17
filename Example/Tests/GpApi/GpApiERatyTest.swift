@@ -33,8 +33,8 @@ final class GpApiERatyTest: XCTestCase {
     private func eRatySetup() {
         ServicesContainer.shared.removeConfiguration(configName: "default")
 
-        let appId = "hkjrcsGDhWiDt8GEhoDMKy3pzFz5R0Bo"
-        let appKey = "cQOKHoAAvNIcEN8s"
+        let appId = ""
+        let appKey = ""
 
         let config = GpApiConfig(
             appId: appId,

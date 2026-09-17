@@ -145,11 +145,11 @@ public class CardUtils {
             if let cvn = cardData.cvn, !cvn.isEmpty {
                 card.set(for: "cvv", value: cvn)
 
+                let cvnPresence = cardData.cvnPresenceIndicator
+                if cvnPresence != .notRequested {
+                    card.set(for: "cvv_indicator", value: cvnPresence.mapped(for: .gpApi))
+                }
                 if builder.transactionType == .tokenize || builder.transactionType == .verify {
-                    let cvnPresence = cardData.cvnPresenceIndicator
-                    if cvnPresence != .notRequested {
-                        card.set(for: "cvv_indicator", value: cvnPresence.mapped(for: .gpApi))
-                    }
                     card.set(for: "funding", value: funding)
                 }
             }

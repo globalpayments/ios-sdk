@@ -7,8 +7,8 @@ public enum FraudFilterResult: String, Mappable, CaseIterable {
     case BLOCK = "REJECTED"
     case NOT_EXECUTED
     case ERROR
-    case RELEASE_SUCCESSFULL
-    case HOLD_SUCCESSFULL
+    case RELEASE_SUCCESSFUL
+    case HOLD_SUCCESSFUL
 
     public init?(value: String?) {
         guard let value = value,

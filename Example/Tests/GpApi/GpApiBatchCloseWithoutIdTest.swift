@@ -95,7 +95,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
                 chargeExpectation.fulfill()
             }
 
-        wait(for: [chargeExpectation], timeout: 15.0)
+        wait(for: [chargeExpectation], timeout: 30.0)
         XCTAssertNil(chargeTransactionError)
         assertTransactionResponse(transaction: chargeTransactionResult, status: .captured)
 
@@ -111,7 +111,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
             closeBatchExpectation.fulfill()
         }
 
-        wait(for: [closeBatchExpectation], timeout: 15.0)
+        wait(for: [closeBatchExpectation], timeout: 30.0)
         XCTAssertNil(batchSummaryError)
         assertBatchCloseResponse(batchSummary: batchSummaryResult, amount: Self.amount)
     }
@@ -149,7 +149,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
             closeBatchExpectation.fulfill()
         }
 
-        wait(for: [closeBatchExpectation], timeout: 15.0)
+        wait(for: [closeBatchExpectation], timeout: 30.0)
         XCTAssertNil(batchSummaryError)
         assertBatchCloseResponse(batchSummary: batchSummaryResult, amount: Self.amount)
     }

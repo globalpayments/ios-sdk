@@ -14,4 +14,10 @@ public class DccRateData: NSObject {
     public var marginRatePercentage: String?
     public var dccId: String?
     public var orderId: String?
+    public var conversionRate: String?
+    public var exchangeSourceTime: String?
+
+    public func normalizedRateType() -> DccRateType {
+        return dccRateType == .refund ? .refund : .sale
+    }
 }

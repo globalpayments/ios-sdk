@@ -14,6 +14,10 @@ public class LodgingData: NSObject {
     public var preferredCustomer: Bool?
     public var bookingReference: String?
     public var items: [LodgingItem]?
+    public var roomTaxAmount: NSDecimalNumber?
+    public var establishmentName: String?
+    public var checkInTime: String?
+    public var checkOutTime: String?
     public var extraChargeAmount: NSDecimalNumber? {
         return extraCharges.values.reduce(.zero) { $0?.adding($1) }
     }

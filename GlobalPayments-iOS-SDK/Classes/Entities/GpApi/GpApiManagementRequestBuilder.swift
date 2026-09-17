@@ -2,6 +2,20 @@ import Foundation
 
 struct GpApiManagementRequestBuilder: GpApiRequestData {
 
+    private func dccCurrencyConversionDoc(for builder: ManagementBuilder) -> JsonDoc? {
+        guard let dccId = builder.dccRateData?.dccId, !dccId.isEmpty else { return nil }
+
+        let requestType = builder.dccRateData?.dccRateType ?? builder.dccRateData?.normalizedRateType() ?? .sale
+        let requestTypeValue = requestType == .sale ? "SALE" : "REFUND"
+
+        let currencyConversion = JsonDoc()
+            .set(for: "id", value: dccId)
+            .set(for: "request_type", value: requestTypeValue)
+            .set(for: "type", value: requestTypeValue)
+            .set(for: "transaction_type", value: requestTypeValue)
+        return currencyConversion
+    }
+
     func generateRequest(for builder: ManagementBuilder, config: GpApiConfig) -> GpApiRequest? {
         var merchantUrl: String = !(config.merchantId?.isEmpty ?? true) ? "/merchants/\(config.merchantId ?? "")" : ""
 
@@ -42,16 +56,45 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
         case .refund:
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: amountCurrency))
-                .set(for: "currency_conversion", value: builder.dccRateData?.dccId)
+                .set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString(currency: amountCurrency))
+                .set(for: "tax_amount", value: builder.taxAmount?.toNumericCurrencyString(currency: amountCurrency))
+                .set(for: "reference", value: builder.reference)
+                .set(for: "surcharge_amount", value: builder.surchargeAmtInfo)
+
+            if let currencyConversion = dccCurrencyConversionDoc(for: builder) {
+                payload.set(for: "currency_conversion", doc: currencyConversion)
+            }
+
+            // Build order object if any order fields are present
+            let hasOrderFields = builder.shippingAmount != nil || builder.dutyAmount != nil || !(builder.orderTaxes?.isEmpty ?? true)
+            if hasOrderFields {
+                let orderDoc = JsonDoc()
+                orderDoc.set(for: "shipping_amount", value: builder.shippingAmount?.toNumericCurrencyString(currency: amountCurrency))
+                orderDoc.set(for: "duty_amount", value: builder.dutyAmount?.toNumericCurrencyString(currency: amountCurrency))
+                if let taxes = builder.orderTaxes, !taxes.isEmpty {
+                    let taxDocs: [JsonDoc] = taxes.map {
+                        let t = JsonDoc()
+                        t.set(for: "type", value: $0.type)
+                        t.set(for: "amount", value: $0.amount)
+                        t.set(for: "percentage", value: $0.percentage)
+                        return t
+                    }
+                    orderDoc.set(for: "taxes", values: taxDocs)
+                }
+                payload.set(for: "order", doc: orderDoc)
+            }
+
             return GpApiRequest(
                 endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsRefund(transactionId: (builder.transactionId ?? .empty)),
                 method: .post,
                 requestBody: payload.toString()
             )
         case .reversal:
+            let currencyConversionDoc = dccCurrencyConversionDoc(for: builder)
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: amountCurrency))
-                .set(for: "currency_conversion", value: builder.dccRateData?.dccId)
+                .set(for: "reversal_reason", value: builder.reversalReason?.mapped(for: .gpApi))
+                .set(for: "currency_conversion", doc: currencyConversionDoc)
             
             var endpoint = merchantUrl
             
@@ -70,10 +113,41 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 requestBody: payload.toString()
             )
         case .capture:
+            let captureCurrencyConversionDoc = dccCurrencyConversionDoc(for: builder)
+            let captureSequence: String? = {
+                guard let sequence = builder.multiCaptureSequence,
+                      let total = builder.multiCapturePaymentCount else { return nil }
+                if sequence == 1 { return "FIRST" }
+                if sequence == total { return "LAST" }
+                return "SUBSEQUENT"
+            }()
             let payload = JsonDoc()
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: amountCurrency))
-                .set(for: "gratuity", value: builder.gratuity?.toNumericCurrencyString(currency: amountCurrency))
-                .set(for: "currency_conversion", value: builder.dccRateData?.dccId)
+                .set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString(currency: amountCurrency))
+                .set(for: "tax_amount", value: builder.taxAmount?.toNumericCurrencyString(currency: amountCurrency))
+                .set(for: "tag", value: builder.tagData)
+                .set(for: "capture_sequence", value: captureSequence)
+                .set(for: "total_capture_count", value: builder.multiCapturePaymentCount.map { "\($0)" })
+                .set(for: "currency_conversion", doc: captureCurrencyConversionDoc)
+
+            if let lodgingData = builder.lodgingData, let items = lodgingData.items {
+                let lodgingItems: [JsonDoc] = items.map {
+                    let doc = JsonDoc()
+                    doc.set(for: "types", value: $0.types.map { [$0] })
+                    doc.set(for: "amount", value: $0.totalAmount)
+                    doc.set(for: "payment_method_program_codes", value: $0.paymentMethodProgramCodes)
+                    return doc
+                }
+                let lodgingDoc = JsonDoc()
+                    .set(for: "booking_reference", value: lodgingData.bookingReference)
+                    .set(for: "duration_days", value: lodgingData.stayDuration.map { "\($0)" })
+                    .set(for: "date_checked_in", value: lodgingData.checkInDate?.format("yyyy-MM-dd"))
+                    .set(for: "date_checked_out", value: lodgingData.checkOutDate?.format("yyyy-MM-dd"))
+                    .set(for: "daily_rate_amount", value: lodgingData.rate.map { "\($0)" })
+                lodgingDoc.set(for: "charge_items", values: lodgingItems)
+                payload.set(for: "lodging", doc: lodgingDoc)
+            }
+
             return GpApiRequest(
                 endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsCapture(transactionId: builder.transactionId ?? .empty),
                 method: .post,
@@ -103,11 +177,17 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
                 requestBody: payload.toString()
             )
         case .reauth:
+            let reauthCurrencyConversionDoc = dccCurrencyConversionDoc(for: builder)
+            let transactionRequestType = (builder.dccRateData?.dccRateType ?? builder.dccRateData?.normalizedRateType() ?? .sale) == .refund ? "REFUND" : "SALE"
             let payload = JsonDoc()
+                .set(for: "type", value: transactionRequestType)
                 .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: amountCurrency))
+                .set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString(currency: amountCurrency))
+                .set(for: "tax_amount", value: builder.taxAmount?.toNumericCurrencyString(currency: amountCurrency))
+                .set(for: "currency_conversion", doc: reauthCurrencyConversionDoc)
 
             if builder.paymentMethod?.paymentMethodType == .ach {
-                payload.set(for: "description", value: builder.description)
+                payload.set(for: "description", value: builder.managementBuilderDescription)
                 if let eCheck = builder.paymentMethod as? eCheck {
 
                     let paymentMethod = JsonDoc()
@@ -135,31 +215,49 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             )
         case .auth:
             let payload = JsonDoc()
-            payload.set(for: "amount", value: "\(builder.amount ?? 0)")
+                .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: amountCurrency))
+                .set(for: "tax_amount", value: builder.taxAmount?.toNumericCurrencyString(currency: amountCurrency))
+
+            if let tag = builder.tagData, !tag.isEmpty {
+                let card = JsonDoc().set(for: "tag", value: tag)
+
+                let paymentMethod = JsonDoc().set(for: "card", doc: card)
+                payload.set(for: "payment_method", doc: paymentMethod)
+            }
+
+            if let taxes = builder.orderTaxes, !taxes.isEmpty {
+                let totalTaxAmount = taxes.reduce(NSDecimalNumber.zero) { currentTotal, tax in
+                    currentTotal.adding(NSDecimalNumber(string: tax.amount))
+                }
+                if payload.getValue(key: "tax_amount") == nil {
+                    payload.set(for: "tax_amount", value: totalTaxAmount.toNumericCurrencyString(currency: amountCurrency))
+                }
+            }
 
             if let lodgingData = builder.lodgingData, let items = lodgingData.items {
-
                 let lodgingItems: [JsonDoc] = items.map {
                     let doc = JsonDoc()
-                    doc.set(for: "Types", value: $0.types)
-                    doc.set(for: "Reference", value: $0.reference)
-                    doc.set(for: "TotalAmount", value: $0.totalAmount)
-                    doc.set(for: "paymentMethodProgramCodes", value: $0.paymentMethodProgramCodes)
+                    doc.set(for: "types", value: $0.types.map { [$0] })
+                    doc.set(for: "amount", value: $0.totalAmount)
+                    doc.set(for: "payment_method_program_codes", value: $0.paymentMethodProgramCodes)
                     return doc
                 }
-
-                let lodgingDataDoc = JsonDoc()
-                lodgingDataDoc.set(for: "booking_reference", value: lodgingData.bookingReference)
-                lodgingDataDoc.set(for: "duration_days", value: "\(lodgingData.stayDuration ?? 0)")
-                lodgingDataDoc.set(for: "date_checked_in", value: lodgingData.checkInDate?.format("yyyy-MM-dd"))
-                lodgingDataDoc.set(for: "date_checked_out", value: lodgingData.checkOutDate?.format("yyyy-MM-dd"))
-                lodgingDataDoc.set(for: "daily_rate_amount", value: "\(lodgingData.rate ?? 0 )")
-                lodgingDataDoc.set(for: "charge_items", values: lodgingItems)
-                payload.set(for: "lodging", doc: lodgingDataDoc)
+                let lodgingDoc = JsonDoc()
+                    .set(for: "booking_reference", value: lodgingData.bookingReference)
+                    .set(for: "duration_days", value: lodgingData.stayDuration.map { "\($0)" })
+                    .set(for: "room_tax_amount", value: lodgingData.roomTaxAmount.map { "\($0)" })
+                    .set(for: "date_checked_in", value: lodgingData.checkInDate?.format("yyyy-MM-dd"))
+                    .set(for: "date_checked_out", value: lodgingData.checkOutDate?.format("yyyy-MM-dd"))
+                    .set(for: "daily_rate_amount", value: lodgingData.rate.map { "\($0)" })
+                    .set(for: "establishment_name", value: lodgingData.establishmentName)
+                    .set(for: "time_checked_in", value: lodgingData.checkInTime)
+                    .set(for: "time_checked_out", value: lodgingData.checkOutTime)
+                lodgingDoc.set(for: "charge_items", values: lodgingItems)
+                payload.set(for: "lodging", doc: lodgingDoc)
             }
 
             return GpApiRequest(
-                endpoint: GpApiRequest.Endpoints.transactionsIncrementalAuthorization(transactionId: (builder.transactionId ?? .empty)),
+                endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsIncrementalAuthorization(transactionId: (builder.transactionId ?? .empty)),
                 method: .post,
                 requestBody: payload.toString()
             )
@@ -240,8 +338,10 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             paymentMethod.set(for: "card", doc: card)
 
             let payload = JsonDoc()
-            payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
-            payload.set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString(currency: builder.currency))
+            payload.set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: amountCurrency))
+            payload.set(for: "gratuity_amount", value: builder.gratuity?.toNumericCurrencyString(currency: amountCurrency))
+            payload.set(for: "surcharge_amount", value: builder.surchargeAmtInfo)
+            payload.set(for: "tax_amount", value: builder.taxAmount?.toNumericCurrencyString(currency: amountCurrency))
             payload.set(for: "payment_method", doc: paymentMethod)
 
             return GpApiRequest(
@@ -316,6 +416,25 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             
             return GpApiRequest(
                 endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsSplit(transactionId: builder.transactionId ?? .empty),
+                method: .post,
+                requestBody: payLoad.toString()
+            )
+        case .challenge:
+            let payLoad = JsonDoc()
+            if let documents = builder.disputeDocuments, !documents.isEmpty {
+                var documentDocs = [JsonDoc]()
+                for document in documents {
+                    let documentDoc = JsonDoc()
+                    if let b64 = document.b64Content {
+                        documentDoc.set(for: "b64_content", value: b64.base64EncodedString())
+                    }
+                    documentDoc.set(for: "file_format", value: document.fileFormat)
+                    documentDocs.append(documentDoc)
+                }
+                payLoad.set(for: "documents", values: documentDocs)
+            }
+            return GpApiRequest(
+                endpoint: merchantUrl + GpApiRequest.Endpoints.transactionsChallenge(transactionId: builder.transactionId ?? .empty),
                 method: .post,
                 requestBody: payLoad.toString()
             )

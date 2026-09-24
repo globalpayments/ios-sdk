@@ -53,23 +53,39 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
             .set(for: "decoupled_notification_url", value: builder.decoupledNotificationUrl)
         payload.set(for: "notifications", doc: notifications)
 
+        let mobileData = JsonDoc()
+            .set(for: "encoded_data", value: builder.mobileData?.encodedData)
+            .set(for: "application_reference", value: builder.mobileData?.applicationReference)
+            .set(for: "sdk_interface", value: builder.mobileData?.sdkInterface?.mapped(for: .gpApi))
+            .set(for: "sdk_ui_type", value: SdkUiType.sdkUiTypes(builder.mobileData?.sdkUiTypes, target: .gpApi))
+            .set(for: "ephemeral_public_key", doc: builder.mobileData?.ephemeralPublicKey)
+            .set(for: "maximum_timeout", value: builder.mobileData?.maximumTimeout)
+            .set(for: "reference_number", value: builder.mobileData?.referenceNumber)
+            .set(for: "sdk_trans_reference", value: builder.mobileData?.sdkTransReference)
+        payload.set(for: "mobile_data", doc: mobileData)
+
         return payload
     }
 
     private func initiateAuthenticationData(_ builder: Secure3dBuilder, _ config: GpApiConfig?) -> JsonDoc {
+        let addressMatchIndicator = builder.addressMatchIndicator.map { $0 ? "TRUE" : "FALSE" }
+        let shippingNameMatchesCardholder = builder.shippingNameMatchesCardHolderName.map { $0 ? "YES" : "NO" }
+        let javaEnabled = builder.browserData?.javaEnabled.map { $0 ? "TRUE" : "FALSE" }
+        let javascriptEnabled = builder.browserData?.javaScriptEnabled.map { $0 ? "TRUE" : "FALSE" }
+
         let order = JsonDoc()
             .set(for: "reference", value: builder.referenceNumber)
             .set(for: "time_created_reference", value: builder.orderCreateDate?.format("yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"))
             .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
             .set(for: "currency", value: builder.currency)
-            .set(for: "address_match_indicator", value: (builder.addressMatchIndicator == nil) ? false : true)
+            .set(for: "address_match_indicator", value: addressMatchIndicator)
             .set(for: "gift_card_count", value: builder.giftCardCount)
             .set(for: "gift_card_amount", value: builder.giftCardAmount?.toNumericCurrencyString(currency: builder.giftCardCurrency))
             .set(for: "gift_card_currency", value: builder.giftCardCurrency)
             .set(for: "delivery_email", value: builder.deliveryEmail)
             .set(for: "delivery_timeframe", value: builder.deliveryTimeFrame?.mapped(for: .gpApi))
             .set(for: "shipping_method", value: builder.shippingMethod?.mapped(for: .gpApi))
-            .set(for: "shipping_name_matches_cardholder_name", value: builder.shippingNameMatchesCardHolderName)
+            .set(for: "shipping_name_matches_cardholder_name", value: shippingNameMatchesCardholder)
             .set(for: "preorder_indicator", value: builder.preOrderIndicator?.mapped(for: .gpApi))
             .set(for: "preorder_availability_date", value: builder.preOrderAvailabilityDate?.format("yyyy-MM-dd"))
             .set(for: "transaction_type", value: builder.orderTransactionType?.mapped(for: .gpApi))
@@ -98,6 +114,10 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
             .set(for: "country_code", value: builder.workCountryCode)
             .set(for: "subscriber_number", value: builder.workNumber)
 
+        let mobilePhone = JsonDoc()
+            .set(for: "country_code", value: builder.mobileCountryCode)
+            .set(for: "subscriber_number", value: builder.mobileNumber)
+
         let payer = JsonDoc()
             .set(for: "reference", value: builder.customerAccountId) // TODO: - To Confirm
             .set(for: "account_age", value: builder.accountAgeIndicator?.mapped(for: .gpApi))
@@ -108,6 +128,7 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
             .set(for: "account_password_change_indicator", value: builder.passwordChangeIndicator?.mapped(for: .gpApi))
             .set(for: "home_phone", doc: homePhone)
             .set(for: "work_phone", doc: workPhone)
+            .set(for: "mobile_phone", doc: mobilePhone)
             .set(for: "payment_account_creation_date", value: builder.paymentAccountCreateDate?.format("yyyy-MM-dd"))
             .set(for: "payment_account_age_indicator", value: builder.paymentAgeIndicator?.mapped(for: .gpApi))
             .set(for: "purchases_last_6months_count", value: builder.numberOfPurchasesInLastSixMonths)
@@ -139,8 +160,8 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
             .set(for: "accept_header", value: builder.browserData?.acceptHeader)
             .set(for: "color_depth", value: builder.browserData?.colorDepth?.rawValue)
             .set(for: "ip", value: builder.browserData?.ipAddress)
-            .set(for: "java_enabled", value: builder.browserData?.javaEnabled)
-            .set(for: "javascript_enabled", value: builder.browserData?.javaScriptEnabled)
+            .set(for: "java_enabled", value: javaEnabled)
+            .set(for: "javascript_enabled", value: javascriptEnabled)
             .set(for: "language", value: builder.browserData?.language)
             .set(for: "screen_height", value: builder.browserData?.screenHeight)
             .set(for: "screen_width", value: builder.browserData?.screenWidth)
@@ -216,6 +237,7 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
 
     private func paymentMethodParam(_ builder: Secure3dBuilder) -> JsonDoc {
         let payload = JsonDoc()
+        payload.set(for: "entry_mode", value: builder.paymentEntryMode?.mapped(for: .gpApi))
 
         if let tokenizable = builder.paymentMethod as? Tokenizable,
            let token = tokenizable.token, !token.isEmpty {
@@ -226,6 +248,10 @@ struct GpApiSecure3dRequestBuilder: GpApiRequestData {
                 .set(for: "expiry_month", value: cardData.expMonth > .zero ? "\(cardData.expMonth)".leftPadding(toLength: 2, withPad: "0") : .empty)
                 .set(for: "expiry_year", value: cardData.expYear > .zero ? "\(cardData.expYear)".leftPadding(toLength: 4, withPad: "0").substring(with: 2..<4) : .empty)
             payload.set(for: "card", doc: card)
+
+            if let cardData = cardData as? CreditCardData {
+                payload.set(for: "name", value: cardData.cardHolderName)
+            }
         }
 
         return payload

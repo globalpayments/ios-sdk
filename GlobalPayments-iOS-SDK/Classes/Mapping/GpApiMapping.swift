@@ -691,6 +691,74 @@ public struct GpApiMapping {
         return summary
     }
     
+    public static func mapAuthenticationSummary(_ doc: JsonDoc?) -> AuthenticationSummary {
+        let summary = AuthenticationSummary()
+        summary.id = doc?.getValue(key: "id")
+        let timeCreated: String? = doc?.getValue(key: "time_created")
+        summary.timeCreated = timeCreated?.format()
+        summary.status = doc?.getValue(key: "status")
+        summary.merchantId = doc?.getValue(key: "merchant_id")
+        summary.merchantName = doc?.getValue(key: "merchant_name")
+        summary.accountId = doc?.getValue(key: "account_id")
+        summary.accountName = doc?.getValue(key: "account_name")
+        summary.channel = doc?.getValue(key: "channel")
+        summary.currency = doc?.getValue(key: "currency")
+        if let amount: String = doc?.getValue(key: "amount") {
+            summary.amount = NSDecimalNumber(string: amount).amount(for: summary.currency)
+        }
+        summary.country = doc?.getValue(key: "country")
+        summary.source = doc?.getValue(key: "source")
+        summary.actionCreateId = doc?.getValue(key: "action_create_id")
+
+        if let system = doc?.get(valueFor: "system") {
+            summary.systemMid = system.getValue(key: "mid")
+            summary.systemTid = system.getValue(key: "tid")
+            summary.systemName = system.getValue(key: "name")
+        }
+
+        if let paymentMethod = doc?.get(valueFor: "payment_method") {
+            summary.paymentMethodResult = paymentMethod.getValue(key: "result")
+            summary.paymentMethodMessage = paymentMethod.getValue(key: "message")
+            summary.paymentMethodEntryMode = paymentMethod.getValue(key: "entry_mode")
+            summary.paymentMethodFingerprint = paymentMethod.getValue(key: "fingerprint")
+            summary.paymentMethodFingerprintPresenceIndicator = paymentMethod.getValue(key: "fingerprint_presence_indicator")
+            summary.paymentMethodName = paymentMethod.getValue(key: "name")
+
+            if let card = paymentMethod.get(valueFor: "card") {
+                summary.cardFunding = card.getValue(key: "funding")
+                summary.cardBrand = card.getValue(key: "brand")
+                summary.cardAuthCode = card.getValue(key: "authcode")
+                summary.cardBrandReference = card.getValue(key: "brand_reference")
+                summary.maskedCardNumber = card.getValue(key: "masked_number_first6last4")
+                summary.cvvIndicator = card.getValue(key: "cvv_indicator")
+                summary.cvvResult = card.getValue(key: "cvv_result")
+                summary.avsAddressResult = card.getValue(key: "avs_address_result")
+                summary.avsPostalCodeResult = card.getValue(key: "avs_postal_code_result")
+            }
+
+            if let threeDS = paymentMethod.get(valueFor: "three_ds") {
+                summary.acsTransactionId = threeDS.getValue(key: "acs_trans_ref")
+                summary.acsReferenceNumber = threeDS.getValue(key: "acs_reference_number")
+                summary.directoryServerTransactionId = threeDS.getValue(key: "ds_trans_ref")
+                summary.serverTransferReference = threeDS.getValue(key: "server_trans_ref")
+                summary.liabilityShift = threeDS.getValue(key: "liability_shift")
+                summary.authenticationValue = threeDS.getValue(key: "value")
+                summary.eci = threeDS.getValue(key: "eci")
+                summary.threeDSecureStatus = threeDS.getValue(key: "status")
+                summary.threeDSecureStatusReason = threeDS.getValue(key: "status_reason")
+                summary.messageCategory = threeDS.getValue(key: "message_category")
+                summary.messageVersion = threeDS.getValue(key: "message_version")
+                summary.challengeStatus = threeDS.getValue(key: "challenge_status")
+            }
+        }
+
+        if let action = doc?.get(valueFor: "action") {
+            summary.action = GpApiMapping.mapActionSummary(action)
+        }
+
+        return summary
+    }
+
     public static func mapDisputeAction(_ doc: JsonDoc?) -> DisputeAction {
         let action = DisputeAction()
         action.reference = doc?.getValue(key: "id")
@@ -741,58 +809,97 @@ public struct GpApiMapping {
         }
         
         let secure = ThreeDSecure()
+        let threeDS = doc?.get(valueFor: "three_ds")
         secure.currency = doc?.getValue(key: "currency")
         if let amount: String = doc?.getValue(key: "amount") {
             secure.amount = NSDecimalNumber(string: amount).amount(for: secure.currency)
         }
-        secure.serverTransactionId = doc?.getValue(key: "id") ?? doc?.get(valueFor: "three_ds")?.getValue(key: "server_trans_ref")
-        secure.messageVersion = doc?.get(valueFor: "three_ds")?.getValue(key: "message_version")
-        secure.version = parseVersion(doc?.get(valueFor: "three_ds")?.getValue(key: "message_version"))
-        secure.directoryServerStartVersion = doc?.get(valueFor: "three_ds")?.getValue(key: "ds_protocol_version_start")
-        secure.directoryServerEndVersion = doc?.get(valueFor: "three_ds")?.getValue(key: "ds_protocol_version_end")
-        secure.acsStartVersion = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_protocol_version_start")
-        secure.acsEndVersion = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_protocol_version_end")
-        secure.acsReferenceNumber = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_reference_number")
-        secure.serverTransferReference = doc?.get(valueFor: "three_ds")?.getValue(key: "server_trans_ref")
-        secure.enrolled = doc?.get(valueFor: "three_ds")?.getValue(key: "enrolled_status")
-        if let eci: String = doc?.get(valueFor: "three_ds")?.getValue(key: "eci"), let eciValue = Int(eci) {
+        secure.serverTransactionId = doc?.getValue(key: "id") ?? threeDS?.getValue(key: "server_trans_ref")
+        secure.messageVersion = threeDS?.getValue(key: "message_version")
+        secure.version = parseVersion(threeDS?.getValue(key: "message_version"))
+        secure.directoryServerStartVersion = threeDS?.getValue(key: "ds_protocol_version_start")
+        secure.directoryServerEndVersion = threeDS?.getValue(key: "ds_protocol_version_end")
+        secure.acsStartVersion = threeDS?.getValue(key: "acs_protocol_version_start")
+        secure.acsEndVersion = threeDS?.getValue(key: "acs_protocol_version_end")
+        secure.acsReferenceNumber = threeDS?.getValue(key: "acs_reference_number")
+        secure.serverTransferReference = threeDS?.getValue(key: "server_trans_ref")
+        secure.enrolled = threeDS?.getValue(key: "enrolled_status")
+        if let eci: String = threeDS?.getValue(key: "eci"), let eciValue = Int(eci) {
             secure.eci = eciValue
         }
-        secure.challengeMandated = doc?.get(valueFor: "three_ds")?.getValue(key: "challenge_status") == "MANDATED"
-        secure.payerAuthenticationRequest = doc?.get(valueFor: "three_ds")?.get(valueFor: "method_data")?.getValue(key: "encoded_method_data")
-        secure.issuerAcsUrl = doc?.get(valueFor: "three_ds")?.getValue(key: "method_url")
-        secure.challengeValue = doc?.get(valueFor: "three_ds")?.getValue(keys: "challenge_value")
-        secure.authenticationValue = doc?.get(valueFor: "three_ds")?.getValue(key: "authentication_value")
-        secure.directoryServerTransactionId = doc?.get(valueFor: "three_ds")?.getValue(key: "ds_trans_ref")
-        secure.acsTransactionId = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_trans_ref")
+        secure.challengeMandated = threeDS?.getValue(key: "challenge_status") == "MANDATED"
+        secure.payerAuthenticationRequest = threeDS?.get(valueFor: "method_data")?.getValue(key: "encoded_method_data")
+        secure.issuerAcsUrl = threeDS?.getValue(key: "method_url")
+        secure.challengeValue = threeDS?.getValue(keys: "challenge_value")
+        secure.authenticationValue = threeDS?.getValue(key: "authentication_value")
+        secure.directoryServerTransactionId = threeDS?.getValue(key: "ds_trans_ref")
+        secure.acsTransactionId = threeDS?.getValue(key: "acs_trans_ref")
         secure.status = doc?.getValue(key: "status")
-        secure.statusReason = doc?.get(valueFor: "three_ds")?.getValue(key: "status_reason")
-        secure.messageCategory = doc?.get(valueFor: "three_ds")?.getValue(key: "message_category")
-        secure.messageType = doc?.get(valueFor: "three_ds")?.getValue(key: "message_type")
-        secure.sessionDataFieldName = doc?.get(valueFor: "three_ds")?.getValue(key: "session_data_field_name")
+        secure.statusReason = threeDS?.getValue(key: "status_reason")
+        secure.messageCategory = threeDS?.getValue(key: "message_category")
+        secure.messageType = threeDS?.getValue(key: "message_type")
+        secure.sessionDataFieldName = threeDS?.getValue(key: "session_data_field_name")
         secure.challengeReturnUrl = doc?.get(valueFor: "notifications")?.getValue(key: "challenge_return_url")
-        secure.authenticationSource = doc?.get(valueFor: "three_ds")?.getValue(key: "authentication_source")
-        secure.liabilityShift = doc?.get(valueFor: "three_ds")?.getValue(key: "liability_shift")
-        secure.authenticationType = doc?.get(valueFor: "three_ds")?.getValue(key: "authentication_request_type")
-        secure.decoupledResponseIndicator = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_decoupled_response_indicator")
-        secure.whiteListStatus = doc?.get(valueFor: "three_ds")?.getValue(key: "whitelist_status")
-        if let acsChallengeRequestUrl: String = doc?.get(valueFor: "three_ds")?.getValue(key: "acs_challenge_request_url") {
+        secure.authenticationSource = threeDS?.getValue(key: "authentication_source")
+        secure.liabilityShift = threeDS?.getValue(key: "liability_shift")
+        secure.authenticationType = threeDS?.getValue(key: "authentication_type")
+        secure.authenticationRequestType = threeDS?.getValue(key: "authentication_request_type")
+        secure.decoupledResponseIndicator = threeDS?.getValue(key: "acs_decoupled_response_indicator")
+        secure.whiteListStatus = threeDS?.getValue(key: "whitelist_status")
+        secure.cardHolderResponseInfo = threeDS?.getValue(key: "cardholder_response_info")
+        secure.redirectUrl = threeDS?.getValue(key: "redirect_url")
+        if let indicators: [String] = threeDS?.getValue(key: "acs_info_indicator") {
+            secure.acsInfoIndicator = indicators
+        } else if let indicator: String = threeDS?.getValue(key: "acs_info_indicator") {
+            secure.acsInfoIndicator = [indicator]
+        }
+        if let messageExtension: [String] = threeDS?.getValue(key: "message_extension") {
+            secure.messageExtension = messageExtension
+        }
+        secure.xid = threeDS?.getValue(key: "xid")
+        secure.cavv = threeDS?.getValue(keys: "cavv", "authentication_value")
+        secure.paymentDataSource = doc?.getValue(key: "source")
+
+        if let acsChallengeRequestUrl: String = threeDS?.getValue(key: "acs_challenge_request_url") {
             if secure.challengeMandated == true {
                 secure.issuerAcsUrl = acsChallengeRequestUrl
-                secure.payerAuthenticationRequest = doc?.get(valueFor: "three_ds")?.getValue(key: "challenge_value")
+                secure.payerAuthenticationRequest = threeDS?.getValue(key: "challenge_value")
+            } else if secure.issuerAcsUrl == nil {
+                secure.issuerAcsUrl = acsChallengeRequestUrl
             }
         }
         
-        // Mobile data
-        if let source: String = doc?.getValue(key: "source"), source == "MOBILE_SDK", let mobileData: JsonDoc = doc?.get(valueFor: "three_ds")?.get(valueFor: "mobile_data") {
-            secure.payerAuthenticationRequest = mobileData.getValue(key: "acs_signed_content")
+        if let mobileData: JsonDoc = threeDS?.get(valueFor: "mobile_data") {
+            secure.payerAuthenticationRequest = mobileData.getValue(key: "acs_signed_content") ?? secure.payerAuthenticationRequest
+            secure.sdkInterface = mobileData.getValue(key: "sdk_interface")
+            secure.sdkUiType = mobileData.getValue(key: "sdk_ui_type")
+
             if let acsRenderingType = mobileData.get(valueFor: "acs_rendering_type") {
                 secure.acsInterface = acsRenderingType.getValue(key: "acs_interface")
                 secure.acsUiTemplate = acsRenderingType.getValue(key: "acs_ui_template")
+            } else {
+                secure.acsInterface = mobileData.getValue(key: "acs_interface")
+                secure.acsUiTemplate = mobileData.getValue(key: "acs_ui_template")
             }
         }
         
         let transaction = Transaction()
+        transaction.transactionId = doc?.getValue(key: "id")
+        transaction.responseCode = doc?.get(valueFor: "action")?.getValue(key: "result_code")
+        transaction.responseMessage = doc?.getValue(key: "status")
+
+        if let paymentMethod = doc?.get(valueFor: "payment_method"),
+           let cardDoc = paymentMethod.get(valueFor: "card") {
+            let cardDetails = mapCardDetails(cardDoc)
+            cardDetails.cardHolderName = paymentMethod.getValue(key: "name")
+            cardDetails.brandReference = cardDoc.getValue(key: "brand_reference")
+
+            transaction.cardDetails = cardDetails
+            transaction.cardType = cardDoc.getValue(key: "brand")
+            transaction.cardLast4 = cardDoc.getValue(key: "masked_number_last4")
+            transaction.cardBrandTransactionId = cardDoc.getValue(key: "brand_reference")
+        }
+
         transaction.threeDSecure = secure
         return transaction
     }
@@ -921,6 +1028,16 @@ public struct GpApiMapping {
             result = pagedResult
         } else if reportType == .payByLinkDetail {
             result = PayByLinkSummary.mapFromJson(json)
+        } else if reportType == .authenticationDetail && AuthenticationSummary() is T {
+            result = GpApiMapping.mapAuthenticationSummary(json)
+        } else if reportType == .findAuthenticationsPaged
+                    && PagedResult<AuthenticationSummary>(totalRecordCount: nil, pageSize: 0, page: 0, order: nil, orderBy: nil) is T {
+            var pagedResult: PagedResult<AuthenticationSummary>? = getPagedResult(json)
+            if let authentications: [JsonDoc] = json?.getValue(key: "authentications") {
+                let mapped = authentications.map { GpApiMapping.mapAuthenticationSummary($0) }
+                pagedResult?.results = mapped
+            }
+            result = pagedResult
         }
         return result as? T
     }

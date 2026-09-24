@@ -24,6 +24,15 @@ public class AlternatePaymentMethod: NSObject, PaymentMethod, Chargeable, Notifi
     public var terms: Terms?
     /// Cashpresso payment plan (PAY_IN_3_INSTALLMENTS, PAY_30_DAYS).
     public var paymentPlan: CashpressoPaymentPlan?
+    /// BLIK processing mode. Set to `.levelZero` for the BLIK Level 0 streamlined flow.
+    public var blikMode: BlikMode?
+    /// Identifies who initiated the BLIK payment code (payer/merchant). Required for BLIK Level 0.
+    public var paymentCodeInitiator: PaymentCodeInitiator?
+    /// The BLIK payment code. Required for BLIK Level 0.
+    public var paymentCode: String?
+    /// Browser/device user agent for APM payer context. Used as a fallback for BLIK Level 0 when
+    /// `AuthorizationBuilder.customerUserAgent` is not set.
+    public var userAgent: String?
 
     /// Creates a charge (sale) against the payment method.
     /// - Parameter amount: The amount of the transaction

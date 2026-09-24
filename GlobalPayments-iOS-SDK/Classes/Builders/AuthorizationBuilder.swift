@@ -25,6 +25,8 @@ import Foundation
     var customer: Customer?
     var customData: [String]?
     var customerIpAddress: String?
+    /// Request customer user agent. Required for BLIK Level 0 (falls back to `paymentMethod.userAgent` if not set).
+    var customerUserAgent: String?
     var cvn: String?
     var dccRateData: DccRateData?
     var requestDescription: String?
@@ -275,6 +277,15 @@ import Foundation
     /// - Returns: AuthorizationBuilder
     public func withCustomerIpAddress(_ customerIpAddress: String) -> AuthorizationBuilder {
         self.customerIpAddress = customerIpAddress
+        return self
+    }
+
+    /// Sets the customer's user agent; where applicable.
+    /// Required for BLIK Level 0 transactions (unless set on the payment method itself).
+    /// - Parameter customerUserAgent: The customer's user agent
+    /// - Returns: AuthorizationBuilder
+    public func withCustomerUserAgent(_ customerUserAgent: String) -> AuthorizationBuilder {
+        self.customerUserAgent = customerUserAgent
         return self
     }
 

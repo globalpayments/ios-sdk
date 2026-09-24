@@ -16,6 +16,7 @@ public class ThreeDSecure: NSObject {
     }
     public var authenticationSource: String?
     public var authenticationType: String?
+    public var authenticationRequestType: String?
     public var authenticationValue: String?
     public var cardHolderResponseInfo: String?
     /// Consumer authentication (3DSecure) verification value.
@@ -39,6 +40,8 @@ public class ThreeDSecure: NSObject {
     public var enrolled: String?
     /// The URL of the Issuing Bank's ACS.
     public var issuerAcsUrl: String?
+    /// The URL to redirect the payer to as part of a redirect-based authentication flow.
+    public var redirectUrl: String?
 
     public var liabilityShift: String?
     
@@ -64,6 +67,7 @@ public class ThreeDSecure: NSObject {
     public var messageCategory: String?
     public var messageExtensionId: String?
     public var messageExtensionName: String?
+    public var messageExtension: [String]?
     public var messageVersion: String?
     public var messageType: String?
     /// The order ID used for the initial transaction
@@ -126,6 +130,7 @@ public class ThreeDSecure: NSObject {
         amount = mergeValue(amount, secureEcom.amount)
         authenticationSource = mergeValue(authenticationSource, secureEcom.authenticationSource)
         authenticationType = mergeValue(authenticationType, secureEcom.authenticationType)
+        authenticationRequestType = mergeValue(authenticationRequestType, secureEcom.authenticationRequestType)
         authenticationValue = mergeValue(authenticationValue, secureEcom.authenticationValue)
         cardHolderResponseInfo = mergeValue(cardHolderResponseInfo, secureEcom.cardHolderResponseInfo)
         cavv = mergeValue(cavv, secureEcom.cavv)
@@ -140,10 +145,12 @@ public class ThreeDSecure: NSObject {
         eci = mergeValue(eci, secureEcom.eci)
         enrolled = mergeValue(enrolled, secureEcom.enrolled)
         issuerAcsUrl = mergeValue(issuerAcsUrl, secureEcom.issuerAcsUrl)
+        redirectUrl = mergeValue(redirectUrl, secureEcom.redirectUrl)
         merchantData = mergeValue(merchantData, secureEcom.merchantData)
         messageCategory = mergeValue(messageCategory, secureEcom.messageCategory)
         messageExtensionId = mergeValue(messageExtensionId, secureEcom.messageExtensionId)
         messageExtensionName = mergeValue(messageExtensionName, secureEcom.messageExtensionName)
+        messageExtension = mergeValue(messageExtension, secureEcom.messageExtension)
         messageVersion = mergeValue(messageVersion, secureEcom.messageVersion)
         messageType = mergeValue(messageType, secureEcom.messageType)
         orderId = mergeValue(orderId, secureEcom.orderId)

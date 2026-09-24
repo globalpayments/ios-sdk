@@ -155,6 +155,10 @@
 		650323923021FD80006F7491 /* CashpressoPaymentPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650323913021FD80006F7491 /* CashpressoPaymentPlan.swift */; };
 		650323943021FDD3006F7491 /* ApmProviderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650323933021FDD3006F7491 /* ApmProviderConfiguration.swift */; };
 		6503239C302A37CC006F7491 /* BooleanValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6503239B302A37CC006F7491 /* BooleanValue.swift */; };
+		6561EB67305BC1F900A82EBE /* AuthenticationSortProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561EB66305BC1F900A82EBE /* AuthenticationSortProperty.swift */; };
+		6561EB69305BC21E00A82EBE /* AuthenticationSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561EB68305BC21E00A82EBE /* AuthenticationSummary.swift */; };
+		6561EB583052894A00A82EBE /* BlikMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561EB573052894A00A82EBE /* BlikMode.swift */; };
+		6561EB5A3052897D00A82EBE /* PaymentCodeInitiator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561EB593052897D00A82EBE /* PaymentCodeInitiator.swift */; };
 		657F63FF300F5846000F3D71 /* DigitalWalletProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F63FE300F5846000F3D71 /* DigitalWalletProvider.swift */; };
 		657F64013017BC05000F3D71 /* DisplayConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F64003017BC05000F3D71 /* DisplayConfiguration.swift */; };
 		657F64033017BC26000F3D71 /* Surcharge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F64023017BC26000F3D71 /* Surcharge.swift */; };
@@ -547,6 +551,10 @@
 		650323913021FD80006F7491 /* CashpressoPaymentPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashpressoPaymentPlan.swift; sourceTree = "<group>"; };
 		650323933021FDD3006F7491 /* ApmProviderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApmProviderConfiguration.swift; sourceTree = "<group>"; };
 		6503239B302A37CC006F7491 /* BooleanValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanValue.swift; sourceTree = "<group>"; };
+		6561EB66305BC1F900A82EBE /* AuthenticationSortProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationSortProperty.swift; sourceTree = "<group>"; };
+		6561EB68305BC21E00A82EBE /* AuthenticationSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationSummary.swift; sourceTree = "<group>"; };
+		6561EB573052894A00A82EBE /* BlikMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlikMode.swift; path = Enums/BlikMode.swift; sourceTree = "<group>"; };
+		6561EB593052897D00A82EBE /* PaymentCodeInitiator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PaymentCodeInitiator.swift; path = Enums/PaymentCodeInitiator.swift; sourceTree = "<group>"; };
 		657F63FE300F5846000F3D71 /* DigitalWalletProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalWalletProvider.swift; sourceTree = "<group>"; };
 		657F64003017BC05000F3D71 /* DisplayConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayConfiguration.swift; sourceTree = "<group>"; };
 		657F64023017BC26000F3D71 /* Surcharge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surcharge.swift; sourceTree = "<group>"; };
@@ -1043,6 +1051,8 @@
 		899C952DF708C7C5077F6358871468B3 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				6561EB593052897D00A82EBE /* PaymentCodeInitiator.swift */,
+				6561EB573052894A00A82EBE /* BlikMode.swift */,
 				650323933021FDD3006F7491 /* ApmProviderConfiguration.swift */,
 				657F64023017BC26000F3D71 /* Surcharge.swift */,
 				657F64003017BC05000F3D71 /* DisplayConfiguration.swift */,
@@ -1129,7 +1139,7 @@
 		9653FC3561D2A39E9C54C15F1B3E873E /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-
+				6561EB66305BC1F900A82EBE /* AuthenticationSortProperty.swift */,
 				650323913021FD80006F7491 /* CashpressoPaymentPlan.swift */,
 				6503239B302A37CC006F7491 /* BooleanValue.swift */,
 				657F63FE300F5846000F3D71 /* DigitalWalletProvider.swift */,
@@ -1263,6 +1273,7 @@
 		9C5648FB38D6C6E365A017C6F0B3C0B7 /* Reporting */ = {
 			isa = PBXGroup;
 			children = (
+				6561EB68305BC21E00A82EBE /* AuthenticationSummary.swift */,
 				A0EC18E754530C7BC44A37DA912DBB1C /* ActionSummary.swift */,
 				2D422EBEAA3FDC01CC590AD506C30A15 /* AltPaymentData.swift */,
 				49F085847A4CCF167D4FAEE3C44622C4 /* CheckData.swift */,
@@ -1713,6 +1724,7 @@
 				21D5F374E576970572F23BEA61D70C9D /* CardType.swift in Sources */,
 				4E4AE8F77301E5DC7F7AFF6784C1ED17 /* CardUtils.swift in Sources */,
 				3BC55E5F33C0B712ABDADB2797C6B22D /* Cash.swift in Sources */,
+				6561EB583052894A00A82EBE /* BlikMode.swift in Sources */,
 				C3AF6DCEEF1C3C2B285FF6452BEA50EA /* ChallengeRequestIndicator.swift in Sources */,
 				111A2B9675D4423A25ACE5DACDB38222 /* Channel.swift in Sources */,
 				483C26FC98DC8F47A8D7F49092C2155D /* Chargable.swift in Sources */,
@@ -1731,6 +1743,7 @@
 				3E80394847D873B9BA3BA06366FA9E71 /* CreditDebitIndicator.swift in Sources */,
 				A7AE5F32E56A0EC398BB830E16A2215C /* CreditTrackData.swift in Sources */,
 				ABB4E0E56ECCEA9AA69DBB69100B2B88 /* CurrencyUtils.swift in Sources */,
+				6561EB69305BC21E00A82EBE /* AuthenticationSummary.swift in Sources */,
 				8B44B399AE70994A71B3D2E0D13F45DE /* Customer.swift in Sources */,
 				F365D1AEC9B990B97EAA4AD69B3D4A13 /* CustomerAuthenticationMethod.swift in Sources */,
 				F53FD2C762E0564E0A9CD5B4FDE10273 /* CustomerDocument.swift in Sources */,
@@ -1813,6 +1826,7 @@
 				8FBC080D6E70634246CFF9314F8B740A /* GpApiAuthorizationRequestBuilder.swift in Sources */,
 				87CC47ACA0F130AACD93F03675360D01 /* GpApiConfig.swift in Sources */,
 				E886EA9F25B331EC49A8E13051861819 /* GpApiConnector.swift in Sources */,
+				6561EB5A3052897D00A82EBE /* PaymentCodeInitiator.swift in Sources */,
 				06A9555FA02E1A0AEA80617D68811FDD /* GpApiFileProcessingRequestBuilder.swift in Sources */,
 				EBAEA561498608D4315D69DFACF2945E /* GpApiInstallmentRequestBuilder.swift in Sources */,
 				ECD31E9A42F871267573EE3134E2C12C /* GpApiManagementRequestBuilder.swift in Sources */,
@@ -2011,6 +2025,7 @@
 				1AB4235A58C1B46C10234BC3AAF1E7C3 /* ValidationTarget.swift in Sources */,
 				657F63FF300F5846000F3D71 /* DigitalWalletProvider.swift in Sources */,
 				B7BE7BF3C18F2243806F599A5DED7082 /* Verifiable.swift in Sources */,
+				6561EB67305BC1F900A82EBE /* AuthenticationSortProperty.swift in Sources */,
 				33FE94C2502429092286B7FD51A79C11 /* VoidReason.swift in Sources */,
 				75AAC92064CA488586C57AA7392614C3 /* XMLElementBuilder.swift in Sources */,
 				D2C9D5F4B73EC20B2AACAABEBCAC2CEB /* XMLElementTree.swift in Sources */,

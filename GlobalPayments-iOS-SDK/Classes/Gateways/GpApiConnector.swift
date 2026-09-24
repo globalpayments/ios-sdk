@@ -235,6 +235,7 @@ extension GpApiConnector: PaymentGateway {
         let requestBuilder = GpApiAuthorizationRequestBuilder()
         do {
             try requestBuilder.validateCashpresso(builder: builder, config: gpApiConfig)
+            try requestBuilder.validateBlikLevelZero(builder: builder, config: gpApiConfig)
         } catch {
             completion?(nil, error)
             return

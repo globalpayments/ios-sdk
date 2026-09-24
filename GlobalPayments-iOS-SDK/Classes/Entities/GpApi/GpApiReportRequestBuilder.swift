@@ -220,6 +220,21 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                 method: .get,
                 queryParams: sanitize(params: params)
             )
+        case .authenticationDetail:
+            let authenticationId = builder.searchCriteriaBuilder.authenticationId ?? .empty
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.authenticationDetail(id: authenticationId),
+                method: .get
+            )
+        case .findAuthenticationsPaged:
+            var params = [String: String]()
+            addPageParams(&params, builder)
+            addAuthenticationsParams(&params, builder)
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.authentications(),
+                method: .get,
+                queryParams: sanitize(params: params)
+            )
         case .documentDisputeDetail:
             let disputeId = builder.searchCriteriaBuilder.disputeReference ?? .empty
             let documentId = builder.searchCriteriaBuilder.disputeDocumentReference ?? .empty
@@ -331,6 +346,24 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
         params["version"] = builder.searchCriteriaBuilder.version
         params["response_code"] = builder.searchCriteriaBuilder.responseCode
         params["http_response_code"] = builder.searchCriteriaBuilder.httpResponseCode
+    }
+
+    private func addAuthenticationsParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {
+        params["order_by"] = builder.authenticationOrderBy?.mapped(for: .gpApi)
+        params["order"] = builder.order?.mapped(for: .gpApi)
+        params["id"] = builder.searchCriteriaBuilder.authenticationId
+        params["amount"] = builder.searchCriteriaBuilder.amount?.toNumericCurrencyString(currency: builder.searchCriteriaBuilder.currency)
+        params["country"] = builder.searchCriteriaBuilder.country
+        params["currency"] = builder.searchCriteriaBuilder.currency
+        params["source"] = builder.searchCriteriaBuilder.source
+        params["from_time_created"] = builder.searchCriteriaBuilder.startDate?.format("yyyy-MM-dd")
+        params["to_time_created"] = builder.searchCriteriaBuilder.endDate?.format("yyyy-MM-dd")
+        params["three_ds.ds_trans_ref"] = builder.searchCriteriaBuilder.directoryServerTransactionReference
+        params["three_ds.server_trans_ref"] = builder.searchCriteriaBuilder.threeDSServerTransactionReference
+        params["three_ds.liability_shift"] = builder.searchCriteriaBuilder.liabilityShift
+        params["three_ds.authentication_value"] = builder.searchCriteriaBuilder.authenticationValue
+        params["three_ds.eci"] = builder.searchCriteriaBuilder.eci
+        params["three_ds.message_version"] = builder.searchCriteriaBuilder.messageVersion
     }
 
     private func sanitize(params: [String: String]) -> [String: String] {

@@ -389,6 +389,11 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             payload.set(for: "payer", doc: setCashpressoPayerInformation(builder))
         }
 
+        if let apm = builder.paymentMethod as? AlternatePaymentMethod,
+           apm.alternativePaymentMethodType == .BLIK, apm.blikMode == .levelZero {
+            payload.set(for: "payer", doc: setBlikPayerInformation(builder))
+        }
+
         if builder.paymentMethod is BNPL || builder.paymentMethod is Credit {
             setOrderInformation(builder, requestBody: payload)
         }
@@ -714,6 +719,10 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         apm.set(for: "category", value: alternatePayment.category?.mapped(for: .gpApi))
         // Cashpresso payment plan (PAY_IN_3_INSTALLMENTS, PAY_30_DAYS)
         apm.set(for: "payment_plan", value: alternatePayment.paymentPlan?.mapped(for: .gpApi))
+        // BLIK Level 0 fields
+        apm.set(for: "mode", value: alternatePayment.blikMode?.mapped(for: .gpApi))
+        apm.set(for: "payment_code_initiator", value: alternatePayment.paymentCodeInitiator?.mapped(for: .gpApi))
+        apm.set(for: "payment_code", value: alternatePayment.paymentCode)
         if let terms = alternatePayment.terms {
             let termsDoc = JsonDoc()
             termsDoc.set(for: "time_unit", value: terms.TimeUnit)
@@ -1016,6 +1025,19 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
         return payer
     }
 
+    /// Builds the `payer` object for a BLIK Level 0 /transactions request.
+    /// Structure: first_name, last_name, email, ip_address, user_agent.
+    private func setBlikPayerInformation(_ builder: AuthorizationBuilder) -> JsonDoc {
+        let apm = builder.paymentMethod as? AlternatePaymentMethod
+        let payer = JsonDoc()
+        payer.set(for: "first_name", value: builder.customerData?.firstName)
+        payer.set(for: "last_name", value: builder.customerData?.lastName)
+        payer.set(for: "email", value: builder.customerData?.email)
+        payer.set(for: "ip_address", value: builder.customerIpAddress)
+        payer.set(for: "user_agent", value: builder.customerUserAgent ?? apm?.userAgent)
+        return payer
+    }
+
     private func setNotificationUrls(_ paymentMethod: PaymentMethod?) -> JsonDoc {
         let notifications = JsonDoc()
         if let paymentMethod = paymentMethod as? NotificationData {
@@ -1074,4 +1096,43 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             }
         }
     }
+
+    /// Validates BLIK Level 0-specific constraints before the request is sent.
+    /// Throws `UnsupportedTransactionException` on any constraint violation.
+    func validateBlikLevelZero(builder: AuthorizationBuilder, config: GpApiConfig?) throws {
+        guard let apm = builder.paymentMethod as? AlternatePaymentMethod,
+              apm.alternativePaymentMethodType == .BLIK else {
+            return
+        }
+
+        let anyLevelZeroFieldSet = apm.paymentCodeInitiator != nil || apm.paymentCode != nil
+        guard apm.blikMode == .levelZero || anyLevelZeroFieldSet else {
+            return
+        }
+
+        guard apm.blikMode == .levelZero else {
+            throw UnsupportedTransactionException(message: "Blik Level 0 requires paymentMethod.blikMode to be set to .levelZero.")
+        }
+
+        guard apm.paymentCodeInitiator != nil else {
+            throw UnsupportedTransactionException(message: "Blik Level 0 requires payment_code_initiator.")
+        }
+
+        guard let paymentCode = apm.paymentCode, !paymentCode.isEmpty else {
+            throw UnsupportedTransactionException(message: "Blik Level 0 requires payment_code.")
+        }
+
+        guard paymentCode.range(of: "^\\d{6}$", options: .regularExpression) != nil else {
+            throw UnsupportedTransactionException(message: "paymentMethod.paymentCode must be exactly 6 digits for BLIK Level 0 transactions.")
+        }
+
+        guard !(builder.customerIpAddress?.isEmpty ?? true) else {
+            throw UnsupportedTransactionException(message: "customerIpAddress cannot be null for BLIK Level 0 transactions.")
+        }
+
+        guard !((builder.customerUserAgent ?? apm.userAgent)?.isEmpty ?? true) else {
+            throw UnsupportedTransactionException(message: "customerUserAgent cannot be null for BLIK Level 0 transactions.")
+        }
+    }
 }
+

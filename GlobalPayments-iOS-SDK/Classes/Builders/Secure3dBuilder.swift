@@ -93,6 +93,7 @@ import Foundation
     var workCountryCode: String?
     var workNumber: String?
     var paymentType: PaymentType?
+    var paymentEntryMode: PaymentEntryMode?
     var challengeRequestIndicator: ChallengeRequestIndicator?
 
     public func withAddress(_ address: Address?) -> Secure3dBuilder {
@@ -505,6 +506,11 @@ import Foundation
 
     public func withPaymentType(_ paymentType: PaymentType?) -> Secure3dBuilder {
         self.paymentType = paymentType
+        return self
+    }
+
+    public func withPaymentEntryMode(_ paymentEntryMode: PaymentEntryMode?) -> Secure3dBuilder {
+        self.paymentEntryMode = paymentEntryMode
         return self
     }
 

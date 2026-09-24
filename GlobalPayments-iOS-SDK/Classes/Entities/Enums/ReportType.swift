@@ -71,4 +71,10 @@ public struct ReportType: OptionSet, Hashable {
     public static let findPayByLinkPaged                = ReportType(rawValue: 1 << 30)
     
     public static let findAccountsPaged              = ReportType(rawValue: 1 << 31)
+
+    /// Indicates an Authentications report paged
+    public static let findAuthenticationsPaged       = ReportType(rawValue: 1 << 32)
+
+    /// Indicates an Authentication details report
+    public static let authenticationDetail           = ReportType(rawValue: 1 << 33)
 }

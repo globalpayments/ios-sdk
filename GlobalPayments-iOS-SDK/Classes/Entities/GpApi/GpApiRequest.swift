@@ -183,6 +183,14 @@ extension GpApiRequest {
             "/authentications/\(id)/result"
         }
 
+        static func authentications() -> String {
+            "/authentications"
+        }
+
+        static func authenticationDetail(id: String) -> String {
+            "/authentications/\(id)"
+        }
+
         // MARK: - Batches
 
         static func batches() -> String {

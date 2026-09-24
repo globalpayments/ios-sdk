@@ -125,6 +125,18 @@ public class ReportingService {
             .withPaging(page, pageSize)
     }
 
+    // MARK: - Authentications
+
+    public static func authenticationDetail(authenticationId: String) -> TransactionReportBuilder<AuthenticationSummary> {
+        TransactionReportBuilder<AuthenticationSummary>(reportType: .authenticationDetail)
+            .withAuthenticationId(authenticationId)
+    }
+
+    public static func findAuthenticationsPaged(page: Int, pageSize: Int) -> TransactionReportBuilder<PagedResult<AuthenticationSummary>> {
+        TransactionReportBuilder<PagedResult<AuthenticationSummary>>(reportType: .findAuthenticationsPaged)
+            .withPaging(page, pageSize)
+    }
+
     // MARK: - Other
 
     public static func activity() -> TransactionReportBuilder<[TransactionSummary]> {

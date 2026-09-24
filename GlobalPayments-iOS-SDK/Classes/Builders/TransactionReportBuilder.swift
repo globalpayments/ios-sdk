@@ -22,6 +22,7 @@ import Foundation
     var disputeDocumentId: String?
     var payByLinkOrderBy: PayByLinkSortProperty?
     var payByLinkId: String?
+    var authenticationOrderBy: AuthenticationSortProperty?
 
     /// Sets the device ID as criteria for the report.
     /// - Parameter deviceId: The device ID
@@ -187,6 +188,18 @@ import Foundation
         return self
     }
 
+    /// Set the gateway authentication order by criteria for the report.
+    /// - Parameters:
+    ///   - authenticationOrderBy: Order by property
+    ///   - direction: Order by direction
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func orderBy(authenticationOrderBy: AuthenticationSortProperty,
+                        _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
+        self.authenticationOrderBy = authenticationOrderBy
+        self.order = direction
+        return self
+    }
+
     /// Sets the gateway dispute ID as criteria for the report.
     /// - Parameter disputeId: The gateway settlement dispute id
     /// - Returns: TransactionReportBuilder<TResult>
@@ -240,6 +253,70 @@ import Foundation
     /// - Returns: TransactionReportBuilder<TResult>
     public func withDisputeDocumentId(_ documentId: String) -> TransactionReportBuilder<TResult> {
         disputeDocumentId = documentId
+        return self
+    }
+
+    /// Sets the gateway authentication ID as criteria for the report.
+    /// - Parameter authenticationId: The gateway authentication id
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAuthenticationId(_ authenticationId: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.authenticationId = authenticationId
+        return self
+    }
+
+    /// Sets the authentication source as criteria for the report.
+    /// - Parameter source: The authentication source
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withSource(_ source: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.source = source
+        return self
+    }
+
+    /// Sets the 3DS directory server transaction reference as criteria for the report.
+    /// - Parameter directoryServerTransactionReference: The 3DS directory server transaction reference
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDirectoryServerTransactionReference(_ directoryServerTransactionReference: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.directoryServerTransactionReference = directoryServerTransactionReference
+        return self
+    }
+
+    /// Sets the 3DS server transaction reference as criteria for the report.
+    /// - Parameter threeDSServerTransactionReference: The 3DS server transaction reference
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withThreeDSServerTransactionReference(_ threeDSServerTransactionReference: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.threeDSServerTransactionReference = threeDSServerTransactionReference
+        return self
+    }
+
+    /// Sets the 3DS liability shift as criteria for the report.
+    /// - Parameter liabilityShift: The 3DS liability shift
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withLiabilityShift(_ liabilityShift: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.liabilityShift = liabilityShift
+        return self
+    }
+
+    /// Sets the 3DS authentication value as criteria for the report.
+    /// - Parameter authenticationValue: The 3DS authentication value
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAuthenticationValue(_ authenticationValue: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.authenticationValue = authenticationValue
+        return self
+    }
+
+    /// Sets the 3DS eci as criteria for the report.
+    /// - Parameter eci: The 3DS eci
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withEci(_ eci: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.eci = eci
+        return self
+    }
+
+    /// Sets the 3DS message version as criteria for the report.
+    /// - Parameter messageVersion: The 3DS message version
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withMessageVersion(_ messageVersion: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.messageVersion = messageVersion
         return self
     }
     

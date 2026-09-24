@@ -67,6 +67,14 @@ public enum SearchCriteria: String {
     case expirationDate
     case searchDescription
     case paymentProvider
+    case authenticationId
+    case source
+    case directoryServerTransactionReference
+    case threeDSServerTransactionReference
+    case liabilityShift
+    case authenticationValue
+    case eci
+    case messageVersion
 }
 
 public enum DataServiceCriteria: String {
@@ -202,6 +210,14 @@ public enum DataServiceCriteria: String {
     var expirationDate: Date?
     var searchDescription: String?
     var paymentProvider: PaymentProvider?
+    var authenticationId: String?
+    var source: String?
+    var directoryServerTransactionReference: String?
+    var threeDSServerTransactionReference: String?
+    var liabilityShift: String?
+    var authenticationValue: String?
+    var eci: String?
+    var messageVersion: String?
 
     init(reportBuilder: ReportBuilder<TResult>?) {
         self.reportBuilder = reportBuilder

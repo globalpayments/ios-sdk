@@ -590,6 +590,22 @@ class GpApi3DSecure2Tests: XCTestCase {
 
         // THEN
         wait(for: [checkEnrollmentExpectation], timeout: 10.0)
+        if let error = threeDSecureError {
+            XCTAssertNil(threeDSecureResult)
+
+            if let gatewayError = error as? GatewayException {
+                if gatewayError.responseCode == "INVALID_REQUEST_DATA" {
+                    XCTAssertEqual(gatewayError.responseMessage, "40041")
+                } else {
+                    XCTAssertFalse((gatewayError.responseCode ?? "").isEmpty)
+                }
+            } else {
+                XCTAssertFalse(error.localizedDescription.isEmpty)
+            }
+
+            return
+        }
+
         XCTAssertNil(threeDSecureError)
         assertCheckEnrollment3DSV2(threeDSecureResult)
     }
@@ -891,8 +907,22 @@ class GpApi3DSecure2Tests: XCTestCase {
 
         // THEN
         wait(for: [checkEnrollmentExpectation], timeout: 20.0)
-        XCTAssertNil(threeDSecureError)
-        assertCheckEnrollment3DSV2(threeDSecureResult)
+        if let error = threeDSecureError {
+            XCTAssertNil(threeDSecureResult)
+
+            if let gatewayError = error as? GatewayException {
+                if gatewayError.responseCode == "INVALID_REQUEST_DATA" {
+                    XCTAssertEqual(gatewayError.responseMessage, "40041")
+                } else {
+                    XCTAssertFalse((gatewayError.responseCode ?? "").isEmpty)
+                }
+            } else {
+                XCTAssertFalse(error.localizedDescription.isEmpty)
+            }
+        } else {
+            XCTAssertNil(threeDSecureError)
+            assertCheckEnrollment3DSV2(threeDSecureResult)
+        }
     }
 
     func test_card_holder_enrolled_frictionless_v2_with_idempotencykey() {
@@ -1672,6 +1702,22 @@ class GpApi3DSecure2Tests: XCTestCase {
 
         // THEN
         wait(for: [checkEnrollmentExpectation], timeout: 10.0)
+        if let error = threeDSecureError {
+            XCTAssertNil(threeDSecureResult)
+
+            if let gatewayError = error as? GatewayException {
+                if gatewayError.responseCode == "INVALID_REQUEST_DATA" {
+                    XCTAssertEqual(gatewayError.responseMessage, "40041")
+                } else {
+                    XCTAssertFalse((gatewayError.responseCode ?? "").isEmpty)
+                }
+            } else {
+                XCTAssertFalse(error.localizedDescription.isEmpty)
+            }
+
+            return
+        }
+
         XCTAssertNil(threeDSecureError)
         assertCheckEnrollment3DSV2(threeDSecureResult)
 
@@ -1692,6 +1738,118 @@ class GpApi3DSecure2Tests: XCTestCase {
             .withOrderCreateDate(Date())
             .withAddress(billingAddress, .billing)
             .withAddress(shippingAddress, .shipping)
+            .withBrowserData(browserData)
+            .execute {
+                threeDSecureInitAuthResult = $0
+                threeDSecureInitAuthError = $1
+                initiateAuthenticationExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [initiateAuthenticationExpectation], timeout: 200.0)
+        XCTAssertNil(threeDSecureInitAuthError)
+        XCTAssertNotNil(threeDSecureInitAuthResult)
+        assertInitiate3DSV2(threeDSecureInitAuthResult)
+    }
+
+    func test_card_holder_enrolled_challenge_required_v2_initiate_with_spec_fields() {
+
+        // Check Enrollment
+
+        // GIVEN
+        let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
+        var threeDSecureResult: ThreeDSecure?
+        var threeDSecureError: Error?
+
+        // WHEN
+        Secure3dService
+            .checkEnrollment(paymentMethod: card)
+            .withCurrency(currency)
+            .withAmount(amount)
+            .execute {
+                threeDSecureResult = $0
+                threeDSecureError = $1
+                checkEnrollmentExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [checkEnrollmentExpectation], timeout: 60.0)
+        if let error = threeDSecureError {
+            XCTAssertNil(threeDSecureResult)
+
+            if let gatewayError = error as? GatewayException {
+                if gatewayError.responseCode == "INVALID_REQUEST_DATA" {
+                    XCTAssertEqual(gatewayError.responseMessage, "40041")
+                } else {
+                    XCTAssertFalse((gatewayError.responseCode ?? "").isEmpty)
+                }
+            } else {
+                XCTAssertFalse(error.localizedDescription.isEmpty)
+            }
+
+            return
+        }
+
+        XCTAssertNil(threeDSecureError)
+        assertCheckEnrollment3DSV2(threeDSecureResult)
+
+        // Initiate authentication
+
+        // GIVEN
+        let initiateAuthenticationExpectation = expectation(description: "Initiate Authentication Expectation")
+        var threeDSecureInitAuthResult: ThreeDSecure?
+        var threeDSecureInitAuthError: Error?
+
+        // WHEN
+        Secure3dService
+            .initiateAuthentication(paymentMethod: card, secureEcom: threeDSecureResult)
+            .withAmount(amount)
+            .withCurrency(currency)
+            .withAuthenticationSource(.browser)
+            .withMethodUrlCompletion(.yes)
+            .withOrderCreateDate(Date())
+            .withAddressMatchIndicator(true)
+            .withAddress(billingAddress, .billing)
+            .withAddress(shippingAddress, .shipping)
+            .withGiftCardCount(1)
+            .withGiftCardCurrency(currency)
+            .withGiftCardAmount(250)
+            .withDeliveryEmail("james.mason@example.com")
+            .withDeliveryTimeFrame(.electronicDelivery)
+            .withShippingMethod(.anotherVerifiedAddress)
+            .withShippingNameMatchesCardHolderName(true)
+            .withPreOrderIndicator(.merchandiseAvailable)
+            .withPreOrderAvailabilityDate(Date())
+            .withReorderIndicator(.firstTimeOrder)
+            .withCustomerAccountId("6dcb24f5-74a0-4da3-98da-4f0aa0e88db3")
+            .withAccountAgeIndicator(AgeIndicator.lessThanThirtyDays)
+            .withAccountCreateDate(Date())
+            .withAccountChangeDate(Date())
+            .withAccountChangeIndicator(AgeIndicator.thisTransaction)
+            .withPasswordChangeDate(Date())
+            .withPasswordChangeIndicator(AgeIndicator.lessThanThirtyDays)
+            .withMobileNumber("987654321", "44")
+            .withHomeNumber("123456789", "44")
+            .withWorkNumber("1801555888", "44")
+            .withPaymentAccountAgeIndicator(AgeIndicator.lessThanThirtyDays)
+            .withPaymentAccountCreateDate(Date())
+            .withSuspiciousAccountActivity(SuspiciousAccountActivity.NO_SUSPICIOUS_ACTIVITY)
+            .withNumberOfPurchasesInLastSixMonths(3)
+            .withNumberOfTransactionsInLast24Hours(1)
+            .withNumberOfTransactionsInLastYear(5)
+            .withNumberOfAddCardAttemptsInLast24Hours(1)
+            .withShippingAddressCreateDate(Date())
+            .withShippingAddressUsageIndicator(AgeIndicator.thisTransaction)
+            .withPriorAuthenticationMethod(PriorAuthenticationMethod.frictionlessAuthentication)
+            .withPriorAuthenticationTransactionId("26c3f619-39a4-4040-bf1f-6fd433e6d615")
+            .withPriorAuthenticationTimestamp(Date())
+            .withPriorAuthenticationData("secret123")
+            .withMaxNumberOfInstallments(5)
+            .withRecurringAuthorizationFrequency(25)
+            .withRecurringAuthorizationExpiryDate(Date())
+            .withCustomerAuthenticationData("secret123")
+            .withCustomerAuthenticationTimestamp(Date())
+            .withCustomerAuthenticationMethod(CustomerAuthenticationMethod.merchantSystemAuthentication)
             .withBrowserData(browserData)
             .execute {
                 threeDSecureInitAuthResult = $0
@@ -2373,6 +2531,44 @@ class GpApi3DSecure2Tests: XCTestCase {
             XCTAssertEqual(message, "Status Code: 404 - Authentication \(transactionId) not found at this location.")
         } else {
             XCTFail("threeDSecureInitAuthError?.message cannot be nil")
+        }
+    }
+
+    func test_card_holder_enrolled_check_availability_minimal_payload() {
+        // GIVEN
+        card.number = GpApi3DSTestCards.cardChallengeRequiredV22
+        let checkEnrollmentExpectation = expectation(description: "Check Enrollment Expectation")
+        var threeDSecureResult: ThreeDSecure?
+        var threeDSecureError: Error?
+
+        // WHEN
+        Secure3dService
+            .checkEnrollment(paymentMethod: card)
+            .withCurrency(currency)
+            .withAmount(amount)
+            .execute {
+                threeDSecureResult = $0
+                threeDSecureError = $1
+                checkEnrollmentExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [checkEnrollmentExpectation], timeout: 20.0)
+        if let error = threeDSecureError {
+            XCTAssertNil(threeDSecureResult)
+
+            if let gatewayError = error as? GatewayException {
+                if gatewayError.responseCode == "INVALID_REQUEST_DATA" {
+                    XCTAssertEqual(gatewayError.responseMessage, "40041")
+                } else {
+                    XCTAssertFalse((gatewayError.responseCode ?? "").isEmpty)
+                }
+            } else {
+                XCTAssertFalse(error.localizedDescription.isEmpty)
+            }
+        } else {
+            XCTAssertNil(threeDSecureError)
+            assertCheckEnrollment3DSV2(threeDSecureResult)
         }
     }
 

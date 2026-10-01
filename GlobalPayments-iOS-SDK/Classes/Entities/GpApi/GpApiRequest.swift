@@ -210,6 +210,12 @@ extension GpApiRequest {
         static func actions() -> String {
             "/actions"
         }
+
+        // MARK: - Reports
+
+        static func reports() -> String {
+            "/reports"
+        }
         
         // MARK: - Merchant
         

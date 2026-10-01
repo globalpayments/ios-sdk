@@ -137,6 +137,12 @@ public class ReportingService {
             .withPaging(page, pageSize)
     }
 
+    // MARK: - Reports
+
+    public static func transactionSummaryReport() -> TransactionReportBuilder<PagedResult<TransactionSummaryReport>> {
+        TransactionReportBuilder<PagedResult<TransactionSummaryReport>>(reportType: .transactionSummaryReport)
+    }
+    
     // MARK: - Other
 
     public static func activity() -> TransactionReportBuilder<[TransactionSummary]> {

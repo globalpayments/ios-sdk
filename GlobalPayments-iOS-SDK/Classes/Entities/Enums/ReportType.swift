@@ -77,4 +77,6 @@ public struct ReportType: OptionSet, Hashable {
 
     /// Indicates an Authentication details report
     public static let authenticationDetail           = ReportType(rawValue: 1 << 33)
+    /// Indicates an aggregated Transaction Summary report.
+    public static let transactionSummaryReport       = ReportType(rawValue: 1 << 32)
 }

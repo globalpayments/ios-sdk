@@ -235,6 +235,18 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                 method: .get,
                 queryParams: sanitize(params: params)
             )
+        case .transactionSummaryReport:
+            var params = [String: String]()
+            params["type"] = "TRANSACTION_SUMMARY"
+            params["payment_method.category"] = builder.searchCriteriaBuilder.paymentMethodCategory?.mapped(for: .gpApi)
+            params["payment_method.brand"] = builder.searchCriteriaBuilder.cardBrand
+            params["from_time_created"] = builder.startDate?.format("yyyy-MM-dd")
+            params["to_time_created"] = builder.endDate?.format("yyyy-MM-dd")
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.reports(),
+                method: .get,
+                queryParams: sanitize(params: params)
+            )
         case .documentDisputeDetail:
             let disputeId = builder.searchCriteriaBuilder.disputeReference ?? .empty
             let documentId = builder.searchCriteriaBuilder.disputeDocumentReference ?? .empty

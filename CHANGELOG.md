@@ -1,11 +1,17 @@
 # Changelog
 
-## Latest - v3.5.0 (09/24/2026)
+## Latest - v3.5.1 (10/01/2026)
+
+#### Enhancements
+
+- GP-API: Added GPAPI Transaction Summary report sync
+
+## v3.5.0 (09/24/2026)
 
 #### Enhancements
 
 - GP-API: Added support for BLIK Level 0 transactions via GP-API.
-- GP-API: Added GPAPI Authentications sync.
+- GP-API: Added GPAPI Authentications sync. 
 
 ## v3.4.2 (09/17/2026)
 

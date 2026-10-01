@@ -332,6 +332,22 @@ import Foundation
         return self
     }
 
+    /// Sets the payment method category as criteria for the report.
+    /// - Parameter paymentMethodCategory: The payment method category
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withPaymentMethodCategory(_ paymentMethodCategory: PaymentMethodCategory?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.paymentMethodCategory = paymentMethodCategory
+        return self
+    }
+
+    /// Sets the payment method brand as criteria for the report.
+    /// - Parameter paymentMethodBrand: The payment method brand
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withPaymentMethodBrand(_ paymentMethodBrand: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.cardBrand = paymentMethodBrand
+        return self
+    }
+
     public func `where`<T>(_ searchCriteria: SearchCriteria, _ value: T) -> SearchCriteriaBuilder<TResult> {
         return searchCriteriaBuilder.and(searchCriteria: searchCriteria, value: value)
     }

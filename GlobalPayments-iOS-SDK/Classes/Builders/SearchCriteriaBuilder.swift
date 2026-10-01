@@ -62,6 +62,7 @@ public enum SearchCriteria: String {
     case riskAssessmentResult
     case riskAssessmentReasonCode
     case paymentMethodName
+    case paymentMethodCategory
     case payByLinkStatus
     case paymentMethodUsageMode
     case expirationDate
@@ -162,6 +163,7 @@ public enum DataServiceCriteria: String {
     var paymentMethod: PaymentMethod?
     var paymentTypes: [PaymentMethodType]?
     var paymentMethodName: PaymentMethodName?
+    var paymentMethodCategory: PaymentMethodCategory?
     var referenceNumber: String?
     var transactionType: [TransactionType]?
     var settlementAmount: NSDecimalNumber?

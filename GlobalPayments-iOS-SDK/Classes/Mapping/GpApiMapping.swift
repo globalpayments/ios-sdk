@@ -1013,6 +1013,13 @@ public struct GpApiMapping {
                 pagedResult?.results = mapped
             }
             result = pagedResult
+        } else if reportType == .transactionSummaryReport
+                    && PagedResult<TransactionSummaryReport>(totalRecordCount: nil, pageSize: 0, page: 0, order: nil, orderBy: nil) is T {
+            var pagedResult: PagedResult<TransactionSummaryReport>? = getPagedResult(json)
+            if let reports: [JsonDoc] = json?.getValue(key: "reports") {
+                pagedResult?.results = reports.map { GpApiMapping.mapTransactionSummaryReport($0) }
+            }
+            result = pagedResult
         } else if reportType == .acceptDispute || reportType == .challangeDispute {
             result = GpApiMapping.mapDisputeAction(json)
         } else if reportType == .disputeDocument {
@@ -1222,6 +1229,48 @@ public struct GpApiMapping {
             ?? value.format("yyyy-MM-dd'T'HH:mm:ssZ")
             ?? value.format("yyyy-MM-dd'T'HH:mm:ss")
             ?? value.format("yyyy-MM-dd")
+    }
+
+    private static func mapTransactionSummaryReport(_ doc: JsonDoc?) -> TransactionSummaryReport {
+        let report = TransactionSummaryReport()
+        report.type = doc?.getValue(key: "type")
+
+        if let summary = doc?.get(valueFor: "summary") {
+            report.sales = mapReportAmountInfo(summary.get(valueFor: "sales"))
+            report.refunds = mapReportAmountInfo(summary.get(valueFor: "refunds"))
+        }
+
+        if let breakdown: [JsonDoc] = doc?.getValue(key: "payment_method_breakdown") {
+            report.paymentMethodBreakdown = breakdown.map {
+                let item = ReportPaymentMethodBreakdown()
+                item.category = PaymentMethodCategory(value: $0.getValue(key: "category"))
+                item.brand = $0.getValue(key: "brand")
+                item.count = $0.getValue(key: "count")
+                if let amount: Int64 = $0.getValue(key: "amount") {
+                    item.amount = amount
+                }
+                if let gratuity: Int = $0.getValue(key: "gratuity_amount") {
+                    item.gratuityAmount = gratuity
+                }
+                item.sales = mapReportAmountInfo($0.get(valueFor: "sales"))
+                item.refunds = mapReportAmountInfo($0.get(valueFor: "refunds"))
+                item.reversals = mapReportAmountInfo($0.get(valueFor: "reversals"))
+                return item
+            }
+        }
+
+        return report
+    }
+
+    private static func mapReportAmountInfo(_ doc: JsonDoc?) -> ReportAmountInfo? {
+        guard let doc = doc else { return nil }
+
+        let info = ReportAmountInfo()
+        info.count = doc.getValue(key: "count")
+        if let amount: String = doc.getValue(key: "amount") {
+            info.amount = NSDecimalNumber(string: amount).amount
+        }
+        return info
     }
 
     private static func mapBatchAmountInfo(_ doc: JsonDoc?) -> BatchAmountInfo? {

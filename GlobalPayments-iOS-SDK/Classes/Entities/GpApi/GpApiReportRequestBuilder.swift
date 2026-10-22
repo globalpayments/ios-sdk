@@ -3,7 +3,7 @@ import Foundation
 struct GpApiReportRequestBuilder<T>: GpApiRequestData {
 
     func generateRequest(for builder: ReportBuilder<T>, config: GpApiConfig?) -> GpApiRequest? {
-        var merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : .empty
+        var merchantUrl = GpApiRequest.Endpoints.accountMerchantUrl(mmaId: config?.mmaId, merchantId: config?.merchantId)
         
         if let builder = builder as? TransactionReportBuilder {
             return handleTransationReportCases(builder, config: config, merchantUrl: merchantUrl)
@@ -22,9 +22,11 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                 var params = [String: String]()
                 addPageParams(&params, builder)
                 addOrderDateParams(&params, builder)
+                params["id"] = builder.id
+                params["name"] = builder.searchCriteriaBuilder.name
                 
                 if let merchantId = builder.searchCriteriaBuilder.merchantId {
-                    merchantUrl = !merchantId.isEmpty ? "/merchants/\(merchantId)" : .empty
+                    merchantUrl = GpApiRequest.Endpoints.accountMerchantUrl(mmaId: config?.mmaId, merchantId: merchantId)
                 }
                 
                 return GpApiRequest(

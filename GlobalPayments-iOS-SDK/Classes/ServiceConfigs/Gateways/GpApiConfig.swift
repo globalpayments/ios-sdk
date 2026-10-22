@@ -31,6 +31,8 @@ public class GpApiConfig: GatewayConfig {
     public var dynamicHeaders: [String: String]?
     
     public var merchantId: String?
+    /// Merchant Management Account id - required when a Partner's Application spans multiple MMA portfolios
+    public var mmaId: String?
     
     public var statusUrl: String?
     
@@ -53,6 +55,7 @@ public class GpApiConfig: GatewayConfig {
                 dynamicHeaders: [String: String]? = nil,
                 requestLogger: RequestLogger? = nil,
                 merchantId: String? = nil,
+                mmaId: String? = nil,
                 statusUrl: String? = nil,
                 accessTokenProvider: AccessTokenProvider? = nil,
                 porticoTokenConfig: PorticoTokenConfig? = nil,
@@ -72,6 +75,7 @@ public class GpApiConfig: GatewayConfig {
         self.merchantContactUrl = merchantContactUrl
         self.dynamicHeaders = dynamicHeaders
         self.merchantId = merchantId
+        self.mmaId = mmaId
         super.init(gatewayProvider: .gpAPI)
         self.requestLogger = requestLogger
         self.statusUrl = statusUrl

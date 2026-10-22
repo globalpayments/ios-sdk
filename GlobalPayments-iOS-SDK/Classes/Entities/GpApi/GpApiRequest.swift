@@ -227,6 +227,19 @@ extension GpApiRequest {
             "/merchants/\(merID)"
         }
         
+        // Builds the "/accounts/{MMA_ID}/merchants/{MER_ID}" URL prefix used by every
+        // non-access-token call; either segment is omitted when its id is empty/nil.
+        static func accountMerchantUrl(mmaId: String?, merchantId: String?) -> String {
+            var url = ""
+            if let mmaId = mmaId, !mmaId.isEmpty {
+                url += "/accounts/\(mmaId)"
+            }
+            if let merchantId = merchantId, !merchantId.isEmpty {
+                url += "/merchants/\(merchantId)"
+            }
+            return url
+        }
+        
         static func getFMAAccountDetails(_ merID: String, fmaId: String) -> String {
             "/merchants/\(merID)/accounts/\(fmaId)"
         }

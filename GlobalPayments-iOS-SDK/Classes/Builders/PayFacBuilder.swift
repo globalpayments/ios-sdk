@@ -27,6 +27,10 @@ import Foundation
     var currency: String?
     var clientTransactionId: String?
     var data: DocumentUploadData?
+    /// Request payload for `PATCH /accounts/{id}` (Edit Account)
+    var accountEditData: AccountEditData?
+    /// MER_id used by `GET /merchants/{MER_id}/accounts/{FMA_id}`
+    var merchantId: String?
     
     public func withBankAccountData(_ bankAccountData: BankAccountData, paymentMethodFunction: PaymentMethodFunction? = nil) -> PayFacBuilder {
         self.bankAccountData = bankAccountData
@@ -144,6 +148,16 @@ import Foundation
         return self
     }
 
+    public func withAccountEditData(_ accountEditData: AccountEditData?) -> PayFacBuilder {
+        self.accountEditData = accountEditData
+        return self
+    }
+
+    public func withMerchantId(_ merchantId: String?) -> PayFacBuilder {
+        self.merchantId = merchantId
+        return self
+    }
+
     public init(transactionType: TransactionType, transactionModifier: TransactionModifier? = nil) {
         self.transactionType = transactionType
         self.transactionModifier = transactionModifier
@@ -177,5 +191,13 @@ import Foundation
         validations.of(transactionType: [.fetch, .edit])
             .with(modifier: .account)
             .check(propertyName: "userId")?.isNotNil()
+        
+        validations.of(transactionType: .fetch)
+            .with(modifier: .fundsManagementAccount)
+            .check(propertyName: "userReference.userId")?.isNotNil()
+        
+        validations.of(transactionType: .fetch)
+            .with(modifier: .fundsManagementAccount)
+            .check(propertyName: "merchantId")?.isNotNil()
     }
 }

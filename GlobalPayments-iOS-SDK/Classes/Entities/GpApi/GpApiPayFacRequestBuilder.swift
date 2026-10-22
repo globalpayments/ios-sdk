@@ -3,7 +3,7 @@ import Foundation
 struct GpApiPayFacRequestBuilder<T> {
     
     func buildRequest(for builder: PayFacBuilder<T>, config: GpApiConfig?) -> GpApiRequest?{
-        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : ""
+        let merchantUrl = GpApiRequest.Endpoints.accountMerchantUrl(mmaId: config?.mmaId, merchantId: config?.merchantId)
         
         switch builder.transactionType {
         case .create:
@@ -28,6 +28,14 @@ struct GpApiPayFacRequestBuilder<T> {
                     method: .patch,
                     requestBody: payload.toString()
                 )
+            } else if builder.transactionModifier == .account {
+                let payload = buildEditAccountRequest(builder)
+                
+                return GpApiRequest(
+                    endpoint: merchantUrl + GpApiRequest.Endpoints.updateAccount(id: builder.userReference?.userId ?? ""),
+                    method: .patch,
+                    requestBody: payload.toString()
+                )
             }
         case .fetch:
             switch builder.transactionModifier {
@@ -40,6 +48,13 @@ struct GpApiPayFacRequestBuilder<T> {
                 let accountId = builder.userReference?.userId ?? ""
                 return GpApiRequest(
                     endpoint: merchantUrl + GpApiRequest.Endpoints.accountById(id: accountId),
+                    method: .get
+                )
+            case .fundsManagementAccount:
+                let merchantId = builder.merchantId ?? ""
+                let fmaId = builder.userReference?.userId ?? ""
+                return GpApiRequest(
+                    endpoint: GpApiRequest.Endpoints.getFMAAccountDetails(merchantId, fmaId: fmaId),
                     method: .get
                 )
             default :
@@ -308,6 +323,71 @@ struct GpApiPayFacRequestBuilder<T> {
         requestBody.set(for: "persons", values: setPersonList("edit", builder: builder))
         requestBody.set(for: "payment_processing_statistics", doc: setPaymentStatistics(builder))
         requestBody.set(for: "payment_methods", values: setPaymentMethod(builder))
+        
+        return requestBody
+    }
+    
+    private func buildEditAccountRequest(_ builder: PayFacBuilder<T>) -> JsonDoc {
+        let requestBody = JsonDoc()
+        guard let editData = builder.accountEditData else { return requestBody }
+        
+        if editData.payerPaymentMethodName != nil || editData.payerPaymentMethodReference != nil ||
+            editData.card != nil || editData.billingAddress != nil {
+            let paymentMethod = JsonDoc()
+            paymentMethod.set(for: "name", value: editData.payerPaymentMethodName)
+            paymentMethod.set(for: "reference", value: editData.payerPaymentMethodReference)
+            
+            if let card = editData.card {
+                let cardDoc = JsonDoc()
+                cardDoc.set(for: "number", value: card.number)
+                cardDoc.set(for: "expiry_month", value: String(format: "%02d", card.expMonth))
+                cardDoc.set(for: "expiry_year", value: String(format: "%02d", card.expYear % 100))
+                cardDoc.set(for: "cvv", value: card.cvn)
+                paymentMethod.set(for: "card", doc: cardDoc)
+            }
+            
+            if let address = editData.billingAddress {
+                let addressDoc = JsonDoc()
+                addressDoc.set(for: "line_1", value: address.streetAddress1)
+                addressDoc.set(for: "line_2", value: address.streetAddress2)
+                addressDoc.set(for: "line_3", value: address.streetAddress3)
+                addressDoc.set(for: "city", value: address.city)
+                addressDoc.set(for: "state", value: address.state)
+                addressDoc.set(for: "postal_code", value: address.postalCode)
+                addressDoc.set(for: "country", value: address.countryCode)
+                paymentMethod.set(for: "billing_address", doc: addressDoc)
+            }
+            
+            let payer = JsonDoc()
+            payer.set(for: "payment_method", doc: paymentMethod)
+            requestBody.set(for: "payer", doc: payer)
+        }
+        
+        requestBody.set(for: "card_replacement_reason", value: editData.cardReplacementReason?.rawValue)
+        
+        if let capabilities = editData.capabilities {
+            requestBody.set(for: "capabilities", value: capabilities.map { $0.rawValue })
+        }
+        
+        if let limits = editData.processingLimits {
+            let limitsDoc = JsonDoc()
+            limitsDoc.set(for: "card_transaction_limit_amount", value: limits.cardTransactionLimitAmount)
+            limitsDoc.set(for: "card_monthly_limit_amount", value: limits.cardMonthlyLimitAmount)
+            limitsDoc.set(for: "bank_transfer_transaction_limit_amount", value: limits.bankTransferTransactionLimitAmount)
+            limitsDoc.set(for: "bank_transfer_monthly_limit_amount", value: limits.bankTransferMonthlyLimitAmount)
+            limitsDoc.set(for: "disable_payout_card_limit_percentage", value: limits.disablePayoutCardLimitPercentage)
+            limitsDoc.set(for: "disable_payout_bank_transfer_limit_percentage", value: limits.disablePayoutBankTransferLimitPercentage)
+            limitsDoc.set(for: "allowed_negative_balance_amount", value: limits.allowedNegativeBalanceAmount)
+            requestBody.set(for: "processing_limits", doc: limitsDoc)
+        }
+        
+        requestBody.set(for: "status_change_reason", value: editData.statusChangeReason?.rawValue)
+        
+        if let statusUrl = editData.notificationStatusUrl {
+            let notifications = JsonDoc()
+            notifications.set(for: "status_url", value: statusUrl)
+            requestBody.set(for: "notifications", doc: notifications)
+        }
         
         return requestBody
     }

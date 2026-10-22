@@ -1024,7 +1024,7 @@ final class GpApiAchTests: XCTestCase {
         // WHEN
         getAccountService(merchantId: merchantId) {
             accountByType = $0?.results.first(where: { account in
-                account.type == type.rawValue
+                account.type == type
             })
             accountByTypeError = $1
             accountByTypeExpectation.fulfill()

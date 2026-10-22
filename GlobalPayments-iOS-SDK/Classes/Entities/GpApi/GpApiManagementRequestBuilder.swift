@@ -17,7 +17,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
     }
 
     func generateRequest(for builder: ManagementBuilder, config: GpApiConfig) -> GpApiRequest? {
-        var merchantUrl: String = !(config.merchantId?.isEmpty ?? true) ? "/merchants/\(config.merchantId ?? "")" : ""
+        var merchantUrl = GpApiRequest.Endpoints.accountMerchantUrl(mmaId: config.mmaId, merchantId: config.merchantId)
 
         // Resolve the currency for amount encoding.
         // Management calls (Capture, Reverse, Refund) typically omit .withCurrency()
@@ -100,7 +100,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             
             if (builder.paymentMethod?.paymentMethodType == .accountFunds) {
                 if builder.fundsData?.merchantId?.isEmpty ?? true {
-                    endpoint = GpApiRequest.Endpoints.merchantWithID(config.merchantId ?? .empty)
+                    endpoint = GpApiRequest.Endpoints.accountMerchantUrl(mmaId: config.mmaId, merchantId: config.merchantId)
                 }
                 endpoint += GpApiRequest.Endpoints.transfersReversal(transferId: (builder.transactionId ?? .empty))
             } else {
@@ -408,7 +408,7 @@ struct GpApiManagementRequestBuilder: GpApiRequestData {
             request.set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
             
             if let merchantId = builder.fundsData?.merchantId, !merchantId.isEmpty {
-                merchantUrl = GpApiRequest.Endpoints.merchantWithID(merchantId)
+                merchantUrl = GpApiRequest.Endpoints.accountMerchantUrl(mmaId: config.mmaId, merchantId: merchantId)
             }
             
             split.append(request)

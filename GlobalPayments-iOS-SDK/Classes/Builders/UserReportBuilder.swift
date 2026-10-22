@@ -57,4 +57,9 @@ import Foundation
         searchCriteriaBuilder.merchantId = merchantId
         return self
     }
+    
+    public func withName(_ name: String?) -> UserReportBuilder<TResult> {
+        searchCriteriaBuilder.name = name
+        return self
+    }
 }

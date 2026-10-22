@@ -1092,7 +1092,7 @@ public struct GpApiMapping {
         switch modifier {
         case .merchant:
             result = GpApiMapping.mapUser(json)
-        case .account:
+        case .account, .fundsManagementAccount:
             result = AccountSummary.mapToObject(json)
         default:
             break

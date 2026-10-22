@@ -1,5 +1,14 @@
 # Changelog
 
+## Latest - v3.6.0 (10/22/2026)
+ 
+#### Enhancements
+ 
+- GP-API: Added MMA (Merchant Management Account) support for Partner setups spanning multiple MMA portfolios via `GpApiConfig.mmaId`
+- GP-API: Added PATCH Edit Account support via `PayFacService.editAccount` and `PayFacBuilder.withAccountEditData`
+- GP-API: Added GET FMA Account Details support via `PayFacService.getFMAAccountDetails`
+- GP-API: Added missing request/response fields for GET Accounts and GET Account, including configurations, capabilities, processing limits and payment processing statistics
+
 ## Latest - v3.5.1 (10/01/2026)
 
 #### Enhancements

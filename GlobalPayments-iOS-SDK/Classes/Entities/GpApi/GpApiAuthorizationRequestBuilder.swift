@@ -3,7 +3,7 @@ import Foundation
 struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
 
     func generateRequest(for builder: AuthorizationBuilder, config: GpApiConfig?) -> GpApiRequest? {
-        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : .empty
+        let merchantUrl = GpApiRequest.Endpoints.accountMerchantUrl(mmaId: config?.mmaId, merchantId: config?.merchantId)
         switch builder.transactionType {
         case .decrypt:
             let payload = createForDecrypt(builder, config)

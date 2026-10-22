@@ -4,10 +4,7 @@ struct GpApiRecurringRequestBuilder<T> {
     
     func buildRequest(for builder: RecurringBuilder<T>, config: GpApiConfig?) -> GpApiRequest?{
         
-        var merchantUrl = ""
-        if let merchantId = config?.merchantId {
-            merchantUrl = "/merchants/" + merchantId
-        }
+        let merchantUrl = GpApiRequest.Endpoints.accountMerchantUrl(mmaId: config?.mmaId, merchantId: config?.merchantId)
         
         switch builder.transactionType {
         case .create:

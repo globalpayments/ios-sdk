@@ -23,4 +23,23 @@ public class PayFacService {
             .withModifier(.account)
             .withUserReference(userReference)
     }
+    
+    public static func editAccount(_ accountId: String) -> PayFacBuilder<AccountSummary> {
+        let userReference = UserReference()
+        userReference.userId = accountId
+        userReference.userType = .account
+        return PayFacBuilder<AccountSummary>(transactionType: .edit)
+            .withModifier(.account)
+            .withUserReference(userReference)
+    }
+    
+    public static func getFMAAccountDetails(_ fmaId: String, merchantId: String) -> PayFacBuilder<AccountSummary> {
+        let userReference = UserReference()
+        userReference.userId = fmaId
+        userReference.userType = .account
+        return PayFacBuilder<AccountSummary>(transactionType: .fetch)
+            .withModifier(.fundsManagementAccount)
+            .withUserReference(userReference)
+            .withMerchantId(merchantId)
+    }
 }

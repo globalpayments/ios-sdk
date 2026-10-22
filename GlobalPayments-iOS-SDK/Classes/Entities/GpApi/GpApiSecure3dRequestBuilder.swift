@@ -3,7 +3,7 @@ import Foundation
 struct GpApiSecure3dRequestBuilder: GpApiRequestData {
 
     func generateRequest(for builder: Secure3dBuilder, config: GpApiConfig?) -> GpApiRequest? {
-        let merchantUrl: String = !(config?.merchantId?.isEmpty ?? true) ? "/merchants/\(config?.merchantId ?? "")" : ""
+        let merchantUrl = GpApiRequest.Endpoints.accountMerchantUrl(mmaId: config?.mmaId, merchantId: config?.merchantId)
         switch builder.transactionType {
         case .verifyEnrolled?:
             return GpApiRequest(

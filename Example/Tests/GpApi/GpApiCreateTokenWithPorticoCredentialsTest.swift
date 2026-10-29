@@ -56,8 +56,8 @@ final class GpApiCreateTokenWithPorticoCredentialsTest: XCTestCase {
         porticoTokenConfig.siteId = 418948
         porticoTokenConfig.licenseId = 388244
         porticoTokenConfig.deviceId = 11753
-        porticoTokenConfig.username = "gateway1213846"
-        porticoTokenConfig.password = "$Test1234"
+        porticoTokenConfig.username = ""
+        porticoTokenConfig.password = ""
         porticoTokenConfig.secretApiKey = "skapi_cert_MVISAgC05V8Amnxg2jARLKW-K4ONQeXejrWYCCA_Cw"
         fullPorticoConfig.porticoTokenConfig = porticoTokenConfig
         
@@ -74,8 +74,8 @@ final class GpApiCreateTokenWithPorticoCredentialsTest: XCTestCase {
         porticoTokenConfig.siteId = 418948
         porticoTokenConfig.licenseId = 388244
         porticoTokenConfig.deviceId = 11753
-        porticoTokenConfig.username = "gateway1213846"
-        porticoTokenConfig.password = "$Test1234"
+        porticoTokenConfig.username = ""
+        porticoTokenConfig.password = ""
         legacyPorticoConfig.porticoTokenConfig = porticoTokenConfig
         
         try? ServicesContainer.configureService(config: legacyPorticoConfig, configName: "legacyPorticoConfig")
@@ -105,8 +105,8 @@ final class GpApiCreateTokenWithPorticoCredentialsTest: XCTestCase {
         porticoTokenConfig.siteId = 418948
         porticoTokenConfig.licenseId = 388244
         porticoTokenConfig.deviceId = 11753
-        porticoTokenConfig.username = "gateway1213846"
-        porticoTokenConfig.password = "$Test1234"
+        porticoTokenConfig.username = ""
+        porticoTokenConfig.password = ""
         legacyPorticoAppIdConfig.porticoTokenConfig = porticoTokenConfig
         
         try? ServicesContainer.configureService(config: legacyPorticoAppIdConfig, configName: "legacyPorticoAppIdConfig")
@@ -123,8 +123,8 @@ final class GpApiCreateTokenWithPorticoCredentialsTest: XCTestCase {
         porticoTokenConfig.siteId = 418948
         porticoTokenConfig.licenseId = 388244
         porticoTokenConfig.deviceId = 11753
-        porticoTokenConfig.username = "gateway1213846"
-        porticoTokenConfig.password = "$Test1234"
+        porticoTokenConfig.username = ""
+        porticoTokenConfig.password = ""
         porticoTokenConfig.secretApiKey = "skapi_cert_MVISAgC05V8Amnxg2jARLKW-K4ONQeXejrWYCCA_Cw"
         secretApiKeyAppIdConfig.porticoTokenConfig = porticoTokenConfig
         

@@ -39,6 +39,7 @@ public class Card: NSObject {
     public var paymentAccountReference: String?
     public var cvvIndicator: String?
     public var cvvResult: String?
+    public var avsAddress: String?
     public var avsAddressResult: String?
     public var avsPostalCodeResult: String?
 }

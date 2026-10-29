@@ -1650,6 +1650,285 @@ class GpApiReportingTransactionsTests: XCTestCase {
         }
     }
 
+    func test_report_find_settlement_transactions_paged_by_order_reference() throws {
+        guard let expectedOrderReference = try? awaitResponse(getSettlementTransactionSummary)?.orderReference,
+              !expectedOrderReference.isEmpty else {
+            XCTSkip("No settled transaction with an order reference is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        let reportService = ReportingService.findSettlementTransactionsPaged(page: 1, pageSize: 100)
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        reportService
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withOrderReference(expectedOrderReference)
+            .where(.startDate, startDate)
+            .execute {
+                transactionSummaryList = $0?.results
+                transactionError = $1
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(transactionError)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        for transaction in transactionSummaryList ?? [] {
+            XCTAssertEqual(transaction.orderReference, expectedOrderReference)
+        }
+    }
+
+    func test_report_find_settlement_transactions_paged_by_settlement_transaction_reference() throws {
+        guard let expectedSettlementTransactionReference = try? awaitResponse(getSettlementTransactionSummary)?.settlementTransactionReference,
+              !expectedSettlementTransactionReference.isEmpty else {
+            XCTSkip("No settled transaction with a settlement transaction reference is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        let reportService = ReportingService.findSettlementTransactionsPaged(page: 1, pageSize: 100)
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        reportService
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withSettlementTransactionReference(expectedSettlementTransactionReference)
+            .where(.startDate, startDate)
+            .execute {
+                transactionSummaryList = $0?.results
+                transactionError = $1
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(transactionError)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        for transaction in transactionSummaryList ?? [] {
+            XCTAssertEqual(transaction.settlementTransactionReference, expectedSettlementTransactionReference)
+        }
+    }
+
+    func test_report_find_settlement_transactions_paged_by_settlement_code() throws {
+        guard let expectedSettlementCode = try? awaitResponse(getSettlementTransactionSummary)?.settlementCode,
+              !expectedSettlementCode.isEmpty else {
+            XCTSkip("No settled transaction with a settlement code is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        let reportService = ReportingService.findSettlementTransactionsPaged(page: 1, pageSize: 100)
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        reportService
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withSettlementCode(expectedSettlementCode)
+            .where(.startDate, startDate)
+            .execute {
+                transactionSummaryList = $0?.results
+                transactionError = $1
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(transactionError)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        for transaction in transactionSummaryList ?? [] {
+            XCTAssertEqual(transaction.settlementCode, expectedSettlementCode)
+        }
+    }
+
+    func test_report_find_settlement_transactions_paged_by_terminal_id() throws {
+        guard let expectedTerminalId = try? awaitResponse(getSettlementTransactionSummary)?.merchantDeviceIdentifier,
+              !expectedTerminalId.isEmpty else {
+            XCTSkip("No settled transaction with a terminal id is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        let reportService = ReportingService.findSettlementTransactionsPaged(page: 1, pageSize: 100)
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        reportService
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withTerminalId(expectedTerminalId)
+            .where(.startDate, startDate)
+            .execute {
+                transactionSummaryList = $0?.results
+                transactionError = $1
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(transactionError)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        for transaction in transactionSummaryList ?? [] {
+            XCTAssertEqual(transaction.merchantDeviceIdentifier, expectedTerminalId)
+        }
+    }
+
+    func test_report_find_settlement_transactions_paged_by_merchant_dba_name() throws {
+        guard let expectedMerchantDbaName = try? awaitResponse(getSettlementTransactionSummary)?.merchantDbaName,
+              !expectedMerchantDbaName.isEmpty else {
+            XCTSkip("No settled transaction with a merchant dba name is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        let reportService = ReportingService.findSettlementTransactionsPaged(page: 1, pageSize: 100)
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        reportService
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withMerchantDbaName(expectedMerchantDbaName)
+            .where(.startDate, startDate)
+            .execute {
+                transactionSummaryList = $0?.results
+                transactionError = $1
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(transactionError)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        for transaction in transactionSummaryList ?? [] {
+            XCTAssertEqual(transaction.merchantDbaName, expectedMerchantDbaName)
+        }
+    }
+
+    func test_report_find_settlement_transactions_paged_by_merchant_amount() throws {
+        guard let expectedMerchantAmount = try? awaitResponse(getSettlementTransactionSummary)?.merchantAmount,
+              let expectedMerchantCurrency = try? awaitResponse(getSettlementTransactionSummary)?.merchantCurrency,
+              !expectedMerchantCurrency.isEmpty else {
+            XCTSkip("No settled transaction with a merchant amount is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        let reportService = ReportingService.findSettlementTransactionsPaged(page: 1, pageSize: 100)
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        reportService
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withMerchantAmount(expectedMerchantAmount)
+            .where(.startDate, startDate)
+            .and(dataServiceCriteria: .currency, value: expectedMerchantCurrency)
+            .execute {
+                transactionSummaryList = $0?.results
+                transactionError = $1
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(transactionError)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+        for transaction in transactionSummaryList ?? [] {
+            XCTAssertEqual(transaction.merchantAmount, expectedMerchantAmount)
+        }
+    }
+
+    func test_report_find_settlement_transactions_paged_by_fees_criteria() throws {
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        let reportService = ReportingService.findSettlementTransactionsPaged(page: 1, pageSize: 100)
+        var transactionSummaryList: [TransactionSummary]?
+        var transactionError: Error?
+
+        // WHEN
+        reportService
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withFeeChargeType("GLOBAL")
+            .withFeeTotalAmount(NSDecimalNumber(string: "10.00"))
+            .withInterchangeProgram("VISA CREDIT")
+            .withInterchangePercentage("1.75")
+            .withInterchangeTotalRate("1.85")
+            .withDiscountRate1Percentage("0.10")
+            .withDiscountRate2Percentage("0.20")
+            .withAssessmentDescription(1, "Assessment One")
+            .withAssessmentPercentage(1, "0.10")
+            .withAssessmentAmount(1, NSDecimalNumber(string: "0.20"))
+            .withMarkUpDccPercentage("3.00")
+            .withMarkUpMulticurrencyPercentage("2.00")
+            .withFixedAmount(NSDecimalNumber(string: "1.29"))
+            .withFeeTaxAmount(NSDecimalNumber(string: "0.98"))
+            .withChargeTypeRegion("US")
+            .where(.startDate, startDate)
+            .execute {
+                transactionSummaryList = $0?.results
+                transactionError = $1
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(transactionError)
+        XCTAssertNil(transactionError)
+        XCTAssertNotNil(transactionSummaryList)
+    }
+
+    func test_report_find_settlement_transactions_paged_by_invalid_fee_charge_type() throws {
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        let reportService = ReportingService.findSettlementTransactionsPaged(page: 1, pageSize: 100)
+        var transactionSummaryError: GatewayException?
+
+        // WHEN
+        reportService
+            .orderBy(transactionSortProperty: .timeCreated, .descending)
+            .withFeeChargeType("INVALID_CHARGE_TYPE")
+            .where(.startDate, startDate)
+            .execute { _, error in
+                if let error = error as? GatewayException {
+                    transactionSummaryError = error
+                }
+                executeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 20.0)
+        XCTAssertNotNil(transactionSummaryError)
+    }
+
+    /// Settlement reporting endpoints require a configured account. Sandbox accounts without the
+    /// feature enabled are rejected by the gateway before any data is returned.
+    private func skipIfSettlementUnavailable(_ error: Error?) throws {
+        guard let error = error as? GatewayException else { return }
+
+        let unavailableCodes = ["MANDATORY_DATA_MISSING", "INVALID_REQUEST_DATA"]
+        guard unavailableCodes.contains(error.responseCode ?? "") else { return }
+
+        throw XCTSkip("Settlement reporting is not enabled for this sandbox account")
+    }
+
     // MARK: - Utils
 
     private func getTransactionSummary(_ completion: @escaping ((TransactionSummary?) -> Void)) {

@@ -1332,7 +1332,7 @@ class GpApiCreditWithMerchantIdTests: XCTestCase {
         // GIVEN
         let MER_ID: String = "MER_7e3e2c7df34f42819b3edee31022ee3f"
         let APP_ID: String = "zKxybfLqH7vAOtBQrApxD5AUpS3ITaPz"
-        let APP_KEY: String = "GAMlgEojm6hxZTLI"
+        let APP_KEY: String = ""
         let accessTokenInfo = AccessTokenInfo()
         accessTokenInfo.transactionProcessingAccountName = "transaction_processing"
         accessTokenInfo.tokenizationAccountName = "Tokenization"
@@ -1385,7 +1385,7 @@ class GpApiCreditWithMerchantIdTests: XCTestCase {
         // GIVEN
         let MER_ID: String = "MER_7e3e2c7df34f42819b3edee31022ee3f"
         let APP_ID: String = "zKxybfLqH7vAOtBQrApxD5AUpS3ITaPz"
-        let APP_KEY: String = "GAMlgEojm6hxZTLI"
+        let APP_KEY: String = ""
         let accessTokenInfo = AccessTokenInfo()
         accessTokenInfo.transactionProcessingAccountName = "transaction_processing"
         accessTokenInfo.tokenizationAccountName = "Tokenization"

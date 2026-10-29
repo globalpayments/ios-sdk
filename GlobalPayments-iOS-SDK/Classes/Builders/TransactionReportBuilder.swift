@@ -23,6 +23,7 @@ import Foundation
     var payByLinkOrderBy: PayByLinkSortProperty?
     var payByLinkId: String?
     var authenticationOrderBy: AuthenticationSortProperty?
+    var monthlyFeeOrderBy: MonthlyFeeSortProperty?
 
     /// Sets the device ID as criteria for the report.
     /// - Parameter deviceId: The device ID
@@ -128,6 +129,14 @@ import Foundation
         return self
     }
 
+    /// Sets the gateway batch reference as criteria for the report.
+    /// - Parameter batchReference: The gateway batch reference
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withBatchReference(_ batchReference: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.batchReference = batchReference
+        return self
+    }
+
     /// Set the gateway transaction order by criteria for the report.
     /// - Parameters:
     ///   - transactionSortProperty: Order by transaction sort property
@@ -196,6 +205,18 @@ import Foundation
     public func orderBy(authenticationOrderBy: AuthenticationSortProperty,
                         _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
         self.authenticationOrderBy = authenticationOrderBy
+        self.order = direction
+        return self
+    }
+
+    /// Set the Monthly Fee Report order by criteria for the report.
+    /// - Parameters:
+    ///   - monthlyFeeOrderBy: Order by property
+    ///   - direction: Order by direction
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func orderBy(monthlyFeeOrderBy: MonthlyFeeSortProperty,
+                        _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
+        self.monthlyFeeOrderBy = monthlyFeeOrderBy
         self.order = direction
         return self
     }
@@ -329,6 +350,313 @@ import Foundation
     public func withPayByLinkId(_ payByLinkId: String?) -> TransactionReportBuilder<TResult> {
         self.searchCriteriaBuilder.payByLinkId = payByLinkId
         self.payByLinkId = payByLinkId
+        return self
+    }
+
+    /// Sets the merchant's order reference as criteria for the report.
+    /// - Parameter orderReference: The merchant defined order reference
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withOrderReference(_ orderReference: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.orderReference = orderReference
+        return self
+    }
+
+    /// Sets the deposit id as criteria for the report. Used by the Settled Disputes report as `deposit.id`.
+    /// - Parameter depositId: The deposit id
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDepositId(_ depositId: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.depositId = depositId
+        return self
+    }
+
+    /// Sets the card brand reference as criteria for the report. Used by the Settled Disputes report.
+    /// - Parameter brandReference: The unique reference created by the card brand
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withBrandReference(_ brandReference: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.brandReference = brandReference
+        return self
+    }
+
+    /// Sets the authorization code as criteria for the report. Used by the Settled Disputes report.
+    /// - Parameter authCode: The code generated when the card is successfully authorized
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAuthCode(_ authCode: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.authCode = authCode
+        return self
+    }
+
+    /// Sets the merchant defined reference as criteria for the report. Used by the Settled Disputes report.
+    /// - Parameter referenceNumber: The merchant defined reference for the transaction
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withReferenceNumber(_ referenceNumber: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.referenceNumber = referenceNumber
+        return self
+    }
+
+    /// Sets the settlement code as criteria for the report.
+    /// - Parameter settlementCode: The settlement code
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withSettlementCode(_ settlementCode: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.settlementCode = settlementCode
+        return self
+    }
+
+    /// Sets the settlement transaction reference as criteria for the report.
+    /// - Parameter settlementTransactionReference: The settlement transaction reference
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withSettlementTransactionReference(_ settlementTransactionReference: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.settlementTransactionReference = settlementTransactionReference
+        return self
+    }
+
+    /// Sets the merchant doing business as name as criteria for the report.
+    /// - Parameter merchantDbaName: The merchant dba name
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withMerchantDbaName(_ merchantDbaName: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.merchantDbaName = merchantDbaName
+        return self
+    }
+
+    /// Sets the merchant name as criteria for the report.
+    /// - Parameter merchantName: The merchant name
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withMerchantName(_ merchantName: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.merchantName = merchantName
+        return self
+    }
+
+    /// Sets the terminal id as criteria for the report.
+    /// - Parameter terminalId: The terminal id
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withTerminalId(_ terminalId: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.terminalId = terminalId
+        return self
+    }
+
+    /// Sets the merchant amount as criteria for the report.
+    /// - Parameter merchantAmount: The merchant amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withMerchantAmount(_ merchantAmount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.merchantAmount = merchantAmount
+        return self
+    }
+
+    /// Sets the charge type region as criteria for the report.
+    /// - Parameter chargeTypeRegion: The charge type region
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withChargeTypeRegion(_ chargeTypeRegion: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.chargeTypeRegion = chargeTypeRegion
+        return self
+    }
+
+    /// Sets the start of the merchant transaction reference date range as criteria for the report.
+    /// - Parameter startDate: The start date
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withStartTransactionTimeCreatedReference(_ startDate: Date?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.startTransactionTimeCreatedReference = startDate
+        return self
+    }
+
+    /// Sets the end of the merchant transaction reference date range as criteria for the report.
+    /// - Parameter endDate: The end date
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withEndTransactionTimeCreatedReference(_ endDate: Date?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.endTransactionTimeCreatedReference = endDate
+        return self
+    }
+
+    /// Sets the settlement fee charge type as criteria for the report.
+    /// - Parameter chargeType: The fee charge type
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withFeeChargeType(_ chargeType: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.feeChargeType = chargeType
+        return self
+    }
+
+    /// Sets the settlement fee total amount as criteria for the report.
+    /// - Parameter totalAmount: The fee total amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withFeeTotalAmount(_ totalAmount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.feeTotalAmount = totalAmount
+        return self
+    }
+
+    /// Sets the interchange program as criteria for the report.
+    /// - Parameter program: The interchange program
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withInterchangeProgram(_ program: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.interchangeProgram = program
+        return self
+    }
+
+    /// Sets the interchange per item flat amount as criteria for the report.
+    /// - Parameter amount: The interchange per item flat amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withInterchangePerItemFlatAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.interchangePerItemFlatAmount = amount
+        return self
+    }
+
+    /// Sets the interchange per item calculated amount as criteria for the report.
+    /// - Parameter amount: The interchange per item calculated amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withInterchangePerItemCalculatedAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.interchangePerItemCalculatedAmount = amount
+        return self
+    }
+
+    /// Sets the interchange percentage as criteria for the report.
+    /// - Parameter percentage: The interchange percentage
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withInterchangePercentage(_ percentage: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.interchangePercentage = percentage
+        return self
+    }
+
+    /// Sets the interchange percentage amount as criteria for the report.
+    /// - Parameter amount: The interchange percentage amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withInterchangePercentageAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.interchangePercentageAmount = amount
+        return self
+    }
+
+    /// Sets the interchange total rate as criteria for the report.
+    /// - Parameter totalRate: The interchange total rate
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withInterchangeTotalRate(_ totalRate: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.interchangeTotalRate = totalRate
+        return self
+    }
+
+    /// Sets the interchange total amount as criteria for the report.
+    /// - Parameter amount: The interchange total amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withInterchangeTotalAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.interchangeTotalAmount = amount
+        return self
+    }
+
+    /// Sets the discount rate 1 percentage as criteria for the report.
+    /// - Parameter percentage: The discount rate 1 percentage
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDiscountRate1Percentage(_ percentage: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.discountRate1Percentage = percentage
+        return self
+    }
+
+    /// Sets the discount rate 2 percentage as criteria for the report.
+    /// - Parameter percentage: The discount rate 2 percentage
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDiscountRate2Percentage(_ percentage: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.discountRate2Percentage = percentage
+        return self
+    }
+
+    /// Sets the discount total amount as criteria for the report.
+    /// - Parameter amount: The discount total amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDiscountTotalAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.discountTotalAmount = amount
+        return self
+    }
+
+    /// Sets the exchange rate as criteria for the report.
+    /// - Parameter exchangeRate: The exchange rate
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withExchangeRate(_ exchangeRate: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.exchangeRate = exchangeRate
+        return self
+    }
+
+    /// Sets the assessment total amount as criteria for the report.
+    /// - Parameter amount: The assessment total amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAssessmentTotalAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.assessmentTotalAmount = amount
+        return self
+    }
+
+    /// Sets the assessment description as criteria for the report for the given assessment slot (1 to 5).
+    /// - Parameters:
+    ///   - index: The assessment number, 1 to 5
+    ///   - description: The assessment description
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAssessmentDescription(_ index: Int, _ description: String?) -> TransactionReportBuilder<TResult> {
+        switch index {
+        case 1: searchCriteriaBuilder.assessment1Description = description
+        case 2: searchCriteriaBuilder.assessment2Description = description
+        case 3: searchCriteriaBuilder.assessment3Description = description
+        case 4: searchCriteriaBuilder.assessment4Description = description
+        case 5: searchCriteriaBuilder.assessment5Description = description
+        default: break
+        }
+        return self
+    }
+
+    /// Sets the assessment percentage as criteria for the report for the given assessment slot (1 to 5).
+    /// - Parameters:
+    ///   - index: The assessment number, 1 to 5
+    ///   - percentage: The assessment percentage
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAssessmentPercentage(_ index: Int, _ percentage: String?) -> TransactionReportBuilder<TResult> {
+        switch index {
+        case 1: searchCriteriaBuilder.assessment1Percentage = percentage
+        case 2: searchCriteriaBuilder.assessment2Percentage = percentage
+        case 3: searchCriteriaBuilder.assessment3Percentage = percentage
+        case 4: searchCriteriaBuilder.assessment4Percentage = percentage
+        case 5: searchCriteriaBuilder.assessment5Percentage = percentage
+        default: break
+        }
+        return self
+    }
+
+    /// Sets the assessment amount as criteria for the report for the given assessment slot (1 to 5).
+    /// - Parameters:
+    ///   - index: The assessment number, 1 to 5
+    ///   - amount: The assessment amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAssessmentAmount(_ index: Int, _ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        switch index {
+        case 1: searchCriteriaBuilder.assessment1Amount = amount
+        case 2: searchCriteriaBuilder.assessment2Amount = amount
+        case 3: searchCriteriaBuilder.assessment3Amount = amount
+        case 4: searchCriteriaBuilder.assessment4Amount = amount
+        case 5: searchCriteriaBuilder.assessment5Amount = amount
+        default: break
+        }
+        return self
+    }
+
+    /// Sets the DCC mark up percentage as criteria for the report.
+    /// - Parameter percentage: The DCC mark up percentage
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withMarkUpDccPercentage(_ percentage: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.markUpDccPercentage = percentage
+        return self
+    }
+
+    /// Sets the multicurrency mark up percentage as criteria for the report.
+    /// - Parameter percentage: The multicurrency mark up percentage
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withMarkUpMulticurrencyPercentage(_ percentage: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.markUpMulticurrencyPercentage = percentage
+        return self
+    }
+
+    /// Sets the fixed fee amount as criteria for the report.
+    /// - Parameter amount: The fixed fee amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withFixedAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.fixedAmount = amount
+        return self
+    }
+
+    /// Sets the tax amount applied to merchant fees as criteria for the report.
+    /// - Parameter amount: The fee tax amount
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withFeeTaxAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.feeTaxAmount = amount
         return self
     }
 

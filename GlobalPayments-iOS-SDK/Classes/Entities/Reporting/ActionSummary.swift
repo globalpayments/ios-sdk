@@ -16,4 +16,18 @@ public class ActionSummary {
     public var accountName: String?
     public var merchantName: String?
     public var resultCode: String?
+    // The following are only populated by the GET /actions/{id} single-detail response.
+    public var merchantId: String?
+    public var resourceParentId: String?
+    public var resourceRequestUrl: String?
+    public var responseDetailedCode: String?
+    public var responseDetailedMessage: String?
+    public var email: String?
+    public var sourceLocation: String?
+    public var destinationLocation: String?
+    public var messageReceived: String?
+    public var messageSent: String?
+    public var metrics: String?
+    public var totalTimeMilliseconds: String?
+    public var totalTimeDownstreamMilliseconds: String?
 }

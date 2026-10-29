@@ -29,6 +29,8 @@ public class DisputeSummary {
     public var caseMerchantId: String?
     public var caseTerminalId: String?
     public var transactionARN: String?
+    /// The unique reference created by the brands/schemes to identify the disputed transaction.
+    public var transactionBrandReference: String?
     public var transactionId: String?
     public var transactionReferenceNumber: String?
     public var transactionSRD: String?

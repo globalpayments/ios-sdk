@@ -50,129 +50,11 @@ public struct GpApiMapping {
         transaction.accountName = doc?.getValue(key: "account_name")
         transaction.merchantBenefitsReference = doc?.getValue(key: "merchant_benefits_reference")
         transaction.userReference = doc?.getValue(key: "user_reference")
-        let batchSummary = BatchSummary()
-        batchSummary.resourceId = doc?.getValue(key: "id")
-        batchSummary.batchReference = doc?.getValue(keys: "batch_id", "id")
-        batchSummary.status = doc?.getValue(key: "status")
-        batchSummary.responseCode = doc?.get(valueFor: "action")?.getValue(key: "result_code")
-        batchSummary.transactionCount = doc?.getValue(keys: "transaction_count", "count")
-        batchSummary.closeTransactionId = doc?.getValue(keys: "close_transaction_id", "closing_transaction_id")
-        batchSummary.openTransactionId = doc?.getValue(keys: "open_transaction_id", "opening_transaction_id")
-        batchSummary.sequenceNumber = doc?.getValue(keys: "sequence_number", "batch_sequence_number")
-        batchSummary.transactionToken = doc?.getValue(keys: "transaction_token", "token")
-        batchSummary.merchantName = doc?.getValue(keys: "merchant_name", "name")
-        batchSummary.siteId = doc?.getValue(key: "site_id")
-        batchSummary.deviceId = doc?.getValue(key: "device_id")
-        batchSummary.sicCode = doc?.getValue(key: "sic")
-        batchSummary.openActionId = doc?.getValue(key: "open_action_id")
-        batchSummary.closeActionId = doc?.getValue(key: "close_action_id")
-        batchSummary.merchantId = doc?.getValue(key: "merchant_id")
-        batchSummary.accountId = doc?.getValue(key: "account_id")
-        batchSummary.accountName = doc?.getValue(key: "account_name")
-        batchSummary.siteReference = doc?.getValue(key: "site_reference")
-        batchSummary.deviceReference = doc?.getValue(key: "device_reference")
-        batchSummary.currency = doc?.getValue(key: "currency")
-
-        let created: String? = doc?.getValue(key: "time_created")
-        let updated: String? = doc?.getValue(key: "time_last_updated")
-        let closed: String? = doc?.getValue(key: "time_closed")
-        batchSummary.timeCreated = parseDate(created)
-        batchSummary.timeLastUpdated = parseDate(updated)
-        batchSummary.timeClosed = parseDate(closed)
-
-        if let gratuityAmount: String = doc?.getValue(key: "gratuity_amount") {
-            batchSummary.gratuityAmount = NSDecimalNumber(string: gratuityAmount).amount
-        }
-
-        let openTimeValue: String? = doc?.getValue(keys: "open_time", "time_created")
-        batchSummary.openTime = parseDate(openTimeValue)
-
-        if let amount: String = doc?.getValue(keys: "amount", "total_amount") {
-            batchSummary.totalAmount = NSDecimalNumber(string: amount).amount(for: transactionCurrency)
-            
-            if transaction.responseMessage == TransactionStatus.preauthorized.rawValue {
-                transaction.authorizedAmount = NSDecimalNumber(string: amount).amount(for: transactionCurrency)
-            }
-        }
-
-        if let sales: JsonDoc = doc?.get(valueFor: "sales") {
-            batchSummary.saleCount = sales.getValue(key: "count")
-            if let saleAmount: String = sales.getValue(key: "amount") {
-                batchSummary.saleAmount = NSDecimalNumber(string: saleAmount).amount
-            }
-            batchSummary.sales = mapBatchAmountInfo(sales)
-        }
-
-        if let credits: JsonDoc = doc?.get(valueFor: "credits") {
-            batchSummary.creditCount = credits.getValue(key: "count")
-            if let creditAmount: String = credits.getValue(key: "amount") {
-                batchSummary.creditAmount = NSDecimalNumber(string: creditAmount).amount
-            }
-        }
-
-        if let debits: JsonDoc = doc?.get(valueFor: "debits") {
-            batchSummary.debitCount = debits.getValue(key: "count")
-            if let debitAmount: String = debits.getValue(key: "amount") {
-                batchSummary.debitAmount = NSDecimalNumber(string: debitAmount).amount
-            }
-        }
-
-        if let returns: JsonDoc = doc?.get(valueFor: "returns") {
-            batchSummary.returnCount = returns.getValue(key: "count")
-            if let returnAmount: String = returns.getValue(key: "amount") {
-                batchSummary.returnAmount = NSDecimalNumber(string: returnAmount).amount
-            }
-        } else if let refunds: JsonDoc = doc?.get(valueFor: "refunds") {
-            batchSummary.returnCount = refunds.getValue(key: "count")
-            if let returnAmount: String = refunds.getValue(key: "amount") {
-                batchSummary.returnAmount = NSDecimalNumber(string: returnAmount).amount
-            }
-            batchSummary.refunds = mapBatchAmountInfo(refunds)
-        }
-
-        if let fundingDebit = doc?.get(valueFor: "funding_debit") {
-            batchSummary.fundingDebit = mapBatchAmountInfo(fundingDebit)
-        }
-
-        if let fundingCredit = doc?.get(valueFor: "funding_credit") {
-            batchSummary.fundingCredit = mapBatchAmountInfo(fundingCredit)
-        }
-
-        if let brandBreakdown: [JsonDoc] = doc?.getValue(key: "brand_breakdown") {
-            batchSummary.brandBreakdown = mapBatchBrandBreakdown(brandBreakdown)
-        }
-
-        if let hostBreakdown: JsonDoc = doc?.get(valueFor: "host_breakdown") {
-            batchSummary.hostBreakdown = mapBatchHostBreakdown(hostBreakdown)
-        }
-
-        if let action: JsonDoc = doc?.get(valueFor: "action") {
-            batchSummary.action = mapBatchAction(action)
-        }
-
-        batchSummary.closeCount = batchSummary.closeCount ?? doc?.getValue(key: "close_count")
-        batchSummary.saleCount = batchSummary.saleCount ?? doc?.getValue(key: "sale_count")
-        batchSummary.creditCount = batchSummary.creditCount ?? doc?.getValue(key: "credit_count")
-        batchSummary.debitCount = batchSummary.debitCount ?? doc?.getValue(key: "debit_count")
-        batchSummary.returnCount = batchSummary.returnCount ?? doc?.getValue(key: "return_count")
-
-        if batchSummary.saleAmount == nil, let saleAmount: String = doc?.getValue(key: "sale_amount") {
-            batchSummary.saleAmount = NSDecimalNumber(string: saleAmount).amount
-        }
-
-        if batchSummary.creditAmount == nil, let creditAmount: String = doc?.getValue(key: "credit_amount") {
-            batchSummary.creditAmount = NSDecimalNumber(string: creditAmount).amount
-        }
-
-        if batchSummary.debitAmount == nil, let debitAmount: String = doc?.getValue(key: "debit_amount") {
-            batchSummary.debitAmount = NSDecimalNumber(string: debitAmount).amount
-        }
-
-        if batchSummary.returnAmount == nil, let returnAmount: String = doc?.getValue(key: "return_amount") {
-            batchSummary.returnAmount = NSDecimalNumber(string: returnAmount).amount
-        }
-
+        let batchSummary = mapBatchSummary(doc, transactionCurrency: transactionCurrency)
         transaction.batchSummary = batchSummary
+        if transaction.responseMessage == TransactionStatus.preauthorized.rawValue {
+            transaction.authorizedAmount = batchSummary.totalAmount
+        }
         transaction.responseCode = doc?.get(valueFor: "action")?.getValue(key: "result_code")
         if let id: String = doc?.getValue(key: "id") {
             if id.starts(with: "PMT_") {
@@ -427,8 +309,18 @@ public struct GpApiMapping {
         summary.batchCloseDate = batchTimeCreated?.format()
         summary.country = doc?.getValue(key: "country")
         summary.originalTransactionId = doc?.getValue(key: "parent_resource_id")
-        summary.gratuityAmount = doc?.getValue(key: "gratuity_amount")
-        summary.cashBackAmount = doc?.getValue(key: "cashback_amount")
+        if let gratuityAmount: String = doc?.getValue(key: "gratuity_amount") {
+            summary.gratuityAmount = NSDecimalNumber(string: gratuityAmount).amount(for: summary.currency)
+        }
+        if let cashBackAmount: String = doc?.getValue(key: "cashback_amount") {
+            summary.cashBackAmount = NSDecimalNumber(string: cashBackAmount).amount(for: summary.currency)
+        }
+        if let taxAmount: String = doc?.getValue(key: "tax_amount") {
+            summary.taxAmount = NSDecimalNumber(string: taxAmount).amount(for: summary.currency)
+        }
+        if let surchargeAmount: String = doc?.getValue(key: "surcharge_amount") {
+            summary.surchargeAmount = NSDecimalNumber(string: surchargeAmount).amount(for: summary.currency)
+        }
         summary.description = doc?.getValue(key: "description")
         summary.orderReference = doc?.getValue(key: "order_reference")
         summary.initiator = doc?.getValue(key: "initiator")
@@ -451,11 +343,34 @@ public struct GpApiMapping {
         summary.aquirerReferenceNumber = card?.getValue(key: "arn")
         summary.maskedCardNumber = card?.getValue(key: "masked_number_first6last4")
         summary.cardDetails = mapCardDetails(card)
+        summary.settlementCode = card?.getValue(key: "settlement_code")
+        summary.cardFunding = card?.getValue(key: "funding")
         
         summary.depositReference = doc?.getValue(key: "deposit_id")
         let depositTimeCreated: String? = doc?.getValue(key: "deposit_time_created")
         summary.depositDate = depositTimeCreated?.format("YYYY-MM-dd")
         summary.depositStatus = DepositStatus(value: doc?.getValue(key: "deposit_status"))
+        summary.depositCurrency = doc?.getValue(key: "currency")
+        summary.depositAmount = NSDecimalNumber(string: doc?.getValue(key: "deposit_amount")).amount(for: summary.depositCurrency)
+        
+        // MARK: Settlement specific
+        
+        summary.settlementTransactionReference = doc?.getValue(key: "settlement_transaction_reference")
+        summary.merchantCurrency = doc?.getValue(key: "merchant_currency")
+        summary.merchantAmount = NSDecimalNumber(string: doc?.getValue(key: "merchant_amount")).amount(for: summary.merchantCurrency)
+        summary.discountAmount = NSDecimalNumber(string: doc?.getValue(key: "discount_amount")).amount(for: summary.currency)
+        summary.merchantDiscountAmount = NSDecimalNumber(string: doc?.getValue(key: "merchant_discount_amount")).amount(for: summary.merchantCurrency)
+        summary.taxAmount = NSDecimalNumber(string: doc?.getValue(key: "tax_amount")).amount(for: summary.currency)
+        summary.merchantTaxAmount = NSDecimalNumber(string: doc?.getValue(key: "merchant_tax_amount")).amount(for: summary.merchantCurrency)
+        if let taxInMerchantAmount: String = doc?.getValue(key: "tax_in_merchant_amount") {
+            summary.taxInMerchantAmount = ["true", "TRUE"].contains(taxInMerchantAmount)
+        }
+        summary.batchId = doc?.getValue(key: "batch_id")
+        summary.batchTimeCreated = batchTimeCreated?.format()
+        if let order: JsonDoc = doc?.get(valueFor: "order") {
+            summary.orderReference = order.getValue(key: "reference")
+        }
+        summary.fees = mapSettlementFees(doc?.get(valueFor: "fees"))
         
         let system: JsonDoc? = doc?.get(valueFor: "system")
         summary.merchantId = doc?.getValue(key: "merchant_id") ?? system?.getValue(key: "mid")
@@ -549,8 +464,22 @@ public struct GpApiMapping {
         summary.discountsTotalCount = doc?.get(valueFor: "discounts")?.getValue(key: "count")
         summary.discountsTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "discounts")?.getValue(key: "amount")).amount(for: depositCurrency)
         
-        summary.taxTotalCount = doc?.get(valueFor: "discounts")?.getValue(key: "count")
-        summary.taxTotalAmount = NSDecimalNumber(string: doc?.get(valueFor: "tax")?.getValue(key: "amount")).amount(for: depositCurrency)
+        summary.aggregationModel = doc?.getValue(key: "aggregation_model")
+        
+        if let bankTransfer: JsonDoc = doc?.get(valueFor: "bank_transfer") {
+            let transfer = DepositBankTransfer()
+            transfer.maskedAccountNumberLast4 = bankTransfer.getValue(key: "masked_account_number_last4")
+            if let bank: JsonDoc = bankTransfer.get(valueFor: "bank") {
+                let bankTransferBank = DepositBankTransferBank()
+                bankTransferBank.code = bank.getValue(key: "code")
+                transfer.bank = bankTransferBank
+            }
+            summary.bankTransfer = transfer
+        }
+        
+        if let action: JsonDoc = doc?.get(valueFor: "action") {
+            summary.action = mapActionSummary(action)
+        }
         
         return summary
     }
@@ -592,12 +521,15 @@ public struct GpApiMapping {
         summary.depositReference = doc?.getValue(key: "deposit_id")
         let depositTimeCreated: String? = doc?.getValue(key: "deposit_time_created")
         summary.depositDate = depositTimeCreated?.format("YYYY-MM-dd")
+        summary.depositType = doc?.getValue(key: "funding_type")
         
         if let paymentMethod: JsonDoc = doc?.get(valueFor: "payment_method"),
            let card = paymentMethod.get(valueFor: "card") {
             summary.transactionARN = card.getValue(key: "arn")
             summary.transactionCardType = card.getValue(key: "brand")
-            summary.transactionMaskedCardNumber = card.getValue(key: "number")
+            summary.transactionMaskedCardNumber = card.getValue(key: "masked_number_first6last4") ?? card.getValue(key: "number")
+            summary.transactionBrandReference = card.getValue(key: "brand_reference")
+            summary.transactionAuthCode = card.getValue(key: "authcode")
         } else if let transaction: JsonDoc = doc?.get(valueFor: "transaction") {
             let timeCreated: String? = transaction.getValue(key: "time_created")
             summary.caseIdTime = timeCreated?.format()
@@ -607,11 +539,17 @@ public struct GpApiMapping {
             summary.transactionReferenceNumber = transaction.getValue(key: "reference")
             let transactionTime: String? = transaction.getValue(key: "time_created")
             summary.transactionTime = transactionTime?.format()
+            let merchantTimeCreated: String? = transaction.getValue(key: "merchant_time_created")
+            summary.transactionLocalTime = merchantTimeCreated?.format()
+            if let order: JsonDoc = transaction.get(valueFor: "order") {
+                summary.transactionOrderId = order.getValue(key: "reference")
+            }
             if let paymentMethod = transaction.get(valueFor: "payment_method"),
                let card = paymentMethod.get(valueFor: "card") {
                 summary.transactionARN = card.getValue(key: "arn")
                 summary.transactionCardType = card.getValue(key: "brand")
                 summary.transactionMaskedCardNumber = card.getValue(key: "masked_number_first6last4")
+                summary.transactionBrandReference = card.getValue(key: "brand_reference")
                 summary.transactionAuthCode = card.getValue(key: "authcode")
             }
         }
@@ -688,9 +626,74 @@ public struct GpApiMapping {
         summary.accountName = doc?.getValue(key: "account_name")
         summary.merchantName = doc?.getValue(key: "merchant_name")
         summary.resultCode = doc?.getValue(key: "result_code")
+        summary.merchantId = doc?.getValue(key: "merchant_id")
+        summary.resourceParentId = doc?.getValue(key: "resource_parent_id")
+        summary.resourceRequestUrl = doc?.getValue(key: "resource_request_url")
+        summary.responseDetailedCode = doc?.getValue(key: "response_detailed_code")
+        summary.responseDetailedMessage = doc?.getValue(key: "response_detailed_message")
+        summary.email = doc?.getValue(key: "email")
+        summary.sourceLocation = doc?.getValue(key: "source_location")
+        summary.destinationLocation = doc?.getValue(key: "destination_location")
+        summary.messageReceived = doc?.getValue(key: "message_received")
+        summary.messageSent = doc?.getValue(key: "message_sent")
+        summary.metrics = doc?.getValue(key: "metrics")
+        summary.totalTimeMilliseconds = doc?.getValue(key: "total_time_milliseconds")
+        summary.totalTimeDownstreamMilliseconds = doc?.getValue(key: "total_time_downstream_milliseconds")
         return summary
     }
     
+    public static func mapMonthlyFeeSummary(_ doc: JsonDoc?) -> MonthlyFeeSummary {
+        let summary = MonthlyFeeSummary()
+        let timeCreated: String? = doc?.getValue(key: "time_created")
+        summary.timeCreated = timeCreated?.format()
+        summary.status = MonthlyFeeStatus(value: doc?.getValue(key: "status"))
+
+        let currency: String? = doc?.getValue(key: "currency")
+        summary.currency = currency
+        summary.amount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount(for: currency)
+        summary.interchangeAmount = NSDecimalNumber(string: doc?.getValue(key: "interchange_amount")).amount(for: currency)
+        summary.assessmentAmount = NSDecimalNumber(string: doc?.getValue(key: "assessment_amount")).amount(for: currency)
+        summary.authorizationAmount = NSDecimalNumber(string: doc?.getValue(key: "authorization_amount")).amount(for: currency)
+        summary.chargebackAmount = NSDecimalNumber(string: doc?.getValue(key: "chargeback_amount")).amount(for: currency)
+        summary.suppliesAmount = NSDecimalNumber(string: doc?.getValue(key: "supplies_amount")).amount(for: currency)
+        summary.deviceAmount = NSDecimalNumber(string: doc?.getValue(key: "device_amount")).amount(for: currency)
+        summary.discountAmount = NSDecimalNumber(string: doc?.getValue(key: "discount_amount")).amount(for: currency)
+        summary.otherAmount = NSDecimalNumber(string: doc?.getValue(key: "other_amount")).amount(for: currency)
+        summary.transactionCount = doc?.getValue(key: "transaction_count")
+
+        summary.sales = mapMonthlyFeeAmountInfo(doc?.get(valueFor: "sales"), currency: currency)
+        summary.refunds = mapMonthlyFeeAmountInfo(doc?.get(valueFor: "refunds"), currency: currency)
+        summary.passthrough = mapMonthlyFeeAmountInfo(doc?.get(valueFor: "passthrough"), currency: currency)
+
+        if let merchant: JsonDoc = doc?.get(valueFor: "merchant") {
+            let monthlyFeeMerchant = MonthlyFeeMerchant()
+            monthlyFeeMerchant.name = merchant.getValue(key: "name")
+            if let address: JsonDoc = merchant.get(valueFor: "address") {
+                let merchantAddress = MonthlyFeeMerchantAddress()
+                merchantAddress.line1 = address.getValue(key: "line_1")
+                merchantAddress.line2 = address.getValue(key: "line_2")
+                merchantAddress.line3 = address.getValue(key: "line_3")
+                merchantAddress.city = address.getValue(key: "city")
+                merchantAddress.state = address.getValue(key: "state")
+                merchantAddress.postalCode = address.getValue(key: "postal_code")
+                merchantAddress.country = address.getValue(key: "country")
+                monthlyFeeMerchant.address = merchantAddress
+            }
+            summary.merchant = monthlyFeeMerchant
+        }
+
+        if let system: JsonDoc = doc?.get(valueFor: "system") {
+            let monthlyFeeSystem = MonthlyFeeSystem()
+            monthlyFeeSystem.mid = system.getValue(key: "mid")
+            monthlyFeeSystem.hierarchy = system.getValue(key: "hierarchy")
+            monthlyFeeSystem.name = system.getValue(key: "name")
+            monthlyFeeSystem.dba = system.getValue(key: "dba")
+            summary.system = monthlyFeeSystem
+        }
+
+        return summary
+    }
+
     public static func mapAuthenticationSummary(_ doc: JsonDoc?) -> AuthenticationSummary {
         let summary = AuthenticationSummary()
         summary.id = doc?.getValue(key: "id")
@@ -975,6 +978,13 @@ public struct GpApiMapping {
                 pagedResult?.results = mapped
             }
             result = pagedResult
+        } else if reportType == .findMonthlyFeesPaged
+                    && PagedResult<MonthlyFeeSummary>(totalRecordCount: nil, pageSize: 0, page: 0, order: nil, orderBy: nil) is T {
+            var pagedResult: PagedResult<MonthlyFeeSummary>? = getPagedResult(json)
+            if let monthlyFees: [JsonDoc] = json?.getValue(key: "monthly_fees") {
+                pagedResult?.results = monthlyFees.map { GpApiMapping.mapMonthlyFeeSummary($0) }
+            }
+            result = pagedResult
         } else if reportType == .depositDetail && DepositSummary() is T {
             result = GpApiMapping.mapDepositSummary(json)
         } else if reportType == .findDepositsPaged && PagedResult<DepositSummary>(totalRecordCount: nil, pageSize: 0, page: 0, order: nil, orderBy: nil) is T {
@@ -1005,6 +1015,11 @@ public struct GpApiMapping {
             result = pagedResult
         } else if reportType == .actionDetail && ActionSummary() is T {
             result = GpApiMapping.mapActionSummary(json)
+        } else if reportType == .batchDetail && BatchSummary() is T {
+            let currency: String? = json?.getValue(key: "currency")
+            result = GpApiMapping.mapBatchSummary(json, transactionCurrency: currency)
+        } else if reportType == .batchHistory && BatchTransactionsSummary() is T {
+            result = GpApiMapping.mapBatchTransactionsSummary(json)
         } else if reportType == .findActionsPaged
                     && PagedResult<ActionSummary>(totalRecordCount: nil, pageSize: 0, page: 0, order: nil, orderBy: nil) is T {
             var pagedResult: PagedResult<ActionSummary>? = getPagedResult(json)
@@ -1155,6 +1170,72 @@ public struct GpApiMapping {
         return Customer.mapToObject(json)
     }
     
+    private static func mapMonthlyFeeAmountInfo(_ doc: JsonDoc?, currency: String?) -> MonthlyFeeAmountInfo? {
+        guard let doc = doc else { return nil }
+        let info = MonthlyFeeAmountInfo()
+        info.count = doc.getValue(key: "count")
+        info.amount = NSDecimalNumber(string: doc.getValue(key: "amount")).amount(for: currency)
+        return info
+    }
+
+    private static func mapSettlementFees(_ doc: JsonDoc?) -> SettlementFees? {
+        guard let doc = doc else { return nil }
+        let fees = SettlementFees()
+        fees.totalAmount = NSDecimalNumber(string: doc.getValue(key: "total_amount_decimal"))
+        fees.otherFeesAmount = NSDecimalNumber(string: doc.getValue(key: "other_fees_amount_decimal"))
+        fees.fixedAmount = NSDecimalNumber(string: doc.getValue(key: "fixed_amount_decimal"))
+        fees.taxAmount = NSDecimalNumber(string: doc.getValue(key: "tax_amount_decimal"))
+        fees.assessmentTotalAmount = NSDecimalNumber(string: doc.getValue(key: "assessment_total_amount_decimal"))
+        fees.chargeType = doc.getValue(key: "charge_type")
+        fees.chargeTypeDescription = doc.getValue(key: "charge_type_description")
+        fees.chargeTypeRegion = doc.getValue(key: "charge_type_region")
+        fees.exchangeRate = doc.getValue(key: "exchange_rate")
+
+        if let interchange: JsonDoc = doc.get(valueFor: "interchange") {
+            let interchangeFees = SettlementFeeInterchange()
+            interchangeFees.totalAmount = NSDecimalNumber(string: interchange.getValue(key: "total_amount_decimal"))
+            interchangeFees.totalRate = interchange.getValue(key: "total_rate")
+            interchangeFees.program = interchange.getValue(key: "program")
+            interchangeFees.percentage = interchange.getValue(key: "percentage")
+            interchangeFees.percentageAmount = NSDecimalNumber(string: interchange.getValue(key: "percentage_amount_decimal"))
+            interchangeFees.perItemFlatAmount = NSDecimalNumber(string: interchange.getValue(key: "per_item_flat_amount_decimal"))
+            interchangeFees.perItemCalculatedAmount = NSDecimalNumber(string: interchange.getValue(key: "per_item_calculated_amount_decimal"))
+            fees.interchange = interchangeFees
+        }
+
+        if let discount: JsonDoc = doc.get(valueFor: "discount") {
+            let discountFees = SettlementFeeDiscount()
+            discountFees.rate1Percentage = discount.getValue(key: "rate_1_percentage")
+            discountFees.rate2Percentage = discount.getValue(key: "rate_2_percentage")
+            discountFees.totalAmount = NSDecimalNumber(string: discount.getValue(key: "total_amount_decimal"))
+            fees.discount = discountFees
+        }
+
+        fees.assessment1 = mapSettlementFeeAssessment(doc.get(valueFor: "assessment_1"))
+        fees.assessment2 = mapSettlementFeeAssessment(doc.get(valueFor: "assessment_2"))
+        fees.assessment3 = mapSettlementFeeAssessment(doc.get(valueFor: "assessment_3"))
+        fees.assessment4 = mapSettlementFeeAssessment(doc.get(valueFor: "assessment_4"))
+        fees.assessment5 = mapSettlementFeeAssessment(doc.get(valueFor: "assessment_5"))
+
+        if let markUp: JsonDoc = doc.get(valueFor: "mark_up") {
+            let markUpFees = SettlementFeeMarkUp()
+            markUpFees.dccPercentage = markUp.getValue(key: "dcc_percentage")
+            markUpFees.multicurrencyPercentage = markUp.getValue(key: "multicurrency_percentage")
+            fees.markUp = markUpFees
+        }
+
+        return fees
+    }
+
+    private static func mapSettlementFeeAssessment(_ doc: JsonDoc?) -> SettlementFeeAssessment? {
+        guard let doc = doc else { return nil }
+        let assessment = SettlementFeeAssessment()
+        assessment.chargeDescription = doc.getValue(key: "description")
+        assessment.percentage = doc.getValue(key: "percentage")
+        assessment.amount = NSDecimalNumber(string: doc.getValue(key: "amount_decimal"))
+        return assessment
+    }
+
     private static func getPagedResult<T>(_ doc: JsonDoc?) -> PagedResult<T>? {
         guard let doc = doc else { return nil }
         
@@ -1172,6 +1253,9 @@ public struct GpApiMapping {
         pagedResult.accountName = doc.getValue(key: "account_name")
         pagedResult.filterFromTimeCreated = doc.get(valueFor: "filter")?.getValue(key: "from_time_created")
         pagedResult.filterToTimeCreated = doc.get(valueFor: "filter")?.getValue(key: "to_time_created")
+        if let action: JsonDoc = doc.get(valueFor: "action") {
+            pagedResult.action = mapActionSummary(action)
+        }
         return pagedResult
     }
     
@@ -1273,6 +1357,128 @@ public struct GpApiMapping {
         return info
     }
 
+    private static func mapBatchSummary(_ doc: JsonDoc?, transactionCurrency: String?) -> BatchSummary {
+        let batchSummary = BatchSummary()
+        batchSummary.resourceId = doc?.getValue(key: "id")
+        batchSummary.batchReference = doc?.getValue(keys: "batch_id", "id")
+        batchSummary.status = doc?.getValue(key: "status")
+        batchSummary.responseCode = doc?.get(valueFor: "action")?.getValue(key: "result_code")
+        batchSummary.transactionCount = doc?.getValue(keys: "transaction_count", "batch_transaction_count", "count")
+        batchSummary.closeTransactionId = doc?.getValue(keys: "close_transaction_id", "closing_transaction_id")
+        batchSummary.openTransactionId = doc?.getValue(keys: "open_transaction_id", "opening_transaction_id")
+        batchSummary.sequenceNumber = doc?.getValue(keys: "sequence_number", "batch_sequence_number")
+        batchSummary.transactionToken = doc?.getValue(keys: "transaction_token", "token")
+        batchSummary.merchantName = doc?.getValue(keys: "merchant_name", "name")
+        batchSummary.siteId = doc?.getValue(key: "site_id")
+        batchSummary.deviceId = doc?.getValue(key: "device_id")
+        batchSummary.sicCode = doc?.getValue(key: "sic")
+        batchSummary.openActionId = doc?.getValue(key: "open_action_id")
+        batchSummary.closeActionId = doc?.getValue(key: "close_action_id")
+        batchSummary.merchantId = doc?.getValue(key: "merchant_id")
+        batchSummary.accountId = doc?.getValue(key: "account_id")
+        batchSummary.accountName = doc?.getValue(key: "account_name")
+        batchSummary.siteReference = doc?.getValue(key: "site_reference")
+        batchSummary.deviceReference = doc?.getValue(key: "device_reference")
+        batchSummary.currency = doc?.getValue(key: "currency")
+
+        let created: String? = doc?.getValue(key: "time_created")
+        let updated: String? = doc?.getValue(key: "time_last_updated")
+        let closed: String? = doc?.getValue(key: "time_closed")
+        batchSummary.timeCreated = parseDate(created)
+        batchSummary.timeLastUpdated = parseDate(updated)
+        batchSummary.timeClosed = parseDate(closed)
+
+        if let gratuityAmount: String = doc?.getValue(key: "gratuity_amount") {
+            batchSummary.gratuityAmount = NSDecimalNumber(string: gratuityAmount).amount
+        }
+
+        let openTimeValue: String? = doc?.getValue(keys: "open_time", "time_created")
+        batchSummary.openTime = parseDate(openTimeValue)
+
+        if let amount: String = doc?.getValue(keys: "amount", "total_amount") {
+            batchSummary.totalAmount = NSDecimalNumber(string: amount).amount(for: transactionCurrency)
+        }
+
+        if let sales: JsonDoc = doc?.get(valueFor: "sales") {
+            batchSummary.saleCount = sales.getValue(key: "count")
+            if let saleAmount: String = sales.getValue(key: "amount") {
+                batchSummary.saleAmount = NSDecimalNumber(string: saleAmount).amount
+            }
+            batchSummary.sales = mapBatchAmountInfo(sales)
+        }
+
+        if let credits: JsonDoc = doc?.get(valueFor: "credits") {
+            batchSummary.creditCount = credits.getValue(key: "count")
+            if let creditAmount: String = credits.getValue(key: "amount") {
+                batchSummary.creditAmount = NSDecimalNumber(string: creditAmount).amount
+            }
+        }
+
+        if let debits: JsonDoc = doc?.get(valueFor: "debits") {
+            batchSummary.debitCount = debits.getValue(key: "count")
+            if let debitAmount: String = debits.getValue(key: "amount") {
+                batchSummary.debitAmount = NSDecimalNumber(string: debitAmount).amount
+            }
+        }
+
+        if let returns: JsonDoc = doc?.get(valueFor: "returns") {
+            batchSummary.returnCount = returns.getValue(key: "count")
+            if let returnAmount: String = returns.getValue(key: "amount") {
+                batchSummary.returnAmount = NSDecimalNumber(string: returnAmount).amount
+            }
+        } else if let refunds: JsonDoc = doc?.get(valueFor: "refunds") {
+            batchSummary.returnCount = refunds.getValue(key: "count")
+            if let returnAmount: String = refunds.getValue(key: "amount") {
+                batchSummary.returnAmount = NSDecimalNumber(string: returnAmount).amount
+            }
+            batchSummary.refunds = mapBatchAmountInfo(refunds)
+        }
+
+        if let fundingDebit = doc?.get(valueFor: "funding_debit") {
+            batchSummary.fundingDebit = mapBatchAmountInfo(fundingDebit)
+        }
+
+        if let fundingCredit = doc?.get(valueFor: "funding_credit") {
+            batchSummary.fundingCredit = mapBatchAmountInfo(fundingCredit)
+        }
+
+        if let brandBreakdown: [JsonDoc] = doc?.getValue(key: "brand_breakdown") {
+            batchSummary.brandBreakdown = mapBatchBrandBreakdown(brandBreakdown)
+        }
+
+        if let hostBreakdown: JsonDoc = doc?.get(valueFor: "host_breakdown") {
+            batchSummary.hostBreakdown = mapBatchHostBreakdown(hostBreakdown)
+        }
+
+        if let action: JsonDoc = doc?.get(valueFor: "action") {
+            batchSummary.action = mapBatchAction(action)
+        }
+
+        batchSummary.closeCount = batchSummary.closeCount ?? doc?.getValue(key: "close_count")
+        batchSummary.saleCount = batchSummary.saleCount ?? doc?.getValue(key: "sale_count")
+        batchSummary.creditCount = batchSummary.creditCount ?? doc?.getValue(key: "credit_count")
+        batchSummary.debitCount = batchSummary.debitCount ?? doc?.getValue(key: "debit_count")
+        batchSummary.returnCount = batchSummary.returnCount ?? doc?.getValue(key: "return_count")
+
+        if batchSummary.saleAmount == nil, let saleAmount: String = doc?.getValue(key: "sale_amount") {
+            batchSummary.saleAmount = NSDecimalNumber(string: saleAmount).amount
+        }
+
+        if batchSummary.creditAmount == nil, let creditAmount: String = doc?.getValue(key: "credit_amount") {
+            batchSummary.creditAmount = NSDecimalNumber(string: creditAmount).amount
+        }
+
+        if batchSummary.debitAmount == nil, let debitAmount: String = doc?.getValue(key: "debit_amount") {
+            batchSummary.debitAmount = NSDecimalNumber(string: debitAmount).amount
+        }
+
+        if batchSummary.returnAmount == nil, let returnAmount: String = doc?.getValue(key: "return_amount") {
+            batchSummary.returnAmount = NSDecimalNumber(string: returnAmount).amount
+        }
+
+        return batchSummary
+    }
+
     private static func mapBatchAmountInfo(_ doc: JsonDoc?) -> BatchAmountInfo? {
         guard let doc = doc else {
             return nil
@@ -1317,8 +1523,19 @@ public struct GpApiMapping {
             breakdown.amount = NSDecimalNumber(string: amount).amount
         }
 
-        breakdown.fundingDebit = mapBatchAmountInfo(doc.get(valueFor: "funding_debit"))
-        breakdown.fundingCredit = mapBatchAmountInfo(doc.get(valueFor: "funding_credit"))
+        breakdown.fundingDebit = mapBatchHostFundingBreakdown(doc.get(valueFor: "funding_debit"))
+        breakdown.fundingCredit = mapBatchHostFundingBreakdown(doc.get(valueFor: "funding_credit"))
+        return breakdown
+    }
+
+    private static func mapBatchHostFundingBreakdown(_ doc: JsonDoc?) -> BatchHostFundingBreakdown? {
+        guard let doc = doc else {
+            return nil
+        }
+
+        let breakdown = BatchHostFundingBreakdown()
+        breakdown.sales = mapBatchAmountInfo(doc.get(valueFor: "sales"))
+        breakdown.refunds = mapBatchAmountInfo(doc.get(valueFor: "refunds"))
         return breakdown
     }
 
@@ -1332,6 +1549,36 @@ public struct GpApiMapping {
         let created: String? = doc.getValue(key: "time_created")
         action.timeCreated = parseDate(created)
         return action
+    }
+
+    private static func mapBatchTransactionsSummary(_ doc: JsonDoc?) -> BatchTransactionsSummary {
+        let summary = BatchTransactionsSummary()
+        summary.totalRecordCount = doc?.getValue(key: "total_record_count")
+        summary.batchTransactionCount = doc?.getValue(key: "batch_transaction_count")
+        summary.merchantId = doc?.getValue(key: "merchant_id")
+        summary.merchantName = doc?.getValue(key: "merchant_name")
+        summary.accountId = doc?.getValue(key: "account_id")
+        summary.accountName = doc?.getValue(key: "account_name")
+        summary.siteReference = doc?.getValue(key: "site_reference")
+        summary.deviceReference = doc?.getValue(key: "device_reference")
+        summary.filterBatchId = doc?.get(valueFor: "filter")?.getValue(key: "batch_id")
+
+        if let transactions: [JsonDoc] = doc?.getValue(key: "transactions") {
+            summary.transactions = transactions.map { item -> TransactionSummary in
+                let transaction = mapTransactionSummary(item)
+                // Some settlement hosts (e.g. Portico) return a numeric transaction id instead of a string.
+                if transaction.transactionId == nil, let numericId: Int = item.getValue(key: "id") {
+                    transaction.transactionId = String(numericId)
+                }
+                return transaction
+            }
+        }
+
+        if let action: JsonDoc = doc?.get(valueFor: "action") {
+            summary.action = mapBatchAction(action)
+        }
+
+        return summary
     }
     
     private static func mapMerchantAddress(_ address: JsonDoc?) -> Address {
@@ -1366,6 +1613,7 @@ public struct GpApiMapping {
         cardDetails.currency = cardInfo?.getValue(key: "currency")
         cardDetails.cvvIndicator = cardInfo?.getValue(key: "cvv_indicator")
         cardDetails.cvvResult = cardInfo?.getValue(key: "cvv_result")
+        cardDetails.avsAddress = cardInfo?.getValue(key: "avs_address")
         cardDetails.avsAddressResult = cardInfo?.getValue(key: "avs_address_result")
         cardDetails.avsPostalCodeResult = cardInfo?.getValue(key: "avs_postal_code_result")
         return cardDetails

@@ -25,6 +25,11 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
     private static let multiMerchantNamedConfig = "MultiMerchantNamedConfig"
     private static let standaloneMerchantNamedConfig = "StandaloneMerchantNamedConfig"
 
+    // Dedicated (non-"default") config names for the "default config" test scenarios below,
+    // so they can't clobber each other's state by all overwriting the shared "default" config.
+    private static let multiMerchantDefaultOnlyConfig = "MultiMerchantDefaultOnlyConfig"
+    private static let standaloneMerchantDefaultOnlyConfig = "StandaloneMerchantDefaultOnlyConfig"
+
     override func setUp() {
         super.setUp()
 
@@ -81,7 +86,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
         multiMerchantDefaultInlineConfig.accessTokenInfo = AccessTokenInfo(
             transactionProcessingAccountName: Self.defaultInlineConfigAccount
         )
-        try? ServicesContainer.configureService(config: multiMerchantDefaultInlineConfig)
+        try? ServicesContainer.configureService(config: multiMerchantDefaultInlineConfig, configName: Self.multiMerchantDefaultOnlyConfig)
 
         let chargeExpectation = expectation(description: "Charge multi-merchant default account-only")
         var chargeTransactionResult: Transaction?
@@ -89,7 +94,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
 
         card.charge(amount: Self.amount)
             .withCurrency("USD")
-            .execute {
+            .execute(configName: Self.multiMerchantDefaultOnlyConfig) {
                 chargeTransactionResult = $0
                 chargeTransactionError = $1
                 chargeExpectation.fulfill()
@@ -105,7 +110,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
         var batchSummaryResult: BatchSummary?
         var batchSummaryError: Error?
 
-        BatchService.closeBatch {
+        BatchService.closeBatch(configName: Self.multiMerchantDefaultOnlyConfig) {
             batchSummaryResult = $0
             batchSummaryError = $1
             closeBatchExpectation.fulfill()
@@ -166,7 +171,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
         multiMerchantDefaultInlineConfig.accessTokenInfo = AccessTokenInfo(
             transactionProcessingAccountName: Self.defaultInlineConfigAccount
         )
-        try? ServicesContainer.configureService(config: multiMerchantDefaultInlineConfig)
+        try? ServicesContainer.configureService(config: multiMerchantDefaultInlineConfig, configName: Self.multiMerchantDefaultOnlyConfig)
 
         let chargeExpectation = expectation(description: "Charge multi-merchant default scoped")
         var chargeTransactionResult: Transaction?
@@ -174,7 +179,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
 
         card.charge(amount: Self.amount)
             .withCurrency("USD")
-            .execute {
+            .execute(configName: Self.multiMerchantDefaultOnlyConfig) {
                 chargeTransactionResult = $0
                 chargeTransactionError = $1
                 chargeExpectation.fulfill()
@@ -192,7 +197,8 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
 
         BatchService.closeBatch(
             currency: "USD",
-            paymentMethods: [.card]
+            paymentMethods: [.card],
+            configName: Self.multiMerchantDefaultOnlyConfig
         ) {
             batchSummaryResult = $0
             batchSummaryError = $1
@@ -319,7 +325,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
         standaloneInlineConfig.accessTokenInfo = AccessTokenInfo(
             transactionProcessingAccountName: Self.defaultInlineConfigAccount
         )
-        try? ServicesContainer.configureService(config: standaloneInlineConfig)
+        try? ServicesContainer.configureService(config: standaloneInlineConfig, configName: Self.standaloneMerchantDefaultOnlyConfig)
 
         let chargeExpectation = expectation(description: "Charge standalone default account-only")
         var chargeTransactionResult: Transaction?
@@ -327,7 +333,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
 
         card.charge(amount: Self.amount)
             .withCurrency("USD")
-            .execute {
+            .execute(configName: Self.standaloneMerchantDefaultOnlyConfig) {
                 chargeTransactionResult = $0
                 chargeTransactionError = $1
                 chargeExpectation.fulfill()
@@ -343,7 +349,7 @@ class GpApiBatchCloseWithoutIdTest: XCTestCase {
         var batchSummaryResult: BatchSummary?
         var batchSummaryError: Error?
 
-        BatchService.closeBatch {
+        BatchService.closeBatch(configName: Self.standaloneMerchantDefaultOnlyConfig) {
             batchSummaryResult = $0
             batchSummaryError = $1
             closeBatchExpectation.fulfill()

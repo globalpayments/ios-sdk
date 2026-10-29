@@ -54,4 +54,10 @@ public class DepositSummary {
     public var discountsTotalAmount: NSDecimalNumber?
     public var taxTotalCount: Int?
     public var taxTotalAmount: NSDecimalNumber?
+    /// Indicates how a merchant's payment processing activity across Sales, Refunds, Disputes and Fees is structured for a Deposit.
+    public var aggregationModel: String?
+    /// Data relating to a bank transfer directly to or from the merchant's bank account.
+    public var bankTransfer: DepositBankTransfer?
+    /// The action associated with the report request.
+    public var action: ActionSummary?
 }

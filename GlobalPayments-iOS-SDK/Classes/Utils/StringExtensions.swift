@@ -80,8 +80,6 @@ private struct HMAC {
         var hash = [UInt8](repeating: 0, count: digestLength)
 
         switch algorithm {
-        case .MD5: CC_MD5(input.bytes, UInt32(input.length), &hash)
-        case .SHA1: CC_SHA1(input.bytes, UInt32(input.length), &hash)
         case .SHA224: CC_SHA224(input.bytes, UInt32(input.length), &hash)
         case .SHA256: CC_SHA256(input.bytes, UInt32(input.length), &hash)
         case .SHA384: CC_SHA384(input.bytes, UInt32(input.length), &hash)
@@ -110,14 +108,12 @@ private struct HMAC {
 
 private enum HMACAlgorithm {
 
-    case MD5, SHA1, SHA224, SHA256, SHA384, SHA512
+    case SHA224, SHA256, SHA384, SHA512
 
     func digestLength() -> Int {
 
         var result: CInt = 0
         switch self {
-        case .MD5: result = CC_MD5_DIGEST_LENGTH
-        case .SHA1: result = CC_SHA1_DIGEST_LENGTH
         case .SHA224: result = CC_SHA224_DIGEST_LENGTH
         case .SHA256: result = CC_SHA256_DIGEST_LENGTH
         case .SHA384: result = CC_SHA384_DIGEST_LENGTH

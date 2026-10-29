@@ -11,7 +11,7 @@ class GpApiCreditWithMMATests: XCTestCase {
     private let EXPECTED_CODE: String = "SUCCESS"
 
     private let APP_ID: String = "ju9LDqNIxUgY2NeQPgwqc0fLbq3AcJCL"
-    private let APP_KEY: String = "KYYh3YJwyfzqjWNa"
+    private let APP_KEY: String = ""
     private let MMA_1: String = "MMA_003720f36d9d4f7f9348b5a4981071ce"
     private let MMA_2: String = "MMA_344aebc638864d7381909dcf78d4c760"
 

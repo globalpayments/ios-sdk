@@ -22,6 +22,7 @@
 		07428AF7307CBCB70026B5F0 /* AccountPaymentProcessingStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07428AF2307CBCB70026B5F0 /* AccountPaymentProcessingStatistics.swift */; };
 		07428AF8307CBCB70026B5F0 /* AccountProcessingLimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07428AF3307CBCB70026B5F0 /* AccountProcessingLimits.swift */; };
 		075A87205E930718E1E41E0038639425 /* PrePaid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18433937B654AEB1DAD221D99887BE79 /* PrePaid.swift */; };
+		07A07B8C308BD66600C00A56 /* BatchTransactionsSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A07B8B308BD66600C00A56 /* BatchTransactionsSummary.swift */; };
 		09840E32E90BD59CD4ADEBA28513F249 /* BuilderException.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18C41D93D00F294C4B498523740839D /* BuilderException.swift */; };
 		099EAA538AE0A9A52B139E2FD396DB9F /* PaymentGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0A6364A3634B1423AC16C09835A292 /* PaymentGateway.swift */; };
 		0A27AE63A2761A137B297FA88ABA8B97 /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526A0BEB3E539EF1ADA08FF67AF9527B /* PaymentMethod.swift */; };
@@ -423,6 +424,7 @@
 		07428AF3307CBCB70026B5F0 /* AccountProcessingLimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountProcessingLimits.swift; sourceTree = "<group>"; };
 		07428AF4307CBCB70026B5F0 /* TransactionProcessingConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionProcessingConfiguration.swift; sourceTree = "<group>"; };
 		076E4A349DC1D9A97C89F858EE76C82C /* DigitalWalletTokenFormat.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DigitalWalletTokenFormat.swift; sourceTree = "<group>"; };
+		07A07B8B308BD66600C00A56 /* BatchTransactionsSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchTransactionsSummary.swift; sourceTree = "<group>"; };
 		0904D27FB101C67718A95BC6F2C996D3 /* StorageMode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StorageMode.swift; sourceTree = "<group>"; };
 		09C4D2FA75E2759E383E94591209492B /* GpApiConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GpApiConfig.swift; sourceTree = "<group>"; };
 		0B05CBD20115316A63C68EE7028EA517 /* CheckType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CheckType.swift; sourceTree = "<group>"; };
@@ -1069,10 +1071,14 @@
 		899C952DF708C7C5077F6358871468B3 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+
+				07A07B8B308BD66600C00A56 /* BatchTransactionsSummary.swift */,
+
 				07428AF1307CBCB70026B5F0 /* AccountEditData.swift */,
 				07428AF2307CBCB70026B5F0 /* AccountPaymentProcessingStatistics.swift */,
 				07428AF3307CBCB70026B5F0 /* AccountProcessingLimits.swift */,
 				07428AF4307CBCB70026B5F0 /* TransactionProcessingConfiguration.swift */,
+
 				6561EB593052897D00A82EBE /* PaymentCodeInitiator.swift */,
 				6561EB573052894A00A82EBE /* BlikMode.swift */,
 				650323933021FDD3006F7491 /* ApmProviderConfiguration.swift */,
@@ -1793,6 +1799,7 @@
 				65C9CDECEF2823638E4CCB1A0654BF1F /* DepositSummary.swift in Sources */,
 				C8FB86F945905C4DF8ED15C3DB9A8C38 /* DigitalWalletTokenFormat.swift in Sources */,
 				071D2E824CB29246DEC6ABCAE4ECD9A7 /* DiscountDetails.swift in Sources */,
+				07A07B8C308BD66600C00A56 /* BatchTransactionsSummary.swift in Sources */,
 				064DF294659BA19579BE16383B1D7C62 /* DisputeAction.swift in Sources */,
 				479AEA14CFF2977E7B820D23B30D538E /* DisputeDocument.swift in Sources */,
 				B0B740101759D69A95FEC68AC433C106 /* DisputeResult.swift in Sources */,

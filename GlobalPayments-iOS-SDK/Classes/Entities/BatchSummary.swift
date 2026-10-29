@@ -16,13 +16,19 @@ public class BatchBrandBreakdown: NSObject {
     public var fundingCredit: BatchAmountInfo?
 }
 
+// Unlike BatchBrandBreakdown's flat funding_debit/funding_credit, host_breakdown nests sales/refunds under each.
+public class BatchHostFundingBreakdown: NSObject {
+    public var sales: BatchAmountInfo?
+    public var refunds: BatchAmountInfo?
+}
+
 public class BatchHostBreakdown: NSObject {
     public var merchantName: String?
     public var reference: String?
     public var amount: NSDecimalNumber?
     public var count: Int?
-    public var fundingDebit: BatchAmountInfo?
-    public var fundingCredit: BatchAmountInfo?
+    public var fundingDebit: BatchHostFundingBreakdown?
+    public var fundingCredit: BatchHostFundingBreakdown?
 }
 
 public class BatchActionInfo: NSObject {

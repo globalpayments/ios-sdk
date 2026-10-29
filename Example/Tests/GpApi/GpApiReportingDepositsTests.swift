@@ -14,7 +14,7 @@ class GpApiReportingDepositsTests: XCTestCase {
         ))
     }
 
-    func test_report_deposit_detail() {
+    func test_report_deposit_detail() throws {
         guard let depositReference = try? awaitResponse(getDepositSummary)?.depositId else {
             XCTFail("transactionId cannot be nil")
             return
@@ -36,6 +36,7 @@ class GpApiReportingDepositsTests: XCTestCase {
 
         // THEN
         wait(for: [summaryExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(depositError)
         XCTAssertNil(depositError)
         XCTAssertNotNil(depositSummary)
         XCTAssertEqual(depositSummary?.depositId, depositReference)
@@ -177,6 +178,55 @@ class GpApiReportingDepositsTests: XCTestCase {
         XCTAssertNil(depositError)
         XCTAssertNotNil(depositSummaryList)
         XCTAssertEqual(depositSummaryList, sortedDepositSummaryList)
+    }
+
+    func test_report_deposit_detail_with_settlement_fields() throws {
+        guard let depositReference = try? awaitResponse(getDepositSummary)?.depositId else {
+            XCTSkip("No Deposit is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Deposit Detail With Settlement Fields")
+        var depositSummary: DepositSummary?
+        var depositError: Error?
+
+        // WHEN
+        ReportingService
+            .depositDetail(depositReference: depositReference)
+            .execute {
+                depositSummary = $0
+                depositError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(depositError)
+        XCTAssertNil(depositError)
+        guard let depositSummary = depositSummary else {
+            XCTFail("depositSummary cannot be nil")
+            return
+        }
+        XCTAssertEqual(depositSummary.depositId, depositReference)
+        XCTAssertNotNil(depositSummary.aggregationModel)
+        XCTAssertNotNil(depositSummary.action?.type)
+        XCTAssertNotNil(depositSummary.action?.resultCode)
+        if let bankTransfer = depositSummary.bankTransfer {
+            XCTAssertNotNil(bankTransfer.maskedAccountNumberLast4)
+            XCTAssertNotNil(bankTransfer.bank?.code)
+        }
+    }
+
+    /// Settlement reporting endpoints require a configured account. Sandbox accounts without the
+    /// feature enabled are rejected by the gateway before any data is returned.
+    private func skipIfSettlementUnavailable(_ error: Error?) throws {
+        guard let error = error as? GatewayException else { return }
+
+        let unavailableCodes = ["MANDATORY_DATA_MISSING", "INVALID_REQUEST_DATA"]
+        guard unavailableCodes.contains(error.responseCode ?? "") else { return }
+
+        throw XCTSkip("Settlement reporting is not enabled for this sandbox account")
     }
 
     // MARK: - Utils

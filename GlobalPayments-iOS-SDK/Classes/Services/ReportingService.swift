@@ -33,6 +33,13 @@ public class ReportingService {
             .withTransactionId(transactionId)
     }
 
+    // MARK: - Monthly Fee Reports
+
+    public static func findMonthlyFeesPaged(page: Int, pageSize: Int) -> TransactionReportBuilder<PagedResult<MonthlyFeeSummary>> {
+        TransactionReportBuilder<PagedResult<MonthlyFeeSummary>>(reportType: .findMonthlyFeesPaged)
+            .withPaging(page, pageSize)
+    }
+
     // MARK: - Deposits
 
     public static func findDeposits() -> TransactionReportBuilder<[DepositSummary]> {
@@ -123,6 +130,18 @@ public class ReportingService {
     public static func findActionsPaged(page: Int, pageSize: Int) -> TransactionReportBuilder<PagedResult<ActionSummary>> {
         TransactionReportBuilder<PagedResult<ActionSummary>>(reportType: .findActionsPaged)
             .withPaging(page, pageSize)
+    }
+
+    // MARK: - Batches
+
+    public static func batchDetail(batchReference: String) -> TransactionReportBuilder<BatchSummary> {
+        TransactionReportBuilder<BatchSummary>(reportType: .batchDetail)
+            .withBatchReference(batchReference)
+    }
+
+    public static func batchTransactions(batchReference: String) -> TransactionReportBuilder<BatchTransactionsSummary> {
+        TransactionReportBuilder<BatchTransactionsSummary>(reportType: .batchHistory)
+            .withBatchReference(batchReference)
     }
 
     // MARK: - Authentications

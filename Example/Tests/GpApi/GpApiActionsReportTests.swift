@@ -40,6 +40,53 @@ class GpApiActionsReportTests: XCTestCase {
         XCTAssertEqual(actionSummaryResult?.id, actionId)
     }
 
+    // Asserts the single-detail-only fields (not present on list results) are mapped.
+    func test_report_action_detail_full_response_fields_mapped() {
+        guard let actionId = try? awaitResponse(getActionSummary)?.id else {
+            XCTFail("actionId cannot be nil")
+            return
+        }
+
+        // GIVEN
+        let executeExpectation = expectation(description: "Execute Expectation")
+        let reportingService = ReportingService.actionDetail(actionId: actionId)
+        var actionSummaryResult: ActionSummary?
+        var actionSummaryError: Error?
+
+        // WHEN
+        reportingService.execute {
+            actionSummaryResult = $0
+            actionSummaryError = $1
+            executeExpectation.fulfill()
+        }
+
+        // THEN
+        wait(for: [executeExpectation], timeout: 10.0)
+        XCTAssertNil(actionSummaryError)
+        guard let result = actionSummaryResult else {
+            XCTFail("actionSummaryResult cannot be nil")
+            return
+        }
+        XCTAssertEqual(result.id, actionId)
+        // Always present on a single action detail response.
+        XCTAssertFalse(result.merchantId.isNilOrEmpty)
+        XCTAssertFalse(result.sourceLocation.isNilOrEmpty)
+        XCTAssertFalse(result.destinationLocation.isNilOrEmpty)
+        XCTAssertFalse(result.messageReceived.isNilOrEmpty)
+        XCTAssertFalse(result.messageSent.isNilOrEmpty)
+        // Conditional fields (metrics/timings/resource_parent_id/email/response_detailed_*)
+        // depend on the specific action's nature (sandbox doesn't always populate these) -
+        // logged, not asserted.
+        print("metrics: \(result.metrics ?? "nil")")
+        print("totalTimeMilliseconds: \(result.totalTimeMilliseconds ?? "nil")")
+        print("totalTimeDownstreamMilliseconds: \(result.totalTimeDownstreamMilliseconds ?? "nil")")
+        print("resourceParentId: \(result.resourceParentId ?? "nil")")
+        print("resourceRequestUrl: \(result.resourceRequestUrl ?? "nil")")
+        print("email: \(result.email ?? "nil")")
+        print("responseDetailedCode: \(result.responseDetailedCode ?? "nil")")
+        print("responseDetailedMessage: \(result.responseDetailedMessage ?? "nil")")
+    }
+
     func test_report_action_detail_with_random_id() {
         // GIVEN
         let executeExpectation = expectation(description: "Execute Expectation")

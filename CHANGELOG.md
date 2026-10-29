@@ -1,6 +1,30 @@
 # Changelog
 
-## Latest - v3.6.0 (10/22/2026)
+## Latest - v3.7.0 (10/29/2026)
+
+#### Enhancements
+
+- GP-API: Added GPAPI Actions sync, with full field mapping for the GET `/actions/{id}` single-detail response on `ActionSummary` (`merchantId`, `resourceParentId`, `resourceRequestUrl`, `responseDetailedCode`, `responseDetailedMessage`, `email`, `sourceLocation`, `destinationLocation`, `messageReceived`, `messageSent`, `metrics`, `totalTimeMilliseconds` and `totalTimeDownstreamMilliseconds`)
+- GP-API: Added GPAPI Batches sync with `ReportingService.batchDetail` (GET `/batches/{id}`) and `ReportingService.batchTransactions` (GET `/batches/{id}/transactions`)
+- GP-API: Added `TransactionReportBuilder.withBatchReference` search criteria
+- GP-API: Added `BatchTransactionsSummary` entity for the batch transactions report
+- GP-API: Added `Card.avsAddress`
+- GP-API: Added Sync Settlement Reporting
+
+#### Bug Fixes
+
+- GP-API: Fixed `host_breakdown` funding mapping for batch close
+- GP-API: Fixed `gratuityAmount` and `cashBackAmount` mapping in `mapTransactionSummary`
+- GP-API: Added missing `tax_amount` and `surcharge_amount` mapping to the transaction summary
+- GP-API: `BatchHostBreakdown.fundingDebit` and `BatchHostBreakdown.fundingCredit` changed type from `BatchAmountInfo` to the new `BatchHostFundingBreakdown`, which nests `sales` and `refunds`. This matches the `host_breakdown` structure returned by GP-API. Callers reading `.amount` or `.count` directly off these properties must now read them from `.sales` or `.refunds`
+
+#### Security
+
+- GP-API: Fixed low-severity security vulnerability issues
+- Removed the deprecated MD5 and SHA1 algorithms from the internal HMAC implementation
+- Removed hardcoded app keys and Portico credentials from the test suites
+
+## v3.6.0 (10/22/2026)
  
 #### Enhancements
  
@@ -9,7 +33,7 @@
 - GP-API: Added GET FMA Account Details support via `PayFacService.getFMAAccountDetails`
 - GP-API: Added missing request/response fields for GET Accounts and GET Account, including configurations, capabilities, processing limits and payment processing statistics
 
-## Latest - v3.5.1 (10/01/2026)
+## v3.5.1 (10/01/2026)
 
 #### Enhancements
 

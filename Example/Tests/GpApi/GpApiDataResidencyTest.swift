@@ -11,7 +11,7 @@ final class GpApiDataResidencyTest: XCTestCase {
     private let EU_APP_ID = "QlI6DivlPcXboV1AAG3NGtf340bJO6A34SqUa5REJojQMzat"
     private let EU_APP_KEY = "G3Gdx6biXAXgJJFaMnuLo0hlBCCMH18rCXnPzySl37nwctMAmrV1EykuXi6GQCrh"
     private let APP_ID = "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs"
-    private let APP_KEY = "FQyJA5VuEQfcji2M"
+    private let APP_KEY = ""
     
     private var masterCard =  CreditCardData()
     private let amount: NSDecimalNumber = 12.02

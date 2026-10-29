@@ -81,6 +81,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             var params = [String: String]()
             addPageParams(&params, builder)
             addTransactionParams(&params, builder)
+            addSettlementTransactionParams(&params, builder)
             params["deposit_status"] = builder.searchCriteriaBuilder.depositStatus?.mapped(for: .gpApi)
             params["account_name"] = config?.accessTokenInfo?.dataAccountName
             params["arn"] = builder.searchCriteriaBuilder.aquirerReferenceNumber
@@ -90,9 +91,26 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             params["from_batch_time_created"] = builder.searchCriteriaBuilder.startBatchDate?.format("yyyy-MM-dd")
             params["to_batch_time_created"] = builder.searchCriteriaBuilder.endBatchDate?.format("yyyy-MM-dd")
             params["system.mid"] = builder.searchCriteriaBuilder.merchantId
+            params["system.tid"] = builder.searchCriteriaBuilder.terminalId
             params["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
+            params["system.dba"] = builder.searchCriteriaBuilder.merchantDbaName
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.settlementTransactions(),
+                method: .get,
+                queryParams: sanitize(params: params)
+            )
+        case .findMonthlyFeesPaged:
+            var params = [String: String]()
+            addPageParams(&params, builder)
+            params["order_by"] = builder.monthlyFeeOrderBy?.mapped(for: .gpApi)
+            params["order"] = builder.order?.mapped(for: .gpApi)
+            params["account_name"] = config?.accessTokenInfo?.dataAccountName
+            params["from_time_created"] = builder.startDate?.format("yyyy-MM")
+            params["to_time_created"] = builder.endDate?.format("yyyy-MM")
+            params["system.mid"] = builder.searchCriteriaBuilder.merchantId
+            params["system.hierarchy"] = builder.searchCriteriaBuilder.systemHierarchy
+            return GpApiRequest(
+                endpoint: GpApiRequest.Endpoints.monthlyFees(),
                 method: .get,
                 queryParams: sanitize(params: params)
             )
@@ -134,8 +152,10 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             var params = [String: String]()
             addPageParams(&params, builder)
             addDisputesParams(&params, builder)
-            params["STATUS"] = builder.searchCriteriaBuilder.disputeStatus?.mapped(for: .gpApi)
+            addSettlementDisputeParams(&params, builder)
+            params["status"] = builder.searchCriteriaBuilder.disputeStatus?.mapped(for: .gpApi)
             params["deposit_id"] = builder.searchCriteriaBuilder.depositReference
+            params["deposit.id"] = builder.searchCriteriaBuilder.depositId
             params["from_deposit_time_created"] = builder.searchCriteriaBuilder.startDepositDate?.format("yyyy-MM-dd")
             params["to_deposit_time_created"] = builder.searchCriteriaBuilder.endDepositDate?.format("yyyy-MM-dd")
             params["account_name"] = config?.accessTokenInfo?.dataAccountName
@@ -211,6 +231,20 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             let actionId = builder.searchCriteriaBuilder.actionId ?? .empty
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.action(id: actionId),
+                method: .get
+            )
+        case .batchDetail:
+            let batchReference = builder.searchCriteriaBuilder.batchReference ?? .empty
+            return GpApiRequest(
+                // Prefixed with merchantUrl to match the multi-merchant-scoped POST /batches/{id} close flow.
+                endpoint: merchantUrl + GpApiRequest.Endpoints.batchDetail(id: batchReference),
+                method: .get
+            )
+        case .batchHistory:
+            let batchReference = builder.searchCriteriaBuilder.batchReference ?? .empty
+            return GpApiRequest(
+                // No query params: this endpoint 404s if any (including page/page_size) are present.
+                endpoint: merchantUrl + GpApiRequest.Endpoints.batchTransactions(id: batchReference),
                 method: .get
             )
         case .findActionsPaged:
@@ -317,6 +351,71 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
         params["status"] = builder.searchCriteriaBuilder.transactionStatus?.mapped(for: .gpApi)
         params["from_time_created"] = builder.startDate?.format("yyyy-MM-dd")
         params["to_time_created"] = builder.endDate?.format("yyyy-MM-dd")
+    }
+
+    private func addSettlementDisputeParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {
+        params["id"] = builder.searchCriteriaBuilder.settlementDisputeId
+        params["order.reference"] = builder.searchCriteriaBuilder.orderReference
+        params["brand_reference"] = builder.searchCriteriaBuilder.brandReference
+        params["authcode"] = builder.searchCriteriaBuilder.authCode
+        params["reference"] = builder.searchCriteriaBuilder.referenceNumber
+        params["number_first6"] = builder.searchCriteriaBuilder.cardNumberFirstSix
+        params["number_last4"] = builder.searchCriteriaBuilder.cardNumberLastFour
+    }
+
+    private func addSettlementTransactionParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {
+        let criteria = builder.searchCriteriaBuilder
+
+        params["type"] = criteria.paymentType?.mapped(for: .gpApi)
+        params["amount"] = criteria.amount?.toNumericCurrencyString(currency: criteria.currency)
+        params["order.reference"] = criteria.orderReference
+        params["account_id"] = criteria.accountId
+        params["merchant_id"] = criteria.merchantId
+        params["merchant_name"] = criteria.merchantName
+        params["merchant_amount"] = criteria.merchantAmount?.toNumericCurrencyString(currency: criteria.merchantCurrency)
+        params["from_time_created_reference"] = criteria.startTransactionTimeCreatedReference?.format("yyyy-MM-dd")
+        params["to_time_created_reference"] = criteria.endTransactionTimeCreatedReference?.format("yyyy-MM-dd")
+        params["settlement_code"] = criteria.settlementCode
+        params["settlement_transaction_reference"] = criteria.settlementTransactionReference
+        params["charge_type_region"] = criteria.chargeTypeRegion
+
+        addSettlementFeesParams(&params, criteria)
+    }
+
+    private func addSettlementFeesParams(_ params: inout [String: String], _ criteria: SearchCriteriaBuilder<T>) {
+        params["fees.charge_type"] = criteria.feeChargeType
+        params["fees.total_amount_decimal"] = criteria.feeTotalAmount?.toString
+        params["fees.interchange.program"] = criteria.interchangeProgram
+        params["fees.interchange.per_item_flat_amount_decimal"] = criteria.interchangePerItemFlatAmount?.toString
+        params["fees.interchange.per_item_calculated_amount_decimal"] = criteria.interchangePerItemCalculatedAmount?.toString
+        params["fees.interchange.percentage"] = criteria.interchangePercentage
+        params["fees.interchange.percentage_amount_decimal"] = criteria.interchangePercentageAmount?.toString
+        params["fees.interchange.total_rate"] = criteria.interchangeTotalRate
+        params["fees.interchange.total_amount_decimal"] = criteria.interchangeTotalAmount?.toString
+        params["fees.discount.rate_1_percentage"] = criteria.discountRate1Percentage
+        params["fees.discount.rate_2_percentage"] = criteria.discountRate2Percentage
+        params["fees.discount.total_amount_decimal"] = criteria.discountTotalAmount?.toString
+        params["fees.exchange_rate"] = criteria.exchangeRate
+        params["fees.assessment_total_amount_decimal"] = criteria.assessmentTotalAmount?.toString
+        params["fees.assessment_1.description"] = criteria.assessment1Description
+        params["fees.assessment_2.description"] = criteria.assessment2Description
+        params["fees.assessment_3.description"] = criteria.assessment3Description
+        params["fees.assessment_4.description"] = criteria.assessment4Description
+        params["fees.assessment_5.description"] = criteria.assessment5Description
+        params["fees.assessment_1.percentage"] = criteria.assessment1Percentage
+        params["fees.assessment_2.percentage"] = criteria.assessment2Percentage
+        params["fees.assessment_3.percentage"] = criteria.assessment3Percentage
+        params["fees.assessment_4.percentage"] = criteria.assessment4Percentage
+        params["fees.assessment_5.percentage"] = criteria.assessment5Percentage
+        params["fees.assessment_1.amount_decimal"] = criteria.assessment1Amount?.toString
+        params["fees.assessment_2.amount_decimal"] = criteria.assessment2Amount?.toString
+        params["fees.assessment_3.amount_decimal"] = criteria.assessment3Amount?.toString
+        params["fees.assessment_4.amount_decimal"] = criteria.assessment4Amount?.toString
+        params["fees.assessment_5.amount_decimal"] = criteria.assessment5Amount?.toString
+        params["fees.mark_up.dcc_percentage"] = criteria.markUpDccPercentage
+        params["fees.mark_up.multicurrency_percentage"] = criteria.markUpMulticurrencyPercentage
+        params["fees.fixed_amount_decimal"] = criteria.fixedAmount?.toString
+        params["fees.tax_amount_decimal"] = criteria.feeTaxAmount?.toString
     }
 
     private func addDisputesParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {

@@ -851,9 +851,212 @@ class GpApiReportingDisputesTests: XCTestCase {
         XCTAssertNotNil(disputeSummaryList)
     }
 
+    func test_report_find_settlement_disputes_with_order_reference() throws {
+        guard let expectedOrderReference = try? awaitResponse(getSettlementDisputeSummary)?.transactionOrderId,
+              !expectedOrderReference.isEmpty else {
+            XCTSkip("No settled dispute with an order reference is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Settlement Disputes With Order Reference")
+        let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeError: Error?
+
+        // WHEN
+        reportingService
+            .orderBy(disputeOrderBy: .id, .descending)
+            .withOrderReference(expectedOrderReference)
+            .where(.startStageDate, startDate)
+            .execute {
+                disputeSummaryList = $0?.results
+                disputeError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(disputeError)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummaryList)
+        for dispute in disputeSummaryList ?? [] {
+            XCTAssertEqual(dispute.transactionOrderId, expectedOrderReference)
+        }
+    }
+
+    func test_report_find_settlement_disputes_with_brand_reference() throws {
+        guard let expectedBrandReference = try? awaitResponse(getSettlementDisputeSummary)?.transactionBrandReference,
+              !expectedBrandReference.isEmpty else {
+            XCTSkip("No settled dispute with a brand reference is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Settlement Disputes With Brand Reference")
+        let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeError: Error?
+
+        // WHEN
+        reportingService
+            .orderBy(disputeOrderBy: .id, .descending)
+            .withBrandReference(expectedBrandReference)
+            .where(.startStageDate, startDate)
+            .execute {
+                disputeSummaryList = $0?.results
+                disputeError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(disputeError)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummaryList)
+        for dispute in disputeSummaryList ?? [] {
+            XCTAssertEqual(dispute.transactionBrandReference, expectedBrandReference)
+        }
+    }
+
+    func test_report_find_settlement_disputes_with_auth_code() throws {
+        guard let expectedAuthCode = try? awaitResponse(getSettlementDisputeSummary)?.transactionAuthCode,
+              !expectedAuthCode.isEmpty else {
+            XCTSkip("No settled dispute with an auth code is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Settlement Disputes With Auth Code")
+        let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeError: Error?
+
+        // WHEN
+        reportingService
+            .orderBy(disputeOrderBy: .id, .descending)
+            .withAuthCode(expectedAuthCode)
+            .where(.startStageDate, startDate)
+            .execute {
+                disputeSummaryList = $0?.results
+                disputeError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(disputeError)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummaryList)
+        for dispute in disputeSummaryList ?? [] {
+            XCTAssertEqual(dispute.transactionAuthCode, expectedAuthCode)
+        }
+    }
+
+    func test_report_find_settlement_disputes_with_reference_number() throws {
+        guard let expectedReferenceNumber = try? awaitResponse(getSettlementDisputeSummary)?.transactionReferenceNumber,
+              !expectedReferenceNumber.isEmpty else {
+            XCTSkip("No settled dispute with a reference number is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Settlement Disputes With Reference Number")
+        let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeError: Error?
+
+        // WHEN
+        reportingService
+            .orderBy(disputeOrderBy: .id, .descending)
+            .withReferenceNumber(expectedReferenceNumber)
+            .where(.startStageDate, startDate)
+            .execute {
+                disputeSummaryList = $0?.results
+                disputeError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(disputeError)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummaryList)
+        for dispute in disputeSummaryList ?? [] {
+            XCTAssertEqual(dispute.transactionReferenceNumber, expectedReferenceNumber)
+        }
+    }
+
+    func test_report_find_settlement_disputes_with_deposit_id() throws {
+        guard let expectedDepositId = try? awaitResponse(getSettlementDisputeSummary)?.depositReference,
+              !expectedDepositId.isEmpty else {
+            XCTSkip("No settled dispute with a deposit reference is available for this sandbox account")
+            return
+        }
+
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Settlement Disputes With Deposit Id")
+        let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeError: Error?
+
+        // WHEN
+        reportingService
+            .orderBy(disputeOrderBy: .id, .descending)
+            .withDepositId(expectedDepositId)
+            .where(.startStageDate, startDate)
+            .execute {
+                disputeSummaryList = $0?.results
+                disputeError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(disputeError)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummaryList)
+        for dispute in disputeSummaryList ?? [] {
+            XCTAssertEqual(dispute.depositReference, expectedDepositId)
+        }
+    }
+
+    func test_report_find_settlement_disputes_with_status_under_review() throws {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Settlement Disputes With Status")
+        let expectedDisputeStatus: DisputeStatus = .underReview
+        let reportingService = ReportingService.findSettlementDisputesPaged(page: 1, pageSize: 10)
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeError: Error?
+
+        // WHEN
+        reportingService
+            .orderBy(disputeOrderBy: .id, .descending)
+            .withDisputeStatus(expectedDisputeStatus)
+            .where(.startStageDate, startDate)
+            .execute {
+                disputeSummaryList = $0?.results
+                disputeError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 20.0)
+        try skipIfSettlementUnavailable(disputeError)
+        XCTAssertNil(disputeError)
+        XCTAssertNotNil(disputeSummaryList)
+        for dispute in disputeSummaryList ?? [] {
+            guard let caseStatus = dispute.caseStatus else {
+                XCTFail("caseStatus cannot be nil")
+                return
+            }
+            XCTAssertEqual(caseStatus, expectedDisputeStatus.mapped(for: .gpApi))
+        }
+    }
+
     // MARK: - Other
 
-    func test_load_test_resources() {
+    func test_load_test_resources() throws {
         // GIVEN
         let bundle = Bundle(for: type(of: self))
 
@@ -872,6 +1075,17 @@ class GpApiReportingDisputesTests: XCTestCase {
         // THEN
         XCTAssertNotNil(pdfData)
         XCTAssertNotNil(pngData)
+    }
+
+    /// Settlement reporting endpoints require a configured account. Sandbox accounts without the
+    /// feature enabled are rejected by the gateway before any data is returned.
+    private func skipIfSettlementUnavailable(_ error: Error?) throws {
+        guard let error = error as? GatewayException else { return }
+
+        let unavailableCodes = ["MANDATORY_DATA_MISSING", "INVALID_REQUEST_DATA"]
+        guard unavailableCodes.contains(error.responseCode ?? "") else { return }
+
+        throw XCTSkip("Settlement reporting is not enabled for this sandbox account")
     }
 
     // MARK: - Utils

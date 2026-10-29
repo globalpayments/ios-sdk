@@ -4,7 +4,7 @@ import GlobalPayments_iOS_SDK
 final class GpApiCreateInstallmentTest: XCTestCase {
 
     private let APP_ID = "bcTDtE6wV2iCfWPqXv0FMpU86YDqvTnc"
-    private let APP_KEY = "jdf2vlLCA13A3Fsz"
+    private let APP_KEY = ""
     private var installment: Installment?
     private var visaCard: CreditCardData?
     private var masterCard: CreditCardData?

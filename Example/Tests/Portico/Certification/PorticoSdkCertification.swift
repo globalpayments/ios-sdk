@@ -10,7 +10,7 @@ import XCTest
 @testable import GlobalPayments_iOS_SDK
 
 enum PorticoTestConstants {
-    static let secretApiKey = "skapi_cert_MaePAQBr-1QAqjfckFC8FTbRTT120bVQUlfVOjgCBw"
+    static let secretApiKey = ""
     static let serviceUrl = "https://cert.api2-c.heartlandportico.com"
 }
 

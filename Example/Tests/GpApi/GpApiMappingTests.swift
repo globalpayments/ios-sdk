@@ -18,7 +18,8 @@ class GpApiMappingTests: XCTestCase {
         let expectedBatchSummary = "BAT_783464"
         let expectedResponseCode = "SUCCESS"
         let expectedToken = dataTest
-        let expectedAuthorizationCode = "00"
+        // authorizationCode is sourced from payment_method.card.authcode, not payment_method.result.
+        let expectedAuthorizationCode = "12345"
         let expectedAvsAddressResult = "MATCHED"
         let expectedAvsPostalCode = "MATCHED"
         
@@ -434,5 +435,255 @@ class GpApiMappingTests: XCTestCase {
         XCTAssertEqual(storedPaymentMethodSummary.cardType, expectedCardType)
         XCTAssertEqual(storedPaymentMethodSummary.cardExpMonth, expectedCardExpMonth)
         XCTAssertEqual(storedPaymentMethodSummary.cardExpYear, expectedCardExpYear)
+    }
+
+    func test_map_deposit_summary_with_settlement_fields() {
+        // GIVEN
+        let rawJson = "{\"id\":\"DEP_2342423423\",\"time_created\":\"2020-11-21\",\"status\":\"FUNDED\",\"funding_type\":\"CREDIT\",\"amount\":\"11400\",\"currency\":\"USD\",\"aggregation_model\":\"4-No Summary\",\"bank_transfer\":{\"masked_account_number_last4\":\"XXXXXX9999\",\"bank\":{\"code\":\"124002971\"}},\"system\":{\"mid\":\"101023947262\",\"hierarchy\":\"055-70-024-011-019\",\"name\":\"XYZ LTD.\",\"dba\":\"XYZ Group\"},\"sales\":{\"count\":4,\"amount\":\"12400\"},\"action\":{\"id\":\"ACT_TWdmMMOBZ91iQX1DcvxYermuVJ6E6h\",\"type\":\"DEPOSIT_SINGLE\",\"time_created\":\"2020-11-24T18:43:43.370Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"JF2GQpeCrOivkBGsTRiqkpkdKp67Gxi0\",\"app_name\":\"test_app\"}}"
+        let doc = JsonDoc.parse(rawJson)
+        let expectedAggregationModel = "4-No Summary"
+        let expectedMaskedAccountNumberLast4 = "XXXXXX9999"
+        let expectedBankCode = "124002971"
+        let expectedActionId = "ACT_TWdmMMOBZ91iQX1DcvxYermuVJ6E6h"
+        let expectedActionType = "DEPOSIT_SINGLE"
+        let expectedActionResultCode = "SUCCESS"
+
+        // WHEN
+        let depositSummary = GpApiMapping.mapDepositSummary(doc)
+
+        // THEN
+        XCTAssertEqual(depositSummary.aggregationModel, expectedAggregationModel)
+        XCTAssertEqual(depositSummary.bankTransfer?.maskedAccountNumberLast4, expectedMaskedAccountNumberLast4)
+        XCTAssertEqual(depositSummary.bankTransfer?.bank?.code, expectedBankCode)
+        XCTAssertEqual(depositSummary.action?.id, expectedActionId)
+        XCTAssertEqual(depositSummary.action?.type, expectedActionType)
+        XCTAssertEqual(depositSummary.action?.resultCode, expectedActionResultCode)
+    }
+
+    func test_map_settlement_dispute_summary_with_transaction_fields() {
+        // GIVEN
+        let rawJson = "{\"id\":\"DIS_812\",\"status\":\"FUNDED\",\"stage\":\"CHARGEBACK\",\"stage_time_created\":\"2021-03-18T12:35:28\",\"amount\":\"200\",\"currency\":\"GBP\",\"funding_type\":\"DEBIT\",\"deposit_id\":\"DEP_2342423443\",\"deposit_time_created\":\"2021-03-22\",\"system\":{\"mid\":\"101023947262\",\"hierarchy\":\"055-70-024-011-019\",\"tid\":\"55555555\",\"name\":\"XYZ LTD.\"},\"transaction\":{\"time_created\":\"2021-02-23T12:35:28\",\"merchant_time_created\":\"2021-02-23T14:35:28\",\"type\":\"SALE\",\"amount\":\"200\",\"currency\":\"GBP\",\"reference\":\"28012076eb6M\",\"order\":{\"reference\":\"b636294sd5b6826hjdnde92\"},\"payment_method\":{\"card\":{\"masked_number_first6last4\":\"379132XXXXX1007\",\"arn\":\"71400011203688701393903\",\"brand\":\"AMEX\",\"authcode\":\"129623\",\"brand_reference\":\"MWE1P0JG80110\"}}}}"
+        let doc = JsonDoc.parse(rawJson)
+        let expectedDepositType = "DEBIT"
+        let expectedTerminalId = "55555555"
+        let expectedTransactionLocalTime = "2021-02-23T14:35:28".format()
+        let expectedTransactionOrderId = "b636294sd5b6826hjdnde92"
+        let expectedTransactionBrandReference = "MWE1P0JG80110"
+
+        // WHEN
+        let disputeSummary = GpApiMapping.mapDisputeSummary(doc)
+
+        // THEN
+        XCTAssertEqual(disputeSummary.depositType, expectedDepositType)
+        XCTAssertEqual(disputeSummary.caseTerminalId, expectedTerminalId)
+        XCTAssertEqual(disputeSummary.transactionLocalTime, expectedTransactionLocalTime)
+        XCTAssertEqual(disputeSummary.transactionOrderId, expectedTransactionOrderId)
+        XCTAssertEqual(disputeSummary.transactionBrandReference, expectedTransactionBrandReference)
+    }
+
+    func test_map_settlement_transaction_summary() {
+        // GIVEN
+        let rawJson = "{\"id\":\"TRN_1234\",\"settlement_transaction_reference\":\"STR_1234\",\"time_created\":\"2021-03-18T12:35:28\",\"status\":\"FUNDED\",\"type\":\"SALE\",\"amount\":\"11099\",\"currency\":\"USD\",\"merchant_amount\":\"9000\",\"merchant_currency\":\"CAD\",\"discount_amount\":\"500\",\"merchant_discount_amount\":\"450\",\"tax_amount\":\"200\",\"merchant_tax_amount\":\"180\",\"tax_in_merchant_amount\":\"true\",\"reference\":\"TRX_REF_1\",\"time_created_reference\":\"2021-03-18T14:35:28\",\"deposit_id\":\"DEP_1234\",\"deposit_time_created\":\"2021-03-19\",\"deposit_status\":\"FUNDED\",\"deposit_amount\":\"11000\",\"batch_id\":\"BAT_1234\",\"batch_time_created\":\"2021-03-19T10:00:00\",\"order\":{\"reference\":\"INV#88547\"},\"payment_method\":{\"entry_mode\":\"ECOM\",\"card\":{\"brand\":\"VISA\",\"authcode\":\"12345\",\"brand_reference\":\"BR_1234\",\"masked_number_first6last4\":\"411111XXXXXX1111\",\"settlement_code\":\"07\",\"funding\":\"CREDIT\",\"arn\":\"210286643954856\"}},\"system\":{\"mid\":\"101023947262\",\"tid\":\"55555555\",\"hierarchy\":\"055-70-024-011-019\",\"name\":\"XYZ LTD.\",\"dba\":\"XYZ Group\"}}"
+        let doc = JsonDoc.parse(rawJson)
+        let expectedSettlementTransactionReference = "STR_1234"
+        let expectedAmount = NSDecimalNumber(string: "110.99")
+        let expectedMerchantAmount: NSDecimalNumber = 90
+        let expectedMerchantCurrency = "CAD"
+        let expectedDiscountAmount: NSDecimalNumber = 5
+        let expectedMerchantDiscountAmount = NSDecimalNumber(string: "4.5")
+        let expectedTaxAmount: NSDecimalNumber = 2
+        let expectedMerchantTaxAmount = NSDecimalNumber(string: "1.8")
+        let expectedTaxInMerchantAmount = true
+        let expectedBatchId = "BAT_1234"
+        let expectedBatchTimeCreated = "2021-03-19T10:00:00".format()
+        let expectedOrderReference = "INV#88547"
+        let expectedSettlementCode = "07"
+        let expectedCardFunding = "CREDIT"
+        let expectedDepositAmount: NSDecimalNumber = 110
+        let expectedDepositCurrency = "USD"
+        let expectedMerchantDeviceIdentifier = "55555555"
+
+        // WHEN
+        let transactionSummary = GpApiMapping.mapTransactionSummary(doc)
+
+        // THEN
+        XCTAssertEqual(transactionSummary.settlementTransactionReference, expectedSettlementTransactionReference)
+        XCTAssertEqual(transactionSummary.amount, expectedAmount)
+        XCTAssertEqual(transactionSummary.merchantAmount, expectedMerchantAmount)
+        XCTAssertEqual(transactionSummary.merchantCurrency, expectedMerchantCurrency)
+        XCTAssertEqual(transactionSummary.discountAmount, expectedDiscountAmount)
+        XCTAssertEqual(transactionSummary.merchantDiscountAmount, expectedMerchantDiscountAmount)
+        XCTAssertEqual(transactionSummary.taxAmount, expectedTaxAmount)
+        XCTAssertEqual(transactionSummary.merchantTaxAmount, expectedMerchantTaxAmount)
+        XCTAssertEqual(transactionSummary.taxInMerchantAmount, expectedTaxInMerchantAmount)
+        XCTAssertEqual(transactionSummary.batchId, expectedBatchId)
+        XCTAssertEqual(transactionSummary.batchTimeCreated, expectedBatchTimeCreated)
+        XCTAssertEqual(transactionSummary.orderReference, expectedOrderReference)
+        XCTAssertEqual(transactionSummary.settlementCode, expectedSettlementCode)
+        XCTAssertEqual(transactionSummary.cardFunding, expectedCardFunding)
+        XCTAssertEqual(transactionSummary.depositAmount, expectedDepositAmount)
+        XCTAssertEqual(transactionSummary.depositCurrency, expectedDepositCurrency)
+        XCTAssertEqual(transactionSummary.merchantDeviceIdentifier, expectedMerchantDeviceIdentifier)
+    }
+
+    func test_map_settlement_transaction_fees() {
+        // GIVEN
+        let rawJson = "{\"id\":\"TRN_1234\",\"amount\":\"11099\",\"currency\":\"USD\",\"fees\":{\"total_amount_decimal\":\"12.98\",\"other_fees_amount_decimal\":\"1.10\",\"fixed_amount_decimal\":\"1.29\",\"tax_amount_decimal\":\"0.98\",\"assessment_total_amount_decimal\":\"0.75\",\"charge_type\":\"GLOBAL\",\"charge_type_description\":\"Global Fee\",\"charge_type_region\":\"US\",\"exchange_rate\":\"1.25\",\"interchange\":{\"total_amount_decimal\":\"9.99\",\"total_rate\":\"1.85\",\"program\":\"VISA CREDIT\",\"percentage\":\"1.75\",\"percentage_amount_decimal\":\"9.00\",\"per_item_flat_amount_decimal\":\"0.30\",\"per_item_calculated_amount_decimal\":\"8.70\"},\"discount\":{\"rate_1_percentage\":\"0.10\",\"rate_2_percentage\":\"0.20\",\"total_amount_decimal\":\"1.50\"},\"assessment_1\":{\"description\":\"Assessment One\",\"percentage\":\"0.10\",\"amount_decimal\":\"0.20\"},\"assessment_2\":{\"description\":\"Assessment Two\",\"percentage\":\"0.30\",\"amount_decimal\":\"0.40\"},\"assessment_3\":{\"description\":\"Assessment Three\",\"percentage\":\"0.50\",\"amount_decimal\":\"0.60\"},\"assessment_4\":{\"description\":\"Assessment Four\",\"percentage\":\"0.70\",\"amount_decimal\":\"0.80\"},\"assessment_5\":{\"description\":\"Assessment Five\",\"percentage\":\"0.90\",\"amount_decimal\":\"1.00\"},\"mark_up\":{\"dcc_percentage\":\"3.00\",\"multicurrency_percentage\":\"2.00\"}}}"
+        let doc = JsonDoc.parse(rawJson)
+        let expectedTotalAmount = NSDecimalNumber(string: "12.98")
+        let expectedOtherFeesAmount = NSDecimalNumber(string: "1.10")
+        let expectedFixedAmount = NSDecimalNumber(string: "1.29")
+        let expectedTaxAmount = NSDecimalNumber(string: "0.98")
+        let expectedAssessmentTotalAmount = NSDecimalNumber(string: "0.75")
+        let expectedChargeType = "GLOBAL"
+        let expectedChargeTypeDescription = "Global Fee"
+        let expectedChargeTypeRegion = "US"
+        let expectedExchangeRate = "1.25"
+        let expectedInterchangeTotalAmount = NSDecimalNumber(string: "9.99")
+        let expectedInterchangeTotalRate = "1.85"
+        let expectedInterchangeProgram = "VISA CREDIT"
+        let expectedInterchangePercentage = "1.75"
+        let expectedInterchangePercentageAmount = NSDecimalNumber(string: "9.00")
+        let expectedInterchangePerItemFlatAmount = NSDecimalNumber(string: "0.30")
+        let expectedInterchangePerItemCalculatedAmount = NSDecimalNumber(string: "8.70")
+        let expectedDiscountRate1Percentage = "0.10"
+        let expectedDiscountRate2Percentage = "0.20"
+        let expectedDiscountTotalAmount = NSDecimalNumber(string: "1.50")
+        let expectedMarkUpDccPercentage = "3.00"
+        let expectedMarkUpMulticurrencyPercentage = "2.00"
+
+        // WHEN
+        let transactionSummary = GpApiMapping.mapTransactionSummary(doc)
+
+        // THEN
+        guard let fees = transactionSummary.fees else {
+            XCTFail("fees cannot be nil")
+            return
+        }
+        XCTAssertEqual(fees.totalAmount, expectedTotalAmount)
+        XCTAssertEqual(fees.otherFeesAmount, expectedOtherFeesAmount)
+        XCTAssertEqual(fees.fixedAmount, expectedFixedAmount)
+        XCTAssertEqual(fees.taxAmount, expectedTaxAmount)
+        XCTAssertEqual(fees.assessmentTotalAmount, expectedAssessmentTotalAmount)
+        XCTAssertEqual(fees.chargeType, expectedChargeType)
+        XCTAssertEqual(fees.chargeTypeDescription, expectedChargeTypeDescription)
+        XCTAssertEqual(fees.chargeTypeRegion, expectedChargeTypeRegion)
+        XCTAssertEqual(fees.exchangeRate, expectedExchangeRate)
+        XCTAssertEqual(fees.interchange?.totalAmount, expectedInterchangeTotalAmount)
+        XCTAssertEqual(fees.interchange?.totalRate, expectedInterchangeTotalRate)
+        XCTAssertEqual(fees.interchange?.program, expectedInterchangeProgram)
+        XCTAssertEqual(fees.interchange?.percentage, expectedInterchangePercentage)
+        XCTAssertEqual(fees.interchange?.percentageAmount, expectedInterchangePercentageAmount)
+        XCTAssertEqual(fees.interchange?.perItemFlatAmount, expectedInterchangePerItemFlatAmount)
+        XCTAssertEqual(fees.interchange?.perItemCalculatedAmount, expectedInterchangePerItemCalculatedAmount)
+        XCTAssertEqual(fees.discount?.rate1Percentage, expectedDiscountRate1Percentage)
+        XCTAssertEqual(fees.discount?.rate2Percentage, expectedDiscountRate2Percentage)
+        XCTAssertEqual(fees.discount?.totalAmount, expectedDiscountTotalAmount)
+        XCTAssertEqual(fees.markUp?.dccPercentage, expectedMarkUpDccPercentage)
+        XCTAssertEqual(fees.markUp?.multicurrencyPercentage, expectedMarkUpMulticurrencyPercentage)
+        XCTAssertEqual(fees.assessment1?.chargeDescription, "Assessment One")
+        XCTAssertEqual(fees.assessment1?.percentage, "0.10")
+        XCTAssertEqual(fees.assessment1?.amount, NSDecimalNumber(string: "0.20"))
+        XCTAssertEqual(fees.assessment2?.chargeDescription, "Assessment Two")
+        XCTAssertEqual(fees.assessment3?.chargeDescription, "Assessment Three")
+        XCTAssertEqual(fees.assessment4?.chargeDescription, "Assessment Four")
+        XCTAssertEqual(fees.assessment5?.chargeDescription, "Assessment Five")
+        XCTAssertEqual(fees.assessment5?.amount, NSDecimalNumber(string: "1.00"))
+    }
+
+    func test_map_monthly_fee_summary() {
+        // GIVEN
+        let rawJson = "{\"time_created\":\"2021-05-03T21:23:39.718Z\",\"status\":\"FINALIZED\",\"amount\":\"11099\",\"currency\":\"USD\",\"interchange_amount\":\"100\",\"assessment_amount\":\"200\",\"authorization_amount\":\"300\",\"chargeback_amount\":\"400\",\"supplies_amount\":\"500\",\"device_amount\":\"600\",\"discount_amount\":\"700\",\"other_amount\":\"1600\",\"transaction_count\":123,\"sales\":{\"count\":100,\"amount\":\"9000\"},\"refunds\":{\"count\":20,\"amount\":\"1000\"},\"passthrough\":{\"amount\":\"500\"},\"merchant\":{\"name\":\"XYZ LTD.\",\"address\":{\"line_1\":\"1 Main St\",\"line_2\":\"Suite 2\",\"line_3\":\"Building B\",\"city\":\"Phoenix\",\"state\":\"AZ\",\"postal_code\":\"90210\",\"country\":\"US\"}},\"system\":{\"mid\":\"101023947262\",\"hierarchy\":\"055-70-024-011-019\",\"name\":\"XYZ LTD.\",\"dba\":\"XYZ Group\"}}"
+        let doc = JsonDoc.parse(rawJson)
+        let expectedTimeCreated = "2021-05-03T21:23:39.718Z".format()
+        let expectedStatus: MonthlyFeeStatus = .finalized
+        let expectedAmount = NSDecimalNumber(string: "110.99")
+        let expectedCurrency = "USD"
+        let expectedInterchangeAmount: NSDecimalNumber = 1
+        let expectedAssessmentAmount: NSDecimalNumber = 2
+        let expectedAuthorizationAmount: NSDecimalNumber = 3
+        let expectedChargebackAmount: NSDecimalNumber = 4
+        let expectedSuppliesAmount: NSDecimalNumber = 5
+        let expectedDeviceAmount: NSDecimalNumber = 6
+        let expectedDiscountAmount: NSDecimalNumber = 7
+        let expectedOtherAmount: NSDecimalNumber = 16
+        let expectedTransactionCount = 123
+        let expectedSalesCount = 100
+        let expectedSalesAmount: NSDecimalNumber = 90
+        let expectedRefundsCount = 20
+        let expectedRefundsAmount: NSDecimalNumber = 10
+        let expectedPassthroughAmount: NSDecimalNumber = 5
+        let expectedMerchantName = "XYZ LTD."
+        let expectedMerchantAddressLine1 = "1 Main St"
+        let expectedMerchantAddressCity = "Phoenix"
+        let expectedMerchantAddressState = "AZ"
+        let expectedMerchantAddressPostalCode = "90210"
+        let expectedMerchantAddressCountry = "US"
+        let expectedMid = "101023947262"
+        let expectedHierarchy = "055-70-024-011-019"
+        let expectedSystemName = "XYZ LTD."
+        let expectedSystemDba = "XYZ Group"
+
+        // WHEN
+        let monthlyFeeSummary = GpApiMapping.mapMonthlyFeeSummary(doc)
+
+        // THEN
+        XCTAssertEqual(monthlyFeeSummary.timeCreated, expectedTimeCreated)
+        XCTAssertEqual(monthlyFeeSummary.status, expectedStatus)
+        XCTAssertEqual(monthlyFeeSummary.amount, expectedAmount)
+        XCTAssertEqual(monthlyFeeSummary.currency, expectedCurrency)
+        XCTAssertEqual(monthlyFeeSummary.interchangeAmount, expectedInterchangeAmount)
+        XCTAssertEqual(monthlyFeeSummary.assessmentAmount, expectedAssessmentAmount)
+        XCTAssertEqual(monthlyFeeSummary.authorizationAmount, expectedAuthorizationAmount)
+        XCTAssertEqual(monthlyFeeSummary.chargebackAmount, expectedChargebackAmount)
+        XCTAssertEqual(monthlyFeeSummary.suppliesAmount, expectedSuppliesAmount)
+        XCTAssertEqual(monthlyFeeSummary.deviceAmount, expectedDeviceAmount)
+        XCTAssertEqual(monthlyFeeSummary.discountAmount, expectedDiscountAmount)
+        XCTAssertEqual(monthlyFeeSummary.otherAmount, expectedOtherAmount)
+        XCTAssertEqual(monthlyFeeSummary.transactionCount, expectedTransactionCount)
+        XCTAssertEqual(monthlyFeeSummary.sales?.count, expectedSalesCount)
+        XCTAssertEqual(monthlyFeeSummary.sales?.amount, expectedSalesAmount)
+        XCTAssertEqual(monthlyFeeSummary.refunds?.count, expectedRefundsCount)
+        XCTAssertEqual(monthlyFeeSummary.refunds?.amount, expectedRefundsAmount)
+        XCTAssertEqual(monthlyFeeSummary.passthrough?.amount, expectedPassthroughAmount)
+        XCTAssertEqual(monthlyFeeSummary.merchant?.name, expectedMerchantName)
+        XCTAssertEqual(monthlyFeeSummary.merchant?.address?.line1, expectedMerchantAddressLine1)
+        XCTAssertEqual(monthlyFeeSummary.merchant?.address?.city, expectedMerchantAddressCity)
+        XCTAssertEqual(monthlyFeeSummary.merchant?.address?.state, expectedMerchantAddressState)
+        XCTAssertEqual(monthlyFeeSummary.merchant?.address?.postalCode, expectedMerchantAddressPostalCode)
+        XCTAssertEqual(monthlyFeeSummary.merchant?.address?.country, expectedMerchantAddressCountry)
+        XCTAssertEqual(monthlyFeeSummary.system?.mid, expectedMid)
+        XCTAssertEqual(monthlyFeeSummary.system?.hierarchy, expectedHierarchy)
+        XCTAssertEqual(monthlyFeeSummary.system?.name, expectedSystemName)
+        XCTAssertEqual(monthlyFeeSummary.system?.dba, expectedSystemDba)
+    }
+
+    func test_map_paged_monthly_fee_result() {
+        // GIVEN
+        let rawJson = "{\"total_record_count\":2,\"current_page_size\":2,\"merchant_id\":\"101023947262\",\"merchant_name\":\"Sandbox_merchant_2\",\"account_id\":\"TRA_6716058969854a48b33347043ff8225f\",\"account_name\":\"Settlement_Reporting\",\"filter\":{\"from_time_created\":\"2021-05-01\",\"to_time_created\":\"2021-05-31\"},\"paging\":{\"page\":1,\"page_size\":5,\"order_by\":\"TIME_CREATED\",\"order\":\"ASC\"},\"monthly_fees\":[{\"time_created\":\"2021-05-01T00:00:00.000Z\",\"status\":\"ESTIMATED\",\"amount\":\"100\",\"currency\":\"USD\"},{\"time_created\":\"2021-05-02T00:00:00.000Z\",\"status\":\"FINALIZED\",\"amount\":\"200\",\"currency\":\"USD\"}],\"action\":{\"id\":\"ACT_uzFr7t4VOqxdLDI44hHmXIjHtOOE8d\",\"type\":\"MONTHLY_FEES_LIST\",\"time_created\":\"2021-05-03T21:23:39.718Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"uzFr7t4VOqxdLDI44hHmXIjHtOOE8d\",\"app_name\":\"my_lovely_app\"}}"
+        let expectedTotalRecordCount = 2
+        let expectedPage = 1
+        let expectedPageSize = 5
+        let expectedActionType = "MONTHLY_FEES_LIST"
+        let expectedFirstFeeAmount: NSDecimalNumber = 1
+        let expectedSecondFeeAmount: NSDecimalNumber = 2
+
+        // WHEN
+        let result: PagedResult<MonthlyFeeSummary>? = GpApiMapping.mapReportResponse(rawJson, .findMonthlyFeesPaged)
+
+        // THEN
+        guard let pagedResult = result else {
+            XCTFail("pagedResult cannot be nil")
+            return
+        }
+        XCTAssertEqual(pagedResult.totalRecordCount, expectedTotalRecordCount)
+        XCTAssertEqual(pagedResult.page, expectedPage)
+        XCTAssertEqual(pagedResult.pageSize, expectedPageSize)
+        XCTAssertEqual(pagedResult.action?.type, expectedActionType)
+        XCTAssertEqual(pagedResult.results.count, 2)
+        XCTAssertEqual(pagedResult.results.first?.amount, expectedFirstFeeAmount)
+        XCTAssertEqual(pagedResult.results.first?.status, MonthlyFeeStatus.estimated)
+        XCTAssertEqual(pagedResult.results.last?.amount, expectedSecondFeeAmount)
+        XCTAssertEqual(pagedResult.results.last?.status, MonthlyFeeStatus.finalized)
     }
 }

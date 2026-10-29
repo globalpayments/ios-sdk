@@ -4,7 +4,7 @@ import GlobalPayments_iOS_SDK
 class GpApiAuthenticationTests: XCTestCase {
 
     private static let appId  = "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs"
-    private static let appKey = "FQyJA5VuEQfcji2M"
+    private static let appKey = ""
 
     private var card: CreditCardData!
     private let testDataTKN = "r1SzGAx2K9z5FNiMHkrapfRh8BC8"
@@ -295,7 +295,7 @@ class GpApiAuthenticationTests: XCTestCase {
         let generateExpectation = expectation(description: "Generate Expectation")
         let environment = Environment.test
         let appId = "T53SFpeCrOivkBGs84FtlpkdKp32FkYl"
-        let appKey = "j8rTLnUtFulOU7VL"
+        let appKey = ""
         var accessTokenInfoResult: AccessTokenInfo?
         var accessTokenInfoError: GatewayException?
 

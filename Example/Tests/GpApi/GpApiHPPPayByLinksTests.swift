@@ -10,7 +10,7 @@ final class GpApiHPPPayByLinksTests: XCTestCase {
 
     // Standard sandbox credentials
     private let APP_ID = "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs"
-    private let APP_KEY = "FQyJA5VuEQfcji2M"
+    private let APP_KEY = ""
    
     private let HPP_APP_ID = ""
     private let HPP_APP_KEY = ""

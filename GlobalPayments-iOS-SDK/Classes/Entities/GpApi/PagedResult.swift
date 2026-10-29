@@ -16,4 +16,7 @@ public struct PagedResult<T> {
     public var accountName: String? = nil
     public var filterFromTimeCreated: String? = nil
     public var filterToTimeCreated: String? = nil
+
+    /// The action associated with the report request, returned by the settlement reporting list endpoints.
+    public var action: ActionSummary? = nil
 }

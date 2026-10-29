@@ -13,7 +13,7 @@ final class GpApiVisaAFTsTest: XCTestCase {
 
     private let amount = NSDecimalNumber(2.02)
     private let APP_ID = "4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs"
-    private let APP_KEY = "FQyJA5VuEQfcji2M"
+    private let APP_KEY = ""
     private let currency = "GBP"
     private var visaCard = CreditCardData()
     

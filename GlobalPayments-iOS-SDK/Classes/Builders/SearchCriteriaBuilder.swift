@@ -64,6 +64,16 @@ public enum SearchCriteria: String {
     case paymentMethodName
     case paymentMethodCategory
     case payByLinkStatus
+    case orderReference
+    case depositId
+    case settlementCode
+    case settlementTransactionReference
+    case merchantDbaName
+    case terminalId
+    case merchantAmount
+    case chargeTypeRegion
+    case startTransactionTimeCreatedReference
+    case endTransactionTimeCreatedReference
     case paymentMethodUsageMode
     case expirationDate
     case searchDescription
@@ -203,6 +213,8 @@ public enum DataServiceCriteria: String {
     var responseCode: String?
     var version: String?
     var actionId: String?
+    // Path id for a single batch GET/POST, distinct from the `batchId` transaction-search filter above.
+    var batchReference: String?
     var riskAssessmentMode: FraudFilterMode?
     var riskAssessmentResult: FraudFilterResult?
     var riskAssessmentReasonCode: ReasonCode?
@@ -220,6 +232,50 @@ public enum DataServiceCriteria: String {
     var authenticationValue: String?
     var eci: String?
     var messageVersion: String?
+    var orderReference: String?
+    var depositId: String?
+    var settlementCode: String?
+    var settlementTransactionReference: String?
+    var merchantDbaName: String?
+    var terminalId: String?
+    var merchantAmount: NSDecimalNumber?
+    var merchantCurrency: String?
+    var chargeTypeRegion: String?
+    var startTransactionTimeCreatedReference: Date?
+    var endTransactionTimeCreatedReference: Date?
+    var feeChargeType: String?
+    var feeTotalAmount: NSDecimalNumber?
+    var interchangeProgram: String?
+    var interchangePerItemFlatAmount: NSDecimalNumber?
+    var interchangePerItemCalculatedAmount: NSDecimalNumber?
+    var interchangePercentage: String?
+    var interchangePercentageAmount: NSDecimalNumber?
+    var interchangeTotalRate: String?
+    var interchangeTotalAmount: NSDecimalNumber?
+    var discountRate1Percentage: String?
+    var discountRate2Percentage: String?
+    var discountTotalAmount: NSDecimalNumber?
+    var exchangeRate: String?
+    var assessmentTotalAmount: NSDecimalNumber?
+    var assessment1Description: String?
+    var assessment2Description: String?
+    var assessment3Description: String?
+    var assessment4Description: String?
+    var assessment5Description: String?
+    var assessment1Percentage: String?
+    var assessment2Percentage: String?
+    var assessment3Percentage: String?
+    var assessment4Percentage: String?
+    var assessment5Percentage: String?
+    var assessment1Amount: NSDecimalNumber?
+    var assessment2Amount: NSDecimalNumber?
+    var assessment3Amount: NSDecimalNumber?
+    var assessment4Amount: NSDecimalNumber?
+    var assessment5Amount: NSDecimalNumber?
+    var markUpDccPercentage: String?
+    var markUpMulticurrencyPercentage: String?
+    var fixedAmount: NSDecimalNumber?
+    var feeTaxAmount: NSDecimalNumber?
 
     init(reportBuilder: ReportBuilder<TResult>?) {
         self.reportBuilder = reportBuilder

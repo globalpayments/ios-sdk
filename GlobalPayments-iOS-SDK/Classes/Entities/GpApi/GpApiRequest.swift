@@ -139,6 +139,12 @@ extension GpApiRequest {
             "/settlement/deposits/\(id)"
         }
 
+        // MARK: - Settlement Reports
+
+        static func monthlyFees() -> String {
+            "/settlement/reports/monthly-fees"
+        }
+
         // MARK: - Disputes
 
         static func disputes() -> String {
@@ -199,6 +205,14 @@ extension GpApiRequest {
 
         static func batchClose(id: String) -> String {
             "/batches/\(id)"
+        }
+
+        static func batchDetail(id: String) -> String {
+            "/batches/\(id)"
+        }
+
+        static func batchTransactions(id: String) -> String {
+            "/batches/\(id)/transactions"
         }
 
         // MARK: - Actions

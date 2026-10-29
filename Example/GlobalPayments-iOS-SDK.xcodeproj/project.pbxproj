@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07A07B8A308BD59F00C00A56 /* GpApiBatchReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A07B89308BD59F00C00A56 /* GpApiBatchReportingTests.swift */; };
 		07428B03307E5C0A0026B5F0 /* GpApiCreditWithMMATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07428B02307E5C0A0026B5F0 /* GpApiCreditWithMMATests.swift */; };
 		302D583D28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */; };
 		304226FB29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */; };
@@ -227,6 +228,8 @@
 		82F9A57725B72BAD00B5E3E1 /* OptionalsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9A57625B72BAD00B5E3E1 /* OptionalsExtension.swift */; };
 		82F9A57B25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9A57A25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift */; };
 		82F9A57F25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9A57E25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift */; };
+		A1F2544401000000B5000002 /* GpApiReportingMonthlyFeesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F2544401000000B5000001 /* GpApiReportingMonthlyFeesTests.swift */; };
+		A1F2544401000000B5000003 /* GpApiReportingSettlementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F2544401000000B5000004 /* GpApiReportingSettlementTests.swift */; };
 		82FAF8DE2535B16E00B10401 /* gp_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 82FAF8DC2535B16E00B10401 /* gp_logo.png */; };
 		82FAF8DF2535B16E00B10401 /* gp_logo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 82FAF8DD2535B16E00B10401 /* gp_logo.pdf */; };
 		82FAF8E42535B2B500B10401 /* ResouceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FAF8E32535B2B500B10401 /* ResouceLoader.swift */; };
@@ -497,7 +500,11 @@
 
 /* Begin PBXFileReference section */
 		01691D0CD66B2865EC702F28 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+
+		07A07B89308BD59F00C00A56 /* GpApiBatchReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBatchReportingTests.swift; sourceTree = "<group>"; };
+
 		07428B02307E5C0A0026B5F0 /* GpApiCreditWithMMATests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreditWithMMATests.swift; sourceTree = "<group>"; };
+
 		25E89B4C4C3BC69C6EA4BF0A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GpApiFraudManagementTests.swift; path = Tests/GpApi/GpApiFraudManagementTests.swift; sourceTree = SOURCE_ROOT; };
 		304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDccCardNotPresentTest.swift; sourceTree = "<group>"; };
@@ -723,6 +730,8 @@
 		82F9A57625B72BAD00B5E3E1 /* OptionalsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalsExtension.swift; sourceTree = "<group>"; };
 		82F9A57A25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingTransactionsTests.swift; sourceTree = "<group>"; };
 		82F9A57E25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingDepositsTests.swift; sourceTree = "<group>"; };
+		A1F2544401000000B5000001 /* GpApiReportingMonthlyFeesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingMonthlyFeesTests.swift; sourceTree = "<group>"; };
+		A1F2544401000000B5000004 /* GpApiReportingSettlementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingSettlementTests.swift; sourceTree = "<group>"; };
 		82FAF8DC2535B16E00B10401 /* gp_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gp_logo.png; sourceTree = "<group>"; };
 		82FAF8DD2535B16E00B10401 /* gp_logo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = gp_logo.pdf; sourceTree = "<group>"; };
 		82FAF8E32535B2B500B10401 /* ResouceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResouceLoader.swift; sourceTree = "<group>"; };
@@ -1665,7 +1674,11 @@
 		8267BC9624DAB5B700AF64D2 /* GpApi */ = {
 			isa = PBXGroup;
 			children = (
+
+				07A07B89308BD59F00C00A56 /* GpApiBatchReportingTests.swift */,
+
 				07428B02307E5C0A0026B5F0 /* GpApiCreditWithMMATests.swift */,
+
 				6561EB6A305BC27A00A82EBE /* GpApiAuthenticationsReportingTests.swift */,
 				65EAEE2C303C1CD600FE267B /* GpApiTransactionChallengeTests.swift */,
 				650323953021FE11006F7491 /* GpApiCashpressoTest.swift */,
@@ -1686,6 +1699,8 @@
 				8252038B24E2A72000784248 /* GpApiEbtTests.swift */,
 				82CF9A80257A60C400B7CC18 /* GpApiMappingTests.swift */,
 				82F9A57E25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift */,
+				A1F2544401000000B5000001 /* GpApiReportingMonthlyFeesTests.swift */,
+				A1F2544401000000B5000004 /* GpApiReportingSettlementTests.swift */,
 				C73907E1306404B90018340C /* GpApiTransactionSummaryReportTests.swift */,
 				824451BB24E150410080D06B /* GpApiReportingDisputesTests.swift */,
 				82F9A57A25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift */,
@@ -3171,6 +3186,7 @@
 				A5FC78332A6DD5AC00BBD524 /* GpApiBNPLTest.swift in Sources */,
 				650323963021FE11006F7491 /* GpApiCashpressoTest.swift in Sources */,
 				8267BC9824DAB5F100AF64D2 /* GpApiCreditCardNotPresentTests.swift in Sources */,
+				07A07B8A308BD59F00C00A56 /* GpApiBatchReportingTests.swift in Sources */,
 				82F9A57B25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift in Sources */,
 				C7D8C73A2E8D2E2E007735E0 /* PorticoReportingTests.swift in Sources */,
 				C75FE6512E5C556800E56004 /* GpApiBlikPayuCertification.swift in Sources */,
@@ -3179,6 +3195,8 @@
 				6551742E2FFF8C5F0009520B /* GpApiClickToPayTestData.swift in Sources */,
 				82F9A57F25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift in Sources */,
 				07428B03307E5C0A0026B5F0 /* GpApiCreditWithMMATests.swift in Sources */,
+				A1F2544401000000B5000002 /* GpApiReportingMonthlyFeesTests.swift in Sources */,
+				A1F2544401000000B5000003 /* GpApiReportingSettlementTests.swift in Sources */,
 				82447E9125BAE2ED003F816D /* GpApi3DSecureTests.swift in Sources */,
 				C756FC1C2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift in Sources */,
 				C77085892E4A6F76009EF348 /* GpApiPayUApmTest.swift in Sources */,

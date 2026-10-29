@@ -142,4 +142,31 @@ public class TransactionSummary {
     public var createActionId: String?
     public var linkId: String?
     public var action: ActionSummary?
+
+    // MARK: - Settlement
+
+    /// A unique identifier that identifies the transaction when it is funded or being funded.
+    public var settlementTransactionReference: String?
+    /// The amount of the transaction in the merchant's currency that is funded to the merchant.
+    public var merchantAmount: NSDecimalNumber?
+    /// The currency of the merchant amount in ISO-4217 (alpha-3).
+    public var merchantCurrency: String?
+    /// The discount amount of the transaction in the currency the transaction was captured in.
+    public var discountAmount: NSDecimalNumber?
+    /// The discount amount of the transaction in the currency the merchant gets funded in.
+    public var merchantDiscountAmount: NSDecimalNumber?
+    /// The total amount of tax charges associated with this transaction in the currency the merchant gets taxed in.
+    public var merchantTaxAmount: NSDecimalNumber?
+    /// Indicates if a tax amount was included in the settled merchant amount.
+    public var taxInMerchantAmount: Bool?
+    /// A Global Payments created reference that uniquely identifies the batch.
+    public var batchId: String?
+    /// The time indicating when the batch was created.
+    public var batchTimeCreated: Date?
+    /// Code that identifies a specific card type and description returned when the transaction is funded or being funded.
+    public var settlementCode: String?
+    /// Indicates how the card is funded.
+    public var cardFunding: String?
+    /// A breakdown of the fees associated with the settled transaction.
+    public var fees: SettlementFees?
 }

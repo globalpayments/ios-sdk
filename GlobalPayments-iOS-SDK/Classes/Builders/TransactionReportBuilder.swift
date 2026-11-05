@@ -41,6 +41,22 @@ import Foundation
         return self
     }
 
+    /// Sets the acquirer code (GPN, HPY or EVO) as criteria for the report.
+    /// - Parameter acquirerCode: The acquirer code
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAcquirerCode(_ acquirerCode: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.acquirerCode = acquirerCode
+        return self
+    }
+
+    /// Sets the order reference as criteria for the report.
+    /// - Parameter orderReference: The merchant defined order reference
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withOrderReference(_ orderReference: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.orderId = orderReference
+        return self
+    }
+
     /// Sets the end date ID as criteria for the report.
     /// - Parameter endDate: The end date ID
     /// - Returns: TransactionReportBuilder<TResult>
@@ -134,6 +150,62 @@ import Foundation
     /// - Returns: TransactionReportBuilder<TResult>
     public func withBatchReference(_ batchReference: String?) -> TransactionReportBuilder<TResult> {
         searchCriteriaBuilder.batchReference = batchReference
+        return self
+    }
+
+    /// Sets the merchant's base currency as criteria for the DCC BIN ranges report.
+    /// - Parameter merchantCurrency: The merchant's base currency (ISO-4217 alpha-3)
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withMerchantCurrency(_ merchantCurrency: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.merchantCurrency = merchantCurrency
+        return self
+    }
+
+    /// Sets the payer currencies as criteria for the DCC BIN ranges report.
+    /// - Parameter payerCurrency: The list of payer currencies (ISO-4217 alpha-3)
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withPayerCurrency(_ payerCurrency: [String]?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.payerCurrency = payerCurrency
+        return self
+    }
+
+    /// Sets the date to start obtaining updated DCC BIN ranges from.
+    /// - Parameter timeLastReceived: The date to start obtaining updated information from
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withTimeLastReceived(_ timeLastReceived: Date?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.timeLastReceived = timeLastReceived
+        return self
+    }
+
+    /// Sets the index to start obtaining DCC BIN ranges from.
+    /// - Parameter lastIndex: The index number to start obtaining information from
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withLastIndex(_ lastIndex: Int?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.lastIndex = lastIndex
+        return self
+    }
+
+    /// Sets the account name as criteria for the DCC BIN ranges report.
+    /// - Parameter accountName: The merchant account name
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAccountName(_ accountName: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.accountName = accountName
+        return self
+    }
+
+    /// Sets the account id as criteria for the DCC BIN ranges report.
+    /// - Parameter accountId: The merchant account id
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withAccountId(_ accountId: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.accountId = accountId
+        return self
+    }
+
+    /// Sets the country as criteria for the DCC BIN ranges report.
+    /// - Parameter country: The country in ISO-3166-1(alpha-2 code) format
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withCountry(_ country: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.country = country
         return self
     }
 
@@ -353,14 +425,7 @@ import Foundation
         return self
     }
 
-    /// Sets the merchant's order reference as criteria for the report.
-    /// - Parameter orderReference: The merchant defined order reference
-    /// - Returns: TransactionReportBuilder<TResult>
-    public func withOrderReference(_ orderReference: String?) -> TransactionReportBuilder<TResult> {
-        searchCriteriaBuilder.orderReference = orderReference
-        return self
-    }
-
+   
     /// Sets the deposit id as criteria for the report. Used by the Settled Disputes report as `deposit.id`.
     /// - Parameter depositId: The deposit id
     /// - Returns: TransactionReportBuilder<TResult>
@@ -392,7 +457,23 @@ import Foundation
         searchCriteriaBuilder.referenceNumber = referenceNumber
         return self
     }
+     
+    /// Sets the display name as criteria for the report.
+    /// - Parameter displayName: The display name
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withDisplayName(_ displayName: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.displayName = displayName
+        return self
+    }
 
+    /// Sets the description as criteria for the report.
+    /// - Parameter description: The description
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withSearchDescription(_ description: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.searchDescription = description
+        return self
+    }
+    
     /// Sets the settlement code as criteria for the report.
     /// - Parameter settlementCode: The settlement code
     /// - Returns: TransactionReportBuilder<TResult>
@@ -655,8 +736,48 @@ import Foundation
     /// Sets the tax amount applied to merchant fees as criteria for the report.
     /// - Parameter amount: The fee tax amount
     /// - Returns: TransactionReportBuilder<TResult>
-    public func withFeeTaxAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
-        searchCriteriaBuilder.feeTaxAmount = amount
+     public func withFeeTaxAmount(_ amount: NSDecimalNumber?) -> TransactionReportBuilder<TResult> {
+         searchCriteriaBuilder.feeTaxAmount = amount
+         return self
+     }
+
+    /// Sets the currency as criteria for the report.
+    /// - Parameter currency: The currency in ISO-4217 (alpha-3) format
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withCurrency(_ currency: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.currency = currency
+        return self
+    }
+
+    /// Sets the expiration date as criteria for the report.
+    /// - Parameter expirationDate: The expiration date
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withExpirationDate(_ expirationDate: Date?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.expirationDate = expirationDate
+        return self
+    }
+
+    /// Sets the Pay By Link status as criteria for the report.
+    /// - Parameter status: The Pay By Link status
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withPayByLinkStatus(_ status: PayByLinkStatus?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.payByLinkStatus = status
+        return self
+    }
+
+    /// Sets the payment method usage mode as criteria for the report.
+    /// - Parameter usageMode: The usage mode
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withUsageMode(_ usageMode: PaymentMethodUsageMode?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.paymentMethodUsageMode = usageMode
+        return self
+    }
+
+    /// Sets whether shipping details are captured, as criteria for the report.
+    /// - Parameter shippable: The shippable flag
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withShippable(_ shippable: Bool?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.shippable = shippable
         return self
     }
 

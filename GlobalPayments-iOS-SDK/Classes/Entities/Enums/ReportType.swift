@@ -81,4 +81,6 @@ public struct ReportType: OptionSet, Hashable {
     public static let transactionSummaryReport       = ReportType(rawValue: 1 << 34)
     /// Indicates a paged Monthly Fee Report
     public static let findMonthlyFeesPaged           = ReportType(rawValue: 1 << 35)
+    /// Indicates a DCC BIN ranges report.
+    public static let findDccBinRanges                = ReportType(rawValue: 1 << 36)
 }

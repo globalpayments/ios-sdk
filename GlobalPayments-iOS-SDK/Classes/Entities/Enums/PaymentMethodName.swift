@@ -11,8 +11,11 @@ public enum PaymentMethodName: String, Mappable {
     case cashpresso = "CASHPRESSO"
     
     public init?(value: String?) {
-        guard let value = value,
-              let status = PaymentMethodName(rawValue: value) else { return nil }
+        guard let value = value else { return nil }
+        // GP API returns payment method names upper-cased, e.g. "CARD".
+        guard let status = PaymentMethodName(rawValue: value)
+                ?? PaymentMethodName(rawValue: value.lowercased())
+                ?? PaymentMethodName(rawValue: value.uppercased()) else { return nil }
         self = status
     }
 

@@ -31,6 +31,10 @@ extension PayByLinkSummary {
     
     class func mapFromJson(_ doc: JsonDoc?) -> PayByLinkSummary{
         let summary = PayByLinkSummary()
+        summary.merchantId = doc?.getValue(key: "merchant_id")
+        summary.merchantName = doc?.getValue(key: "merchant_name")
+        summary.accountId = doc?.getValue(key: "account_id")
+        summary.accountName = doc?.getValue(key: "account_name")
         summary.id = doc?.getValue(key: "id")
         summary.url = doc?.getValue(key: "url")
         summary.status = PayByLinkStatus(value: doc?.getValue(key: "status"))
@@ -44,11 +48,12 @@ extension PayByLinkSummary {
         summary.shippingAmount = doc?.getValue(key: "shipping_amount")
         summary.usageCount = doc?.getValue(key: "usage_count")
         summary.viewedCount = doc?.getValue(key: "viewed_count")
-        summary.expirationDate = doc?.getValue(key: "expiration_date")
+        summary.expirationDate = parseDate(doc?.getValue(key: "expiration_date"))
         summary.images = doc?.getValue(key: "images")
         
         if let transaction: JsonDoc = doc?.getValue(key: "transactions") {
-            summary.amount = transaction.getValue(key: "amount")
+            summary.currency = transaction.getValue(key: "currency")
+            summary.amount = NSDecimalNumber(string: transaction.getValue(key: "amount")).amount(for: summary.currency)
             summary.allowedPaymentMethods = getAllowedPaymentMethods(doc: transaction)
             
             if let transactionList: [JsonDoc?] = transaction.getValue(key: "transaction_list") {
@@ -60,6 +65,14 @@ extension PayByLinkSummary {
             }
         }
         return summary
+    }
+    
+    private static func parseDate(_ value: String?) -> Date? {
+        guard let value = value else { return nil }
+        return value.format()
+            ?? value.format("yyyy-MM-dd'T'HH:mm:ssZ")
+            ?? value.format("yyyy-MM-dd'T'HH:mm:ss")
+            ?? value.format("yyyy-MM-dd")
     }
     
     private static func getAllowedPaymentMethods(doc: JsonDoc?) -> [PaymentMethodName]? {
@@ -80,12 +93,12 @@ extension PayByLinkSummary {
     private static func createTransactionSummary(doc: JsonDoc?) -> TransactionSummary {
         let transaction = TransactionSummary();
         transaction.transactionId = doc?.getValue(key: "id")
-        transaction.transactionDate = doc?.getValue(key: "time_created")
-        transaction.transactionStatus = doc?.getValue(key: "status")
+        transaction.transactionDate = parseDate(doc?.getValue(key: "time_created"))
+        transaction.transactionStatus = TransactionStatus(value: doc?.getValue(key: "status"))
         transaction.transactionType = doc?.getValue(key: "type")
         transaction.channel = doc?.getValue(key: "channel")
-        transaction.amount = doc?.getValue(key: "amount")
         transaction.currency = doc?.getValue(key: "currency")
+        transaction.amount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount(for: transaction.currency)
         transaction.referenceNumber = doc?.getValue(key: "reference")
         transaction.clientTransactionId = doc?.getValue(key: "reference")
         transaction.description = doc?.getValue(key: "description")

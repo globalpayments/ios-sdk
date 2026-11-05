@@ -132,6 +132,10 @@ public class ReportingService {
             .withPaging(page, pageSize)
     }
 
+    public static func findDccBinRanges() -> TransactionReportBuilder<DccBinRangeResponse> {
+        TransactionReportBuilder<DccBinRangeResponse>(reportType: .findDccBinRanges)
+    }
+
     // MARK: - Batches
 
     public static func batchDetail(batchReference: String) -> TransactionReportBuilder<BatchSummary> {

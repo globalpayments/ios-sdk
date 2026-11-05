@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07A07B8A308BD59F00C00A56 /* GpApiBatchReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A07B89308BD59F00C00A56 /* GpApiBatchReportingTests.swift */; };
 		07428B03307E5C0A0026B5F0 /* GpApiCreditWithMMATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07428B02307E5C0A0026B5F0 /* GpApiCreditWithMMATests.swift */; };
+		07A07B8A308BD59F00C00A56 /* GpApiBatchReportingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A07B89308BD59F00C00A56 /* GpApiBatchReportingTests.swift */; };
+		07D1FCE530989F150042F68D /* GpApiDccBinRangesReportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D1FCE430989F150042F68D /* GpApiDccBinRangesReportTests.swift */; };
 		302D583D28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */; };
 		304226FB29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */; };
 		308E27C32829F56F001441D0 /* DigitalWalletsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308E27C22829F56F001441D0 /* DigitalWalletsBuilder.swift */; };
@@ -228,11 +229,11 @@
 		82F9A57725B72BAD00B5E3E1 /* OptionalsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9A57625B72BAD00B5E3E1 /* OptionalsExtension.swift */; };
 		82F9A57B25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9A57A25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift */; };
 		82F9A57F25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9A57E25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift */; };
-		A1F2544401000000B5000002 /* GpApiReportingMonthlyFeesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F2544401000000B5000001 /* GpApiReportingMonthlyFeesTests.swift */; };
-		A1F2544401000000B5000003 /* GpApiReportingSettlementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F2544401000000B5000004 /* GpApiReportingSettlementTests.swift */; };
 		82FAF8DE2535B16E00B10401 /* gp_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 82FAF8DC2535B16E00B10401 /* gp_logo.png */; };
 		82FAF8DF2535B16E00B10401 /* gp_logo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 82FAF8DD2535B16E00B10401 /* gp_logo.pdf */; };
 		82FAF8E42535B2B500B10401 /* ResouceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FAF8E32535B2B500B10401 /* ResouceLoader.swift */; };
+		A1F2544401000000B5000002 /* GpApiReportingMonthlyFeesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F2544401000000B5000001 /* GpApiReportingMonthlyFeesTests.swift */; };
+		A1F2544401000000B5000003 /* GpApiReportingSettlementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F2544401000000B5000004 /* GpApiReportingSettlementTests.swift */; };
 		A506E86C29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A506E86B29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift */; };
 		A50B0CFC2A9E140E00C1A88E /* HostedFields.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A50B0CFB2A9E140E00C1A88E /* HostedFields.storyboard */; };
 		A50B0CFE2A9E142000C1A88E /* HostedFieldsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50B0CFD2A9E142000C1A88E /* HostedFieldsViewController.swift */; };
@@ -500,11 +501,9 @@
 
 /* Begin PBXFileReference section */
 		01691D0CD66B2865EC702F28 /* Pods_GlobalPayments_iOS_SDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GlobalPayments_iOS_SDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-
-		07A07B89308BD59F00C00A56 /* GpApiBatchReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBatchReportingTests.swift; sourceTree = "<group>"; };
-
 		07428B02307E5C0A0026B5F0 /* GpApiCreditWithMMATests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreditWithMMATests.swift; sourceTree = "<group>"; };
-
+		07A07B89308BD59F00C00A56 /* GpApiBatchReportingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBatchReportingTests.swift; sourceTree = "<group>"; };
+		07D1FCE430989F150042F68D /* GpApiDccBinRangesReportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDccBinRangesReportTests.swift; sourceTree = "<group>"; };
 		25E89B4C4C3BC69C6EA4BF0A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		302D583C28FF1FB200A5D4BA /* GpApiFraudManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GpApiFraudManagementTests.swift; path = Tests/GpApi/GpApiFraudManagementTests.swift; sourceTree = SOURCE_ROOT; };
 		304226FA29511DC70029FF60 /* GpApiDccCardNotPresentTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiDccCardNotPresentTest.swift; sourceTree = "<group>"; };
@@ -730,13 +729,13 @@
 		82F9A57625B72BAD00B5E3E1 /* OptionalsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalsExtension.swift; sourceTree = "<group>"; };
 		82F9A57A25B7321700B5E3E1 /* GpApiReportingTransactionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingTransactionsTests.swift; sourceTree = "<group>"; };
 		82F9A57E25B735DD00B5E3E1 /* GpApiReportingDepositsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingDepositsTests.swift; sourceTree = "<group>"; };
-		A1F2544401000000B5000001 /* GpApiReportingMonthlyFeesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingMonthlyFeesTests.swift; sourceTree = "<group>"; };
-		A1F2544401000000B5000004 /* GpApiReportingSettlementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingSettlementTests.swift; sourceTree = "<group>"; };
 		82FAF8DC2535B16E00B10401 /* gp_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gp_logo.png; sourceTree = "<group>"; };
 		82FAF8DD2535B16E00B10401 /* gp_logo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = gp_logo.pdf; sourceTree = "<group>"; };
 		82FAF8E32535B2B500B10401 /* ResouceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResouceLoader.swift; sourceTree = "<group>"; };
 		866C760D426DC19D7E0BA8F6 /* LICENSE.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		91ABE6513154F2259E6668F8 /* Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-GlobalPayments-iOS-SDK_Example/Pods-GlobalPayments-iOS-SDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		A1F2544401000000B5000001 /* GpApiReportingMonthlyFeesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingMonthlyFeesTests.swift; sourceTree = "<group>"; };
+		A1F2544401000000B5000004 /* GpApiReportingSettlementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiReportingSettlementTests.swift; sourceTree = "<group>"; };
 		A506E86B29BB6A26006787CE /* GpApiMerchantsOnboardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiMerchantsOnboardTest.swift; sourceTree = "<group>"; };
 		A50B0CFB2A9E140E00C1A88E /* HostedFields.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HostedFields.storyboard; sourceTree = "<group>"; };
 		A50B0CFD2A9E142000C1A88E /* HostedFieldsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostedFieldsViewController.swift; sourceTree = "<group>"; };
@@ -1674,11 +1673,9 @@
 		8267BC9624DAB5B700AF64D2 /* GpApi */ = {
 			isa = PBXGroup;
 			children = (
-
+				07D1FCE430989F150042F68D /* GpApiDccBinRangesReportTests.swift */,
 				07A07B89308BD59F00C00A56 /* GpApiBatchReportingTests.swift */,
-
 				07428B02307E5C0A0026B5F0 /* GpApiCreditWithMMATests.swift */,
-
 				6561EB6A305BC27A00A82EBE /* GpApiAuthenticationsReportingTests.swift */,
 				65EAEE2C303C1CD600FE267B /* GpApiTransactionChallengeTests.swift */,
 				650323953021FE11006F7491 /* GpApiCashpressoTest.swift */,
@@ -3153,6 +3150,7 @@
 				A59667FA29FB43D700EE816D /* GpApiApmTest.swift in Sources */,
 				824BB68625D549C9002DE472 /* GpApi3DSecureAcsClient.swift in Sources */,
 				655174272FF27C970009520B /* GpApiBatchCloseWithoutIdTest.swift in Sources */,
+				07D1FCE530989F150042F68D /* GpApiDccBinRangesReportTests.swift in Sources */,
 				82F20D08262EF4A100A08543 /* GpApi3DSecure2Tests.swift in Sources */,
 				C735E4692F7F988A00FCA903 /* GpApiVisaAFTsTest.swift in Sources */,
 				C7B7C2BB2EC7415F00606350 /* GpApiCreateTokenWithPorticoCredentialsTest.swift in Sources */,

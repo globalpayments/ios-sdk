@@ -30,6 +30,7 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
             
             payload.set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
             payload.set(for: "account_id", value: config?.accessTokenInfo?.transactionProcessingAccountID)
+            payload.set(for: "transaction_type", value: (builder.dccRateData?.dccRateType ?? builder.dccRateData?.normalizedRateType() ?? .sale) == .refund ? "REFUND" : "SALE")
             payload.set(for: "channel", value: config?.channel.mapped(for: .gpApi))
             payload.set(for: "reference", value: builder.clientTransactionId ?? UUID().uuidString)
             .set(for: "amount", value: builder.amount?.toNumericCurrencyString(currency: builder.currency))
@@ -189,12 +190,13 @@ struct GpApiAuthorizationRequestBuilder: GpApiRequestData {
 
                     payload.set(for: "status", value: builder.customerData?.status)
                 } else {
+                    payload.set(for: "merchant_id", value: config?.merchantId)
                     payload.set(for: "usage_limit", value: payByLinkData.usageLimit)
                     payload.set(for: "usage_mode", value: payByLinkData.usageMode?.mapped(for: .gpApi))
                     payload.set(for: "images", value: payByLinkData.images)
                     payload.set(for: "description", value: builder.requestDescription)
                     payload.set(for: "type", value: payByLinkData.type?.mapped(for: .gpApi))
-                    payload.set(for: "expiration_date", value: payByLinkData.expirationDate?.format("yyyy-MM-dd"))
+                    payload.set(for: "expiration_date", value: payByLinkData.expirationDate?.stringFromDateWithMilliseconds("yyyy-MM-dd'T'HH:mm:ss'Z'"))
                     
                     let transaction = JsonDoc()
                     transaction.set(for: "country", value: config?.country)

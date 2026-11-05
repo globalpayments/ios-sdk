@@ -23,6 +23,7 @@
 		07428AF8307CBCB70026B5F0 /* AccountProcessingLimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07428AF3307CBCB70026B5F0 /* AccountProcessingLimits.swift */; };
 		075A87205E930718E1E41E0038639425 /* PrePaid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18433937B654AEB1DAD221D99887BE79 /* PrePaid.swift */; };
 		07A07B8C308BD66600C00A56 /* BatchTransactionsSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A07B8B308BD66600C00A56 /* BatchTransactionsSummary.swift */; };
+		07D1FCE730989F3A0042F68D /* DccBinRangeSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D1FCE630989F3A0042F68D /* DccBinRangeSummary.swift */; };
 		09840E32E90BD59CD4ADEBA28513F249 /* BuilderException.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18C41D93D00F294C4B498523740839D /* BuilderException.swift */; };
 		099EAA538AE0A9A52B139E2FD396DB9F /* PaymentGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0A6364A3634B1423AC16C09835A292 /* PaymentGateway.swift */; };
 		0A27AE63A2761A137B297FA88ABA8B97 /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526A0BEB3E539EF1ADA08FF67AF9527B /* PaymentMethod.swift */; };
@@ -320,6 +321,11 @@
 		C73907E43064066D0018340C /* PaymentMethodCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73907E33064066D0018340C /* PaymentMethodCategory.swift */; };
 		C73907E630640A9E0018340C /* TransactionSummaryReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73907E530640A9E0018340C /* TransactionSummaryReport.swift */; };
 		C7C0576DF280A75B19680C035478DB19 /* Encryptable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB3D47588220FA788E77F763A0CCC42 /* Encryptable.swift */; };
+		C7E06645309B66E600E1DEB1 /* MonthlyFeeStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E06644309B66E600E1DEB1 /* MonthlyFeeStatus.swift */; };
+		C7E06646309B66E600E1DEB1 /* MonthlyFeeSortProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E06643309B66E600E1DEB1 /* MonthlyFeeSortProperty.swift */; };
+		C7E0664A309B67C000E1DEB1 /* SettlementFees.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E06649309B67C000E1DEB1 /* SettlementFees.swift */; };
+		C7E0664B309B67C000E1DEB1 /* DepositBankTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E06647309B67C000E1DEB1 /* DepositBankTransfer.swift */; };
+		C7E0664C309B67C000E1DEB1 /* MonthlyFeeSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E06648309B67C000E1DEB1 /* MonthlyFeeSummary.swift */; };
 		C85365D3DBB8B7B56FB564B22ED93AED /* TransactionSortProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2493BA6080CE87B0FD174694F8BE21F /* TransactionSortProperty.swift */; };
 		C8ADF242D9453F9D269C7D9739A3E03D /* ExtraChargeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149493A7CDA216A41DC3C20C71D09940 /* ExtraChargeType.swift */; };
 		C8FB86F945905C4DF8ED15C3DB9A8C38 /* DigitalWalletTokenFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076E4A349DC1D9A97C89F858EE76C82C /* DigitalWalletTokenFormat.swift */; };
@@ -425,6 +431,7 @@
 		07428AF4307CBCB70026B5F0 /* TransactionProcessingConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionProcessingConfiguration.swift; sourceTree = "<group>"; };
 		076E4A349DC1D9A97C89F858EE76C82C /* DigitalWalletTokenFormat.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DigitalWalletTokenFormat.swift; sourceTree = "<group>"; };
 		07A07B8B308BD66600C00A56 /* BatchTransactionsSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchTransactionsSummary.swift; sourceTree = "<group>"; };
+		07D1FCE630989F3A0042F68D /* DccBinRangeSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DccBinRangeSummary.swift; sourceTree = "<group>"; };
 		0904D27FB101C67718A95BC6F2C996D3 /* StorageMode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StorageMode.swift; sourceTree = "<group>"; };
 		09C4D2FA75E2759E383E94591209492B /* GpApiConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GpApiConfig.swift; sourceTree = "<group>"; };
 		0B05CBD20115316A63C68EE7028EA517 /* CheckType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CheckType.swift; sourceTree = "<group>"; };
@@ -719,6 +726,11 @@
 		C2ADE52B64C4558A8E5EB73BEB887D6E /* MobileData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MobileData.swift; sourceTree = "<group>"; };
 		C73907E33064066D0018340C /* PaymentMethodCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodCategory.swift; sourceTree = "<group>"; };
 		C73907E530640A9E0018340C /* TransactionSummaryReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSummaryReport.swift; sourceTree = "<group>"; };
+		C7E06643309B66E600E1DEB1 /* MonthlyFeeSortProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyFeeSortProperty.swift; sourceTree = "<group>"; };
+		C7E06644309B66E600E1DEB1 /* MonthlyFeeStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyFeeStatus.swift; sourceTree = "<group>"; };
+		C7E06647309B67C000E1DEB1 /* DepositBankTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositBankTransfer.swift; sourceTree = "<group>"; };
+		C7E06648309B67C000E1DEB1 /* MonthlyFeeSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyFeeSummary.swift; sourceTree = "<group>"; };
+		C7E06649309B67C000E1DEB1 /* SettlementFees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettlementFees.swift; sourceTree = "<group>"; };
 		C84FCF8FE098BE93CB885F6082DD331A /* NetworkError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		C8777AA905305DD1E94911BF87F7F2F0 /* MethodUrlCompletion.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MethodUrlCompletion.swift; sourceTree = "<group>"; };
 		CC6FB759866FCCAAD393BB75EF90A7C5 /* MerchantDocumentType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MerchantDocumentType.swift; sourceTree = "<group>"; };
@@ -1071,14 +1083,11 @@
 		899C952DF708C7C5077F6358871468B3 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-
 				07A07B8B308BD66600C00A56 /* BatchTransactionsSummary.swift */,
-
 				07428AF1307CBCB70026B5F0 /* AccountEditData.swift */,
 				07428AF2307CBCB70026B5F0 /* AccountPaymentProcessingStatistics.swift */,
 				07428AF3307CBCB70026B5F0 /* AccountProcessingLimits.swift */,
 				07428AF4307CBCB70026B5F0 /* TransactionProcessingConfiguration.swift */,
-
 				6561EB593052897D00A82EBE /* PaymentCodeInitiator.swift */,
 				6561EB573052894A00A82EBE /* BlikMode.swift */,
 				650323933021FDD3006F7491 /* ApmProviderConfiguration.swift */,
@@ -1167,6 +1176,8 @@
 		9653FC3561D2A39E9C54C15F1B3E873E /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				C7E06643309B66E600E1DEB1 /* MonthlyFeeSortProperty.swift */,
+				C7E06644309B66E600E1DEB1 /* MonthlyFeeStatus.swift */,
 				07428AEB307CBC4B0026B5F0 /* AccountCapability.swift */,
 				07428AEC307CBC4B0026B5F0 /* AccountPaymentMethod.swift */,
 				07428AED307CBC4B0026B5F0 /* CardReplacementReason.swift */,
@@ -1305,6 +1316,10 @@
 		9C5648FB38D6C6E365A017C6F0B3C0B7 /* Reporting */ = {
 			isa = PBXGroup;
 			children = (
+				C7E06647309B67C000E1DEB1 /* DepositBankTransfer.swift */,
+				C7E06648309B67C000E1DEB1 /* MonthlyFeeSummary.swift */,
+				C7E06649309B67C000E1DEB1 /* SettlementFees.swift */,
+				07D1FCE630989F3A0042F68D /* DccBinRangeSummary.swift */,
 				6561EB68305BC21E00A82EBE /* AuthenticationSummary.swift */,
 				A0EC18E754530C7BC44A37DA912DBB1C /* ActionSummary.swift */,
 				2D422EBEAA3FDC01CC590AD506C30A15 /* AltPaymentData.swift */,
@@ -1893,6 +1908,9 @@
 				A3BE9C0AD5C9438F205CFC0A278D3376 /* LodgingItem.swift in Sources */,
 				FCC0885432B4F158F580709A67F7D493 /* LodgingItemType.swift in Sources */,
 				5B7E6A9750EEF4276FBB70058D7DBA7E /* ManagementBuilder.swift in Sources */,
+				C7E0664A309B67C000E1DEB1 /* SettlementFees.swift in Sources */,
+				C7E0664B309B67C000E1DEB1 /* DepositBankTransfer.swift in Sources */,
+				C7E0664C309B67C000E1DEB1 /* MonthlyFeeSummary.swift in Sources */,
 				3A52AA6EE04B4212959335F3EBFE7324 /* ManualEntryMethod.swift in Sources */,
 				91F9932AFFDBF6477D21AB5A69EF732E /* Mappable.swift in Sources */,
 				069738A207B49819F3323EB140F79050 /* MaskedItem.swift in Sources */,
@@ -1945,6 +1963,9 @@
 				8A59F91043F7E3E25BB7339A4D363729 /* PaymentMethodUsageMode.swift in Sources */,
 				B5B9986BBC6FBAFD590A7DBBF81D5A10 /* PaymentProvider.swift in Sources */,
 				5FC87F39F4E755143C83A8251B8B27B8 /* PaymentSchedule.swift in Sources */,
+				C7E06645309B66E600E1DEB1 /* MonthlyFeeStatus.swift in Sources */,
+				C7E06646309B66E600E1DEB1 /* MonthlyFeeSortProperty.swift in Sources */,
+				07D1FCE730989F3A0042F68D /* DccBinRangeSummary.swift in Sources */,
 				7D432A45CC781070E974FAB3D67C30F5 /* PaymentStatistics.swift in Sources */,
 				707144235DE69D3C33BBA007B7C4449D /* PaymentType.swift in Sources */,
 				2216AEDDD259AD335A1CDDFA93222F28 /* PaypalType.swift in Sources */,

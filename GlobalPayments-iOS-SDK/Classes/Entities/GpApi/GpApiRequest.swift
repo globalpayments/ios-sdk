@@ -69,6 +69,10 @@ extension GpApiRequest {
             "/currency-conversions"
         }
 
+        static func currencyConversionsDccBinRanges() -> String {
+            "/currency-conversions/dcc-bin-ranges"
+        }
+
         // MARK: - Transactions
 
         static func transactions() -> String {

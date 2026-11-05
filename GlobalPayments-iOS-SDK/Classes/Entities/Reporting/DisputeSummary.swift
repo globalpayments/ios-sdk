@@ -53,4 +53,42 @@ public class DisputeSummary {
     public var lastAdjustmentFunding: String?
     public var lastAdjustmentTimeCreated: Date?
     public var documents: [DisputeDocument]?
+    /// Merchant identifier set by Global Payments (`merchant_id`).
+    public var merchantId: String?
+    /// Merchant label set by Global Payments (top level `merchant_name`). `merchantName` holds `system.name`.
+    public var merchantLabel: String?
+    public var accountId: String?
+    public var accountName: String?
+    public var caseStatusTime: Date?
+    public var investigatorComment: String?
+    public var acquirerCode: String?
+    public var globalTransactionReference: String?
+    public var globalTransactionSource: String?
+    public var netFinancialAmount: NSDecimalNumber?
+    public var netFinancialCurrency: String?
+    public var netFinancialFunding: String?
+    public var foreignIssuedCard: String?
+    public var dispositionDescription: String?
+    public var dispositionDate: Date?
+    public var storeReference: String?
+    public var regionCode: String?
+    public var paymentMethodProviders: [DisputePaymentMethodProvider]?
+    public var transactionRemarks: String?
+    public var terminalCapabilityCode: String?
+    public var avsResult: String?
+    public var entryModeCode: String?
+    public var cardBrandReference: String?
+    public var cardIssuerBin: String?
+    public var cardAcquirerBin: String?
+    public var orderInvoiceNumber: String?
+    public var terminalCapacityCode: String?
+    /// Details of the action executed (id, type, time created, result code, app id and app name).
+    public var action: ActionSummary?
+}
+
+/// Data associated with the payment method provider for a Dispute.
+public class DisputePaymentMethodProvider {
+    public var comment: String?
+    public var reference: String?
+    public var documents: [DisputeDocument]?
 }

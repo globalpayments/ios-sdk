@@ -143,6 +143,9 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             addPageParams(&params, builder)
             addDisputesParams(&params, builder)
             params["status"] = builder.searchCriteriaBuilder.disputeStatus?.mapped(for: .gpApi)
+            params["deposit_id"] = builder.searchCriteriaBuilder.depositReference
+            params["order.reference"] = builder.searchCriteriaBuilder.orderId
+            params["acquirer_code"] = builder.searchCriteriaBuilder.acquirerCode
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.disputes(),
                 method: .get,
@@ -180,7 +183,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                 method: .post
             )
         case .challangeDispute:
-            let data = try? ["documents": builder.disputeDocuments].asString()
+            let data = builder.disputeDocuments.flatMap { try? ["documents": $0].asString() }
             return GpApiRequest(
                 endpoint: GpApiRequest.Endpoints.challengeDispute(id: builder.searchCriteriaBuilder.disputeReference ?? .empty),
                 method: .post,
@@ -256,6 +259,14 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                 method: .get,
                 queryParams: sanitize(params: params)
             )
+        case .findDccBinRanges:
+            var params = [String: String]()
+            addDccBinRangesParams(&params, builder)
+            return GpApiRequest(
+                endpoint: merchantUrl + GpApiRequest.Endpoints.currencyConversionsDccBinRanges(),
+                method: .get,
+                queryParams: sanitize(params: params)
+            )
         case .authenticationDetail:
             let authenticationId = builder.searchCriteriaBuilder.authenticationId ?? .empty
             return GpApiRequest(
@@ -302,7 +313,8 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             params["from_time_created"] = builder.searchCriteriaBuilder.startDate?.format("yyyy-MM-dd")
             params["to_time_created"] = builder.searchCriteriaBuilder.endDate?.format("yyyy-MM-dd")
             params["order"] = builder.order?.mapped(for: .gpApi)
-            params["order_by"] = builder.actionOrderBy?.mapped(for: .gpApi)
+            params["order_by"] = builder.payByLinkOrderBy?.mapped(for: .gpApi)
+            params["id"] = builder.searchCriteriaBuilder.payByLinkId
             params["status"] = builder.searchCriteriaBuilder.payByLinkStatus?.mapped(for: .gpApi)
             params["usage_mode"] = builder.searchCriteriaBuilder.paymentMethodUsageMode?.mapped(for: .gpApi)
             params["name"] = builder.searchCriteriaBuilder.displayName
@@ -311,6 +323,7 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
             params["reference"] = builder.searchCriteriaBuilder.referenceNumber
             params["country"] = builder.searchCriteriaBuilder.country
             params["currency"] = builder.searchCriteriaBuilder.currency
+            params["shippable"] = builder.searchCriteriaBuilder.shippable.map { $0 ? "YES" : "NO" }
             params["expiration_date"] = builder.searchCriteriaBuilder.expirationDate?.format("yyyy-MM-dd")
             return GpApiRequest(
                 endpoint: merchantUrl + "/links",
@@ -441,6 +454,18 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
         params["to_time_created"] = builder.searchCriteriaBuilder.endDate?.format("yyyy-MM-dd")
         params["from_time_last_updated"] = builder.searchCriteriaBuilder.startLastUpdatedDate?.format("yyyy-MM-dd")
         params["to_time_last_updated"] = builder.searchCriteriaBuilder.endLastUpdatedDate?.format("yyyy-MM-dd")
+    }
+
+    private func addDccBinRangesParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {
+        params["account_name"] = builder.searchCriteriaBuilder.accountName
+        params["account_id"] = builder.searchCriteriaBuilder.accountId
+        params["country"] = builder.searchCriteriaBuilder.country
+        params["merchant_currency"] = builder.searchCriteriaBuilder.merchantCurrency
+        params["payer_currency"] = builder.searchCriteriaBuilder.payerCurrency?.joined(separator: ",")
+        params["time_last_received"] = builder.searchCriteriaBuilder.timeLastReceived?.format("yyyy-MM-dd")
+        if let lastIndex = builder.searchCriteriaBuilder.lastIndex {
+            params["last_index"] = String(lastIndex)
+        }
     }
 
     private func addActionsParams(_ params: inout [String: String], _ builder: TransactionReportBuilder<T>) {

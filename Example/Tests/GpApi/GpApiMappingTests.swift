@@ -360,6 +360,228 @@ class GpApiMappingTests: XCTestCase {
         XCTAssertEqual(actionSummary.merchantName, expectedMerchantName)
     }
 
+    func test_map_dispute_detail_sandbox_response() {
+        // GIVEN
+        let rawJson = #"""
+        {"id":"DIS_SAND_abcd1236","time_created":"2026-10-18T06:29:39.517Z","merchant_id":"MER_62251730c5574bbcb268191b5f315de8","merchant_name":"TEST MERCHANT","account_id":"DIA_882c832d13e04185bb6e213d6303ed98","account_name":"testdispute","status":"WITH_MERCHANT","status_time_created":"2026-10-20T06:29:39.517Z","stage":"SECOND_CHARGEBACK","stage_time_created":"2026-10-23T06:29:39.517Z","amount":"2000","currency":"USD","payer_amount":"1500","payer_currency":"USD","merchant_amount":"2500","merchant_currency":"USD","reason_code":"137","reason_description":"Cancelled Merchandise/Services","order":{"reference":"889654","invoice_number":"325rqadf"},"time_to_respond_by":"2026-11-04T06:29:39.517Z","result":"PENDING","investigator_comment":"WITH_MERCHANT SECOND_CHARGEBACK PENDING 2000 USD 2000 USD","region_code":"AP","system":{"mid":"627384967","hierarchy":"111-23-099-001-001","name":"ABC INC."},"last_adjustment_amount":"2000","last_adjustment_currency":"USD","last_adjustment_funding":"DEBIT","last_adjustment_time_created":"2026-10-26T06:29:39.517Z","net_financial_amount":"2000","net_financial_currency":"USD","net_financial_funding":"DEBIT","foreign_issued_card":"YES","disposition_description":"Response sent to Issuer","disposition_date":"2025-01-08 05:21:40","case_time_created":"2025-01-08 05:21:40","store_reference":"MOTO - 91889","payment_method_provider":[{"comment":"issuer comments 34525","reference":"issuer-reference-0003","documents":[{"id":"DOC_MyEvidence_234234AVCDE-2","type":"ACQUIRER_DOC_FOR_SCHEMES"}]}],"transaction":{"time_created":"2026-09-10T06:29:39.517Z","type":"SALE","amount":"2000","currency":"USD","reference":"my-trans-AAA3","remarks":"my-trans-AAA3","terminal_capability_code":"E00809","merchant_category_code":"6300","provider":{"avs_result":"Z","payment_method":{"entry_mode_code":"90","card":{"number":"424242xxxxxx4242","arn":"549365667487346","brand":"VISA","authcode":"0234AB","brand_reference":"23423421342323A","issuer_bin":"401738","acquirer_bin":"401739"}},"device":{"terminal_capacity_code":"2"}}},"documents":[{"id":"DOC_MyEvidence_234234AVCDE-2","type":"ACQUIRER_DOC_FOR_SCHEMES"}],"action":{"id":"ACT_71d0IODihGKWZxcDhfIaVofFHTt4Qh","type":"DISPUTE_SINGLE","time_created":"2026-10-30T06:29:39.537Z","result_code":"SUCCESS","app_id":"X2QS2alAbhURA3NLwr73pNicdoPijJEp","app_name":"SDK_DEV_TEST"}}
+        """#
+
+        // WHEN
+        let summary = GpApiMapping.mapDisputeSummary(JsonDoc.parse(rawJson))
+
+        // THEN
+        XCTAssertEqual(summary.caseId, "DIS_SAND_abcd1236")
+        XCTAssertEqual(summary.caseIdTime, "2026-10-18T06:29:39.517Z".format())
+        XCTAssertEqual(summary.merchantId, "MER_62251730c5574bbcb268191b5f315de8")
+        XCTAssertEqual(summary.merchantLabel, "TEST MERCHANT")
+        XCTAssertEqual(summary.accountId, "DIA_882c832d13e04185bb6e213d6303ed98")
+        XCTAssertEqual(summary.accountName, "testdispute")
+        XCTAssertEqual(summary.caseStatus, "WITH_MERCHANT")
+        XCTAssertEqual(summary.caseStatusTime, "2026-10-20T06:29:39.517Z".format())
+        XCTAssertEqual(summary.caseStage, .secondChargeback)
+        XCTAssertEqual(summary.caseStageTime, "2026-10-23T06:29:39.517Z".format())
+        XCTAssertEqual(summary.caseAmount, 20)
+        XCTAssertEqual(summary.caseCurrency, "USD")
+        XCTAssertEqual(summary.disputeCustomerAmount, 15)
+        XCTAssertEqual(summary.disputeCustomerCurrency, "USD")
+        XCTAssertEqual(summary.disputeAmount, 25)
+        XCTAssertEqual(summary.disputeCurrency, "USD")
+        XCTAssertEqual(summary.reasonCode, "137")
+        XCTAssertEqual(summary.reason, "Cancelled Merchandise/Services")
+        XCTAssertEqual(summary.transactionOrderId, "889654")
+        XCTAssertEqual(summary.orderInvoiceNumber, "325rqadf")
+        XCTAssertEqual(summary.respondByDate, "2026-11-04T06:29:39.517Z".format())
+        XCTAssertEqual(summary.result, "PENDING")
+        XCTAssertEqual(summary.investigatorComment, "WITH_MERCHANT SECOND_CHARGEBACK PENDING 2000 USD 2000 USD")
+        XCTAssertEqual(summary.regionCode, "AP")
+        XCTAssertEqual(summary.caseMerchantId, "627384967")
+        XCTAssertEqual(summary.merchantHierarchy, "111-23-099-001-001")
+        XCTAssertEqual(summary.merchantName, "ABC INC.")
+        XCTAssertEqual(summary.lastAdjustmentAmount, 20)
+        XCTAssertEqual(summary.lastAdjustmentCurrency, "USD")
+        XCTAssertEqual(summary.lastAdjustmentFunding, "DEBIT")
+        XCTAssertEqual(summary.lastAdjustmentTimeCreated, "2026-10-26T06:29:39.517Z".format())
+        XCTAssertEqual(summary.netFinancialAmount, 20)
+        XCTAssertEqual(summary.netFinancialCurrency, "USD")
+        XCTAssertEqual(summary.netFinancialFunding, "DEBIT")
+        XCTAssertEqual(summary.foreignIssuedCard, "YES")
+        XCTAssertEqual(summary.dispositionDescription, "Response sent to Issuer")
+        XCTAssertNotNil(summary.dispositionDate)
+        XCTAssertEqual(summary.dispositionDate, "2025-01-08 05:21:40".format("yyyy-MM-dd HH:mm:ss"))
+        XCTAssertNotNil(summary.caseTime)
+        XCTAssertEqual(summary.caseTime, "2025-01-08 05:21:40".format("yyyy-MM-dd HH:mm:ss"))
+        XCTAssertEqual(summary.storeReference, "MOTO - 91889")
+
+        XCTAssertEqual(summary.paymentMethodProviders?.count, 1)
+        XCTAssertEqual(summary.paymentMethodProviders?.first?.comment, "issuer comments 34525")
+        XCTAssertEqual(summary.paymentMethodProviders?.first?.reference, "issuer-reference-0003")
+        XCTAssertEqual(summary.paymentMethodProviders?.first?.documents?.first?.id, "DOC_MyEvidence_234234AVCDE-2")
+        XCTAssertEqual(summary.paymentMethodProviders?.first?.documents?.first?.rawType, "ACQUIRER_DOC_FOR_SCHEMES")
+        XCTAssertEqual(summary.issuerComment, "issuer comments 34525")
+        XCTAssertEqual(summary.issuerCaseNumber, "issuer-reference-0003")
+
+        XCTAssertEqual(summary.transactionTime, "2026-09-10T06:29:39.517Z".format())
+        XCTAssertEqual(summary.transactionType, "SALE")
+        XCTAssertEqual(summary.transactionAmount, 20)
+        XCTAssertEqual(summary.transactionCurrency, "USD")
+        XCTAssertEqual(summary.transactionReferenceNumber, "my-trans-AAA3")
+        XCTAssertEqual(summary.transactionRemarks, "my-trans-AAA3")
+        XCTAssertEqual(summary.terminalCapabilityCode, "E00809")
+        XCTAssertEqual(summary.merchantCategory, "6300")
+        XCTAssertEqual(summary.avsResult, "Z")
+        XCTAssertEqual(summary.entryModeCode, "90")
+        XCTAssertEqual(summary.transactionMaskedCardNumber, "424242xxxxxx4242")
+        XCTAssertEqual(summary.transactionARN, "549365667487346")
+        XCTAssertEqual(summary.transactionCardType, "VISA")
+        XCTAssertEqual(summary.transactionAuthCode, "0234AB")
+        XCTAssertEqual(summary.cardBrandReference, "23423421342323A")
+        XCTAssertEqual(summary.cardIssuerBin, "401738")
+        XCTAssertEqual(summary.cardAcquirerBin, "401739")
+        XCTAssertEqual(summary.terminalCapacityCode, "2")
+
+        XCTAssertEqual(summary.documents?.count, 1)
+        XCTAssertEqual(summary.documents?.first?.id, "DOC_MyEvidence_234234AVCDE-2")
+        XCTAssertEqual(summary.documents?.first?.rawType, "ACQUIRER_DOC_FOR_SCHEMES")
+        XCTAssertNil(summary.documents?.first?.type)
+
+        XCTAssertEqual(summary.action?.id, "ACT_71d0IODihGKWZxcDhfIaVofFHTt4Qh")
+        XCTAssertEqual(summary.action?.type, "DISPUTE_SINGLE")
+        XCTAssertEqual(summary.action?.timeCreated, "2026-10-30T06:29:39.537Z".format())
+        XCTAssertEqual(summary.action?.resultCode, "SUCCESS")
+        XCTAssertEqual(summary.action?.appId, "X2QS2alAbhURA3NLwr73pNicdoPijJEp")
+        XCTAssertEqual(summary.action?.appName, "SDK_DEV_TEST")
+    }
+
+    func test_map_dispute_detail_documented_response() {
+        // GIVEN: order, payment_method and device nested as documented, document content and the documented key typos
+        let rawJson = #"""
+        {"id":"DIS_SAND_abcd1236","stage":"GOOD_FAITH","amount":"1999","currency":"USD","system":{"mid":"MID1","tid":"TID1","hierarchy":"h","name":"MERCHANT ABC INC","dba":"MERCHANT XYZ INC"," global_transaction_reference":"rrt-6037ed91","global_transaction_source":"gp-apigee"},"acquirer_code":"ACQ1","transaction":{"amount":"11099","currency":"USD","reference":"becf9f3e","payment_method":{"entry_mode_code":"81","card":{"number":"411111xxxxxx1111","brand":"VISA"}},"order":{"reference":"b636294sd5b6826hjdnde92","invoice_number":"1234"}},"documents":[{"id":"DOC_1","b64_conent":"R0lGODlhigPCAXAAACwAAAAAigPCAYf","type":"SALES_RECEIPT"}],"device":{"terminal_capacity_code":"1"}}
+        """#
+
+        // WHEN
+        let summary = GpApiMapping.mapDisputeSummary(JsonDoc.parse(rawJson))
+
+        // THEN
+        XCTAssertEqual(summary.caseStage, .goodFaith)
+        XCTAssertEqual(summary.caseAmount, NSDecimalNumber(string: "19.99"))
+        XCTAssertEqual(summary.transactionAmount, NSDecimalNumber(string: "110.99"))
+        XCTAssertEqual(summary.caseTerminalId, "TID1")
+        XCTAssertEqual(summary.merchantDbaName, "MERCHANT XYZ INC")
+        XCTAssertEqual(summary.globalTransactionReference, "rrt-6037ed91")
+        XCTAssertEqual(summary.globalTransactionSource, "gp-apigee")
+        XCTAssertEqual(summary.acquirerCode, "ACQ1")
+        XCTAssertEqual(summary.transactionOrderId, "b636294sd5b6826hjdnde92")
+        XCTAssertEqual(summary.orderInvoiceNumber, "1234")
+        XCTAssertEqual(summary.entryModeCode, "81")
+        XCTAssertEqual(summary.transactionMaskedCardNumber, "411111xxxxxx1111")
+        XCTAssertEqual(summary.terminalCapacityCode, "1")
+        XCTAssertEqual(summary.documents?.first?.type, .salesReceipt)
+        XCTAssertEqual(summary.documents?.first?.rawType, "SALES_RECEIPT")
+        XCTAssertNotNil(summary.documents?.first?.base64Content)
+    }
+
+    func test_map_disputes_list_sandbox_response() {
+        // GIVEN
+        let rawJson = #"""
+        {"total_record_count":22,"current_page_size":5,"merchant_id":"MER_62251730c5574bbcb268191b5f315de8","merchant_name":"TEST MERCHANT","account_id":"DIA_882c832d13e04185bb6e213d6303ed98","account_name":"testdispute","filter":{"from_stage_time_created":"2026-09-30","to_stage_time_created":"2026-10-30"},"paging":{"page_size":5,"page":1,"order":"ASC","order_by":"FROM_STAGE_TIME_CREATED"},"disputes":[{"id":"DIS_SAND_abcd1234","acquirer_code":"GPN","status":"WITH_MERCHANT","stage":"RETRIEVAL","stage_time_created":"2026-10-23T10:24:41.040Z","amount":"1000","currency":"USD","system":{"mid":"627384967","hierarchy":"111-23-099-001-001"},"payment_method":{"card":{"number":"424242xxxxxx4242","arn":"834523482349123","brand":"VISA"}},"reason_code":"104","reason_description":"Other Fraud-Card Absent Environment","order":{"reference":"889654"},"time_to_respond_by":"2026-11-04T10:24:41.040Z","result":"PENDING","last_adjustment_amount":"","last_adjustment_currency":"","last_adjustment_funding":""},{"id":"DIS_SAND_abcd1235","acquirer_code":"HPY","status":"WITH_MERCHANT","stage":"CHARGEBACK","stage_time_created":"2026-10-23T10:24:41.040Z","amount":"1500","currency":"USD","system":{"mid":"627384967","hierarchy":"111-23-099-001-001"},"payment_method":{"card":{"number":"543267xxxxxx7207","arn":"123934529762282","brand":"MASTERCARD"}},"reason_code":"132","reason_description":"Cancelled Recurring","order":{"reference":"889655"},"time_to_respond_by":"2026-11-04T10:24:41.040Z","result":"PENDING","last_adjustment_amount":"1500","last_adjustment_currency":"USD","last_adjustment_funding":"DEBIT"}],"action":{"id":"ACT_QVBj7Ylpp831r7ocGXbRBy6ekGNJrE","type":"DISPUTE_LIST","time_created":"2026-10-30T10:24:41.062Z","result_code":"SUCCESS","app_id":"X2QS2alAbhURA3NLwr73pNicdoPijJEp","app_name":"SDK_DEV_TEST"}}
+        """#
+
+        // WHEN
+        let result: PagedResult<DisputeSummary>? = GpApiMapping.mapReportResponse(rawJson, .findDisputesPaged)
+
+        // THEN
+        guard let result = result else {
+            XCTFail("result cannot be nil")
+            return
+        }
+        XCTAssertEqual(result.totalRecordCount, 22)
+        XCTAssertEqual(result.currentPageSize, 5)
+        XCTAssertEqual(result.merchantId, "MER_62251730c5574bbcb268191b5f315de8")
+        XCTAssertEqual(result.merchantName, "TEST MERCHANT")
+        XCTAssertEqual(result.accountId, "DIA_882c832d13e04185bb6e213d6303ed98")
+        XCTAssertEqual(result.accountName, "testdispute")
+        XCTAssertEqual(result.filterFromStageTimeCreated, "2026-09-30")
+        XCTAssertEqual(result.filterToStageTimeCreated, "2026-10-30")
+        XCTAssertEqual(result.pageSize, 5)
+        XCTAssertEqual(result.page, 1)
+        XCTAssertEqual(result.order, "ASC")
+        XCTAssertEqual(result.orderBy, "FROM_STAGE_TIME_CREATED")
+        XCTAssertEqual(result.action?.id, "ACT_QVBj7Ylpp831r7ocGXbRBy6ekGNJrE")
+        XCTAssertEqual(result.action?.type, "DISPUTE_LIST")
+        XCTAssertEqual(result.action?.timeCreated, "2026-10-30T10:24:41.062Z".format())
+        XCTAssertEqual(result.action?.resultCode, "SUCCESS")
+        XCTAssertEqual(result.action?.appId, "X2QS2alAbhURA3NLwr73pNicdoPijJEp")
+        XCTAssertEqual(result.action?.appName, "SDK_DEV_TEST")
+
+        XCTAssertEqual(result.results.count, 2)
+        let first = result.results[0]
+        XCTAssertEqual(first.caseId, "DIS_SAND_abcd1234")
+        XCTAssertEqual(first.acquirerCode, "GPN")
+        XCTAssertEqual(first.caseStatus, "WITH_MERCHANT")
+        XCTAssertEqual(first.caseStage, .retrieval)
+        XCTAssertEqual(first.caseStageTime, "2026-10-23T10:24:41.040Z".format())
+        XCTAssertEqual(first.caseAmount, 10)
+        XCTAssertEqual(first.caseCurrency, "USD")
+        XCTAssertEqual(first.caseMerchantId, "627384967")
+        XCTAssertEqual(first.merchantHierarchy, "111-23-099-001-001")
+        XCTAssertEqual(first.transactionMaskedCardNumber, "424242xxxxxx4242")
+        XCTAssertEqual(first.transactionARN, "834523482349123")
+        XCTAssertEqual(first.transactionCardType, "VISA")
+        XCTAssertEqual(first.reasonCode, "104")
+        XCTAssertEqual(first.reason, "Other Fraud-Card Absent Environment")
+        XCTAssertEqual(first.transactionOrderId, "889654")
+        XCTAssertEqual(first.respondByDate, "2026-11-04T10:24:41.040Z".format())
+        XCTAssertEqual(first.result, "PENDING")
+        XCTAssertNil(first.lastAdjustmentAmount)
+
+        let second = result.results[1]
+        XCTAssertEqual(second.caseId, "DIS_SAND_abcd1235")
+        XCTAssertEqual(second.acquirerCode, "HPY")
+        XCTAssertEqual(second.caseStage, .chargeback)
+        XCTAssertEqual(second.transactionCardType, "MASTERCARD")
+        XCTAssertEqual(second.transactionOrderId, "889655")
+        XCTAssertEqual(second.lastAdjustmentAmount, 15)
+        XCTAssertEqual(second.lastAdjustmentCurrency, "USD")
+        XCTAssertEqual(second.lastAdjustmentFunding, "DEBIT")
+    }
+
+    func test_map_disputes_list_documented_response() {
+        // GIVEN: filter echoed back, transaction.order and top level payment_method as documented
+        let rawJson = #"""
+        {"total_record_count":1000,"current_page_size":564,"filter":{"page":1,"page_size":5,"order":"ASC","order_by":"TIME_CREATED","arn":"ARN1","brand":"VISA","status":"UNDER_REVIEW","stage":"RETRIEVAL","from_stage_time_created":"2021-01-01","to_stage_time_created":"2021-02-01","system.mid":"MID1","system.hierarchy":"HIER1"},"paging":{"page":1,"page_size":5,"order_by":"TIME_CREATED","order":"ASC"},"disputes":[{"id":"DIS_SAND_abcd1236","status":"UNDER_REVIEW","stage":"RETRIEVAL","amount":"11099","currency":"USD","acquirer_code":"GPN","system":{"mid":"MID1","tid":"TID1","hierarchy":"HIER1","name":"MERCHANT ABC INC","dba":"MERCHANT XYZ INC"},"transaction":{"order":{"reference":"b636294sd5b6826hjdnde92"}},"payment_method":{"card":{"number":"411111xxxxxx1111","arn":"ARN1","brand":"VISA"}}}]}
+        """#
+
+        // WHEN
+        let result: PagedResult<DisputeSummary>? = GpApiMapping.mapReportResponse(rawJson, .findDisputesPaged)
+
+        // THEN
+        XCTAssertEqual(result?.totalRecordCount, 1000)
+        XCTAssertEqual(result?.currentPageSize, 564)
+        XCTAssertEqual(result?.filterPage, 1)
+        XCTAssertEqual(result?.filterPageSize, 5)
+        XCTAssertEqual(result?.filterOrder, "ASC")
+        XCTAssertEqual(result?.filterOrderBy, "TIME_CREATED")
+        XCTAssertEqual(result?.filterArn, "ARN1")
+        XCTAssertEqual(result?.filterBrand, "VISA")
+        XCTAssertEqual(result?.filterStatus, "UNDER_REVIEW")
+        XCTAssertEqual(result?.filterStage, "RETRIEVAL")
+        XCTAssertEqual(result?.filterFromStageTimeCreated, "2021-01-01")
+        XCTAssertEqual(result?.filterToStageTimeCreated, "2021-02-01")
+        XCTAssertEqual(result?.filterSystemMid, "MID1")
+        XCTAssertEqual(result?.filterSystemHierarchy, "HIER1")
+        XCTAssertNil(result?.action)
+
+        let dispute = result?.results.first
+        XCTAssertEqual(result?.results.count, 1)
+        XCTAssertEqual(dispute?.caseAmount, NSDecimalNumber(string: "110.99"))
+        XCTAssertEqual(dispute?.caseTerminalId, "TID1")
+        XCTAssertEqual(dispute?.merchantName, "MERCHANT ABC INC")
+        XCTAssertEqual(dispute?.merchantDbaName, "MERCHANT XYZ INC")
+        XCTAssertEqual(dispute?.transactionOrderId, "b636294sd5b6826hjdnde92")
+        XCTAssertEqual(dispute?.transactionMaskedCardNumber, "411111xxxxxx1111")
+        XCTAssertEqual(dispute?.acquirerCode, "GPN")
+    }
+
     func test_map_dispute_action() {
         // GIVEN
         let rawJson = "{\"id\":\"DIS_SAND_abcd1234\",\"status\":\"CLOSED\",\"stage\":\"RETRIEVAL\",\"amount\":\"1000\",\"currency\":\"USD\",\"reason_code\":\"104\",\"reason_description\":\"Other Fraud-Card Absent Environment\",\"result\":\"FULFILLED\",\"documents\":[{\"id\":\"DOC_MyEvidence_234234AVCDE-0\"}],\"action\":{\"id\":\"ACT_5blBTHnIs4aOCIvGwG7KizYUpsGI0g\",\"type\":\"CHALLENGE\",\"time_created\":\"2020-12-07T10:26:20.124Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"i9R0byBBor6RqTQNj3g4MuVBwH5rd7yR\",\"app_name\":\"demo_app\"}}"
@@ -387,6 +609,99 @@ class GpApiMappingTests: XCTestCase {
         XCTAssertEqual(disputeAction.reasonDescription, expectedReasonDescription)
         XCTAssertEqual(disputeAction.result, expectedResult)
         XCTAssertEqual(disputeAction.documents, expectedDocuments)
+        XCTAssertEqual(disputeAction.action?.id, "ACT_5blBTHnIs4aOCIvGwG7KizYUpsGI0g")
+        XCTAssertEqual(disputeAction.action?.type, "CHALLENGE")
+        XCTAssertNotNil(disputeAction.action?.timeCreated)
+        XCTAssertEqual(disputeAction.action?.resultCode, "SUCCESS")
+        XCTAssertEqual(disputeAction.action?.appId, "i9R0byBBor6RqTQNj3g4MuVBwH5rd7yR")
+        XCTAssertEqual(disputeAction.action?.appName, "demo_app")
+    }
+
+    func test_map_accept_dispute_response() {
+        // GIVEN
+        let rawJson = "{\"id\":\"DIS_SAND_abcd1236\",\"status\":\"CLOSED\",\"stage\":\"SECOND_CHARGEBACK\",\"amount\":\"2000\",\"currency\":\"USD\",\"reason_code\":\"137\",\"reason_description\":\"Cancelled Merchandise/Services\",\"result\":\"ACCEPTED\",\"action\":{\"id\":\"ACT_QSq6x17pZWO6ssVSmVsf1Hs106jJAv\",\"type\":\"ACCEPT\",\"time_created\":\"2026-10-29T08:02:15.853Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"X2QS2alAbhURA3NLwr73pNicdoPijJEp\",\"app_name\":\"SDK_DEV_TEST\"}}"
+        let doc = JsonDoc.parse(rawJson)
+
+        // WHEN
+        let disputeAction = GpApiMapping.mapDisputeAction(doc)
+
+        // THEN
+        XCTAssertEqual(disputeAction.reference, "DIS_SAND_abcd1236")
+        XCTAssertEqual(disputeAction.status, .closed)
+        XCTAssertEqual(disputeAction.stage, .secondChargeback)
+        XCTAssertEqual(disputeAction.amount, 20)
+        XCTAssertEqual(disputeAction.currency, "USD")
+        XCTAssertEqual(disputeAction.reasonCode, "137")
+        XCTAssertEqual(disputeAction.reasonDescription, "Cancelled Merchandise/Services")
+        XCTAssertEqual(disputeAction.result, .accepted)
+        XCTAssertNil(disputeAction.documents)
+        XCTAssertEqual(disputeAction.action?.id, "ACT_QSq6x17pZWO6ssVSmVsf1Hs106jJAv")
+        XCTAssertEqual(disputeAction.action?.type, "ACCEPT")
+        XCTAssertNotNil(disputeAction.action?.timeCreated)
+        XCTAssertEqual(disputeAction.action?.resultCode, "SUCCESS")
+        XCTAssertEqual(disputeAction.action?.appId, "X2QS2alAbhURA3NLwr73pNicdoPijJEp")
+        XCTAssertEqual(disputeAction.action?.appName, "SDK_DEV_TEST")
+    }
+
+    func test_map_challenge_dispute_response_documents_content() {
+        // GIVEN
+        let rawJson = "{\"id\":\"DIS_SAND_abcd1236\",\"status\":\"UNDER_REVIEW\",\"stage\":\"RETRIEVAL\",\"amount\":\"11099\",\"currency\":\"USD\",\"result\":\"PENDING\",\"documents\":[{\"id\":\"DOC_lskdnfosdfjsdfsdf23dasd\",\"b64_content\":\"R0lGODlhAQ\"},{\"id\":\"DOC_second\",\"b64_content\":\"R0lGODlh\"},{\"id\":\"DOC_no_content\"}],\"action\":{\"id\":\"ACT_uzFr7t4VOqxdLDI44hHmXIjHtOOE8d\",\"type\":\"DISPUTE_SINGLE\",\"time_created\":\"2021-05-03T21:23:39.718Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"uzFr7t4VOqxdLDI44hHmXIjHtOOE8d\",\"app_name\":\"my_lovely_app\"}}"
+        let doc = JsonDoc.parse(rawJson)
+
+        // WHEN
+        let disputeAction = GpApiMapping.mapDisputeAction(doc)
+
+        // THEN
+        XCTAssertEqual(disputeAction.reference, "DIS_SAND_abcd1236")
+        XCTAssertEqual(disputeAction.status, .underReview)
+        XCTAssertEqual(disputeAction.stage, .retrieval)
+        XCTAssertEqual(disputeAction.amount, NSDecimalNumber(string: "110.99"))
+        XCTAssertEqual(disputeAction.currency, "USD")
+        XCTAssertEqual(disputeAction.result, .pending)
+        XCTAssertEqual(disputeAction.documents, ["DOC_lskdnfosdfjsdfsdf23dasd", "DOC_second", "DOC_no_content"])
+        XCTAssertEqual(disputeAction.disputeDocuments?.count, 3)
+        XCTAssertEqual(disputeAction.disputeDocuments?[0].id, "DOC_lskdnfosdfjsdfsdf23dasd")
+        XCTAssertEqual(disputeAction.disputeDocuments?[0].base64Content, Data(base64Encoded: "R0lGODlhAQ=="))
+        XCTAssertEqual(disputeAction.disputeDocuments?[1].base64Content, Data(base64Encoded: "R0lGODlh"))
+        XCTAssertEqual(disputeAction.disputeDocuments?[2].id, "DOC_no_content")
+        XCTAssertNil(disputeAction.disputeDocuments?[2].base64Content)
+        XCTAssertEqual(disputeAction.action?.id, "ACT_uzFr7t4VOqxdLDI44hHmXIjHtOOE8d")
+        XCTAssertEqual(disputeAction.action?.type, "DISPUTE_SINGLE")
+        XCTAssertNotNil(disputeAction.action?.timeCreated)
+        XCTAssertEqual(disputeAction.action?.resultCode, "SUCCESS")
+        XCTAssertEqual(disputeAction.action?.appId, "uzFr7t4VOqxdLDI44hHmXIjHtOOE8d")
+        XCTAssertEqual(disputeAction.action?.appName, "my_lovely_app")
+    }
+
+    func test_map_accept_dispute_response_good_faith_stage() {
+        // GIVEN
+        let rawJson = "{\"id\":\"DIS_SAND_abcd1241\",\"status\":\"UNDER_REVIEW\",\"stage\":\"GOOD_FAITH\",\"amount\":\"4500\",\"currency\":\"USD\",\"reason_code\":\"4863\",\"reason_description\":\"Cardholder Does Not Recognize-Potential Fraud\",\"result\":\"PENDING\",\"action\":{\"id\":\"ACT_JJ1xKqAWqPku6e0xNlIpcoIZmiTAMo\",\"type\":\"ACCEPT\",\"time_created\":\"2026-10-29T10:50:10.463Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc\",\"app_name\":\"gpapisdktesting\"}}"
+        let doc = JsonDoc.parse(rawJson)
+
+        // WHEN
+        let disputeAction = GpApiMapping.mapDisputeAction(doc)
+
+        // THEN
+        XCTAssertEqual(disputeAction.reference, "DIS_SAND_abcd1241")
+        XCTAssertEqual(disputeAction.status, .underReview)
+        XCTAssertEqual(disputeAction.stage, .goodFaith)
+        XCTAssertEqual(disputeAction.amount, 45)
+        XCTAssertEqual(disputeAction.result, .pending)
+        XCTAssertEqual(disputeAction.action?.type, "ACCEPT")
+    }
+
+    func test_map_accept_dispute_response_mastercard_pre_dispute_stage() {
+        // GIVEN
+        let rawJson = "{\"id\":\"DIS_SAND_abcd1236\",\"status\":\"UNDER_REVIEW\",\"stage\":\"MASTERCARD PRE-DISPUTE\",\"amount\":\"2000\",\"currency\":\"USD\",\"result\":\"PENDING\"}"
+        let doc = JsonDoc.parse(rawJson)
+
+        // WHEN
+        let disputeAction = GpApiMapping.mapDisputeAction(doc)
+
+        // THEN
+        XCTAssertEqual(disputeAction.stage, .mastercardPreDispute)
+        XCTAssertEqual(disputeAction.result, .pending)
+        XCTAssertNil(disputeAction.action)
     }
 
     func test_map_document_metadata() {
@@ -406,6 +721,52 @@ class GpApiMappingTests: XCTestCase {
         }
         XCTAssertEqual(metadata.id, expectedId)
         XCTAssertEqual(metadata.b64Content, expectedB64Content)
+        XCTAssertEqual(metadata.action?.id, "ACT_5blBTHnIs4aOCIvGwG7KizYUpsGI0g")
+        XCTAssertEqual(metadata.action?.type, "DOCUMENT_SINGLE")
+        XCTAssertNotNil(metadata.action?.timeCreated)
+        XCTAssertEqual(metadata.action?.resultCode, "SUCCESS")
+        XCTAssertEqual(metadata.action?.appId, "GkwdYGzQrEy1SdTz7S10P8uRjFMlEsJg")
+        XCTAssertEqual(metadata.action?.appName, "sample_app_CERT")
+    }
+
+    func test_map_document_metadata_documented_response_without_padding() {
+        // GIVEN
+        let rawJson = "{\"id\":\"DOC_lskdnfosdfjsdfsdf23dasd\",\"b64_content\":\"R0lGODlhAQ\"}"
+        let doc = JsonDoc.parse(rawJson)
+
+        // WHEN
+        let metadata = GpApiMapping.mapDocumentMetadata(doc)
+
+        // THEN
+        XCTAssertEqual(metadata?.id, "DOC_lskdnfosdfjsdfsdf23dasd")
+        XCTAssertEqual(metadata?.b64Content, Data(base64Encoded: "R0lGODlhAQ=="))
+        XCTAssertNil(metadata?.action)
+    }
+
+    func test_map_document_metadata_sandbox_response() {
+        // GIVEN
+        let rawJson = "{\"id\":\"DOC_MyEvidence_234234AVCDE-1\",\"b64_content\":\"JVBERi0xLjcK\",\"action\":{\"id\":\"ACT_JQMEVTW9urBMyD8uK2cV5XI0HO93VL\",\"type\":\"DOCUMENT_SINGLE\",\"time_created\":\"2026-10-30T12:40:21.469Z\",\"result_code\":\"SUCCESS\",\"app_id\":\"x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc\",\"app_name\":\"gpapisdktesting\"}}"
+        let doc = JsonDoc.parse(rawJson)
+
+        // WHEN
+        let metadata = GpApiMapping.mapDocumentMetadata(doc)
+
+        // THEN
+        XCTAssertEqual(metadata?.id, "DOC_MyEvidence_234234AVCDE-1")
+        XCTAssertEqual(metadata?.b64Content, "%PDF-1.7\n".data(using: .utf8))
+        XCTAssertEqual(metadata?.action?.id, "ACT_JQMEVTW9urBMyD8uK2cV5XI0HO93VL")
+        XCTAssertEqual(metadata?.action?.type, "DOCUMENT_SINGLE")
+        XCTAssertEqual(metadata?.action?.resultCode, "SUCCESS")
+        XCTAssertEqual(metadata?.action?.appId, "x0lQh0iLV0fOkmeAyIDyBqrP9U5QaiKc")
+        XCTAssertEqual(metadata?.action?.appName, "gpapisdktesting")
+    }
+
+    func test_map_document_metadata_without_content_returns_nil() {
+        // GIVEN
+        let doc = JsonDoc.parse("{\"id\":\"DOC_no_content\"}")
+
+        // THEN
+        XCTAssertNil(GpApiMapping.mapDocumentMetadata(doc))
     }
 
     func test_map_stored_payment_summary() {

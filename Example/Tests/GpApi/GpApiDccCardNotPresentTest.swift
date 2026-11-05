@@ -388,7 +388,7 @@ class GpApiDccCardNotPresentTest: XCTestCase {
         XCTAssertNotNil(duplicatedError)
         XCTAssertEqual("DUPLICATE_ACTION", duplicatedError?.responseCode)
         XCTAssertEqual("40039", duplicatedError?.responseMessage)
-        XCTAssertEqual("Status Code: 409 - Idempotency Key seen before: id=\(creditResponse?.transactionId ?? ""), status=AVAILABLE", duplicatedError?.message)
+        XCTAssertEqual("Status Code: 409 - Idempotency Key seen before: id=\(creditResponse?.transactionId ?? "")", duplicatedError?.message)
     }
 
     func test_credit_get_dcc_info_rate_not_available() {
@@ -444,6 +444,31 @@ class GpApiDccCardNotPresentTest: XCTestCase {
         XCTAssertEqual("AVAILABLE", response?.responseMessage)
         XCTAssertNotNil(response?.dccRateData)
         XCTAssertEqual(expectedDccAmountValue, response?.dccRateData?.cardHolderAmount)
+
+        let dccRateData = response?.dccRateData
+        XCTAssertNotNil(dccRateData?.dccId)
+        XCTAssertNotNil(dccRateData?.timeCreated)
+        XCTAssertEqual("FROM_TRANSACTION_CURRENCY", dccRateData?.model)
+        XCTAssertEqual("AVAILABLE", dccRateData?.status)
+        XCTAssertNotNil(dccRateData?.country)
+        XCTAssertNotNil(dccRateData?.minorUnits)
+        XCTAssertNotNil(dccRateData?.formattedAmount)
+        XCTAssertNotNil(dccRateData?.merchantId)
+        XCTAssertNotNil(dccRateData?.merchantName)
+        XCTAssertNotNil(dccRateData?.accountId)
+        XCTAssertNotNil(dccRateData?.accountName)
+        XCTAssertNotNil(dccRateData?.reference)
+        XCTAssertNotNil(dccRateData?.payerRegion)
+        XCTAssertEqual("00", dccRateData?.paymentMethodResult)
+        XCTAssertNotNil(dccRateData?.paymentMethodMessage)
+        XCTAssertEqual("ECOM", dccRateData?.paymentMethodEntryMode)
+        XCTAssertNotNil(dccRateData?.maskedCardNumberLast4)
+        XCTAssertEqual("VISA", dccRateData?.cardBrand)
+        XCTAssertNotNil(dccRateData?.action?.id)
+        XCTAssertEqual("RATE_LOOKUP", dccRateData?.action?.type)
+        XCTAssertNotNil(dccRateData?.action?.resultCode)
+        XCTAssertNotNil(dccRateData?.action?.appId)
+        XCTAssertNotNil(dccRateData?.action?.appName)
     }
 
     private func assertTransactionResponse(_ response: Transaction?, transactionStatus: TransactionStatus) {

@@ -493,14 +493,37 @@ public struct GpApiMapping {
         summary.caseStage = DisputeStage(value: doc?.getValue(key: "stage"))
         let caseStageTime: String? = doc?.getValue(key: "stage_time_created")
         summary.caseStageTime = caseStageTime?.format()
-        summary.caseAmount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount(for: summary.caseCurrency)
+        let caseStatusTime: String? = doc?.getValue(key: "status_time_created")
+        summary.caseStatusTime = caseStatusTime?.format()
+        summary.merchantId = doc?.getValue(key: "merchant_id")
+        summary.merchantLabel = doc?.getValue(key: "merchant_name")
+        summary.accountId = doc?.getValue(key: "account_id")
+        summary.accountName = doc?.getValue(key: "account_name")
+        summary.acquirerCode = doc?.getValue(key: "acquirer_code")
         summary.caseCurrency = doc?.getValue(key: "currency")
+        summary.caseAmount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount(for: summary.caseCurrency)
+        summary.disputeCustomerCurrency = doc?.getValue(key: "payer_currency")
+        summary.disputeCustomerAmount = NSDecimalNumber(string: doc?.getValue(key: "payer_amount")).amount(for: summary.disputeCustomerCurrency)
+        summary.disputeCurrency = doc?.getValue(key: "merchant_currency")
+        summary.disputeAmount = NSDecimalNumber(string: doc?.getValue(key: "merchant_amount")).amount(for: summary.disputeCurrency)
+        summary.investigatorComment = doc?.getValue(key: "investigator_comment")
+        summary.foreignIssuedCard = doc?.getValue(key: "foreign_issued_card")
+        summary.dispositionDescription = doc?.getValue(key: "disposition_description")
+        summary.dispositionDate = parseDisputeDate(doc?.getValue(key: "disposition_date"))
+        summary.caseTime = parseDisputeDate(doc?.getValue(key: "case_time_created"))
+        summary.storeReference = doc?.getValue(key: "store_reference")
+        summary.regionCode = doc?.getValue(key: "region_code")
+        summary.netFinancialCurrency = doc?.getValue(key: "net_financial_currency")
+        summary.netFinancialAmount = NSDecimalNumber(string: doc?.getValue(key: "net_financial_amount")).amount(for: summary.netFinancialCurrency)
+        summary.netFinancialFunding = doc?.getValue(key: "net_financial_funding")
         
         summary.caseMerchantId = doc?.get(valueFor: "system")?.getValue(key: "mid")
         summary.caseTerminalId = doc?.get(valueFor: "system")?.getValue(key: "tid")
         summary.merchantHierarchy = doc?.get(valueFor: "system")?.getValue(key: "hierarchy")
         summary.merchantName = doc?.get(valueFor: "system")?.getValue(key: "name")
         summary.merchantDbaName = doc?.get(valueFor: "system")?.getValue(key: "dba")
+        summary.globalTransactionReference = doc?.get(valueFor: "system")?.getValue(keys: "global_transaction_reference", " global_transaction_reference")
+        summary.globalTransactionSource = doc?.get(valueFor: "system")?.getValue(key: "global_transaction_source")
         
         summary.reasonCode = doc?.getValue(key: "reason_code")
         summary.reason = doc?.getValue(key: "reason_description")
@@ -511,8 +534,8 @@ public struct GpApiMapping {
         summary.result = doc?.getValue(key: "result")
         
         summary.lastAdjustmentFunding = doc?.getValue(key: "last_adjustment_funding")
-        summary.lastAdjustmentAmount = NSDecimalNumber(string: doc?.getValue(key: "last_adjustment_amount")).amount(for: summary.lastAdjustmentCurrency)
         summary.lastAdjustmentCurrency = doc?.getValue(key: "last_adjustment_currency")
+        summary.lastAdjustmentAmount = NSDecimalNumber(string: doc?.getValue(key: "last_adjustment_amount")).amount(for: summary.lastAdjustmentCurrency)
         let lastAdjustmentTimeCreated: String? = doc?.getValue(key: "last_adjustment_time_created")
         summary.lastAdjustmentTimeCreated = lastAdjustmentTimeCreated?.format()
         
@@ -527,39 +550,72 @@ public struct GpApiMapping {
            let card = paymentMethod.get(valueFor: "card") {
             summary.transactionARN = card.getValue(key: "arn")
             summary.transactionCardType = card.getValue(key: "brand")
-            summary.transactionMaskedCardNumber = card.getValue(key: "masked_number_first6last4") ?? card.getValue(key: "number")
+            summary.transactionMaskedCardNumber = card.getValue(keys: "masked_number_first6last4", "number")
             summary.transactionBrandReference = card.getValue(key: "brand_reference")
             summary.transactionAuthCode = card.getValue(key: "authcode")
-        } else if let transaction: JsonDoc = doc?.get(valueFor: "transaction") {
+        }
+
+        if let transaction: JsonDoc = doc?.get(valueFor: "transaction") {
             let timeCreated: String? = transaction.getValue(key: "time_created")
-            summary.caseIdTime = timeCreated?.format()
+            summary.caseIdTime = summary.caseIdTime ?? timeCreated?.format()
             summary.transactionType = transaction.getValue(key: "type")
-            summary.transactionAmount = NSDecimalNumber(string: transaction.getValue(key: "amount")).amount(for: summary.transactionCurrency)
             summary.transactionCurrency = transaction.getValue(key: "currency")
+            summary.transactionAmount = NSDecimalNumber(string: transaction.getValue(key: "amount")).amount(for: summary.transactionCurrency)
             summary.transactionReferenceNumber = transaction.getValue(key: "reference")
             let transactionTime: String? = transaction.getValue(key: "time_created")
             summary.transactionTime = transactionTime?.format()
             let merchantTimeCreated: String? = transaction.getValue(key: "merchant_time_created")
             summary.transactionLocalTime = merchantTimeCreated?.format()
-            if let order: JsonDoc = transaction.get(valueFor: "order") {
-                summary.transactionOrderId = order.getValue(key: "reference")
+            summary.transactionRemarks = transaction.getValue(key: "remarks")
+            summary.terminalCapabilityCode = transaction.getValue(key: "terminal_capability_code")
+            summary.merchantCategory = transaction.getValue(key: "merchant_category_code")
+            let provider = transaction.get(valueFor: "provider")
+            summary.avsResult = provider?.getValue(key: "avs_result")
+            // The documentation nests payment_method under transaction, the sandbox nests it under transaction.provider.
+            if let paymentMethod = transaction.get(valueFor: "payment_method") ?? provider?.get(valueFor: "payment_method") {
+                summary.entryModeCode = paymentMethod.getValue(key: "entry_mode_code")
+                if let card = paymentMethod.get(valueFor: "card") {
+                    summary.transactionARN = card.getValue(key: "arn")
+                    summary.transactionCardType = card.getValue(key: "brand")
+                    summary.transactionMaskedCardNumber = card.getValue(keys: "masked_number_first6last4", "number")
+                    summary.transactionAuthCode = card.getValue(key: "authcode")
+                    summary.transactionBrandReference = card.getValue(key: "brand_reference")
+                    summary.cardBrandReference = card.getValue(key: "brand_reference")
+                    summary.cardIssuerBin = card.getValue(key: "issuer_bin")
+                    summary.cardAcquirerBin = card.getValue(key: "acquirer_bin")
+                }
             }
-            if let paymentMethod = transaction.get(valueFor: "payment_method"),
-               let card = paymentMethod.get(valueFor: "card") {
-                summary.transactionARN = card.getValue(key: "arn")
-                summary.transactionCardType = card.getValue(key: "brand")
-                summary.transactionMaskedCardNumber = card.getValue(key: "masked_number_first6last4")
-                summary.transactionBrandReference = card.getValue(key: "brand_reference")
-                summary.transactionAuthCode = card.getValue(key: "authcode")
+        }
+
+        let transactionProvider = doc?.get(valueFor: "transaction")?.get(valueFor: "provider")
+        if let order = doc?.get(valueFor: "transaction")?.get(valueFor: "order") ?? doc?.get(valueFor: "order") {
+            summary.transactionOrderId = order.getValue(key: "reference")
+            summary.orderInvoiceNumber = order.getValue(key: "invoice_number")
+        }
+        if let device = doc?.get(valueFor: "device") ?? transactionProvider?.get(valueFor: "device") {
+            summary.terminalCapacityCode = device.getValue(key: "terminal_capacity_code")
+        }
+
+        if let providers: [JsonDoc] = doc?.getValue(key: "payment_method_provider"), !providers.isEmpty {
+            summary.paymentMethodProviders = providers.map { providerDoc in
+                let provider = DisputePaymentMethodProvider()
+                provider.comment = providerDoc.getValue(key: "comment")
+                provider.reference = providerDoc.getValue(key: "reference")
+                if let documents: [JsonDoc] = providerDoc.getValue(key: "documents") {
+                    provider.documents = documents.compactMap { mapDisputeSummaryDocument($0) }
+                }
+                return provider
             }
+            summary.issuerComment = summary.paymentMethodProviders?.first?.comment
+            summary.issuerCaseNumber = summary.paymentMethodProviders?.first?.reference
         }
         
         if let documents: [JsonDoc] = doc?.getValue(key: "documents"), !documents.isEmpty {
-            summary.documents = documents.compactMap {
-                guard let id: String = $0.getValue(key: "id"),
-                      let type = DocumentType(value: $0.getValue(key: "type")) else { return nil }
-                return DisputeDocument(id: id, type: type)
-            }
+            summary.documents = documents.compactMap { mapDisputeSummaryDocument($0) }
+        }
+
+        if let actionDoc = doc?.get(valueFor: "action") {
+            summary.action = mapActionSummary(actionDoc)
         }
         
         return summary
@@ -640,6 +696,43 @@ public struct GpApiMapping {
         summary.totalTimeMilliseconds = doc?.getValue(key: "total_time_milliseconds")
         summary.totalTimeDownstreamMilliseconds = doc?.getValue(key: "total_time_downstream_milliseconds")
         return summary
+    }
+
+    public static func mapDccBinRangeResponse(_ doc: JsonDoc?) -> DccBinRangeResponse {
+        let response = DccBinRangeResponse()
+        let timeCreated: String? = doc?.getValue(key: "time_created")
+        response.timeCreated = timeCreated?.format()
+        let isLastPage: String? = doc?.getValue(key: "is_last_page")
+        response.isLastPage = isLastPage == "YES"
+        response.timeRetrieved = doc?.getValue(key: "time_retrieved")
+        response.currentIndex = doc?.getValue(key: "current_index")
+        response.currentPageSize = doc?.getValue(key: "current_page_size")
+        response.merchantId = doc?.getValue(key: "merchant_id")
+        response.merchantName = doc?.getValue(key: "merchant_name")
+        response.accountId = doc?.getValue(key: "account_id")
+        response.accountName = doc?.getValue(key: "account_name")
+
+        if let filter = doc?.get(valueFor: "filter") {
+            response.country = filter.getValue(key: "country")
+            response.merchantCurrency = filter.getValue(key: "merchant_currency")
+            response.payerCurrency = filter.getValue(key: "payer_currency")
+        }
+
+        if let binRanges: [JsonDoc] = doc?.getValue(key: "dcc_bin_ranges") {
+            response.binRanges = binRanges.map { rangeDoc in
+                let range = DccBinRangeSummary()
+                range.lowPrefixNumber = rangeDoc.getValue(key: "low_prefix_number")
+                range.highPrefixNumber = rangeDoc.getValue(key: "high_prefix_number")
+                range.status = rangeDoc.getValue(key: "status")
+                return range
+            }
+        }
+
+        if let action = doc?.get(valueFor: "action") {
+            response.action = mapActionSummary(action)
+        }
+
+        return response
     }
     
     public static func mapMonthlyFeeSummary(_ doc: JsonDoc?) -> MonthlyFeeSummary {
@@ -767,32 +860,65 @@ public struct GpApiMapping {
         action.reference = doc?.getValue(key: "id")
         action.status = DisputeStatus(value: doc?.getValue(key: "status"))
         action.stage = DisputeStage(value: doc?.getValue(key: "stage"))
-        action.amount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount(for: action.currency)
         action.currency = doc?.getValue(key: "currency")
+        action.amount = NSDecimalNumber(string: doc?.getValue(key: "amount")).amount(for: action.currency)
         action.reasonCode = doc?.getValue(key: "reason_code")
         action.reasonDescription = doc?.getValue(key: "reason_description")
         action.result = DisputeResult(value: doc?.getValue(key: "result"))
         if let documents: [JsonDoc?] = doc?.getValue(key: "documents") {
             action.documents = documents.compactMap { $0?.getValue(key: "id") }
+            action.disputeDocuments = documents.compactMap { document -> DisputeDocument? in
+                guard let id: String = document?.getValue(key: "id") else { return nil }
+                let content = (document?.getValue(key: "b64_content") as String?).flatMap(decodeBase64)
+                return DisputeDocument(id: id, content: content)
+            }
+        }
+        if let actionDoc = doc?.get(valueFor: "action") {
+            action.action = GpApiMapping.mapActionSummary(actionDoc)
         }
         
         return action
     }
     
+    private static func parseDisputeDate(_ value: String?) -> Date? {
+        guard let value = value else { return nil }
+        return value.format() ?? value.format("yyyy-MM-dd HH:mm:ss") ?? value.format("yyyy-MM-dd'T'HH:mm:ss")
+    }
+
+    /// Maps a document of a dispute response. The `b64_content` key is also read as `b64_conent`, as written in the documentation.
+    private static func mapDisputeSummaryDocument(_ doc: JsonDoc) -> DisputeDocument? {
+        guard let id: String = doc.getValue(key: "id") else { return nil }
+        let content: String? = doc.getValue(keys: "b64_content", "b64_conent")
+        let rawType: String? = doc.getValue(key: "type")
+        let document = DisputeDocument(id: id, content: content.flatMap(decodeBase64))
+        document.type = DocumentType(value: rawType)
+        document.rawType = rawType
+        return document
+    }
+
+    private static func decodeBase64(_ value: String) -> Data? {
+        let padding = (4 - value.count % 4) % 4
+        return Data(base64Encoded: value + String(repeating: "=", count: padding))
+    }
+
     public static func mapDocumentMetadata(_ doc: JsonDoc?) -> DocumentMetadata? {
         guard let id: String = doc?.getValue(key: "id"),
               let b64Content: String = doc?.getValue(key: "b64_content"),
-              let convertedData = Data(base64Encoded: b64Content) else {
+              let convertedData = decodeBase64(b64Content) else {
             return nil
         }
         
-        return DocumentMetadata(id: id, b64Content: convertedData)
+        let metadata = DocumentMetadata(id: id, b64Content: convertedData)
+        if let actionDoc = doc?.get(valueFor: "action") {
+            metadata.action = GpApiMapping.mapActionSummary(actionDoc)
+        }
+        return metadata
     }
     
     public static func mapDisputeDocument(_ doc: JsonDoc?) -> DisputeDocument? {
         guard let id: String = doc?.getValue(key: "id"),
               let b64Content: String = doc?.getValue(key: "b64_content"),
-              let convertedData = Data(base64Encoded: b64Content) else {
+              let convertedData = decodeBase64(b64Content) else {
             return nil
         }
         
@@ -938,6 +1064,7 @@ public struct GpApiMapping {
         
         dccRateData.merchantCurrency = dccRateDataResponse.getValue(key: "currency")
         dccRateData.marginRatePercentage = dccRateDataResponse.getValue(key: "margin_rate_percentage")
+        dccRateData.payerRegion = dccRateDataResponse.getValue(key: "payer_region")
         dccRateData.exchangeRateSourceName = dccRateDataResponse.getValue(key: "exchange_rate_source")
         dccRateData.commissionPercentage = dccRateDataResponse.getValue(key: "commission_percentage")
         dccRateData.conversionRate = dccRateDataResponse.getValue(key: "conversion_rate")
@@ -960,6 +1087,32 @@ public struct GpApiMapping {
         let timeCreated: String? = dccRateDataResponse.getValue(key: "exchange_rate_time_created")
         dccRateData.exchangeRateSourceTimestamp = timeCreated?.format() ?? timeCreated?.format("yyyy-MM-dd'T'HH:mm:ss")
         dccRateData.dccId = dccRateDataResponse.getValue(key: "id")
+
+        let responseTimeCreated: String? = dccRateDataResponse.getValue(key: "time_created")
+        dccRateData.timeCreated = responseTimeCreated?.format()
+        dccRateData.model = dccRateDataResponse.getValue(key: "model")
+        dccRateData.status = dccRateDataResponse.getValue(key: "status")
+        dccRateData.country = dccRateDataResponse.getValue(key: "country")
+        dccRateData.minorUnits = dccRateDataResponse.getValue(key: "minor_units")
+        dccRateData.formattedAmount = dccRateDataResponse.getValue(key: "formatted_amount")
+        dccRateData.merchantId = dccRateDataResponse.getValue(key: "merchant_id")
+        dccRateData.merchantName = dccRateDataResponse.getValue(key: "merchant_name")
+        dccRateData.accountId = dccRateDataResponse.getValue(key: "account_id")
+        dccRateData.accountName = dccRateDataResponse.getValue(key: "account_name")
+        dccRateData.reference = dccRateDataResponse.getValue(key: "reference")
+
+        if let paymentMethod = dccRateDataResponse.get(valueFor: "payment_method") {
+            dccRateData.paymentMethodResult = paymentMethod.getValue(key: "result")
+            dccRateData.paymentMethodMessage = paymentMethod.getValue(key: "message")
+            dccRateData.paymentMethodEntryMode = paymentMethod.getValue(key: "entry_mode")
+            if let card = paymentMethod.get(valueFor: "card") {
+                dccRateData.maskedCardNumberLast4 = card.getValue(key: "masked_number_last4")
+                dccRateData.cardBrand = card.getValue(key: "brand")
+            }
+        }
+        if let action = dccRateDataResponse.get(valueFor: "action") {
+            dccRateData.action = mapActionSummary(action)
+        }
 
         return dccRateData
     }
@@ -1028,6 +1181,8 @@ public struct GpApiMapping {
                 pagedResult?.results = mapped
             }
             result = pagedResult
+        } else if reportType == .findDccBinRanges && DccBinRangeResponse() is T {
+            result = GpApiMapping.mapDccBinRangeResponse(json)
         } else if reportType == .transactionSummaryReport
                     && PagedResult<TransactionSummaryReport>(totalRecordCount: nil, pageSize: 0, page: 0, order: nil, orderBy: nil) is T {
             var pagedResult: PagedResult<TransactionSummaryReport>? = getPagedResult(json)
@@ -1253,8 +1408,22 @@ public struct GpApiMapping {
         pagedResult.accountName = doc.getValue(key: "account_name")
         pagedResult.filterFromTimeCreated = doc.get(valueFor: "filter")?.getValue(key: "from_time_created")
         pagedResult.filterToTimeCreated = doc.get(valueFor: "filter")?.getValue(key: "to_time_created")
-        if let action: JsonDoc = doc.get(valueFor: "action") {
-            pagedResult.action = mapActionSummary(action)
+        if let filter = doc.get(valueFor: "filter") {
+            pagedResult.filterPage = filter.getValue(key: "page")
+            pagedResult.filterPageSize = filter.getValue(key: "page_size")
+            pagedResult.filterOrder = filter.getValue(key: "order")
+            pagedResult.filterOrderBy = filter.getValue(key: "order_by")
+            pagedResult.filterArn = filter.getValue(key: "arn")
+            pagedResult.filterBrand = filter.getValue(key: "brand")
+            pagedResult.filterStatus = filter.getValue(key: "status")
+            pagedResult.filterStage = filter.getValue(key: "stage")
+            pagedResult.filterFromStageTimeCreated = filter.getValue(key: "from_stage_time_created")
+            pagedResult.filterToStageTimeCreated = filter.getValue(key: "to_stage_time_created")
+            pagedResult.filterSystemMid = filter.getValue(key: "system.mid")
+            pagedResult.filterSystemHierarchy = filter.getValue(key: "system.hierarchy")
+        }
+        if let actionDoc = doc.get(valueFor: "action") {
+            pagedResult.action = mapActionSummary(actionDoc)
         }
         return pagedResult
     }

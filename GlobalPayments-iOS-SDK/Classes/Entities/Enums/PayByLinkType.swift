@@ -12,8 +12,11 @@ public enum PayByLinkType: String, Mappable {
     case EXCHANGE_APP_CREDENTIALS
     
     public init?(value: String?) {
-        guard let value = value,
-              let type = PayByLinkType(rawValue: value) else { return nil }
+        guard let value = value else { return nil }
+        // GP API returns the type upper-cased, e.g. "PAYMENT".
+        guard let type = PayByLinkType(rawValue: value)
+                ?? PayByLinkType(rawValue: value.lowercased())
+                ?? PayByLinkType(rawValue: value.uppercased()) else { return nil }
         self = type
     }
 

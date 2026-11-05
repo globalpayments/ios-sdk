@@ -6,6 +6,8 @@ public class DocumentMetadata: Encodable {
     /// The document represented as a base64 encoded string.
     /// When saving to directory, name must contain PDF extension. Example: document.pdf
     public let b64Content: Data
+    /// The action that was executed on the gateway to retrieve the document
+    public var action: ActionSummary?
 
     enum CodingKeys: String, CodingKey {
         case id = "id"

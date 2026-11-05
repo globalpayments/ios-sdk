@@ -1,6 +1,22 @@
 # Changelog
 
-## Latest - v3.7.0 (10/29/2026)
+## Latest - v3.8.0 (11/05/2026)
+
+#### Enhancements
+
+- GP-API: Added GPAPI Disputes sync, with additional field mapping on `DisputeSummary` and `action` on dispute responses
+- GP-API: Added `DisputeStage.mastercardPreDispute` and support for the `GOOD_FAITH` stage value returned by GP-API
+- GP-API: Added `DisputeDocument.rawType` and made `DisputeDocument` content optional; added `DocumentInfo(b64Content:)` for dispute challenges
+- GP-API: Added GPAPI Currency Conversions sync with `ReportingService.findDccBinRanges` (GET BIN Ranges), plus new `DccBinRangeResponse` and `DccBinRangeSummary` entities
+- GP-API: Added Convert Amount field mapping to `DccRateData`
+- GP-API: Added GPAPI Pay By Link sync (create link, get link by id and search links), with additional `PayByLinkSummary` fields and new `TransactionReportBuilder` search criteria
+- GP-API: `PayByLinkType` and `PaymentMethodName` now parse case-insensitive values returned by GP-API
+
+#### Security
+
+- Removed hardcoded credentials from the test suites
+
+## v3.7.0 (10/29/2026)
 
 #### Enhancements
 

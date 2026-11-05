@@ -241,6 +241,136 @@ class GpApiReportingDisputesTests: XCTestCase {
         }
     }
 
+    func test_report_find_disputes_response_metadata() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes Metadata")
+        var disputesResult: PagedResult<DisputeSummary>?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService
+            .findDisputesPaged(page: 1, pageSize: 5)
+            .where(.startStageDate, startStageDate)
+            .execute {
+                disputesResult = $0
+                disputeSummaryError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        guard let result = disputesResult else {
+            XCTFail("disputesResult cannot be nil")
+            return
+        }
+        XCTAssertNotNil(result.totalRecordCount)
+        XCTAssertNotNil(result.currentPageSize)
+        XCTAssertLessThanOrEqual(result.results.count, 5)
+        XCTAssertEqual(result.page, 1)
+        XCTAssertEqual(result.pageSize, 5)
+        XCTAssertNotNil(result.merchantId)
+        XCTAssertNotNil(result.merchantName)
+        XCTAssertNotNil(result.accountId)
+        XCTAssertNotNil(result.accountName)
+        XCTAssertNotNil(result.filterFromStageTimeCreated)
+        XCTAssertEqual(result.action?.type, "DISPUTE_LIST")
+        XCTAssertNotNil(result.action?.id)
+        XCTAssertEqual(result.action?.resultCode, "SUCCESS")
+        XCTAssertNotNil(result.action?.appId)
+        XCTAssertNotNil(result.action?.appName)
+        for dispute in result.results {
+            XCTAssertNotNil(dispute.caseId)
+            XCTAssertNotNil(dispute.acquirerCode)
+            XCTAssertNotNil(dispute.caseStatus)
+            XCTAssertNotNil(dispute.caseStage)
+            XCTAssertNotNil(dispute.caseAmount)
+            XCTAssertNotNil(dispute.caseCurrency)
+            XCTAssertNotNil(dispute.reasonCode)
+            XCTAssertNotNil(dispute.reason)
+            XCTAssertNotNil(dispute.respondByDate)
+            XCTAssertNotNil(dispute.result)
+            XCTAssertNotNil(dispute.transactionARN)
+            XCTAssertNotNil(dispute.transactionCardType)
+        }
+    }
+
+    func test_report_find_disputes_by_acquirer_code() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Report Find Disputes By Acquirer Code")
+        let expectedAcquirerCode = "GPN"
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService
+            .findDisputesPaged(page: 1, pageSize: 10)
+            .withAcquirerCode(expectedAcquirerCode)
+            .where(.startStageDate, startStageDate)
+            .execute {
+                disputeSummaryList = $0?.results
+                disputeSummaryError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        guard let responseList = disputeSummaryList else {
+            XCTFail("disputeSummaryList cannot be nil")
+            return
+        }
+        XCTAssertFalse(responseList.isEmpty)
+        for dispute in responseList {
+            XCTAssertEqual(dispute.acquirerCode, expectedAcquirerCode)
+        }
+    }
+
+    func test_report_find_disputes_by_order_reference() {
+        // GIVEN
+        let firstExpectation = expectation(description: "Find Disputes To Get Order Reference")
+        var firstOrderReference: String?
+        ReportingService
+            .findDisputesPaged(page: 1, pageSize: 10)
+            .where(.startStageDate, startStageDate)
+            .execute { result, _ in
+                firstOrderReference = result?.results.compactMap { $0.transactionOrderId }.first
+                firstExpectation.fulfill()
+            }
+        wait(for: [firstExpectation], timeout: 10.0)
+        guard let expectedOrderReference = firstOrderReference else {
+            XCTFail("transactionOrderId cannot be nil")
+            return
+        }
+
+        let summaryExpectation = expectation(description: "Report Find Disputes By Order Reference")
+        var disputeSummaryList: [DisputeSummary]?
+        var disputeSummaryError: Error?
+
+        // WHEN
+        ReportingService
+            .findDisputesPaged(page: 1, pageSize: 10)
+            .withOrderReference(expectedOrderReference)
+            .where(.startStageDate, startStageDate)
+            .execute {
+                disputeSummaryList = $0?.results
+                disputeSummaryError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeSummaryError)
+        guard let responseList = disputeSummaryList else {
+            XCTFail("disputeSummaryList cannot be nil")
+            return
+        }
+        XCTAssertFalse(responseList.isEmpty)
+        for dispute in responseList {
+            XCTAssertEqual(dispute.transactionOrderId, expectedOrderReference)
+        }
+    }
+
     func test_report_find_disputes_order_by_id() {
         // GIVEN
         let summaryExpectation = expectation(description: "Report Find Disputes With Criteria")
@@ -538,6 +668,45 @@ class GpApiReportingDisputesTests: XCTestCase {
         wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNil(disputeSummaryError)
         XCTAssertNotNil(disputeSummary)
+        XCTAssertEqual(disputeSummary?.caseId, caseId)
+        XCTAssertNotNil(disputeSummary?.caseIdTime)
+        XCTAssertNotNil(disputeSummary?.caseStatus)
+        XCTAssertNotNil(disputeSummary?.caseStage)
+        XCTAssertNotNil(disputeSummary?.caseAmount)
+        XCTAssertNotNil(disputeSummary?.caseCurrency)
+        XCTAssertNotNil(disputeSummary?.reasonCode)
+        XCTAssertNotNil(disputeSummary?.reason)
+        XCTAssertNotNil(disputeSummary?.result)
+        XCTAssertNotNil(disputeSummary?.respondByDate)
+        XCTAssertNotNil(disputeSummary?.caseMerchantId)
+        XCTAssertNotNil(disputeSummary?.transactionType)
+        XCTAssertNotNil(disputeSummary?.transactionAmount)
+        XCTAssertNotNil(disputeSummary?.transactionCurrency)
+        XCTAssertNotNil(disputeSummary?.transactionReferenceNumber)
+        XCTAssertEqual(disputeSummary?.action?.type, "DISPUTE_SINGLE")
+        XCTAssertNotNil(disputeSummary?.action?.id)
+        XCTAssertEqual(disputeSummary?.action?.resultCode, "SUCCESS")
+    }
+
+    func test_report_find_dispute_by_unknown_id_failure() {
+        // GIVEN
+        let summaryExpectation = expectation(description: "Find Dispute By Unknown ID")
+        var disputeSummary: DisputeSummary?
+        var disputeSummaryError: GatewayException?
+
+        // WHEN
+        ReportingService
+            .disputeDetail(disputeId: "UNKNOWN")
+            .execute { summary, error in
+                disputeSummary = summary
+                disputeSummaryError = error as? GatewayException
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 20.0)
+        XCTAssertNil(disputeSummary?.caseId)
+        XCTAssertNotNil(disputeSummaryError)
     }
 
     func test_report_accept_dispute_success() {
@@ -564,6 +733,50 @@ class GpApiReportingDisputesTests: XCTestCase {
         wait(for: [summaryExpectation], timeout: 10.0)
         XCTAssertNotNil(disputeAction)
         XCTAssertNil(disputeActionError)
+        XCTAssertEqual(disputeAction?.reference, caseId)
+        XCTAssertNotNil(disputeAction?.status)
+        XCTAssertNotNil(disputeAction?.stage)
+        XCTAssertNotNil(disputeAction?.amount)
+        XCTAssertNotNil(disputeAction?.currency)
+        XCTAssertNotNil(disputeAction?.reasonCode)
+        XCTAssertNotNil(disputeAction?.reasonDescription)
+        XCTAssertTrue([.pending, .accepted].contains(disputeAction?.result))
+        XCTAssertNotNil(disputeAction?.action?.id)
+        XCTAssertEqual(disputeAction?.action?.type, "ACCEPT")
+        XCTAssertNotNil(disputeAction?.action?.timeCreated)
+        XCTAssertEqual(disputeAction?.action?.resultCode, "SUCCESS")
+        XCTAssertNotNil(disputeAction?.action?.appId)
+        XCTAssertNotNil(disputeAction?.action?.appName)
+    }
+
+    func test_report_accept_dispute_with_idempotency_key() {
+        guard let caseId = try? awaitResponse(getDisputeSummary, calledWith: .withMerchant)?.caseId else {
+            XCTFail("caseId cannot be nil")
+            return
+        }
+
+        // GIVEN
+        let summaryExpectation = expectation(description: "Accept Dispute With Idempotency Key")
+        let idempotencyKey = UUID().uuidString
+        var disputeAction: DisputeAction?
+        var disputeActionError: Error?
+
+        // WHEN
+        ReportingService
+            .acceptDispute(id: caseId)
+            .withIdempotencyKey(idempotencyKey)
+            .execute {
+                disputeAction = $0
+                disputeActionError = $1
+                summaryExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [summaryExpectation], timeout: 10.0)
+        XCTAssertNil(disputeActionError)
+        XCTAssertEqual(disputeAction?.reference, caseId)
+        XCTAssertTrue([.pending, .accepted].contains(disputeAction?.result))
+        XCTAssertEqual(disputeAction?.action?.type, "ACCEPT")
     }
 
     func test_report_accept_dispute_failure() {
@@ -620,8 +833,76 @@ class GpApiReportingDisputesTests: XCTestCase {
 
         // THEN
         wait(for: [challangeExpectation], timeout: 20.0)
-        XCTAssertNotNil(disputeAction)
         XCTAssertNil(disputeActionError)
+        XCTAssertNotNil(disputeAction)
+        XCTAssertEqual(disputeAction?.reference, caseId)
+        XCTAssertEqual(disputeAction?.action?.type, "CHALLENGE")
+        XCTAssertEqual(disputeAction?.action?.resultCode, "SUCCESS")
+        XCTAssertFalse(disputeAction?.documents?.isEmpty ?? true)
+        XCTAssertFalse(disputeAction?.disputeDocuments?.isEmpty ?? true)
+    }
+
+    func test_report_challange_dispute_with_idempotency_key_success() {
+        guard let caseId = try? awaitResponse(getDisputeSummary, calledWith: .withMerchant)?.caseId else {
+            XCTFail("caseId cannot be nil")
+            return
+        }
+
+        // GIVEN
+        let challangeExpectation = expectation(description: "Challange With Idempotency Expectation")
+        let bundle = Bundle(for: type(of: self))
+        let disputeDocuments = [
+            DocumentInfo(
+                type: .salesReceipt,
+                b64Content: ResourceLoader.loadFile(name: "gp_logo", extension: .pdf, bundle: bundle)
+            )
+        ]
+        var disputeAction: DisputeAction?
+        var disputeActionError: Error?
+
+        // WHEN
+        ReportingService
+            .challangeDispute(id: caseId, documents: disputeDocuments)
+            .withIdempotencyKey(UUID().uuidString)
+            .execute { action, error in
+                disputeAction = action
+                disputeActionError = error
+                challangeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [challangeExpectation], timeout: 20.0)
+        XCTAssertNil(disputeActionError)
+        XCTAssertEqual(disputeAction?.reference, caseId)
+        XCTAssertEqual(disputeAction?.action?.type, "CHALLENGE")
+    }
+
+    func test_report_challange_dispute_failure() {
+        // GIVEN
+        let challangeExpectation = expectation(description: "Challange Failure Expectation")
+        let bundle = Bundle(for: type(of: self))
+        let disputeDocuments = [
+            DocumentInfo(
+                type: .proofOfDelivery,
+                b64Content: ResourceLoader.loadFile(name: "gp_logo", extension: .pdf, bundle: bundle)
+            )
+        ]
+        var disputeAction: DisputeAction?
+        var disputeActionError: GatewayException?
+
+        // WHEN
+        ReportingService
+            .challangeDispute(id: "UNKNOWN", documents: disputeDocuments)
+            .execute { action, error in
+                disputeAction = action
+                disputeActionError = error as? GatewayException
+                challangeExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [challangeExpectation], timeout: 20.0)
+        XCTAssertNil(disputeAction)
+        XCTAssertNotNil(disputeActionError)
     }
 
     func test_report_find_dispute_document_success() {
@@ -646,6 +927,13 @@ class GpApiReportingDisputesTests: XCTestCase {
         XCTAssertNil(documentError)
         XCTAssertNotNil(documentMetadata)
         XCTAssertEqual(documentMetadata?.id, documentId)
+        XCTAssertFalse(documentMetadata?.b64Content.isEmpty ?? true)
+        XCTAssertNotNil(documentMetadata?.action?.id)
+        XCTAssertEqual(documentMetadata?.action?.type, "DOCUMENT_SINGLE")
+        XCTAssertNotNil(documentMetadata?.action?.timeCreated)
+        XCTAssertEqual(documentMetadata?.action?.resultCode, "SUCCESS")
+        XCTAssertNotNil(documentMetadata?.action?.appId)
+        XCTAssertNotNil(documentMetadata?.action?.appName)
     }
 
     func test_report_find_dispute_document_failure() {
@@ -671,7 +959,30 @@ class GpApiReportingDisputesTests: XCTestCase {
         wait(for: [documetExpectation], timeout: 10.0)
         XCTAssertNil(documentMetadata)
         XCTAssertNotNil(documentError)
-        XCTAssertEqual(documentError?.responseCode, "INVALID_REQUEST_DATA")
+        XCTAssertEqual(documentError?.responseCode, "SYSTEM_ERROR_DOWNSTREAM")
+        XCTAssertEqual(documentError?.responseMessage, "50046")
+    }
+
+    func test_report_find_dispute_document_unknown_document_failure() {
+        // GIVEN
+        let documetExpectation = expectation(description: "Find document expectation")
+        var documentMetadata: DocumentMetadata?
+        var documentError: GatewayException?
+
+        // WHEN
+        ReportingService
+            .findDisputeDocument(id: "UNKNOWN", disputeId: "DIS_SAND_abcd1235")
+            .execute { metadata, error in
+                documentMetadata = metadata
+                documentError = error as? GatewayException
+                documetExpectation.fulfill()
+            }
+
+        // THEN
+        wait(for: [documetExpectation], timeout: 10.0)
+        XCTAssertNil(documentMetadata)
+        XCTAssertNotNil(documentError)
+        XCTAssertEqual(documentError?.responseCode, "SYSTEM_ERROR_DOWNSTREAM")
     }
 
     // MARK: - Settlement Disputes

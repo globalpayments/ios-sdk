@@ -3,6 +3,7 @@ import Foundation
 public enum SearchCriteria: String {
     case accountName
     case accountNumberLastFour
+    case acquirerCode
     case altPaymentStatus
     case aquirerReferenceNumber
     case authCode
@@ -76,6 +77,7 @@ public enum SearchCriteria: String {
     case endTransactionTimeCreatedReference
     case paymentMethodUsageMode
     case expirationDate
+    case shippable
     case searchDescription
     case paymentProvider
     case authenticationId
@@ -117,10 +119,13 @@ public enum DataServiceCriteria: String {
 }
 
  public class SearchCriteriaBuilder<TResult>: NSObject {
-    private weak var reportBuilder: ReportBuilder<TResult>?
+    // Strong on purpose: in a chain such as `ReportingService.findXPaged().where(...).execute { }`
+    // the caller only holds this object, so it must keep the report builder alive until execute runs.
+    private var reportBuilder: ReportBuilder<TResult>?
 
     var accountName: String?
     var accountNumberLastFour: String?
+    var acquirerCode: String?
     var altPaymentStatus: String?
     var amount: NSDecimalNumber?
     var aquirerReferenceNumber: String?
@@ -222,6 +227,7 @@ public enum DataServiceCriteria: String {
     var payByLinkStatus: PayByLinkStatus?
     var paymentMethodUsageMode: PaymentMethodUsageMode?
     var expirationDate: Date?
+    var shippable: Bool?
     var searchDescription: String?
     var paymentProvider: PaymentProvider?
     var authenticationId: String?
@@ -276,6 +282,9 @@ public enum DataServiceCriteria: String {
     var markUpMulticurrencyPercentage: String?
     var fixedAmount: NSDecimalNumber?
     var feeTaxAmount: NSDecimalNumber?
+    var payerCurrency: [String]?
+    var timeLastReceived: Date?
+    var lastIndex: Int?
 
     init(reportBuilder: ReportBuilder<TResult>?) {
         self.reportBuilder = reportBuilder

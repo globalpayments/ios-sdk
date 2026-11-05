@@ -17,4 +17,8 @@ public class DisputeAction {
     public var result: DisputeResult?
     /// A list of evidence provided by the Merchant that relate to the Dispute.
     public var documents: [String]?
+    /// Evidence documents returned for the Dispute (id and, when returned, the content).
+    public var disputeDocuments: [DisputeDocument]?
+    /// Details of the action executed (id, type, time created, result code, app id and app name).
+    public var action: ActionSummary?
 }

@@ -11,6 +11,11 @@ public class DocumentInfo: Encodable {
         case b64Content = "b64_content"
     }
 
+    /// Use for dispute document challenges when only `b64_content` is sent.
+    public init(b64Content: Data?) {
+        self.b64Content = b64Content
+    }
+
     /// Use for dispute document challenges — maps `type` and `b64_content`.
     public init(type: DocumentType, b64Content: Data?) {
         self.type = type

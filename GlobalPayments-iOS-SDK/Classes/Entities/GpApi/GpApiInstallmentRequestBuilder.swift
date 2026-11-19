@@ -17,16 +17,27 @@ struct GpApiInstallmentRequestBuilder<T> {
     private func PrepareInstallmentRequest(builder: InstallmentBuilder<T>, config: GpApiConfig?) -> JsonDoc {
         var installment = builder.entity as! Installment
         let requestData = JsonDoc()
-            .set(for: "account_name", value: config?.accessTokenInfo?.transactionProcessingAccountName)
+            .set(for: "account_name", value: firstNonEmpty(installment.AccountName, config?.accessTokenInfo?.transactionProcessingAccountName))
             .set(for: "amount", value: installment.Amount)
-            .set(for: "channel", value: config?.channel.mapped(for: .gpApi))
+            .set(for: "channel", value: firstNonEmpty(installment.Channel, config?.channel.mapped(for: .gpApi)))
             .set(for: "currency", value: installment.Currency)
-            .set(for: "country", value: config?.country)
+            .set(for: "country", value: firstNonEmpty(installment.Country, config?.country))
             .set(for: "reference", value: installment.Reference)
             .set(for: "program", value: installment.Program)
+            .set(for: "funding_mode", value: installment.FundingMode)
+            .set(for: "eligible_plans", value: installment.EligiblePlans)
+        
+        if let terms = installment.RequestTerms {
+            let termsData = JsonDoc()
+                .set(for: "max_time_unit_number", value: terms.maxTimeUnitNumber)
+                .set(for: "max_amount", value: terms.maxAmount)
+            requestData.set(for: "terms", doc: termsData)
+        }
         
         let paymentMethodData = JsonDoc()
             .set(for: "entry_mode", value: installment.EntryMode)
+            .set(for: "id", value: installment.PaymentMethodId)
+            .set(for: "usage_mode", value: installment.UsageMode)
         
         if let creditCardData = installment.CardDetails {
             let cardData =  JsonDoc()
@@ -48,5 +59,9 @@ struct GpApiInstallmentRequestBuilder<T> {
         requestData.set(for: "payment_method", doc: paymentMethodData)
             
         return requestData
+    }
+    
+    private func firstNonEmpty(_ values: String?...) -> String? {
+        values.compactMap { $0 }.first { !$0.isEmpty }
     }
 }

@@ -40,8 +40,15 @@ public class RecurringEntity<TResult>: NSObject, Recurring {
     }
 
     /// Delete a record from the gateway.
-    public func delete() {
-        RecurringService.delete(entity: self, completion: nil)
+    /// - Parameter completion: Deleted resource (id, status and action) or the error.
+    public func delete(completion: ((TResult?, Error?) -> Void)? = nil) {
+        RecurringService.delete(entity: self) { recurring, error in
+            if let error = error {
+                completion?(nil, error)
+                return
+            }
+            completion?((recurring as? TResult), nil)
+        }
     }
 
     public static func find(id: String,

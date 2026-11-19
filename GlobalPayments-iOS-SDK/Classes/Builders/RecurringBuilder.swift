@@ -6,18 +6,26 @@ import Foundation
     var orderId: String?
     var entity: Recurring?
     var searchCriteria: [String: String]?
+    /// Masking of personally identifiable fields on fetch (`masked` query parameter).
+    var masked: Bool?
 
     init(type: TransactionType, entity: Recurring? = nil) {
         super.init(transactionType: type)
         self.searchCriteria = [String: String]()
         if entity != nil {
             self.entity = entity
-            self.key = entity?.key
+            self.key = entity?.key ?? entity?.id
         }
     }
 
     public func addSearchCriteria(key: String, value: String) -> RecurringBuilder {
         searchCriteria?[key] = value
+        return self
+    }
+
+    /// Sets whether personally identifiable fields are masked in the response (GET payer).
+    public func withMasked(_ masked: Bool?) -> RecurringBuilder {
+        self.masked = masked
         return self
     }
 

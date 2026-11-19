@@ -204,6 +204,7 @@ public enum DataServiceCriteria: String {
     var tokenFirstSix: String?
     var tokenLastFour: String?
     var storedPaymentMethodId: String?
+    var payerId: String?
     var storedPaymentMethodStatus: StoredPaymentMethodStatus?
     var startLastUpdatedDate: Date?
     var endLastUpdatedDate: Date?

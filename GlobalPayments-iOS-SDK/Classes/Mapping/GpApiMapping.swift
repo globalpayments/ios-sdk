@@ -1196,6 +1196,13 @@ public struct GpApiMapping {
             result = GpApiMapping.mapDocumentMetadata(json)
         } else if reportType == .documentDisputeDetail {
             result = GpApiMapping.mapDisputeDocument(json)
+        } else if reportType == .findPayersPaged
+                    && PagedResult<Customer>(totalRecordCount: nil, pageSize: 0, page: 0, order: nil, orderBy: nil) is T {
+            var pagedResult: PagedResult<Customer>? = getPagedResult(json)
+            if let payers: [JsonDoc] = json?.getValue(key: "payers") {
+                pagedResult?.results = payers.compactMap { Customer.mapToObject($0) }
+            }
+            result = pagedResult
         } else if reportType == .findPayByLinkPaged {
             var pagedResult: PagedResult<PayByLinkSummary>? = getPagedResult(json)
             if let links: [JsonDoc] = json?.getValue(key: "links") {
@@ -1856,48 +1863,91 @@ public struct GpApiMapping {
                             let card = Card()
                             card.brand = cardJson.getValue(key: "brand")
                             card.maskedCardNumber = cardJson.getValue(key: "masked_number_last4")
+                            card.maskedNumberLast4 = cardJson.getValue(key: "masked_number_last4")
+                            card.cardExpMonth = Int(cardJson.getValue(key: "expiry_month") ?? .empty)
+                            card.cardExpYear = Int(cardJson.getValue(key: "expiry_year") ?? .empty)
                             card.brandReference = cardJson.getValue(key: "brand_reference")
                             card.category = cardJson.getValue(key: "category")
                             card.avsPostalCode = cardJson.getValue(key: "avs_postal_code")
+                            card.funding = cardJson.getValue(key: "funding")
+                            card.issuer = cardJson.getValue(key: "issuer")
+                            card.country = cardJson.getValue(key: "country")
+                            card.maskedNetworkTokenLast4 = cardJson.getValue(key: "masked_network_token_last4")
+                            card.networkTokenExpiryMonth = cardJson.getValue(key: "network_token_expiry_month")
+                            card.networkTokenExpiryYear = cardJson.getValue(key: "network_token_expiry_year")
                             installment.Card = card
                             installment.AuthCode = cardJson.getValue(key: "authcode")
                         }
                     }
-                    
-                    if ((json?.has(key: "action")) != nil) {
-                        if let actionJson: JsonDoc = json?.getValue(key: "action") {
-                            let action = Action()
-                            action.Type = actionJson.getValue(key: "type")
-                            action.Id = actionJson.getValue(key: "id")
-                            action.TimeCreated = actionJson.getValue(key: "time_created")
-                            action.AppId = actionJson.getValue(key: "app_id")
-                            action.AppName = actionJson.getValue(key: "app_name")
-                            action.ResultCode = actionJson.getValue(key: "result_code")
-                            installment.Action = action
-                        }
-                    }
-                    
-                    if ((json?.has(key: "terms")) != nil) {
-                        installment.terms = [Terms]()
-                        let termItemList: [JsonDoc] = json?.getValue(key: "terms") ?? []
-                        for terms in termItemList {
-                            let installmentTerm =  Terms()
-                            installmentTerm.Id = terms.getValue(key: "id")
-                            installmentTerm.TimeUnit = terms.getValue(key: "time_unit")
-                            installmentTerm.timeUnitNumbers = terms.getValue(key: "time_unit_numbers")
-                            installmentTerm.reference = terms.getValue(key: "reference")
-                            installmentTerm.name = terms.getValue(key: "name")
-                            installmentTerm.mode = terms.getValue(key: "mode")
-                            installmentTerm.count = terms.getValue(key: "count")
-                            installmentTerm.gracePeriodCount = terms.getValue(key: "grace_period_count")
-                            installment.terms?.append(installmentTerm)
-                        }
-                    }
                 }
             }
+            
+            if let actionJson: JsonDoc = json?.getValue(key: "action") {
+                let action = Action()
+                action.Type = actionJson.getValue(key: "type")
+                action.Id = actionJson.getValue(key: "id")
+                action.TimeCreated = actionJson.getValue(key: "time_created")
+                action.AppId = actionJson.getValue(key: "app_id")
+                action.AppName = actionJson.getValue(key: "app_name")
+                action.ResultCode = actionJson.getValue(key: "result_code")
+                installment.Action = action
+            }
+            
+            if let termItemList: [JsonDoc] = json?.getValue(key: "terms") {
+                installment.terms = termItemList.map { mapInstallmentTerms($0) }
+            }
+            
             return installment as? T
         }
         return Installment() as? T
+    }
+    
+    private static func mapInstallmentTerms(_ doc: JsonDoc) -> Terms {
+        let term = Terms()
+        term.Id = doc.getValue(key: "id")
+        term.TimeUnit = doc.getValue(key: "time_unit")
+        term.timeUnitNumbers = doc.getValue(key: "time_unit_numbers")
+        term.reference = doc.getValue(key: "reference")
+        term.name = doc.getValue(key: "name")
+        term.mode = doc.getValue(key: "mode")
+        term.count = doc.getValue(key: "count")
+        term.gracePeriodCount = doc.getValue(key: "grace_period_count")
+        term.currency = doc.getValue(key: "currency")
+        term.costPercentage = doc.getValue(key: "cost_percentage")
+        term.totalPlanCost = doc.getValue(key: "total_plan_cost")
+        term.planAmount = doc.getValue(key: "plan_amount")
+        
+        if let termsAndConditions: [JsonDoc] = doc.getValue(key: "terms_and_conditions") {
+            term.termsAndConditions = termsAndConditions.map {
+                let item = InstallmentTermsAndConditions()
+                item.url = $0.getValue(key: "url")
+                item.version = $0.getValue(key: "version")
+                item.termsDescription = $0.getValue(key: "description")
+                item.language = $0.getValue(key: "language")
+                return item
+            }
+        }
+        
+        if let feesJson: JsonDoc = doc.getValue(key: "fees") {
+            let fees = InstallmentFees()
+            fees.totalAmount = feesJson.getValue(key: "total_amount")
+            fees.totalSubsequentAmount = feesJson.getValue(key: "total_subsequent_amount")
+            fees.subsequentAmount = feesJson.getValue(key: "subsequent_amount")
+            fees.totalUpfrontAmount = feesJson.getValue(key: "total_upfront_amount")
+            fees.upfrontAmount = feesJson.getValue(key: "upfront_amount")
+            if let feeInfoList: [JsonDoc] = feesJson.getValue(key: "fee_info") {
+                fees.feeInfo = feeInfoList.map {
+                    let info = InstallmentFeeInfo()
+                    info.type = $0.getValue(key: "type")
+                    info.interestRate = $0.getValue(key: "interest_rate")
+                    info.flatAmount = $0.getValue(key: "flat_amount")
+                    return info
+                }
+            }
+            term.fees = fees
+        }
+        
+        return term
     }
     
     public static func payByLinkOrder(_ doc: JsonDoc?) -> PayByLinkOrder {

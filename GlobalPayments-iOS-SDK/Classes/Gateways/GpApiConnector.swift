@@ -504,13 +504,16 @@ extension GpApiConnector: RecurringServiceType {
                 self?.doTransaction(
                     method: request.method,
                     endpoint: request.endpoint,
-                    data: request.requestBody) { response, error in
+                    data: request.requestBody,
+                    queryStringParams: request.queryParams) { response, error in
                         guard let response = response else {
                             completion?(nil, error)
                             return
                         }
                         completion?(GpApiMapping.mapRecurringEntity(response), nil)
                     }
+            } else {
+                completion?(nil, ApiException(message: "Operation not supported or missing resource id"))
             }
         }
     }

@@ -24,6 +24,7 @@ import Foundation
     var payByLinkId: String?
     var authenticationOrderBy: AuthenticationSortProperty?
     var monthlyFeeOrderBy: MonthlyFeeSortProperty?
+    var payerOrderBy: PayerSortProperty?
 
     /// Sets the device ID as criteria for the report.
     /// - Parameter deviceId: The device ID
@@ -290,6 +291,26 @@ import Foundation
                         _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
         self.monthlyFeeOrderBy = monthlyFeeOrderBy
         self.order = direction
+        return self
+    }
+
+    /// Set the Payers report order by criteria.
+    /// - Parameters:
+    ///   - payerOrderBy: Order by property
+    ///   - direction: Order by direction
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func orderBy(payerOrderBy: PayerSortProperty,
+                        _ direction: SortDirection = .ascending) -> TransactionReportBuilder<TResult> {
+        self.payerOrderBy = payerOrderBy
+        self.order = direction
+        return self
+    }
+
+    /// Sets the payer ID as criteria for the Payers report.
+    /// - Parameter payerId: The payer id
+    /// - Returns: TransactionReportBuilder<TResult>
+    public func withPayerId(_ payerId: String?) -> TransactionReportBuilder<TResult> {
+        searchCriteriaBuilder.payerId = payerId
         return self
     }
 

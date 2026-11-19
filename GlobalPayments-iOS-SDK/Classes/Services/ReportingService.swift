@@ -115,6 +115,13 @@ public class ReportingService {
             .withPaging(page, pageSize)
     }
 
+    // MARK: - Payers
+
+    public static func findPayersPaged(page: Int, pageSize: Int) -> TransactionReportBuilder<PagedResult<Customer>> {
+        TransactionReportBuilder<PagedResult<Customer>>(reportType: .findPayersPaged)
+            .withPaging(page, pageSize)
+    }
+
     public static func documentDisputeDetail(_ disputeId: String) -> TransactionReportBuilder<DisputeDocument> {
             TransactionReportBuilder<DisputeDocument>(reportType: .documentDisputeDetail)
                 .withDisputeId(disputeId)

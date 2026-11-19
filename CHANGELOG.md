@@ -1,6 +1,29 @@
 # Changelog
 
-## Latest - v3.8.0 (11/05/2026)
+## Latest - v3.9.0 (11/19/2026)
+
+#### Enhancements
+
+- GP-API: Added GPAPI Payers sync, including `Customer.get(id:masked:configName:completion:)`, `RecurringBuilder.withMasked` and `ReportingService.findPayersPaged` (with `TransactionReportBuilder.withPayerId` and `orderBy(payerOrderBy:)`)
+- GP-API: Added `PayerSortProperty` enum and `ReportType.findPayersPaged`
+- GP-API: Added `timeCreated`, `timeLastUpdated`, `merchantId`, `merchantName`, `accountId`, `accountName` and `action` to `Customer`
+- GP-API: Added optional `isDefault` parameter to `Customer.addRecurringPaymentMethod`; when no payment method is flagged as default, the first one is sent as default
+- GP-API: `RecurringEntity.delete` now accepts an optional `completion` returning the deleted resource or the error
+- GP-API: Added GPAPI Installments sync, with new `Installment` fields (`FundingMode`, `EligiblePlans`, `RequestTerms`, `PaymentMethodId`, `UsageMode`) and new `Terms` fields (`currency`, `costPercentage`, `totalPlanCost`, `planAmount`, `termsAndConditions`, `fees`)
+- GP-API: Added `InstallmentTermsAndConditions`, `InstallmentFeeInfo` and `InstallmentFees` entities
+- Chore: Updated 3DS SPM Library to latest one
+
+#### Bug Fixes
+
+- GP-API: Fixed `Customer.addRecurringPaymentMethod`, which shadowed the `paymentMethod` argument and did not store the supplied payment method
+- GP-API: Edit, delete and fetch payer requests now require a payer id
+- GP-API: Fixed payer mapping of the `payment_methods` and `action` fields
+
+#### Security
+
+- Removed hardcoded credentials from the installments test file
+
+## v3.8.0 (11/05/2026)
 
 #### Enhancements
 

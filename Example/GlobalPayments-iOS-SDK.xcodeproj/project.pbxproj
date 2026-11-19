@@ -25,6 +25,7 @@
 		30B3DE73299D456100FCEF48 /* AchChargeForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B3DE72299D456100FCEF48 /* AchChargeForm.swift */; };
 		30B3DE75299D52A300FCEF48 /* TransactionTypePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B3DE74299D52A300FCEF48 /* TransactionTypePath.swift */; };
 		30EB561228201FC500AEA47B /* GpApiDigitalWalletsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EB561128201FC500AEA47B /* GpApiDigitalWalletsTests.swift */; };
+		4326E6733086A5CC002BCA31 /* ThreeDS_SDK in Frameworks */ = {isa = PBXBuildFile; productRef = 4326E6723086A5CC002BCA31 /* ThreeDS_SDK */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
@@ -259,7 +260,6 @@
 		A514D2202BA1518200009983 /* RetrieveFileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D21F2BA1518200009983 /* RetrieveFileViewModel.swift */; };
 		A514D2222BA1519000009983 /* RetrieveFileBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D2212BA1519000009983 /* RetrieveFileBuilder.swift */; };
 		A514D2242BA151A100009983 /* RetrieveFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A514D2232BA151A100009983 /* RetrieveFileViewController.swift */; };
-		A559488C2AA3610D00E447DF /* ThreeDS_SDK in Frameworks */ = {isa = PBXBuildFile; productRef = A559488B2AA3610D00E447DF /* ThreeDS_SDK */; };
 		A55948922AA362B200E447DF /* InitializationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948912AA362B200E447DF /* InitializationUseCase.swift */; };
 		A55948942AA362CE00E447DF /* InitializationUseCaseImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948932AA362CE00E447DF /* InitializationUseCaseImplementation.swift */; };
 		A55948962AA3649400E447DF /* AppBootstraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55948952AA3649400E447DF /* AppBootstraper.swift */; };
@@ -471,6 +471,7 @@
 		C74706FB2EFA98C5005C2DC1 /* GpApiHPPPayByLinksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74706FA2EFA98C5005C2DC1 /* GpApiHPPPayByLinksTests.swift */; };
 		C756FC1C2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C756FC1B2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift */; };
 		C75FE6512E5C556800E56004 /* GpApiBlikPayuCertification.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */; };
+		C7669CB0309B210300F1A500 /* GpApiVisaInstallmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7669CAF309B210300F1A500 /* GpApiVisaInstallmentTests.swift */; };
 		C77085892E4A6F76009EF348 /* GpApiPayUApmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */; };
 		C7A5D9462F67FAA900EA23A7 /* PorticoCreditTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A5D9452F67FAA900EA23A7 /* PorticoCreditTest.swift */; };
 		C7B111792FEC2753008B2020 /* GpApiApacSGCreditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B111762FEC2753008B2020 /* GpApiApacSGCreditTests.swift */; };
@@ -973,6 +974,7 @@
 		C74706FA2EFA98C5005C2DC1 /* GpApiHPPPayByLinksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiHPPPayByLinksTests.swift; sourceTree = "<group>"; };
 		C756FC1B2EB88174003E1CEF /* GpApiCreateInstallmentTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiCreateInstallmentTest.swift; sourceTree = "<group>"; };
 		C75FE6502E5C556800E56004 /* GpApiBlikPayuCertification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiBlikPayuCertification.swift; sourceTree = "<group>"; };
+		C7669CAF309B210300F1A500 /* GpApiVisaInstallmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiVisaInstallmentTests.swift; sourceTree = "<group>"; };
 		C77085882E4A6F76009EF348 /* GpApiPayUApmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiPayUApmTest.swift; sourceTree = "<group>"; };
 		C7A5D9452F67FAA900EA23A7 /* PorticoCreditTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorticoCreditTest.swift; sourceTree = "<group>"; };
 		C7B111712FEC2753008B2020 /* GpApiApacHKCreditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpApiApacHKCreditTests.swift; sourceTree = "<group>"; };
@@ -998,8 +1000,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A559488C2AA3610D00E447DF /* ThreeDS_SDK in Frameworks */,
 				B6899ACF9829B4A3CFD7B5DE /* Pods_GlobalPayments_iOS_SDK_Example.framework in Frameworks */,
+				4326E6733086A5CC002BCA31 /* ThreeDS_SDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1674,6 +1676,7 @@
 			isa = PBXGroup;
 			children = (
 				07D1FCE430989F150042F68D /* GpApiDccBinRangesReportTests.swift */,
+				C7669CAF309B210300F1A500 /* GpApiVisaInstallmentTests.swift */,
 				07A07B89308BD59F00C00A56 /* GpApiBatchReportingTests.swift */,
 				07428B02307E5C0A0026B5F0 /* GpApiCreditWithMMATests.swift */,
 				6561EB6A305BC27A00A82EBE /* GpApiAuthenticationsReportingTests.swift */,
@@ -2533,7 +2536,7 @@
 			);
 			name = "GlobalPayments-iOS-SDK_Example";
 			packageProductDependencies = (
-				A559488B2AA3610D00E447DF /* ThreeDS_SDK */,
+				4326E6723086A5CC002BCA31 /* ThreeDS_SDK */,
 			);
 			productName = "GlobalPayments-iOS-SDK";
 			productReference = 607FACD01AFB9204008FA782 /* GlobalPayments-iOS-SDK_Example.app */;
@@ -2591,7 +2594,7 @@
 			);
 			mainGroup = 607FACC71AFB9204008FA782;
 			packageReferences = (
-				A559488A2AA3610D00E447DF /* XCRemoteSwiftPackageReference "SPM" */,
+				4326E6713086A5CC002BCA31 /* XCRemoteSwiftPackageReference "ios-3ds-sdk-spm" */,
 			);
 			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
 			projectDirPath = "";
@@ -3173,6 +3176,7 @@
 				6551742C2FFF8C5F0009520B /* GpApiClickToPayDecryptTests.swift in Sources */,
 				8252038E24E2C15600784248 /* CountryUtilsTests.swift in Sources */,
 				C7B111792FEC2753008B2020 /* GpApiApacSGCreditTests.swift in Sources */,
+				C7669CB0309B210300F1A500 /* GpApiVisaInstallmentTests.swift in Sources */,
 				C7B1117A2FEC2753008B2020 /* GpApiApacHKCreditTests.swift in Sources */,
 				C7B1117B2FEC2753008B2020 /* GpApiApacTestConfig.swift in Sources */,
 				C7B1117C2FEC2753008B2020 /* GpApiApacMultiCurrencyTests.swift in Sources */,
@@ -3482,20 +3486,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A559488A2AA3610D00E447DF /* XCRemoteSwiftPackageReference "SPM" */ = {
+		4326E6713086A5CC002BCA31 /* XCRemoteSwiftPackageReference "ios-3ds-sdk-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ios-3ds-sdk/SPM.git";
+			repositoryURL = "https://github.com/netceteragroup/ios-3ds-sdk-spm";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 2.7.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A559488B2AA3610D00E447DF /* ThreeDS_SDK */ = {
+		4326E6723086A5CC002BCA31 /* ThreeDS_SDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A559488A2AA3610D00E447DF /* XCRemoteSwiftPackageReference "SPM" */;
+			package = 4326E6713086A5CC002BCA31 /* XCRemoteSwiftPackageReference "ios-3ds-sdk-spm" */;
 			productName = ThreeDS_SDK;
 		};
 /* End XCSwiftPackageProductDependency section */

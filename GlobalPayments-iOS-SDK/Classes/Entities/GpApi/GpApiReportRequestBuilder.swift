@@ -307,6 +307,20 @@ struct GpApiReportRequestBuilder<T>: GpApiRequestData {
                 endpoint: merchantUrl + "/links/\(builder.searchCriteriaBuilder.payByLinkId ?? .empty)",
                 method: .get
             )
+        case .findPayersPaged:
+            var params = [String: String]()
+            addPageParams(&params, builder)
+            params["order_by"] = builder.payerOrderBy?.mapped(for: .gpApi)
+            params["order"] = builder.order?.mapped(for: .gpApi)
+            params["id"] = builder.searchCriteriaBuilder.payerId
+            params["reference"] = builder.searchCriteriaBuilder.referenceNumber
+            params["from_time_created"] = builder.searchCriteriaBuilder.startDate?.format("yyyy-MM-dd")
+            params["to_time_created"] = builder.searchCriteriaBuilder.endDate?.format("yyyy-MM-dd")
+            return GpApiRequest(
+                endpoint: merchantUrl + GpApiRequest.Endpoints.payers(),
+                method: .get,
+                queryParams: sanitize(params: params)
+            )
         case .findPayByLinkPaged:
             var params = [String: String]()
             addPageParams(&params, builder)
